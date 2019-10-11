@@ -1,5 +1,11 @@
 {
   "number-play.title": {
     "value": "Number Play"
+  },
+  "screen.ten": {
+    "value": "Ten"
+  },
+  "screen.twenty": {
+    "value": "Twenty"
   }
 }

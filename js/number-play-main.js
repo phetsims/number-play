@@ -11,7 +11,8 @@ define( require => {
   // modules
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
-  const NumberPlayScreen = require( 'NUMBER_PLAY/number-play/NumberPlayScreen' );
+  const TenScreen = require( 'NUMBER_PLAY/ten/TenScreen' );
+  const TwentyScreen = require( 'NUMBER_PLAY/twenty/TwentyScreen' );
   const Tandem = require( 'TANDEM/Tandem' );
 
   // strings
@@ -34,7 +35,8 @@ define( require => {
   // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
   SimLauncher.launch( () => {
     const sim = new Sim( numberPlayTitleString, [
-      new NumberPlayScreen( Tandem.rootTandem.createTandem( 'numberPlayScreen' ) )
+      new TenScreen( Tandem.rootTandem.createTandem( 'tenScreen' ) ),
+      new TwentyScreen( Tandem.rootTandem.createTandem( 'twentyScreen' ) )
     ], simOptions );
     sim.start();
   } );

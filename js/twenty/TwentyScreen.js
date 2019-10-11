@@ -10,10 +10,13 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const NumberPlayModel = require( 'NUMBER_PLAY/number-play/model/NumberPlayModel' );
-  const NumberPlayScreenView = require( 'NUMBER_PLAY/number-play/view/NumberPlayScreenView' );
+  const TwentyModel = require( 'NUMBER_PLAY/twenty/model/TwentyModel' );
+  const TwentyScreenView = require( 'NUMBER_PLAY/twenty/view/TwentyScreenView' );
 
-  class NumberPlayScreen extends Screen {
+  // strings
+  const screenTwentyString = require( 'string!NUMBER_PLAY/screen.twenty' );
+
+  class TwentyScreen extends Screen {
 
     /**
      * @param {Tandem} tandem
@@ -21,17 +24,18 @@ define( require => {
     constructor( tandem ) {
 
       const options = {
+        name: screenTwentyString,
         backgroundColorProperty: new Property( 'white' ),
         tandem: tandem
       };
 
       super(
-        () => new NumberPlayModel( tandem.createTandem( 'model' ) ),
-        model => new NumberPlayScreenView( model, tandem.createTandem( 'view' ) ),
+        () => new TwentyModel( tandem.createTandem( 'model' ) ),
+        model => new TwentyScreenView( model, tandem.createTandem( 'view' ) ),
         options
       );
     }
   }
 
-  return numberPlay.register( 'NumberPlayScreen', NumberPlayScreen );
+  return numberPlay.register( 'TwentyScreen', TwentyScreen );
 } );
