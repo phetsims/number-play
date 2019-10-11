@@ -9,12 +9,12 @@ define( require => {
   'use strict';
 
   // modules
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const TenModel = require( 'NUMBER_PLAY/ten/model/TenModel' );
-  const TenScreenView = require( 'NUMBER_PLAY/ten/view/TenScreenView' );
+  const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
+  const NumberPlayScreenView = require( 'NUMBER_PLAY/common/view/NumberPlayScreenView' );
+  const Property = require( 'AXON/Property' );
+  const Screen = require( 'JOIST/Screen' );
 
   // strings
   const screenTenString = require( 'string!NUMBER_PLAY/screen.ten' );
@@ -33,8 +33,8 @@ define( require => {
       };
 
       super(
-        () => new TenModel( tandem.createTandem( 'model' ) ),
-        model => new TenScreenView( model, tandem.createTandem( 'view' ) ),
+        () => new NumberPlayModel( NumberPlayConstants.TEN, tandem.createTandem( 'model' ) ),
+        model => new NumberPlayScreenView( model, tandem.createTandem( 'view' ) ),
         options
       );
     }
