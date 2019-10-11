@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Base class for the ScreenViews in Number Play.
+ * ScreenView class for Number Play. It is used for both the 'Ten' and 'Twenty' screens.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */

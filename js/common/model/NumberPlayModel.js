@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Base class for the models in Number Play.
+ * Model class for Number Play. It is used for both the 'Ten' and 'Twenty' screens.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
