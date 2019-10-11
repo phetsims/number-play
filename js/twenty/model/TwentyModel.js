@@ -8,34 +8,18 @@ define( require => {
 
   // modules
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
 
   /**
    * @constructor
    */
-  class TwentyModel  {
+  class TwentyModel extends NumberPlayModel {
 
     /**
      * @param {Tandem} tandem
      */
     constructor( tandem ) {
-      //TODO
-    }
-
-    /**
-     * Resets the model.
-     * @public
-     */
-    reset() {
-      //TODO
-    }
-
-    /**
-     * Steps the model.
-     * @param {number} dt - time step, in seconds
-     * @public
-     */
-    step( dt ) {
-      //TODO
+      super( tandem );
     }
   }
 

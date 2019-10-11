@@ -12,7 +12,7 @@ define( require => {
   /**
    * @constructor
    */
-  class NumberPlayModel  {
+  class NumberPlayModel {
 
     /**
      * @param {Tandem} tandem
@@ -26,15 +26,6 @@ define( require => {
      * @public
      */
     reset() {
-      //TODO
-    }
-
-    /**
-     * Steps the model.
-     * @param {number} dt - time step, in seconds
-     * @public
-     */
-    step( dt ) {
       //TODO
     }
   }

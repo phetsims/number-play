@@ -44,15 +44,6 @@ define( require => {
     reset() {
       //TODO
     }
-
-    /**
-     * Steps the view.
-     * @param {number} dt - time step, in seconds
-     * @public
-     */
-    step( dt ) {
-      //TODO
-    }
   }
 
   return numberPlay.register( 'NumberPlayScreenView', NumberPlayScreenView );
