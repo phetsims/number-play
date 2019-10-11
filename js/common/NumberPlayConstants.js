@@ -20,17 +20,17 @@ define( require => {
     // layout
     SCREEN_VIEW_X_PADDING: 15,
     SCREEN_VIEW_Y_PADDING: 15,
-    PANEL_X_MARGIN: 60,           // distance between the sides of the sim and all panels near the side
-    PANEL_TOP_MARGIN: 30,         // distance between the top of the sim and all upper panels
-    PANEL_BOTTOM_MARGIN: 15,      // distance between the bottom of the sim and all lower panels
+    ACCORDION_BOX_X_MARGIN: 60,           // distance between the sides of the sim and all adjacent accordion boxes
+    ACCORDION_BOX_TOP_MARGIN: 30,         // distance between the top of the sim and all upper accordion boxes
+    ACCORDION_BOX_BOTTOM_MARGIN: 15,      // distance between the bottom of the sim and all lower accordion boxes
 
     // sizing
-    UPPER_OUTER_PANEL_WIDTH: 310, // width of the panels in the upper left and right of both screens
+    UPPER_OUTER_ACCORDION_BOX_WIDTH: 310, // width of the accordion boxes in the upper left and right of both screens
 
     // options for all AccordionBox instances
     ACCORDION_BOX_OPTIONS: {
       resize: false,
-      cornerRadius: 8,
+      cornerRadius: 6,
       titleYMargin: 10,
       buttonXMargin: 10,
       buttonYMargin: 10,

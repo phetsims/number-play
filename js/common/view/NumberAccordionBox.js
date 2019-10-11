@@ -76,8 +76,8 @@ define( require => {
       const options = merge( {
         titleNode: new Text( numberString ),
         fill: fill,
-        minWidth: NumberPlayConstants.UPPER_OUTER_PANEL_WIDTH,
-        maxWidth: NumberPlayConstants.UPPER_OUTER_PANEL_WIDTH
+        minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
+        maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS );
 
       super( new Text( MAP_NUMBER_TO_STRING[ currentNumberProperty.value ] ), options );

@@ -26,16 +26,23 @@ define( require => {
      */
     constructor( tandem ) {
 
-      const options = {
+      const screenOptions = {
         name: screenTwentyString,
         backgroundColorProperty: new Property( NumberPlayConstants.TWENTY_SCREEN_BACKGROUND ),
         tandem: tandem
       };
 
+      const screenViewOptions = {
+        numberAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
+        numeralAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
+        tenFrameAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
+        tandem: tandem.createTandem( 'view' )
+      };
+
       super(
         () => new NumberPlayModel( NumberPlayConstants.TWENTY, tandem.createTandem( 'model' ) ),
-        model => new NumberPlayScreenView( model, tandem.createTandem( 'view' ) ),
-        options
+        model => new NumberPlayScreenView( model, screenViewOptions ),
+        screenOptions
       );
     }
   }

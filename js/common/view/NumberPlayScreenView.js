@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const merge = require( 'PHET_CORE/merge' );
   const NumberAccordionBox = require( 'NUMBER_PLAY/common/view/NumberAccordionBox' );
   const NumeralAccordionBox = require( 'NUMBER_PLAY/common/view/NumeralAccordionBox' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
@@ -21,29 +22,36 @@ define( require => {
 
     /**
      * @param {NumberPlayModel} model
-     * @param {Tandem} tandem
+     * @param {Object} [options]
      */
-    constructor( model, tandem ) {
+    constructor( model, options ) {
 
-      super( {
-        tandem: tandem
-      } );
+      options = merge( {
+        numberAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
+        numeralAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
+        tenFrameAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
+
+        // phet-io
+        tandem: options.tandem
+      }, options );
+
+      super( options );
 
       // create and add the NumberAccordionBox
-      const numberAccordionBox = new NumberAccordionBox( model.currentNumberProperty, NumberPlayConstants.GREEN_BACKGROUND );
-      numberAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.PANEL_X_MARGIN;
-      numberAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.PANEL_TOP_MARGIN;
+      const numberAccordionBox = new NumberAccordionBox( model.currentNumberProperty, options.numberAccordionBoxFill );
+      numberAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+      numberAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
       this.addChild( numberAccordionBox );
 
       // create and add the NumeralAccordionBox
-      const numeralAccordionBox = new NumeralAccordionBox( model.currentNumberProperty, NumberPlayConstants.ORANGE_BACKGROUND );
+      const numeralAccordionBox = new NumeralAccordionBox( model.currentNumberProperty, options.numeralAccordionBoxFill );
       numeralAccordionBox.centerX = this.layoutBounds.centerX;
       numeralAccordionBox.top = numberAccordionBox.top;
       this.addChild( numeralAccordionBox );
 
       // create and add the TenFrameAccordionBox
-      const tenFrameAccordionBox = new TenFrameAccordionBox( model.currentNumberProperty, NumberPlayConstants.GREEN_BACKGROUND );
-      tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.PANEL_X_MARGIN;
+      const tenFrameAccordionBox = new TenFrameAccordionBox( model.currentNumberProperty, options.tenFrameAccordionBoxFill );
+      tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       tenFrameAccordionBox.top = numberAccordionBox.top;
       this.addChild( tenFrameAccordionBox );
 
@@ -56,7 +64,7 @@ define( require => {
         },
         right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
         bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
-        tandem: tandem.createTandem( 'resetAllButton' )
+        tandem: options.tandem.createTandem( 'resetAllButton' )
       } );
       this.addChild( resetAllButton );
     }
