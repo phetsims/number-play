@@ -13,6 +13,10 @@ define( require => {
 
   const NumberPlayConstants = {
 
+    // the two defining numbers of this sim
+    TEN: 10,
+    TWENTY: 20,
+
     // layout
     SCREEN_VIEW_X_MARGIN: 15,
     SCREEN_VIEW_Y_MARGIN: 15,

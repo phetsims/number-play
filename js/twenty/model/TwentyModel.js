@@ -10,18 +10,16 @@ define( require => {
 
   // modules
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
 
-  /**
-   * @constructor
-   */
   class TwentyModel extends NumberPlayModel {
 
     /**
      * @param {Tandem} tandem
      */
     constructor( tandem ) {
-      super( tandem );
+      super( NumberPlayConstants.TWENTY, tandem );
     }
   }
 
