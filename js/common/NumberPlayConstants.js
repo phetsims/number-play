@@ -13,10 +13,14 @@ define( require => {
 
   const NumberPlayConstants = {
 
+    // layout
     SCREEN_VIEW_X_MARGIN: 15,
-    SCREEN_VIEW_Y_MARGIN: 15
+    SCREEN_VIEW_Y_MARGIN: 15,
 
-    //TODO
+    // colors
+    TEN_SCREEN_BACKGROUND: 'rgb( 171, 255, 195 )',
+    TWENTY_SCREEN_BACKGROUND: 'rgb( 255, 250, 210 )'
+
   };
 
   return numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

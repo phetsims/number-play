@@ -12,6 +12,7 @@ define( require => {
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const TenModel = require( 'NUMBER_PLAY/ten/model/TenModel' );
   const TenScreenView = require( 'NUMBER_PLAY/ten/view/TenScreenView' );
 
@@ -27,7 +28,7 @@ define( require => {
 
       const options = {
         name: screenTenString,
-        backgroundColorProperty: new Property( 'white' ),
+        backgroundColorProperty: new Property( NumberPlayConstants.TEN_SCREEN_BACKGROUND ),
         tandem: tandem
       };
 
