@@ -3,7 +3,7 @@
 /**
  * Constants used in multiple locations within this simulation.
  *
- * @author Chris Klusendorf
+ * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';

@@ -1,7 +1,9 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * @author Chris Klusendorf
+ * Base class for the models in Number Play.
+ *
+ * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';
@@ -9,9 +11,6 @@ define( require => {
   // modules
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
 
-  /**
-   * @constructor
-   */
   class NumberPlayModel {
 
     /**

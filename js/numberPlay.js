@@ -3,7 +3,7 @@
 /**
  * Creates the namespace for this simulation.
  *
- * @author Chris Klusendorf
+ * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';

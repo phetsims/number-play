@@ -1,7 +1,9 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * @author Chris Klusendorf
+ * Model for the 'Ten' screen.
+ *
+ * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';

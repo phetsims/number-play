@@ -3,7 +3,7 @@
 /**
  * Main entry point for the sim.
  *
- * @author Chris Klusendorf
+ * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';
