@@ -18,18 +18,27 @@ define( require => {
     TEN: 10,
     TWENTY: 20,
 
-    // layout
-    SCREEN_VIEW_X_PADDING: 15,
-    SCREEN_VIEW_Y_PADDING: 15,
-    ACCORDION_BOX_X_MARGIN: 60,              // distance between the sides of the sim and all adjacent accordion boxes
-    ACCORDION_BOX_TOP_MARGIN: 30,            // distance between the top of the sim and all upper accordion boxes
-    ACCORDION_BOX_BOTTOM_MARGIN: 15,         // distance between the bottom of the sim and all lower accordion boxes
+    // accordion box sizing, all of which is defined here for convenience. values come from the screen design asset.
 
-    // sizing
-    UPPER_OUTER_ACCORDION_BOX_WIDTH: 310,    // width of the accordion boxes in the upper left and right of both screens
-    TEN_LOWER_ACCORDION_BOX_WIDTH: 410,      // width of the accordion boxes in the lower left and right of the 'Ten' screen
-    TWENTY_ONES_ACCORDION_BOX_WIDTH: 510,    // width of the 'Ones' accordion box of the Twenty screen
-    TWENTY_OBJECTS_ACCORDION_BOX_WIDTH: 310, // width of the 'Objects' accordion box of the Twenty screen
+    // sizing for the 'upper' accordion boxes, which include the 'Number', 'Numeral', and 'Ten Frame' accordion boxes
+    NUMERAL_ACCORDION_BOX_WIDTH: 194,        // width of the 'Numeral' accordion box on both screens
+    UPPER_OUTER_ACCORDION_BOX_WIDTH: 304,    // width of the accordion boxes in the upper left and right of both screens
+    TEN_UPPER_ACCORDION_BOX_HEIGHT: 146,     // height of the upper accordion boxes on the 'Ten' screen
+    TWENTY_UPPER_ACCORDION_BOX_HEIGHT: 98,   // height of the upper accordion boxes on the 'Twenty' screen
+
+    // sizing for the 'lower' accordion boxes, which include the 'Ones' and 'Objects' accordion boxes
+    TEN_LOWER_ACCORDION_BOX_WIDTH: 414,      // width of the 'lower' accordion boxes on the 'Ten' screen
+    TWENTY_ONES_ACCORDION_BOX_WIDTH: 536,    // width of the 'Ones' accordion box on the Twenty screen
+    TWENTY_OBJECTS_ACCORDION_BOX_WIDTH: 304, // width of the 'Objects' accordion box on the Twenty screen
+    TEN_LOWER_ACCORDION_BOX_HEIGHT: 406,     // height of the 'lower' accordion boxes on the 'Ten' screen
+    TWENTY_LOWER_ACCORDION_BOX_HEIGHT: 448,  // height of the 'lower' accordion boxes on the 'Twenty' screen
+
+    // layout
+    SCREEN_VIEW_X_PADDING: 15,               // minimum x-distance any node is positioned from the edges of the sim
+    SCREEN_VIEW_Y_PADDING: 15,               // minimum y-distance any node is positioned from the edges of the sim
+    ACCORDION_BOX_X_MARGIN: 60,              // distance between the sides of the sim and all adjacent accordion boxes
+    ACCORDION_BOX_TOP_MARGIN: 30,            // distance between the top of the sim and all 'upper' accordion boxes
+    ACCORDION_BOX_BOTTOM_MARGIN: 15,         // distance between the bottom of the sim and all 'lower' accordion boxes
 
     // options for all AccordionBox instances
     ACCORDION_BOX_OPTIONS: {
@@ -42,7 +51,7 @@ define( require => {
       buttonXMargin: 10,
       buttonYMargin: 10,
       contentXMargin: 20,
-      contentYMargin: 15,
+      contentYMargin: 0,
       expandCollapseButtonOptions: {
         sideLength: 20
       }
