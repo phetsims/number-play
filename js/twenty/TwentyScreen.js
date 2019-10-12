@@ -33,11 +33,13 @@ define( require => {
       };
 
       const screenViewOptions = {
+        upperAccordionBoxHeight: NumberPlayConstants.TWENTY_UPPER_ACCORDION_BOX_HEIGHT,
+        lowerAccordionBoxHeight: NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,
+        onesAccordionBoxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
+        objectsAccordionBoxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
         numberAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
         numeralAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
         tenFrameAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
-        onesAccordionBoxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
-        objectsAccordionBoxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
         tandem: tandem.createTandem( 'view' )
       };
 

@@ -14,6 +14,7 @@ define( require => {
   const merge = require( 'PHET_CORE/merge' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
@@ -23,9 +24,10 @@ define( require => {
 
     /**
      * @param {NumberProperty} currentNumberProperty
+     * @param {number} height - the height of this accordion box
      * @param {ColorDef} fill - the background fill of this accordion box
      */
-    constructor( currentNumberProperty, fill ) {
+    constructor( currentNumberProperty, height, fill ) {
 
       const options = merge( {
         titleNode: new Text( tenFrameString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
@@ -34,7 +36,9 @@ define( require => {
         maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS );
 
-      super( new Text( 'grid dots' ), options );
+      const contentNode = new Rectangle( { rectHeight: height } );
+
+      super( contentNode, options );
     }
   }
 

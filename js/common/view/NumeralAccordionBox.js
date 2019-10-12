@@ -11,12 +11,13 @@ define( require => {
 
   // modules
   const AccordionBox = require( 'SUN/AccordionBox' );
-  const HBox = require( 'SCENERY/nodes/HBox' );
+  // const HBox = require( 'SCENERY/nodes/HBox' );
   const merge = require( 'PHET_CORE/merge' );
-  const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
+  // const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  // const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
@@ -26,27 +27,31 @@ define( require => {
 
     /**
      * @param {NumberProperty} currentNumberProperty
-     * @param {ColorDef} fill - the background fill for this accordion box
+     * @param {number} height - the height of this accordion box
+     * @param {ColorDef} fill - the background fill of this accordion box
      */
-    constructor( currentNumberProperty, fill ) {
+    constructor( currentNumberProperty, height, fill ) {
 
       const options = merge( {
         titleNode: new Text( numeralString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         fill: fill,
-        minWidth: 200
+        minWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
+        maxWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS );
 
-      const numberDisplay = new NumberDisplay( currentNumberProperty, currentNumberProperty.range, {
-        decimalPlaces: 0,
-        align: 'right',
-        noValueAlign: 'left',
-        font: new PhetFont( 16 ),
-        backgroundFill: null,
-        backgroundStroke: null,
-        maxWidth: 150
-      } );
+      const contentNode = new Rectangle( { rectHeight: height } );
 
-      const contentNode = new HBox( { children: [ numberDisplay ] } );
+      // const numberDisplay = new NumberDisplay( currentNumberProperty, currentNumberProperty.range, {
+      //   decimalPlaces: 0,
+      //   align: 'right',
+      //   noValueAlign: 'left',
+      //   font: new PhetFont( 16 ),
+      //   backgroundFill: null,
+      //   backgroundStroke: null,
+      //   maxWidth: 150
+      // } );
+
+      // const contentNode = new HBox( { children: [ numberDisplay ] } );
 
       super( contentNode, options );
     }
