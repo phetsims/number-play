@@ -17,6 +17,10 @@ define( require => {
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Text = require( 'SCENERY/nodes/Text' );
+
+  // strings
+  const numeralString = require( 'string!NUMBER_PLAY/numeral' );
 
   class NumeralAccordionBox extends AccordionBox {
 
@@ -27,6 +31,7 @@ define( require => {
     constructor( currentNumberProperty, fill ) {
 
       const options = merge( {
+        titleNode: new Text( numeralString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         fill: fill,
         minWidth: 200
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS );

@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
   const NumberPlayConstants = {
 
@@ -30,6 +31,9 @@ define( require => {
     // options for all AccordionBox instances
     ACCORDION_BOX_OPTIONS: {
       resize: false,
+      titleAlignX: 'left',
+      titleXSpacing: 8,
+      showTitleWhenExpanded: false,
       cornerRadius: 6,
       titleYMargin: 10,
       buttonXMargin: 10,
@@ -40,6 +44,7 @@ define( require => {
         sideLength: 20
       }
     },
+    ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
     // colors
     TEN_SCREEN_BACKGROUND: 'rgb( 171, 255, 195 )',

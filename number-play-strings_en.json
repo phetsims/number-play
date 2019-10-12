@@ -74,6 +74,9 @@
   "number": {
     "value": "Number"
   },
+  "numeral": {
+    "value": "Numeral"
+  },
   "tenFrame": {
     "value": "Ten Frame"
   }

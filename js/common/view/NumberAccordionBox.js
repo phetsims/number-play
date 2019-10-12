@@ -74,7 +74,7 @@ define( require => {
     constructor( currentNumberProperty, fill ) {
 
       const options = merge( {
-        titleNode: new Text( numberString ),
+        titleNode: new Text( numberString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         fill: fill,
         minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
         maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
