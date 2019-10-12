@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const merge = require( 'PHET_CORE/merge' );
   const NumberAccordionBox = require( 'NUMBER_PLAY/common/view/NumberAccordionBox' );
   const NumeralAccordionBox = require( 'NUMBER_PLAY/common/view/NumeralAccordionBox' );
@@ -47,12 +48,20 @@ define( require => {
 
       super( options );
 
+      // @private {BooleanProperty} - Properties used to control the expanded state of each accordion box
+      this.numberAccordionBoxExpandedProperty = new BooleanProperty( false );
+      this.numeralAccordionBoxExpandedProperty = new BooleanProperty( true );
+      this.tenFrameAccordionBoxExpandedProperty = new BooleanProperty( false );
+      this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
+      this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
+
       // create and add the NumberAccordionBox
       const numberAccordionBox = new NumberAccordionBox(
         model.currentNumberProperty,
-        options.upperAccordionBoxHeight,
-        options.numberAccordionBoxFill
-      );
+        options.upperAccordionBoxHeight, {
+          expandedProperty: this.numberAccordionBoxExpandedProperty,
+          fill: options.numberAccordionBoxFill
+        } );
       numberAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       numberAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
       this.addChild( numberAccordionBox );
@@ -60,9 +69,10 @@ define( require => {
       // create and add the NumeralAccordionBox
       const numeralAccordionBox = new NumeralAccordionBox(
         model.currentNumberProperty,
-        options.upperAccordionBoxHeight,
-        options.numeralAccordionBoxFill
-      );
+        options.upperAccordionBoxHeight, {
+          expandedProperty: this.numeralAccordionBoxExpandedProperty,
+          fill: options.numeralAccordionBoxFill
+        } );
       numeralAccordionBox.centerX = this.layoutBounds.centerX;
       numeralAccordionBox.top = numberAccordionBox.top;
       this.addChild( numeralAccordionBox );
@@ -70,9 +80,10 @@ define( require => {
       // create and add the TenFrameAccordionBox
       const tenFrameAccordionBox = new TenFrameAccordionBox(
         model.currentNumberProperty,
-        options.upperAccordionBoxHeight,
-        options.tenFrameAccordionBoxFill
-      );
+        options.upperAccordionBoxHeight, {
+          expandedProperty: this.tenFrameAccordionBoxExpandedProperty,
+          fill: options.tenFrameAccordionBoxFill
+        } );
       tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       tenFrameAccordionBox.top = numberAccordionBox.top;
       this.addChild( tenFrameAccordionBox );
@@ -80,8 +91,11 @@ define( require => {
       // create and add the OnesAccordionBox
       const onesAccordionBox = new OnesAccordionBox(
         model.currentNumberProperty,
-        options.onesAccordionBoxWidth,
-        options.lowerAccordionBoxHeight
+        options.lowerAccordionBoxHeight, {
+          expandedProperty: this.onesAccordionBoxExpandedProperty,
+          minWidth: options.onesAccordionBoxWidth,
+          maxWidth: options.onesAccordionBoxWidth
+        }
       );
       onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
@@ -90,8 +104,11 @@ define( require => {
       // create and add the ObjectsAccordionBox
       const objectsAccordionBox = new ObjectsAccordionBox(
         model.currentNumberProperty,
-        options.objectsAccordionBoxWidth,
-        options.lowerAccordionBoxHeight
+        options.lowerAccordionBoxHeight, {
+          expandedProperty: this.objectsAccordionBoxExpandedProperty,
+          minWidth: options.objectsAccordionBoxWidth,
+          maxWidth: options.objectsAccordionBoxWidth
+        }
       );
       objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       objectsAccordionBox.bottom = onesAccordionBox.bottom;
@@ -116,7 +133,11 @@ define( require => {
      * @public
      */
     reset() {
-      //TODO
+      this.numberAccordionBoxExpandedProperty.reset();
+      this.numeralAccordionBoxExpandedProperty.reset();
+      this.tenFrameAccordionBoxExpandedProperty.reset();
+      this.onesAccordionBoxExpandedProperty.reset();
+      this.objectsAccordionBoxExpandedProperty.reset();
     }
   }
 

@@ -25,16 +25,15 @@ define( require => {
     /**
      * @param {NumberProperty} currentNumberProperty
      * @param {number} height - the height of this accordion box
-     * @param {ColorDef} fill - the background fill of this accordion box
+     * @param {Object} [options]
      */
-    constructor( currentNumberProperty, height, fill ) {
+    constructor( currentNumberProperty, height, options ) {
 
-      const options = merge( {
+      options = merge( {
         titleNode: new Text( tenFrameString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
-        fill: fill,
         minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
         maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
-      }, NumberPlayConstants.ACCORDION_BOX_OPTIONS );
+      }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, options );
 
       const contentNode = new Rectangle( { rectHeight: height } );
 
