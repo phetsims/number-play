@@ -79,5 +79,11 @@
   },
   "tenFrame": {
     "value": "Ten Frame"
+  },
+  "ones": {
+    "value": "Ones"
+  },
+  "objects": {
+    "value": "Objects"
   }
 }

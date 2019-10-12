@@ -21,12 +21,15 @@ define( require => {
     // layout
     SCREEN_VIEW_X_PADDING: 15,
     SCREEN_VIEW_Y_PADDING: 15,
-    ACCORDION_BOX_X_MARGIN: 60,           // distance between the sides of the sim and all adjacent accordion boxes
-    ACCORDION_BOX_TOP_MARGIN: 30,         // distance between the top of the sim and all upper accordion boxes
-    ACCORDION_BOX_BOTTOM_MARGIN: 15,      // distance between the bottom of the sim and all lower accordion boxes
+    ACCORDION_BOX_X_MARGIN: 60,              // distance between the sides of the sim and all adjacent accordion boxes
+    ACCORDION_BOX_TOP_MARGIN: 30,            // distance between the top of the sim and all upper accordion boxes
+    ACCORDION_BOX_BOTTOM_MARGIN: 15,         // distance between the bottom of the sim and all lower accordion boxes
 
     // sizing
-    UPPER_OUTER_ACCORDION_BOX_WIDTH: 310, // width of the accordion boxes in the upper left and right of both screens
+    UPPER_OUTER_ACCORDION_BOX_WIDTH: 310,    // width of the accordion boxes in the upper left and right of both screens
+    TEN_LOWER_ACCORDION_BOX_WIDTH: 410,      // width of the accordion boxes in the lower left and right of the 'Ten' screen
+    TWENTY_ONES_ACCORDION_BOX_WIDTH: 510,    // width of the 'Ones' accordion box of the Twenty screen
+    TWENTY_OBJECTS_ACCORDION_BOX_WIDTH: 310, // width of the 'Objects' accordion box of the Twenty screen
 
     // options for all AccordionBox instances
     ACCORDION_BOX_OPTIONS: {
@@ -50,8 +53,9 @@ define( require => {
     TEN_SCREEN_BACKGROUND: 'rgb( 171, 255, 195 )',
     TWENTY_SCREEN_BACKGROUND: 'rgb( 255, 250, 210 )',
     GREEN_BACKGROUND: 'rgb( 217, 255, 223 )',
-    ORANGE_BACKGROUND: 'rgb( 255, 218, 176 )'
-
+    ORANGE_BACKGROUND: 'rgb( 255, 218, 176 )',
+    PURPLE_BACKGROUND: 'rgb( 254, 202, 255 )',
+    BLUE_BACKGROUND: 'rgb( 190, 232, 255 )'
   };
 
   return numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

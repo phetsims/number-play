@@ -36,6 +36,8 @@ define( require => {
         numberAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
         numeralAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
         tenFrameAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
+        onesAccordionBoxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
+        objectsAccordionBoxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
         tandem: tandem.createTandem( 'view' )
       };
 

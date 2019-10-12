@@ -14,6 +14,8 @@ define( require => {
   const NumeralAccordionBox = require( 'NUMBER_PLAY/common/view/NumeralAccordionBox' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
+  const ObjectsAccordionBox = require( 'NUMBER_PLAY/common/view/ObjectsAccordionBox' );
+  const OnesAccordionBox = require( 'NUMBER_PLAY/common/view/OnesAccordionBox' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const TenFrameAccordionBox = require( 'NUMBER_PLAY/common/view/TenFrameAccordionBox' );
@@ -30,6 +32,8 @@ define( require => {
         numberAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
         numeralAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
         tenFrameAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
+        onesAccordionBoxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
+        objectsAccordionBoxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
 
         // phet-io
         tandem: options.tandem
@@ -54,6 +58,18 @@ define( require => {
       tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       tenFrameAccordionBox.top = numberAccordionBox.top;
       this.addChild( tenFrameAccordionBox );
+
+      // create and add the OnesAccordionBox
+      const onesAccordionBox = new OnesAccordionBox( model.currentNumberProperty, options.onesAccordionBoxWidth );
+      onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+      onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+      this.addChild( onesAccordionBox );
+
+      // create and add the ObjectsAccordionBox
+      const objectsAccordionBox = new ObjectsAccordionBox( model.currentNumberProperty, options.objectsAccordionBoxWidth );
+      objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+      objectsAccordionBox.bottom = onesAccordionBox.bottom;
+      this.addChild( objectsAccordionBox );
 
       // create and add the ResetAllButton
       const resetAllButton = new ResetAllButton( {
