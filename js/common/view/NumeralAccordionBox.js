@@ -11,14 +11,15 @@ define( require => {
 
   // modules
   const AccordionBox = require( 'SUN/AccordionBox' );
-  // const HBox = require( 'SCENERY/nodes/HBox' );
+  const ArrowButton = require( 'SUN/buttons/ArrowButton' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
   const merge = require( 'PHET_CORE/merge' );
-  // const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
+  const NumberDisplay = require( 'SCENERY_PHET/NumberDisplay' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  // const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
   const numeralString = require( 'string!NUMBER_PLAY/numeral' );
@@ -28,31 +29,62 @@ define( require => {
     /**
      * @param {NumberProperty} currentNumberProperty
      * @param {number} height - the height of this accordion box
-     * @param {Object} [options]
+     * @param {Object} config
      */
-    constructor( currentNumberProperty, height, options ) {
+    constructor( currentNumberProperty, height, config ) {
 
-      options = merge( {
+      config = merge( {
         titleNode: new Text( numeralString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         minWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
-        maxWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH
-      }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, options );
+        maxWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
 
-      const contentNode = new Rectangle( { rectHeight: height } );
+        font: null, // {Font} @required - font of the displayed string value
+        arrowButtonConfig: {
+          arrowWidth: null, // {number} @required
+          arrowHeight: null, // {number} @required
+          spacing: null // {number} @required
+        }
+      }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
-      // const numberDisplay = new NumberDisplay( currentNumberProperty, currentNumberProperty.range, {
-      //   decimalPlaces: 0,
-      //   align: 'right',
-      //   noValueAlign: 'left',
-      //   font: new PhetFont( 16 ),
-      //   backgroundFill: null,
-      //   backgroundStroke: null,
-      //   maxWidth: 150
-      // } );
+      const contentNode = new Rectangle( {
+        rectHeight: height
+      } );
 
-      // const contentNode = new HBox( { children: [ numberDisplay ] } );
+      // create the NumberDisplay, which is a numerical representation of the current number
+      const numberDisplay = new NumberDisplay( currentNumberProperty, currentNumberProperty.range, {
+        decimalPlaces: 0,
+        align: 'center',
+        noValueAlign: 'left',
+        font: config.font,
+        backgroundFill: null,
+        backgroundStroke: null
+      } );
 
-      super( contentNode, options );
+      // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
+      const upArrowButton = new ArrowButton( 'up', () => {
+        currentNumberProperty.value = Math.min( currentNumberProperty.range.max, currentNumberProperty.value + 1 );
+      }, config.arrowButtonConfig );
+      const downArrowButton = new ArrowButton( 'down', () => {
+        currentNumberProperty.value = Math.max( currentNumberProperty.range.min, currentNumberProperty.value - 1 );
+      }, config.arrowButtonConfig );
+      const arrowButtons = new VBox( {
+        children: [ upArrowButton, downArrowButton ],
+        spacing: config.arrowButtonConfig.spacing
+      } );
+
+      // disable the arrow buttons when the currentNumberProperty value is at its min or max range
+      const currentNumberPropertyObserver = currentNumber => {
+        upArrowButton.enabled = currentNumber !== currentNumberProperty.range.max;
+        downArrowButton.enabled = currentNumber !== currentNumberProperty.range.min;
+      };
+      currentNumberProperty.link( currentNumberPropertyObserver );
+
+      // arrange and add the number display and arrow buttons
+      const numberControl = new HBox( { children: [ numberDisplay, arrowButtons ] } );
+      numberControl.center = contentNode.center;
+      contentNode.addChild( numberControl );
+
+      super( contentNode, config );
     }
   }
 

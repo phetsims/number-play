@@ -13,6 +13,7 @@ define( require => {
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
   const NumberPlayScreenView = require( 'NUMBER_PLAY/common/view/NumberPlayScreenView' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
 
@@ -32,13 +33,37 @@ define( require => {
         tandem: tandem
       };
 
-      const screenViewOptions = {
+      const screenViewConfig = {
+
+        numberAccordionBoxConfig: {
+          fill: NumberPlayConstants.GREEN_BACKGROUND,
+          font: new PhetFont( 62 )
+        },
+
+        numeralAccordionBoxConfig: {
+          fill: NumberPlayConstants.ORANGE_BACKGROUND,
+          font: new PhetFont( 98 ),
+          arrowButtonConfig: {
+            arrowWidth: 20,
+            arrowHeight: 20,
+            spacing: 10
+          }
+        },
+
+        tenFrameAccordionBoxConfig: {
+          fill: NumberPlayConstants.GREEN_BACKGROUND
+        },
+
+        upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,
+        lowerAccordionBoxHeight: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_HEIGHT,
+        onesAccordionBoxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
+        objectsAccordionBoxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
         tandem: tandem.createTandem( 'view' )
       };
 
       super(
         () => new NumberPlayModel( NumberPlayConstants.TEN, tandem.createTandem( 'model' ) ),
-        model => new NumberPlayScreenView( model, screenViewOptions ),
+        model => new NumberPlayScreenView( model, screenViewConfig ),
         screenOptions
       );
     }

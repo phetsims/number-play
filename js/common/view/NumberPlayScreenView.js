@@ -25,30 +25,40 @@ define( require => {
 
     /**
      * @param {NumberPlayModel} model
-     * @param {Object} [options]
+     * @param {Object} config
      */
-    constructor( model, options ) {
+    constructor( model, config ) {
 
-      options = merge( {
+      config = merge( {
+
+        // config for NumberAccordionBox. see NumberAccordionBox for additional fields
+        numberAccordionBoxConfig: {
+          fill: null // {ColorDef} @required - accordion box background fill
+        },
+
+        // config for NumeralAccordionBox. see NumeralAccordionBox for additional fields
+        numeralAccordionBoxConfig: {
+          fill: null // {ColorDef} @required - accordion box background fill
+        },
+
+        // config for TenFrameAccordionBox.
+        tenFrameAccordionBoxConfig: {
+          fill: null // {ColorDef} @required - accordion box background fill
+        },
 
         // accordion box sizing. defaults are for the 'Ten' screen.
-        upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,
-        lowerAccordionBoxHeight: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_HEIGHT,
-        onesAccordionBoxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-        objectsAccordionBoxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-
-        // accordion box background fills. defaults are for the 'Ten' screen.
-        numberAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
-        numeralAccordionBoxFill: NumberPlayConstants.ORANGE_BACKGROUND,
-        tenFrameAccordionBoxFill: NumberPlayConstants.GREEN_BACKGROUND,
+        upperAccordionBoxHeight: null, // {number} @required
+        lowerAccordionBoxHeight: null, // {number} @required
+        onesAccordionBoxWidth: null, // {number} @required
+        objectsAccordionBoxWidth: null, // {number} @required
 
         // phet-io
-        tandem: options.tandem
-      }, options );
+        tandem: config.tandem
+      }, config );
 
-      super( options );
+      super( config );
 
-      // @private {BooleanProperty} - Properties used to control the expanded state of each accordion box
+      // @public {BooleanProperty} - Properties used to control the expanded state of each accordion box
       this.numberAccordionBoxExpandedProperty = new BooleanProperty( false );
       this.numeralAccordionBoxExpandedProperty = new BooleanProperty( true );
       this.tenFrameAccordionBoxExpandedProperty = new BooleanProperty( false );
@@ -58,10 +68,9 @@ define( require => {
       // create and add the NumberAccordionBox
       const numberAccordionBox = new NumberAccordionBox(
         model.currentNumberProperty,
-        options.upperAccordionBoxHeight, {
-          expandedProperty: this.numberAccordionBoxExpandedProperty,
-          fill: options.numberAccordionBoxFill
-        } );
+        config.upperAccordionBoxHeight, merge( {
+          expandedProperty: this.numberAccordionBoxExpandedProperty
+        }, config.numberAccordionBoxConfig ) );
       numberAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       numberAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
       this.addChild( numberAccordionBox );
@@ -69,10 +78,9 @@ define( require => {
       // create and add the NumeralAccordionBox
       const numeralAccordionBox = new NumeralAccordionBox(
         model.currentNumberProperty,
-        options.upperAccordionBoxHeight, {
-          expandedProperty: this.numeralAccordionBoxExpandedProperty,
-          fill: options.numeralAccordionBoxFill
-        } );
+        config.upperAccordionBoxHeight, merge( {
+          expandedProperty: this.numeralAccordionBoxExpandedProperty
+        }, config.numeralAccordionBoxConfig ) );
       numeralAccordionBox.centerX = this.layoutBounds.centerX;
       numeralAccordionBox.top = numberAccordionBox.top;
       this.addChild( numeralAccordionBox );
@@ -80,10 +88,9 @@ define( require => {
       // create and add the TenFrameAccordionBox
       const tenFrameAccordionBox = new TenFrameAccordionBox(
         model.currentNumberProperty,
-        options.upperAccordionBoxHeight, {
-          expandedProperty: this.tenFrameAccordionBoxExpandedProperty,
-          fill: options.tenFrameAccordionBoxFill
-        } );
+        config.upperAccordionBoxHeight, merge( {
+          expandedProperty: this.tenFrameAccordionBoxExpandedProperty
+        }, config.tenFrameAccordionBoxConfig ) );
       tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       tenFrameAccordionBox.top = numberAccordionBox.top;
       this.addChild( tenFrameAccordionBox );
@@ -91,10 +98,10 @@ define( require => {
       // create and add the OnesAccordionBox
       const onesAccordionBox = new OnesAccordionBox(
         model.currentNumberProperty,
-        options.lowerAccordionBoxHeight, {
+        config.lowerAccordionBoxHeight, {
           expandedProperty: this.onesAccordionBoxExpandedProperty,
-          minWidth: options.onesAccordionBoxWidth,
-          maxWidth: options.onesAccordionBoxWidth
+          minWidth: config.onesAccordionBoxWidth,
+          maxWidth: config.onesAccordionBoxWidth
         }
       );
       onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
@@ -104,10 +111,10 @@ define( require => {
       // create and add the ObjectsAccordionBox
       const objectsAccordionBox = new ObjectsAccordionBox(
         model.currentNumberProperty,
-        options.lowerAccordionBoxHeight, {
+        config.lowerAccordionBoxHeight, {
           expandedProperty: this.objectsAccordionBoxExpandedProperty,
-          minWidth: options.objectsAccordionBoxWidth,
-          maxWidth: options.objectsAccordionBoxWidth
+          minWidth: config.objectsAccordionBoxWidth,
+          maxWidth: config.objectsAccordionBoxWidth
         }
       );
       objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
@@ -123,7 +130,7 @@ define( require => {
         },
         right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
         bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
-        tandem: options.tandem.createTandem( 'resetAllButton' )
+        tandem: config.tandem.createTandem( 'resetAllButton' )
       } );
       this.addChild( resetAllButton );
     }
