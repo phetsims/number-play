@@ -40,11 +40,11 @@ define( require => {
         },
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.GREEN_BACKGROUND,
-          font: new PhetFont( 80 ),
+          font: new PhetFont( 76 ),
           arrowButtonConfig: {
-            arrowWidth: 14,
-            arrowHeight: 14,
-            spacing: 3
+            arrowWidth: 15,
+            arrowHeight: 15,
+            spacing: 5
           }
         },
         tenFrameAccordionBoxConfig: {

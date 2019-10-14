@@ -50,7 +50,7 @@ define( require => {
       titleYMargin: 10,
       buttonXMargin: 10,
       buttonYMargin: 10,
-      contentXMargin: 0,
+      contentXMargin: 10,
       contentYMargin: 0,
       contentXSpacing: 0,
       contentAlign: 'left',

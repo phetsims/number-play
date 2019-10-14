@@ -41,6 +41,7 @@ define( require => {
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND,
           font: new PhetFont( 98 ),
+          contentXMargin: 0,
           arrowButtonConfig: {
             arrowWidth: 20,
             arrowHeight: 20,
