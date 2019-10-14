@@ -46,17 +46,39 @@ define( require => {
           fill: null // {ColorDef} @required - accordion box background fill
         },
 
-        // accordion box sizing. defaults are for the 'Ten' screen.
+        // config for OnesAccordionBox.
+        onesAccordionBoxConfig: {
+          minWidth: null, // {number} @required
+          maxWidth: null // {number} @required
+        },
+
+        // config for ObjectsAccordionBox.
+        objectsAccordionBoxConfig: {
+          minWidth: null, // {number} @required
+          maxWidth: null // {number} @required
+        },
+
+        // accordion box heights. these are not part of specific accordion box configs because they apply to
+        // multiple accordion boxes.
         upperAccordionBoxHeight: null, // {number} @required
         lowerAccordionBoxHeight: null, // {number} @required
-        onesAccordionBoxWidth: null, // {number} @required
-        objectsAccordionBoxWidth: null, // {number} @required
 
         // phet-io
         tandem: config.tandem
       }, config );
 
       super( config );
+
+      // check for required config
+      assert && assert( config.numberAccordionBoxConfig.fill, 'fill is required' );
+      assert && assert( config.numeralAccordionBoxConfig.fill, 'fill is required' );
+      assert && assert( config.tenFrameAccordionBoxConfig.fill, 'fill is required' );
+      assert && assert( config.onesAccordionBoxConfig.minWidth, 'minWidth is required' );
+      assert && assert( config.onesAccordionBoxConfig.maxWidth, 'maxWidth is required' );
+      assert && assert( config.objectsAccordionBoxConfig.minWidth, 'minWidth is required' );
+      assert && assert( config.objectsAccordionBoxConfig.maxWidth, 'maxWidth is required' );
+      assert && assert( config.upperAccordionBoxHeight, 'upperAccordionBoxHeight is required' );
+      assert && assert( config.lowerAccordionBoxHeight, 'lowerAccordionBoxHeight is required' );
 
       // @public {BooleanProperty} - Properties used to control the expanded state of each accordion box
       this.numberAccordionBoxExpandedProperty = new BooleanProperty( false );
@@ -98,12 +120,9 @@ define( require => {
       // create and add the OnesAccordionBox
       const onesAccordionBox = new OnesAccordionBox(
         model.currentNumberProperty,
-        config.lowerAccordionBoxHeight, {
-          expandedProperty: this.onesAccordionBoxExpandedProperty,
-          minWidth: config.onesAccordionBoxWidth,
-          maxWidth: config.onesAccordionBoxWidth
-        }
-      );
+        config.lowerAccordionBoxHeight, merge( {
+          expandedProperty: this.onesAccordionBoxExpandedProperty
+        }, config.onesAccordionBoxConfig ) );
       onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
       this.addChild( onesAccordionBox );
@@ -111,12 +130,9 @@ define( require => {
       // create and add the ObjectsAccordionBox
       const objectsAccordionBox = new ObjectsAccordionBox(
         model.currentNumberProperty,
-        config.lowerAccordionBoxHeight, {
-          expandedProperty: this.objectsAccordionBoxExpandedProperty,
-          minWidth: config.objectsAccordionBoxWidth,
-          maxWidth: config.objectsAccordionBoxWidth
-        }
-      );
+        config.lowerAccordionBoxHeight, merge( {
+          expandedProperty: this.objectsAccordionBoxExpandedProperty
+        }, config.objectsAccordionBoxConfig ) );
       objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
       objectsAccordionBox.bottom = onesAccordionBox.bottom;
       this.addChild( objectsAccordionBox );

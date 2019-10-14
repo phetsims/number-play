@@ -46,6 +46,11 @@ define( require => {
         }
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
+      assert && assert( config.font, 'font is required' );
+      assert && assert( config.arrowButtonConfig.arrowWidth, 'arrowWidth is required' );
+      assert && assert( config.arrowButtonConfig.arrowHeight, 'arrowHeight is required' );
+      assert && assert( config.arrowButtonConfig.spacing, 'spacing is required' );
+
       const contentNode = new Rectangle( {
         rectHeight: height
       } );

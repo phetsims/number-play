@@ -34,12 +34,10 @@ define( require => {
       };
 
       const screenViewConfig = {
-
         numberAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND,
           font: new PhetFont( 54 )
         },
-
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.GREEN_BACKGROUND,
           font: new PhetFont( 80 ),
@@ -49,15 +47,19 @@ define( require => {
             spacing: 3
           }
         },
-
         tenFrameAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND
         },
-
+        onesAccordionBoxConfig: {
+          minWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
+          maxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH
+        },
+        objectsAccordionBoxConfig: {
+          minWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
+          maxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH
+        },
         upperAccordionBoxHeight: NumberPlayConstants.TWENTY_UPPER_ACCORDION_BOX_HEIGHT,
         lowerAccordionBoxHeight: NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,
-        onesAccordionBoxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
-        objectsAccordionBoxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
         tandem: tandem.createTandem( 'view' )
       };
 

@@ -83,6 +83,8 @@ define( require => {
         font: null // {Font} @required - font of the displayed string value
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
+      assert && assert( config.font, 'font is required' );
+
       const contentNode = new Rectangle( {
         rectHeight: height
       } );
