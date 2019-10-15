@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.0-dev.1 Sat Oct 12 2019 14:17:12 GMT-0400 (Eastern Daylight Time)",
+  "comment": "# number-play 1.0.0-dev.2 Mon Oct 14 2019 23:44:32 GMT-0400 (Eastern Daylight Time)",
   "assert": {
     "sha": "bd6e3ed0a8b6fea73a4a176d5364809666833e58",
     "branch": "master"
@@ -29,7 +29,7 @@
     "branch": "master"
   },
   "number-play": {
-    "sha": "29c2f7c4e82613a7f9f0b6bd152de86b75cb95e5",
+    "sha": "14a10bd134f8be28d1b7eb21562da07eac430531",
     "branch": "master"
   },
   "phet-core": {
