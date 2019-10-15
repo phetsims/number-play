@@ -15,6 +15,7 @@ define( require => {
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const TenFrameNode = require( 'NUMBER_PLAY/common/view/TenFrameNode' );
   const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
@@ -36,6 +37,12 @@ define( require => {
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, options );
 
       const contentNode = new Rectangle( { rectHeight: height } );
+
+      // create, scale, and add the TenFrameNode
+      const tenFrameNode = new TenFrameNode( currentNumberProperty );
+      tenFrameNode.scale( height / tenFrameNode.height / 2 );
+      tenFrameNode.centerY = contentNode.centerY;
+      contentNode.addChild( tenFrameNode );
 
       super( contentNode, options );
     }

@@ -48,7 +48,8 @@ define( require => {
           }
         },
         tenFrameAccordionBoxConfig: {
-          fill: NumberPlayConstants.ORANGE_BACKGROUND
+          fill: NumberPlayConstants.ORANGE_BACKGROUND,
+          contentAlign: 'right'
         },
         onesAccordionBoxConfig: {
           minWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
