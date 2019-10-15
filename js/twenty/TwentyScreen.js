@@ -36,7 +36,8 @@ define( require => {
       const screenViewConfig = {
         numberAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND,
-          font: new PhetFont( 54 )
+          font: new PhetFont( 54 ),
+          contentXMargin: 24
         },
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.GREEN_BACKGROUND,
