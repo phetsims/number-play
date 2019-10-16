@@ -135,7 +135,7 @@ define( require => {
      */
     addPlayObjectToPlayArea( playObject, animateToPlayArea = false ) {
       if ( animateToPlayArea ) {
-        assert( !this.playObjectsInPlayArea.contains( playObject ), 'playObject is already in play area' );
+        assert && assert( !this.playObjectsInPlayArea.contains( playObject ), 'playObject is already in play area' );
 
         let translateVector = null;
         let findCount = 0;
