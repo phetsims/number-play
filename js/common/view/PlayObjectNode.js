@@ -74,13 +74,13 @@ define( function( require ) {
       // add a DragListener to handle user dragging
       this.addInputListener( new DragListener( {
         locationProperty: playObject.positionProperty,
-        modelViewTransform: modelViewTransform,
+        transform: modelViewTransform,
         dragBoundsProperty: new Property( playAreaModelBounds ),
-        startDrag: event => {
+        start: event => {
           playObject.userControlledProperty.set( true );
           this.moveToFront();
         },
-        endDrag: () => {
+        end: () => {
           playObject.userControlledProperty.set( false );
         }
       } ) );
