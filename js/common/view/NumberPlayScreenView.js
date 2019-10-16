@@ -49,13 +49,13 @@ define( require => {
         // config for OnesAccordionBox.
         onesAccordionBoxConfig: {
           minWidth: null, // {number} @required
-          maxWidth: null // {number} @required
+          maxWidth: null  // {number} @required
         },
 
         // config for ObjectsAccordionBox.
         objectsAccordionBoxConfig: {
           minWidth: null, // {number} @required
-          maxWidth: null // {number} @required
+          maxWidth: null  // {number} @required
         },
 
         // accordion box heights. these are not part of specific accordion box configs because they apply to
@@ -130,7 +130,8 @@ define( require => {
       // create and add the ObjectsAccordionBox
       const objectsAccordionBox = new ObjectsAccordionBox(
         model.currentNumberProperty,
-        config.lowerAccordionBoxHeight, merge( {
+        config.lowerAccordionBoxHeight,
+        model.objectsPlayArea, merge( {
           expandedProperty: this.objectsAccordionBoxExpandedProperty
         }, config.objectsAccordionBoxConfig ) );
       objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
