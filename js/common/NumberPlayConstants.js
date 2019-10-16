@@ -66,7 +66,8 @@ define( require => {
     GREEN_BACKGROUND: 'rgb( 217, 255, 223 )',
     ORANGE_BACKGROUND: 'rgb( 255, 218, 176 )',
     PURPLE_BACKGROUND: 'rgb( 254, 202, 255 )',
-    BLUE_BACKGROUND: 'rgb( 190, 232, 255 )'
+    BLUE_BACKGROUND: 'rgb( 190, 232, 255 )',
+    BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )'
   };
 
   return numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );
