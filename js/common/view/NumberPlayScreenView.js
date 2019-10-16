@@ -11,7 +11,7 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const merge = require( 'PHET_CORE/merge' );
-  const NumberAccordionBox = require( 'NUMBER_PLAY/common/view/NumberAccordionBox' );
+  const WordAccordionBox = require( 'NUMBER_PLAY/common/view/WordAccordionBox' );
   const NumeralAccordionBox = require( 'NUMBER_PLAY/common/view/NumeralAccordionBox' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
@@ -31,8 +31,8 @@ define( require => {
 
       config = merge( {
 
-        // config for NumberAccordionBox. see NumberAccordionBox for additional fields
-        numberAccordionBoxConfig: {
+        // config for WordAccordionBox. see WordAccordionBox for additional fields
+        wordAccordionBoxConfig: {
           fill: null // {ColorDef} @required - accordion box background fill
         },
 
@@ -70,7 +70,7 @@ define( require => {
       super( config );
 
       // check for required config
-      assert && assert( config.numberAccordionBoxConfig.fill, 'fill is required' );
+      assert && assert( config.wordAccordionBoxConfig.fill, 'fill is required' );
       assert && assert( config.numeralAccordionBoxConfig.fill, 'fill is required' );
       assert && assert( config.tenFrameAccordionBoxConfig.fill, 'fill is required' );
       assert && assert( config.onesAccordionBoxConfig.minWidth, 'minWidth is required' );
@@ -81,21 +81,21 @@ define( require => {
       assert && assert( config.lowerAccordionBoxHeight, 'lowerAccordionBoxHeight is required' );
 
       // @public {BooleanProperty} - Properties used to control the expanded state of each accordion box
-      this.numberAccordionBoxExpandedProperty = new BooleanProperty( false );
+      this.wordAccordionBoxExpandedProperty = new BooleanProperty( false );
       this.numeralAccordionBoxExpandedProperty = new BooleanProperty( true );
       this.tenFrameAccordionBoxExpandedProperty = new BooleanProperty( false );
       this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
       this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
 
-      // create and add the NumberAccordionBox
-      const numberAccordionBox = new NumberAccordionBox(
+      // create and add the WordAccordionBox
+      const wordAccordionBox = new WordAccordionBox(
         model.currentNumberProperty,
         config.upperAccordionBoxHeight, merge( {
-          expandedProperty: this.numberAccordionBoxExpandedProperty
-        }, config.numberAccordionBoxConfig ) );
-      numberAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-      numberAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
-      this.addChild( numberAccordionBox );
+          expandedProperty: this.wordAccordionBoxExpandedProperty
+        }, config.wordAccordionBoxConfig ) );
+      wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+      wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
+      this.addChild( wordAccordionBox );
 
       // create and add the NumeralAccordionBox
       const numeralAccordionBox = new NumeralAccordionBox(
@@ -104,7 +104,7 @@ define( require => {
           expandedProperty: this.numeralAccordionBoxExpandedProperty
         }, config.numeralAccordionBoxConfig ) );
       numeralAccordionBox.centerX = this.layoutBounds.centerX;
-      numeralAccordionBox.top = numberAccordionBox.top;
+      numeralAccordionBox.top = wordAccordionBox.top;
       this.addChild( numeralAccordionBox );
 
       // create and add the TenFrameAccordionBox
@@ -114,7 +114,7 @@ define( require => {
           expandedProperty: this.tenFrameAccordionBoxExpandedProperty
         }, config.tenFrameAccordionBoxConfig ) );
       tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-      tenFrameAccordionBox.top = numberAccordionBox.top;
+      tenFrameAccordionBox.top = wordAccordionBox.top;
       this.addChild( tenFrameAccordionBox );
 
       // create and add the OnesAccordionBox
@@ -157,7 +157,7 @@ define( require => {
      * @public
      */
     reset() {
-      this.numberAccordionBoxExpandedProperty.reset();
+      this.wordAccordionBoxExpandedProperty.reset();
       this.numeralAccordionBoxExpandedProperty.reset();
       this.tenFrameAccordionBoxExpandedProperty.reset();
       this.onesAccordionBoxExpandedProperty.reset();

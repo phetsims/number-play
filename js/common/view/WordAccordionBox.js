@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Class for the 'Number' accordion box, which is the panel in the upper left corner of the sim that displays a written
+ * Class for the 'Word' accordion box, which is the panel in the upper left corner of the sim that displays a written
  * representation of the current number.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -18,7 +18,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  const numberString = require( 'string!NUMBER_PLAY/number' );
+  const wordString = require( 'string!NUMBER_PLAY/word' );
   const zeroString = require( 'string!NUMBER_PLAY/zero' );
   const oneString = require( 'string!NUMBER_PLAY/one' );
   const twoString = require( 'string!NUMBER_PLAY/two' );
@@ -66,7 +66,7 @@ define( require => {
     20: twentyString
   };
 
-  class NumberAccordionBox extends AccordionBox {
+  class WordAccordionBox extends AccordionBox {
 
     /**
      * @param {NumberProperty} currentNumberProperty
@@ -76,7 +76,7 @@ define( require => {
     constructor( currentNumberProperty, height, config ) {
 
       config = merge( {
-        titleNode: new Text( numberString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
+        titleNode: new Text( wordString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
         maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
 
@@ -89,20 +89,20 @@ define( require => {
         rectHeight: height
       } );
 
-      const stringValueText = new Text( MAP_NUMBER_TO_STRING[ currentNumberProperty.value ], {
+      const wordText = new Text( MAP_NUMBER_TO_STRING[ currentNumberProperty.value ], {
         font: config.font
       } );
-      stringValueText.centerY = contentNode.centerY;
-      stringValueText.left = contentNode.left;
-      contentNode.addChild( stringValueText );
+      wordText.centerY = contentNode.centerY;
+      wordText.left = contentNode.left;
+      contentNode.addChild( wordText );
 
       super( contentNode, config );
 
       currentNumberProperty.lazyLink( currentNumber => {
-        stringValueText.text = MAP_NUMBER_TO_STRING[ currentNumber ];
+        wordText.text = MAP_NUMBER_TO_STRING[ currentNumber ];
       } );
     }
   }
 
-  return numberPlay.register( 'NumberAccordionBox', NumberAccordionBox );
+  return numberPlay.register( 'WordAccordionBox', WordAccordionBox );
 } );
