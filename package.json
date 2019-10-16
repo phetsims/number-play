@@ -11,6 +11,9 @@
   },
   "phet": {
     "requirejsNamespace": "NUMBER_PLAY",
+    "phetLibs": [
+      "twixt"
+    ],
     "simulation": true,
     "runnable": true,
     "supportedBrands": [
