@@ -11,9 +11,10 @@ define( function( require ) {
   // modules
   const Animation = require( 'TWIXT/Animation' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  const DragListener = require( 'SCENERY_PHET/listeners/DragListener' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const Property = require( 'AXON/Property' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // images
@@ -70,10 +71,11 @@ define( function( require ) {
         } );
       }
 
-      this.addInputListener( new MovableDragHandler( playObject.positionProperty, {
+      // add a DragListener to handle user dragging
+      this.addInputListener( new DragListener( {
+        locationProperty: playObject.positionProperty,
         modelViewTransform: modelViewTransform,
-        dragBounds: playAreaModelBounds,
-        attach: true,
+        dragBoundsProperty: new Property( playAreaModelBounds ),
         startDrag: event => {
           playObject.userControlledProperty.set( true );
           this.moveToFront();
