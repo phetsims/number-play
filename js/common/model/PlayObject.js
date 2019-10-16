@@ -27,6 +27,9 @@ define( require => {
       // @public {BooleanProperty}
       this.userControlledProperty = new BooleanProperty( false );
 
+      // @public {BooleanProperty}
+      this.scaledUpProperty = new BooleanProperty( false );
+
       // @public (read-only) {Dimension2}
       this.size = size;
     }
@@ -37,6 +40,7 @@ define( require => {
     reset() {
       this.positionProperty.reset();
       this.userControlledProperty.reset();
+      this.scaledUpProperty.reset();
     }
   }
 

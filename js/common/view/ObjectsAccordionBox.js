@@ -38,10 +38,12 @@ define( require => {
         titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         fill: NumberPlayConstants.BLUE_BACKGROUND,
 
-        contentWidth: null // {number} @required
+        contentWidth: null, // {number} @required
+        objectScaleFactor: null // {number} @required
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
       assert && assert( config.contentWidth, `contentWidth is required: ${config.contentWidth}`);
+      assert && assert( config.objectScaleFactor, `objectScaleFactor is required: ${config.objectScaleFactor}`);
 
       const contentNode = new Rectangle( {
         rectHeight: height,
@@ -62,13 +64,14 @@ define( require => {
         1
       );
 
-      const playAreaModelBounds = translateMVT.viewToModelBounds( playAreaViewBounds ).dilatedX( -9 ).dilatedY( -10 );
+      const playAreaModelBounds = translateMVT.viewToModelBounds( playAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
 
       const objectsPlayAreaNode = new NumberPlayPlayAreaNode(
         objectsPlayArea,
         currentNumberProperty,
         playAreaModelBounds,
-        translateMVT
+        translateMVT,
+        config.objectScaleFactor
       );
       contentNode.addChild( objectsPlayAreaNode );
 

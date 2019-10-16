@@ -28,14 +28,14 @@ define( require => {
 
   // min and max distances that playObjects being added to the play area via animation can travel. empirically
   // determined to be small enough to fit all needed cases. all in screen coordinates.
-  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -100;
-  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 100;
-  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 40;
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -90;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 90;
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 50;
   const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 320;
 
   // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
   // play area, in screen coordinates
-  const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 50;
+  const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
   class NumberPlayPlayArea {
 

@@ -59,7 +59,8 @@ define( require => {
         objectsAccordionBoxConfig: {
           minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
           maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-          contentWidth: 370 // empirically determined
+          contentWidth: 370, // empirically determined
+          objectScaleFactor: 1.6 // empirically determined
         },
         upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,
         lowerAccordionBoxHeight: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_HEIGHT,

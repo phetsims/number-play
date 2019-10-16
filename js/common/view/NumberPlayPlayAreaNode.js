@@ -22,8 +22,9 @@ define( require => {
      * @param {NumberProperty} currentNumberProperty
      * @param {Bounds2} playAreaBounds
      * @param {ModelViewTransform2} translateMVT
+     * @param {number} objectScaleFactor
      */
-    constructor( playArea, currentNumberProperty, playAreaBounds, translateMVT ) {
+    constructor( playArea, currentNumberProperty, playAreaBounds, translateMVT, objectScaleFactor ) {
       super();
 
       // create and add the bucket back
@@ -42,9 +43,10 @@ define( require => {
 
       // create and add the play object nodes
       playArea.playObjects.forEach( playObject => {
-        const playObjectNode = new PlayObjectNode( playObject, playAreaBounds, translateMVT );
+        const playObjectNode = new PlayObjectNode( playObject, playAreaBounds, translateMVT, objectScaleFactor );
         playObjectsLayer.addChild( playObjectNode );
 
+        // add the playObject to the play area or bucket when dropped by the user
         playObject.userControlledProperty.lazyLink( userControlled => {
           if ( !userControlled ) {
             if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
@@ -54,6 +56,20 @@ define( require => {
             else {
               playArea.addPlayObjectToPlayArea( playObject );
             }
+          }
+        } );
+
+        // scale up the playObject when outside of the bucket
+        playObject.positionProperty.link( () => {
+          if ( ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
+                 bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) &&
+               playObject.scaledUpProperty.value ) {
+            playObject.scaledUpProperty.value = false;
+          }
+          else if ( !( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
+                      bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) &&
+                    !playObject.scaledUpProperty.value ) {
+            playObject.scaledUpProperty.value = true;
           }
         } );
       } );

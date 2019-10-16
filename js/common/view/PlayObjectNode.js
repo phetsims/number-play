@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  const Animation = require( 'TWIXT/Animation' );
   const Image = require( 'SCENERY/nodes/Image' );
   const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -19,6 +20,7 @@ define( function( require ) {
   const dogImage = require( 'image!NUMBER_PLAY/dog.png' );
 
   // constants
+  const SCALE_ANIMATION_DURATION = 0.3; // in seconds, empirically determined
 
   class PlayObjectNode extends Node {
 
@@ -26,8 +28,9 @@ define( function( require ) {
      * @param {PlayObject} playObject
      * @param {Bounds2} playAreaBounds
      * @param {ModelViewTransform2} modelViewTransform
+     * @param {number} objectScaleFactor
      */
-    constructor( playObject, playAreaModelBounds, modelViewTransform ) {
+    constructor( playObject, playAreaModelBounds, modelViewTransform, scaleFactorInPlayArea ) {
       super();
 
       const dogImageNode = new Image( dogImage, {
@@ -42,6 +45,30 @@ define( function( require ) {
       playObject.positionProperty.link( position => {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
+
+      // update the scale factor
+      if ( scaleFactorInPlayArea !== 1 ) {
+        playObject.scaledUpProperty.lazyLink( scaleUp => {
+          if ( scaleUp && this.width < playObject.size.width * scaleFactorInPlayArea ) {
+            const scaleUpAnimation = new Animation( {
+              setValue: value => { this.setScaleMagnitude( value ); },
+              from: 1,
+              to: scaleFactorInPlayArea,
+              duration: SCALE_ANIMATION_DURATION
+            } );
+            scaleUpAnimation.start();
+          }
+          else if ( !scaleUp && this.width > playObject.size.width ) {
+            const scaleDownAnimation = new Animation( {
+              setValue: value => { this.setScaleMagnitude( value ); },
+              from: scaleFactorInPlayArea,
+              to: 1,
+              duration: SCALE_ANIMATION_DURATION
+            } );
+            scaleDownAnimation.start();
+          }
+        } );
+      }
 
       this.addInputListener( new MovableDragHandler( playObject.positionProperty, {
         modelViewTransform: modelViewTransform,
