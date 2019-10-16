@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   const Animation = require( 'TWIXT/Animation' );
   const Image = require( 'SCENERY/nodes/Image' );
-  const DragListener = require( 'SCENERY_PHET/listeners/DragListener' );
+  const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const Property = require( 'AXON/Property' );
