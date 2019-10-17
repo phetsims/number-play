@@ -37,7 +37,7 @@ define( require => {
         titleNode: new Text( onesString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
         fill: NumberPlayConstants.PURPLE_BACKGROUND,
 
-        contentWidth: null, // {number} @required
+        contentWidth: null // {number} @required
       }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
       assert && assert( config.contentWidth, `contentWidth is required: ${config.contentWidth}`);
