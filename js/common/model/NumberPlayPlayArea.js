@@ -113,7 +113,7 @@ define( require => {
     returnPlayObjectToBucket( playObject ) {
       this.playObjectsInPlayArea.contains( playObject ) && this.playObjectsInPlayArea.remove( playObject );
 
-      if ( playObject.positionProperty.value !== playObject.positionProperty.initialValue ) {
+      if ( !playObject.positionProperty.value.equals( playObject.positionProperty.initialValue ) ) {
 
         // calculate the time needed to get to the destination
         const animationDuration = Math.min(
