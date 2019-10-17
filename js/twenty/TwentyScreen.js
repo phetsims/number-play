@@ -54,7 +54,8 @@ define( require => {
         },
         onesAccordionBoxConfig: {
           minWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
-          maxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH
+          maxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
+          contentWidth: 492 // empirically determined
         },
         objectsAccordionBoxConfig: {
           minWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,

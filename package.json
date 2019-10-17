@@ -12,6 +12,7 @@
   "phet": {
     "requirejsNamespace": "NUMBER_PLAY",
     "phetLibs": [
+      "make-a-ten",
       "twixt"
     ],
     "simulation": true,

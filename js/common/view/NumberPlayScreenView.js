@@ -119,7 +119,7 @@ define( require => {
 
       // create and add the OnesAccordionBox
       const onesAccordionBox = new OnesAccordionBox(
-        model.currentNumberProperty,
+        model.onesPlayArea,
         config.lowerAccordionBoxHeight, merge( {
           expandedProperty: this.onesAccordionBoxExpandedProperty
         }, config.onesAccordionBoxConfig ) );

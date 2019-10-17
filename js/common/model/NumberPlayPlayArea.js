@@ -22,7 +22,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants
-  const BUCKET_SIZE = new Dimension2( 100, 50 ); // in screen coordinates
+  const BUCKET_SIZE = NumberPlayConstants.BUCKET_SIZE;
   const ANIMATION_SPEED = 200; // in screen coordinates per second
   const MAX_ANIMATION_TIME = 1; // in seconds
 
@@ -73,6 +73,7 @@ define( require => {
 
       // if the current number changes, add or remove playObjects from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
+        console.log( currentNumber, previousNumber );
         if ( currentNumber < this.playObjectsInPlayArea.lengthProperty.value ) {
           assert && assert( currentNumber < previousNumber );
 

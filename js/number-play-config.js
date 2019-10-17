@@ -31,6 +31,7 @@ require.config( {
     DOT: '../../dot/js',
     JOIST: '../../joist/js',
     KITE: '../../kite/js',
+    MAKE_A_TEN: '../../make-a-ten/js',
     NUMBER_PLAY: '.',
     PHETCOMMON: '../../phetcommon/js',
     PHET_CORE: '../../phet-core/js',

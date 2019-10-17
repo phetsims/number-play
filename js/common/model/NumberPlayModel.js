@@ -11,6 +11,7 @@ define( require => {
   // modules
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayPlayArea = require( 'NUMBER_PLAY/common/model/NumberPlayPlayArea' );
+  const OnesPlayArea = require( 'NUMBER_PLAY/common/model/OnesPlayArea' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
 
@@ -27,8 +28,19 @@ define( require => {
         range: new Range( 0, highestCount )
       } );
 
+      // @public (read-only) - the model for managing the play area in the OnesAccordionBox
+      this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty );
+
       // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
       this.objectsPlayArea = new NumberPlayPlayArea( this.currentNumberProperty );
+    }
+
+    /**
+     * Steps the model.
+     * @param {number} dt
+     */
+    step( dt ) {
+      this.onesPlayArea.step();
     }
 
     /**
@@ -36,6 +48,7 @@ define( require => {
      * @public
      */
     reset() {
+      this.onesPlayArea.reset();
       this.currentNumberProperty.reset();
       this.objectsPlayArea.reset();
     }
