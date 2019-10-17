@@ -22,18 +22,17 @@ define( require => {
      * @param {NumberProperty} currentNumberProperty
      * @param {Bounds2} playAreaBounds
      * @param {ModelViewTransform2} translateMVT
-     * @param {number} objectScaleFactor
      */
-    constructor( playArea, currentNumberProperty, playAreaBounds, translateMVT, objectScaleFactor ) {
+    constructor( playArea, currentNumberProperty, playAreaBounds, translateMVT ) {
       super();
 
       // create and add the bucket back
       const bucketHole = new BucketHole( playArea.bucket, translateMVT );
       this.addChild( bucketHole );
 
-      // create and add a layer for all play objects
-      const playObjectsLayer = new Node();
-      this.addChild( playObjectsLayer );
+      // create and add a layer for all play objects in the bucket
+      const playObjectsStorageLayer = new Node();
+      this.addChild( playObjectsStorageLayer );
 
       // create and add the bucket front
       const bucketFrontNode = new BucketFront( playArea.bucket, translateMVT );
@@ -41,35 +40,46 @@ define( require => {
       bucketHole.center = bucketFrontNode.centerTop;
       this.addChild( bucketFrontNode );
 
+      // create and add a layer for all play objects in the play area
+      const playObjectsPlayAreaLayer = new Node();
+      this.addChild( playObjectsPlayAreaLayer );
+
       // create and add the play object nodes
       playArea.playObjects.forEach( playObject => {
-        const playObjectNode = new PlayObjectNode( playObject, playAreaBounds, translateMVT, objectScaleFactor );
-        playObjectsLayer.addChild( playObjectNode );
+        const playObjectNode = new PlayObjectNode( playObject, playAreaBounds, translateMVT );
+        playObjectsStorageLayer.addChild( playObjectNode );
 
         // add the playObject to the play area or bucket when dropped by the user
         playObject.userControlledProperty.lazyLink( userControlled => {
           if ( !userControlled ) {
             if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
                  bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) {
+              if ( playObjectsPlayAreaLayer.hasChild( playObjectNode ) ) {
+                playObjectsPlayAreaLayer.removeChild( playObjectNode );
+                playObjectsStorageLayer.addChild( playObjectNode );
+              }
               playArea.returnPlayObjectToBucket( playObject );
             }
-            else {
+          }
+          else {
+            if ( playObjectsStorageLayer.hasChild( playObjectNode ) ) {
+              playObjectsStorageLayer.removeChild( playObjectNode );
+              playObjectsPlayAreaLayer.addChild( playObjectNode );
+            }
+            if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
+                 bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) {
               playArea.addPlayObjectToPlayArea( playObject );
             }
           }
         } );
 
-        // scale up the playObject when outside of the bucket
         playObject.positionProperty.link( () => {
           if ( ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
-                 bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) &&
-               playObject.scaledUpProperty.value ) {
-            playObject.scaledUpProperty.value = false;
-          }
-          else if ( !( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
-                      bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) &&
-                    !playObject.scaledUpProperty.value ) {
-            playObject.scaledUpProperty.value = true;
+               bucketHole.bounds.intersectsBounds( playObjectNode.bounds  ) ) && !playObject.userControlledProperty.value ) {
+            if ( playObjectsPlayAreaLayer.hasChild( playObjectNode ) ) {
+              playObjectsPlayAreaLayer.removeChild( playObjectNode );
+              playObjectsStorageLayer.addChild( playObjectNode );
+            }
           }
         } );
       } );

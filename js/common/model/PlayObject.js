@@ -11,6 +11,8 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const Range = require( 'DOT/Range' );
   const Vector2Property = require( 'DOT/Vector2Property' );
 
   class PlayObject {
@@ -18,8 +20,9 @@ define( require => {
     /**
      * @param {Vector2} initialPosition
      * @param {Dimension2} size
+     * @param {number} objectMaxScale - the max scale this play object can be increased by
      */
-    constructor( initialPosition, size ) {
+    constructor( initialPosition, size, objectMaxScale ) {
 
       // @public {Vector2Property}
       this.positionProperty = new Vector2Property( initialPosition );
@@ -28,7 +31,9 @@ define( require => {
       this.userControlledProperty = new BooleanProperty( false );
 
       // @public {BooleanProperty}
-      this.scaledUpProperty = new BooleanProperty( false );
+      this.scaleProperty = new NumberProperty( 1, {
+        range: new Range( 1, objectMaxScale )
+      } );
 
       // @public (read-only) {Dimension2}
       this.size = size;
@@ -40,7 +45,7 @@ define( require => {
     reset() {
       this.positionProperty.reset();
       this.userControlledProperty.reset();
-      this.scaledUpProperty.reset();
+      this.scaleProperty.reset();
     }
   }
 

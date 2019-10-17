@@ -29,9 +29,8 @@ define( function( require ) {
      * @param {PlayObject} playObject
      * @param {Bounds2} playAreaBounds
      * @param {ModelViewTransform2} modelViewTransform
-     * @param {number} objectScaleFactor
      */
-    constructor( playObject, playAreaModelBounds, modelViewTransform, scaleFactorInPlayArea ) {
+    constructor( playObject, playAreaModelBounds, modelViewTransform ) {
       super();
 
       const dogImageNode = new Image( dogImage, {
@@ -48,28 +47,22 @@ define( function( require ) {
       } );
 
       // update the scale factor
-      if ( scaleFactorInPlayArea !== 1 ) {
-        playObject.scaledUpProperty.lazyLink( scaleUp => {
-          if ( scaleUp && this.width < playObject.size.width * scaleFactorInPlayArea ) {
-            const scaleUpAnimation = new Animation( {
-              setValue: value => { this.setScaleMagnitude( value ); },
-              from: 1,
-              to: scaleFactorInPlayArea,
-              duration: SCALE_ANIMATION_DURATION
-            } );
-            scaleUpAnimation.start();
-          }
-          else if ( !scaleUp && this.width > playObject.size.width ) {
-            const scaleDownAnimation = new Animation( {
-              setValue: value => { this.setScaleMagnitude( value ); },
-              from: scaleFactorInPlayArea,
-              to: 1,
-              duration: SCALE_ANIMATION_DURATION
-            } );
-            scaleDownAnimation.start();
-          }
-        } );
-      }
+      playObject.scaleProperty.lazyLink( ( newScale, oldScale ) => {
+        if ( newScale > oldScale ) {
+
+          // the user has grabbed the object from the bucket, blow up with no animation
+          this.setScaleMagnitude( newScale );
+        }
+        else {
+          const scaleDownAnimation = new Animation( {
+            setValue: value => { this.setScaleMagnitude( value ); },
+            from: oldScale,
+            to: newScale,
+            duration: SCALE_ANIMATION_DURATION
+          } );
+          scaleDownAnimation.start();
+        }
+      } );
 
       // add a DragListener to handle user dragging
       this.addInputListener( new DragListener( {

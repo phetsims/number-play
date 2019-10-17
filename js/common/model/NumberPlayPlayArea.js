@@ -14,7 +14,6 @@ define( require => {
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Easing = require( 'TWIXT/Easing' );
-  const merge = require( 'PHET_CORE/merge' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const ObservableArray = require( 'AXON/ObservableArray' );
@@ -41,11 +40,9 @@ define( require => {
 
     /**
      * @param {NumberProperty} currentNumberProperty
-     * @param {Object} [options]
+     * @param {number} objectMaxScale - see PlayObject for doc
      */
-    constructor( currentNumberProperty, options ) {
-
-      options = merge( {}, options );
+    constructor( currentNumberProperty, objectMaxScale ) {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -55,12 +52,21 @@ define( require => {
         size: BUCKET_SIZE
       } );
 
+      const initialSpots = [
+        new Vector2( -BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 ),
+        new Vector2( 0, BUCKET_SIZE.height ),
+        new Vector2( BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 )
+      ];
+      let spotIndex = 0;
+
       // @public (read-only) - all of the playObjects being managed
       this.playObjects = [];
       _.times( currentNumberProperty.range.max, () => {
-        const x = phet.joist.random.nextDouble() * BUCKET_SIZE.width / 2 - BUCKET_SIZE.width / 4;
-        const y = phet.joist.random.nextDouble() * BUCKET_SIZE.height / 2 + BUCKET_SIZE.height / 2;
-        this.playObjects.push( new PlayObject( new Vector2( x, y ), new Dimension2( 40, 40 ) ) );
+        this.playObjects.push( new PlayObject( initialSpots[ spotIndex ].copy(), new Dimension2( 40, 40 ), objectMaxScale ) );
+        ++spotIndex;
+        if ( spotIndex > initialSpots.length - 1 ) {
+          spotIndex = 0;
+        }
       } );
 
       // @private - all playObjects that are currently in the play area
@@ -124,6 +130,7 @@ define( require => {
         translateAnimation.start();
       }
 
+      playObject.scaleProperty.value = playObject.scaleProperty.range.min;
     }
 
     /**
@@ -175,14 +182,22 @@ define( require => {
           playObject.positionProperty.value.distance( destinationPosition ) / ANIMATION_SPEED,
           MAX_ANIMATION_TIME
         );
-        const animationOptions = {
-          property: playObject.positionProperty,
-          to: destinationPosition,
+        const translateAndScaleAnimation = new Animation( {
           duration: animationDuration,
-          easing: Easing.CUBIC_IN_OUT
-        };
-        const translateAnimation = new Animation( animationOptions );
-        translateAnimation.start();
+          targets: [ {
+            property: playObject.positionProperty,
+            to: destinationPosition,
+            easing: Easing.CUBIC_IN_OUT
+          }, {
+            property: playObject.scaleProperty,
+            to: playObject.scaleProperty.range.max,
+            from: 1
+          } ]
+        } );
+        translateAndScaleAnimation.start();
+      }
+      else {
+        playObject.scaleProperty.value = playObject.scaleProperty.range.max;
       }
 
       // add playObject to playObjectsInPlayArea if not already in the list
