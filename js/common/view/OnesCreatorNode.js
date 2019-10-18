@@ -1,4 +1,4 @@
-// Copyright 2016-2019, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * Node that contains a 1, which can be clicked/dragged to create draggable paper numbers. This file was

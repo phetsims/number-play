@@ -1,4 +1,4 @@
-// Copyright 2015-2019, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * Play area node for the OnesAccordionBox. This file was copied from make-a-ten/common/view/MakeATenCommonView.js and
