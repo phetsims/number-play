@@ -63,7 +63,7 @@ define( require => {
 
       const onesPlayAreaNode = new OnesPlayAreaNode(
         onesPlayArea,
-        playAreaViewBounds.dilatedX( -10 ),
+        playAreaViewBounds,
         translateMVT
       );
       contentNode.addChild( onesPlayAreaNode );
