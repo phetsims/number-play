@@ -27,12 +27,11 @@ define( require => {
   class ObjectsAccordionBox extends AccordionBox {
 
     /**
-     * @param {NumberProperty} currentNumberProperty
      * @param {number} height - the height of this accordion box
      * @param {NumberPlayPlayArea} objectsPlayArea
      * @param {Object} [options]
      */
-    constructor( currentNumberProperty, height, objectsPlayArea, config ) {
+    constructor( height, objectsPlayArea, config ) {
 
       config = merge( {
         titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
@@ -66,7 +65,6 @@ define( require => {
 
       const objectsPlayAreaNode = new NumberPlayPlayAreaNode(
         objectsPlayArea,
-        currentNumberProperty,
         playAreaModelBounds,
         translateMVT
       );

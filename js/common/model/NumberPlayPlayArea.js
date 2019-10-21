@@ -46,6 +46,9 @@ define( require => {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
+      // @private
+      this.currentNumberProperty = currentNumberProperty;
+
       // @public (read-only)
       this.bucket = new Bucket( {
         baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
@@ -72,11 +75,6 @@ define( require => {
       // @private - all playObjects that are currently in the play area
       this.playObjectsInPlayArea = new ObservableArray();
 
-      // if a playObject is added or removed from the play area, update the current number
-      this.playObjectsInPlayArea.lengthProperty.link( length => {
-        currentNumberProperty.value = length;
-      } );
-
       // if the current number changes, add or remove playObjects from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
         console.log( currentNumber, previousNumber );
@@ -101,6 +99,14 @@ define( require => {
           } );
         }
       } );
+    }
+
+    /**
+     * Updates the value of currentNumberProperty to be the number of playObjects in the play area. Should only be
+     * called when user-controlled state of one of the playObjects changes.
+     */
+    updateCurrentNumberProperty() {
+      this.currentNumberProperty.value = this.playObjectsInPlayArea.lengthProperty.value;
     }
 
     /**

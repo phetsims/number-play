@@ -129,7 +129,6 @@ define( require => {
 
       // create and add the ObjectsAccordionBox
       const objectsAccordionBox = new ObjectsAccordionBox(
-        model.currentNumberProperty,
         config.lowerAccordionBoxHeight,
         model.objectsPlayArea, merge( {
           expandedProperty: this.objectsAccordionBoxExpandedProperty

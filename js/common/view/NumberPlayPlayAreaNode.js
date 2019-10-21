@@ -19,11 +19,10 @@ define( require => {
 
     /**
      * @param {NumberPlayPlayArea} playArea
-     * @param {NumberProperty} currentNumberProperty
      * @param {Bounds2} playAreaBounds
      * @param {ModelViewTransform2} translateMVT
      */
-    constructor( playArea, currentNumberProperty, playAreaBounds, translateMVT ) {
+    constructor( playArea, playAreaBounds, translateMVT ) {
       super();
 
       // create and add the bucket back
@@ -59,6 +58,7 @@ define( require => {
                 playObjectsStorageLayer.addChild( playObjectNode );
               }
               playArea.returnPlayObjectToBucket( playObject );
+              playArea.updateCurrentNumberProperty();
             }
           }
           else {
@@ -69,6 +69,7 @@ define( require => {
             if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
                  bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) {
               playArea.addPlayObjectToPlayArea( playObject );
+              playArea.updateCurrentNumberProperty();
             }
           }
         } );
