@@ -41,7 +41,7 @@ define( require => {
      * @param {number} dt
      */
     step( dt ) {
-      this.onesPlayArea.step();
+      this.onesPlayArea.step( dt );
     }
 
     /**

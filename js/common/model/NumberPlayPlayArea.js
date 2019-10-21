@@ -81,15 +81,9 @@ define( require => {
         if ( currentNumber < this.playObjectsInPlayArea.lengthProperty.value ) {
           assert && assert( currentNumber < previousNumber );
 
-          const playObjectsToReturn = previousNumber - currentNumber;
-
-          // TODO: workaround for reset, which causes a reentrant problem without this guard. However, this is not a
-          // TODO: long term solution, as playObjects can still animate back when they shouldn't and vice versa.
-          if ( !( playObjectsToReturn > 1 && currentNumber === 0 ) ) {
-            _.times( playObjectsToReturn, () => {
+            _.times( previousNumber - currentNumber, () => {
               this.findPlayObjectToReturnToBucket();
             } );
-          }
         }
         else if ( currentNumber > this.playObjectsInPlayArea.lengthProperty.value ) {
           assert && assert( currentNumber > previousNumber );

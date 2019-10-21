@@ -15,6 +15,7 @@ define( require => {
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
   const ObservableArray = require( 'AXON/ObservableArray' );
 
   class OnesPlayArea {
@@ -24,14 +25,15 @@ define( require => {
      */
     constructor( currentNumberProperty ) {
 
-      // @public (read-only)
-      this.bucket = new Bucket( {
-        baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
-        size: NumberPlayConstants.BUCKET_SIZE
-      } );
+      assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
+
+      // @private
+      this.currentNumberProperty = currentNumberProperty;
 
       // @public {NumberProperty} - The total sum of the current numbers
-      this.sumProperty = currentNumberProperty;
+      this.sumProperty = new NumberProperty( currentNumberProperty.range.min, {
+        range: currentNumberProperty.range
+      } );
 
       // @public {ObservableArray.<PaperNumber>} - Numbers in play that can be interacted with.
       this.paperNumbers = new ObservableArray();
@@ -48,6 +50,20 @@ define( require => {
       this.paperNumbers.addItemRemovedListener( paperNumber => {
         paperNumber.numberValueProperty.unlink( calculateTotalListener );
       } );
+
+      // @public (read-only)
+      this.bucket = new Bucket( {
+        baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
+        size: NumberPlayConstants.BUCKET_SIZE
+      } );
+    }
+
+    /**
+     * Updates the value of currentNumberProperty to be the sum of paperNumbers in the play area. Should only be
+     * called when user-controlled state of one of the paperNumbers changes.
+     */
+    updateCurrentNumberProperty() {
+      this.currentNumberProperty.value = this.sumProperty.value;
     }
 
     /**

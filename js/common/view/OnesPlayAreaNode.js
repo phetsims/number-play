@@ -118,9 +118,11 @@ define( require => {
 
       // Add it and lookup the related node.
       this.playArea.addPaperNumber( paperNumber );
-
       const paperNumberNode = this.findPaperNumberNode( paperNumber );
       paperNumberNode.startSyntheticDrag( event );
+
+      // a user grabbed a new number, so update the sim's currentNumberProperty
+      this.playArea.updateCurrentNumberProperty();
     }
 
     /**
@@ -297,6 +299,13 @@ define( require => {
 
       // Return it to the panel if it's been dropped in the panel.
       if ( this.isNumberInReturnZone( paperNumber ) ) {
+
+        // Remove the original paper number (as we have are about to add its components to return).
+        this.playArea.removePaperNumber( paperNumber );
+
+        // a user returned a number in play, so update the sim's currentNumberProperty
+        this.playArea.updateCurrentNumberProperty();
+
         const baseNumbers = paperNumber.baseNumbers;
 
         // Split it into a PaperNumber for each of its base numbers, and animate them to their targets in the
@@ -314,9 +323,6 @@ define( require => {
           // Add the new base paper number
           this.playArea.addPaperNumber( basePaperNumber );
         }
-
-        // Remove the original paper number (as we have added its components).
-        this.playArea.removePaperNumber( paperNumber );
       }
     }
   }
