@@ -209,7 +209,7 @@ define( require => {
           return; // A bit weird, but no need to relayer or try combining with others?
         }
         else {
-          assert && assert( false, 'repelling numbers should not be possible');
+          assert && assert( false, 'repelling numbers should not be possible' );
         }
       }
 

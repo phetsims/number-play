@@ -141,6 +141,7 @@ define( require => {
 
     /**
      * Finds the closest paperNumber to their origin and animates it back over the bucket.
+     * TODO: make this work for paperNumbers with values greater than 1
      *
      * @param paperNumberOrigin
      * @private
@@ -148,17 +149,25 @@ define( require => {
     returnPaperNumberToBucket( paperNumberOrigin ) {
       assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
 
-      let paperNumberClosestToBucket = this.paperNumbers.get( 0 );
+      // TODO: should bail out after finding one valid one
+      let validPaperNumberClosestToBucket = null;
+      this.paperNumbers.forEach( paperNumber => {
+        if ( paperNumber.numberValueProperty.value > 0 ) {
+          validPaperNumberClosestToBucket = paperNumber;
+        }
+      } );
 
       // look at each paperNumberInPlayArea to find the closest one to the bucket
       this.paperNumbers.forEach( paperNumber => {
         if ( paperNumber.positionProperty.value.distance( paperNumberOrigin ) <
-             paperNumberClosestToBucket.positionProperty.value.distance( paperNumberOrigin ) ) {
-          paperNumberClosestToBucket = paperNumber;
+             validPaperNumberClosestToBucket.positionProperty.value.distance( paperNumberOrigin ) &&
+             paperNumber.numberValueProperty.value > 0 ) {
+          validPaperNumberClosestToBucket = paperNumber;
         }
       } );
 
-      paperNumberClosestToBucket.setDestination( paperNumberOrigin, true );
+      validPaperNumberClosestToBucket.setDestination( paperNumberOrigin, true );
+      validPaperNumberClosestToBucket.numberValueProperty.value = 0;
     }
 
     /**
