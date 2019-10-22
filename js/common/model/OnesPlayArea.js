@@ -78,15 +78,11 @@ define( require => {
       // if the current number changes, add or remove paperNumbers from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
         if ( currentNumber < this.sumProperty.value ) {
-          assert && assert( currentNumber < previousNumber );
-
           _.times( previousNumber - currentNumber, () => {
             this.returnPaperNumberToBucket( paperNumberOrigin );
           } );
         }
         else if ( currentNumber > this.sumProperty.value ) {
-          assert && assert( currentNumber > previousNumber );
-
           _.times( currentNumber - previousNumber, () => {
             this.createPaperNumberFromBucket( paperNumberOrigin );
           } );

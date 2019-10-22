@@ -78,15 +78,11 @@ define( require => {
       // if the current number changes, add or remove playObjects from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
         if ( currentNumber < this.playObjectsInPlayArea.lengthProperty.value ) {
-          assert && assert( currentNumber < previousNumber );
-
             _.times( previousNumber - currentNumber, () => {
               this.findPlayObjectToReturnToBucket();
             } );
         }
         else if ( currentNumber > this.playObjectsInPlayArea.lengthProperty.value ) {
-          assert && assert( currentNumber > previousNumber );
-
           _.times( currentNumber - previousNumber, () => {
             this.findPlayObjectToAddToPlayArea();
           } );

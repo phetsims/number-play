@@ -17,7 +17,6 @@ define( require => {
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const NumberPlayQueryParameters = require( 'NUMBER_PLAY/common/NumberPlayQueryParameters' );
   const PaperNumber = require( 'MAKE_A_TEN/make-a-ten/common/model/PaperNumber' );
   const Vector2 = require( 'DOT/Vector2' );
 
@@ -58,23 +57,21 @@ define( require => {
           return sum + NUMBER_VALUE <= maxSum;
         } ).linkAttribute( node, 'visible' );
 
-        if ( NumberPlayQueryParameters.onesArePickable ) {
-          node.addInputListener( {
-            down: function( event ) {
-              if ( !event.canStartPress() ) { return; }
+        node.addInputListener( {
+          down: function( event ) {
+            if ( !event.canStartPress() ) { return; }
 
-              // We want this relative to the screen view, so it is guaranteed to be the proper view coordinates.
-              const viewPosition = playAreaNode.globalToLocalPoint( event.pointer.point );
-              const paperNumber = new PaperNumber( NUMBER_VALUE, new Vector2( 0, 0 ) );
+            // We want this relative to the screen view, so it is guaranteed to be the proper view coordinates.
+            const viewPosition = playAreaNode.globalToLocalPoint( event.pointer.point );
+            const paperNumber = new PaperNumber( NUMBER_VALUE, new Vector2( 0, 0 ) );
 
-              // Once we have the number's bounds, we set the position so that our pointer is in the middle of the drag target.
-              paperNumber.setDestination( viewPosition.minus( paperNumber.getDragTargetOffset() ), false );
+            // Once we have the number's bounds, we set the position so that our pointer is in the middle of the drag target.
+            paperNumber.setDestination( viewPosition.minus( paperNumber.getDragTargetOffset() ), false );
 
-              // Create and start dragging the new paper number node
-              playAreaNode.addAndDragNumber( event, paperNumber );
-            }
-          } );
-        }
+            // Create and start dragging the new paper number node
+            playAreaNode.addAndDragNumber( event, paperNumber );
+          }
+        } );
 
         return node;
       }
