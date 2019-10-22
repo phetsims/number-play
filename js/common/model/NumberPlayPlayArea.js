@@ -111,6 +111,7 @@ define( require => {
      */
     returnPlayObjectToBucket( playObject ) {
       this.playObjectsInPlayArea.contains( playObject ) && this.playObjectsInPlayArea.remove( playObject );
+      playObject.animation && playObject.animation.stop();
 
       if ( !playObject.positionProperty.value.equals( playObject.positionProperty.initialValue ) ) {
 
@@ -119,17 +120,35 @@ define( require => {
           playObject.positionProperty.value.distance( playObject.positionProperty.initialValue ) / ANIMATION_SPEED,
           MAX_ANIMATION_TIME
         );
-        const animationOptions = {
-          property: playObject.positionProperty,
-          to: playObject.positionProperty.initialValue,
+        playObject.animation = new Animation( {
           duration: animationDuration,
-          easing: Easing.CUBIC_IN_OUT
-        };
-        const translateAnimation = new Animation( animationOptions );
-        translateAnimation.start();
+          targets: [ {
+            property: playObject.positionProperty,
+            to: playObject.positionProperty.initialValue,
+            easing: Easing.CUBIC_IN_OUT
+          }, {
+            property: playObject.scaleProperty,
+            to: playObject.scaleProperty.range.min,
+            from: playObject.scaleProperty.value
+          } ]
+        } );
+        playObject.animation.start();
+        playObject.animation.finishEmitter.addListener( function() {
+          playObject.animation = null;
+        } );
       }
-
-      playObject.scaleProperty.value = playObject.scaleProperty.range.min;
+      else {
+        playObject.animation = new Animation( {
+          property: playObject.scaleProperty,
+          to: playObject.scaleProperty.range.min,
+          from: playObject.scaleProperty.value,
+          duration: MAX_ANIMATION_TIME / 2
+        } );
+        playObject.animation.start();
+        playObject.animation.finishEmitter.addListener( function() {
+          playObject.animation = null;
+        } );
+      }
     }
 
     /**
@@ -181,7 +200,13 @@ define( require => {
           playObject.positionProperty.value.distance( destinationPosition ) / ANIMATION_SPEED,
           MAX_ANIMATION_TIME
         );
-        const translateAndScaleAnimation = new Animation( {
+
+        // finish any running animations. this is needed so that if a playObject is removed and then quickly added,
+        // the added playObject animates out from the bucket and not its previous location in the play area
+        if ( playObject.animation && playObject.animation.runningProperty.value ) {
+          playObject.animation.step( MAX_ANIMATION_TIME );
+        }
+        playObject.animation = new Animation( {
           duration: animationDuration,
           targets: [ {
             property: playObject.positionProperty,
@@ -190,12 +215,19 @@ define( require => {
           }, {
             property: playObject.scaleProperty,
             to: playObject.scaleProperty.range.max,
-            from: 1
+            from: playObject.scaleProperty.value
           } ]
         } );
-        translateAndScaleAnimation.start();
+        playObject.animation.start();
+        playObject.animation.finishEmitter.addListener( function() {
+          playObject.animation = null;
+        } );
       }
       else {
+        if ( playObject.animation && playObject.animation.runningProperty.value ) {
+          playObject.animation.stop();
+          playObject.animation = null;
+        }
         playObject.scaleProperty.value = playObject.scaleProperty.range.max;
       }
 
@@ -239,6 +271,7 @@ define( require => {
       for ( let i = this.playObjects.length - 1; i >= 0; i-- ) {
         if ( !this.playObjectsInPlayArea.contains( this.playObjects[ i ] ) ) {
           playObjectToAddToPlayArea = this.playObjects[ i ];
+          break;
         }
       }
 

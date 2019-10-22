@@ -35,6 +35,9 @@ define( require => {
         range: new Range( 1, objectMaxScale )
       } );
 
+      // @public {null|Animation} - store any animations for this playObject so we can check if one is still running
+      this.animation = null;
+
       // @public (read-only) {Dimension2}
       this.size = size;
     }

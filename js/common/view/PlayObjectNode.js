@@ -9,7 +9,6 @@ define( function( require ) {
   'use strict';
 
   // modules
-  const Animation = require( 'TWIXT/Animation' );
   const Image = require( 'SCENERY/nodes/Image' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Node = require( 'SCENERY/nodes/Node' );
@@ -19,9 +18,6 @@ define( function( require ) {
 
   // images
   const dogImage = require( 'image!NUMBER_PLAY/dog.png' );
-
-  // constants
-  const SCALE_ANIMATION_DURATION = 0.3; // in seconds, empirically determined
 
   class PlayObjectNode extends Node {
 
@@ -46,22 +42,9 @@ define( function( require ) {
         this.translation = modelViewTransform.modelToViewPosition( position );
       } );
 
-      // update the scale factor
-      playObject.scaleProperty.lazyLink( ( newScale, oldScale ) => {
-        if ( newScale > oldScale ) {
-
-          // the user has grabbed the object from the bucket, blow up with no animation
-          this.setScaleMagnitude( newScale );
-        }
-        else {
-          const scaleDownAnimation = new Animation( {
-            setValue: value => { this.setScaleMagnitude( value ); },
-            from: oldScale,
-            to: newScale,
-            duration: SCALE_ANIMATION_DURATION
-          } );
-          scaleDownAnimation.start();
-        }
+      // update the scale factor when it changes
+      playObject.scaleProperty.lazyLink( scale => {
+        this.setScaleMagnitude( scale );
       } );
 
       // add a DragListener to handle user dragging

@@ -76,7 +76,6 @@ define( require => {
 
       // if the current number changes, add or remove paperNumbers from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
-        console.log( currentNumber, previousNumber );
         if ( currentNumber < this.sumProperty.value ) {
           assert && assert( currentNumber < previousNumber );
 
