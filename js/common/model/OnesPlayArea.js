@@ -140,8 +140,8 @@ define( require => {
     }
 
     /**
-     * Finds the closest paperNumber to their origin and animates it back over the bucket.
-     * TODO: make this work for paperNumbers with values greater than 1
+     * Finds the closest paperNumber to their origin and animates it back over the bucket. If only paperNumbers with
+     * values greater than one exist, break them up and send their components with values of one back.
      *
      * @param paperNumberOrigin
      * @private
@@ -149,25 +149,43 @@ define( require => {
     returnPaperNumberToBucket( paperNumberOrigin ) {
       assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
 
-      // TODO: should bail out after finding one valid one
-      let validPaperNumberClosestToBucket = null;
-      this.paperNumbers.forEach( paperNumber => {
-        if ( paperNumber.numberValueProperty.value > 0 ) {
-          validPaperNumberClosestToBucket = paperNumber;
+      // sort by lowest value first, then by proximity to the bucket
+      const sortedPaperNumbers = _.sortBy( this.paperNumbers.getArray(), [
+        paperNumber => {
+          return paperNumber.numberValueProperty.value;
+        },
+        paperNumber => {
+          return paperNumber.positionProperty.value.distance( paperNumberOrigin );
         }
+      ] );
+
+      // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket
+      _.remove( sortedPaperNumbers, paperNumber => {
+        return paperNumber.numberValueProperty.value === 0;
       } );
 
-      // look at each paperNumberInPlayArea to find the closest one to the bucket
-      this.paperNumbers.forEach( paperNumber => {
-        if ( paperNumber.positionProperty.value.distance( paperNumberOrigin ) <
-             validPaperNumberClosestToBucket.positionProperty.value.distance( paperNumberOrigin ) &&
-             paperNumber.numberValueProperty.value > 0 ) {
-          validPaperNumberClosestToBucket = paperNumber;
-        }
-      } );
+      let paperNumberToReturn = sortedPaperNumbers.shift();
 
-      validPaperNumberClosestToBucket.setDestination( paperNumberOrigin, true );
-      validPaperNumberClosestToBucket.numberValueProperty.value = 0;
+      // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
+      // 1 to return instead
+      if ( paperNumberToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
+        const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
+        paperNumberToReturn.changeNumber( amountRemaining );
+
+        const singlePaperNumberToReturn = new PaperNumber(
+          NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
+          paperNumberToReturn.positionProperty.value
+        );
+        paperNumberToReturn = singlePaperNumberToReturn;
+        this.addPaperNumber( paperNumberToReturn );
+      }
+
+      // send it back to its origin and set its value to 0. paperNumbers aren't removed from paperNumbers until they get
+      // back to the bucket, but we don't want them to count towards the sum while they're on their way to the bucket.
+      // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
+      // time.
+      paperNumberToReturn.setDestination( paperNumberOrigin, true );
+      paperNumberToReturn.numberValueProperty.value = 0;
     }
 
     /**
