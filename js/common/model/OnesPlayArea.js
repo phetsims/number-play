@@ -17,13 +17,30 @@ define( require => {
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const ObservableArray = require( 'AXON/ObservableArray' );
+  const PaperNumber = require( 'MAKE_A_TEN/make-a-ten/common/model/PaperNumber' );
+  const Vector2 = require( 'DOT/Vector2' );
+
+  // TODO: These shouldn't be constants since the ones play area is different sizes between screens
+  // min and max distances that playObjects being added to the play area via animation can travel. empirically
+  // determined to be small enough to fit all needed cases. all in screen coordinates.
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -140;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 140;
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -80;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -230;
+
+  // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
+  // play area, in screen coordinates
+  const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
   class OnesPlayArea {
 
     /**
      * @param {NumberProperty} currentNumberProperty
+     * @param {Vector2} paperNumberOrigin - origin of where paper numbers are created, but only used when the model is
+     * responding to changes in currentNumberProperty, not when a user drags a paperNumber out of the bucket
+     * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
      */
-    constructor( currentNumberProperty ) {
+    constructor( currentNumberProperty, paperNumberOrigin ) {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -56,6 +73,93 @@ define( require => {
         baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
         size: NumberPlayConstants.BUCKET_SIZE
       } );
+
+      // if the current number changes, add or remove paperNumbers from the play area
+      currentNumberProperty.link( ( currentNumber, previousNumber ) => {
+        console.log( currentNumber, previousNumber );
+        if ( currentNumber < this.sumProperty.value ) {
+          assert && assert( currentNumber < previousNumber );
+
+          _.times( previousNumber - currentNumber, () => {
+            this.returnPaperNumberToBucket( paperNumberOrigin );
+          } );
+        }
+        else if ( currentNumber > this.sumProperty.value ) {
+          assert && assert( currentNumber > previousNumber );
+
+          _.times( currentNumber - previousNumber, () => {
+            this.createPaperNumberFromBucket( paperNumberOrigin );
+          } );
+        }
+      } );
+    }
+
+    /**
+     * Creates a paperNumber and animates it to a random open place in the play area.
+     *
+     * @param paperNumberOrigin
+     * @private
+     */
+    createPaperNumberFromBucket( paperNumberOrigin ) {
+      let translateVector = null;
+      let findCount = 0;
+
+      const paperNumber = new PaperNumber( NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE, paperNumberOrigin );
+
+      // looks for positions that are not overlapping with other playObjects in the play area
+      while ( !translateVector ) {
+        const possibleTranslateX = phet.joist.random.nextDouble() *
+                                   ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X ) +
+                                   MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X;
+        const possibleTranslateY = phet.joist.random.nextDouble() *
+                                   ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y ) +
+                                   MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y;
+        let spotIsAvailable = true;
+        const numberOfPaperNumbersInPlayArea = this.paperNumbers.lengthProperty.value;
+
+        // compare the proposed destination to the position of every playObject in the play area. use c-style loop for
+        // best performance, since this loop is nested
+        for ( let i = 0; i < numberOfPaperNumbersInPlayArea; i++ ) {
+          if ( this.paperNumbers.get( i ).positionProperty.value.distance(
+            paperNumber.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) )
+               < MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS ) {
+            spotIsAvailable = false;
+          }
+        }
+
+        // bail if taking a while to find a spot. 1000 empirically determined.
+        if ( ++findCount > 1000 ) {
+          spotIsAvailable = true;
+        }
+        translateVector = spotIsAvailable && new Vector2( possibleTranslateX, possibleTranslateY );
+      }
+
+      const destinationPosition = paperNumber.positionProperty.value.plus( translateVector );
+
+      paperNumber.setDestination( destinationPosition, true );
+      this.addPaperNumber( paperNumber );
+    }
+
+    /**
+     * Finds the closest paperNumber to their origin and animates it back over the bucket.
+     *
+     * @param paperNumberOrigin
+     * @private
+     */
+    returnPaperNumberToBucket( paperNumberOrigin ) {
+      assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
+
+      let paperNumberClosestToBucket = this.paperNumbers.get( 0 );
+
+      // look at each paperNumberInPlayArea to find the closest one to the bucket
+      this.paperNumbers.forEach( paperNumber => {
+        if ( paperNumber.positionProperty.value.distance( paperNumberOrigin ) <
+             paperNumberClosestToBucket.positionProperty.value.distance( paperNumberOrigin ) ) {
+          paperNumberClosestToBucket = paperNumber;
+        }
+      } );
+
+      paperNumberClosestToBucket.setDestination( paperNumberOrigin, true );
     }
 
     /**

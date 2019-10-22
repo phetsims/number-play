@@ -16,9 +16,13 @@ define( require => {
   const DerivedProperty = require( 'AXON/DerivedProperty' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberPlayQueryParameters = require( 'NUMBER_PLAY/common/NumberPlayQueryParameters' );
   const PaperNumber = require( 'MAKE_A_TEN/make-a-ten/common/model/PaperNumber' );
   const Vector2 = require( 'DOT/Vector2' );
+
+  // constants
+  const NUMBER_VALUE = NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
 
   class OnesCreatorNode extends Node {
 
@@ -36,13 +40,12 @@ define( require => {
       // @private {MakeATenExploreScreenView}
       this.playAreaNode = playAreaNode;
 
-      function createTarget( place ) {
-        const numberValue = Math.pow( 10, place );
+      function createTarget() {
         const node = new Node( {
           cursor: 'pointer',
           // empirically determined stacking
           children: [ new Vector2( -8, -8 ), new Vector2( 0, 0 ) ].map( function( offset ) {
-            const paperNode = new BaseNumberNode( new BaseNumber( 1, place ), 1 );
+            const paperNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
             paperNode.scale( 0.64, 0.55 );
             paperNode.translation = offset;
             return paperNode;
@@ -52,7 +55,7 @@ define( require => {
 
         // We need to be disabled if adding this number would increase the sum past the maximum sum.
         new DerivedProperty( [ sumProperty ], function( sum ) {
-          return sum + numberValue <= maxSum;
+          return sum + NUMBER_VALUE <= maxSum;
         } ).linkAttribute( node, 'visible' );
 
         if ( NumberPlayQueryParameters.onesArePickable ) {
@@ -62,7 +65,7 @@ define( require => {
 
               // We want this relative to the screen view, so it is guaranteed to be the proper view coordinates.
               const viewPosition = playAreaNode.globalToLocalPoint( event.pointer.point );
-              const paperNumber = new PaperNumber( numberValue, new Vector2( 0, 0 ) );
+              const paperNumber = new PaperNumber( NUMBER_VALUE, new Vector2( 0, 0 ) );
 
               // Once we have the number's bounds, we set the position so that our pointer is in the middle of the drag target.
               paperNumber.setDestination( viewPosition.minus( paperNumber.getDragTargetOffset() ), false );
@@ -77,7 +80,7 @@ define( require => {
       }
 
       // @private {Node}
-      this.oneTarget = createTarget( 0 );
+      this.oneTarget = createTarget();
       this.addChild( this.oneTarget );
     }
 

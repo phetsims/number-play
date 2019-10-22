@@ -30,7 +30,7 @@ define( require => {
   const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -90;
   const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 90;
   const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 50;
-  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 320;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 310;
 
   // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
   // play area, in screen coordinates
@@ -77,7 +77,6 @@ define( require => {
 
       // if the current number changes, add or remove playObjects from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
-        console.log( currentNumber, previousNumber );
         if ( currentNumber < this.playObjectsInPlayArea.lengthProperty.value ) {
           assert && assert( currentNumber < previousNumber );
 

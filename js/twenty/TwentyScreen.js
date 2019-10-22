@@ -16,6 +16,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // strings
   const screenTwentyString = require( 'string!NUMBER_PLAY/screen.twenty' );
@@ -68,7 +69,7 @@ define( require => {
       };
 
       super(
-        () => new NumberPlayModel( NumberPlayConstants.TWENTY, 1.4, tandem.createTandem( 'model' ) ),
+        () => new NumberPlayModel( NumberPlayConstants.TWENTY, 1.4, new Vector2( 214, 286 ), tandem.createTandem( 'model' ) ),
         model => new NumberPlayScreenView( model, screenViewConfig ),
         screenOptions
       );

@@ -19,6 +19,8 @@ define( require => {
     TEN: 10,
     TWENTY: 20,
 
+    PAPER_NUMBER_INITIAL_VALUE: 1, // the initial value of every created paperNumber
+
     // accordion box sizing, all of which is defined here for convenience. values come from the screen design asset.
 
     // sizing for the 'upper' accordion boxes, which include the 'Number', 'Numeral', and 'Ten Frame' accordion boxes
