@@ -221,10 +221,13 @@ define( require => {
 
         if ( ArithmeticRules.canAddNumbers( draggedNumberValue, droppedNumberValue ) ) {
           this.playArea.collapseNumberModels( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
-          return; // A bit weird, but no need to relayer or try combining with others?
+          return; // No need to re-layer or try combining with others
         }
         else {
-          assert && assert( false, 'repelling numbers should not be possible' );
+
+          // repel numbers - show rejection
+          this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
+          return; // If repelled, no need to check for overlapping bits
         }
       }
 

@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
+  const MakeATenConstants = require( 'MAKE_A_TEN/make-a-ten/common/MakeATenConstants' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -257,6 +258,32 @@ define( require => {
       this.removePaperNumber( numberToRemove );
       numberToChange.changeNumber( newValue );
       numberToChange.setConstrainedDestination( availableModelBounds, numberToChange.positionProperty.value, false );
+    }
+
+    /**
+     * Repels two paperNumbers that could not be combined
+     *
+     * @param {Bounds2} availableModelBounds - Constrain the location to be inside these bounds
+     * @param {PaperNumber} paperNumber1
+     * @param {PaperNumber} paperNumber2
+     */
+    repelAway( availableModelBounds, paperNumber1, paperNumber2 ) {
+
+      // Determine which are 'left' and 'right'
+      const isPaper1Left = paperNumber1.positionProperty.value.x < paperNumber2.positionProperty.value.x;
+      const leftPaperNumber = isPaper1Left ? paperNumber1 : paperNumber2;
+      const rightPaperNumber = isPaper1Left ? paperNumber2 : paperNumber1;
+
+      // Determine offsets
+      const repelLeftOffset = -MakeATenConstants.MOVE_AWAY_DISTANCE[ leftPaperNumber.digitLength ];
+      const repelRightOffset = MakeATenConstants.MOVE_AWAY_DISTANCE[ rightPaperNumber.digitLength ];
+      const leftPosition = leftPaperNumber.positionProperty.value.plusXY( repelLeftOffset, 0 );
+      const rightPosition = rightPaperNumber.positionProperty.value.plusXY( repelRightOffset, 0 );
+
+      // Kick off the animation to the destination
+      const animateToDestination = true;
+      leftPaperNumber.setConstrainedDestination( availableModelBounds, leftPosition, animateToDestination );
+      rightPaperNumber.setConstrainedDestination( availableModelBounds, rightPosition, animateToDestination );
     }
 
     /**
