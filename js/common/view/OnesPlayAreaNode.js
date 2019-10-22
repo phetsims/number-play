@@ -136,6 +136,11 @@ define( require => {
       const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
         this.addAndDragNumberCallback, this.tryToCombineNumbersCallback );
 
+      // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
+      paperNumber.numberValueProperty.link( numberValue => {
+        paperNumberNode.pickable = numberValue > 0;
+      } );
+
       this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ] = paperNumberNode;
       this.paperNumberLayerNode.addChild( paperNumberNode );
       paperNumberNode.attachListeners();
@@ -194,6 +199,16 @@ define( require => {
       const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
       const draggedNumberValue = draggedPaperNumber.numberValueProperty.value;
       const allPaperNumberNodes = this.paperNumberLayerNode.children;
+
+      // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket and should not
+      // be tried to combined with. return if no paperNumbers are left or if the draggedPaperNumber's value is 0
+      _.remove( allPaperNumberNodes, paperNumberNode => {
+        return paperNumberNode.paperNumber.numberValueProperty.value === 0;
+      } );
+      if( allPaperNumberNodes.length === 0 || draggedPaperNumber.numberValueProperty.value === 0 ) {
+        return;
+      }
+
       const droppedNodes = draggedNode.findAttachableNodes( allPaperNumberNodes );
 
       // Check them in reverse order (the one on the top should get more priority)
