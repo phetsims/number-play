@@ -82,36 +82,19 @@ define( require => {
     }
 
     /**
-     * Given a specified number of digits for a paper number, return the view coordinates of the closest matching
-     * target, so that it can animate back to this location.
+     * Return the view coordinates of the target.
      * @public
      *
-     * @param {number} digits
      * @returns {Vector2}
      */
-    getOriginLocation( digits ) {
-      let target;
-      switch( digits ) {
-        case 1:
-          target = this.oneTarget;
-          break;
-        case 2:
-          target = this.tenTarget;
-          break;
-        case 3:
-          target = this.hundredTarget;
-          break;
-        default:
-          // Probably something big, no better place to send it
-          target = this.hundredTarget;
-      }
+    getOriginLocation() {
 
       // Trail to playAreaNode, not including the playAreaNode
-      let trail = this.playAreaNode.getUniqueLeafTrailTo( target );
+      let trail = this.playAreaNode.getUniqueLeafTrailTo( this.oneTarget );
       trail = trail.slice( 1, trail.length );
 
       // Transformed to view coordinates
-      return trail.localToGlobalPoint( target.localBounds.center );
+      return trail.localToGlobalPoint( this.oneTarget.localBounds.center );
     }
   }
 
