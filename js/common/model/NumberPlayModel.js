@@ -51,8 +51,8 @@ define( require => {
      */
     reset() {
       this.onesPlayArea.reset();
-      this.currentNumberProperty.reset();
       this.objectsPlayArea.reset();
+      this.currentNumberProperty.reset();
     }
   }
 

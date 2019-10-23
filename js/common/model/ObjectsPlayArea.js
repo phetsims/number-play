@@ -298,6 +298,7 @@ define( require => {
         playObject.reset();
       } );
       this.playObjectsInPlayArea.clear();
+      this.playObjectTypeProperty.reset();
     }
   }
 
