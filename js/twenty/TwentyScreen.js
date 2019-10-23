@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Dimension2 = require( 'DOT/Dimension2' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
@@ -38,15 +39,15 @@ define( require => {
         wordAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND,
           font: new PhetFont( 54 ),
-          contentXMargin: 24
+          contentXMargin: 24 // empirically determined
         },
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.GREEN_BACKGROUND,
           font: new PhetFont( 76 ),
           arrowButtonConfig: {
-            arrowWidth: 15,
-            arrowHeight: 15,
-            spacing: 5
+            arrowWidth: 15,  // empirically determined
+            arrowHeight: 15, // empirically determined
+            spacing: 5       // empirically determined
           }
         },
         tenFrameAccordionBoxConfig: {
@@ -61,7 +62,9 @@ define( require => {
         objectsAccordionBoxConfig: {
           minWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
           maxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
-          contentWidth: 260 // empirically determined
+          contentWidth: 260,                         // empirically determined
+          radioButtonSize: new Dimension2( 19, 19 ), // empirically determined
+          radioButtonSpacing: 7                      // empirically determined
         },
         upperAccordionBoxHeight: NumberPlayConstants.TWENTY_UPPER_ACCORDION_BOX_HEIGHT,
         lowerAccordionBoxHeight: NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,

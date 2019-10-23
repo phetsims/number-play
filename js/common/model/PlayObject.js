@@ -18,11 +18,15 @@ define( require => {
   class PlayObject {
 
     /**
+     * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
      * @param {Vector2} initialPosition
      * @param {Dimension2} size
      * @param {number} objectMaxScale - the max scale this play object can be increased by
      */
-    constructor( initialPosition, size, objectMaxScale ) {
+    constructor( playObjectTypeProperty, initialPosition, size, objectMaxScale ) {
+
+      // @public {EnumerationProperty.<PlayObjectType>}
+      this.playObjectTypeProperty = playObjectTypeProperty;
 
       // @public {Vector2Property}
       this.positionProperty = new Vector2Property( initialPosition );

@@ -52,7 +52,7 @@ define( require => {
           maxWidth: null  // {number} @required
         },
 
-        // config for ObjectsAccordionBox.
+        // config for ObjectsAccordionBox. see ObjectsAccordionBox for additional fields
         objectsAccordionBoxConfig: {
           minWidth: null, // {number} @required
           maxWidth: null  // {number} @required

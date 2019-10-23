@@ -1,7 +1,7 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * TODO
+ * Node that represents a playObject in the view.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -13,11 +13,22 @@ define( function( require ) {
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const PlayObjectType = require( 'NUMBER_PLAY/common/model/PlayObjectType' );
   const Property = require( 'AXON/Property' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // images
   const dogImage = require( 'image!NUMBER_PLAY/dog.png' );
+  const appleImage = require( 'image!NUMBER_PLAY/apple.png' );
+  const turtleImage = require( 'image!NUMBER_PLAY/turtle.png' );
+  const circleImage = require( 'image!NUMBER_PLAY/circle.png' );
+
+  // convenience map that links playObject types to their corresponding images
+  const mapPlayObjectTypeToImage = {};
+  mapPlayObjectTypeToImage[ PlayObjectType.DOG ] = dogImage;
+  mapPlayObjectTypeToImage[ PlayObjectType.APPLE ] = appleImage;
+  mapPlayObjectTypeToImage[ PlayObjectType.TURTLE ] = turtleImage;
+  mapPlayObjectTypeToImage[ PlayObjectType.CIRCLE ] = circleImage;
 
   class PlayObjectNode extends Node {
 
@@ -29,13 +40,14 @@ define( function( require ) {
     constructor( playObject, playAreaModelBounds, modelViewTransform ) {
       super();
 
-      const dogImageNode = new Image( dogImage, {
-        maxWidth: playObject.size.width,
-        maxHeight: playObject.size.height,
-        cursor: 'pointer'
+      // @private
+      this.playObject = playObject;
+
+      // update the image node when the playObjectType changes
+      playObject.playObjectTypeProperty.link( playObjectType => {
+        this.removeAllChildren();
+        this.addChild( this.createPlayObjectImageNode( playObjectType ) );
       } );
-      dogImageNode.center = Vector2.ZERO;
-      this.addChild( dogImageNode );
 
       // update the offset when the model position changes
       playObject.positionProperty.link( position => {
@@ -61,7 +73,24 @@ define( function( require ) {
         }
       } ) );
     }
+
+    /**
+     * Creates the image for a PlayObjectNode.
+     *
+     * @param {PlayObjectType} PlayObjectType
+     * @returns {Image}
+     */
+    createPlayObjectImageNode( playObjectType ) {
+      const playObjectImageNode = new Image( mapPlayObjectTypeToImage[ playObjectType ], {
+        maxWidth: this.playObject.size.width,
+        maxHeight: this.playObject.size.height,
+        cursor: 'pointer'
+      } );
+      playObjectImageNode.center = Vector2.ZERO;
+      return playObjectImageNode;
+    }
   }
+
 
   return numberPlay.register( 'PlayObjectNode', PlayObjectNode );
 } );

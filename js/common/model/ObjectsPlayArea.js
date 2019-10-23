@@ -14,10 +14,12 @@ define( require => {
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const Easing = require( 'TWIXT/Easing' );
+  const EnumerationProperty = require( 'AXON/EnumerationProperty' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const ObservableArray = require( 'AXON/ObservableArray' );
   const PlayObject = require( 'NUMBER_PLAY/common/model/PlayObject' );
+  const PlayObjectType = require( 'NUMBER_PLAY/common/model/PlayObjectType' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // constants
@@ -25,16 +27,17 @@ define( require => {
   const ANIMATION_SPEED = 200; // in screen coordinates per second
   const MAX_ANIMATION_TIME = 1; // in seconds
 
+  // TODO: make this more general, perhaps relate to bounds used in ObjectsAccordionBox
   // min and max distances that playObjects being added to the play area via animation can travel. empirically
   // determined to be small enough to fit all needed cases. all in screen coordinates.
-  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -90;
-  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 90;
-  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 50;
-  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 310;
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -20;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 190;
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 110;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = 350;
 
   // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
   // play area, in screen coordinates
-  const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
+  const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 70;
 
   class ObjectsPlayArea {
 
@@ -55,6 +58,9 @@ define( require => {
         size: BUCKET_SIZE
       } );
 
+      // @public - the current type of playObject being displayed
+      this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+
       const initialSpots = [
         new Vector2( -BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 ),
         new Vector2( 0, BUCKET_SIZE.height ),
@@ -65,7 +71,13 @@ define( require => {
       // @public (read-only) - all of the playObjects being managed
       this.playObjects = [];
       _.times( currentNumberProperty.range.max, () => {
-        this.playObjects.push( new PlayObject( initialSpots[ spotIndex ].copy(), new Dimension2( 40, 40 ), objectMaxScale ) );
+        this.playObjects.push( new PlayObject(
+          this.playObjectTypeProperty,
+          initialSpots[ spotIndex ].copy(),
+          new Dimension2( 40, 40 ),
+          objectMaxScale
+        ) );
+
         ++spotIndex;
         if ( spotIndex > initialSpots.length - 1 ) {
           spotIndex = 0;
@@ -78,9 +90,9 @@ define( require => {
       // if the current number changes, add or remove playObjects from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
         if ( currentNumber < this.playObjectsInPlayArea.lengthProperty.value ) {
-            _.times( previousNumber - currentNumber, () => {
-              this.findPlayObjectToReturnToBucket();
-            } );
+          _.times( previousNumber - currentNumber, () => {
+            this.findPlayObjectToReturnToBucket();
+          } );
         }
         else if ( currentNumber > this.playObjectsInPlayArea.lengthProperty.value ) {
           _.times( currentNumber - previousNumber, () => {
@@ -167,6 +179,7 @@ define( require => {
 
         let translateVector = null;
         let findCount = 0;
+        let minDistance = MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS;
 
         // looks for positions that are not overlapping with other playObjects in the play area
         while ( !translateVector ) {
@@ -183,19 +196,22 @@ define( require => {
           // best performance, since this loop is nested
           for ( let i = 0; i < numberOfPlayObjectInPlayArea; i++ ) {
             if ( this.playObjectsInPlayArea.get( i ).positionProperty.value.distance(
-              playObject.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) )
-                 < MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS ) {
+              playObject.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) ) < minDistance ) {
               spotIsAvailable = false;
             }
           }
 
-          // bail if taking a while to find a spot. 1000 empirically determined.
-          if ( ++findCount > 1000 ) {
+          // make it easier to find a spot if taking a while, then bail after even longer. empirically determined.
+          if ( ++findCount === 1000 ) {
+            minDistance = minDistance / 2;
+            console.log( minDistance );
+          }
+          else if ( findCount > 2000 ) {
             spotIsAvailable = true;
           }
           translateVector = spotIsAvailable && new Vector2( possibleTranslateX, possibleTranslateY );
         }
-        const destinationPosition = playObject.positionProperty.value.plus( translateVector );
+        const destinationPosition = this.bucket.position.plus( translateVector );
 
         // calculate the time needed to get to the destination
         const animationDuration = Math.min(

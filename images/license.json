@@ -1,5 +1,29 @@
 {
+  "apple.png": {
+    "text": [
+      "Copyright 2017-2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Mariah Hermsmeyer"
+  },
+  "circle.png": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry"
+  },
   "dog.png": {
+    "text": [
+      "Copyright 2017-2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Cheryl McCutchan"
+  },
+  "turtle.png": {
     "text": [
       "Copyright 2017-2019 University of Colorado Boulder"
     ],
