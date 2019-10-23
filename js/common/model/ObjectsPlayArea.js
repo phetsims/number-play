@@ -24,6 +24,7 @@ define( require => {
 
   // constants
   const BUCKET_SIZE = NumberPlayConstants.BUCKET_SIZE;
+  const PLAY_OBJECT_SIZE = new Dimension2( 40, 40 );
   const ANIMATION_SPEED = 200; // in screen coordinates per second
   const MAX_ANIMATION_TIME = 1; // in seconds
 
@@ -44,8 +45,9 @@ define( require => {
     /**
      * @param {NumberProperty} currentNumberProperty
      * @param {number} objectMaxScale - see PlayObject for doc
+     * @param {Vector2} organizedObjectPadding - see calculateOrganizedPlayObjectSpots for doc
      */
-    constructor( currentNumberProperty, objectMaxScale ) {
+    constructor( currentNumberProperty, objectMaxScale, organizedObjectPadding ) {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -74,7 +76,7 @@ define( require => {
         this.playObjects.push( new PlayObject(
           this.playObjectTypeProperty,
           initialSpots[ spotIndex ].copy(),
-          new Dimension2( 40, 40 ),
+          PLAY_OBJECT_SIZE,
           objectMaxScale
         ) );
 
@@ -83,6 +85,9 @@ define( require => {
           spotIndex = 0;
         }
       } );
+
+      // @private {number[]}
+      this.organizedPlayObjectSpots = this.calculateOrganizedPlayObjectSpots( objectMaxScale, organizedObjectPadding );
 
       // @private - all playObjects that are currently in the play area
       this.playObjectsInPlayArea = new ObservableArray();
@@ -288,6 +293,77 @@ define( require => {
       }
 
       playObjectToAddToPlayArea && this.addPlayObjectToPlayArea( playObjectToAddToPlayArea, true );
+    }
+
+    /**
+     * Calculates the spots for organized playObjects
+     *
+     * @param {number} objectMaxScale - see PlayObject for doc
+     * @param {Vector2} organizedObjectPadding - x and y padding for playObjects organized in a grid
+     * @returns {number[]}
+     * @private
+     */
+    calculateOrganizedPlayObjectSpots( objectMaxScale, organizedObjectPadding ) {
+      const gridWidth = 5; // empirically determined
+      const gridHeight = this.playObjects.length / gridWidth;
+
+      const playObjectWidth = PLAY_OBJECT_SIZE.width * objectMaxScale;
+      const playObjectHeight = PLAY_OBJECT_SIZE.height * objectMaxScale;
+      const yOffset = MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - ( playObjectHeight * 2 / gridHeight );
+
+      const spots = [];
+
+      // iterate through and store the center point of every spot
+      for ( let i = 0; i < gridHeight; i++ ) {
+        for ( let j = 0; j < gridWidth; j++ ) {
+          spots.push( new Vector2(
+            MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X + ( ( playObjectWidth + organizedObjectPadding.x ) * j ),
+            yOffset - ( ( playObjectHeight + organizedObjectPadding.y ) * i )
+          ) );
+        }
+      }
+      return spots;
+    }
+
+    /**
+     * Organizes the playObjectsInPlayArea in a grid patter.
+     *
+     * @public
+     */
+    organizePlayObjects() {
+
+      // copy the current playObjectsInPlayArea so we can mutate it
+      let playObjectsToOrganize = [ ...this.playObjectsInPlayArea.getArray() ];
+      const numberOfObjectsToOrganize = playObjectsToOrganize.length;
+
+      for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
+        const destination = this.organizedPlayObjectSpots[ i ];
+
+        // sort the  playObjectToOrganize by closest to the destination
+        playObjectsToOrganize = _.sortBy( playObjectsToOrganize, playObject => {
+          return playObject.positionProperty.value.distance( destination );
+        } );
+        const playObjectToOrganize = playObjectsToOrganize.shift();
+        playObjectToOrganize.animation && playObjectToOrganize.animation.stop();
+
+        // make sure playObject is at full scale
+        playObjectToOrganize.scaleProperty.value = playObjectToOrganize.scaleProperty.range.max;
+
+        // if not already in the destination spot, animate to the destination
+        if ( !playObjectToOrganize.positionProperty.value.equals( destination ) ) {
+
+          playObjectToOrganize.animation = new Animation( {
+            duration: 0.5,
+            property: playObjectToOrganize.positionProperty,
+            to: destination,
+            easing: Easing.CUBIC_IN_OUT
+          } );
+          playObjectToOrganize.animation.start();
+          playObjectToOrganize.animation.finishEmitter.addListener( function() {
+            playObjectToOrganize.animation = null;
+          } );
+        }
+      }
     }
 
     /**

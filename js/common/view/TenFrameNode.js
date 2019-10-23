@@ -24,7 +24,7 @@ define( require => {
   const NUMBER_OF_Y_SQUARES = 2; // a ten frame is this many squares tall
   const SIDE_LENGTH = 20; // the side length of one square in a ten frame
   const DISTANCE_BETWEEN_TEN_FRAMES = SIDE_LENGTH / 2; // horizontal spacing between ten frames, if there's more than one
-  const LINE_WIDTH = 0.8; // the line width of the lines in a ten frame
+  const LINE_WIDTH = 0.8; // the line width of the lines in a ten frame. used in this class, not necessarily in getTenFramePath
 
   class TenFrameNode extends Node {
 
@@ -44,7 +44,7 @@ define( require => {
 
       // create the calculated number of ten frames needed
       _.times( numberOfTenFrames, () => {
-        tenFramePaths.push( TenFrameNode.getTenFramePath() );
+        tenFramePaths.push( TenFrameNode.getTenFramePath( 'white', LINE_WIDTH ) );
       } );
 
       // add all ten frames, aligned in a horizontal line
@@ -115,10 +115,12 @@ define( require => {
     /**
      * Draws a ten frame shape, which is a 5 by 2 grid of squares.
      *
+     * @param {ColorDef} fill
+     * @param {number} lineWidth
      * @returns {Path}
      * @public
      */
-    static getTenFramePath() {
+    static getTenFramePath( fill, lineWidth ) {
       const tenFrameShape = new Shape()
         .moveTo( 0, 0 )
 
@@ -144,9 +146,9 @@ define( require => {
         .close();
 
       return new Path( tenFrameShape, {
-        fill: 'white',
+        fill: fill,
         stroke: 'black',
-        lineWidth: LINE_WIDTH
+        lineWidth: lineWidth
       } );
     }
   }

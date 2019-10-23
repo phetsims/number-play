@@ -19,11 +19,12 @@ define( require => {
 
     /**
      * @param {number} highestCount - the highest integer number that can be counted to
-     * @param {number} objectMaxScale - see PlayObject for doc
      * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
+     * @param {number} objectMaxScale - see PlayObject for doc
+     * @param {Vector2} organizedObjectPadding - see ObjectsPlayArea for doc
      * @param {Tandem} tandem
      */
-    constructor( highestCount, objectMaxScale, paperNumberOrigin, tandem ) {
+    constructor( highestCount, paperNumberOrigin, objectMaxScale, organizedObjectPadding, tandem ) {
 
       // @public {NumberProperty} - the current "counted to" number, which is the central aspect of this whole sim
       this.currentNumberProperty = new NumberProperty( 0, {
@@ -34,7 +35,7 @@ define( require => {
       this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin );
 
       // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale );
+      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale, organizedObjectPadding );
     }
 
     /**

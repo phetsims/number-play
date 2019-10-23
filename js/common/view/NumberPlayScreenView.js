@@ -17,9 +17,11 @@ define( require => {
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const ObjectsAccordionBox = require( 'NUMBER_PLAY/common/view/ObjectsAccordionBox' );
   const OnesAccordionBox = require( 'NUMBER_PLAY/common/view/OnesAccordionBox' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const TenFrameAccordionBox = require( 'NUMBER_PLAY/common/view/TenFrameAccordionBox' );
+  const TenFrameNode = require( 'NUMBER_PLAY/common/view/TenFrameNode' );
 
   class NumberPlayScreenView extends ScreenView {
 
@@ -149,6 +151,25 @@ define( require => {
         tandem: config.tandem.createTandem( 'resetAllButton' )
       } );
       this.addChild( resetAllButton );
+
+      // content for organizePlayObjectsButton
+      const xMargin = 4;
+      const tenFramePath = TenFrameNode.getTenFramePath( null, 2.5 );
+      tenFramePath.setScaleMagnitude( ( resetAllButton.width - xMargin * 2 ) / tenFramePath.width );
+
+      // create and add a button to organize the ObjectsAccordionBox playObjects in a grid
+      const organizePlayObjectsButton = new RectangularPushButton( {
+        content: tenFramePath,
+        listener: () => {
+          model.objectsPlayArea.organizePlayObjects();
+        },
+        baseColor: NumberPlayConstants.BLUE_BACKGROUND,
+        xMargin: xMargin,
+        yMargin: 7
+      } );
+      organizePlayObjectsButton.centerX = resetAllButton.centerX;
+      organizePlayObjectsButton.bottom = resetAllButton.top - 12; // empirically determined
+      this.addChild( organizePlayObjectsButton );
     }
 
     /**

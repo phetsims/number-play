@@ -72,7 +72,13 @@ define( require => {
       };
 
       super(
-        () => new NumberPlayModel( NumberPlayConstants.TWENTY, 1.4, new Vector2( 214, 286 ), tandem.createTandem( 'model' ) ),
+        () => new NumberPlayModel(
+          NumberPlayConstants.TWENTY,
+          new Vector2( 214, 286 ), // empirically determined
+          1.3,                     // empirically determined
+          new Vector2( 0, 10 ),    // empirically determined
+          tandem.createTandem( 'model' )
+        ),
         model => new NumberPlayScreenView( model, screenViewConfig ),
         screenOptions
       );
