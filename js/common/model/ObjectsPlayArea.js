@@ -27,6 +27,7 @@ define( require => {
   const PLAY_OBJECT_SIZE = new Dimension2( 40, 40 );
   const ANIMATION_SPEED = 200; // in screen coordinates per second
   const MAX_ANIMATION_TIME = 1; // in seconds
+  const MIN_PLAY_OBJECT_SEPARATION = 14;
 
   // TODO: make this more general, perhaps relate to bounds used in ObjectsAccordionBox
   // min and max distances that playObjects being added to the play area via animation can travel. empirically
@@ -146,7 +147,7 @@ define( require => {
           } ]
         } );
         playObject.animation.start();
-        playObject.animation.finishEmitter.addListener( function() {
+        playObject.animation.finishEmitter.addListener( () => {
           playObject.animation = null;
         } );
       }
@@ -158,7 +159,7 @@ define( require => {
           duration: MAX_ANIMATION_TIME / 2
         } );
         playObject.animation.start();
-        playObject.animation.finishEmitter.addListener( function() {
+        playObject.animation.finishEmitter.addListener( () => {
           playObject.animation = null;
         } );
       }
@@ -236,7 +237,7 @@ define( require => {
           } ]
         } );
         playObject.animation.start();
-        playObject.animation.finishEmitter.addListener( function() {
+        playObject.animation.finishEmitter.addListener( () => {
           playObject.animation = null;
         } );
       }
@@ -359,11 +360,53 @@ define( require => {
             easing: Easing.CUBIC_IN_OUT
           } );
           playObjectToOrganize.animation.start();
-          playObjectToOrganize.animation.finishEmitter.addListener( function() {
+          playObjectToOrganize.animation.finishEmitter.addListener( () => {
             playObjectToOrganize.animation = null;
           } );
         }
       }
+    }
+
+    /**
+     * If the provided playObject is too close to any others in the playArea, move it slightly.
+     *
+     * @param {PlayObject} droppedPlayObject
+     * @param {number} droppedPlayObjectMoveCount - if this gets to high, move away in a uniform direction
+     */
+    checkIfCoveringPlayObject( droppedPlayObject, droppedPlayObjectMoveCount ) {
+      const otherPlayObjectsInPlayArea = [ ...this.playObjectsInPlayArea.getArray() ];
+      _.pull( otherPlayObjectsInPlayArea, droppedPlayObject );
+
+      // compare to the position of every playObject in the play area except our self
+      otherPlayObjectsInPlayArea.forEach( playObject => {
+        if ( !playObject.animation &&
+             playObject.positionProperty.value.distance( droppedPlayObject.positionProperty.value ) < MIN_PLAY_OBJECT_SEPARATION
+        ) {
+          let jumpComponent = MIN_PLAY_OBJECT_SEPARATION / Math.sqrt( 2 );
+          const jumpXSign = droppedPlayObject.positionProperty.value.x >= playObject.positionProperty.value.x ? 1 : -1;
+          const jumpYSign = droppedPlayObject.positionProperty.value.y >= playObject.positionProperty.value.y ? 1 : -1;
+
+          // we're probably stuck in a loop, so increase the jumpComponent length
+          if ( droppedPlayObjectMoveCount > 6 ) {
+            jumpComponent = jumpComponent * 3;
+            droppedPlayObjectMoveCount = 0;
+          }
+
+          // animate away and then check to see if we're still covering after we finish animating
+          droppedPlayObject.animation && droppedPlayObject.animation.stop();
+          droppedPlayObject.animation = new Animation( {
+            duration: 0.3,
+            property: droppedPlayObject.positionProperty,
+            to: droppedPlayObject.positionProperty.value.plusXY( jumpComponent * jumpXSign, jumpComponent * jumpYSign ),
+            easing: Easing.CUBIC_IN_OUT
+          } );
+          droppedPlayObject.animation.start();
+          droppedPlayObject.animation.finishEmitter.addListener( () => {
+            droppedPlayObject.animation = null;
+            this.checkIfCoveringPlayObject( droppedPlayObject, ++droppedPlayObjectMoveCount );
+          } );
+        }
+      } );
     }
 
     /**

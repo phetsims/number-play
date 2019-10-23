@@ -60,6 +60,9 @@ define( require => {
               playArea.returnPlayObjectToBucket( playObject );
               playArea.updateCurrentNumberProperty();
             }
+            else {
+              playArea.checkIfCoveringPlayObject( playObject, 0 );
+            }
           }
           else {
             if ( playObjectsStorageLayer.hasChild( playObjectNode ) ) {
