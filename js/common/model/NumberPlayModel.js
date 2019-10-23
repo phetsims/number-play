@@ -10,7 +10,7 @@ define( require => {
 
   // modules
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const NumberPlayPlayArea = require( 'NUMBER_PLAY/common/model/NumberPlayPlayArea' );
+  const ObjectsPlayArea = require( 'NUMBER_PLAY/common/model/ObjectsPlayArea' );
   const OnesPlayArea = require( 'NUMBER_PLAY/common/model/OnesPlayArea' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
@@ -34,7 +34,7 @@ define( require => {
       this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin );
 
       // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-      this.objectsPlayArea = new NumberPlayPlayArea( this.currentNumberProperty, objectMaxScale );
+      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale );
     }
 
     /**

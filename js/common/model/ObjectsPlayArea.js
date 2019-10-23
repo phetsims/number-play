@@ -36,7 +36,7 @@ define( require => {
   // play area, in screen coordinates
   const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
-  class NumberPlayPlayArea {
+  class ObjectsPlayArea {
 
     /**
      * @param {NumberProperty} currentNumberProperty
@@ -285,5 +285,5 @@ define( require => {
     }
   }
 
-  return numberPlay.register( 'NumberPlayPlayArea', NumberPlayPlayArea );
+  return numberPlay.register( 'ObjectsPlayArea', ObjectsPlayArea );
 } );

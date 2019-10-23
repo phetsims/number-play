@@ -16,7 +16,7 @@ define( require => {
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const NumberPlayPlayAreaNode = require( 'NUMBER_PLAY/common/view/NumberPlayPlayAreaNode' );
+  const ObjectsPlayAreaNode = require( 'NUMBER_PLAY/common/view/ObjectsPlayAreaNode' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Vector2 = require( 'DOT/Vector2' );
@@ -63,7 +63,7 @@ define( require => {
 
       const playAreaModelBounds = translateMVT.viewToModelBounds( playAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
 
-      const objectsPlayAreaNode = new NumberPlayPlayAreaNode(
+      const objectsPlayAreaNode = new ObjectsPlayAreaNode(
         objectsPlayArea,
         playAreaModelBounds,
         translateMVT

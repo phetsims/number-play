@@ -15,7 +15,7 @@ define( require => {
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const PlayObjectNode = require( 'NUMBER_PLAY/common/view/PlayObjectNode' );
 
-  class NumberPlayPlayAreaNode extends Node {
+  class ObjectsPlayAreaNode extends Node {
 
     /**
      * @param {NumberPlayPlayArea} playArea
@@ -88,5 +88,5 @@ define( require => {
 
   }
 
-  return numberPlay.register( 'NumberPlayPlayAreaNode', NumberPlayPlayAreaNode );
+  return numberPlay.register( 'ObjectsPlayAreaNode', ObjectsPlayAreaNode );
 } );
