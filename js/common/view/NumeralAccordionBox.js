@@ -58,7 +58,7 @@ define( require => {
       // create the NumberDisplay, which is a numerical representation of the current number
       const numberDisplay = new NumberDisplay( currentNumberProperty, currentNumberProperty.range, {
         decimalPlaces: 0,
-        align: 'center',
+        align: 'right',
         noValueAlign: 'left',
         font: config.font,
         backgroundFill: null,
