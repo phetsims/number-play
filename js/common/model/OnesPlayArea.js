@@ -13,7 +13,6 @@ define( require => {
 
   // modules
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
-  const MakeATenConstants = require( 'MAKE_A_TEN/make-a-ten/common/MakeATenConstants' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberProperty = require( 'AXON/NumberProperty' );
