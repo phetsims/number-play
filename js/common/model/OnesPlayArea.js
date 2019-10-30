@@ -257,32 +257,6 @@ define( require => {
     }
 
     /**
-     * Repels two paperNumbers that could not be combined
-     *
-     * @param {Bounds2} availableModelBounds - Constrain the location to be inside these bounds
-     * @param {PaperNumber} paperNumber1
-     * @param {PaperNumber} paperNumber2
-     */
-    repelAway( availableModelBounds, paperNumber1, paperNumber2 ) {
-
-      // Determine which are 'left' and 'right'
-      const isPaper1Left = paperNumber1.positionProperty.value.x < paperNumber2.positionProperty.value.x;
-      const leftPaperNumber = isPaper1Left ? paperNumber1 : paperNumber2;
-      const rightPaperNumber = isPaper1Left ? paperNumber2 : paperNumber1;
-
-      // Determine offsets
-      const repelLeftOffset = -MakeATenConstants.MOVE_AWAY_DISTANCE[ leftPaperNumber.digitLength ];
-      const repelRightOffset = MakeATenConstants.MOVE_AWAY_DISTANCE[ rightPaperNumber.digitLength ];
-      const leftPosition = leftPaperNumber.positionProperty.value.plusXY( repelLeftOffset, 0 );
-      const rightPosition = rightPaperNumber.positionProperty.value.plusXY( repelRightOffset, 0 );
-
-      // Kick off the animation to the destination
-      const animateToDestination = true;
-      leftPaperNumber.setConstrainedDestination( availableModelBounds, leftPosition, animateToDestination );
-      rightPaperNumber.setConstrainedDestination( availableModelBounds, rightPosition, animateToDestination );
-    }
-
-    /**
      * Add a PaperNumber to the model
      * @public
      *

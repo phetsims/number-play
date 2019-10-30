@@ -11,7 +11,6 @@ define( require => {
   'use strict';
 
   // modules
-  const ArithmeticRules = require( 'MAKE_A_TEN/make-a-ten/common/model/ArithmeticRules' );
   const BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   const BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   const ClosestDragListener = require( 'SUN/ClosestDragListener' );
@@ -197,7 +196,6 @@ define( require => {
      */
     tryToCombineNumbers( draggedPaperNumber ) {
       const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
-      const draggedNumberValue = draggedPaperNumber.numberValueProperty.value;
       const allPaperNumberNodes = this.paperNumberLayerNode.children;
 
       // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket and should not
@@ -205,7 +203,7 @@ define( require => {
       _.remove( allPaperNumberNodes, paperNumberNode => {
         return paperNumberNode.paperNumber.numberValueProperty.value === 0;
       } );
-      if( allPaperNumberNodes.length === 0 || draggedPaperNumber.numberValueProperty.value === 0 ) {
+      if ( allPaperNumberNodes.length === 0 || draggedPaperNumber.numberValueProperty.value === 0 ) {
         return;
       }
 
@@ -217,18 +215,10 @@ define( require => {
       for ( let i = 0; i < droppedNodes.length; i++ ) {
         const droppedNode = droppedNodes[ i ];
         const droppedPaperNumber = droppedNode.paperNumber;
-        const droppedNumberValue = droppedPaperNumber.numberValueProperty.value;
 
-        if ( ArithmeticRules.canAddNumbers( draggedNumberValue, droppedNumberValue ) ) {
-          this.playArea.collapseNumberModels( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
-          return; // No need to re-layer or try combining with others
-        }
-        else {
-
-          // repel numbers - show rejection
-          this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
-          return; // If repelled, no need to check for overlapping bits
-        }
+        // allow any two numbers to be combined
+        this.playArea.collapseNumberModels( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
+        return; // No need to re-layer or try combining with others
       }
 
       // if the dragged number is  larger than the node below it (dropped node), reorder
