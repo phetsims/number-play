@@ -15,6 +15,8 @@ define( require => {
   const inherit = require( 'PHET_CORE/inherit' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Shape = require( 'KITE/Shape' );
   const Vector2 = require( 'DOT/Vector2' );
 
   // images
@@ -106,21 +108,24 @@ define( require => {
     // Translate everything by our offset
     this.translation = baseNumber.offset;
 
+    let paperBackgroundImage;
+
     // if the base number is a 1 that's not on top of a bigger base number, or if the base number is underneath smaller
     // base numbers, then use a flat background instead of a peeled one.
     if ( baseNumber.digit === 1 &&
          ( ( baseNumber.place === 0 && !isPartOfStack ) || ( baseNumber.place >= 1 && isPartOfStack ) ) ) {
 
       // The paper behind the numbers
-      this.addChild( new Image( BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
+      paperBackgroundImage = new Image( BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
         imageOpacity: opacity
-      } ) );
+      } );
     }
     else {
-      this.addChild( new Image( PEELED_BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
+      paperBackgroundImage = new Image( PEELED_BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
         imageOpacity: opacity
-      } ) );
+      } );
     }
+    this.addChild( paperBackgroundImage );
 
     // The initial (non-zero) digit
     this.addChild( new Image( DIGIT_IMAGE_MAP[ baseNumber.digit ], {
@@ -135,6 +140,23 @@ define( require => {
         x: digitZeroOffsets[ i ],
         y: y
       } ) );
+    }
+
+    // add the grippy lines if this number is on the top layer
+    if ( !( baseNumber.place >= 1 && isPartOfStack ) ) {
+
+      // empirically determined to put the grippy in the same place in relation to the paper number's digit
+      const yMargin = baseNumber.place >= 1 ? 90 : 56;
+      const lineLength = 100;    // empirically determined
+      const lineSeparation = 15; // empirically determined
+      const grippyLines = new Path( new Shape()
+        .moveTo( 0, 0 ).lineTo( lineLength, 0 ).moveTo( 0, lineSeparation ).lineTo( lineLength, lineSeparation ).close(), {
+        stroke: 'rgb( 204, 204, 204 )',
+        lineWidth: 3,
+        centerX: paperBackgroundImage.centerX,
+        bottom: paperBackgroundImage.bottom - yMargin
+      } );
+      this.addChild( grippyLines );
     }
   }
 
