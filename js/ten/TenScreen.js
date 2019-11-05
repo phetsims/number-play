@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
+  const Image = require( 'SCENERY/nodes/Image' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
@@ -22,6 +23,9 @@ define( require => {
   // strings
   const screenTenString = require( 'string!NUMBER_PLAY/screen.ten' );
 
+  // images
+  const tenScreenIconImage = require( 'image!NUMBER_PLAY/ten_screen_icon.png' );
+
   class TenScreen extends Screen {
 
     /**
@@ -32,6 +36,7 @@ define( require => {
       const screenOptions = {
         name: screenTenString,
         backgroundColorProperty: new Property( NumberPlayConstants.TEN_SCREEN_BACKGROUND ),
+        homeScreenIcon: new Image( tenScreenIconImage ),
         tandem: tandem
       };
 

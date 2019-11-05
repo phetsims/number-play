@@ -15,6 +15,14 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
+  "compare_screen_icon.png": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry"
+  },
   "compare_screen_placeholder.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
@@ -31,7 +39,31 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Cheryl McCutchan"
   },
+  "lab_screen_icon.png": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry"
+  },
   "lab_screen_placeholder.png": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry"
+  },
+  "ten_screen_icon.png": {
+    "text": [
+      "Copyright 2019 University of Colorado Boulder"
+    ],
+    "projectURL": "http://phet.colorado.edu",
+    "license": "contact phethelp@colorado.edu",
+    "notes": "created by Amanda McGarry"
+  },
+  "twenty_screen_icon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],

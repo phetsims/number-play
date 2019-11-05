@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const Image = require( 'SCENERY/nodes/Image' );
   const LabModel = require( 'NUMBER_PLAY/lab/model/LabModel' );
   const LabScreenView = require( 'NUMBER_PLAY/lab/view/LabScreenView' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
@@ -17,6 +18,9 @@ define( require => {
 
   // strings
   const screenLabString = require( 'string!NUMBER_PLAY/screen.lab' );
+
+  // images
+  const labScreenIconImage = require( 'image!NUMBER_PLAY/lab_screen_icon.png' );
 
   class LabScreen extends Screen {
 
@@ -28,6 +32,7 @@ define( require => {
       const options = {
         name: screenLabString,
         backgroundColorProperty: new Property( 'white' ),
+        homeScreenIcon: new Image( labScreenIconImage ),
         tandem: tandem
       };
 
