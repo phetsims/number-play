@@ -8,6 +8,12 @@
   "screen.twenty": {
     "value": "Twenty"
   },
+  "screen.compare": {
+    "value": "Compare"
+  },
+  "screen.lab": {
+    "value": "Lab"
+  },
   "zero": {
     "value": "zero"
   },
