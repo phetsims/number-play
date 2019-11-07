@@ -11,6 +11,9 @@
   "screen.compare": {
     "value": "Compare"
   },
+  "screen.game": {
+    "value": "Game"
+  },
   "screen.lab": {
     "value": "Lab"
   },

@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const CompareScreen = require( 'NUMBER_PLAY/compare/CompareScreen' );
+  const GameScreen = require( 'NUMBER_PLAY/game/GameScreen' );
   const LabScreen = require( 'NUMBER_PLAY/lab/LabScreen' );
   const Sim = require( 'JOIST/Sim' );
   const SimLauncher = require( 'JOIST/SimLauncher' );
@@ -40,6 +41,7 @@ define( require => {
       new TenScreen( Tandem.rootTandem.createTandem( 'tenScreen' ) ),
       new TwentyScreen( Tandem.rootTandem.createTandem( 'twentyScreen' ) ),
       new CompareScreen( Tandem.rootTandem.createTandem( 'compareScreen' ) ),
+      new GameScreen( Tandem.rootTandem.createTandem( 'gameScreen' ) ),
       new LabScreen( Tandem.rootTandem.createTandem( 'labScreen' ) )
     ], simOptions );
     sim.start();
