@@ -1,4 +1,4 @@
-// Copyright 2015-2019, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * Visual view of paper numbers (PaperNumber), with stacked images based on the digits of the number.
