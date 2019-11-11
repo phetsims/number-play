@@ -15,6 +15,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const Easing = require( 'TWIXT/Easing' );
   const EnumerationProperty = require( 'AXON/EnumerationProperty' );
+  const merge = require( 'PHET_CORE/merge' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const ObservableArray = require( 'AXON/ObservableArray' );
@@ -46,10 +47,13 @@ define( require => {
     /**
      * @param {NumberProperty} currentNumberProperty
      * @param {number} objectMaxScale - see PlayObject for doc
-     * @param {Vector2} organizedObjectPadding - see calculateOrganizedPlayObjectSpots for doc
      * @param {BooleanProperty} isResetting
      */
-    constructor( currentNumberProperty, objectMaxScale, organizedObjectPadding, isResettingProperty ) {
+    constructor( currentNumberProperty, objectMaxScale, isResettingProperty, options ) {
+
+      options = merge( {
+        organizedObjectPadding: null // {null|Vector2} - see calculateOrganizedPlayObjectSpots for doc
+      }, options );
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -88,8 +92,12 @@ define( require => {
         }
       } );
 
-      // @private {number[]}
-      this.organizedPlayObjectSpots = this.calculateOrganizedPlayObjectSpots( objectMaxScale, organizedObjectPadding );
+      // if organizedObjectPadding is provided, calculate the spots for
+      if ( options.organizedObjectPadding ) {
+
+        // @private {Vector2[]}
+        this.organizedPlayObjectSpots = this.calculateOrganizedPlayObjectSpots( objectMaxScale, options.organizedObjectPadding );
+      }
 
       // @private - all playObjects that are currently in the play area
       this.playObjectsInPlayArea = new ObservableArray();
@@ -307,7 +315,7 @@ define( require => {
      *
      * @param {number} objectMaxScale - see PlayObject for doc
      * @param {Vector2} organizedObjectPadding - x and y padding for playObjects organized in a grid
-     * @returns {number[]}
+     * @returns {Vector2[]}
      * @private
      */
     calculateOrganizedPlayObjectSpots( objectMaxScale, organizedObjectPadding ) {
@@ -333,11 +341,13 @@ define( require => {
     }
 
     /**
-     * Organizes the playObjectsInPlayArea in a grid patter.
+     * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedPlayObjectSpots exist.
      *
      * @public
      */
     organizePlayObjects() {
+
+      assert && assert( this.organizedPlayObjectSpots, 'this.organizedPlayObjectSpots must exist to call this function' );
 
       // copy the current playObjectsInPlayArea so we can mutate it
       let playObjectsToOrganize = [ ...this.playObjectsInPlayArea.getArray() ];

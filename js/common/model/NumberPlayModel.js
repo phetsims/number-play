@@ -40,7 +40,9 @@ define( require => {
       this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
 
       // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale, organizedObjectPadding, this.isResettingProperty );
+      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale, this.isResettingProperty, {
+        organizedObjectPadding: organizedObjectPadding
+      } );
     }
 
     /**
