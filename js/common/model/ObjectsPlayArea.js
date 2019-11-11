@@ -47,12 +47,13 @@ define( require => {
      * @param {NumberProperty} currentNumberProperty
      * @param {number} objectMaxScale - see PlayObject for doc
      * @param {Vector2} organizedObjectPadding - see calculateOrganizedPlayObjectSpots for doc
+     * @param {BooleanProperty} isResetting
      */
-    constructor( currentNumberProperty, objectMaxScale, organizedObjectPadding ) {
+    constructor( currentNumberProperty, objectMaxScale, organizedObjectPadding, isResettingProperty ) {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
-      // @private
+      // @public
       this.currentNumberProperty = currentNumberProperty;
 
       // @public (read-only)
@@ -93,27 +94,32 @@ define( require => {
       // @private - all playObjects that are currently in the play area
       this.playObjectsInPlayArea = new ObservableArray();
 
+      // @public {boolean} whether the view of this play area is controlling the current number
+      this.isControllingCurrentNumber = false;
+
       // if the current number changes, add or remove playObjects from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
-        if ( currentNumber < this.playObjectsInPlayArea.lengthProperty.value ) {
-          _.times( previousNumber - currentNumber, () => {
-            this.findPlayObjectToReturnToBucket();
-          } );
-        }
-        else if ( currentNumber > this.playObjectsInPlayArea.lengthProperty.value ) {
-          _.times( currentNumber - previousNumber, () => {
-            this.findPlayObjectToAddToPlayArea();
-          } );
+        if ( !this.isControllingCurrentNumber && !isResettingProperty.value ) {
+          if ( currentNumber < previousNumber ) {
+            _.times( previousNumber - currentNumber, () => {
+
+              // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+              if ( this.playObjectsInPlayArea.lengthProperty.value > currentNumberProperty.range.min ) {
+                this.findPlayObjectToReturnToBucket();
+              }
+            } );
+          }
+          else if ( currentNumber > previousNumber ) {
+            _.times( currentNumber - previousNumber, () => {
+
+              // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+              if ( this.playObjectsInPlayArea.lengthProperty.value < currentNumberProperty.range.max ) {
+                this.findPlayObjectToAddToPlayArea();
+              }
+            } );
+          }
         }
       } );
-    }
-
-    /**
-     * Updates the value of currentNumberProperty to be the number of playObjects in the play area. Should only be
-     * called when user-controlled state of one of the playObjects changes.
-     */
-    updateCurrentNumberProperty() {
-      this.currentNumberProperty.value = this.playObjectsInPlayArea.lengthProperty.value;
     }
 
     /**

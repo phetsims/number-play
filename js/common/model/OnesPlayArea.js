@@ -38,13 +38,14 @@ define( require => {
      * @param {NumberProperty} currentNumberProperty
      * @param {Vector2} paperNumberOrigin - origin of where paper numbers are created, but only used when the model is
      * responding to changes in currentNumberProperty, not when a user drags a paperNumber out of the bucket
+     * @param {BooleanProperty} isResetting
      * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
      */
-    constructor( currentNumberProperty, paperNumberOrigin ) {
+    constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty ) {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
-      // @private
+      // @public
       this.currentNumberProperty = currentNumberProperty;
 
       // @public {NumberProperty} - The total sum of the current numbers
@@ -74,17 +75,33 @@ define( require => {
         size: NumberPlayConstants.BUCKET_SIZE
       } );
 
+      // @public {boolean} whether the view of this play area is controlling the current number
+      this.isControllingCurrentNumber = false;
+
       // if the current number changes, add or remove paperNumbers from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
-        if ( currentNumber < this.sumProperty.value ) {
-          _.times( previousNumber - currentNumber, () => {
-            this.returnPaperNumberToBucket( paperNumberOrigin );
-          } );
-        }
-        else if ( currentNumber > this.sumProperty.value ) {
-          _.times( currentNumber - previousNumber, () => {
-            this.createPaperNumberFromBucket( paperNumberOrigin );
-          } );
+        if ( !this.isControllingCurrentNumber && !isResettingProperty.value ) {
+          if ( previousNumber !== this.sumProperty.value ) {
+            // debugger;
+          }
+          // console.log( `paper numbers are being changed. current number: ${currentNumber}, current sum: ${this.sumProperty.value}, target change: ${currentNumber - previousNumber}` );
+          if ( currentNumber < previousNumber ) {
+            _.times( previousNumber - currentNumber, () => {
+              console.log( currentNumber, previousNumber );
+              // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+              if ( this.sumProperty.value > currentNumberProperty.range.min ) {
+                this.returnPaperNumberToBucket( paperNumberOrigin );
+              }
+            } );
+          }
+          else if ( currentNumber > previousNumber ) {
+            _.times( currentNumber - previousNumber, () => {
+              // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+              if ( this.sumProperty.value < currentNumberProperty.range.max ) {
+                this.createPaperNumberFromBucket( paperNumberOrigin );
+              }
+            } );
+          }
         }
       } );
     }
@@ -176,20 +193,12 @@ define( require => {
         this.addPaperNumber( paperNumberToReturn );
       }
 
-      // send it back to its origin and set its value to 0. paperNumbers aren't removed from paperNumbers until they get
+      // set its value to 0 and send it back to its origin. paperNumbers aren't removed from the playArea until they get
       // back to the bucket, but we don't want them to count towards the sum while they're on their way to the bucket.
       // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
       // time.
-      paperNumberToReturn.setDestination( paperNumberOrigin, true );
       paperNumberToReturn.numberValueProperty.value = 0;
-    }
-
-    /**
-     * Updates the value of currentNumberProperty to be the sum of paperNumbers in the play area. Should only be
-     * called when user-controlled state of one of the paperNumbers changes.
-     */
-    updateCurrentNumberProperty() {
-      this.currentNumberProperty.value = this.sumProperty.value;
+      paperNumberToReturn.setDestination( paperNumberOrigin, true );
     }
 
     /**

@@ -118,10 +118,17 @@ define( require => {
       // Add it and lookup the related node.
       this.playArea.addPaperNumber( paperNumber );
       const paperNumberNode = this.findPaperNumberNode( paperNumber );
-      paperNumberNode.startSyntheticDrag( event );
 
-      // a user grabbed a new number, so update the sim's currentNumberProperty
-      this.playArea.updateCurrentNumberProperty();
+      // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+      if ( this.playArea.currentNumberProperty.value < this.playArea.currentNumberProperty.range.max ) {
+
+        // a user grabbed a new number, so update the sim's currentNumberProperty
+        this.playArea.isControllingCurrentNumber = true;
+        this.playArea.currentNumberProperty.value++;
+        this.playArea.isControllingCurrentNumber = false;
+      }
+
+      paperNumberNode.startSyntheticDrag( event );
     }
 
     /**
@@ -137,7 +144,10 @@ define( require => {
 
       // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
       paperNumber.numberValueProperty.link( numberValue => {
-        paperNumberNode.pickable = numberValue > 0;
+        if ( numberValue < 1 ) {
+          paperNumberNode.pickable = false;
+          paperNumberNode.interruptSubtreeInput();
+        }
       } );
 
       this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ] = paperNumberNode;
@@ -308,28 +318,25 @@ define( require => {
       // Return it to the panel if it's been dropped in the panel.
       if ( this.isNumberInReturnZone( paperNumber ) ) {
 
-        // Remove the original paper number (as we have are about to add its components to return).
-        this.playArea.removePaperNumber( paperNumber );
+        const paperNumberValue = paperNumber.numberValueProperty.value;
+        paperNumber.numberValueProperty.value = 0;
 
-        // a user returned a number in play, so update the sim's currentNumberProperty
-        this.playArea.updateCurrentNumberProperty();
+        // Set its destination to the proper target (with the offset so that it will disappear once centered).
+        let targetPosition = this.onesCreatorNode.getOriginLocation();
 
-        const baseNumbers = paperNumber.baseNumbers;
+        // TODO: the ternary below is a hack that shouldn't be needed once https://github.com/phetsims/number-play/issues/6 is fixed.
+        const paperCenterOffset = new PaperNumber( paperNumberValue > 0 ? paperNumberValue : 1, new Vector2( 0, 0 ) ).getLocalBounds().center;
+        targetPosition = targetPosition.minus( paperCenterOffset );
+        paperNumber.setDestination( targetPosition, true );
 
-        // Split it into a PaperNumber for each of its base numbers, and animate them to their targets in the
-        // explore panel.
-        for ( let i = baseNumbers.length - 1; i >= 0; i-- ) {
-          const baseNumber = baseNumbers[ i ];
-          const basePaperNumber = new PaperNumber( baseNumber.numberValue, paperNumber.positionProperty.value );
 
-          // Set its destination to the proper target (with the offset so that it will disappear once centered).
-          let targetPosition = this.onesCreatorNode.getOriginLocation();
-          const paperCenterOffset = new PaperNumber( baseNumber.numberValue, new Vector2( 0, 0 ) ).getLocalBounds().center;
-          targetPosition = targetPosition.minus( paperCenterOffset );
-          basePaperNumber.setDestination( targetPosition, true );
+        // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+        if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range.min ) {
 
-          // Add the new base paper number
-          this.playArea.addPaperNumber( basePaperNumber );
+          // a user returned a number, so update the sim's currentNumberProperty
+          this.playArea.isControllingCurrentNumber = true;
+          this.playArea.currentNumberProperty.value = this.playArea.currentNumberProperty.value - paperNumberValue;
+          this.playArea.isControllingCurrentNumber = false;
         }
       }
     }

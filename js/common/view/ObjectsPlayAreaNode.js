@@ -58,7 +58,13 @@ define( require => {
                 playObjectsStorageLayer.addChild( playObjectNode );
               }
               playArea.returnPlayObjectToBucket( playObject );
-              playArea.updateCurrentNumberProperty();
+
+              // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+              if ( playArea.currentNumberProperty.value > playArea.currentNumberProperty.range.min ) {
+                playArea.isControllingCurrentNumber = true;
+                playArea.currentNumberProperty.value--;
+                playArea.isControllingCurrentNumber = false;
+              }
             }
             else {
               playArea.checkIfCoveringPlayObject( playObject, 0 );
@@ -72,14 +78,20 @@ define( require => {
             if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
                  bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) {
               playArea.addPlayObjectToPlayArea( playObject );
-              playArea.updateCurrentNumberProperty();
+
+              // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+              if ( playArea.currentNumberProperty.value < playArea.currentNumberProperty.range.max ) {
+                playArea.isControllingCurrentNumber = true;
+                playArea.currentNumberProperty.value++;
+                playArea.isControllingCurrentNumber = false;
+              }
             }
           }
         } );
 
         playObject.positionProperty.link( () => {
           if ( ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
-               bucketHole.bounds.intersectsBounds( playObjectNode.bounds  ) ) && !playObject.userControlledProperty.value ) {
+                 bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) && !playObject.userControlledProperty.value ) {
             if ( playObjectsPlayAreaLayer.hasChild( playObjectNode ) ) {
               playObjectsPlayAreaLayer.removeChild( playObjectNode );
               playObjectsStorageLayer.addChild( playObjectNode );

@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const ObjectsPlayArea = require( 'NUMBER_PLAY/common/model/ObjectsPlayArea' );
   const OnesPlayArea = require( 'NUMBER_PLAY/common/model/OnesPlayArea' );
@@ -31,11 +32,15 @@ define( require => {
         range: new Range( 0, highestCount )
       } );
 
+      // @public {BooleanProperty} - true when the sim is being reset. this is used so that playAreas don't return things
+      // to their buckets the normal way (with animations), but instead with a different reset case (no animations).
+      this.isResettingProperty = new BooleanProperty( false );
+
       // @public (read-only) - the model for managing the play area in the OnesAccordionBox
-      this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin );
+      this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
 
       // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale, organizedObjectPadding );
+      this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale, organizedObjectPadding, this.isResettingProperty );
     }
 
     /**
@@ -51,9 +56,11 @@ define( require => {
      * @public
      */
     reset() {
+      this.isResettingProperty.value = true;
       this.onesPlayArea.reset();
       this.objectsPlayArea.reset();
       this.currentNumberProperty.reset();
+      this.isResettingProperty.reset();
     }
   }
 
