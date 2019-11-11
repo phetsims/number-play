@@ -57,7 +57,7 @@ define( require => {
 
       const translateMVT = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
         Vector2.ZERO,
-        new Vector2( playAreaViewBounds.centerX, playAreaViewBounds.bottom ),
+        new Vector2( playAreaViewBounds.left + NumberPlayConstants.BUCKET_SIZE.width / 2, playAreaViewBounds.bottom ),
         1
       );
 

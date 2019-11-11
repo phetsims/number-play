@@ -23,8 +23,8 @@ define( require => {
   // TODO: These shouldn't be constants since the ones play area is different sizes between screens
   // min and max distances that playObjects being added to the play area via animation can travel. empirically
   // determined to be small enough to fit all needed cases. all in screen coordinates.
-  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -140;
-  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 140;
+  const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -6;
+  const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 280;
   const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -80;
   const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -230;
 
