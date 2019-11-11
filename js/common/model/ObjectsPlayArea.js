@@ -52,7 +52,8 @@ define( require => {
     constructor( currentNumberProperty, objectMaxScale, isResettingProperty, options ) {
 
       options = merge( {
-        organizedObjectPadding: null // {null|Vector2} - see calculateOrganizedPlayObjectSpots for doc
+        organizedObjectPadding: null, // {null|Vector2} - see calculateOrganizedPlayObjectSpots for doc
+        playObjectTypeProperty: null // {null|EnumerationProperty.<PlayObjectType>} - created if not provided
       }, options );
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
@@ -66,8 +67,13 @@ define( require => {
         size: BUCKET_SIZE
       } );
 
-      // @public - the current type of playObject being displayed
-      this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+      // @public {EnumerationProperty.<PlayObjectType>} - the current type of playObject being displayed
+      if ( options.playObjectTypeProperty ) {
+        this.playObjectTypeProperty = options.playObjectTypeProperty;
+      }
+      else {
+        this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+      }
 
       const initialSpots = [
         new Vector2( -BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 ),
