@@ -118,16 +118,6 @@ define( require => {
       // Add it and lookup the related node.
       this.playArea.addPaperNumber( paperNumber );
       const paperNumberNode = this.findPaperNumberNode( paperNumber );
-
-      // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-      if ( this.playArea.currentNumberProperty.value < this.playArea.currentNumberProperty.range.max ) {
-
-        // a user grabbed a new number, so update the sim's currentNumberProperty
-        this.playArea.isControllingCurrentNumber = true;
-        this.playArea.currentNumberProperty.value++;
-        this.playArea.isControllingCurrentNumber = false;
-      }
-
       paperNumberNode.startSyntheticDrag( event );
     }
 

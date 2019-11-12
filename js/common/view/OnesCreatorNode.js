@@ -70,6 +70,15 @@ define( require => {
 
             // Create and start dragging the new paper number node
             playAreaNode.addAndDragNumber( event, paperNumber );
+
+            // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
+            if ( playAreaNode.playArea.currentNumberProperty.value < playAreaNode.playArea.currentNumberProperty.range.max ) {
+
+              // a user grabbed a new number, so update the sim's currentNumberProperty
+              playAreaNode.playArea.isControllingCurrentNumber = true;
+              playAreaNode.playArea.currentNumberProperty.value++;
+              playAreaNode.playArea.isControllingCurrentNumber = false;
+            }
           }
         } );
 
