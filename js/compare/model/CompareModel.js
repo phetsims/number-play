@@ -33,6 +33,9 @@ define( require => {
         range: new Range( 0, highestCount )
       } );
 
+      // @public {BooleanProperty} - for checkboxes
+      this.comparisonSignsVisibleProperty = new BooleanProperty( true );
+
       // @public {BooleanProperty} - see NumberPlayModel for doc
       this.isResettingProperty = new BooleanProperty( false );
 
