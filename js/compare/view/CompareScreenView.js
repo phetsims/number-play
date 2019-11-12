@@ -9,6 +9,7 @@ define( require => {
   'use strict';
 
   // modules
+  const BlockValuesNode = require( 'NUMBER_PLAY/compare/view/BlockValuesNode' );
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const Checkbox = require( 'SUN/Checkbox' );
   const CompareAccordionBox = require( 'NUMBER_PLAY/compare/view/CompareAccordionBox' );
@@ -99,21 +100,36 @@ define( require => {
       rightNumeralAccordionBox.left = rightCompareAccordionBox.left;
 
       // create and add the comparison signs checkbox
+      const boxWidth = 30;
       const comparisonSignsCheckbox = new Checkbox(
         new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
         model.comparisonSignsVisibleProperty, {
-          boxWidth: 30
-        }
-      );
+          boxWidth: boxWidth
+        } );
       comparisonSignsCheckbox.left = leftCompareAccordionBox.left;
       comparisonSignsCheckbox.top = leftNumeralAccordionBox.top;
       this.addChild( comparisonSignsCheckbox );
+
+      // create and add the block values checkbox
+      const blockValuesCheckbox = new Checkbox(
+        BlockValuesNode.getBlockValuesNode( 1, 2, false ),
+        model.blockValuesVisibleProperty, {
+          boxWidth: boxWidth,
+          spacing: 7
+        } );
+      blockValuesCheckbox.left = comparisonSignsCheckbox.left;
+      blockValuesCheckbox.top = comparisonSignsCheckbox.bottom + 14;
+      this.addChild( blockValuesCheckbox );
 
       // create and add the comparison signs node
       const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
       comparisonSignsNode.centerX = this.layoutBounds.centerX;
       comparisonSignsNode.centerY = leftNumeralAccordionBox.centerY;
       this.addChild( comparisonSignsNode );
+
+      // create and add the BlockValuesNode
+      const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
+      this.addChild( blockValuesNode );
 
       // create and add the ResetAllButton
       const resetAllButton = new ResetAllButton( {
@@ -128,16 +144,26 @@ define( require => {
       } );
       this.addChild( resetAllButton );
 
-      // update the comparison signs node's text when either current number changes
+      // update the comparison signs node's text and the BlockValuesNode when either current number changes
       Property.multilink( [ model.leftCurrentNumberProperty, model.rightCurrentNumberProperty ],
         ( leftCurrentNumber, rightCurrentNumber ) => {
           comparisonSignsNode.text = leftCurrentNumber < rightCurrentNumber ? lessThanString :
                                      leftCurrentNumber > rightCurrentNumber ? greaterThanString : equalString;
+
+          blockValuesNode.removeAllChildren();
+          blockValuesNode.addChild( BlockValuesNode.getBlockValuesNode( leftCurrentNumber, rightCurrentNumber, true ) );
+          blockValuesNode.centerX = comparisonSignsNode.centerX;
+          blockValuesNode.bottom = leftCompareAccordionBox.bottom - 2; // empirically determined tweak
         } );
 
       // update the visibility of the comparison signs node
       model.comparisonSignsVisibleProperty.link( visible => {
         comparisonSignsNode.visible = visible;
+      } );
+
+      // update the visibility of the BlockValuesNode
+      model.blockValuesVisibleProperty.link( visible => {
+        blockValuesNode.visible = visible;
       } );
     }
 

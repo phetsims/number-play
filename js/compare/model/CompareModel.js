@@ -35,6 +35,7 @@ define( require => {
 
       // @public {BooleanProperty} - for checkboxes
       this.comparisonSignsVisibleProperty = new BooleanProperty( true );
+      this.blockValuesVisibleProperty = new BooleanProperty( true );
 
       // @public {BooleanProperty} - see NumberPlayModel for doc
       this.isResettingProperty = new BooleanProperty( false );
@@ -64,6 +65,8 @@ define( require => {
       this.rightPlayArea.reset();
       this.leftCurrentNumberProperty.reset();
       this.rightCurrentNumberProperty.reset();
+      this.comparisonSignsVisibleProperty.reset();
+      this.blockValuesVisibleProperty.reset();
       this.isResettingProperty.reset();
     }
   }
