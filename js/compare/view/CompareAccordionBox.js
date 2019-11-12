@@ -5,7 +5,7 @@
  * and OnesAccordionBox
  *
  * TODO: Generalize the ObjectsAccordionBox and OnesAccordionBox so that they share code, which will remove the need
- * to use both ObjectsPlayAreaNode and OnesPlayAreaNode.
+ * to use both ObjectsPlayAreaNode and OnesPlayAreaNode. See https://github.com/phetsims/number-play/issues/7
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */

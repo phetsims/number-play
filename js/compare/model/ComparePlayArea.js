@@ -1,7 +1,9 @@
 // Copyright 2019, University of Colorado Boulder
 
 /**
- * Model class for a ComparePlayArea, which combines a OnesPlayArea and an ObjectPlayArea.
+ * Model class for a ComparePlayArea, which combines a OnesPlayArea and an ObjectsPlayArea.
+ *
+ * TODO: generalize OnesPlayArea and ObjectsPlayArea so they both aren't needed, see https://github.com/phetsims/number-play/issues/7
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
