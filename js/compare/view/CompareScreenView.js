@@ -9,12 +9,19 @@ define( require => {
   'use strict';
 
   // modules
-  const Image = require( 'SCENERY/nodes/Image' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const CompareAccordionBox = require( 'NUMBER_PLAY/compare/view/CompareAccordionBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
+  const NumeralAccordionBox = require( 'NUMBER_PLAY/common/view/NumeralAccordionBox' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
 
-  // images
-  const compareScreenPlaceholderImage = require( 'image!NUMBER_PLAY/compare_screen_placeholder.png' );
+  // constants
+  const UPPER_ACCORDION_BOX_HEIGHT = 120; // empirically determined, in screen coordinates
+  const LOWER_ACCORDION_BOX_HEIGHT = 426; // empirically determined, in screen coordinates
 
   class CompareScreenView extends ScreenView {
 
@@ -28,14 +35,73 @@ define( require => {
         tandem: tandem
       } );
 
-      // add the screen's placeholder image
-      const compareScreenPlaceholderImageNode = new Image( compareScreenPlaceholderImage, {
-        maxWidth: this.layoutBounds.width,
-        maxHeight: this.layoutBounds.height,
-        cursor: 'pointer'
+      // @public
+      this.leftNumeralAccordionBoxExpandedProperty = new BooleanProperty( true );
+      this.rightNumeralAccordionBoxExpandedProperty = new BooleanProperty( true );
+      this.leftCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
+      this.rightCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
+
+      // config for the left and right NumeralAccordionBox
+      const numeralAccordionBoxConfig = {
+        fill: NumberPlayConstants.WHITE_BACKGROUND,
+        font: new PhetFont( 90 ),
+        arrowButtonConfig: {
+          arrowWidth: 18,  // empirically determined
+          arrowHeight: 18, // empirically determined
+          spacing: 7       // empirically determined
+        }
+      };
+
+      // create and add the left NumeralAccordionBox
+      const leftNumeralAccordionBox = new NumeralAccordionBox(
+        model.leftCurrentNumberProperty,
+        UPPER_ACCORDION_BOX_HEIGHT, merge( {
+          expandedProperty: this.leftNumeralAccordionBoxExpandedProperty
+        }, numeralAccordionBoxConfig ) );
+      leftNumeralAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
+      this.addChild( leftNumeralAccordionBox );
+
+      // create and add the right NumeralAccordionBox
+      const rightNumeralAccordionBox = new NumeralAccordionBox(
+        model.rightCurrentNumberProperty,
+        UPPER_ACCORDION_BOX_HEIGHT, merge( {
+          expandedProperty: this.rightNumeralAccordionBoxExpandedProperty
+        }, numeralAccordionBoxConfig ) );
+      rightNumeralAccordionBox.top = leftNumeralAccordionBox.top;
+      this.addChild( rightNumeralAccordionBox );
+
+      // create and add the left CompareAccordionBox
+      const leftCompareAccordionBox = new CompareAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+        expandedProperty: this.leftCompareAccordionBoxExpandedProperty
       } );
-      compareScreenPlaceholderImageNode.center = this.layoutBounds.center;
-      this.addChild( compareScreenPlaceholderImageNode );
+      leftCompareAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+      leftCompareAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+      this.addChild( leftCompareAccordionBox );
+
+      // create and add the right CompareAccordionBox
+      const rightCompareAccordionBox = new CompareAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+        expandedProperty: this.rightCompareAccordionBoxExpandedProperty
+      } );
+      rightCompareAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+      rightCompareAccordionBox.bottom = leftCompareAccordionBox.bottom;
+      this.addChild( rightCompareAccordionBox );
+
+      // set the x-position of the NumeralAccordionBox's after the CompareObjectAccordionBoxes have been added
+      leftNumeralAccordionBox.right = leftCompareAccordionBox.right;
+      rightNumeralAccordionBox.left = rightCompareAccordionBox.left;
+
+      // create and add the ResetAllButton
+      const resetAllButton = new ResetAllButton( {
+        listener: () => {
+          this.interruptSubtreeInput(); // cancel interactions that may be in progress
+          model.reset();
+          this.reset();
+        },
+        right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
+        bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
+        tandem: tandem.createTandem( 'resetAllButton' )
+      } );
+      this.addChild( resetAllButton );
     }
 
     /**
@@ -43,7 +109,10 @@ define( require => {
      * @public
      */
     reset() {
-      //TODO
+      this.leftNumeralAccordionBoxExpandedProperty.reset();
+      this.rightNumeralAccordionBoxExpandedProperty.reset();
+      this.leftCompareAccordionBoxExpandedProperty.reset();
+      this.rightCompareAccordionBoxExpandedProperty.reset();
     }
   }
 

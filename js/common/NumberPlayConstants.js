@@ -70,6 +70,7 @@ define( require => {
     ORANGE_BACKGROUND: 'rgb( 255, 218, 176 )',
     PURPLE_BACKGROUND: 'rgb( 254, 202, 255 )',
     BLUE_BACKGROUND: 'rgb( 190, 232, 255 )',
+    WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
     BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
 
     // misc TODO: when base classes exist, move bucket specs there

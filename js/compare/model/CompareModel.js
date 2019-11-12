@@ -9,23 +9,36 @@ define( require => {
   'use strict';
 
   // modules
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+  const ComparePlayArea = require( 'NUMBER_PLAY/compare/model/ComparePlayArea' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const Range = require( 'DOT/Range' );
 
-  class CompareModel  {
+  class CompareModel {
 
     /**
+     * @param {number} highestCount - the highest integer number that can be counted to
+     * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
+     * @param {number} objectMaxScale - see PlayObject for doc
      * @param {Tandem} tandem
      */
-    constructor( tandem ) {
-      //TODO
-    }
+    constructor( highestCount, paperNumberOrigin, objectMaxScale, tandem ) {
 
-    /**
-     * Resets the model.
-     * @public
-     */
-    reset() {
-      //TODO
+      // @public {NumberProperty}
+      this.leftCurrentNumberProperty = new NumberProperty( 0, {
+        range: new Range( 0, highestCount )
+      } );
+      this.rightCurrentNumberProperty = new NumberProperty( 0, {
+        range: new Range( 0, highestCount )
+      } );
+
+      // @public {BooleanProperty} - see NumberPlayModel for doc
+      this.isResettingProperty = new BooleanProperty( false );
+
+      // @public
+      this.leftPlayArea = new ComparePlayArea( this.leftCurrentNumberProperty, objectMaxScale, paperNumberOrigin, this.isResettingProperty );
+      this.rightPlayArea = new ComparePlayArea( this.rightCurrentNumberProperty, objectMaxScale, paperNumberOrigin, this.isResettingProperty );
     }
 
     /**
@@ -34,7 +47,21 @@ define( require => {
      * @public
      */
     step( dt ) {
-      //TODO
+      this.leftPlayArea.step( dt );
+      this.rightPlayArea.step( dt );
+    }
+
+    /**
+     * Resets the model.
+     * @public
+     */
+    reset() {
+      this.isResettingProperty.value = true;
+      this.leftPlayArea.reset();
+      this.rightPlayArea.reset();
+      this.leftCurrentNumberProperty.reset();
+      this.rightCurrentNumberProperty.reset();
+      this.isResettingProperty.reset();
     }
   }
 
