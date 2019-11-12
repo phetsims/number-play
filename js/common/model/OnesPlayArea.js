@@ -81,13 +81,9 @@ define( require => {
       // if the current number changes, add or remove paperNumbers from the play area
       currentNumberProperty.link( ( currentNumber, previousNumber ) => {
         if ( !this.isControllingCurrentNumber && !isResettingProperty.value ) {
-          if ( previousNumber !== this.sumProperty.value ) {
-            // debugger;
-          }
-          // console.log( `paper numbers are being changed. current number: ${currentNumber}, current sum: ${this.sumProperty.value}, target change: ${currentNumber - previousNumber}` );
           if ( currentNumber < previousNumber ) {
             _.times( previousNumber - currentNumber, () => {
-              console.log( currentNumber, previousNumber );
+
               // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
               if ( this.sumProperty.value > currentNumberProperty.range.min ) {
                 this.returnPaperNumberToBucket( paperNumberOrigin );
@@ -96,6 +92,7 @@ define( require => {
           }
           else if ( currentNumber > previousNumber ) {
             _.times( currentNumber - previousNumber, () => {
+
               // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
               if ( this.sumProperty.value < currentNumberProperty.range.max ) {
                 this.createPaperNumberFromBucket( paperNumberOrigin );

@@ -230,7 +230,6 @@ define( require => {
           // make it easier to find a spot if taking a while, then bail after even longer. empirically determined.
           if ( ++findCount === 1000 ) {
             minDistance = minDistance / 2;
-            console.log( minDistance );
           }
           else if ( findCount > 2000 ) {
             spotIsAvailable = true;
