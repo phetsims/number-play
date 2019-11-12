@@ -53,7 +53,7 @@ define( require => {
 
       options = merge( {
         organizedObjectPadding: null, // {null|Vector2} - see calculateOrganizedPlayObjectSpots for doc
-        playObjectTypeProperty: null // {null|EnumerationProperty.<PlayObjectType>} - created if not provided
+        playObjectTypeProperty: null  // see this.playObjectTypeProperty for doc - created if not provided
       }, options );
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
@@ -67,7 +67,7 @@ define( require => {
         size: BUCKET_SIZE
       } );
 
-      // @public {EnumerationProperty.<PlayObjectType>} - the current type of playObject being displayed
+      // @public {EnumerationProperty.<PlayObjectType|ComparePlayObjectType>} - the current type of playObject being displayed
       if ( options.playObjectTypeProperty ) {
         this.playObjectTypeProperty = options.playObjectTypeProperty;
       }
