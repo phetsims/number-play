@@ -15,6 +15,7 @@ define( require => {
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const Property = require( 'AXON/Property' );
   const Screen = require( 'JOIST/Screen' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // strings
   const screenLabString = require( 'string!NUMBER_PLAY/screen.lab' );
@@ -37,7 +38,11 @@ define( require => {
       };
 
       super(
-        () => new LabModel( tandem.createTandem( 'model' ) ),
+        () => new LabModel(
+          100,
+          new Vector2( 16, 262 ), // empirically determined
+          1.6,                    // empirically determined
+          tandem.createTandem( 'model' ) ),
         model => new LabScreenView( model, tandem.createTandem( 'view' ) ),
         options
       );

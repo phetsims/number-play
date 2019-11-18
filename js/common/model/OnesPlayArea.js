@@ -13,6 +13,7 @@ define( require => {
 
   // modules
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
+  const merge = require( 'PHET_CORE/merge' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
   const NumberProperty = require( 'AXON/NumberProperty' );
@@ -41,9 +42,13 @@ define( require => {
      * @param {BooleanProperty} isResetting
      * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
      */
-    constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty ) {
+    constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty, options ) {
 
       assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
+
+      options = merge( {
+        bucketPosition: Vector2.ZERO // {Vector2}
+      }, options );
 
       // @public
       this.currentNumberProperty = currentNumberProperty;
@@ -72,7 +77,8 @@ define( require => {
       // @public (read-only)
       this.bucket = new Bucket( {
         baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
-        size: NumberPlayConstants.BUCKET_SIZE
+        size: NumberPlayConstants.BUCKET_SIZE,
+        position: options.bucketPosition
       } );
 
       // @public {boolean} whether the view of this play area is controlling the current number

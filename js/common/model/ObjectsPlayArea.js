@@ -52,6 +52,7 @@ define( require => {
     constructor( currentNumberProperty, objectMaxScale, isResettingProperty, options ) {
 
       options = merge( {
+        bucketPosition: Vector2.ZERO, // {Vector2}
         organizedObjectPadding: null, // {null|Vector2} - see calculateOrganizedPlayObjectSpots for doc
         playObjectTypeProperty: null  // see this.playObjectTypeProperty for doc - created if not provided
       }, options );
@@ -64,7 +65,8 @@ define( require => {
       // @public (read-only)
       this.bucket = new Bucket( {
         baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
-        size: BUCKET_SIZE
+        size: BUCKET_SIZE,
+        position: options.bucketPosition
       } );
 
       // @public {EnumerationProperty.<PlayObjectType|ComparePlayObjectType>} - the current type of playObject being displayed
@@ -76,9 +78,9 @@ define( require => {
       }
 
       const initialSpots = [
-        new Vector2( -BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 ),
-        new Vector2( 0, BUCKET_SIZE.height ),
-        new Vector2( BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 )
+        new Vector2( -BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 ).plus( this.bucket.position ),
+        new Vector2( 0, BUCKET_SIZE.height ).plus( this.bucket.position ),
+        new Vector2( BUCKET_SIZE.width * 0.25, BUCKET_SIZE.height * 0.75 ).plus( this.bucket.position )
       ];
       let spotIndex = 0;
 
