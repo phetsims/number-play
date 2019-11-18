@@ -57,12 +57,11 @@ define( require => {
         rectWidth: config.contentWidth
       } );
 
-      const playAreaMarginY = 15;
       const playAreaViewBounds = new Bounds2(
         contentNode.left,
-        contentNode.top + playAreaMarginY,
+        contentNode.top + NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
         contentNode.right,
-        contentNode.bottom - playAreaMarginY
+        contentNode.bottom - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
       );
 
       const translateMVT = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
