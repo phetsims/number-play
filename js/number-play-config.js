@@ -29,6 +29,7 @@ require.config( {
     AXON: '../../axon/js',
     BRAND: '../../brand/' + phet.chipper.brand + '/js',
     DOT: '../../dot/js',
+    FRACTIONS_COMMON: '../../fractions-common/js',
     JOIST: '../../joist/js',
     KITE: '../../kite/js',
     MAKE_A_TEN: '../../make-a-ten/js',
