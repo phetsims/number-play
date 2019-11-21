@@ -13,7 +13,7 @@ define( require => {
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
 
   // @public
-  const PlayObjectType = new Enumeration( [ 'DOG', 'APPLE', 'TURTLE', 'CIRCLE' ] );
+  const PlayObjectType = new Enumeration( [ 'DOG', 'APPLE', 'TURTLE', 'BALL' ] );
 
   return numberPlay.register( 'PlayObjectType', PlayObjectType );
 } );
