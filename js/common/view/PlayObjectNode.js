@@ -21,14 +21,14 @@ define( function( require ) {
   const dogImage = require( 'image!NUMBER_PLAY/dog.png' );
   const appleImage = require( 'image!NUMBER_PLAY/apple.png' );
   const turtleImage = require( 'image!NUMBER_PLAY/turtle.png' );
-  const circleImage = require( 'image!NUMBER_PLAY/circle.png' );
+  const ballImage = require( 'image!NUMBER_PLAY/ball.png' );
 
   // convenience map that links playObject types to their corresponding images
   const mapPlayObjectTypeToImage = {};
   mapPlayObjectTypeToImage[ PlayObjectType.DOG ] = dogImage;
   mapPlayObjectTypeToImage[ PlayObjectType.APPLE ] = appleImage;
   mapPlayObjectTypeToImage[ PlayObjectType.TURTLE ] = turtleImage;
-  mapPlayObjectTypeToImage[ PlayObjectType.CIRCLE ] = circleImage;
+  mapPlayObjectTypeToImage[ PlayObjectType.BALL ] = ballImage;
 
   class PlayObjectNode extends Node {
 

@@ -75,7 +75,7 @@ define( require => {
         new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
         objectMaxScale,
         new BooleanProperty( false ), {
-          playObjectTypeProperty: new EnumerationProperty( PlayObjectType, PlayObjectType.CIRCLE ),
+          playObjectTypeProperty: new EnumerationProperty( PlayObjectType, PlayObjectType.BALL ),
           bucketPosition: new Vector2( bucketOffsetX, 0 )
         }
       );
