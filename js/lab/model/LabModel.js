@@ -132,9 +132,8 @@ define( require => {
      * @param {NumberPiece} numberPiece
      * @param {number} threshold - How much distance to allow between the piece and a container/group for it to be
      *                             dropped inside.
-     * @param {boolean} animateReturn
      */
-    numberPieceDropped( numberPiece, threshold, animateReturn ) {
+    numberPieceDropped( numberPiece, threshold ) {
       const numberPiecePosition = numberPiece.positionProperty.value;
       const sortedNumberStacks = _.sortBy( this.numberStacks, numberStack => {
         return numberStack.positionProperty.value.distance( numberPiecePosition );
@@ -142,7 +141,7 @@ define( require => {
       const closestNumberStack = sortedNumberStacks.shift();
 
       if ( numberPiecePosition.distance( closestNumberStack.positionProperty.value ) < NUMBER_PIECE_RETURN_THRESHOLD ) {
-        animateReturn ? this.returnActiveNumberPiece( numberPiece ) : this.activeNumberPieces.remove( numberPiece );
+        this.returnActiveNumberPiece( numberPiece );
       }
     }
 

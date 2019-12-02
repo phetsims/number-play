@@ -67,15 +67,7 @@ define( require => {
       } );
       this.numberPanel.centerX = this.layoutBounds.centerX;
       this.numberPanel.top = playAreaViewBounds.top;
-
-      this.numberPanel.pageNumberProperty.link( pageNumber => {
-
-        // TODO: The following code needs to run when the Carousel is actually at the page that this Property says it's
-        // at, but this is not an acceptable solution.
-        setTimeout( () => {
-          this.numberPanel.updateModelLocations( this.modelViewTransform );
-        }, animationDuration * 1000 );
-      } );
+      this.numberPanel.updateModelLocations( this.modelViewTransform );
 
       model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
       model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
@@ -143,12 +135,7 @@ define( require => {
         positioned: true,
         modelViewTransform: this.modelViewTransform,
         dropListener: wasTouch => {
-          this.model.numberPieceDropped(
-            numberPiece,
-            wasTouch ? 50 : 20,
-            ( numberPiece.number < 11 && this.numberPanel.pageNumberProperty.value === 0 ) ||
-            ( numberPiece.number > 10 && this.numberPanel.pageNumberProperty.value === 1 )
-          );
+          this.model.numberPieceDropped( numberPiece, wasTouch ? 50 : 20 );
         }
       } );
 
