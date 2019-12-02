@@ -72,6 +72,9 @@ define( require => {
       model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
       model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
+      // TODO: all pieces in this ScreenView need to use this layer
+      this.pieceLayer = new Node();
+
       // create and add the OnesPlayAreaNode
       const onesPlayAreaNode = new OnesPlayAreaNode( model.onesPlayArea, playAreaViewBounds, this.modelViewTransform );
       this.addChild( onesPlayAreaNode );
@@ -84,7 +87,9 @@ define( require => {
       const leftObjectsPlayAreaNode = new ObjectsPlayAreaNode(
         model.leftObjectsPlayArea,
         playAreaModelBounds,
-        this.modelViewTransform
+        this.modelViewTransform, {
+          playObjectsLayer: this.pieceLayer
+        }
       );
       this.addChild( leftObjectsPlayAreaNode );
 
@@ -92,12 +97,13 @@ define( require => {
       const rightObjectsPlayAreaNode = new ObjectsPlayAreaNode(
         model.rightObjectsPlayArea,
         playAreaModelBounds,
-        this.modelViewTransform
+        this.modelViewTransform, {
+          playObjectsLayer: this.pieceLayer
+        }
       );
       this.addChild( rightObjectsPlayAreaNode );
 
-      // TODO: all pieces in this ScreenView need to use this layer, not just the number pieces
-      this.pieceLayer = new Node();
+      // add the piece layer
       this.addChild( this.pieceLayer );
 
       // create and add the ResetAllButton
@@ -142,6 +148,7 @@ define( require => {
       numberPieceNode.cursor = 'pointer';
       numberPieceNode.inputListeners = [ DragListener.createForwardingListener( event => {
         numberPieceNode.dragListener.press( event, numberPieceNode );
+        numberPieceNode.moveToFront();
       } ) ];
 
       this.numberPieceNodes.push( numberPieceNode );

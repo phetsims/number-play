@@ -11,6 +11,7 @@ define( require => {
   // modules
   const BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   const BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const PlayObjectNode = require( 'NUMBER_PLAY/common/view/PlayObjectNode' );
@@ -22,8 +23,12 @@ define( require => {
      * @param {Bounds2} playAreaBounds
      * @param {ModelViewTransform2} translateMVT
      */
-    constructor( playArea, playAreaBounds, translateMVT ) {
+    constructor( playArea, playAreaBounds, translateMVT, options ) {
       super();
+
+      options = merge( {
+        playObjectsLayer: null // {null|Node} - layer for playObjects, created if not provided
+      }, options );
 
       // create and add the bucket back
       const bucketHole = new BucketHole( playArea.bucket, translateMVT );
@@ -39,9 +44,15 @@ define( require => {
       bucketHole.center = bucketFrontNode.centerTop;
       this.addChild( bucketFrontNode );
 
-      // create and add a layer for all play objects in the play area
-      const playObjectsPlayAreaLayer = new Node();
-      this.addChild( playObjectsPlayAreaLayer );
+      // create and add a layer for all play objects in the play area, if not provided in options
+      let playObjectsLayer = null;
+      if ( options.playObjectsLayer ) {
+        playObjectsLayer = options.playObjectsLayer;
+      }
+      else {
+        playObjectsLayer = new Node();
+        this.addChild( playObjectsLayer );
+      }
 
       // create and add the play object nodes
       playArea.playObjects.forEach( playObject => {
@@ -53,8 +64,8 @@ define( require => {
           if ( !userControlled ) {
             if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
                  bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) {
-              if ( playObjectsPlayAreaLayer.hasChild( playObjectNode ) ) {
-                playObjectsPlayAreaLayer.removeChild( playObjectNode );
+              if ( playObjectsLayer.hasChild( playObjectNode ) ) {
+                playObjectsLayer.removeChild( playObjectNode );
                 playObjectsStorageLayer.addChild( playObjectNode );
               }
               playArea.returnPlayObjectToBucket( playObject );
@@ -73,7 +84,7 @@ define( require => {
           else {
             if ( playObjectsStorageLayer.hasChild( playObjectNode ) ) {
               playObjectsStorageLayer.removeChild( playObjectNode );
-              playObjectsPlayAreaLayer.addChild( playObjectNode );
+              playObjectsLayer.addChild( playObjectNode );
             }
             if ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
                  bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) {
@@ -92,8 +103,8 @@ define( require => {
         playObject.positionProperty.link( () => {
           if ( ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
                  bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) && !playObject.userControlledProperty.value ) {
-            if ( playObjectsPlayAreaLayer.hasChild( playObjectNode ) ) {
-              playObjectsPlayAreaLayer.removeChild( playObjectNode );
+            if ( playObjectsLayer.hasChild( playObjectNode ) ) {
+              playObjectsLayer.removeChild( playObjectNode );
               playObjectsStorageLayer.addChild( playObjectNode );
             }
           }
