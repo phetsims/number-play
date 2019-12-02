@@ -72,11 +72,17 @@ define( require => {
       model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
       model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
-      // TODO: all pieces in this ScreenView need to use this layer
+      // @private {Node} - Node for all pieces to share
       this.pieceLayer = new Node();
 
       // create and add the OnesPlayAreaNode
-      const onesPlayAreaNode = new OnesPlayAreaNode( model.onesPlayArea, playAreaViewBounds, this.modelViewTransform );
+      const onesPlayAreaNode = new OnesPlayAreaNode(
+        model.onesPlayArea,
+        playAreaViewBounds,
+        this.modelViewTransform, {
+          paperNumberLayerNode: this.pieceLayer
+        }
+      );
       this.addChild( onesPlayAreaNode );
 
       // the one's play area covers other nodes, so add the numberPanel after

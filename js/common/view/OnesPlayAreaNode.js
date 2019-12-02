@@ -14,6 +14,7 @@ define( require => {
   const BucketFront = require( 'SCENERY_PHET/bucket/BucketFront' );
   const BucketHole = require( 'SCENERY_PHET/bucket/BucketHole' );
   const ClosestDragListener = require( 'SUN/ClosestDragListener' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const OnesCreatorNode = require( 'NUMBER_PLAY/common/view/OnesCreatorNode' );
@@ -30,8 +31,12 @@ define( require => {
      * @param {Bounds2} playAreaViewBounds
      * @param {ModelViewTransform2} translateMVT
      */
-    constructor( playArea, playAreaViewBounds, translateMVT ) {
+    constructor( playArea, playAreaViewBounds, translateMVT, options ) {
       super();
+
+      options = merge( {
+        paperNumberLayerNode: null // {null|Node}
+      }, options );
 
       // @private {Function} - Called with function( paperNumberNode ) on number splits
       this.numberSplitListener = this.onNumberSplit.bind( this );
@@ -47,10 +52,6 @@ define( require => {
 
       // @public {OnesPlayArea}
       this.playArea = playArea;
-
-      // @protected {Node} - Where all of the paper numbers are. NOTE: Subtypes need to add this as a child with the
-      //                     proper place in layering (this common view doesn't do that).
-      this.paperNumberLayerNode = new Node();
 
       // @private {Function}
       this.tryToCombineNumbersCallback = this.tryToCombineNumbers.bind( this );
@@ -103,7 +104,15 @@ define( require => {
       this.onesCreatorNode.centerBottom = bucketFrontNode.center;
       this.addChild( bucketFrontNode );
 
-      this.addChild( this.paperNumberLayerNode );
+      // @private {Node} - Where all of the paper numbers are. Created if not provided.
+      this.paperNumberLayerNode = null;
+      if ( options.paperNumberLayerNode ) {
+        this.paperNumberLayerNode = options.paperNumberLayerNode;
+      }
+      else {
+        this.paperNumberLayerNode = new Node();
+        this.addChild( this.paperNumberLayerNode );
+      }
     }
 
     /**
@@ -196,7 +205,7 @@ define( require => {
      */
     tryToCombineNumbers( draggedPaperNumber ) {
       const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
-      const allPaperNumberNodes = this.paperNumberLayerNode.children;
+      const allPaperNumberNodes = _.filter( this.paperNumberLayerNode.children, child => child instanceof PaperNumberNode );
 
       // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket and should not
       // be tried to combined with. return if no paperNumbers are left or if the draggedPaperNumber's value is 0

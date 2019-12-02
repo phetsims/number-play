@@ -27,7 +27,7 @@ define( require => {
       super();
 
       options = merge( {
-        playObjectsLayer: null // {null|Node} - layer for playObjects, created if not provided
+        playObjectsLayer: null // {null|Node}
       }, options );
 
       // create and add the bucket back
