@@ -4,6 +4,8 @@
  * Class for a 'Ten Frame' Node, which creates ten frames (5x2 grid of squares) and fills them with dots by listening
  * to the provided Property. It supports any NumberProperty with a maximum range that is a multiple of ten.
  *
+ * The static methods can be used to draw simple ten frame nodes and provide locations for the centers of their squares.
+ *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 define( require => {
@@ -12,6 +14,7 @@ define( require => {
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
   const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
@@ -44,7 +47,7 @@ define( require => {
 
       // create the calculated number of ten frames needed
       _.times( numberOfTenFrames, () => {
-        tenFramePaths.push( TenFrameNode.getTenFramePath( 'white', LINE_WIDTH ) );
+        tenFramePaths.push( TenFrameNode.getTenFramePath() );
       } );
 
       // add all ten frames, aligned in a horizontal line
@@ -59,7 +62,9 @@ define( require => {
       this.addChild( this.dotsLayer );
 
       // @private {Vector2[]} - the center of every dot spot available
-      this.dotSpots = this.getDotSpotCenters( numberOfTenFrames );
+      this.dotSpots = TenFrameNode.getSpotCenters( {
+        numberOfTenFrames: numberOfTenFrames
+      } );
 
       // update the number of dots shown whenever the current number changes
       currentNumberProperty.link( currentNumber => {
@@ -84,27 +89,33 @@ define( require => {
     }
 
     /**
-     * Calculates the center of all dot locations for the provided number of ten frames.
+     * Calculates the center location of all the squares in a ten frame shape(s).
      *
-     * @param {number} numberOfTenFrames
      * @returns {Vector2[]}
-     * @private
+     * @public
      */
-    getDotSpotCenters( numberOfTenFrames ) {
+    static getSpotCenters( options ) {
+
+      options = merge( {
+        numberOfTenFrames: 1,
+        sideLength: SIDE_LENGTH,
+        lineWidth: LINE_WIDTH
+      }, options );
+
       const spots = [];
-      const squareCenterOffset = SIDE_LENGTH / 2 + LINE_WIDTH / 2; // offset from the edge to the first square's center
+      const squareCenterOffset = options.sideLength / 2 + options.lineWidth / 2; // offset from the edge to the first square's center
 
       // the width of i ten frames plus the space between ten frames
-      const nextTenFrameXOffset = NUMBER_OF_X_SQUARES * SIDE_LENGTH + DISTANCE_BETWEEN_TEN_FRAMES + LINE_WIDTH / 2;
+      const nextTenFrameXOffset = NUMBER_OF_X_SQUARES * options.sideLength + DISTANCE_BETWEEN_TEN_FRAMES + options.lineWidth / 2;
 
-      for ( let i = 0; i < numberOfTenFrames; i++ ) {
+      for ( let i = 0; i < options.numberOfTenFrames; i++ ) {
         const xOffset = i * nextTenFrameXOffset; // shift over for each additional ten frame
 
         // iterate through all squares in a ten frame and record the center of each square
         for ( let j = 0; j < NUMBER_OF_Y_SQUARES; j++ ) {
-          const y = j * SIDE_LENGTH + squareCenterOffset;
+          const y = j * options.sideLength + squareCenterOffset;
           for ( let k = 0; k < NUMBER_OF_X_SQUARES; k++ ) {
-            const x = k * SIDE_LENGTH + squareCenterOffset;
+            const x = k * options.sideLength + squareCenterOffset;
             spots.push( new Vector2( x + xOffset, y ) );
           }
         }
@@ -120,35 +131,42 @@ define( require => {
      * @returns {Path}
      * @public
      */
-    static getTenFramePath( fill, lineWidth ) {
+    static getTenFramePath( options ) {
+
+      options = merge( {
+        fill: 'white',
+        lineWidth: LINE_WIDTH,
+        sideLength: SIDE_LENGTH
+      }, options );
+
       const tenFrameShape = new Shape()
         .moveTo( 0, 0 )
 
         // draw the bounding rectangle, counterclockwise
-        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * SIDE_LENGTH )
-        .lineToRelative( NUMBER_OF_X_SQUARES * SIDE_LENGTH, 0 )
-        .lineToRelative( 0, -NUMBER_OF_Y_SQUARES * SIDE_LENGTH )
-        .lineToRelative( -NUMBER_OF_X_SQUARES * SIDE_LENGTH, 0 )
-        .lineTo( 0, NUMBER_OF_Y_SQUARES / 2 * SIDE_LENGTH )
+        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * options.sideLength )
+        .lineToRelative( NUMBER_OF_X_SQUARES * options.sideLength, 0 )
+        .lineToRelative( 0, -NUMBER_OF_Y_SQUARES * options.sideLength )
+        .lineToRelative( -NUMBER_OF_X_SQUARES * options.sideLength, 0 )
+        .lineTo( 0, NUMBER_OF_Y_SQUARES / 2 * options.sideLength )
 
         // draw the middle horizontal line, left to right
-        .lineToRelative( NUMBER_OF_X_SQUARES * SIDE_LENGTH, 0 )
+        .lineToRelative( NUMBER_OF_X_SQUARES * options.sideLength, 0 )
 
         // draw the inner vertical lines, right to left
-        .moveTo( NUMBER_OF_X_SQUARES * SIDE_LENGTH * 0.8, 0 )
-        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * SIDE_LENGTH )
-        .moveTo( NUMBER_OF_X_SQUARES * SIDE_LENGTH * 0.6, 0 )
-        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * SIDE_LENGTH )
-        .moveTo( NUMBER_OF_X_SQUARES * SIDE_LENGTH * 0.4, 0 )
-        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * SIDE_LENGTH )
-        .moveTo( NUMBER_OF_X_SQUARES * SIDE_LENGTH * 0.2, 0 )
-        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * SIDE_LENGTH )
+        .moveTo( NUMBER_OF_X_SQUARES * options.sideLength * 0.8, 0 )
+        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * options.sideLength )
+        .moveTo( NUMBER_OF_X_SQUARES * options.sideLength * 0.6, 0 )
+        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * options.sideLength )
+        .moveTo( NUMBER_OF_X_SQUARES * options.sideLength * 0.4, 0 )
+        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * options.sideLength )
+        .moveTo( NUMBER_OF_X_SQUARES * options.sideLength * 0.2, 0 )
+        .lineToRelative( 0, NUMBER_OF_Y_SQUARES * options.sideLength )
         .close();
 
       return new Path( tenFrameShape, {
-        fill: fill,
+        fill: options.fill,
         stroke: 'black',
-        lineWidth: lineWidth
+        lineWidth: options.lineWidth
       } );
     }
   }

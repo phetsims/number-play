@@ -10,6 +10,7 @@ define( require => {
 
   // modules
   const Bounds2 = require( 'DOT/Bounds2' );
+  const DraggableTenFrameNode = require( 'NUMBER_PLAY/lab/view/DraggableTenFrameNode' );
   const DragListener = require( 'SCENERY/listeners/DragListener' );
   const LabNumberCarousel = require( 'NUMBER_PLAY/lab/view/LabNumberCarousel' );
   const ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -22,6 +23,8 @@ define( require => {
   const OnesPlayAreaNode = require( 'NUMBER_PLAY/common/view/OnesPlayAreaNode' );
   const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   const ScreenView = require( 'JOIST/ScreenView' );
+  const TenFrame = require( 'NUMBER_PLAY/lab/model/TenFrame' );
+  const TenFrameNode = require( 'NUMBER_PLAY/common/view/TenFrameNode' );
   const Vector2 = require( 'DOT/Vector2' );
 
   class LabScreenView extends ScreenView {
@@ -51,7 +54,7 @@ define( require => {
         1
       );
 
-      // @private {Array.<NumberPieceNode>}
+      // @private {NumberPieceNode[]}
       this.numberPieceNodes = [];
 
       const animationDuration = 0.4; // in seconds
@@ -109,6 +112,19 @@ define( require => {
       );
       this.addChild( rightObjectsPlayAreaNode );
 
+      const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();
+
+      // position empirically determined
+      tenFrameCreatorIconNode.centerX = this.modelViewTransform.modelToViewX( model.onesPlayArea.bucket.position.x ) - 180;
+      tenFrameCreatorIconNode.bottom = playAreaViewBounds.bottom - NumberPlayConstants.SCREEN_VIEW_X_PADDING;
+      this.addChild( tenFrameCreatorIconNode );
+
+      // @private {draggableTenFrameNode[]}
+      this.tenFrameNodes = [];
+
+      model.activeTenFrames.addItemAddedListener( this.addTenFrame.bind( this ) );
+      model.activeTenFrames.addItemRemovedListener( this.removeTenFrame.bind( this ) );
+
       // add the piece layer
       this.addChild( this.pieceLayer );
 
@@ -127,10 +143,10 @@ define( require => {
 
     /**
      * Returns the corresponding NumberPieceNode for a given NumberPiece.
-     * @public
      *
      * @param {NumberPiece} numberPiece
      * @returns {NumberPieceNode}
+     * @private
      */
     getNumberPieceNode( numberPiece ) {
       return _.find( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
@@ -138,9 +154,9 @@ define( require => {
 
     /**
      * Called when a new NumberPiece is added to the model (we'll create the view).
-     * @private
      *
      * @param {NumberPiece} numberPiece
+     * @private
      */
     addNumberPiece( numberPiece ) {
       const numberPieceNode = new NumberPieceNode( numberPiece, {
@@ -163,16 +179,77 @@ define( require => {
 
     /**
      * Called when a NumberPiece is removed from the model (we'll remove the view).
-     * @private
      *
      * @param {NumberPiece} numberPiece
+     * @private
      */
     removeNumberPiece( numberPiece ) {
-      const numberPieceNode = _.find( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
+      const numberPieceNode = this.getNumberPieceNode( numberPiece );
 
       _.pull( this.numberPieceNodes, numberPieceNode );
       this.pieceLayer.removeChild( numberPieceNode );
       numberPieceNode.dispose();
+    }
+
+    /**
+     * Creates a TenFrame node that DraggableTenFrameNodes can be created from when clicked
+     *
+     * @returns {Node}
+     * @private
+     */
+    getTenFrameCreatorIconNode() {
+      // TODO: add a plus sign as part of the icon
+      const tenFrameIconNode = TenFrameNode.getTenFramePath();
+      tenFrameIconNode.cursor = 'pointer';
+      tenFrameIconNode.inputListeners = [ DragListener.createForwardingListener( event => {
+        const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point ) );
+        const tenFrame = new TenFrame( 70, modelPoint );
+        this.model.dragTenFrameFromIcon( tenFrame );
+        const tenFrameNode = this.getTenFrameNode( tenFrame );
+        tenFrameNode.dragListener.press( event, tenFrameNode );
+      } ) ];
+      return tenFrameIconNode;
+    }
+
+    /**
+     * Called when a new Ten Frame is added to the model.
+     *
+     * @param {TenFrame} tenFrame
+     * @private
+     */
+    addTenFrame( tenFrame ) {
+      const tenFrameNode = new DraggableTenFrameNode( tenFrame, this.modelViewTransform, () => {
+        // TODO: implement method below
+        // this.model.tenFrameDropped( tenFrame );
+      } );
+
+      this.tenFrameNodes.push( tenFrameNode );
+      this.pieceLayer.addChild( tenFrameNode );
+    }
+
+    /**
+     * Called when a TenFrame is removed from the model.
+     *
+     * @param {TenFrame} tenFrame
+     * @private
+     */
+    removeTenFrame( tenFrame ) {
+      const tenFrameNode = this.getTenFrameNode( tenFrame );
+
+      _.pull( this.tenFrameNodes, tenFrameNode );
+      this.pieceLayer.removeChild( tenFrameNode );
+      tenFrameNode.dispose();
+    }
+
+    /**
+     * Returns the corresponding DraggableTenFrameNode for a given TenFrame.
+     *
+     * @param {TenFrame} tenFrame
+     * @returns {DraggableTenFrameNode}
+     * @private
+     */
+    getTenFrameNode( tenFrame ) {
+      return _.find( this.tenFrameNodes, tenFrameNode => tenFrameNode.tenFrame === tenFrame );
     }
   }
 

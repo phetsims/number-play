@@ -154,7 +154,10 @@ define( require => {
 
       // content for organizePlayObjectsButton
       const xMargin = 4;
-      const tenFramePath = TenFrameNode.getTenFramePath( null, 2.5 );
+      const tenFramePath = TenFrameNode.getTenFramePath( {
+        fill: null,
+        lineWidth: 2.5
+      } );
       tenFramePath.setScaleMagnitude( ( resetAllButton.width - xMargin * 2 ) / tenFramePath.width );
 
       // create and add a button to organize the ObjectsAccordionBox playObjects in a grid

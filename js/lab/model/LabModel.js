@@ -41,8 +41,11 @@ define( require => {
       // @public {Array.<NumberStack>}
       this.numberStacks = [];
 
-      // @public {ObservableArray.<NumberPiece>} - Number pieces in the play area (controlled or animating)
+      // @public {ObservableArray.<NumberPiece>} - Number pieces in the play area
       this.activeNumberPieces = new ObservableArray();
+
+      // @public {ObservableArray.<TenFrame>} - ten frames in the play area
+      this.activeTenFrames = new ObservableArray();
 
       // Number stacks
       _.range( 1, 21 ).map( number => {
@@ -143,6 +146,16 @@ define( require => {
       if ( numberPiecePosition.distance( closestNumberStack.positionProperty.value ) < NUMBER_PIECE_RETURN_THRESHOLD ) {
         this.returnActiveNumberPiece( numberPiece );
       }
+    }
+
+    /**
+     * Called when the user drags a ten frame from a stack.
+     *
+     * @param {TenFrame} tenFrame
+     * @public
+     */
+    dragTenFrameFromIcon( tenFrame ) {
+      this.activeTenFrames.push( tenFrame );
     }
 
     /**
