@@ -14,7 +14,7 @@ define( require => {
   const PlayObjectType = require( 'NUMBER_PLAY/common/model/PlayObjectType' );
 
   // @public
-  const ComparePlayObjectType = new Enumeration( [ PlayObjectType.DOG.name, PlayObjectType.APPLE.name, 'PAPER_ONE' ] );
+  const ComparePlayObjectType = Enumeration.byKeys( [ PlayObjectType.DOG.name, PlayObjectType.APPLE.name, 'PAPER_ONE' ] );
 
   return numberPlay.register( 'ComparePlayObjectType', ComparePlayObjectType );
 } );
