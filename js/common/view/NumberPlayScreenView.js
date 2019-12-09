@@ -31,6 +31,7 @@ define( require => {
      */
     constructor( model, config ) {
 
+      // TODO: convert to required() where appropriate, revert back to an option where appropriate (e.g. fill)
       config = merge( {
 
         // config for WordAccordionBox. see WordAccordionBox for additional fields
