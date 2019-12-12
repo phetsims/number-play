@@ -38,11 +38,11 @@ define( require => {
   // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
   SimLauncher.launch( () => {
     const sim = new Sim( numberPlayTitleString, [
-      new TenScreen( Tandem.rootTandem.createTandem( 'tenScreen' ) ),
-      new TwentyScreen( Tandem.rootTandem.createTandem( 'twentyScreen' ) ),
-      new CompareScreen( Tandem.rootTandem.createTandem( 'compareScreen' ) ),
-      new GameScreen( Tandem.rootTandem.createTandem( 'gameScreen' ) ),
-      new LabScreen( Tandem.rootTandem.createTandem( 'labScreen' ) )
+      new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
+      new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
+      new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) ),
+      new GameScreen( Tandem.ROOT.createTandem( 'gameScreen' ) ),
+      new LabScreen( Tandem.ROOT.createTandem( 'labScreen' ) )
     ], simOptions );
     sim.start();
   } );
