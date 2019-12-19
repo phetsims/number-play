@@ -18,7 +18,7 @@ define( require => {
     /**
      * @param {Array.<NumberStack>} numberStacks
      * @param {number} animationDuration
-     * @param {function} pressCallback - function( {Event}, {Stack} ) - Called when a press is started.
+     * @param {function} pressCallback - function( {SceneryEvent}, {Stack} ) - Called when a press is started.
      */
     constructor( numberStacks, animationDuration, pressCallback ) {
       const box = new StackNodesBox( [
