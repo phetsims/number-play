@@ -191,7 +191,7 @@ define( require => {
      * splitting paper numbers), and starts a drag on this paper number.
      * @public
      *
-     * @param {Event} event - Scenery event from the relevant input handler
+     * @param {SceneryEvent} event - Scenery event from the relevant input handler
      */
     startSyntheticDrag: function( event ) {
       // Don't emit a move event, as we don't want the cue to disappear.
@@ -204,7 +204,7 @@ define( require => {
      * Implements the API for ClosestDragListener.
      * @public
      *
-     * @param {Event} event - Scenery event from the relevant input handler
+     * @param {SceneryEvent} event - Scenery event from the relevant input handler
      */
     startDrag: function( event ) {
       if ( this.globalToLocalPoint( event.pointer.point ).y < this.splitTarget.bottom && this.paperNumber.numberValueProperty.value > 1 ) {
