@@ -94,5 +94,11 @@
   },
   "objects": {
     "value": "Objects"
+  },
+  "english": {
+    "value": "English"
+  },
+  "spanish": {
+    "value": "Español"
   }
 }

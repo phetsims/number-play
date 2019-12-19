@@ -43,7 +43,11 @@ define( require => {
       const screenViewConfig = {
         wordAccordionBoxConfig: {
           fill: NumberPlayConstants.GREEN_BACKGROUND,
-          font: new PhetFont( 62 )
+          font: new PhetFont( 62 ),
+          textOffsetY: -1,
+          toggleControlOffset: new Vector2( 0, -12 ),
+          speakerButtonOffset: new Vector2( 16, 6 ),
+          speakerButtonScale: 1
         },
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND,

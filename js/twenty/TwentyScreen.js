@@ -44,7 +44,11 @@ define( require => {
         wordAccordionBoxConfig: {
           fill: NumberPlayConstants.ORANGE_BACKGROUND,
           font: new PhetFont( 54 ),
-          contentXMargin: 24 // empirically determined
+          contentXMargin: 24, // empirically determined
+          textOffsetY: -10,
+          toggleControlOffset: new Vector2( -24, -7 ),
+          speakerButtonOffset: new Vector2( 0, 38 ),
+          speakerButtonScale: 0.8
         },
         numeralAccordionBoxConfig: {
           fill: NumberPlayConstants.GREEN_BACKGROUND,
