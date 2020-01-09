@@ -61,7 +61,7 @@ define( function( require ) {
 
       // add a DragListener to handle user dragging
       this.addInputListener( new DragListener( {
-        locationProperty: playObject.positionProperty,
+        positionProperty: playObject.positionProperty,
         transform: modelViewTransform,
         dragBoundsProperty: new Property( playAreaModelBounds ),
         start: event => {

@@ -37,7 +37,7 @@ define( require => {
       this.dragListener = new DragListener( {
         targetNode: this,
         transform: modelViewTransform,
-        locationProperty: tenFrame.positionProperty,
+        positionProperty: tenFrame.positionProperty,
         end: () => {
           dropListener();
         }
