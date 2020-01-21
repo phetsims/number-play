@@ -91,6 +91,5 @@ define( function( require ) {
     }
   }
 
-
   return numberPlay.register( 'PlayObjectNode', PlayObjectNode );
 } );
