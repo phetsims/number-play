@@ -77,6 +77,7 @@ define( require => {
     // @private {DragListener}
     this.moveDragHandler = new DragListener( {
       targetNode: this,
+      pressCursor: 'move', // Our target doesn't have the move cursor, so we need to override here
       start: function( event, listener ) {
         self.interactionStartedEmitter.emit( self );
         if ( !self.preventMoveEmit ) {
