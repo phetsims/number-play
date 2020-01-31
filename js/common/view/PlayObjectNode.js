@@ -5,7 +5,7 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
