@@ -116,8 +116,8 @@ define( require => {
       const languageControl = new Node();
       const onOffSwitch = new OnOffSwitch( new BooleanProperty( false ), {
         size: new Dimension2( 40, 20 ),
-        trackOffFill: 'lightgray',
-        trackOnFill: 'lightgray'
+        trackFillLeft: 'lightgray',
+        trackFillRight: 'lightgray'
       } );
       const labelOptions = { font: new PhetFont( 14 ) };
       const englishText = new Text( englishString, labelOptions );
