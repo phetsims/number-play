@@ -6,47 +6,44 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const AccordionBox = require( 'SUN/AccordionBox' );
-  const merge = require( 'PHET_CORE/merge' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const TenFrameNode = require( 'NUMBER_PLAY/common/view/TenFrameNode' );
-  const Text = require( 'SCENERY/nodes/Text' );
+import merge from '../../../../phet-core/js/merge.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
+import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import numberPlayStrings from '../../number-play-strings.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
+import TenFrameNode from './TenFrameNode.js';
 
-  // strings
-  const tenFrameString = require( 'string!NUMBER_PLAY/tenFrame' );
+const tenFrameString = numberPlayStrings.tenFrame;
 
-  class TenFrameAccordionBox extends AccordionBox {
+class TenFrameAccordionBox extends AccordionBox {
 
-    /**
-     * @param {NumberProperty} currentNumberProperty
-     * @param {number} height - the height of this accordion box
-     * @param {Object} [options]
-     */
-    constructor( currentNumberProperty, height, options ) {
+  /**
+   * @param {NumberProperty} currentNumberProperty
+   * @param {number} height - the height of this accordion box
+   * @param {Object} [options]
+   */
+  constructor( currentNumberProperty, height, options ) {
 
-      options = merge( {
-        titleNode: new Text( tenFrameString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
-        minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
-        maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
-      }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, options );
+    options = merge( {
+      titleNode: new Text( tenFrameString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
+      minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
+      maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, options );
 
-      const contentNode = new Rectangle( { rectHeight: height } );
+    const contentNode = new Rectangle( { rectHeight: height } );
 
-      // create, scale, and add the TenFrameNode
-      const tenFrameNode = new TenFrameNode( currentNumberProperty );
-      tenFrameNode.scale( height / tenFrameNode.height / 2 );
-      tenFrameNode.centerY = contentNode.centerY;
-      contentNode.addChild( tenFrameNode );
+    // create, scale, and add the TenFrameNode
+    const tenFrameNode = new TenFrameNode( currentNumberProperty );
+    tenFrameNode.scale( height / tenFrameNode.height / 2 );
+    tenFrameNode.centerY = contentNode.centerY;
+    contentNode.addChild( tenFrameNode );
 
-      super( contentNode, options );
-    }
+    super( contentNode, options );
   }
+}
 
-  return numberPlay.register( 'TenFrameAccordionBox', TenFrameAccordionBox );
-} );
+numberPlay.register( 'TenFrameAccordionBox', TenFrameAccordionBox );
+export default TenFrameAccordionBox;

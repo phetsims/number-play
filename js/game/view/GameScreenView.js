@@ -5,47 +5,42 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Image = require( 'SCENERY/nodes/Image' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const ScreenView = require( 'JOIST/ScreenView' );
+import ScreenView from '../../../../joist/js/ScreenView.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
+import gameScreenPlaceholderImage from '../../../images/game_screen_placeholder_png.js';
+import numberPlay from '../../numberPlay.js';
 
-  // images
-  const gameScreenPlaceholderImage = require( 'image!NUMBER_PLAY/game_screen_placeholder.png' );
+class GameScreenView extends ScreenView {
 
-  class GameScreenView extends ScreenView {
+  /**
+   * @param {GameModel} model
+   * @param {Tandem} tandem
+   */
+  constructor( model, tandem ) {
 
-    /**
-     * @param {GameModel} model
-     * @param {Tandem} tandem
-     */
-    constructor( model, tandem ) {
+    super( {
+      tandem: tandem
+    } );
 
-      super( {
-        tandem: tandem
-      } );
-
-      // add the screen's placeholder image
-      const gameScreenPlaceholderImageNode = new Image( gameScreenPlaceholderImage, {
-        maxWidth: this.layoutBounds.width,
-        maxHeight: this.layoutBounds.height,
-        cursor: 'pointer'
-      } );
-      gameScreenPlaceholderImageNode.center = this.layoutBounds.center;
-      this.addChild( gameScreenPlaceholderImageNode );
-    }
-
-    /**
-     * Resets the view.
-     * @public
-     */
-    reset() {
-      //TODO
-    }
+    // add the screen's placeholder image
+    const gameScreenPlaceholderImageNode = new Image( gameScreenPlaceholderImage, {
+      maxWidth: this.layoutBounds.width,
+      maxHeight: this.layoutBounds.height,
+      cursor: 'pointer'
+    } );
+    gameScreenPlaceholderImageNode.center = this.layoutBounds.center;
+    this.addChild( gameScreenPlaceholderImageNode );
   }
 
-  return numberPlay.register( 'GameScreenView', GameScreenView );
-} );
+  /**
+   * Resets the view.
+   * @public
+   */
+  reset() {
+    //TODO
+  }
+}
+
+numberPlay.register( 'GameScreenView', GameScreenView );
+export default GameScreenView;

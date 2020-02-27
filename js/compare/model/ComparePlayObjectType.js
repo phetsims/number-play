@@ -5,16 +5,13 @@
  *
  * @author Chris Klusendorf
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const PlayObjectType = require( 'NUMBER_PLAY/common/model/PlayObjectType' );
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import PlayObjectType from '../../common/model/PlayObjectType.js';
+import numberPlay from '../../numberPlay.js';
 
-  // @public
-  const ComparePlayObjectType = Enumeration.byKeys( [ PlayObjectType.DOG.name, PlayObjectType.APPLE.name, 'PAPER_ONE' ] );
+// @public
+const ComparePlayObjectType = Enumeration.byKeys( [ PlayObjectType.DOG.name, PlayObjectType.APPLE.name, 'PAPER_ONE' ] );
 
-  return numberPlay.register( 'ComparePlayObjectType', ComparePlayObjectType );
-} );
+numberPlay.register( 'ComparePlayObjectType', ComparePlayObjectType );
+export default ComparePlayObjectType;

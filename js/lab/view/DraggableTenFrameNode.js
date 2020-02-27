@@ -5,56 +5,53 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const DragListener = require( 'SCENERY/listeners/DragListener' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const TenFrameNode = require( 'NUMBER_PLAY/common/view/TenFrameNode' );
-  const Vector2 = require( 'DOT/Vector2' );
+import Vector2 from '../../../../dot/js/Vector2.js';
+import DragListener from '../../../../scenery/js/listeners/DragListener.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import TenFrameNode from '../../common/view/TenFrameNode.js';
+import numberPlay from '../../numberPlay.js';
 
-  class DraggableTenFrameNode extends Node {
+class DraggableTenFrameNode extends Node {
 
-    /**
-     * @param {number} sideLength - see doc below
-     * @param {Vector2} initialPosition
-     */
-    constructor( tenFrame, modelViewTransform, dropListener ) {
-      super();
+  /**
+   * @param {number} sideLength - see doc below
+   * @param {Vector2} initialPosition
+   */
+  constructor( tenFrame, modelViewTransform, dropListener ) {
+    super();
 
-      // @public {TenFrame}
-      this.tenFrame = tenFrame;
+    // @public {TenFrame}
+    this.tenFrame = tenFrame;
 
-      const tenFrameNode = TenFrameNode.getTenFramePath( {
-        sideLength: tenFrame.squareSideLength
-      } );
-      tenFrameNode.center = new Vector2( 0, -tenFrameNode.height / 2 );
-      this.addChild( tenFrameNode );
+    const tenFrameNode = TenFrameNode.getTenFramePath( {
+      sideLength: tenFrame.squareSideLength
+    } );
+    tenFrameNode.center = new Vector2( 0, -tenFrameNode.height / 2 );
+    this.addChild( tenFrameNode );
 
-      // @public {DragListener}
-      this.dragListener = new DragListener( {
-        targetNode: this,
-        transform: modelViewTransform,
-        positionProperty: tenFrame.positionProperty,
-        end: () => {
-          dropListener();
-        }
-      } );
+    // @public {DragListener}
+    this.dragListener = new DragListener( {
+      targetNode: this,
+      transform: modelViewTransform,
+      positionProperty: tenFrame.positionProperty,
+      end: () => {
+        dropListener();
+      }
+    } );
 
-      this.cursor = 'pointer';
-      // TODO: add a 'dragging' bar and make only that have a forwarding listener
-      this.inputListeners = [ DragListener.createForwardingListener( event => {
-        this.dragListener.press( event, this );
-        this.moveToFront();
-      } ) ];
+    this.cursor = 'pointer';
+    // TODO: add a 'dragging' bar and make only that have a forwarding listener
+    this.inputListeners = [ DragListener.createForwardingListener( event => {
+      this.dragListener.press( event, this );
+      this.moveToFront();
+    } ) ];
 
-      tenFrame.positionProperty.link( position => {
-        this.translation = modelViewTransform.modelToViewPosition( position );
-      } );
-    }
+    tenFrame.positionProperty.link( position => {
+      this.translation = modelViewTransform.modelToViewPosition( position );
+    } );
   }
+}
 
-  return numberPlay.register( 'DraggableTenFrameNode', DraggableTenFrameNode );
-} );
+numberPlay.register( 'DraggableTenFrameNode', DraggableTenFrameNode );
+export default DraggableTenFrameNode;

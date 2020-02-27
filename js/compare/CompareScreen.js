@@ -5,50 +5,46 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const CompareModel = require( 'NUMBER_PLAY/compare/model/CompareModel' );
-  const CompareScreenView = require( 'NUMBER_PLAY/compare/view/CompareScreenView' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const Vector2 = require( 'DOT/Vector2' );
+import Property from '../../../axon/js/Property.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import Screen from '../../../joist/js/Screen.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import compareScreenIconImage from '../../images/compare_screen_icon_png.js';
+import NumberPlayConstants from '../common/NumberPlayConstants.js';
+import numberPlayStrings from '../number-play-strings.js';
+import numberPlay from '../numberPlay.js';
+import CompareModel from './model/CompareModel.js';
+import CompareScreenView from './view/CompareScreenView.js';
 
-  // strings
-  const screenCompareString = require( 'string!NUMBER_PLAY/screen.compare' );
+const screenCompareString = numberPlayStrings.screen.compare;
 
-  // images
-  const compareScreenIconImage = require( 'image!NUMBER_PLAY/compare_screen_icon.png' );
 
-  class CompareScreen extends Screen {
+class CompareScreen extends Screen {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
-      const options = {
-        name: screenCompareString,
-        backgroundColorProperty: new Property( NumberPlayConstants.WHITE_BACKGROUND ),
-        homeScreenIcon: new Image( compareScreenIconImage ),
-        tandem: tandem
-      };
+    const options = {
+      name: screenCompareString,
+      backgroundColorProperty: new Property( NumberPlayConstants.WHITE_BACKGROUND ),
+      homeScreenIcon: new Image( compareScreenIconImage ),
+      tandem: tandem
+    };
 
-      super(
-        () => new CompareModel(
-          NumberPlayConstants.TWENTY,
-          new Vector2( 16, 262 ), // empirically determined
-          1.3,                    // empirically determined
-          tandem.createTandem( 'model' ) ),
-        model => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
-        options
-      );
-    }
+    super(
+      () => new CompareModel(
+        NumberPlayConstants.TWENTY,
+        new Vector2( 16, 262 ), // empirically determined
+        1.3,                    // empirically determined
+        tandem.createTandem( 'model' ) ),
+      model => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
+      options
+    );
   }
+}
 
-  return numberPlay.register( 'CompareScreen', CompareScreen );
-} );
+numberPlay.register( 'CompareScreen', CompareScreen );
+export default CompareScreen;

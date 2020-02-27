@@ -5,11 +5,7 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Namespace = require( 'PHET_CORE/Namespace' );
+import Namespace from '../../phet-core/js/Namespace.js';
 
-  return new Namespace( 'numberPlay' );
-} );
+export default new Namespace( 'numberPlay' );

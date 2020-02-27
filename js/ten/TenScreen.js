@@ -5,94 +5,90 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const NumberPlayConstants = require( 'NUMBER_PLAY/common/NumberPlayConstants' );
-  const NumberPlayModel = require( 'NUMBER_PLAY/common/model/NumberPlayModel' );
-  const NumberPlayScreenView = require( 'NUMBER_PLAY/common/view/NumberPlayScreenView' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
-  const Vector2 = require( 'DOT/Vector2' );
+import Property from '../../../axon/js/Property.js';
+import Dimension2 from '../../../dot/js/Dimension2.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import Screen from '../../../joist/js/Screen.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import tenScreenIconImage from '../../images/ten_screen_icon_png.js';
+import NumberPlayModel from '../common/model/NumberPlayModel.js';
+import NumberPlayConstants from '../common/NumberPlayConstants.js';
+import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
+import numberPlayStrings from '../number-play-strings.js';
+import numberPlay from '../numberPlay.js';
 
-  // strings
-  const screenTenString = require( 'string!NUMBER_PLAY/screen.ten' );
+const screenTenString = numberPlayStrings.screen.ten;
 
-  // images
-  const tenScreenIconImage = require( 'image!NUMBER_PLAY/ten_screen_icon.png' );
 
-  class TenScreen extends Screen {
+class TenScreen extends Screen {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
-      const screenOptions = {
-        name: screenTenString,
-        backgroundColorProperty: new Property( NumberPlayConstants.TEN_SCREEN_BACKGROUND ),
-        homeScreenIcon: new Image( tenScreenIconImage ),
-        tandem: tandem
-      };
+    const screenOptions = {
+      name: screenTenString,
+      backgroundColorProperty: new Property( NumberPlayConstants.TEN_SCREEN_BACKGROUND ),
+      homeScreenIcon: new Image( tenScreenIconImage ),
+      tandem: tandem
+    };
 
-      const screenViewConfig = {
-        wordAccordionBoxConfig: {
-          fill: NumberPlayConstants.GREEN_BACKGROUND,
-          font: new PhetFont( 62 ),
-          textOffsetY: -1,
-          toggleControlOffset: new Vector2( 0, -12 ),
-          speakerButtonOffset: new Vector2( 16, 6 ),
-          speakerButtonScale: 1
-        },
-        numeralAccordionBoxConfig: {
-          fill: NumberPlayConstants.ORANGE_BACKGROUND,
-          font: new PhetFont( 98 ),
-          contentXMargin: 0, // empirically determined
-          arrowButtonConfig: {
-            arrowWidth: 20,  // empirically determined
-            arrowHeight: 20, // empirically determined
-            spacing: 10      // empirically determined
-          }
-        },
-        tenFrameAccordionBoxConfig: {
-          fill: NumberPlayConstants.GREEN_BACKGROUND,
-          contentAlign: 'center'
-        },
-        onesAccordionBoxConfig: {
-          minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-          maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-          contentWidth: 372 // empirically determined
-        },
-        objectsAccordionBoxConfig: {
-          minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-          maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-          contentWidth: 370,                         // empirically determined
-          radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
-          radioButtonSpacing: 10                     // empirically determined
-        },
-        upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,
-        lowerAccordionBoxHeight: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_HEIGHT,
-        tandem: tandem.createTandem( 'view' )
-      };
+    const screenViewConfig = {
+      wordAccordionBoxConfig: {
+        fill: NumberPlayConstants.GREEN_BACKGROUND,
+        font: new PhetFont( 62 ),
+        textOffsetY: -1,
+        toggleControlOffset: new Vector2( 0, -12 ),
+        speakerButtonOffset: new Vector2( 16, 6 ),
+        speakerButtonScale: 1
+      },
+      numeralAccordionBoxConfig: {
+        fill: NumberPlayConstants.ORANGE_BACKGROUND,
+        font: new PhetFont( 98 ),
+        contentXMargin: 0, // empirically determined
+        arrowButtonConfig: {
+          arrowWidth: 20,  // empirically determined
+          arrowHeight: 20, // empirically determined
+          spacing: 10      // empirically determined
+        }
+      },
+      tenFrameAccordionBoxConfig: {
+        fill: NumberPlayConstants.GREEN_BACKGROUND,
+        contentAlign: 'center'
+      },
+      onesAccordionBoxConfig: {
+        minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
+        maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
+        contentWidth: 372 // empirically determined
+      },
+      objectsAccordionBoxConfig: {
+        minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
+        maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
+        contentWidth: 370,                         // empirically determined
+        radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
+        radioButtonSpacing: 10                     // empirically determined
+      },
+      upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,
+      lowerAccordionBoxHeight: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_HEIGHT,
+      tandem: tandem.createTandem( 'view' )
+    };
 
-      super(
-        () => new NumberPlayModel(
-          NumberPlayConstants.TEN,
-          new Vector2( 16, 240 ), // empirically determined
-          1.6,                    // empirically determined
-          new Vector2( 10, 16 ),  // empirically determined
-          tandem.createTandem( 'model' )
-        ),
-        model => new NumberPlayScreenView( model, screenViewConfig ),
-        screenOptions
-      );
-    }
+    super(
+      () => new NumberPlayModel(
+        NumberPlayConstants.TEN,
+        new Vector2( 16, 240 ), // empirically determined
+        1.6,                    // empirically determined
+        new Vector2( 10, 16 ),  // empirically determined
+        tandem.createTandem( 'model' )
+      ),
+      model => new NumberPlayScreenView( model, screenViewConfig ),
+      screenOptions
+    );
   }
+}
 
-  return numberPlay.register( 'TenScreen', TenScreen );
-} );
+numberPlay.register( 'TenScreen', TenScreen );
+export default TenScreen;

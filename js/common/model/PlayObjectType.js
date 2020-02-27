@@ -5,15 +5,12 @@
  *
  * @author Chris Klusendorf
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const Enumeration = require( 'PHET_CORE/Enumeration' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import numberPlay from '../../numberPlay.js';
 
-  // @public
-  const PlayObjectType = Enumeration.byKeys( [ 'DOG', 'APPLE', 'TURTLE', 'BALL' ] );
+// @public
+const PlayObjectType = Enumeration.byKeys( [ 'DOG', 'APPLE', 'TURTLE', 'BALL' ] );
 
-  return numberPlay.register( 'PlayObjectType', PlayObjectType );
-} );
+numberPlay.register( 'PlayObjectType', PlayObjectType );
+export default PlayObjectType;

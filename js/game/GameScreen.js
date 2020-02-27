@@ -5,44 +5,40 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const GameModel = require( 'NUMBER_PLAY/game/model/GameModel' );
-  const GameScreenView = require( 'NUMBER_PLAY/game/view/GameScreenView' );
-  const Image = require( 'SCENERY/nodes/Image' );
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const Property = require( 'AXON/Property' );
-  const Screen = require( 'JOIST/Screen' );
+import Property from '../../../axon/js/Property.js';
+import Screen from '../../../joist/js/Screen.js';
+import Image from '../../../scenery/js/nodes/Image.js';
+import gameScreenIconImage from '../../images/game_screen_icon_png.js';
+import numberPlayStrings from '../number-play-strings.js';
+import numberPlay from '../numberPlay.js';
+import GameModel from './model/GameModel.js';
+import GameScreenView from './view/GameScreenView.js';
 
-  // strings
-  const screenGameString = require( 'string!NUMBER_PLAY/screen.game' );
+const screenGameString = numberPlayStrings.screen.game;
 
-  // images
-  const gameScreenIconImage = require( 'image!NUMBER_PLAY/game_screen_icon.png' );
 
-  class GameScreen extends Screen {
+class GameScreen extends Screen {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
-      const options = {
-        name: screenGameString,
-        backgroundColorProperty: new Property( 'white' ),
-        homeScreenIcon: new Image( gameScreenIconImage ),
-        tandem: tandem
-      };
+    const options = {
+      name: screenGameString,
+      backgroundColorProperty: new Property( 'white' ),
+      homeScreenIcon: new Image( gameScreenIconImage ),
+      tandem: tandem
+    };
 
-      super(
-        () => new GameModel( tandem.createTandem( 'model' ) ),
-        model => new GameScreenView( model, tandem.createTandem( 'view' ) ),
-        options
-      );
-    }
+    super(
+      () => new GameModel( tandem.createTandem( 'model' ) ),
+      model => new GameScreenView( model, tandem.createTandem( 'view' ) ),
+      options
+    );
   }
+}
 
-  return numberPlay.register( 'GameScreen', GameScreen );
-} );
+numberPlay.register( 'GameScreen', GameScreen );
+export default GameScreen;

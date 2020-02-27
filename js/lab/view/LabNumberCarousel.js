@@ -5,49 +5,46 @@
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const numberPlay = require( 'NUMBER_PLAY/numberPlay' );
-  const Carousel = require( 'SUN/Carousel' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const StackNodesBox = require( 'FRACTIONS_COMMON/building/view/StackNodesBox' );
+import StackNodesBox from '../../../../fractions-common/js/building/view/StackNodesBox.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Carousel from '../../../../sun/js/Carousel.js';
+import numberPlay from '../../numberPlay.js';
 
-  class LabNumberCarousel extends Carousel {
-    /**
-     * @param {Array.<NumberStack>} numberStacks
-     * @param {number} animationDuration
-     * @param {function} pressCallback - function( {SceneryEvent}, {Stack} ) - Called when a press is started.
-     */
-    constructor( numberStacks, animationDuration, pressCallback ) {
-      const box = new StackNodesBox( [
-        ...numberStacks
-      ], pressCallback );
+class LabNumberCarousel extends Carousel {
+  /**
+   * @param {Array.<NumberStack>} numberStacks
+   * @param {number} animationDuration
+   * @param {function} pressCallback - function( {SceneryEvent}, {Stack} ) - Called when a press is started.
+   */
+  constructor( numberStacks, animationDuration, pressCallback ) {
+    const box = new StackNodesBox( [
+      ...numberStacks
+    ], pressCallback );
 
-      super( box.children.map( stack => {
-        return new Node().addChild( stack );
-      } ), {
-        itemsPerPage: 10,
-        margin: 14,
-        spacing: 8,
-        animationDuration: animationDuration
-      } );
+    super( box.children.map( stack => {
+      return new Node().addChild( stack );
+    } ), {
+      itemsPerPage: 10,
+      margin: 14,
+      spacing: 8,
+      animationDuration: animationDuration
+    } );
 
-      // @private {StackNodesBox}
-      this.box = box;
-    }
-
-    /**
-     * Sets the model positions of our model objects corresponding to their displayed (view) positions.
-     * @public
-     *
-     * @param {ModelViewTransform2} modelViewTransform
-     */
-    updateModelLocations( modelViewTransform ) {
-      this.box.updateModelLocations( modelViewTransform, this );
-    }
+    // @private {StackNodesBox}
+    this.box = box;
   }
 
-  return numberPlay.register( 'LabNumberCarousel', LabNumberCarousel );
-} );
+  /**
+   * Sets the model positions of our model objects corresponding to their displayed (view) positions.
+   * @public
+   *
+   * @param {ModelViewTransform2} modelViewTransform
+   */
+  updateModelLocations( modelViewTransform ) {
+    this.box.updateModelLocations( modelViewTransform, this );
+  }
+}
+
+numberPlay.register( 'LabNumberCarousel', LabNumberCarousel );
+export default LabNumberCarousel;
