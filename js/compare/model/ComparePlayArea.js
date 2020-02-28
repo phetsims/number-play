@@ -1,4 +1,4 @@
-// Copyright 2019, University of Colorado Boulder
+// Copyright 2019-2020, University of Colorado Boulder
 
 /**
  * Model class for a ComparePlayArea, which combines a OnesPlayArea and an ObjectsPlayArea.
