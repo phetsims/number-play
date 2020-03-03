@@ -7,7 +7,7 @@
   <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"/>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="phet-sim-level" content="development">
-  
+
   <title>number-play</title>
 </head>
 
@@ -19,34 +19,71 @@
 
   window.phet = window.phet || {};
   window.phet.chipper = window.phet.chipper || {};
-  window.phet.chipper.packageObject = {
-    "name": "number-play",
-    "version": "1.0.0-dev.15",
-    "license": "GPL-3.0",
-    "repository": { "type": "git", "url": "https://github.com/phetsims/number-play.git" },
-    "devDependencies": { "grunt": "~1.0.0" },
-    "phet": {
-      "requirejsNamespace": "NUMBER_PLAY",
-      "phetLibs": [ "fractions-common", "make-a-ten", "twixt" ],
-      "simulation": true,
-      "runnable": true,
-      "supportedBrands": [ "phet", "adapted-from-phet" ]
-    },
-    "eslintConfig": { "extends": "../chipper/eslint/sim_es6_eslintrc.js" }
-  };
-  window.phet.chipper.stringRepos = [ {
-    "repo": "fractions-common",
-    "requirejsNamespace": "FRACTIONS_COMMON"
-  }, { "repo": "joist", "requirejsNamespace": "JOIST" }, {
-    "repo": "make-a-ten",
-    "requirejsNamespace": "MAKE_A_TEN"
-  }, { "repo": "number-play", "requirejsNamespace": "NUMBER_PLAY" }, {
-    "repo": "scenery-phet",
-    "requirejsNamespace": "SCENERY_PHET"
-  }, { "repo": "sun", "requirejsNamespace": "SUN" }, {
-    "repo": "tambo",
-    "requirejsNamespace": "TAMBO"
-  }, { "repo": "twixt", "requirejsNamespace": "TWIXT" } ];
+  window.phet.chipper.packageObject =
+    {
+      "name": "number-play",
+      "version": "1.0.0-dev.15",
+      "license": "GPL-3.0",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/phetsims/number-play.git"
+      },
+      "devDependencies": {
+        "grunt": "~1.0.0"
+      },
+      "phet": {
+        "requirejsNamespace": "NUMBER_PLAY",
+        "phetLibs": [
+          "fractions-common",
+          "make-a-ten",
+          "twixt"
+        ],
+        "simulation": true,
+        "runnable": true,
+        "supportedBrands": [
+          "phet",
+          "adapted-from-phet"
+        ]
+      },
+      "eslintConfig": {
+        "extends": "../chipper/eslint/sim_es6_eslintrc.js"
+      }
+    };
+  window.phet.chipper.stringRepos =
+    [
+      {
+        "repo": "fractions-common",
+        "requirejsNamespace": "FRACTIONS_COMMON"
+      },
+      {
+        "repo": "joist",
+        "requirejsNamespace": "JOIST"
+      },
+      {
+        "repo": "make-a-ten",
+        "requirejsNamespace": "MAKE_A_TEN"
+      },
+      {
+        "repo": "number-play",
+        "requirejsNamespace": "NUMBER_PLAY"
+      },
+      {
+        "repo": "scenery-phet",
+        "requirejsNamespace": "SCENERY_PHET"
+      },
+      {
+        "repo": "sun",
+        "requirejsNamespace": "SUN"
+      },
+      {
+        "repo": "tambo",
+        "requirejsNamespace": "TAMBO"
+      },
+      {
+        "repo": "twixt",
+        "requirejsNamespace": "TWIXT"
+      }
+    ];
 
   // Identify the brand (assume generated brand if not provided with query parameters)
   const brandMatch = location.search.match( /brand=([^&]+)/ );
