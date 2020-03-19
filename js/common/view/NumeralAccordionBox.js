@@ -57,7 +57,9 @@ class NumeralAccordionBox extends AccordionBox {
       decimalPlaces: 0,
       align: 'right',
       noValueAlign: 'left',
-      font: config.font,
+      textOptions: {
+        font: config.font
+      },
       backgroundFill: null,
       backgroundStroke: null
     } );
