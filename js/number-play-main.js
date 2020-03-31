@@ -12,7 +12,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import CompareScreen from './compare/CompareScreen.js';
 import GameScreen from './game/GameScreen.js';
 import LabScreen from './lab/LabScreen.js';
-import numberPlayStrings from './number-play-strings.js';
+import numberPlayStrings from './numberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
 

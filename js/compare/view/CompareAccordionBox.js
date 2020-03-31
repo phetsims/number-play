@@ -28,7 +28,7 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import ObjectsPlayAreaNode from '../../common/view/ObjectsPlayAreaNode.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import PlayObjectNode from '../../common/view/PlayObjectNode.js';
-import numberPlayStrings from '../../number-play-strings.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 

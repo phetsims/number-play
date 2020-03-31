@@ -20,7 +20,7 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import OnOffSwitch from '../../../../sun/js/OnOffSwitch.js';
 import speakerImage from '../../../images/speaker_png.js';
-import numberPlayStrings from '../../number-play-strings.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 

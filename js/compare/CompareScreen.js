@@ -12,7 +12,7 @@ import Screen from '../../../joist/js/Screen.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import compareScreenIconImage from '../../images/compare_screen_icon_png.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
-import numberPlayStrings from '../number-play-strings.js';
+import numberPlayStrings from '../numberPlayStrings.js';
 import numberPlay from '../numberPlay.js';
 import CompareModel from './model/CompareModel.js';
 import CompareScreenView from './view/CompareScreenView.js';

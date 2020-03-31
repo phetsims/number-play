@@ -16,7 +16,7 @@ import twentyScreenIconImage from '../../images/twenty_screen_icon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
-import numberPlayStrings from '../number-play-strings.js';
+import numberPlayStrings from '../numberPlayStrings.js';
 import numberPlay from '../numberPlay.js';
 
 const screenTwentyString = numberPlayStrings.screen.twenty;
