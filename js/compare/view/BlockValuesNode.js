@@ -63,7 +63,8 @@ class BlockValuesNode extends Node {
     } );
     const leftStack = new VBox( {
       children: leftBlocks,
-      spacing: PADDING
+      spacing: PADDING,
+      excludeInvisibleChildrenFromBounds: false
     } );
 
     // create and add the right blocks
@@ -74,7 +75,8 @@ class BlockValuesNode extends Node {
     } );
     const rightStack = new VBox( {
       children: rightBlocks,
-      spacing: PADDING
+      spacing: PADDING,
+      excludeInvisibleChildrenFromBounds: false
     } );
 
     // align and return
