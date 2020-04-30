@@ -143,7 +143,7 @@ function PaperNumberNode( paperNumber, availableViewBoundsProperty, addAndDragNu
 
 numberPlay.register( 'PaperNumberNode', PaperNumberNode );
 
-export default inherit( Node, PaperNumberNode, {
+inherit( Node, PaperNumberNode, {
   /**
    * Rebuilds the image nodes that display the actual paper number, and resizes the mouse/touch targets.
    * @private
@@ -280,3 +280,5 @@ export default inherit( Node, PaperNumberNode, {
     return new BaseNumberNode( new BaseNumber( digit, place ), 1 );
   }
 } );
+
+export default PaperNumberNode;
