@@ -93,7 +93,7 @@ class OnesCreatorNode extends Node {
    *
    * @returns {Vector2}
    */
-  getOriginLocation() {
+  getOriginPosition() {
 
     // Trail to playAreaNode, not including the playAreaNode
     let trail = this.playAreaNode.getUniqueLeafTrailTo( this.oneTarget );

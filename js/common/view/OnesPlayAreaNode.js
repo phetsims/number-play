@@ -318,7 +318,7 @@ class OnesPlayAreaNode extends Node {
       paperNumber.numberValueProperty.value = 0;
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
-      let targetPosition = this.onesCreatorNode.getOriginLocation();
+      let targetPosition = this.onesCreatorNode.getOriginPosition();
 
       // TODO: the ternary below is a hack that shouldn't be needed once https://github.com/phetsims/number-play/issues/6 is fixed.
       const paperCenterOffset = new PaperNumber( paperNumberValue > 0 ? paperNumberValue : 1, new Vector2( 0, 0 ) ).getLocalBounds().center;

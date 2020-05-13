@@ -197,7 +197,7 @@ class ObjectsPlayArea {
       assert && assert( !this.playObjectsInPlayArea.contains( playObject ), 'playObject is already in play area' );
 
       // finish any running animations. this is needed so that if a playObject is removed and then quickly added,
-      // the added playObject animates out from the bucket and not its previous location in the play area
+      // the added playObject animates out from the bucket and not its previous position in the play area
       if ( playObject.animation && playObject.animation.runningProperty.value ) {
         playObject.animation.step( MAX_ANIMATION_TIME );
       }

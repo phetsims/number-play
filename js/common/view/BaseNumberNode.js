@@ -69,7 +69,7 @@ const DIGIT_X_OFFSET = { 1: 93, 2: -7, 3: -7, 4: -9, 5: -18, 6: -5, 7: -24, 8: -
 // digit => horizontal offset, customized for each single digit base number
 const FIRST_PLACE_DIGIT_X_OFFSET = { 1: -61, 2: 0, 3: 0, 4: 0, 5: 5, 6: 0, 7: 15, 8: 10, 9: 15 };
 
-// place => horizontal locations of the zeros in the base number
+// place => horizontal positions of the zeros in the base number
 const ZERO_OFFSET = {
   0: [],
   1: [ 335 ],
@@ -91,7 +91,7 @@ const SCALE = 72 / 300;
 function BaseNumberNode( baseNumber, opacity, isPartOfStack ) {
   Node.call( this, { scale: SCALE } );
 
-  // Location of the initial digit
+  // Position of the initial digit
   let x = PLACE_X_OFFSET[ baseNumber.place ] + DIGIT_X_OFFSET[ baseNumber.digit ];
   const y = PLACE_Y_OFFSET[ baseNumber.place ];
 

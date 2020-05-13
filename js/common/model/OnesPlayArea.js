@@ -234,7 +234,7 @@ class OnesPlayArea {
    * Given two paper numbers, combine them (set one's value to the sum of their previous values, and remove the
    * other).
    *
-   * @param {Bounds2} availableModelBounds - Constrain the location to be inside these bounds
+   * @param {Bounds2} availableModelBounds - Constrain the position to be inside these bounds
    * @param {PaperNumber} draggedPaperNumber
    * @param {PaperNumber} dropTargetNumber
    */

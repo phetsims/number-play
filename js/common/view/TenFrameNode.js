@@ -4,7 +4,7 @@
  * Class for a 'Ten Frame' Node, which creates ten frames (5x2 grid of squares) and fills them with dots by listening
  * to the provided Property. It supports any NumberProperty with a maximum range that is a multiple of ten.
  *
- * The static methods can be used to draw simple ten frame nodes and provide locations for the centers of their squares.
+ * The static methods can be used to draw simple ten frame nodes and provide positions for the centers of their squares.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -86,7 +86,7 @@ class TenFrameNode extends Node {
   }
 
   /**
-   * Calculates the center location of all the squares in a ten frame shape(s).
+   * Calculates the center position of all the squares in a ten frame shape(s).
    *
    * @returns {Vector2[]}
    * @public

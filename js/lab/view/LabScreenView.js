@@ -67,7 +67,7 @@ class LabScreenView extends ScreenView {
     } );
     this.numberPanel.centerX = this.layoutBounds.centerX;
     this.numberPanel.top = playAreaViewBounds.top;
-    this.numberPanel.updateModelLocations( this.modelViewTransform );
+    this.numberPanel.updateModelPositions( this.modelViewTransform );
 
     model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
