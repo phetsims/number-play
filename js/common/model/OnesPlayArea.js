@@ -203,6 +203,7 @@ class OnesPlayArea {
 
   /**
    * @param {number} dt
+   * @public
    */
   step( dt ) {
 
@@ -237,6 +238,7 @@ class OnesPlayArea {
    * @param {Bounds2} availableModelBounds - Constrain the position to be inside these bounds
    * @param {PaperNumber} draggedPaperNumber
    * @param {PaperNumber} dropTargetNumber
+   * @public
    */
   collapseNumberModels( availableModelBounds, draggedPaperNumber, dropTargetNumber ) {
     const dropTargetNumberValue = dropTargetNumber.numberValueProperty.value;
@@ -295,7 +297,7 @@ class OnesPlayArea {
   }
 
   /**
-   * @override
+   * @public
    */
   reset() {
     this.removeAllPaperNumbers();

@@ -392,6 +392,7 @@ class ObjectsPlayArea {
    *
    * @param {PlayObject} droppedPlayObject
    * @param {number} droppedPlayObjectMoveCount - if this gets to high, move away in a uniform direction
+   * @public
    */
   checkIfCoveringPlayObject( droppedPlayObject, droppedPlayObjectMoveCount ) {
     const otherPlayObjectsInPlayArea = [ ...this.playObjectsInPlayArea.getArray() ];

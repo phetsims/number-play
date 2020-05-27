@@ -45,6 +45,7 @@ class NumberPlayModel {
   /**
    * Steps the model.
    * @param {number} dt
+   * @public
    */
   step( dt ) {
     this.onesPlayArea.step( dt );

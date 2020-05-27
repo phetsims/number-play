@@ -74,6 +74,7 @@ class PlayObjectNode extends Node {
    *
    * @param {PlayObjectType} PlayObjectType
    * @returns {Image}
+   * @private
    */
   createPlayObjectImageNode( playObjectType ) {
     const playObjectImageNode = new Image( mapPlayObjectTypeToImage[ playObjectType ], {
