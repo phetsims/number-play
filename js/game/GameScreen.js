@@ -8,10 +8,11 @@
 
 import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import gameScreenIconImage from '../../images/game_screen_icon_png.js';
-import numberPlayStrings from '../numberPlayStrings.js';
 import numberPlay from '../numberPlay.js';
+import numberPlayStrings from '../numberPlayStrings.js';
 import GameModel from './model/GameModel.js';
 import GameScreenView from './view/GameScreenView.js';
 
@@ -28,7 +29,10 @@ class GameScreen extends Screen {
     const options = {
       name: screenGameString,
       backgroundColorProperty: new Property( 'white' ),
-      homeScreenIcon: new Image( gameScreenIconImage ),
+      homeScreenIcon: new ScreenIcon( new Image( gameScreenIconImage ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       tandem: tandem
     };
 

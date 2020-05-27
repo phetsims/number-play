@@ -10,14 +10,15 @@ import Property from '../../../axon/js/Property.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import tenScreenIconImage from '../../images/ten_screen_icon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
-import numberPlayStrings from '../numberPlayStrings.js';
 import numberPlay from '../numberPlay.js';
+import numberPlayStrings from '../numberPlayStrings.js';
 
 const screenTenString = numberPlayStrings.screen.ten;
 
@@ -32,7 +33,10 @@ class TenScreen extends Screen {
     const screenOptions = {
       name: screenTenString,
       backgroundColorProperty: new Property( NumberPlayConstants.TEN_SCREEN_BACKGROUND ),
-      homeScreenIcon: new Image( tenScreenIconImage ),
+      homeScreenIcon: new ScreenIcon( new Image( tenScreenIconImage ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       tandem: tandem
     };
 

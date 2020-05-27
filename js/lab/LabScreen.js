@@ -9,10 +9,11 @@
 import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
+import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
 import labScreenIconImage from '../../images/lab_screen_icon_png.js';
-import numberPlayStrings from '../numberPlayStrings.js';
 import numberPlay from '../numberPlay.js';
+import numberPlayStrings from '../numberPlayStrings.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
 
@@ -29,7 +30,10 @@ class LabScreen extends Screen {
     const options = {
       name: screenLabString,
       backgroundColorProperty: new Property( 'white' ),
-      homeScreenIcon: new Image( labScreenIconImage ),
+      homeScreenIcon: new ScreenIcon( new Image( labScreenIconImage ), {
+        maxIconWidthProportion: 1,
+        maxIconHeightProportion: 1
+      } ),
       tandem: tandem
     };
 
