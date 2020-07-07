@@ -143,7 +143,7 @@ class ObjectsPlayArea {
    * @public
    */
   returnPlayObjectToBucket( playObject ) {
-    this.playObjectsInPlayArea.contains( playObject ) && this.playObjectsInPlayArea.remove( playObject );
+    this.playObjectsInPlayArea.includes( playObject ) && this.playObjectsInPlayArea.remove( playObject );
     playObject.animation && playObject.animation.stop();
 
     if ( !playObject.positionProperty.value.equals( playObject.positionProperty.initialValue ) ) {
@@ -194,7 +194,7 @@ class ObjectsPlayArea {
    */
   addPlayObjectToPlayArea( playObject, animateToPlayArea = false ) {
     if ( animateToPlayArea ) {
-      assert && assert( !this.playObjectsInPlayArea.contains( playObject ), 'playObject is already in play area' );
+      assert && assert( !this.playObjectsInPlayArea.includes( playObject ), 'playObject is already in play area' );
 
       // finish any running animations. this is needed so that if a playObject is removed and then quickly added,
       // the added playObject animates out from the bucket and not its previous position in the play area
@@ -268,7 +268,7 @@ class ObjectsPlayArea {
     }
 
     // add playObject to playObjectsInPlayArea if not already in the list
-    !this.playObjectsInPlayArea.contains( playObject ) && this.playObjectsInPlayArea.push( playObject );
+    !this.playObjectsInPlayArea.includes( playObject ) && this.playObjectsInPlayArea.push( playObject );
   }
 
   /**
@@ -305,7 +305,7 @@ class ObjectsPlayArea {
 
     // look top down for a playObject that is still in the bucket
     for ( let i = this.playObjects.length - 1; i >= 0; i-- ) {
-      if ( !this.playObjectsInPlayArea.contains( this.playObjects[ i ] ) ) {
+      if ( !this.playObjectsInPlayArea.includes( this.playObjects[ i ] ) ) {
         playObjectToAddToPlayArea = this.playObjects[ i ];
         break;
       }
