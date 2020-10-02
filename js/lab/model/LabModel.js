@@ -38,10 +38,10 @@ class LabModel {
     // @public {Array.<NumberStack>}
     this.numberStacks = [];
 
-    // @public {ObservableArray.<NumberPiece>} - Number pieces in the play area
+    // @public {ObservableArrayDef.<NumberPiece>} - Number pieces in the play area
     this.activeNumberPieces = createObservableArray();
 
-    // @public {ObservableArray.<TenFrame>} - ten frames in the play area
+    // @public {ObservableArrayDef.<TenFrame>} - ten frames in the play area
     this.activeTenFrames = createObservableArray();
 
     // Number stacks
