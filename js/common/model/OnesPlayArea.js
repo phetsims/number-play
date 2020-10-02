@@ -10,7 +10,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -56,7 +56,7 @@ class OnesPlayArea {
     } );
 
     // @public {ObservableArray.<PaperNumber>} - Numbers in play that can be interacted with.
-    this.paperNumbers = new ObservableArray();
+    this.paperNumbers = createObservableArray();
 
     // @private {Function} - To be called when we need to recalculate the total
     const calculateTotalListener = this.calculateTotal.bind( this );

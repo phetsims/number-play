@@ -9,7 +9,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
@@ -39,10 +39,10 @@ class LabModel {
     this.numberStacks = [];
 
     // @public {ObservableArray.<NumberPiece>} - Number pieces in the play area
-    this.activeNumberPieces = new ObservableArray();
+    this.activeNumberPieces = createObservableArray();
 
     // @public {ObservableArray.<TenFrame>} - ten frames in the play area
-    this.activeTenFrames = new ObservableArray();
+    this.activeTenFrames = createObservableArray();
 
     // Number stacks
     _.range( 1, 21 ).map( number => {

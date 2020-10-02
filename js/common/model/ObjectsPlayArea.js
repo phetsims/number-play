@@ -8,7 +8,7 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -105,7 +105,7 @@ class ObjectsPlayArea {
     }
 
     // @private - all playObjects that are currently in the play area
-    this.playObjectsInPlayArea = new ObservableArray();
+    this.playObjectsInPlayArea = createObservableArray();
 
     // @public {boolean} whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
