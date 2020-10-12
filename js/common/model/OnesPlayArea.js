@@ -163,7 +163,7 @@ class OnesPlayArea {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
 
     // sort by lowest value first, then by proximity to the bucket
-    const sortedPaperNumbers = _.sortBy( this.paperNumbers.getArray(), [
+    const sortedPaperNumbers = _.sortBy( this.paperNumbers, [
       paperNumber => {
         return paperNumber.numberValueProperty.value;
       },

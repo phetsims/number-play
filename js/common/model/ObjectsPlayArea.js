@@ -354,7 +354,7 @@ class ObjectsPlayArea {
     assert && assert( this.organizedPlayObjectSpots, 'this.organizedPlayObjectSpots must exist to call this function' );
 
     // copy the current playObjectsInPlayArea so we can mutate it
-    let playObjectsToOrganize = [ ...this.playObjectsInPlayArea.getArray() ];
+    let playObjectsToOrganize = this.playObjectsInPlayArea.slice();
     const numberOfObjectsToOrganize = playObjectsToOrganize.length;
 
     for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
@@ -395,7 +395,7 @@ class ObjectsPlayArea {
    * @public
    */
   checkIfCoveringPlayObject( droppedPlayObject, droppedPlayObjectMoveCount ) {
-    const otherPlayObjectsInPlayArea = [ ...this.playObjectsInPlayArea.getArray() ];
+    const otherPlayObjectsInPlayArea = this.playObjectsInPlayArea.slice();
     _.pull( otherPlayObjectsInPlayArea, droppedPlayObject );
 
     // compare to the position of every playObject in the play area except our self
