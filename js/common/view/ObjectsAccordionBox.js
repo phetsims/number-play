@@ -16,7 +16,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import RadioButtonGroup from '../../../../sun/js/buttons/RadioButtonGroup.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import PlayObject from '../model/PlayObject.js';
@@ -76,7 +76,7 @@ class ObjectsAccordionBox extends AccordionBox {
     );
     contentNode.addChild( objectsPlayAreaNode );
 
-    // create the icons for the RadioButtonGroup
+    // create the icons for the RectangularRadioButtonGroup
     const buttons = [];
     PlayObjectType.VALUES.forEach( playObjectType => {
       const iconNode = new PlayObjectNode(
@@ -96,8 +96,8 @@ class ObjectsAccordionBox extends AccordionBox {
       } );
     } );
 
-    // create and add the RadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
-    const radioButtonGroup = new RadioButtonGroup( objectsPlayArea.playObjectTypeProperty, buttons, {
+    // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+    const radioButtonGroup = new RectangularRadioButtonGroup( objectsPlayArea.playObjectTypeProperty, buttons, {
       baseColor: Color.WHITE,
       orientation: 'horizontal',
       spacing: config.radioButtonSpacing
