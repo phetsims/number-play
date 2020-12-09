@@ -225,7 +225,7 @@ class OnesPlayArea {
    */
   calculateTotal() {
     let total = 0;
-    this.paperNumbers.forEach( function( paperNumber ) {
+    this.paperNumbers.forEach( paperNumber => {
       total += paperNumber.numberValueProperty.value;
     } );
     this.sumProperty.value = total;

@@ -13,176 +13,164 @@ import ArithmeticRules from '../../../../make-a-ten/js/make-a-ten/common/model/A
 import BaseNumber from '../../../../make-a-ten/js/make-a-ten/common/model/BaseNumber.js';
 import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
-import inherit from '../../../../phet-core/js/inherit.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import numberPlay from '../../numberPlay.js';
 import BaseNumberNode from './BaseNumberNode.js';
 
-/**
- * @constructor
- *
- * @param {PaperNumber} paperNumber
- * @param {Property.<Bounds2>} availableViewBoundsProperty
- * @param {Function} addAndDragNumber - function( event, paperNumber ), adds and starts a drag for a number
- * @param {Function} tryToCombineNumbers - function( paperNumber ), called to combine our paper number
- */
-function PaperNumberNode( paperNumber, availableViewBoundsProperty, addAndDragNumber, tryToCombineNumbers ) {
-  const self = this;
+class PaperNumberNode extends Node {
+  /**
+   * @param {PaperNumber} paperNumber
+   * @param {Property.<Bounds2>} availableViewBoundsProperty
+   * @param {Function} addAndDragNumber - function( event, paperNumber ), adds and starts a drag for a number
+   * @param {Function} tryToCombineNumbers - function( paperNumber ), called to combine our paper number
+   */
+  constructor( paperNumber, availableViewBoundsProperty, addAndDragNumber, tryToCombineNumbers ) {
 
-  Node.call( this );
+    super();
 
-  // @public {PaperNumber} - Our model
-  this.paperNumber = paperNumber;
+    // @public {PaperNumber} - Our model
+    this.paperNumber = paperNumber;
 
-  // @public {Emitter} - Triggered with self when this paper number node starts to get dragged
-  this.moveEmitter = new Emitter( { parameters: [ { valueType: PaperNumberNode } ] } );
+    // @public {Emitter} - Triggered with self when this paper number node starts to get dragged
+    this.moveEmitter = new Emitter( { parameters: [ { valueType: PaperNumberNode } ] } );
 
-  // @public {Emitter} - Triggered with self when this paper number node is split
-  this.splitEmitter = new Emitter( { parameters: [ { valueType: PaperNumberNode } ] } );
+    // @public {Emitter} - Triggered with self when this paper number node is split
+    this.splitEmitter = new Emitter( { parameters: [ { valueType: PaperNumberNode } ] } );
 
-  // @public {Emitter} - Triggered when user interaction with this paper number begins.
-  this.interactionStartedEmitter = new Emitter( { parameters: [ { valueType: PaperNumberNode } ] } );
+    // @public {Emitter} - Triggered when user interaction with this paper number begins.
+    this.interactionStartedEmitter = new Emitter( { parameters: [ { valueType: PaperNumberNode } ] } );
 
-  // @private {boolean} - When true, don't emit from the moveEmitter (synthetic drag)
-  this.preventMoveEmit = false;
+    // @private {boolean} - When true, don't emit from the moveEmitter (synthetic drag)
+    this.preventMoveEmit = false;
 
-  // @private {Bounds2}
-  this.availableViewBoundsProperty = availableViewBoundsProperty;
+    // @private {Bounds2}
+    this.availableViewBoundsProperty = availableViewBoundsProperty;
 
-  // @private {Node} - Container for the digit image nodes
-  this.numberImageContainer = new Node( {
-    pickable: false
-  } );
-  this.addChild( this.numberImageContainer );
+    // @private {Node} - Container for the digit image nodes
+    this.numberImageContainer = new Node( {
+      pickable: false
+    } );
+    this.addChild( this.numberImageContainer );
 
-  // @private {Rectangle} - Hit target for the "split" behavior, where one number would be pulled off from the
-  //                        existing number.
-  this.splitTarget = new Rectangle( 0, 0, 0, 0, {
-    cursor: 'pointer'
-  } );
-  this.addChild( this.splitTarget );
+    // @private {Rectangle} - Hit target for the "split" behavior, where one number would be pulled off from the
+    //                        existing number.
+    this.splitTarget = new Rectangle( 0, 0, 0, 0, {
+      cursor: 'pointer'
+    } );
+    this.addChild( this.splitTarget );
 
-  // @private {Rectangle} - Hit target for the "move" behavior, which just drags the existing paper number.
-  this.moveTarget = new Rectangle( 0, 0, 100, 100, {
-    cursor: 'move'
-  } );
-  this.addChild( this.moveTarget );
+    // @private {Rectangle} - Hit target for the "move" behavior, which just drags the existing paper number.
+    this.moveTarget = new Rectangle( 0, 0, 100, 100, {
+      cursor: 'move'
+    } );
+    this.addChild( this.moveTarget );
 
-  // View-coordinate offset between our position and the pointer's position, used for keeping drags synced.
-  // @private {DragListener}
-  this.moveDragHandler = new DragListener( {
-    targetNode: this,
-    pressCursor: 'move', // Our target doesn't have the move cursor, so we need to override here
-    start: function( event, listener ) {
-      self.interactionStartedEmitter.emit( self );
-      if ( !self.preventMoveEmit ) {
-        self.moveEmitter.emit( self );
+    // View-coordinate offset between our position and the pointer's position, used for keeping drags synced.
+    // @private {DragListener}
+    this.moveDragHandler = new DragListener( {
+      targetNode: this,
+      pressCursor: 'move', // Our target doesn't have the move cursor, so we need to override here
+      start: ( event, listener ) => {
+        this.interactionStartedEmitter.emit( this );
+        if ( !this.preventMoveEmit ) {
+          this.moveEmitter.emit( this );
+        }
+      },
+
+      drag: ( event, listener ) => {
+        paperNumber.setConstrainedDestination( availableViewBoundsProperty.value, listener.parentPoint );
+      },
+
+      end: ( event, listener ) => {
+        tryToCombineNumbers( this.paperNumber );
+        paperNumber.endDragEmitter.emit( paperNumber );
       }
-    },
+    } );
+    this.moveDragHandler.isUserControlledProperty.link( controlled => {
+      paperNumber.userControlledProperty.value = controlled;
+    } );
+    this.moveTarget.addInputListener( this.moveDragHandler );
 
-    drag: function( event, listener ) {
-      paperNumber.setConstrainedDestination( availableViewBoundsProperty.value, listener.parentPoint );
-    },
+    // @private {Object}
+    this.splitDragHandler = {
+      down: event => {
+        if ( !event.canStartPress() ) { return; }
 
-    end: function( event, listener ) {
-      tryToCombineNumbers( self.paperNumber );
-      paperNumber.endDragEmitter.emit( paperNumber );
-    }
-  } );
-  this.moveDragHandler.isUserControlledProperty.link( function( controlled ) {
-    paperNumber.userControlledProperty.value = controlled;
-  } );
-  this.moveTarget.addInputListener( this.moveDragHandler );
+        const viewPosition = this.globalToParentPoint( event.pointer.point );
 
-  // @private {Object}
-  this.splitDragHandler = {
-    down: function( event ) {
-      if ( !event.canStartPress() ) { return; }
+        // Determine how much (if any) gets moved off
+        const pulledPlace = paperNumber.getBaseNumberAt( this.parentToLocalPoint( viewPosition ) ).place;
+        const amountToRemove = ArithmeticRules.pullApartNumbers( paperNumber.numberValueProperty.value, pulledPlace );
+        const amountRemaining = paperNumber.numberValueProperty.value - amountToRemove;
 
-      const viewPosition = self.globalToParentPoint( event.pointer.point );
+        // it cannot be split - so start moving
+        if ( !amountToRemove ) {
+          this.startSyntheticDrag( event );
+          return;
+        }
 
-      // Determine how much (if any) gets moved off
-      const pulledPlace = paperNumber.getBaseNumberAt( self.parentToLocalPoint( viewPosition ) ).place;
-      const amountToRemove = ArithmeticRules.pullApartNumbers( paperNumber.numberValueProperty.value, pulledPlace );
-      const amountRemaining = paperNumber.numberValueProperty.value - amountToRemove;
+        paperNumber.changeNumber( amountRemaining );
 
-      // it cannot be split - so start moving
-      if ( !amountToRemove ) {
-        self.startSyntheticDrag( event );
-        return;
+        this.interactionStartedEmitter.emit( this );
+        this.splitEmitter.emit( this );
+
+        const newPaperNumber = new PaperNumber( amountToRemove, paperNumber.positionProperty.value );
+        addAndDragNumber( event, newPaperNumber );
       }
+    };
+    this.splitTarget.addInputListener( this.splitDragHandler );
 
-      paperNumber.changeNumber( amountRemaining );
+    // @private {Function} - Listener that hooks model position to view translation.
+    this.translationListener = position => {
+      this.translation = position;
+    };
 
-      self.interactionStartedEmitter.emit( self );
-      self.splitEmitter.emit( self );
+    // @private {Function} - Listener for when our number changes
+    this.updateNumberListener = this.updateNumber.bind( this );
 
-      const newPaperNumber = new PaperNumber( amountToRemove, paperNumber.positionProperty.value );
-      addAndDragNumber( event, newPaperNumber );
-    }
-  };
-  this.splitTarget.addInputListener( this.splitDragHandler );
+    // @private {Function} - Listener reference that gets attached/detached. Handles moving the Node to the front.
+    this.userControlledListener = userControlled => {
+      if ( userControlled ) {
+        this.moveToFront();
+      }
+    };
+  }
 
-  // @private {Function} - Listener that hooks model position to view translation.
-  this.translationListener = function( position ) {
-    self.translation = position;
-  };
-
-  // @private {Function} - Listener for when our number changes
-  this.updateNumberListener = this.updateNumber.bind( this );
-
-  // @private {Function} - Listener reference that gets attached/detached. Handles moving the Node to the front.
-  this.userControlledListener = function( userControlled ) {
-    if ( userControlled ) {
-      self.moveToFront();
-    }
-  };
-}
-
-numberPlay.register( 'PaperNumberNode', PaperNumberNode );
-
-inherit( Node, PaperNumberNode, {
   /**
    * Rebuilds the image nodes that display the actual paper number, and resizes the mouse/touch targets.
    * @private
    */
-  updateNumber: function() {
-    const self = this;
-
+  updateNumber() {
     const reversedBaseNumbers = this.paperNumber.baseNumbers.slice().reverse();
 
     // Reversing allows easier opacity computation and has the nodes in order for setting children.
-    this.numberImageContainer.children = _.map( reversedBaseNumbers, function( baseNumber, index ) {
-
-      // each number has successively less opacity on top
-      return new BaseNumberNode( baseNumber, 0.95 * Math.pow( 0.97, index ), reversedBaseNumbers.length > 1 );
-    } );
+    this.numberImageContainer.children = _.map( reversedBaseNumbers, ( baseNumber, index ) => new BaseNumberNode( baseNumber, 0.95 * Math.pow( 0.97, index ), reversedBaseNumbers.length > 1 ) );
 
     // Grab the bounds of the biggest base number for the full bounds
     const fullBounds = this.paperNumber.baseNumbers[ this.paperNumber.baseNumbers.length - 1 ].bounds;
 
     // Split target only visible if our number is > 1. Move target can resize as needed.
     if ( this.paperNumber.numberValueProperty.value === 1 ) {
-      self.splitTarget.visible = false;
-      self.moveTarget.mouseArea = self.moveTarget.touchArea = self.moveTarget.rectBounds = fullBounds;
-      self.splitTarget.mouseArea = self.moveTarget.touchArea = self.moveTarget.rectBounds = new Bounds2( 0, 0, 0, 0 );
+      this.splitTarget.visible = false;
+      this.moveTarget.mouseArea = this.moveTarget.touchArea = this.moveTarget.rectBounds = fullBounds;
+      this.splitTarget.mouseArea = this.moveTarget.touchArea = this.moveTarget.rectBounds = new Bounds2( 0, 0, 0, 0 );
     }
     else {
-      self.splitTarget.visible = true;
+      this.splitTarget.visible = true;
 
       // Locate the boundary between the "move" input area and "split" input area.
       const boundaryY = this.paperNumber.getBoundaryY();
 
       // Modify our move/split targets
-      self.moveTarget.mouseArea = self.moveTarget.touchArea = self.moveTarget.rectBounds = fullBounds.withMinY( boundaryY );
-      self.splitTarget.mouseArea = self.splitTarget.touchArea = self.splitTarget.rectBounds = fullBounds.withMaxY( boundaryY );
+      this.moveTarget.mouseArea = this.moveTarget.touchArea = this.moveTarget.rectBounds = fullBounds.withMinY( boundaryY );
+      this.splitTarget.mouseArea = this.splitTarget.touchArea = this.splitTarget.rectBounds = fullBounds.withMaxY( boundaryY );
     }
 
     // Changing the number must have happened from an interaction. If combined, we want to put cues on this.
     this.interactionStartedEmitter.emit( this );
-  },
+  }
 
   /**
    * Called when we grab an event from a different input (like clicking the paper number in the explore panel, or
@@ -191,12 +179,12 @@ inherit( Node, PaperNumberNode, {
    *
    * @param {SceneryEvent} event - Scenery event from the relevant input handler
    */
-  startSyntheticDrag: function( event ) {
+  startSyntheticDrag( event ) {
     // Don't emit a move event, as we don't want the cue to disappear.
     this.preventMoveEmit = true;
     this.moveDragHandler.press( event );
     this.preventMoveEmit = false;
-  },
+  }
 
   /**
    * Implements the API for ClosestDragListener.
@@ -204,14 +192,14 @@ inherit( Node, PaperNumberNode, {
    *
    * @param {SceneryEvent} event - Scenery event from the relevant input handler
    */
-  startDrag: function( event ) {
+  startDrag( event ) {
     if ( this.globalToLocalPoint( event.pointer.point ).y < this.splitTarget.bottom && this.paperNumber.numberValueProperty.value > 1 ) {
       this.splitDragHandler.down( event );
     }
     else {
       this.moveDragHandler.press( event );
     }
-  },
+  }
 
   /**
    * Implements the API for ClosestDragListener.
@@ -219,7 +207,7 @@ inherit( Node, PaperNumberNode, {
    *
    * @param {Vector2} globalPoint
    */
-  computeDistance: function( globalPoint ) {
+  computeDistance( globalPoint ) {
     if ( this.paperNumber.userControlledProperty.value ) {
       return Number.POSITIVE_INFINITY;
     }
@@ -227,28 +215,28 @@ inherit( Node, PaperNumberNode, {
       const globalBounds = this.localToGlobalBounds( this.paperNumber.getLocalBounds() );
       return Math.sqrt( globalBounds.minimumDistanceToPointSquared( globalPoint ) );
     }
-  },
+  }
 
   /**
    * Attaches listeners to the model. Should be called when added to the scene graph.
    * @public
    */
-  attachListeners: function() {
+  attachListeners() {
     // mirrored unlinks in detachListeners()
     this.paperNumber.userControlledProperty.link( this.userControlledListener );
     this.paperNumber.numberValueProperty.link( this.updateNumberListener );
     this.paperNumber.positionProperty.link( this.translationListener );
-  },
+  }
 
   /**
    * Removes listeners from the model. Should be called when removed from the scene graph.
    * @public
    */
-  detachListeners: function() {
+  detachListeners() {
     this.paperNumber.positionProperty.unlink( this.translationListener );
     this.paperNumber.numberValueProperty.unlink( this.updateNumberListener );
     this.paperNumber.userControlledProperty.unlink( this.userControlledListener );
-  },
+  }
 
   /**
    * Find all nodes which are attachable to the dragged node. This method is called once the user ends the dragging.
@@ -257,17 +245,13 @@ inherit( Node, PaperNumberNode, {
    * @param {Array.<PaperNumberNode>} allPaperNumberNodes
    * @returns {Array}
    */
-  findAttachableNodes: function( allPaperNumberNodes ) {
-    const self = this;
+  findAttachableNodes( allPaperNumberNodes ) {
     const attachableNodeCandidates = allPaperNumberNodes.slice();
     arrayRemove( attachableNodeCandidates, this );
 
-    return attachableNodeCandidates.filter( function( candidateNode ) {
-      return PaperNumber.arePaperNumbersAttachable( self.paperNumber, candidateNode.paperNumber );
-    } );
+    return attachableNodeCandidates.filter( candidateNode => PaperNumber.arePaperNumbersAttachable( this.paperNumber, candidateNode.paperNumber ) );
   }
 
-}, {
   /**
    * Given a number's digit and place, looks up the associated image.
    * @public
@@ -276,9 +260,11 @@ inherit( Node, PaperNumberNode, {
    * @param {number} place
    * @returns {HTMLImageElement}
    */
-  getNumberImage: function( digit, place ) {
+  static getNumberImage( digit, place ) {
     return new BaseNumberNode( new BaseNumber( digit, place ), 1 );
   }
-} );
+}
+
+numberPlay.register( 'PaperNumberNode', PaperNumberNode );
 
 export default PaperNumberNode;

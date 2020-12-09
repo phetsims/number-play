@@ -80,8 +80,8 @@ class OnesPlayAreaNode extends Node {
     playArea.paperNumbers.addItemRemovedListener( paperNumberRemovedListener );
 
     // Persistent, no need to unlink
-    this.availableViewBoundsProperty.lazyLink( function( availableViewBounds ) {
-      playArea.paperNumbers.forEach( function( paperNumber ) {
+    this.availableViewBoundsProperty.lazyLink( availableViewBounds => {
+      playArea.paperNumbers.forEach( paperNumber => {
         paperNumber.setConstrainedDestination( availableViewBounds, paperNumber.positionProperty.value );
       } );
     } );
