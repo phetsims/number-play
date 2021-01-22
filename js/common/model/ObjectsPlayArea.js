@@ -10,6 +10,7 @@
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Bucket from '../../../../phetcommon/js/model/Bucket.js';
@@ -208,10 +209,10 @@ class ObjectsPlayArea {
 
       // looks for positions that are not overlapping with other playObjects in the play area
       while ( !translateVector ) {
-        const possibleTranslateX = phet.joist.random.nextDouble() *
+        const possibleTranslateX = dotRandom.nextDouble() *
                                    ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X ) +
                                    MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X;
-        const possibleTranslateY = phet.joist.random.nextDouble() *
+        const possibleTranslateY = dotRandom.nextDouble() *
                                    ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y ) +
                                    MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y;
         let spotIsAvailable = true;

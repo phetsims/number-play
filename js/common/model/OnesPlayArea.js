@@ -11,6 +11,7 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -120,10 +121,10 @@ class OnesPlayArea {
 
     // looks for positions that are not overlapping with other playObjects in the play area
     while ( !translateVector ) {
-      const possibleTranslateX = phet.joist.random.nextDouble() *
+      const possibleTranslateX = dotRandom.nextDouble() *
                                  ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X ) +
                                  MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X;
-      const possibleTranslateY = phet.joist.random.nextDouble() *
+      const possibleTranslateY = dotRandom.nextDouble() *
                                  ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y ) +
                                  MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y;
       let spotIsAvailable = true;
