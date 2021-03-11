@@ -218,7 +218,7 @@ class OnesPlayAreaNode extends Node {
     // Check them in reverse order (the one on the top should get more priority)
     droppedNodes.reverse();
 
-    for ( let i = 0; i < droppedNodes.length; i++ ) {
+    for ( let i = 0; i < droppedNodes.length; i++ ) { // eslint-disable-line no-unreachable-loop
       const droppedNode = droppedNodes[ i ];
       const droppedPaperNumber = droppedNode.paperNumber;
 
