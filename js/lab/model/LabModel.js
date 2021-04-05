@@ -45,7 +45,7 @@ class LabModel {
     this.activeTenFrames = createObservableArray();
 
     // Number stacks
-    _.range( 1, 21 ).map( number => {
+    _.range( 1, 21 ).forEach( number => {
       const stack = new NumberStack( number, 2, false );
       stack.numberPieces.push( new NumberPiece( number ) );
       stack.numberPieces.push( new NumberPiece( number ) );
