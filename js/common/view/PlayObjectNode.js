@@ -30,9 +30,10 @@ class PlayObjectNode extends Node {
   /**
    * @param {PlayObject} playObject
    * @param {Bounds2} playAreaBounds
+   * @param {function(playObject)} checkPlayObjectForGroups
    * @param {ModelViewTransform2} modelViewTransform
    */
-  constructor( playObject, playAreaModelBounds, modelViewTransform ) {
+  constructor( playObject, playAreaModelBounds, checkPlayObjectForGroups, modelViewTransform ) {
     super();
 
     // @private
@@ -62,6 +63,9 @@ class PlayObjectNode extends Node {
       start: event => {
         playObject.userControlledProperty.set( true );
         this.moveToFront();
+      },
+      drag: () => {
+        checkPlayObjectForGroups( playObject );
       },
       end: () => {
         playObject.userControlledProperty.set( false );

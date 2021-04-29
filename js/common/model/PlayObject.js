@@ -8,9 +8,11 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import numberPlay from '../../numberPlay.js';
+import PlayObjectGroup from './PlayObjectGroup.js';
 
 class PlayObject {
 
@@ -41,6 +43,26 @@ class PlayObject {
 
     // @public (read-only) {Dimension2}
     this.size = size;
+
+    // public (read-only) {PlayObjectGroup|null}
+    this.playObjectGroup = null;
+  }
+
+  /**
+   * @param {PlayObjectGroup} playObjectGroup
+   * @public
+   */
+  setPlayObjectGroup( playObjectGroup ) {
+    assert && assert ( this.playObjectGroup === null, 'playObjectGroup is already set' );
+    assert && assert ( playObjectGroup instanceof PlayObjectGroup, 'not a valid PlayObjectGroup' );
+    this.playObjectGroup = playObjectGroup;
+  }
+
+  /**
+   * @public
+   */
+  removePlayObjectGroup() {
+    this.playObjectGroup = null;
   }
 
   /**

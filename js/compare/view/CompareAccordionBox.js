@@ -118,6 +118,7 @@ class CompareAccordionBox extends AccordionBox {
             1
           ),
           playAreaModelBounds,
+          _.noop,
           translateMVT
         );
       }

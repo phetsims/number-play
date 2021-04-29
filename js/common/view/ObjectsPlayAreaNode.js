@@ -16,7 +16,7 @@ import PlayObjectNode from './PlayObjectNode.js';
 class ObjectsPlayAreaNode extends Node {
 
   /**
-   * @param {NumberPlayPlayArea} playArea
+   * @param {ObjectsPlayArea} playArea
    * @param {Bounds2} playAreaBounds
    * @param {ModelViewTransform2} translateMVT
    */
@@ -53,7 +53,7 @@ class ObjectsPlayAreaNode extends Node {
 
     // create and add the play object nodes
     playArea.playObjects.forEach( playObject => {
-      const playObjectNode = new PlayObjectNode( playObject, playAreaBounds, translateMVT );
+      const playObjectNode = new PlayObjectNode( playObject, playAreaBounds, playArea.checkPlayObjectForGroups, translateMVT );
       playObjectsStorageLayer.addChild( playObjectNode );
 
       // add the playObject to the play area or bucket when dropped by the user
@@ -78,7 +78,9 @@ class ObjectsPlayAreaNode extends Node {
             playArea.checkIfCoveringPlayObject( playObject, 0 );
           }
         }
+        // else it is user controlled
         else {
+          // if the playObjectNode is in the storage layer, move it to the play layer
           if ( playObjectsStorageLayer.hasChild( playObjectNode ) ) {
             playObjectsStorageLayer.removeChild( playObjectNode );
             playObjectsLayer.addChild( playObjectNode );

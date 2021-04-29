@@ -7,8 +7,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -19,6 +19,7 @@ import Easing from '../../../../twixt/js/Easing.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import PlayObject from './PlayObject.js';
+import PlayObjectGroup from './PlayObjectGroup.js';
 import PlayObjectType from './PlayObjectType.js';
 
 // constants
@@ -27,6 +28,7 @@ const PLAY_OBJECT_SIZE = new Dimension2( 40, 40 );
 const ANIMATION_SPEED = 200; // in screen coordinates per second
 const MAX_ANIMATION_TIME = 1; // in seconds
 const MIN_PLAY_OBJECT_SEPARATION = 14;
+const PLAY_OBJECT_GROUPING_DISTANCE = 60;
 
 // TODO: make this more general, perhaps relate to bounds used in ObjectsAccordionBox
 // min and max distances that playObjects being added to the play area via animation can travel. empirically
@@ -108,8 +110,13 @@ class ObjectsPlayArea {
     // @private - all playObjects that are currently in the play area
     this.playObjectsInPlayArea = createObservableArray();
 
+    // @public (read-only) {ObservableArrayDef.<PlayObjectGroup>}
+    this.playObjectGroups = createObservableArray();
+
     // @public {boolean} whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
+
+    this.checkPlayObjectForGroups = this.checkPlayObjectForGroups.bind( this );
 
     // if the current number changes, add or remove playObjects from the play area
     currentNumberProperty.link( ( currentNumber, previousNumber ) => {
@@ -134,6 +141,57 @@ class ObjectsPlayArea {
         }
       }
     } );
+  }
+
+  /**
+   * Checks if the given playObject is part of a PlayObjectGroup, should join a PlayObject group, or should start a
+   * PlayObjectGroup.
+   *
+   * @param {PlayObject} playObject
+   */
+  checkPlayObjectForGroups( playObject ) {
+
+    // check if already part of any group
+    let playObjectGroup = playObject.playObjectGroup || null;
+
+    // check if nearby any other playObjects to form a group with or join their group
+    let closestPlayObject = null;
+    let closestPlayObjectDistance = null;
+
+    // find the playObject in the play area that is closest to this playObject
+    this.playObjectsInPlayArea.forEach( playObjectInPlayArea => {
+      if ( playObjectInPlayArea !== playObject ) {
+        const distance = playObject.positionProperty.value.distance( playObjectInPlayArea.positionProperty.value );
+        if ( !closestPlayObjectDistance || distance < closestPlayObjectDistance ) {
+          closestPlayObjectDistance = distance;
+          closestPlayObject = playObjectInPlayArea;
+        }
+      }
+    } );
+
+    if ( !playObjectGroup ) {
+      if ( closestPlayObject && closestPlayObjectDistance <= PLAY_OBJECT_GROUPING_DISTANCE ) {
+        if ( closestPlayObject.playObjectGroup ) {
+          closestPlayObject.playObjectGroup.add( playObject );
+        }
+        // no group exists, so create one starting with these two play object
+        else {
+          const newPlayObjectGroup = new PlayObjectGroup( closestPlayObject );
+          newPlayObjectGroup.add( playObject );
+          this.playObjectGroups.add( newPlayObjectGroup );
+        }
+      }
+    }
+    // if the playObject is part of a group, see if it's far enough away to remove it
+    else if ( closestPlayObjectDistance > PLAY_OBJECT_GROUPING_DISTANCE ) {
+      playObjectGroup.remove( playObject );
+      
+      if ( playObjectGroup.length === 1 ) {
+        playObjectGroup.clear();
+        this.playObjectGroups.remove( playObjectGroup );
+        playObjectGroup.dispose();
+      }
+    }
   }
 
   /**
@@ -439,6 +497,7 @@ class ObjectsPlayArea {
       playObject.reset();
     } );
     this.playObjectsInPlayArea.clear();
+    this.playObjectGroups.clear();
     this.playObjectTypeProperty.reset();
   }
 }

@@ -87,6 +87,7 @@ class ObjectsAccordionBox extends AccordionBox {
           1
         ),
         playAreaModelBounds,
+        _.noop,
         translateMVT
       );
 
