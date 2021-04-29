@@ -113,6 +113,18 @@ class ObjectsPlayArea {
     // @public (read-only) {ObservableArrayDef.<PlayObjectGroup>}
     this.playObjectGroups = createObservableArray();
 
+    // test code for groups
+    this.playObjectGroups.lengthProperty.link( numberOfGroups => {
+      let objectsPerGroup = '[ ';
+
+      this.playObjectGroups.forEach( group => {
+        objectsPerGroup += `${group.length} `
+      } );
+      objectsPerGroup += ']';
+
+      console.log( `${numberOfGroups}: ${objectsPerGroup}` );
+    } );
+
     // @public {boolean} whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
 
