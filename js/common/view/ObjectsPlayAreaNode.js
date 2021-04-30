@@ -41,6 +41,9 @@ class ObjectsPlayAreaNode extends Node {
     bucketHole.center = bucketFrontNode.centerTop;
     this.addChild( bucketFrontNode );
 
+    const playObjectGroupsLayer = new Node();
+    this.addChild( playObjectGroupsLayer );
+
     // create and add a layer for all play objects in the play area, if not provided in options
     let playObjectsLayer = null;
     if ( options.playObjectsLayer ) {
@@ -75,7 +78,12 @@ class ObjectsPlayAreaNode extends Node {
             }
           }
           else {
-            playArea.checkIfCoveringPlayObject( playObject, 0 );
+            if ( playObject.playObjectGroup ) {
+              playObject.sendToGroupSpot();
+            }
+            else {
+              playArea.checkIfCoveringPlayObject( playObject, 0 );
+            }
           }
         }
         // else it is user controlled

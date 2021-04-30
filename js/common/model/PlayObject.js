@@ -65,6 +65,11 @@ class PlayObject {
     this.playObjectGroup = null;
   }
 
+  sendToGroupSpot() {
+    assert && assert ( this.playObjectGroup, 'no playObjectGroup found' );
+    this.playObjectGroup.sendPlayObjectToSpot( this );
+  }
+
   /**
    * @public
    */
