@@ -118,7 +118,7 @@ class ObjectsPlayArea {
       let objectsPerGroup = '[ ';
 
       this.playObjectGroups.forEach( group => {
-        objectsPerGroup += `${group.length} `
+        objectsPerGroup += `${group.length} `;
       } );
       objectsPerGroup += ']';
 
@@ -160,11 +160,12 @@ class ObjectsPlayArea {
    * PlayObjectGroup.
    *
    * @param {PlayObject} playObject
+   * @public
    */
   checkPlayObjectForGroups( playObject ) {
 
     // check if already part of any group
-    let playObjectGroup = playObject.playObjectGroup || null;
+    const playObjectGroup = playObject.playObjectGroup || null;
 
     // check if nearby any other playObjects to form a group with or join their group
     let closestPlayObject = null;

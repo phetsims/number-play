@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import numberPlay from '../../numberPlay.js';
@@ -53,8 +52,8 @@ class PlayObject {
    * @public
    */
   setPlayObjectGroup( playObjectGroup ) {
-    assert && assert ( this.playObjectGroup === null, 'playObjectGroup is already set' );
-    assert && assert ( playObjectGroup instanceof PlayObjectGroup, 'not a valid PlayObjectGroup' );
+    assert && assert( this.playObjectGroup === null, 'playObjectGroup is already set' );
+    assert && assert( playObjectGroup instanceof PlayObjectGroup, 'not a valid PlayObjectGroup' );
     this.playObjectGroup = playObjectGroup;
   }
 
@@ -65,8 +64,11 @@ class PlayObject {
     this.playObjectGroup = null;
   }
 
+  /**
+   * @public
+   */
   sendToGroupSpot() {
-    assert && assert ( this.playObjectGroup, 'no playObjectGroup found' );
+    assert && assert( this.playObjectGroup, 'no playObjectGroup found' );
     this.playObjectGroup.sendPlayObjectToSpot( this );
   }
 

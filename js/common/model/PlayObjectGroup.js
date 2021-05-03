@@ -93,6 +93,10 @@ class PlayObjectGroup {
     this.playObjects.clear();
   }
 
+  /**
+   * @param {PlayObject} playObject
+   * @public
+   */
   sendPlayObjectToSpot( playObject ) {
     const playObjectIndex = this.playObjects.indexOf( playObject );
     const localTargetPosition = new Vector2( SPOT_SIZE.width / 2 + playObjectIndex * PLAY_OBJECT_OFFSET, SPOT_SIZE.height / 2 );
