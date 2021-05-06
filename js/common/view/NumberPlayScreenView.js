@@ -14,7 +14,6 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumeralAccordionBox from './NumeralAccordionBox.js';
-import ObjectsAccordionBox from './ObjectsAccordionBox.js';
 import OnesAccordionBox from './OnesAccordionBox.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
@@ -118,24 +117,34 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( tenFrameAccordionBox );
 
     // create and add the OnesAccordionBox
-    const onesAccordionBox = new OnesAccordionBox(
+    const onesAccordionBoxLeft = new OnesAccordionBox(
       model.onesPlayArea,
       config.lowerAccordionBoxHeight, merge( {
-        expandedProperty: this.onesAccordionBoxExpandedProperty
+        expandedProperty: this.onesAccordionBoxLeftExpandedProperty
       }, config.onesAccordionBoxConfig ) );
-    onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
-    this.addChild( onesAccordionBox );
+    onesAccordionBoxLeft.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    onesAccordionBoxLeft.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+    this.addChild( onesAccordionBoxLeft );
 
     // create and add the ObjectsAccordionBox
-    const objectsAccordionBox = new ObjectsAccordionBox(
-      config.lowerAccordionBoxHeight,
-      model.objectsPlayArea, merge( {
-        expandedProperty: this.objectsAccordionBoxExpandedProperty
-      }, config.objectsAccordionBoxConfig ) );
-    objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    objectsAccordionBox.bottom = onesAccordionBox.bottom;
-    this.addChild( objectsAccordionBox );
+    // const objectsAccordionBox = new ObjectsAccordionBox(
+    //   config.lowerAccordionBoxHeight,
+    //   model.objectsPlayArea, merge( {
+    //     expandedProperty: this.objectsAccordionBoxExpandedProperty
+    //   }, config.objectsAccordionBoxConfig ) );
+    // objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    // objectsAccordionBox.bottom = onesAccordionBox.bottom;
+    // this.addChild( objectsAccordionBox );
+
+    // create and add the OnesAccordionBox
+    const onesAccordionBoxRight = new OnesAccordionBox(
+      model.onesPlayArea,
+      config.lowerAccordionBoxHeight, merge( {
+        expandedProperty: this.onesAccordionBoxRightExpandedProperty
+      }, config.onesAccordionBoxConfig ) );
+    onesAccordionBoxRight.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    onesAccordionBoxRight.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+    this.addChild( onesAccordionBoxRight );
 
     // create and add the ResetAllButton
     const resetAllButton = new ResetAllButton( {
