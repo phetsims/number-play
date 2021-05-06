@@ -198,12 +198,20 @@ class ObjectsPlayArea {
     // if the playObject is part of a group, see if it's far enough away to remove it
     else if ( closestPlayObjectDistance > PLAY_OBJECT_GROUPING_DISTANCE ) {
       playObjectGroup.remove( playObject );
-      
-      if ( playObjectGroup.length === 1 ) {
-        playObjectGroup.clear();
-        this.playObjectGroups.remove( playObjectGroup );
-        playObjectGroup.dispose();
-      }
+      this.checkIfPlayObjectGroupShouldBeRemoved( playObjectGroup );
+    }
+  }
+
+  /**
+   * Checks if the given playObjectGroup should be removed from the play area
+   * @param {PlayObjectGroup} playObjectGroup
+   * @private
+   */
+  checkIfPlayObjectGroupShouldBeRemoved( playObjectGroup ) {
+    if ( playObjectGroup.length === 1 ) {
+      playObjectGroup.clear();
+      this.playObjectGroups.remove( playObjectGroup );
+      playObjectGroup.dispose();
     }
   }
 
@@ -215,6 +223,15 @@ class ObjectsPlayArea {
    * @public
    */
   returnPlayObjectToBucket( playObject ) {
+
+    // remove playObject from group if it's part of one
+    const playObjectGroup = playObject.playObjectGroup;
+    if ( playObjectGroup ) {
+      playObjectGroup.remove( playObject );
+      this.checkIfPlayObjectGroupShouldBeRemoved( playObjectGroup );
+    }
+
+    // remove the playObject from playObjectsInPlayArea and stop any current animations
     this.playObjectsInPlayArea.includes( playObject ) && this.playObjectsInPlayArea.remove( playObject );
     playObject.animation && playObject.animation.stop();
 

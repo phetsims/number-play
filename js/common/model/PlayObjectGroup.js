@@ -142,7 +142,6 @@ class PlayObjectGroup {
   /**
    * @public
    */
-
   dispose() {
     this.playObjects.dispose();
     this.positionProperty.dispose();
