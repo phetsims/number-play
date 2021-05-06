@@ -12,6 +12,7 @@ import BucketHole from '../../../../scenery-phet/js/bucket/BucketHole.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPlay from '../../numberPlay.js';
 import PlayObjectNode from './PlayObjectNode.js';
+import PlayObjectGroupNode from './PlayObjectGroupNode.js';
 
 class ObjectsPlayAreaNode extends Node {
 
@@ -107,9 +108,11 @@ class ObjectsPlayAreaNode extends Node {
         }
       } );
 
+      // put away playObjectNodes when they are not being controlled and touching the bucket, and not part of a group
       playObject.positionProperty.link( () => {
         if ( ( bucketFrontNode.bounds.intersectsBounds( playObjectNode.bounds ) ||
-               bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) && !playObject.userControlledProperty.value ) {
+               bucketHole.bounds.intersectsBounds( playObjectNode.bounds ) ) &&
+             !playObject.userControlledProperty.value && !playObject.playObjectGroup ) {
           if ( playObjectsLayer.hasChild( playObjectNode ) ) {
             playObjectsLayer.removeChild( playObjectNode );
             playObjectsStorageLayer.addChild( playObjectNode );
@@ -117,6 +120,20 @@ class ObjectsPlayAreaNode extends Node {
         }
       } );
     } );
+
+    // add or remove PlayObjectGroupNodes when PlayObjectGroups change
+    const playObjectGroupAddedListener = playObjectGroup => {
+      const playObjectGroupNode = new PlayObjectGroupNode( playObjectGroup, playAreaBounds, translateMVT );
+      playObjectGroupsLayer.addChild( playObjectGroupNode );
+    };
+    const playObjectGroupRemovedListener = playObjectGroup => {
+      const playObjectGroupNode = _.find( playObjectGroupsLayer.children,
+          playObjectGroupNode => playObjectGroupNode.playObjectGroup === playObjectGroup );
+      playObjectGroupNode && playObjectGroupsLayer.removeChild( playObjectGroupNode );
+    };
+
+    playArea.playObjectGroups.addItemAddedListener( playObjectGroupAddedListener );
+    playArea.playObjectGroups.addItemRemovedListener( playObjectGroupRemovedListener );
   }
 
 }
