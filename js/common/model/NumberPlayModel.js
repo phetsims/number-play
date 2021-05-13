@@ -10,7 +10,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
-import ObjectsPlayArea from './ObjectsPlayArea.js';
 import OnesPlayArea from './OnesPlayArea.js';
 
 class NumberPlayModel {
@@ -33,13 +32,14 @@ class NumberPlayModel {
     // to their buckets the normal way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
+    // @public {BooleanProperty} - whether the ones and objects play areas ar linked
+    this.linkPlayAreasProperty = new BooleanProperty( false );
+
     // @public (read-only) - the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
 
     // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new ObjectsPlayArea( this.currentNumberProperty, objectMaxScale, this.isResettingProperty, {
-      organizedObjectPadding: organizedObjectPadding
-    } );
+    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
   }
 
   /**
@@ -49,6 +49,7 @@ class NumberPlayModel {
    */
   step( dt ) {
     this.onesPlayArea.step( dt );
+    this.objectsPlayArea.step( dt );
   }
 
   /**
@@ -57,6 +58,7 @@ class NumberPlayModel {
    */
   reset() {
     this.isResettingProperty.value = true;
+    this.linkPlayAreasProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
     this.currentNumberProperty.reset();

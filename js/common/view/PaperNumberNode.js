@@ -25,10 +25,14 @@ class PaperNumberNode extends Node {
    * @param {Property.<Bounds2>} availableViewBoundsProperty
    * @param {Function} addAndDragNumber - function( event, paperNumber ), adds and starts a drag for a number
    * @param {Function} tryToCombineNumbers - function( paperNumber ), called to combine our paper number
+   * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
    */
-  constructor( paperNumber, availableViewBoundsProperty, addAndDragNumber, tryToCombineNumbers ) {
+  constructor( paperNumber, availableViewBoundsProperty, addAndDragNumber, tryToCombineNumbers, playObjectTypeProperty ) {
 
     super();
+
+    // @public {EnumerationProperty.<PlayObjectType>}
+    this.playObjectTypeProperty = playObjectTypeProperty;
 
     // @public {PaperNumber} - Our model
     this.paperNumber = paperNumber;
@@ -146,7 +150,7 @@ class PaperNumberNode extends Node {
     const reversedBaseNumbers = this.paperNumber.baseNumbers.slice().reverse();
 
     // Reversing allows easier opacity computation and has the nodes in order for setting children.
-    this.numberImageContainer.children = _.map( reversedBaseNumbers, ( baseNumber, index ) => new BaseNumberNode( baseNumber, 0.95 * Math.pow( 0.97, index ), reversedBaseNumbers.length > 1 ) );
+    this.numberImageContainer.children = _.map( reversedBaseNumbers, ( baseNumber, index ) => new BaseNumberNode( baseNumber, 0.95 * Math.pow( 0.97, index ), reversedBaseNumbers.length > 1, this.playObjectTypeProperty ) );
 
     // Grab the bounds of the biggest base number for the full bounds
     const fullBounds = this.paperNumber.baseNumbers[ this.paperNumber.baseNumbers.length - 1 ].bounds;

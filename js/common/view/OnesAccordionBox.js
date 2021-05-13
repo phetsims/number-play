@@ -61,7 +61,8 @@ class OnesAccordionBox extends AccordionBox {
     const onesPlayAreaNode = new OnesPlayAreaNode(
       onesPlayArea,
       playAreaViewBounds,
-      translateMVT
+      translateMVT,
+      null
     );
     contentNode.addChild( onesPlayAreaNode );
 

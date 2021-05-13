@@ -17,12 +17,12 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 import PlayObject from '../model/PlayObject.js';
 import PlayObjectType from '../model/PlayObjectType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import ObjectsPlayAreaNode from './ObjectsPlayAreaNode.js';
+import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import PlayObjectNode from './PlayObjectNode.js';
 
 const objectsString = numberPlayStrings.objects;
@@ -30,15 +30,17 @@ const objectsString = numberPlayStrings.objects;
 class ObjectsAccordionBox extends AccordionBox {
 
   /**
-   * @param {number} height - the height of this accordion box
    * @param {NumberPlayPlayArea} objectsPlayArea
+   * @param {number} height - the height of this accordion box
    * @param {Object} [options]
    */
-  constructor( height, objectsPlayArea, config ) {
+  constructor( objectsPlayArea, height, config ) {
 
     config = merge( {
       titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
       fill: NumberPlayConstants.BLUE_BACKGROUND,
+      linkedPlayArea: null, // {null|OnesPlayArea}
+      linkPlayAreasProperty: null, // {null|BooleanProperty}
 
       contentWidth: null,      // {number} @required
       radioButtonSize: null,   // {Dimension2} @required
@@ -54,11 +56,12 @@ class ObjectsAccordionBox extends AccordionBox {
       rectWidth: config.contentWidth
     } );
 
+    const playAreaMarginY = 15;
     const playAreaViewBounds = new Bounds2(
       contentNode.left,
-      contentNode.top + NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
+      contentNode.top,
       contentNode.right,
-      contentNode.bottom - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
+      contentNode.bottom - playAreaMarginY
     );
 
     const translateMVT = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
@@ -67,14 +70,19 @@ class ObjectsAccordionBox extends AccordionBox {
       1
     );
 
-    const playAreaModelBounds = translateMVT.viewToModelBounds( playAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
+    const playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
 
-    const objectsPlayAreaNode = new ObjectsPlayAreaNode(
+    const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,
-      playAreaModelBounds,
-      translateMVT
+      playAreaViewBounds,
+      translateMVT,
+      playObjectTypeProperty
     );
     contentNode.addChild( objectsPlayAreaNode );
+
+    //////// for creating the object buttons, should be ported to not use PlayObjectNode etc  ////////
+
+    const playAreaModelBounds = translateMVT.viewToModelBounds( playAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
 
     // create the icons for the RectangularRadioButtonGroup
     const buttons = [];
@@ -98,7 +106,7 @@ class ObjectsAccordionBox extends AccordionBox {
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
-    const radioButtonGroup = new RectangularRadioButtonGroup( objectsPlayArea.playObjectTypeProperty, buttons, {
+    const radioButtonGroup = new RectangularRadioButtonGroup( playObjectTypeProperty, buttons, {
       baseColor: Color.WHITE,
       orientation: 'horizontal',
       spacing: config.radioButtonSpacing
@@ -106,6 +114,28 @@ class ObjectsAccordionBox extends AccordionBox {
     radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
     radioButtonGroup.bottom = playAreaViewBounds.bottom;
     contentNode.addChild( radioButtonGroup );
+
+    // add the linked play area
+    if ( config.linkedPlayArea && config.linkPlayAreasProperty ) {
+      const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
+        config.linkedPlayArea,
+        playAreaViewBounds,
+        translateMVT,
+        playObjectTypeProperty
+      );
+
+      config.linkPlayAreasProperty.lazyLink( linkPlayAreas => {
+        if ( linkPlayAreas ) {
+          contentNode.removeChild( objectsPlayAreaNode );
+          contentNode.addChild( linkedObjectsPlayAreaNode );
+        }
+        else {
+          contentNode.removeChild( linkedObjectsPlayAreaNode );
+          contentNode.addChild( objectsPlayAreaNode );
+        }
+        radioButtonGroup.moveToFront();
+      } );
+    }
 
     super( contentNode, config );
   }
