@@ -37,23 +37,23 @@ class ObjectsAccordionBox extends AccordionBox {
   constructor( objectsPlayArea, height, config ) {
 
     config = merge( {
+      minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
+      maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
       fill: NumberPlayConstants.BLUE_BACKGROUND,
       linkedPlayArea: null, // {null|OnesPlayArea}
       linkPlayAreasProperty: null, // {null|BooleanProperty}
 
-      contentWidth: null,      // {number} @required
       radioButtonSize: null,   // {Dimension2} @required
       radioButtonSpacing: null // {number} @required
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
-    assert && assert( config.contentWidth, `contentWidth is required: ${config.contentWidth}` );
     assert && assert( config.radioButtonSize, `radioButtonSize is required: ${config.radioButtonSize}` );
     assert && assert( config.radioButtonSpacing, `radioButtonSize is required: ${config.radioButtonSpacing}` );
 
     const contentNode = new Rectangle( {
       rectHeight: height,
-      rectWidth: config.contentWidth
+      rectWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH
     } );
 
     const playAreaMarginY = 15;

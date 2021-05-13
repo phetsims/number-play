@@ -48,18 +48,6 @@ class NumberPlayScreenView extends ScreenView {
         fill: null // {ColorDef} @required - accordion box background fill
       },
 
-      // config for OnesAccordionBox.
-      onesAccordionBoxConfig: {
-        minWidth: null, // {number} @required
-        maxWidth: null  // {number} @required
-      },
-
-      // config for ObjectsAccordionBox. see ObjectsAccordionBox for additional fields
-      objectsAccordionBoxConfig: {
-        minWidth: null, // {number} @required
-        maxWidth: null  // {number} @required
-      },
-
       // accordion box heights. these are not part of specific accordion box configs because they apply to
       // multiple accordion boxes.
       upperAccordionBoxHeight: null, // {number} @required
@@ -75,10 +63,6 @@ class NumberPlayScreenView extends ScreenView {
     assert && assert( config.wordAccordionBoxConfig.fill, 'fill is required' );
     assert && assert( config.numeralAccordionBoxConfig.fill, 'fill is required' );
     assert && assert( config.tenFrameAccordionBoxConfig.fill, 'fill is required' );
-    assert && assert( config.onesAccordionBoxConfig.minWidth, 'minWidth is required' );
-    assert && assert( config.onesAccordionBoxConfig.maxWidth, 'maxWidth is required' );
-    assert && assert( config.objectsAccordionBoxConfig.minWidth, 'minWidth is required' );
-    assert && assert( config.objectsAccordionBoxConfig.maxWidth, 'maxWidth is required' );
     assert && assert( config.upperAccordionBoxHeight, 'upperAccordionBoxHeight is required' );
     assert && assert( config.lowerAccordionBoxHeight, 'lowerAccordionBoxHeight is required' );
 

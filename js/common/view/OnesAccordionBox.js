@@ -31,17 +31,15 @@ class OnesAccordionBox extends AccordionBox {
   constructor( onesPlayArea, height, config ) {
 
     config = merge( {
+      minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
+      maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       titleNode: new Text( onesString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
-      fill: NumberPlayConstants.PURPLE_BACKGROUND,
-
-      contentWidth: null // {number} @required
+      fill: NumberPlayConstants.PURPLE_BACKGROUND
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
-
-    assert && assert( config.contentWidth, `contentWidth is required: ${config.contentWidth}` );
 
     const contentNode = new Rectangle( {
       rectHeight: height,
-      rectWidth: config.contentWidth
+      rectWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH
     } );
 
     const playAreaMarginY = 15;
