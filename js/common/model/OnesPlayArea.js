@@ -2,7 +2,7 @@
 
 /**
  * Model for the Explore screen in Make a Ten. Includes the total, cues, and adding in initial numbers. This file was
- * copied from make-a-ten/common/model/MakeATenCommonModel.js and make-a-ten/explore/model/MakeATenExploreModel.js and
+ * copied in part from make-a-ten/explore/model/MakeATenExploreModel.js
  * then modified by @chrisklus to be used in number-play.
  *
  * @author Sharfudeen Ashraf
@@ -10,9 +10,9 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import MakeATenCommonModel from '../../../../make-a-ten/js/make-a-ten/common/model/MakeATenCommonModel.js';
 import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Bucket from '../../../../phetcommon/js/model/Bucket.js';
@@ -31,7 +31,7 @@ const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -230;
 // play area, in screen coordinates
 const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
-class OnesPlayArea {
+class OnesPlayArea extends MakeATenCommonModel {
 
   /**
    * @param {NumberProperty} currentNumberProperty
@@ -41,6 +41,8 @@ class OnesPlayArea {
    * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
    */
   constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty, options ) {
+
+    super();
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -55,9 +57,6 @@ class OnesPlayArea {
     this.sumProperty = new NumberProperty( currentNumberProperty.range.min, {
       range: currentNumberProperty.range
     } );
-
-    // @public {ObservableArrayDef.<PaperNumber>} - Numbers in play that can be interacted with.
-    this.paperNumbers = createObservableArray();
 
     // @private {Function} - To be called when we need to recalculate the total
     const calculateTotalListener = this.calculateTotal.bind( this );
@@ -207,14 +206,7 @@ class OnesPlayArea {
    * @public
    */
   step( dt ) {
-
-    // Cap large dt values, which can occur when the tab containing
-    // the sim had been hidden and then re-shown
-    dt = Math.min( 0.1, dt );
-
-    for ( let i = 0; i < this.paperNumbers.length; i++ ) {
-      this.paperNumbers.get( i ).step( dt );
-    }
+    super.step( dt );
 
     // Animate fading if necessary
     // this.splitCue.step( dt );
@@ -230,78 +222,6 @@ class OnesPlayArea {
       total += paperNumber.numberValueProperty.value;
     } );
     this.sumProperty.value = total;
-  }
-
-  /**
-   * Given two paper numbers, combine them (set one's value to the sum of their previous values, and remove the
-   * other).
-   *
-   * @param {Bounds2} availableModelBounds - Constrain the position to be inside these bounds
-   * @param {PaperNumber} draggedPaperNumber
-   * @param {PaperNumber} dropTargetNumber
-   * @public
-   */
-  collapseNumberModels( availableModelBounds, draggedPaperNumber, dropTargetNumber ) {
-    const dropTargetNumberValue = dropTargetNumber.numberValueProperty.value;
-    const draggedNumberValue = draggedPaperNumber.numberValueProperty.value;
-    const newValue = dropTargetNumberValue + draggedNumberValue;
-
-    let numberToRemove;
-    let numberToChange;
-
-    // See https://github.com/phetsims/make-a-ten/issues/260
-    if ( draggedPaperNumber.digitLength === dropTargetNumber.digitLength ) {
-      numberToRemove = draggedPaperNumber;
-      numberToChange = dropTargetNumber;
-    }
-    else {
-      // The larger number gets changed, the smaller one gets removed.
-      const droppingOnLarger = dropTargetNumberValue > draggedNumberValue;
-      numberToRemove = droppingOnLarger ? draggedPaperNumber : dropTargetNumber;
-      numberToChange = droppingOnLarger ? dropTargetNumber : draggedPaperNumber;
-    }
-
-    // Apply changes
-    this.removePaperNumber( numberToRemove );
-    numberToChange.changeNumber( newValue );
-    numberToChange.setConstrainedDestination( availableModelBounds, numberToChange.positionProperty.value, false );
-  }
-
-  /**
-   * Add a PaperNumber to the model
-   * @public
-   *
-   * @param {PaperNumber} paperNumber
-   */
-  addPaperNumber( paperNumber ) {
-    this.paperNumbers.push( paperNumber );
-  }
-
-  /**
-   * Remove a PaperNumber from the model
-   * @public
-   *
-   * @param {PaperNumber} paperNumber
-   */
-  removePaperNumber( paperNumber ) {
-    this.paperNumbers.remove( paperNumber );
-  }
-
-  /**
-   * Remove all PaperNumbers from the model.
-   * @public
-   *
-   * @param {PaperNumber} paperNumber
-   */
-  removeAllPaperNumbers() {
-    this.paperNumbers.clear();
-  }
-
-  /**
-   * @public
-   */
-  reset() {
-    this.removeAllPaperNumbers();
   }
 }
 
