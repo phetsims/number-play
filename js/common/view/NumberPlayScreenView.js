@@ -7,10 +7,12 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import OnOffSwitch from '../../../../sun/js/OnOffSwitch.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumeralAccordionBox from './NumeralAccordionBox.js';
@@ -46,18 +48,6 @@ class NumberPlayScreenView extends ScreenView {
         fill: null // {ColorDef} @required - accordion box background fill
       },
 
-      // config for OnesAccordionBox.
-      onesAccordionBoxConfig: {
-        minWidth: null, // {number} @required
-        maxWidth: null  // {number} @required
-      },
-
-      // config for ObjectsAccordionBox. see ObjectsAccordionBox for additional fields
-      objectsAccordionBoxConfig: {
-        minWidth: null, // {number} @required
-        maxWidth: null  // {number} @required
-      },
-
       // accordion box heights. these are not part of specific accordion box configs because they apply to
       // multiple accordion boxes.
       upperAccordionBoxHeight: null, // {number} @required
@@ -73,10 +63,6 @@ class NumberPlayScreenView extends ScreenView {
     assert && assert( config.wordAccordionBoxConfig.fill, 'fill is required' );
     assert && assert( config.numeralAccordionBoxConfig.fill, 'fill is required' );
     assert && assert( config.tenFrameAccordionBoxConfig.fill, 'fill is required' );
-    assert && assert( config.onesAccordionBoxConfig.minWidth, 'minWidth is required' );
-    assert && assert( config.onesAccordionBoxConfig.maxWidth, 'maxWidth is required' );
-    assert && assert( config.objectsAccordionBoxConfig.minWidth, 'minWidth is required' );
-    assert && assert( config.objectsAccordionBoxConfig.maxWidth, 'maxWidth is required' );
     assert && assert( config.upperAccordionBoxHeight, 'upperAccordionBoxHeight is required' );
     assert && assert( config.lowerAccordionBoxHeight, 'lowerAccordionBoxHeight is required' );
 
@@ -129,8 +115,10 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the ObjectsAccordionBox
     const objectsAccordionBox = new ObjectsAccordionBox(
-      config.lowerAccordionBoxHeight,
-      model.objectsPlayArea, merge( {
+      model.objectsPlayArea,
+      config.lowerAccordionBoxHeight, merge( {
+        linkedPlayArea: model.onesPlayArea,
+        linkPlayAreasProperty: model.linkPlayAreasProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty
       }, config.objectsAccordionBoxConfig ) );
     objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
@@ -162,7 +150,7 @@ class NumberPlayScreenView extends ScreenView {
     const organizePlayObjectsButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
-        model.objectsPlayArea.organizePlayObjects();
+        // model.objectsPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model
       },
       baseColor: NumberPlayConstants.BLUE_BACKGROUND,
       xMargin: xMargin,
@@ -171,6 +159,14 @@ class NumberPlayScreenView extends ScreenView {
     organizePlayObjectsButton.centerX = resetAllButton.centerX;
     organizePlayObjectsButton.bottom = resetAllButton.top - 12; // empirically determined
     this.addChild( organizePlayObjectsButton );
+
+    // create and add a switch to control linking the models
+    const onOffSwitch = new OnOffSwitch( model.linkPlayAreasProperty, {
+      size: new Dimension2( 40, 20 )
+    } );
+    onOffSwitch.centerX = this.layoutBounds.centerX;
+    onOffSwitch.centerY = onesAccordionBox.centerY;
+    this.addChild( onOffSwitch );
   }
 
   /**

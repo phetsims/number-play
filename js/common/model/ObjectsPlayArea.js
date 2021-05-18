@@ -9,7 +9,6 @@
 
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -24,7 +23,6 @@ import PlayObjectType from './PlayObjectType.js';
 
 // constants
 const BUCKET_SIZE = NumberPlayConstants.BUCKET_SIZE;
-const PLAY_OBJECT_SIZE = new Dimension2( 40, 40 );
 const ANIMATION_SPEED = 200; // in screen coordinates per second
 const MAX_ANIMATION_TIME = 1; // in seconds
 const MIN_PLAY_OBJECT_SEPARATION = 14;
@@ -90,7 +88,7 @@ class ObjectsPlayArea {
       this.playObjects.push( new PlayObject(
         this.playObjectTypeProperty,
         initialSpots[ spotIndex ].copy(),
-        PLAY_OBJECT_SIZE,
+        NumberPlayConstants.PLAY_OBJECT_SIZE,
         objectMaxScale
       ) );
 
@@ -415,8 +413,8 @@ class ObjectsPlayArea {
     const gridWidth = 5; // empirically determined
     const gridHeight = this.playObjects.length / gridWidth;
 
-    const playObjectWidth = PLAY_OBJECT_SIZE.width * objectMaxScale;
-    const playObjectHeight = PLAY_OBJECT_SIZE.height * objectMaxScale;
+    const playObjectWidth = NumberPlayConstants.PLAY_OBJECT_SIZE.width * objectMaxScale;
+    const playObjectHeight = NumberPlayConstants.PLAY_OBJECT_SIZE.height * objectMaxScale;
     const yOffset = MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - ( playObjectHeight * 2 / gridHeight );
 
     const spots = [];

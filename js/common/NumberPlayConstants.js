@@ -27,9 +27,8 @@ const NumberPlayConstants = {
   TWENTY_UPPER_ACCORDION_BOX_HEIGHT: 98,   // height of the upper accordion boxes on the 'Twenty' screen
 
   // sizing for the 'lower' accordion boxes, which include the 'Ones' and 'Objects' accordion boxes
-  TEN_LOWER_ACCORDION_BOX_WIDTH: 414,      // width of the 'lower' accordion boxes on the 'Ten' screen
-  TWENTY_ONES_ACCORDION_BOX_WIDTH: 536,    // width of the 'Ones' accordion box on the Twenty screen
-  TWENTY_OBJECTS_ACCORDION_BOX_WIDTH: 304, // width of the 'Objects' accordion box on the Twenty screen
+  LOWER_ACCORDION_BOX_WIDTH: 414,          // width of the 'lower' accordion boxes on both screens
+  LOWER_ACCORDION_BOX_CONTENT_WIDTH: 372,  // width of the 'lower' accordion box content on both screens
   TEN_LOWER_ACCORDION_BOX_HEIGHT: 405,     // height of the 'lower' accordion boxes on the 'Ten' screen
   TWENTY_LOWER_ACCORDION_BOX_HEIGHT: 448,  // height of the 'lower' accordion boxes on the 'Twenty' screen
 
@@ -71,7 +70,8 @@ const NumberPlayConstants = {
   BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
 
   // misc TODO: when base classes exist, move bucket specs there
-  BUCKET_SIZE: new Dimension2( 100, 50 ) // in screen coordinates
+  BUCKET_SIZE: new Dimension2( 100, 50 ), // in screen coordinates
+  PLAY_OBJECT_SIZE: new Dimension2( 64, 64 ) // in screen coordinates
 };
 
 numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

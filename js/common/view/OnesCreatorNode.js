@@ -12,10 +12,10 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import BaseNumber from '../../../../make-a-ten/js/make-a-ten/common/model/BaseNumber.js';
 import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
-import BaseNumberNode from '../../../../make-a-ten/js/make-a-ten/common/view/BaseNumberNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import BaseNumberNode from './BaseNumberNode.js';
 
 // constants
 const NUMBER_VALUE = NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
@@ -25,9 +25,9 @@ class OnesCreatorNode extends Node {
   /**
    * @param {OnesPlayAreaNode} playAreaNode
    * @param {NumberProperty} sumProperty
-   * @param {Object} [options] - Passed to Node
+   * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
    */
-  constructor( playAreaNode, sumProperty ) {
+  constructor( playAreaNode, sumProperty, playObjectTypeProperty ) {
     super();
 
     assert && assert( sumProperty.range, `Range is required: ${sumProperty.range}` );
@@ -41,7 +41,7 @@ class OnesCreatorNode extends Node {
         cursor: 'pointer',
         // empirically determined stacking
         children: [ new Vector2( -8, -8 ), new Vector2( 0, 0 ) ].map( offset => {
-          const paperNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
+          const paperNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false, playObjectTypeProperty );
           paperNode.scale( 0.64, 0.55 );
           paperNode.translation = offset;
           return paperNode;

@@ -79,7 +79,8 @@ class LabScreenView extends ScreenView {
     const onesPlayAreaNode = new OnesPlayAreaNode(
       model.onesPlayArea,
       playAreaViewBounds,
-      this.modelViewTransform, {
+      this.modelViewTransform,
+      null, {
         paperNumberLayerNode: this.pieceLayer
       }
     );

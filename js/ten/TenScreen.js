@@ -63,15 +63,7 @@ class TenScreen extends Screen {
         fill: NumberPlayConstants.GREEN_BACKGROUND,
         contentAlign: 'center'
       },
-      onesAccordionBoxConfig: {
-        minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-        maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-        contentWidth: 372 // empirically determined
-      },
       objectsAccordionBoxConfig: {
-        minWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-        maxWidth: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_WIDTH,
-        contentWidth: 370,                         // empirically determined
         radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
         radioButtonSpacing: 10                     // empirically determined
       },

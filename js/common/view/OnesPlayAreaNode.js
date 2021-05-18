@@ -27,13 +27,17 @@ class OnesPlayAreaNode extends Node {
    * @param {OnesPlayArea} playArea
    * @param {Bounds2} playAreaViewBounds
    * @param {ModelViewTransform2} translateMVT
+   * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
    */
-  constructor( playArea, playAreaViewBounds, translateMVT, options ) {
+  constructor( playArea, playAreaViewBounds, translateMVT, playObjectTypeProperty, options ) {
     super();
 
     options = merge( {
       paperNumberLayerNode: null // {null|Node}
     }, options );
+
+    // @public {EnumerationProperty.<PlayObjectType>}
+    this.playObjectTypeProperty = playObjectTypeProperty;
 
     // @private {Function} - Called with function( paperNumberNode ) on number splits
     this.numberSplitListener = this.onNumberSplit.bind( this );
@@ -91,7 +95,7 @@ class OnesPlayAreaNode extends Node {
     this.addChild( bucketHole );
 
     // @private {OnesCreatorNode} - Shows the 1 that can be dragged.
-    this.onesCreatorNode = new OnesCreatorNode( this, playArea.sumProperty );
+    this.onesCreatorNode = new OnesCreatorNode( this, playArea.sumProperty, this.playObjectTypeProperty );
     this.addChild( this.onesCreatorNode );
 
     // create and add the bucket front
@@ -136,7 +140,7 @@ class OnesPlayAreaNode extends Node {
    */
   onPaperNumberAdded( paperNumber ) {
     const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
-      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback );
+      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty );
 
     // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
     paperNumber.numberValueProperty.link( numberValue => {
@@ -298,7 +302,7 @@ class OnesPlayAreaNode extends Node {
   onNumberAnimationFinished( paperNumber ) {
 
     // If it animated to the return zone, it's probably split and meant to be returned.
-    if ( this.isNumberInReturnZone( paperNumber ) ) {
+    if ( this.isNumberInReturnZone( paperNumber ) && this.playArea.paperNumbers.includes( paperNumber ) ) {
       this.playArea.removePaperNumber( paperNumber );
     }
   }

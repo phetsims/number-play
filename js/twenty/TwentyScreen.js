@@ -63,15 +63,7 @@ class TwentyScreen extends Screen {
         fill: NumberPlayConstants.ORANGE_BACKGROUND,
         contentAlign: 'right'
       },
-      onesAccordionBoxConfig: {
-        minWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
-        maxWidth: NumberPlayConstants.TWENTY_ONES_ACCORDION_BOX_WIDTH,
-        contentWidth: 494 // empirically determined
-      },
       objectsAccordionBoxConfig: {
-        minWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
-        maxWidth: NumberPlayConstants.TWENTY_OBJECTS_ACCORDION_BOX_WIDTH,
-        contentWidth: 260,                         // empirically determined
         radioButtonSize: new Dimension2( 19, 19 ), // empirically determined
         radioButtonSpacing: 7                      // empirically determined
       },

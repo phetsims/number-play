@@ -27,9 +27,24 @@ import imagePaperBackground1 from '../../../../make-a-ten/mipmaps/paper-backgrou
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import appleImage from '../../../images/apple_png.js';
+import ballImage from '../../../images/ball_png.js';
+import cornerPeelImage from '../../../images/corner-peel_png.js';
+import dogImage from '../../../images/dog_png.js';
+import turtleImage from '../../../images/turtle_png.js';
 import peeledImagePaperBackground10 from '../../../mipmaps/peeled_paper_background_10_png.js';
 import peeledImagePaperBackground1 from '../../../mipmaps/peeled_paper_background_1_png.js';
 import numberPlay from '../../numberPlay.js';
+import PlayObjectType from '../model/PlayObjectType.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
+
+// convenience map that links play object types to their corresponding images
+const mapPlayObjectTypeToImage = {};
+mapPlayObjectTypeToImage[ PlayObjectType.DOG ] = dogImage;
+mapPlayObjectTypeToImage[ PlayObjectType.APPLE ] = appleImage;
+mapPlayObjectTypeToImage[ PlayObjectType.TURTLE ] = turtleImage;
+mapPlayObjectTypeToImage[ PlayObjectType.BALL ] = ballImage;
 
 // place => mipmap info
 const PEELED_BACKGROUND_IMAGE_MAP = {
@@ -84,8 +99,9 @@ class BaseNumberNode extends Node {
    * @param {BaseNumber} baseNumber
    * @param {number} opacity
    * @param {boolean} isPartOfStack - does this baseNumber have other layers to it?
+   * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
    */
-  constructor( baseNumber, opacity, isPartOfStack ) {
+  constructor( baseNumber, opacity, isPartOfStack, playObjectTypeProperty ) {
     super( { scale: SCALE } );
 
     // Position of the initial digit
@@ -100,42 +116,90 @@ class BaseNumberNode extends Node {
     // Translate everything by our offset
     this.translation = baseNumber.offset;
 
-    let paperBackgroundImage;
+    let backgroundNode;
 
-    // if the base number is a 1 that's not on top of a bigger base number, or if the base number is underneath smaller
-    // base numbers, then use a flat background instead of a peeled one.
-    if ( baseNumber.digit === 1 &&
-         ( ( baseNumber.place === 0 && !isPartOfStack ) || ( baseNumber.place >= 1 && isPartOfStack ) ) ) {
+    // the view should be objects and a custom background
+    if ( playObjectTypeProperty ) {
+      const numberValue = baseNumber.numberValue;
 
-      // The paper behind the numbers
-      paperBackgroundImage = new Image( BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
-        imageOpacity: opacity
-      } );
+      const objectWidth = NumberPlayConstants.PLAY_OBJECT_SIZE.width;
+      const objectHeight = NumberPlayConstants.PLAY_OBJECT_SIZE.width;
+      const stackOffset = 10;
+      const sideMargin = 10;
+
+      // add a background if there's a least 2 object together
+      if ( numberValue > 1 ) {
+        const backgroundWidth = objectWidth + 2 * sideMargin + ( numberValue - 1 ) * stackOffset;
+        const backgroundHeight = objectHeight + 3 * sideMargin + numberValue * stackOffset;
+
+        backgroundNode = new Rectangle( 0, 0, backgroundWidth, backgroundHeight, {
+          fill: '#e8f6ff',
+          cornerRadius: 10
+        } );
+
+        // create and add the corner peel
+        const cornerPeelImageNode = new Image( cornerPeelImage, {
+          maxHeight: 18,
+          top: backgroundNode.top,
+          right: backgroundNode.right
+        } );
+        backgroundNode.addChild( cornerPeelImageNode );
+        backgroundNode.scale( 1 / SCALE );
+        this.addChild( backgroundNode );
+      }
+
+      // add and position the objext images
+      for ( let i = 0; i < numberValue; i++ ) {
+        const offset = ( sideMargin + i * stackOffset ) / SCALE;
+        const objectImage = new Image( mapPlayObjectTypeToImage[ playObjectTypeProperty.value ], {
+          maxWidth: objectWidth,
+          maxHeight: objectHeight,
+          x: offset,
+          y: offset
+        } );
+        objectImage.scale( 1 / SCALE );
+        this.addChild( objectImage );
+        playObjectTypeProperty.link( playObjectType => {
+          objectImage.image = mapPlayObjectTypeToImage[ playObjectType ];
+        } );
+      }
     }
+    // the view should be ones with a paper background
     else {
-      paperBackgroundImage = new Image( PEELED_BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
-        imageOpacity: opacity
-      } );
-    }
-    this.addChild( paperBackgroundImage );
+      // if the base number is a 1 that's not on top of a bigger base number, or if the base number is underneath smaller
+      // base numbers, then use a flat background instead of a peeled one.
+      if ( baseNumber.digit === 1 &&
+           ( ( baseNumber.place === 0 && !isPartOfStack ) || ( baseNumber.place >= 1 && isPartOfStack ) ) ) {
 
-    // The initial (non-zero) digit
-    this.addChild( new Image( DIGIT_IMAGE_MAP[ baseNumber.digit ], {
-      x: x,
-      y: y
-    } ) );
+        // The paper behind the numbers
+        backgroundNode = new Image( BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
+          imageOpacity: opacity
+        } );
+      }
+      else {
+        backgroundNode = new Image( PEELED_BACKGROUND_IMAGE_MAP[ baseNumber.place ], {
+          imageOpacity: opacity
+        } );
+      }
 
-    // Add the zeros
-    const digitZeroOffsets = ZERO_OFFSET[ baseNumber.place ];
-    for ( let i = 0; i < digitZeroOffsets.length; i++ ) {
-      this.addChild( new Image( imageDigit0, {
-        x: digitZeroOffsets[ i ],
+      this.addChild( backgroundNode );
+      this.addChild( new Image( DIGIT_IMAGE_MAP[ baseNumber.digit ], {
+        x: x,
         y: y
       } ) );
+
+      // Add the zeros
+      const digitZeroOffsets = ZERO_OFFSET[ baseNumber.place ];
+      for ( let i = 0; i < digitZeroOffsets.length; i++ ) {
+        this.addChild( new Image( imageDigit0, {
+          x: digitZeroOffsets[ i ],
+          y: y
+        } ) );
+      }
     }
 
     // add the grippy lines if this number is on the top layer
-    if ( !( baseNumber.place >= 1 && isPartOfStack ) ) {
+    if ( ( !( baseNumber.place >= 1 && isPartOfStack ) && !playObjectTypeProperty ) || ( playObjectTypeProperty && baseNumber.numberValue > 1 ) ) {
 
       // empirically determined to put the grippy in the same place in relation to the paper number's digit
       const yMargin = baseNumber.place >= 1 ? 90 : 56;
@@ -145,8 +209,8 @@ class BaseNumberNode extends Node {
         .moveTo( 0, 0 ).lineTo( lineLength, 0 ).moveTo( 0, lineSeparation ).lineTo( lineLength, lineSeparation ).close(), {
         stroke: 'rgb( 204, 204, 204 )',
         lineWidth: 3,
-        centerX: paperBackgroundImage.centerX,
-        bottom: paperBackgroundImage.bottom - yMargin
+        centerX: backgroundNode.centerX,
+        bottom: backgroundNode.bottom - yMargin
       } );
       this.addChild( grippyLines );
     }
