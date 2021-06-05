@@ -4,14 +4,14 @@
  * Visual view of paper numbers (PaperNumber), with stacked images based on the digits of the number.
  *
  * @author Sharfudeen Ashraf
- * @author Chris Klusendorf (PhET Interactive Simulations), copied from make-a-ten
+ * @author Chris Klusendorf (PhET Interactive Simulations), copied from counting-common
  */
 
 import Emitter from '../../../../axon/js/Emitter.js';
+import ArithmeticRules from '../../../../counting-common/js/common/model/ArithmeticRules.js';
+import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
+import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import ArithmeticRules from '../../../../make-a-ten/js/make-a-ten/common/model/ArithmeticRules.js';
-import BaseNumber from '../../../../make-a-ten/js/make-a-ten/common/model/BaseNumber.js';
-import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import arrayRemove from '../../../../phet-core/js/arrayRemove.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';

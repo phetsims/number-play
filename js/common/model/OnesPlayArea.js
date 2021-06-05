@@ -10,10 +10,10 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import CountingCommonModel from '../../../../counting-common/js/common/model/CountingCommonModel.js';
+import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import MakeATenCommonModel from '../../../../make-a-ten/js/make-a-ten/common/model/MakeATenCommonModel.js';
-import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import merge from '../../../../phet-core/js/merge.js';
 import Bucket from '../../../../phetcommon/js/model/Bucket.js';
 import numberPlay from '../../numberPlay.js';
@@ -31,7 +31,7 @@ const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -230;
 // play area, in screen coordinates
 const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
-class OnesPlayArea extends MakeATenCommonModel {
+class OnesPlayArea extends CountingCommonModel {
 
   /**
    * @param {NumberProperty} currentNumberProperty

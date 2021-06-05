@@ -4,26 +4,26 @@
  * Creates image views for base numbers.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
- * @author Chris Klusendorf (PhET Interactive Simulations), copied from make-a-ten and modified for number-play
+ * @author Chris Klusendorf (PhET Interactive Simulations), copied from counting-common and modified for number-play
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import imageDigit0 from '../../../../make-a-ten/mipmaps/digit-0_png.js';
-import imageDigit1 from '../../../../make-a-ten/mipmaps/digit-1_png.js';
-import imageDigit2 from '../../../../make-a-ten/mipmaps/digit-2_png.js';
-import imageDigit3 from '../../../../make-a-ten/mipmaps/digit-3_png.js';
-import imageDigit4 from '../../../../make-a-ten/mipmaps/digit-4_png.js';
-import imageDigit5 from '../../../../make-a-ten/mipmaps/digit-5_png.js';
-import imageDigit6 from '../../../../make-a-ten/mipmaps/digit-6_png.js';
-import imageDigit7 from '../../../../make-a-ten/mipmaps/digit-7_png.js';
-import imageDigit8 from '../../../../make-a-ten/mipmaps/digit-8_png.js';
-import imageDigit9 from '../../../../make-a-ten/mipmaps/digit-9_png.js';
-import imagePaperBackground1000 from '../../../../make-a-ten/mipmaps/paper-background-1000_png.js';
-import imagePaperBackground100 from '../../../../make-a-ten/mipmaps/paper-background-100_png.js';
-import imagePaperBackground10 from '../../../../make-a-ten/mipmaps/paper-background-10_png.js';
-import imagePaperBackground1 from '../../../../make-a-ten/mipmaps/paper-background-1_png.js';
+import imageDigit0 from '../../../../counting-common/mipmaps/digit-0_png.js';
+import imageDigit1 from '../../../../counting-common/mipmaps/digit-1_png.js';
+import imageDigit2 from '../../../../counting-common/mipmaps/digit-2_png.js';
+import imageDigit3 from '../../../../counting-common/mipmaps/digit-3_png.js';
+import imageDigit4 from '../../../../counting-common/mipmaps/digit-4_png.js';
+import imageDigit5 from '../../../../counting-common/mipmaps/digit-5_png.js';
+import imageDigit6 from '../../../../counting-common/mipmaps/digit-6_png.js';
+import imageDigit7 from '../../../../counting-common/mipmaps/digit-7_png.js';
+import imageDigit8 from '../../../../counting-common/mipmaps/digit-8_png.js';
+import imageDigit9 from '../../../../counting-common/mipmaps/digit-9_png.js';
+import imagePaperBackground1000 from '../../../../counting-common/mipmaps/paper-background-1000_png.js';
+import imagePaperBackground100 from '../../../../counting-common/mipmaps/paper-background-100_png.js';
+import imagePaperBackground10 from '../../../../counting-common/mipmaps/paper-background-10_png.js';
+import imagePaperBackground1 from '../../../../counting-common/mipmaps/paper-background-1_png.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';

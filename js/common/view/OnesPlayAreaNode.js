@@ -1,7 +1,7 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
 /**
- * Play area node for the OnesAccordionBox. This file was copied from make-a-ten/common/view/MakeATenCommonView.js and
+ * Play area node for the OnesAccordionBox. This file was copied from counting-common/common/view/CountingCommonView.js and
  * make-a-ten/explore/view/MakeATenExploreScreenView.js and then modified by @chrisklus to be used in number-play.
  *
  * @author Sharfudeen Ashraf
@@ -9,8 +9,8 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import merge from '../../../../phet-core/js/merge.js';
 import BucketFront from '../../../../scenery-phet/js/bucket/BucketFront.js';
 import BucketHole from '../../../../scenery-phet/js/bucket/BucketHole.js';

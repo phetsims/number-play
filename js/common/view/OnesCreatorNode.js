@@ -9,9 +9,9 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
+import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import BaseNumber from '../../../../make-a-ten/js/make-a-ten/common/model/BaseNumber.js';
-import PaperNumber from '../../../../make-a-ten/js/make-a-ten/common/model/PaperNumber.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';

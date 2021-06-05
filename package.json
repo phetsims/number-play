@@ -12,8 +12,8 @@
   "phet": {
     "requirejsNamespace": "NUMBER_PLAY",
     "phetLibs": [
+      "counting-common",
       "fractions-common",
-      "make-a-ten",
       "twixt"
     ],
     "simulation": true,

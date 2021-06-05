@@ -11,11 +11,10 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import BaseNumber from '../../../../make-a-ten/js/make-a-ten/common/model/BaseNumber.js';
-import BaseNumberNode from '../../../../make-a-ten/js/make-a-ten/common/view/BaseNumberNode.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -25,6 +24,7 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import PlayObject from '../../common/model/PlayObject.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import BaseNumberNode from '../../common/view/BaseNumberNode.js';
 import ObjectsPlayAreaNode from '../../common/view/ObjectsPlayAreaNode.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import PlayObjectNode from '../../common/view/PlayObjectNode.js';
