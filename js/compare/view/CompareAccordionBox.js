@@ -11,8 +11,10 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -92,7 +94,8 @@ class CompareAccordionBox extends AccordionBox {
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds,
       translateMVT, {
-        playObjectTypeProperty: objectsTypeProperty
+        playObjectTypeProperty: objectsTypeProperty,
+        groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING )
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
