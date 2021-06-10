@@ -106,12 +106,14 @@ class ObjectsAccordionBox extends AccordionBox {
     contentNode.addChild( radioButtonGroup );
 
     // add the linked play area
+    const objectPlayAreaBottomMargin = 29; // empirically determined to keep paper ones above the bottom when linked
     if ( config.linkedPlayArea && config.linkPlayAreasProperty ) {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         config.linkedPlayArea,
-        playAreaViewBounds,
+        playAreaViewBounds.withMaxY( playAreaViewBounds.bottom - objectPlayAreaBottomMargin ),
         translateMVT, {
-          playObjectTypeProperty: playObjectTypeProperty
+          playObjectTypeProperty: playObjectTypeProperty,
+          viewHasIndependentModel: false
         }
       );
 

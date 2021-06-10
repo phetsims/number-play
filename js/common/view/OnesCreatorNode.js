@@ -26,7 +26,7 @@ class OnesCreatorNode extends Node {
   /**
    * @param {OnesPlayAreaNode} playAreaNode
    * @param {NumberProperty} sumProperty
-   * @param {EnumerationProperty.<PlayObjectType>|null} playObjectTypeProperty
+   * @param {EnumerationProperty.<PlayObjectType>} [playObjectTypeProperty]
    */
   constructor( playAreaNode, sumProperty, playObjectTypeProperty ) {
     super();
@@ -43,6 +43,7 @@ class OnesCreatorNode extends Node {
         // empirically determined stacking
         children: [ new Vector2( -8, -8 ), new Vector2( 0, 0 ) ].map( offset => {
           let targetNode;
+          // TODO: needs attention, see https://github.com/phetsims/number-play/issues/19
           if ( playObjectTypeProperty ) {
             targetNode = new BasePictorialNode( new BaseNumber( 1, 0 ), 1, false, playObjectTypeProperty );
             targetNode.scale( 0.8 );
@@ -68,8 +69,11 @@ class OnesCreatorNode extends Node {
           const viewPosition = playAreaNode.globalToLocalPoint( event.pointer.point );
           const paperNumber = new PaperNumber( NUMBER_VALUE, new Vector2( 0, 0 ) );
 
+          // TODO: needs improvement, magic values determined from bounds of rendered play object nodes, see https://github.com/phetsims/number-play/issues/19
+          const dragTargetOffset = playObjectTypeProperty ? new Vector2( 41, 57 ) : paperNumber.getDragTargetOffset();
+
           // Once we have the number's bounds, we set the position so that our pointer is in the middle of the drag target.
-          paperNumber.setDestination( viewPosition.minus( paperNumber.getDragTargetOffset() ), false );
+          paperNumber.setDestination( viewPosition.minus( dragTargetOffset ), false );
 
           // Create and start dragging the new paper number node
           playAreaNode.addAndDragNumber( event, paperNumber );

@@ -10,6 +10,7 @@
 
 import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import BucketFront from '../../../../scenery-phet/js/bucket/BucketFront.js';
@@ -19,7 +20,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesCreatorNode from './OnesCreatorNode.js';
-import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 
 class OnesPlayAreaNode extends Node {
 
@@ -34,7 +34,8 @@ class OnesPlayAreaNode extends Node {
 
     options = merge( {
       paperNumberLayerNode: null, // {null|Node}
-      playObjectTypeProperty: null // {EnumerationProperty.<PlayObjectType>|null}
+      playObjectTypeProperty: null, // {EnumerationProperty.<PlayObjectType>|null}
+      viewHasIndependentModel: true // {boolean} whether this view is hooked up to its own model or a shared model
     }, options );
 
     // @private {Function} - Called with function( paperNumberNode ) on number splits
@@ -67,6 +68,9 @@ class OnesPlayAreaNode extends Node {
 
     // @private {EnumerationProperty.<PlayObjectType>}|null}
     this.playObjectTypeProperty = options.playObjectTypeProperty;
+
+    // @private {boolean}
+    this.viewHasIndependentModel = options.viewHasIndependentModel;
 
     // @private {ClosestDragListener} - Handle touches nearby to the numbers, and interpret those as the proper drag.
     this.closestDragListener = new ClosestDragListener( 30, 0 );
@@ -140,6 +144,10 @@ class OnesPlayAreaNode extends Node {
    * @returns {PaperNumberNode} - The created node
    */
   onPaperNumberAdded( paperNumber ) {
+
+    // let the model know if is being shared or not
+    paperNumber.viewHasIndependentModel = this.viewHasIndependentModel;
+
     const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
       this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty );
 
