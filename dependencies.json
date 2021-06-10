@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.0-dev.17 Thu Jun 10 2021 08:59:04 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# number-play 1.0.0-dev.18 Thu Jun 10 2021 09:09:11 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "b163b8aefd34c93062c94974f1e6ec4a1e3286e8",
     "branch": "master"
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "number-play": {
-    "sha": "1f51417a4b7a5427901cb3fde564c69346d19309",
+    "sha": "e7444fd7283e6f471a7b71903ebbd5de5e16de20",
     "branch": "master"
   },
   "phet-core": {
