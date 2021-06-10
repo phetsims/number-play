@@ -41,12 +41,12 @@ class OnesCreatorNode extends Node {
       const node = new Node( {
         cursor: 'pointer',
         // empirically determined stacking
-        children: [ new Vector2( -8, -8 ), new Vector2( 0, 0 ) ].map( offset => {
+        children: [ new Vector2( -11, -11 ), new Vector2( 0, 0 ) ].map( offset => {
           let targetNode;
           // TODO: needs attention, see https://github.com/phetsims/number-play/issues/19
           if ( playObjectTypeProperty ) {
             targetNode = new BasePictorialNode( new BaseNumber( 1, 0 ), 1, false, playObjectTypeProperty );
-            targetNode.scale( 0.8 );
+            targetNode.scale( 0.85 );
           }
           else {
             targetNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false );
