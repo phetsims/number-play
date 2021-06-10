@@ -11,6 +11,7 @@
 import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import BucketFront from '../../../../scenery-phet/js/bucket/BucketFront.js';
@@ -263,20 +264,18 @@ class OnesPlayAreaNode extends Node {
    * @returns {boolean}
    */
   isNumberInReturnZone( paperNumber ) {
+    // TODO: This may need more attention, see https://github.com/phetsims/number-play/issues/19
+    const localBounds = paperNumber.alternateBounds && paperNumber.viewHasIndependentModel ?
+                        paperNumber.alternateBounds : paperNumber.getLocalBounds();
 
-    // Compute the local point on the number that would need to go into the return zone.
-    // This point is a bit farther down than the exact center, as it was annoying to "miss" the return zone
-    // slightly by being too high (while the mouse WAS in the return zone).
-    const localBounds = paperNumber.getLocalBounds();
-    const localReturnPoint = localBounds.center.plus( localBounds.centerBottom ).dividedScalar( 2 );
+    const position = paperNumber.positionProperty.value;
+    const parentBounds = new Bounds2( position.x + localBounds.minX, position.y + localBounds.minY,
+      position.x + localBounds.maxX, position.y + localBounds.maxY );
 
     // And the bounds of our panel
     const panelBounds = this.onesCreatorNode.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
 
-    // View coordinate of our return point
-    const paperCenter = paperNumber.positionProperty.value.plus( localReturnPoint );
-
-    return panelBounds.containsPoint( paperCenter );
+    return panelBounds.intersectsBounds( parentBounds );
   }
 
   /**

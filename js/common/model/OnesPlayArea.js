@@ -198,6 +198,9 @@ class OnesPlayArea extends CountingCommonModel {
     // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
     // time.
     paperNumberToReturn.numberValueProperty.value = 0;
+    // TODO: band-aid, see https://github.com/phetsims/number-play/issues/19
+    paperNumberOrigin = paperNumberToReturn.alternateBounds && paperNumberToReturn.viewHasIndependentModel ?
+                        paperNumberOrigin.plusXY( 0, paperNumberToReturn.getDragTargetOffset().y ) : paperNumberOrigin;
     paperNumberToReturn.setDestination( paperNumberOrigin, true );
   }
 
