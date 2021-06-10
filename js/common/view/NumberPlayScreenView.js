@@ -7,13 +7,17 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import OnOffSwitch from '../../../../sun/js/OnOffSwitch.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import groupingSceneOne from '../../../images/grouping_scene_1_png.js';
+import groupingSceneTwo from '../../../images/grouping_scene_2_png.js';
+import groupingSceneThree from '../../../images/grouping_scene_3_png.js';
 import numberPlay from '../../numberPlay.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumeralAccordionBox from './NumeralAccordionBox.js';
 import ObjectsAccordionBox from './ObjectsAccordionBox.js';
@@ -21,6 +25,12 @@ import OnesAccordionBox from './OnesAccordionBox.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
 import WordAccordionBox from './WordAccordionBox.js';
+
+// constants
+const groupingLinkingTypeToImage = {};
+groupingLinkingTypeToImage[ GroupingLinkingType.NO_GROUPING ] = groupingSceneOne;
+groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING ] = groupingSceneTwo;
+groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING_AND_LINKED ] = groupingSceneThree;
 
 class NumberPlayScreenView extends ScreenView {
 
@@ -118,7 +128,7 @@ class NumberPlayScreenView extends ScreenView {
       model.objectsPlayArea,
       config.lowerAccordionBoxHeight, merge( {
         linkedPlayArea: model.onesPlayArea,
-        linkPlayAreasProperty: model.linkPlayAreasProperty,
+        groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty
       }, config.objectsAccordionBoxConfig ) );
     objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
@@ -137,6 +147,32 @@ class NumberPlayScreenView extends ScreenView {
       tandem: config.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    // create the icons for the RectangularRadioButtonGroup
+    const groupingLinkingButtons = [];
+    const margin = 3;
+    GroupingLinkingType.VALUES.forEach( groupingLinkingType => {
+      const iconNode = new Image( groupingLinkingTypeToImage[ groupingLinkingType ], {
+        maxWidth: resetAllButton.width - 2 * margin
+      } );
+
+      groupingLinkingButtons.push( {
+        value: groupingLinkingType,
+        node: iconNode
+      } );
+    } );
+
+    // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupingLinkingTypeProperty, groupingLinkingButtons, {
+      baseColor: NumberPlayConstants.BLUE_BACKGROUND,
+      orientation: 'vertical',
+      spacing: 10,
+      buttonContentXMargin: margin,
+      buttonContentYMargin: margin
+    } );
+    groupingLinkingRadioButtonGroup.centerX = resetAllButton.centerX;
+    groupingLinkingRadioButtonGroup.top = objectsAccordionBox.top;
+    this.addChild( groupingLinkingRadioButtonGroup );
 
     // content for organizePlayObjectsButton
     const xMargin = 4;
@@ -159,14 +195,6 @@ class NumberPlayScreenView extends ScreenView {
     organizePlayObjectsButton.centerX = resetAllButton.centerX;
     organizePlayObjectsButton.bottom = resetAllButton.top - 12; // empirically determined
     this.addChild( organizePlayObjectsButton );
-
-    // create and add a switch to control linking the models
-    const onOffSwitch = new OnOffSwitch( model.linkPlayAreasProperty, {
-      size: new Dimension2( 40, 20 )
-    } );
-    onOffSwitch.centerX = this.layoutBounds.centerX;
-    onOffSwitch.centerY = onesAccordionBox.centerY;
-    this.addChild( onOffSwitch );
   }
 
   /**

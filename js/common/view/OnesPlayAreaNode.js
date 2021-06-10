@@ -9,6 +9,7 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -36,6 +37,7 @@ class OnesPlayAreaNode extends Node {
     options = merge( {
       paperNumberLayerNode: null, // {null|Node}
       playObjectTypeProperty: null, // {EnumerationProperty.<PlayObjectType>|null}
+      groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
       viewHasIndependentModel: true // {boolean} whether this view is hooked up to its own model or a shared model
     }, options );
 
@@ -70,6 +72,9 @@ class OnesPlayAreaNode extends Node {
     // @private {EnumerationProperty.<PlayObjectType>}|null}
     this.playObjectTypeProperty = options.playObjectTypeProperty;
 
+    // @private {EnumerationProperty.<GroupingLinkingType>}|null}
+    this.groupingLinkingTypeProperty = options.groupingLinkingTypeProperty;
+
     // @private {boolean}
     this.viewHasIndependentModel = options.viewHasIndependentModel;
 
@@ -94,6 +99,16 @@ class OnesPlayAreaNode extends Node {
       playArea.paperNumbers.forEach( paperNumber => {
         paperNumber.setConstrainedDestination( availableViewBounds, paperNumber.positionProperty.value );
       } );
+    } );
+
+    // when the groupingLinkingType is switched to no grouping, break apart any object groups
+    this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
+      if ( groupingLinkingType === GroupingLinkingType.NO_GROUPING && this.playObjectTypeProperty ) {
+        playArea.paperNumbers.forEach( paperNumber => {
+          const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
+          paperNumberNode.updateNumber();
+        } );
+      }
     } );
 
     // create and add the bucket back
@@ -150,7 +165,7 @@ class OnesPlayAreaNode extends Node {
     paperNumber.viewHasIndependentModel = this.viewHasIndependentModel;
 
     const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
-      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty );
+      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, this.groupingLinkingTypeProperty );
 
     // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
     paperNumber.numberValueProperty.link( numberValue => {
@@ -236,9 +251,18 @@ class OnesPlayAreaNode extends Node {
       const droppedNode = droppedNodes[ i ];
       const droppedPaperNumber = droppedNode.paperNumber;
 
-      // allow any two numbers to be combined
-      this.playArea.collapseNumberModels( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
-      return; // No need to re-layer or try combining with others
+      // if grouping is turned off, repel away
+      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === GroupingLinkingType.NO_GROUPING ) {
+        if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) {
+          this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, 10 );
+        }
+      }
+      else {
+
+        // allow any two numbers to be combined
+        this.playArea.collapseNumberModels( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
+        return; // No need to re-layer or try combining with others
+      }
     }
 
     // if the dragged number is  larger than the node below it (dropped node), reorder

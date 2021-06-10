@@ -9,6 +9,8 @@
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -21,7 +23,6 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 
@@ -42,7 +43,7 @@ class ObjectsAccordionBox extends AccordionBox {
       titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
       fill: NumberPlayConstants.BLUE_BACKGROUND,
       linkedPlayArea: null, // {null|OnesPlayArea}
-      linkPlayAreasProperty: null, // {null|BooleanProperty}
+      groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
 
       radioButtonSize: null,   // {Dimension2} @required
       radioButtonSpacing: null // {number} @required
@@ -76,7 +77,8 @@ class ObjectsAccordionBox extends AccordionBox {
       objectsPlayArea,
       playAreaViewBounds,
       translateMVT, {
-        playObjectTypeProperty: playObjectTypeProperty
+        playObjectTypeProperty: playObjectTypeProperty,
+        groupingLinkingTypeProperty: config.groupingLinkingTypeProperty
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
@@ -107,7 +109,7 @@ class ObjectsAccordionBox extends AccordionBox {
 
     // add the linked play area
     const objectPlayAreaBottomMargin = 29; // empirically determined to keep paper ones above the bottom when linked
-    if ( config.linkedPlayArea && config.linkPlayAreasProperty ) {
+    if ( config.linkedPlayArea && config.groupingLinkingTypeProperty ) {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         config.linkedPlayArea,
         playAreaViewBounds.withMaxY( playAreaViewBounds.bottom - objectPlayAreaBottomMargin ),
@@ -117,12 +119,12 @@ class ObjectsAccordionBox extends AccordionBox {
         }
       );
 
-      config.linkPlayAreasProperty.lazyLink( linkPlayAreas => {
-        if ( linkPlayAreas ) {
+      config.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
+        if ( groupingLinkingType === GroupingLinkingType.GROUPING_AND_LINKED ) {
           contentNode.removeChild( objectsPlayAreaNode );
           contentNode.addChild( linkedObjectsPlayAreaNode );
         }
-        else {
+        else if ( contentNode.hasChild( linkedObjectsPlayAreaNode ) ) {
           contentNode.removeChild( linkedObjectsPlayAreaNode );
           contentNode.addChild( objectsPlayAreaNode );
         }

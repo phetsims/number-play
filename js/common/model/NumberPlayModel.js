@@ -7,7 +7,9 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from './OnesPlayArea.js';
@@ -32,8 +34,8 @@ class NumberPlayModel {
     // to their buckets the normal way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
-    // @public {BooleanProperty} - whether the ones and objects play areas ar linked
-    this.linkPlayAreasProperty = new BooleanProperty( false );
+    // @public {EnumerationProperty.<GroupingLinkingType>} - whether the ones and objects play areas ar linked
+    this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING );
 
     // @public (read-only) - the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
