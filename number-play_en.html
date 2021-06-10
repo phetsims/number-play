@@ -22,7 +22,7 @@
   window.phet.chipper.packageObject =
     {
       "name": "number-play",
-      "version": "1.0.0-unifyModels.2",
+      "version": "1.0.0-dev.17",
       "license": "GPL-3.0",
       "repository": {
         "type": "git",
@@ -34,8 +34,8 @@
       "phet": {
         "requirejsNamespace": "NUMBER_PLAY",
         "phetLibs": [
+          "counting-common",
           "fractions-common",
-          "make-a-ten",
           "twixt"
         ],
         "simulation": true,
@@ -52,16 +52,16 @@
   window.phet.chipper.stringRepos =
     [
       {
+        "repo": "counting-common",
+        "requirejsNamespace": "COUNTING_COMMON"
+      },
+      {
         "repo": "fractions-common",
         "requirejsNamespace": "FRACTIONS_COMMON"
       },
       {
         "repo": "joist",
         "requirejsNamespace": "JOIST"
-      },
-      {
-        "repo": "make-a-ten",
-        "requirejsNamespace": "MAKE_A_TEN"
       },
       {
         "repo": "number-play",
