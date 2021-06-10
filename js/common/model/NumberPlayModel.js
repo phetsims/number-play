@@ -60,7 +60,7 @@ class NumberPlayModel {
    */
   reset() {
     this.isResettingProperty.value = true;
-    this.linkPlayAreasProperty.reset();
+    this.groupingLinkingTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
     this.currentNumberProperty.reset();
