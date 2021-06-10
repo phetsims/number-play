@@ -7,7 +7,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
@@ -62,10 +61,6 @@ class TwentyScreen extends Screen {
       tenFrameAccordionBoxConfig: {
         fill: NumberPlayConstants.ORANGE_BACKGROUND,
         contentAlign: 'right'
-      },
-      objectsAccordionBoxConfig: {
-        radioButtonSize: new Dimension2( 19, 19 ), // empirically determined
-        radioButtonSpacing: 7                      // empirically determined
       },
       upperAccordionBoxHeight: NumberPlayConstants.TWENTY_UPPER_ACCORDION_BOX_HEIGHT,
       lowerAccordionBoxHeight: NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,

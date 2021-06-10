@@ -116,9 +116,9 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the OnesAccordionBox
     const onesAccordionBox = new OnesAccordionBox(
       model.onesPlayArea,
-      config.lowerAccordionBoxHeight, merge( {
+      config.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty
-      }, config.onesAccordionBoxConfig ) );
+      } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
     this.addChild( onesAccordionBox );
@@ -126,11 +126,11 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the ObjectsAccordionBox
     const objectsAccordionBox = new ObjectsAccordionBox(
       model.objectsPlayArea,
-      config.lowerAccordionBoxHeight, merge( {
+      config.lowerAccordionBoxHeight, {
         linkedPlayArea: model.onesPlayArea,
         groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty
-      }, config.objectsAccordionBoxConfig ) );
+      } );
     objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     objectsAccordionBox.bottom = onesAccordionBox.bottom;
     this.addChild( objectsAccordionBox );

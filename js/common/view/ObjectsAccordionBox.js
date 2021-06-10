@@ -12,6 +12,7 @@ import CountingCommonConstants from '../../../../counting-common/js/common/Count
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -45,12 +46,9 @@ class ObjectsAccordionBox extends AccordionBox {
       linkedPlayArea: null, // {null|OnesPlayArea}
       groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
 
-      radioButtonSize: null,   // {Dimension2} @required
-      radioButtonSpacing: null // {number} @required
+      radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
+      radioButtonSpacing: 10 // empirically determined
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
-
-    assert && assert( config.radioButtonSize, `radioButtonSize is required: ${config.radioButtonSize}` );
-    assert && assert( config.radioButtonSpacing, `radioButtonSize is required: ${config.radioButtonSpacing}` );
 
     const contentNode = new Rectangle( {
       rectHeight: height,
