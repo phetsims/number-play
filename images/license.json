@@ -1,20 +1,4 @@
 {
-  "apple.png": {
-    "text": [
-      "Copyright 2017-2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Mariah Hermsmeyer"
-  },
-  "ball.png": {
-    "text": [
-      "Copyright 2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Amanda McGarry"
-  },
   "compare_screen_icon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
@@ -38,14 +22,6 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
-  },
-  "dog.png": {
-    "text": [
-      "Copyright 2017-2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Cheryl McCutchan"
   },
   "game_screen_icon.png": {
     "text": [
@@ -102,13 +78,5 @@
     "projectURL": "http://phet.colorado.edu",
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
-  },
-  "turtle.png": {
-    "text": [
-      "Copyright 2017-2019 University of Colorado Boulder"
-    ],
-    "projectURL": "http://phet.colorado.edu",
-    "license": "contact phethelp@colorado.edu",
-    "notes": "created by Cheryl McCutchan"
   }
 }

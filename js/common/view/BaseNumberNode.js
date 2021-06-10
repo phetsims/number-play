@@ -7,9 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations), copied from counting-common and modified for number-play
  */
 
-import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import Shape from '../../../../kite/js/Shape.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import imageDigit0 from '../../../../counting-common/mipmaps/digit-0_png.js';
 import imageDigit1 from '../../../../counting-common/mipmaps/digit-1_png.js';
 import imageDigit2 from '../../../../counting-common/mipmaps/digit-2_png.js';
@@ -24,27 +22,17 @@ import imagePaperBackground1000 from '../../../../counting-common/mipmaps/paper-
 import imagePaperBackground100 from '../../../../counting-common/mipmaps/paper-background-100_png.js';
 import imagePaperBackground10 from '../../../../counting-common/mipmaps/paper-background-10_png.js';
 import imagePaperBackground1 from '../../../../counting-common/mipmaps/paper-background-1_png.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Shape from '../../../../kite/js/Shape.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import appleImage from '../../../images/apple_png.js';
-import ballImage from '../../../images/ball_png.js';
 import cornerPeelImage from '../../../images/corner-peel_png.js';
-import dogImage from '../../../images/dog_png.js';
-import turtleImage from '../../../images/turtle_png.js';
 import peeledImagePaperBackground10 from '../../../mipmaps/peeled_paper_background_10_png.js';
 import peeledImagePaperBackground1 from '../../../mipmaps/peeled_paper_background_1_png.js';
 import numberPlay from '../../numberPlay.js';
-import PlayObjectType from '../model/PlayObjectType.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
-
-// convenience map that links play object types to their corresponding images
-const mapPlayObjectTypeToImage = {};
-mapPlayObjectTypeToImage[ PlayObjectType.DOG ] = dogImage;
-mapPlayObjectTypeToImage[ PlayObjectType.APPLE ] = appleImage;
-mapPlayObjectTypeToImage[ PlayObjectType.TURTLE ] = turtleImage;
-mapPlayObjectTypeToImage[ PlayObjectType.BALL ] = ballImage;
 
 // place => mipmap info
 const PEELED_BACKGROUND_IMAGE_MAP = {
@@ -122,8 +110,8 @@ class BaseNumberNode extends Node {
     if ( playObjectTypeProperty ) {
       const numberValue = baseNumber.numberValue;
 
-      const objectWidth = NumberPlayConstants.PLAY_OBJECT_SIZE.width;
-      const objectHeight = NumberPlayConstants.PLAY_OBJECT_SIZE.width;
+      const objectWidth = CountingCommonConstants.PLAY_OBJECT_SIZE.width;
+      const objectHeight = CountingCommonConstants.PLAY_OBJECT_SIZE.width;
       const stackOffset = 10;
       const sideMargin = 10;
 
@@ -151,7 +139,7 @@ class BaseNumberNode extends Node {
       // add and position the objext images
       for ( let i = 0; i < numberValue; i++ ) {
         const offset = ( sideMargin + i * stackOffset ) / SCALE;
-        const objectImage = new Image( mapPlayObjectTypeToImage[ playObjectTypeProperty.value ], {
+        const objectImage = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectTypeProperty.value ], {
           maxWidth: objectWidth,
           maxHeight: objectHeight,
           x: offset,
@@ -160,7 +148,7 @@ class BaseNumberNode extends Node {
         objectImage.scale( 1 / SCALE );
         this.addChild( objectImage );
         playObjectTypeProperty.link( playObjectType => {
-          objectImage.image = mapPlayObjectTypeToImage[ playObjectType ];
+          objectImage.image = CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ];
         } );
       }
     }

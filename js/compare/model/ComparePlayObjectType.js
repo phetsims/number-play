@@ -7,7 +7,7 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import PlayObjectType from '../../common/model/PlayObjectType.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import numberPlay from '../../numberPlay.js';
 
 // @public

@@ -70,8 +70,7 @@ const NumberPlayConstants = {
   BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
 
   // misc TODO: when base classes exist, move bucket specs there
-  BUCKET_SIZE: new Dimension2( 100, 50 ), // in screen coordinates
-  PLAY_OBJECT_SIZE: new Dimension2( 64, 64 ) // in screen coordinates
+  BUCKET_SIZE: new Dimension2( 100, 50 ) // in screen coordinates
 };
 
 numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

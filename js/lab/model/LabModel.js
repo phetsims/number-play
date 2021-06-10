@@ -7,17 +7,14 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import FractionsCommonConstants from '../../../../fractions-common/js/common/FractionsCommonConstants.js';
-import ObjectsPlayArea from '../../common/model/ObjectsPlayArea.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
-import PlayObjectType from '../../common/model/PlayObjectType.js';
 import numberPlay from '../../numberPlay.js';
 
 const NUMBER_PIECE_RETURN_THRESHOLD = 92;
@@ -64,18 +61,17 @@ class LabModel {
     );
 
     // @public (read-only) - the model for managing dogs in the playArea
-    this.leftObjectsPlayArea = new ObjectsPlayArea(
+    this.leftObjectsPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      objectMaxScale,
+      paperNumberOrigin,
       new BooleanProperty( false )
     );
 
     // @public (read-only) - the model for managing balls in the playArea
-    this.rightObjectsPlayArea = new ObjectsPlayArea(
+    this.rightObjectsPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      objectMaxScale,
+      paperNumberOrigin,
       new BooleanProperty( false ), {
-        playObjectTypeProperty: new EnumerationProperty( PlayObjectType, PlayObjectType.BALL ),
         bucketPosition: new Vector2( bucketOffsetX, 0 )
       }
     );
@@ -173,6 +169,8 @@ class LabModel {
    */
   step( dt ) {
     this.onesPlayArea.step( dt );
+    this.leftObjectsPlayArea.step( dt );
+    this.rightObjectsPlayArea.step( dt );
     this.activeNumberPieces.forEach( numberPiece => numberPiece.step( dt ) );
   }
 }

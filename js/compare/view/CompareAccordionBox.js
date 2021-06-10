@@ -10,26 +10,25 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import PlayObject from '../../common/model/PlayObject.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import BaseNumberNode from '../../common/view/BaseNumberNode.js';
-import ObjectsPlayAreaNode from '../../common/view/ObjectsPlayAreaNode.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
-import PlayObjectNode from '../../common/view/PlayObjectNode.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 
 // constants
@@ -75,15 +74,6 @@ class CompareAccordionBox extends AccordionBox {
       new Vector2( objectsPlayAreaViewBounds.left + NumberPlayConstants.BUCKET_SIZE.width / 2, objectsPlayAreaViewBounds.bottom ),
       1
     );
-    const playAreaModelBounds = translateMVT.viewToModelBounds( objectsPlayAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
-
-    // create and add the ObjectsPlayAreaNode
-    const objectsPlayAreaNode = new ObjectsPlayAreaNode(
-      playArea.objectsPlayArea,
-      playAreaModelBounds,
-      translateMVT
-    );
-    contentNode.addChild( objectsPlayAreaNode );
 
     // create view bounds for the OnesPlayAreaNode
     const onesPlayAreaViewBounds = new Bounds2(
@@ -92,6 +82,19 @@ class CompareAccordionBox extends AccordionBox {
       contentNode.right,
       contentNode.bottom - playAreaMarginY
     );
+
+    // create and add the ObjectsPlayAreaNode
+    const objectsTypeProperty = new DerivedProperty( [ playArea.playObjectTypeProperty ], playObjectType => {
+      return playObjectType === ComparePlayObjectType.PAPER_ONE ?
+             objectsTypeProperty.value : ComparePlayObjectType[ playObjectType ];
+    } );
+    const objectsPlayAreaNode = new OnesPlayAreaNode(
+      playArea.objectsPlayArea,
+      onesPlayAreaViewBounds,
+      translateMVT,
+      objectsTypeProperty
+    );
+    contentNode.addChild( objectsPlayAreaNode );
 
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
@@ -110,17 +113,10 @@ class CompareAccordionBox extends AccordionBox {
         iconNode.setScaleMagnitude( options.radioButtonSize.height / iconNode.height / 4 );
       }
       else {
-        iconNode = new PlayObjectNode(
-          new PlayObject(
-            new EnumerationProperty( ComparePlayObjectType, playObjectType ),
-            new Vector2( 0, 0 ),
-            options.radioButtonSize,
-            1
-          ),
-          playAreaModelBounds,
-          _.noop,
-          translateMVT
-        );
+        iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
+          maxWidth: options.radioButtonSize.width,
+          maxHeight: options.radioButtonSize.height
+        } );
       }
 
       buttons.push( {

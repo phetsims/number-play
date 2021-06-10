@@ -8,10 +8,12 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -19,11 +21,9 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import PlayObject from '../model/PlayObject.js';
-import PlayObjectType from '../model/PlayObjectType.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
-import PlayObjectNode from './PlayObjectNode.js';
 
 const objectsString = numberPlayStrings.objects;
 
@@ -80,24 +80,13 @@ class ObjectsAccordionBox extends AccordionBox {
     );
     contentNode.addChild( objectsPlayAreaNode );
 
-    //////// for creating the object buttons, should be ported to not use PlayObjectNode etc  ////////
-
-    const playAreaModelBounds = translateMVT.viewToModelBounds( playAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
-
     // create the icons for the RectangularRadioButtonGroup
     const buttons = [];
     PlayObjectType.VALUES.forEach( playObjectType => {
-      const iconNode = new PlayObjectNode(
-        new PlayObject(
-          new EnumerationProperty( PlayObjectType, playObjectType ),
-          new Vector2( 0, 0 ),
-          config.radioButtonSize,
-          1
-        ),
-        playAreaModelBounds,
-        _.noop,
-        translateMVT
-      );
+      const iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
+        maxWidth: config.radioButtonSize.width,
+        maxHeight: config.radioButtonSize.height
+      } );
 
       buttons.push( {
         value: playObjectType,

@@ -6,6 +6,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
@@ -16,7 +18,6 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import ObjectsPlayAreaNode from '../../common/view/ObjectsPlayAreaNode.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import numberPlay from '../../numberPlay.js';
@@ -90,22 +91,25 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberPanel );
 
     // create and add the left ObjectsPlayAreaNode
-    const playAreaModelBounds = this.modelViewTransform.viewToModelBounds( playAreaViewBounds ).dilatedX( -20 ).dilatedY( -19 );
-    const leftObjectsPlayAreaNode = new ObjectsPlayAreaNode(
+    const leftPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+    const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
-      playAreaModelBounds,
-      this.modelViewTransform, {
-        playObjectsLayer: this.pieceLayer
+      playAreaViewBounds,
+      this.modelViewTransform,
+      leftPlayObjectTypeProperty, {
+        paperNumberLayerNode: this.pieceLayer
       }
     );
     this.addChild( leftObjectsPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const rightObjectsPlayAreaNode = new ObjectsPlayAreaNode(
+    const rightPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.BALL );
+    const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
-      playAreaModelBounds,
-      this.modelViewTransform, {
-        playObjectsLayer: this.pieceLayer
+      playAreaViewBounds,
+      this.modelViewTransform,
+      rightPlayObjectTypeProperty, {
+        paperNumberLayerNode: this.pieceLayer
       }
     );
     this.addChild( rightObjectsPlayAreaNode );
