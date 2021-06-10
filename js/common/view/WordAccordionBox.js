@@ -132,7 +132,7 @@ class WordAccordionBox extends AccordionBox {
     languageControl.addChild( spanishText );
     languageControl.pickable = false;
     languageControl.opacity = disabledOpacity;
-    contentNode.addChild( languageControl );
+    // contentNode.addChild( languageControl );
 
     // create and add speaker button
     const speakerButton = new RectangularPushButton( {
@@ -150,7 +150,7 @@ class WordAccordionBox extends AccordionBox {
     speakerButton.setScaleMagnitude( config.speakerButtonScale );
     speakerButton.right = contentNode.right + config.speakerButtonOffset.x;
     speakerButton.centerY = wordText.centerY + config.speakerButtonOffset.y;
-    contentNode.addChild( speakerButton );
+    // contentNode.addChild( speakerButton );
 
     super( contentNode, config );
 
