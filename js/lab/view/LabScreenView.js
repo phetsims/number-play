@@ -80,8 +80,7 @@ class LabScreenView extends ScreenView {
     const onesPlayAreaNode = new OnesPlayAreaNode(
       model.onesPlayArea,
       playAreaViewBounds,
-      this.modelViewTransform,
-      null, {
+      this.modelViewTransform, {
         paperNumberLayerNode: this.pieceLayer
       }
     );
@@ -95,9 +94,9 @@ class LabScreenView extends ScreenView {
     const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
       playAreaViewBounds,
-      this.modelViewTransform,
-      leftPlayObjectTypeProperty, {
-        paperNumberLayerNode: this.pieceLayer
+      this.modelViewTransform, {
+        paperNumberLayerNode: this.pieceLayer,
+        playObjectTypeProperty: leftPlayObjectTypeProperty
       }
     );
     this.addChild( leftObjectsPlayAreaNode );
@@ -107,9 +106,9 @@ class LabScreenView extends ScreenView {
     const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
       playAreaViewBounds,
-      this.modelViewTransform,
-      rightPlayObjectTypeProperty, {
-        paperNumberLayerNode: this.pieceLayer
+      this.modelViewTransform, {
+        paperNumberLayerNode: this.pieceLayer,
+        playObjectTypeProperty: rightPlayObjectTypeProperty
       }
     );
     this.addChild( rightObjectsPlayAreaNode );

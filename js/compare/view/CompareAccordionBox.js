@@ -25,7 +25,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import BaseNumberNode from '../../common/view/BaseNumberNode.js';
+import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
@@ -91,8 +91,9 @@ class CompareAccordionBox extends AccordionBox {
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds,
-      translateMVT,
-      objectsTypeProperty
+      translateMVT, {
+        playObjectTypeProperty: objectsTypeProperty
+      }
     );
     contentNode.addChild( objectsPlayAreaNode );
 
@@ -109,7 +110,7 @@ class CompareAccordionBox extends AccordionBox {
     ComparePlayObjectType.VALUES.forEach( playObjectType => {
       let iconNode = null;
       if ( playObjectType === ComparePlayObjectType.PAPER_ONE ) {
-        iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
+        iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false );
         iconNode.setScaleMagnitude( options.radioButtonSize.height / iconNode.height / 4 );
       }
       else {

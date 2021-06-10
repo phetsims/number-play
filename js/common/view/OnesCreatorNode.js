@@ -11,11 +11,12 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
+import BasePictorialNode from '../../../../counting-common/js/common/view/BasePictorialNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import BaseNumberNode from './BaseNumberNode.js';
 
 // constants
 const NUMBER_VALUE = NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
@@ -25,7 +26,7 @@ class OnesCreatorNode extends Node {
   /**
    * @param {OnesPlayAreaNode} playAreaNode
    * @param {NumberProperty} sumProperty
-   * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
+   * @param {EnumerationProperty.<PlayObjectType>|null} playObjectTypeProperty
    */
   constructor( playAreaNode, sumProperty, playObjectTypeProperty ) {
     super();
@@ -41,10 +42,17 @@ class OnesCreatorNode extends Node {
         cursor: 'pointer',
         // empirically determined stacking
         children: [ new Vector2( -8, -8 ), new Vector2( 0, 0 ) ].map( offset => {
-          const paperNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false, playObjectTypeProperty );
-          paperNode.scale( 0.64, 0.55 );
-          paperNode.translation = offset;
-          return paperNode;
+          let targetNode;
+          if ( playObjectTypeProperty ) {
+            targetNode = new BasePictorialNode( new BaseNumber( 1, 0 ), 1, false, playObjectTypeProperty );
+            targetNode.scale( 0.8 );
+          }
+          else {
+            targetNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false );
+            targetNode.scale( 0.64, 0.55 );
+          }
+          targetNode.translation = offset;
+          return targetNode;
         } )
       } );
       node.touchArea = node.localBounds.dilatedX( 15 ).dilatedY( 5 );

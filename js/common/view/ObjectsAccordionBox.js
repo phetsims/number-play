@@ -75,8 +75,9 @@ class ObjectsAccordionBox extends AccordionBox {
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,
       playAreaViewBounds,
-      translateMVT,
-      playObjectTypeProperty
+      translateMVT, {
+        playObjectTypeProperty: playObjectTypeProperty
+      }
     );
     contentNode.addChild( objectsPlayAreaNode );
 
@@ -109,8 +110,9 @@ class ObjectsAccordionBox extends AccordionBox {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         config.linkedPlayArea,
         playAreaViewBounds,
-        translateMVT,
-        playObjectTypeProperty
+        translateMVT, {
+          playObjectTypeProperty: playObjectTypeProperty
+        }
       );
 
       config.linkPlayAreasProperty.lazyLink( linkPlayAreas => {

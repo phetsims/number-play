@@ -19,7 +19,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesCreatorNode from './OnesCreatorNode.js';
-import PaperNumberNode from './PaperNumberNode.js';
+import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 
 class OnesPlayAreaNode extends Node {
 
@@ -27,17 +27,15 @@ class OnesPlayAreaNode extends Node {
    * @param {OnesPlayArea} playArea
    * @param {Bounds2} playAreaViewBounds
    * @param {ModelViewTransform2} translateMVT
-   * @param {EnumerationProperty.<PlayObjectType>} playObjectTypeProperty
+   * @param {object} [options]
    */
-  constructor( playArea, playAreaViewBounds, translateMVT, playObjectTypeProperty, options ) {
+  constructor( playArea, playAreaViewBounds, translateMVT, options ) {
     super();
 
     options = merge( {
-      paperNumberLayerNode: null // {null|Node}
+      paperNumberLayerNode: null, // {null|Node}
+      playObjectTypeProperty: null // {EnumerationProperty.<PlayObjectType>|null}
     }, options );
-
-    // @public {EnumerationProperty.<PlayObjectType>}
-    this.playObjectTypeProperty = playObjectTypeProperty;
 
     // @private {Function} - Called with function( paperNumberNode ) on number splits
     this.numberSplitListener = this.onNumberSplit.bind( this );
@@ -66,6 +64,9 @@ class OnesPlayAreaNode extends Node {
     // @public {Property.<Bounds2>} - The view coordinates where numbers can be dragged. Can update when the sim
     //                                is resized.
     this.availableViewBoundsProperty = new Property( playAreaViewBounds );
+
+    // @private {EnumerationProperty.<PlayObjectType>}|null}
+    this.playObjectTypeProperty = options.playObjectTypeProperty;
 
     // @private {ClosestDragListener} - Handle touches nearby to the numbers, and interpret those as the proper drag.
     this.closestDragListener = new ClosestDragListener( 30, 0 );
