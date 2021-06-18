@@ -204,10 +204,8 @@ class OnesPlayAreaNode extends Node {
     paperNumberNode.splitEmitter.removeListener( this.numberSplitListener );
 
     delete this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ];
-    this.paperNumberLayerNode.removeChild( paperNumberNode );
-    paperNumberNode.detachListeners();
-
     this.closestDragListener.removeDraggableItem( paperNumberNode );
+    paperNumberNode.dispose();
   }
 
   /**
