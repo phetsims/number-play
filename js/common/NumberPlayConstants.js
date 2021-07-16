@@ -10,6 +10,10 @@ import Dimension2 from '../../../dot/js/Dimension2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
 
+// constants used to define other constants
+const LIGHT_GREEN_BACKGROUND = 'rgb( 215, 255, 227 )';
+const LIGHT_ORANGE_BACKGROUND = 'rgb( 255, 242, 220 )';
+
 const NumberPlayConstants = {
 
   // the two defining numbers of this sim
@@ -62,18 +66,20 @@ const NumberPlayConstants = {
   // colors
 
   // screen backgrounds
-  TEN_SCREEN_BACKGROUND: 'rgb( 215, 255, 227 )',
-  TWENTY_SCREEN_BACKGROUND: 'rgb( 255, 242, 220 )',
+  TEN_SCREEN_BACKGROUND: LIGHT_GREEN_BACKGROUND,
+  TWENTY_SCREEN_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
 
   // accordion box backgrounds
   GREEN_BACKGROUND: 'rgb( 159, 237, 172 )',
+  LIGHT_GREEN_BACKGROUND: LIGHT_GREEN_BACKGROUND,
   ORANGE_BACKGROUND: 'rgb( 249, 210, 172 )',
+  LIGHT_ORANGE_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
   PURPLE_BACKGROUND: 'rgb( 252, 220, 255 )',
   BLUE_BACKGROUND: 'rgb( 204, 239, 255 )',
   WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
-  BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
 
   // misc TODO: when base classes exist, move bucket specs there
+  BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
   BUCKET_SIZE: new Dimension2( 100, 50 ) // in screen coordinates
 };
 

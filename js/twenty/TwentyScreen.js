@@ -50,7 +50,7 @@ class TwentyScreen extends Screen {
         speakerButtonScale: 0.8
       },
       numeralAccordionBoxConfig: {
-        fill: NumberPlayConstants.GREEN_BACKGROUND,
+        fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND,
         font: new PhetFont( 76 ),
         arrowButtonConfig: {
           arrowWidth: 15,  // empirically determined

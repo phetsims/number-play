@@ -49,7 +49,7 @@ class TenScreen extends Screen {
         speakerButtonScale: 1
       },
       numeralAccordionBoxConfig: {
-        fill: NumberPlayConstants.ORANGE_BACKGROUND,
+        fill: NumberPlayConstants.LIGHT_ORANGE_BACKGROUND,
         font: new PhetFont( 98 ),
         contentXMargin: 0, // empirically determined
         arrowButtonConfig: {
