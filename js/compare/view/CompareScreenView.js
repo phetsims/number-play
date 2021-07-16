@@ -78,7 +78,8 @@ class CompareScreenView extends ScreenView {
 
     // create and add the left CompareAccordionBox
     const leftCompareAccordionBox = new CompareAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
-      expandedProperty: this.leftCompareAccordionBoxExpandedProperty
+      expandedProperty: this.leftCompareAccordionBoxExpandedProperty,
+      fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND
     } );
     leftCompareAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     leftCompareAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
@@ -86,7 +87,8 @@ class CompareScreenView extends ScreenView {
 
     // create and add the right CompareAccordionBox
     const rightCompareAccordionBox = new CompareAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
-      expandedProperty: this.rightCompareAccordionBoxExpandedProperty
+      expandedProperty: this.rightCompareAccordionBoxExpandedProperty,
+      fill: NumberPlayConstants.LIGHT_ORANGE_BACKGROUND
     } );
     rightCompareAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     rightCompareAccordionBox.bottom = leftCompareAccordionBox.bottom;

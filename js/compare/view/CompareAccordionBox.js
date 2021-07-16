@@ -49,7 +49,6 @@ class CompareAccordionBox extends AccordionBox {
 
     options = merge( {
       titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
-      fill: NumberPlayConstants.BLUE_BACKGROUND,
       minWidth: WIDTH,
       maxWidth: WIDTH,
 
