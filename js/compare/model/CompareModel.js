@@ -7,9 +7,11 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
+import CompareCountingType from './CompareCountingType.js';
 import ComparePlayArea from './ComparePlayArea.js';
 
 class CompareModel {
@@ -31,8 +33,8 @@ class CompareModel {
     } );
 
     // @public {BooleanProperty} - for checkboxes
+    this.countingTypeProperty = new EnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
     this.comparisonSignsVisibleProperty = new BooleanProperty( true );
-    this.blockValuesVisibleProperty = new BooleanProperty( true );
 
     // @public {BooleanProperty} - see NumberPlayModel for doc
     this.isResettingProperty = new BooleanProperty( false );
@@ -63,7 +65,7 @@ class CompareModel {
     this.leftCurrentNumberProperty.reset();
     this.rightCurrentNumberProperty.reset();
     this.comparisonSignsVisibleProperty.reset();
-    this.blockValuesVisibleProperty.reset();
+    this.countingTypeProperty.reset();
     this.isResettingProperty.reset();
   }
 }

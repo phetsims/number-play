@@ -8,17 +8,24 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
+import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumeralAccordionBox from '../../common/view/NumeralAccordionBox.js';
 import numberPlay from '../../numberPlay.js';
+import CompareCountingType from '../model/CompareCountingType.js';
 import BlockValuesNode from './BlockValuesNode.js';
 import CompareAccordionBox from './CompareAccordionBox.js';
+import CompareNumberLineNode from './CompareNumberLineNode.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 120; // empirically determined, in screen coordinates
@@ -98,6 +105,35 @@ class CompareScreenView extends ScreenView {
     leftNumeralAccordionBox.right = leftCompareAccordionBox.right;
     rightNumeralAccordionBox.left = rightCompareAccordionBox.left;
 
+    // create and add the counting type radio button group
+    const countingTypeToNode = {};
+    countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2, false );
+    countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode( new Range( 0, 5 ), false );
+    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
+
+    const countingTypeRadioButtons = CompareCountingType.VALUES.map( countingType => {
+      const iconNode = countingTypeToNode[ countingType ];
+      iconNode.maxWidth = 36;
+      iconNode.maxHeight = 36;
+
+      return {
+        value: countingType,
+        node: iconNode
+      };
+    } );
+    const countingTypeRadioButtonGroup = new RectangularRadioButtonGroup(
+      model.countingTypeProperty,
+      countingTypeRadioButtons, {
+        orientation: 'horizontal',
+        baseColor: Color.WHITE,
+        buttonContentXMargin: 8,
+        buttonContentYMargin: 8
+      }
+    );
+    countingTypeRadioButtonGroup.left = leftCompareAccordionBox.left;
+    countingTypeRadioButtonGroup.top = leftNumeralAccordionBox.top;
+    this.addChild( countingTypeRadioButtonGroup );
+
     // create and add the comparison signs checkbox
     const boxWidth = 30;
     const comparisonSignsCheckbox = new Checkbox(
@@ -105,20 +141,9 @@ class CompareScreenView extends ScreenView {
       model.comparisonSignsVisibleProperty, {
         boxWidth: boxWidth
       } );
-    comparisonSignsCheckbox.left = leftCompareAccordionBox.left;
-    comparisonSignsCheckbox.top = leftNumeralAccordionBox.top;
+    comparisonSignsCheckbox.left = countingTypeRadioButtonGroup.left;
+    comparisonSignsCheckbox.top = countingTypeRadioButtonGroup.bottom + 14;
     this.addChild( comparisonSignsCheckbox );
-
-    // create and add the block values checkbox
-    const blockValuesCheckbox = new Checkbox(
-      BlockValuesNode.getBlockValuesNode( 1, 2, false ),
-      model.blockValuesVisibleProperty, {
-        boxWidth: boxWidth,
-        spacing: 7
-      } );
-    blockValuesCheckbox.left = comparisonSignsCheckbox.left;
-    blockValuesCheckbox.top = comparisonSignsCheckbox.bottom + 14;
-    this.addChild( blockValuesCheckbox );
 
     // create and add the comparison signs node
     const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
@@ -129,6 +154,11 @@ class CompareScreenView extends ScreenView {
     // create and add the BlockValuesNode
     const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
     this.addChild( blockValuesNode );
+
+    const compareNumberLineNode = new CompareNumberLineNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
+    compareNumberLineNode.centerX = comparisonSignsNode.centerX;
+    compareNumberLineNode.bottom = leftCompareAccordionBox.bottom - 6; // empirically determined tweak
+    this.addChild( compareNumberLineNode );
 
     // create and add the ResetAllButton
     const resetAllButton = new ResetAllButton( {
@@ -160,9 +190,10 @@ class CompareScreenView extends ScreenView {
       comparisonSignsNode.visible = visible;
     } );
 
-    // update the visibility of the BlockValuesNode
-    model.blockValuesVisibleProperty.link( visible => {
-      blockValuesNode.visible = visible;
+    // update the visibility of the BlockValuesNode and NumberLineNode
+    model.countingTypeProperty.link( countingType => {
+      blockValuesNode.visible = countingType === CompareCountingType.BLOCKS;
+      compareNumberLineNode.visible = countingType === CompareCountingType.NUMBER_LINE;
     } );
   }
 
