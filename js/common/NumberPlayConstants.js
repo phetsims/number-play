@@ -68,8 +68,8 @@ const NumberPlayConstants = {
   // accordion box backgrounds
   GREEN_BACKGROUND: 'rgb( 159, 237, 172 )',
   ORANGE_BACKGROUND: 'rgb( 249, 210, 172 )',
-  PURPLE_BACKGROUND: 'rgb( 254, 202, 255 )',
-  BLUE_BACKGROUND: 'rgb( 190, 232, 255 )',
+  PURPLE_BACKGROUND: 'rgb( 252, 220, 255 )',
+  BLUE_BACKGROUND: 'rgb( 204, 239, 255 )',
   WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
   BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
 
