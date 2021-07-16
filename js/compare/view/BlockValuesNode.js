@@ -15,8 +15,8 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
-const SIDE_LENGTH = 20; // the side length of one block
-const PADDING = 1; // padding between blocks
+const SIDE_LENGTH = 19; // the side length of one block
+const PADDING = 2; // padding between blocks
 
 class BlockValuesNode extends Node {
 
@@ -82,7 +82,7 @@ class BlockValuesNode extends Node {
     // align and return
     return new HBox( {
       children: [ leftStack, rightStack ],
-      spacing: PADDING * 2,
+      spacing: PADDING,
       align: 'bottom'
     } );
   }
