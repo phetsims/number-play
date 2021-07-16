@@ -60,10 +60,14 @@ const NumberPlayConstants = {
   ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
   // colors
-  TEN_SCREEN_BACKGROUND: 'rgb( 171, 255, 195 )',
-  TWENTY_SCREEN_BACKGROUND: 'rgb( 255, 250, 210 )',
-  GREEN_BACKGROUND: 'rgb( 217, 255, 223 )',
-  ORANGE_BACKGROUND: 'rgb( 255, 218, 176 )',
+
+  // screen backgrounds
+  TEN_SCREEN_BACKGROUND: 'rgb( 215, 255, 227 )',
+  TWENTY_SCREEN_BACKGROUND: 'rgb( 255, 242, 220 )',
+
+  // accordion box backgrounds
+  GREEN_BACKGROUND: 'rgb( 159, 237, 172 )',
+  ORANGE_BACKGROUND: 'rgb( 249, 210, 172 )',
   PURPLE_BACKGROUND: 'rgb( 254, 202, 255 )',
   BLUE_BACKGROUND: 'rgb( 190, 232, 255 )',
   WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
