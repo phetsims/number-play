@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Class for a 'Block Values' Node, which creates two stacks of blocks that represent the given left and right current
