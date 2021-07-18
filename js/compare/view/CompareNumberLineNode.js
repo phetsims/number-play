@@ -9,6 +9,7 @@
 
 import Shape from '../../../../kite/js/Shape.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import merge from '../../../../phet-core/js/merge.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -31,7 +32,7 @@ class CompareNumberLineNode extends Node {
   constructor( leftCurrentNumberProperty, rightCurrentNumberProperty ) {
     super();
 
-    const numberLineNode = CompareNumberLineNode.getNumberLineNode( leftCurrentNumberProperty.range, true );
+    const numberLineNode = CompareNumberLineNode.getNumberLineNode( leftCurrentNumberProperty.range );
     this.addChild( numberLineNode );
 
     const leftCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode( LeftRightDirection.LEFT, GREEN );
@@ -52,40 +53,44 @@ class CompareNumberLineNode extends Node {
   }
 
   /**
-   * Draws a number line node in a vertical orientation. Major tick marks are wider, have a heavier stroke, and include
-   * a number label if specified.
+   * Draws a number line node in a vertical orientation.
    *
    * @param {Range} range (inclusive)
    * @param {boolean} includeLabels
+   * @param {object} [options]
    * @returns {Node}
    * @public
    */
-  static getNumberLineNode( range, includeLabels ) {
-    const minorTickMarksPerMajorTickMark = 4;
-    const minorLineWidth = 1;
-    const majorLineWidth = 2;
-    const minorTickMarkHalfLineLength = 9;
-    const majorTickMarkHalfLineLength = 14;
+  static getNumberLineNode( range, options ) {
 
+    options = merge( {
+      includeLabels: true,
+      minorLineWidth: 1,
+      majorLineWidth: 2,
+      minorTickMarkHalfLineLength: 9,
+      majorTickMarkHalfLineLength: 16
+    }, options );
+
+    const minorTickMarksPerMajorTickMark = 4;
     const numberLineDistance = range.max - range.min;
 
     // create the base vertical line
     const numberLineShape = new Shape().moveTo( 0, 0 ).lineTo( 0, -numberLineDistance * PIXELS_PER_MINOR_TICK_MARK );
     const numberLineNode = new Path( numberLineShape, {
       stroke: Color.BLACK,
-      lineWidth: minorLineWidth
+      lineWidth: options.minorLineWidth
     } );
 
     // add the minor and major tick marks
     for ( let i = 0; i <= numberLineDistance; i++ ) {
       const isMajorTickMark = i % ( minorTickMarksPerMajorTickMark + 1 ) === 0;
-      const tickMarkHalfLength = isMajorTickMark ? majorTickMarkHalfLineLength : minorTickMarkHalfLineLength;
+      const tickMarkHalfLength = isMajorTickMark ? options.majorTickMarkHalfLineLength : options.minorTickMarkHalfLineLength;
 
       const tickMarkShape = new Shape().moveTo( -tickMarkHalfLength, -i * PIXELS_PER_MINOR_TICK_MARK )
         .lineTo( tickMarkHalfLength, -i * PIXELS_PER_MINOR_TICK_MARK );
       const tickMarkNode = new Path( tickMarkShape, {
         stroke: Color.BLACK,
-        lineWidth: isMajorTickMark ? majorLineWidth : minorLineWidth
+        lineWidth: isMajorTickMark ? options.majorLineWidth : options.minorLineWidth
       } );
 
       numberLineNode.addChild( tickMarkNode );

@@ -108,7 +108,13 @@ class CompareScreenView extends ScreenView {
     // create and add the counting type radio button group
     const countingTypeToNode = {};
     countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2, false );
-    countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode( new Range( 0, 5 ), false );
+    countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode( new Range( 0, 5 ), {
+      includeLabels: false,
+      minorLineWidth: 2,
+      majorLineWidth: 4,
+      minorTickMarkHalfLineLength: 11,
+      majorTickMarkHalfLineLength: 32
+    } );
     countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
 
     const countingTypeRadioButtons = CompareCountingType.VALUES.map( countingType => {
