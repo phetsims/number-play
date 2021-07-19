@@ -162,8 +162,8 @@ class CompareScreenView extends ScreenView {
     this.addChild( blockValuesNode );
 
     const compareNumberLineNode = new CompareNumberLineNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
-    compareNumberLineNode.centerX = comparisonSignsNode.centerX;
-    compareNumberLineNode.bottom = leftCompareAccordionBox.bottom - 6; // empirically determined tweak
+    compareNumberLineNode.x = comparisonSignsNode.centerX;
+    compareNumberLineNode.bottom = leftCompareAccordionBox.bottom - 4; // empirically determined adjustment
     this.addChild( compareNumberLineNode );
 
     // create and add the ResetAllButton

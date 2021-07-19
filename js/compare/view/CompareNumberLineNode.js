@@ -10,9 +10,11 @@
 import Shape from '../../../../kite/js/Shape.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPlay from '../../numberPlay.js';
 
@@ -53,7 +55,8 @@ class CompareNumberLineNode extends Node {
   }
 
   /**
-   * Draws a number line node in a vertical orientation.
+   * Draws a number line node in a vertical orientation with minor + major tick marks and number labels on the major
+   * tick marks.
    *
    * @param {Range} range (inclusive)
    * @param {boolean} includeLabels
@@ -81,19 +84,27 @@ class CompareNumberLineNode extends Node {
       lineWidth: options.minorLineWidth
     } );
 
-    // add the minor and major tick marks
+    // create tick marks at each integer on the number line, plus labels for the major tick marks
     for ( let i = 0; i <= numberLineDistance; i++ ) {
       const isMajorTickMark = i % ( minorTickMarksPerMajorTickMark + 1 ) === 0;
       const tickMarkHalfLength = isMajorTickMark ? options.majorTickMarkHalfLineLength : options.minorTickMarkHalfLineLength;
 
+      // create and add a major or minor tick mark
       const tickMarkShape = new Shape().moveTo( -tickMarkHalfLength, -i * PIXELS_PER_MINOR_TICK_MARK )
         .lineTo( tickMarkHalfLength, -i * PIXELS_PER_MINOR_TICK_MARK );
       const tickMarkNode = new Path( tickMarkShape, {
         stroke: Color.BLACK,
         lineWidth: isMajorTickMark ? options.majorLineWidth : options.minorLineWidth
       } );
-
       numberLineNode.addChild( tickMarkNode );
+
+      // create and add a label for a major tick mark
+      if ( options.includeLabels && isMajorTickMark ) {
+        const tickMarkLabel = new Text( i, { font: new PhetFont( 12 ) } );
+        tickMarkLabel.right = tickMarkNode.left - 8;
+        tickMarkLabel.centerY = tickMarkNode.centerY;
+        numberLineNode.addChild( tickMarkLabel );
+      }
     }
 
     return numberLineNode;
