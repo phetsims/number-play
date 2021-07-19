@@ -128,6 +128,7 @@ class CompareScreenView extends ScreenView {
     const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
     this.addChild( blockValuesNode );
 
+    // create and add the CompareNumberLineNode
     const compareNumberLineNode = new CompareNumberLineNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
     compareNumberLineNode.x = comparisonSignsNode.centerX;
     compareNumberLineNode.bottom = leftCompareAccordionBox.bottom - 4; // empirically determined adjustment
