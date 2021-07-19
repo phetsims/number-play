@@ -17,14 +17,11 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
 const PIXELS_PER_MINOR_TICK_MARK = 20;
-
-// colors
-const GREEN = '#96e2a8';
-const ORANGE = '#f7d19f';
 
 class CompareNumberLineNode extends Node {
 
@@ -38,10 +35,16 @@ class CompareNumberLineNode extends Node {
     const numberLineNode = CompareNumberLineNode.getNumberLineNode( leftCurrentNumberProperty.range );
     this.addChild( numberLineNode );
 
-    const leftCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode( LeftRightDirection.LEFT, GREEN );
+    const leftCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
+      LeftRightDirection.LEFT,
+      NumberPlayConstants.MEDIUM_GREEN_FILL
+    );
     numberLineNode.addChild( leftCurrentNumberIndicatorNode );
 
-    const rightCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode( LeftRightDirection.RIGHT, ORANGE );
+    const rightCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
+      LeftRightDirection.RIGHT,
+      NumberPlayConstants.MEDIUM_ORANGE_FILL
+    );
     numberLineNode.addChild( rightCurrentNumberIndicatorNode );
 
     // update the leftCurrentNumberIndicatorNodes when leftCurrentNumberProperty changes

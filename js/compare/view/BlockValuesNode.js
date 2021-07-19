@@ -58,7 +58,7 @@ class BlockValuesNode extends Node {
     // create and add the left blocks
     _.times( leftCurrentNumber, () => {
       leftBlocks.push( new Rectangle( 0, 0, SIDE_LENGTH, SIDE_LENGTH, {
-        fill: 'black'
+        fill: NumberPlayConstants.MEDIUM_GREEN_FILL
       } ) );
     } );
     const leftStack = new VBox( {
@@ -70,7 +70,7 @@ class BlockValuesNode extends Node {
     // create and add the right blocks
     _.times( rightCurrentNumber, () => {
       rightBlocks.push( new Rectangle( 0, 0, SIDE_LENGTH, SIDE_LENGTH, {
-        fill: NumberPlayConstants.ORANGE_BACKGROUND
+        fill: NumberPlayConstants.MEDIUM_ORANGE_FILL
       } ) );
     } );
     const rightStack = new VBox( {
