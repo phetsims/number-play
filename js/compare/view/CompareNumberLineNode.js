@@ -21,7 +21,8 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
-const PIXELS_PER_MINOR_TICK_MARK = 20;
+const PIXELS_PER_TICK_MARK = 20; // the number of pixels between the center of two tick marks, in screen coordinates
+const INTEGERS_PER_MAJOR_TICK_MARK = 5; // the number of integers between two major tick marks
 
 class CompareNumberLineNode extends Node {
 
@@ -32,15 +33,18 @@ class CompareNumberLineNode extends Node {
   constructor( leftCurrentNumberProperty, rightCurrentNumberProperty ) {
     super();
 
+    // create and add the number line
     const numberLineNode = CompareNumberLineNode.getNumberLineNode( leftCurrentNumberProperty.range );
     this.addChild( numberLineNode );
 
+    // create and add an indicator for the leftCurrentNumberProperty
     const leftCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
       LeftRightDirection.LEFT,
       NumberPlayConstants.MEDIUM_GREEN_FILL
     );
     numberLineNode.addChild( leftCurrentNumberIndicatorNode );
 
+    // create and add an indicator for the rightCurrentNumberProperty
     const rightCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
       LeftRightDirection.RIGHT,
       NumberPlayConstants.MEDIUM_ORANGE_FILL
@@ -49,12 +53,12 @@ class CompareNumberLineNode extends Node {
 
     // update the leftCurrentNumberIndicatorNodes when leftCurrentNumberProperty changes
     leftCurrentNumberProperty.link( leftCurrentNumber => {
-      leftCurrentNumberIndicatorNode.centerY = PIXELS_PER_MINOR_TICK_MARK * -leftCurrentNumber;
+      leftCurrentNumberIndicatorNode.centerY = PIXELS_PER_TICK_MARK * -leftCurrentNumber;
     } );
 
     // update the rightCurrentNumberIndicatorNodes when rightCurrentNumberProperty changes
     rightCurrentNumberProperty.link( rightCurrentNumber => {
-      rightCurrentNumberIndicatorNode.centerY = PIXELS_PER_MINOR_TICK_MARK * -rightCurrentNumber;
+      rightCurrentNumberIndicatorNode.centerY = PIXELS_PER_TICK_MARK * -rightCurrentNumber;
     } );
   }
 
@@ -77,12 +81,10 @@ class CompareNumberLineNode extends Node {
       minorTickMarkHalfLineLength: 9,
       majorTickMarkHalfLineLength: 16
     }, options );
-
-    const minorTickMarksPerMajorTickMark = 4;
-    const numberLineDistance = range.max - range.min;
+    const numberLineDistance = range.getLength();
 
     // create the base vertical line
-    const numberLineShape = new Shape().moveTo( 0, 0 ).lineTo( 0, -numberLineDistance * PIXELS_PER_MINOR_TICK_MARK );
+    const numberLineShape = new Shape().moveTo( 0, 0 ).lineTo( 0, -numberLineDistance * PIXELS_PER_TICK_MARK );
     const numberLineNode = new Path( numberLineShape, {
       stroke: Color.BLACK,
       lineWidth: options.minorLineWidth
@@ -90,12 +92,12 @@ class CompareNumberLineNode extends Node {
 
     // create tick marks at each integer on the number line, plus labels for the major tick marks
     for ( let i = 0; i <= numberLineDistance; i++ ) {
-      const isMajorTickMark = i % ( minorTickMarksPerMajorTickMark + 1 ) === 0;
+      const isMajorTickMark = i % INTEGERS_PER_MAJOR_TICK_MARK === 0;
       const tickMarkHalfLength = isMajorTickMark ? options.majorTickMarkHalfLineLength : options.minorTickMarkHalfLineLength;
 
       // create and add a major or minor tick mark
-      const tickMarkShape = new Shape().moveTo( -tickMarkHalfLength, -i * PIXELS_PER_MINOR_TICK_MARK )
-        .lineTo( tickMarkHalfLength, -i * PIXELS_PER_MINOR_TICK_MARK );
+      const tickMarkShape = new Shape().moveTo( -tickMarkHalfLength, -i * PIXELS_PER_TICK_MARK )
+        .lineTo( tickMarkHalfLength, -i * PIXELS_PER_TICK_MARK );
       const tickMarkNode = new Path( tickMarkShape, {
         stroke: Color.BLACK,
         lineWidth: isMajorTickMark ? options.majorLineWidth : options.minorLineWidth
@@ -148,6 +150,11 @@ const getCurrentNumberIndicatorNode = ( triangleSide, triangleColor ) => {
   return pointNode;
 };
 
+/**
+ * Enumeration for specifying which side the triangle should go on for the indicator node above.
+ *
+ * @private
+ */
 const LeftRightDirection = Enumeration.byKeys( [ 'LEFT', 'RIGHT' ] );
 
 numberPlay.register( 'CompareNumberLineNode', CompareNumberLineNode );
