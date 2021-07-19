@@ -24,7 +24,7 @@ import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButto
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 
 // constants
-const UPPER_ACCORDION_BOX_HEIGHT = 120; // empirically determined, in screen coordinates
+const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
 const LOWER_ACCORDION_BOX_HEIGHT = 426; // empirically determined, in screen coordinates
 
 // strings
