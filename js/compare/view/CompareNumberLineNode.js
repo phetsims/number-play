@@ -7,6 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -112,14 +113,36 @@ class CompareNumberLineNode extends Node {
 }
 
 /**
- * Creates an indicator for the number line, which consists of a point with a triangle attached to it.
+ * Creates an indicator for the number line, which consists of a point with a triangle attached to it on the left or
+ * right side.
+ *
  * @param {LeftRightDirection} triangleSide
  * @param {string} triangleColor
  * @private
  */
 const getCurrentNumberIndicatorNode = ( triangleSide, triangleColor ) => {
-  const circle = new Circle( 5, { fill: Color.BLACK } );
-  return circle;
+  assert && assert( LeftRightDirection.includes( triangleSide ), `Invalid triangle side: ${triangleSide}` );
+
+  // create the center point
+  const pointRadius = 5;
+  const pointNode = new Circle( pointRadius, { fill: Color.BLACK } );
+
+  // create and add the triangle on the left or right side
+  const sign = triangleSide === LeftRightDirection.LEFT ? -1 : 1;
+  const triangleOrigin = new Vector2( sign * ( pointRadius - 1 ), 0 ); // empirically determined
+  const triangleLongerSideLength = 20; // empirically determined
+  const triangleShorterSideLength = triangleLongerSideLength * 0.8; // empirically determined
+  const triangleShape = new Shape()
+    .moveToPoint( triangleOrigin )
+    .lineToRelative( sign * triangleLongerSideLength / Math.sqrt( 2 ), -triangleShorterSideLength / 2 )
+    .lineToRelative( 0, triangleShorterSideLength )
+    .lineToPoint( triangleOrigin ).close();
+  const triangleNode = new Path( triangleShape, {
+    fill: triangleColor
+  } );
+  pointNode.addChild( triangleNode );
+
+  return pointNode;
 };
 
 const LeftRightDirection = Enumeration.byKeys( [ 'LEFT', 'RIGHT' ] );
