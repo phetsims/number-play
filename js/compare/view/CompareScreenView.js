@@ -16,7 +16,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
+import eyeSlashRegularShape from '../../../../sherpa/js/fontawesome-5/eyeSlashRegularShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -115,7 +115,7 @@ class CompareScreenView extends ScreenView {
       minorTickMarkHalfLineLength: 11,
       majorTickMarkHalfLineLength: 32
     } );
-    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
+    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashRegularShape, { fill: Color.BLACK } );
 
     const countingTypeRadioButtons = CompareCountingType.VALUES.map( countingType => {
       const iconNode = countingTypeToNode[ countingType ];
