@@ -8,16 +8,11 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
-import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import Color from '../../../../scenery/js/util/Color.js';
-import eyeSlashRegularShape from '../../../../sherpa/js/fontawesome-5/eyeSlashRegularShape.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumeralAccordionBox from '../../common/view/NumeralAccordionBox.js';
@@ -25,6 +20,7 @@ import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
 import BlockValuesNode from './BlockValuesNode.js';
 import CompareAccordionBox from './CompareAccordionBox.js';
+import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButtonGroup.js';
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 
 // constants
@@ -105,37 +101,8 @@ class CompareScreenView extends ScreenView {
     leftNumeralAccordionBox.right = leftCompareAccordionBox.right;
     rightNumeralAccordionBox.left = rightCompareAccordionBox.left;
 
-    // create and add the counting type radio button group
-    const countingTypeToNode = {};
-    countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2, false );
-    countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode( new Range( 0, 5 ), {
-      includeLabels: false,
-      minorLineWidth: 2,
-      majorLineWidth: 4,
-      minorTickMarkHalfLineLength: 11,
-      majorTickMarkHalfLineLength: 32
-    } );
-    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashRegularShape, { fill: Color.BLACK } );
-
-    const countingTypeRadioButtons = CompareCountingType.VALUES.map( countingType => {
-      const iconNode = countingTypeToNode[ countingType ];
-      iconNode.maxWidth = 36;
-      iconNode.maxHeight = 36;
-
-      return {
-        value: countingType,
-        node: iconNode
-      };
-    } );
-    const countingTypeRadioButtonGroup = new RectangularRadioButtonGroup(
-      model.countingTypeProperty,
-      countingTypeRadioButtons, {
-        orientation: 'horizontal',
-        baseColor: Color.WHITE,
-        buttonContentXMargin: 8,
-        buttonContentYMargin: 8
-      }
-    );
+    // create and add the CompareCountingTypeRadioButtonGroup
+    const countingTypeRadioButtonGroup = new CompareCountingTypeRadioButtonGroup( model.countingTypeProperty );
     countingTypeRadioButtonGroup.left = leftCompareAccordionBox.left;
     countingTypeRadioButtonGroup.top = leftNumeralAccordionBox.top;
     this.addChild( countingTypeRadioButtonGroup );
