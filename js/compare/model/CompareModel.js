@@ -32,8 +32,10 @@ class CompareModel {
       range: new Range( 0, highestCount )
     } );
 
-    // @public {BooleanProperty} - for checkboxes
+    // @public {EnumerationProperty.<CompareCountingType>}
     this.countingTypeProperty = new EnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
+
+    // @public {BooleanProperty} - for comparison signs checkbox
     this.comparisonSignsVisibleProperty = new BooleanProperty( true );
 
     // @public {BooleanProperty} - see NumberPlayModel for doc

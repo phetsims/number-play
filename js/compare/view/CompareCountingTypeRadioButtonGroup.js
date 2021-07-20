@@ -23,8 +23,7 @@ const BUTTON_X_MARGIN = 8; // in screen coordinates
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {NumberProperty} leftCurrentNumberProperty
-   * @param {NumberProperty} rightCurrentNumberProperty
+   * @param {EnumerationProperty.<CompareCountingType>}
    */
   constructor( countingTypeProperty ) {
 
