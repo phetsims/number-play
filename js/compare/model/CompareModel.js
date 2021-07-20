@@ -35,8 +35,8 @@ class CompareModel {
     // @public {EnumerationProperty.<CompareCountingType>}
     this.countingTypeProperty = new EnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
 
-    // @public {BooleanProperty} - for comparison signs checkbox
-    this.comparisonSignsVisibleProperty = new BooleanProperty( true );
+    // @public {BooleanProperty}
+    this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
 
     // @public {BooleanProperty} - see NumberPlayModel for doc
     this.isResettingProperty = new BooleanProperty( false );
@@ -66,7 +66,7 @@ class CompareModel {
     this.rightPlayArea.reset();
     this.leftCurrentNumberProperty.reset();
     this.rightCurrentNumberProperty.reset();
-    this.comparisonSignsVisibleProperty.reset();
+    this.comparisonSignsAndTextVisibleProperty.reset();
     this.countingTypeProperty.reset();
     this.isResettingProperty.reset();
   }

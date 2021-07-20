@@ -128,7 +128,7 @@ class CompareScreenView extends ScreenView {
     const boxWidth = 30;
     const comparisonSignsCheckbox = new Checkbox(
       new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
-      model.comparisonSignsVisibleProperty, {
+      model.comparisonSignsAndTextVisibleProperty, {
         boxWidth: boxWidth
       } );
     comparisonSignsCheckbox.left = countingTypeRadioButtonGroup.left;
@@ -171,8 +171,9 @@ class CompareScreenView extends ScreenView {
       } );
 
     // update the visibility of the comparison signs node
-    model.comparisonSignsVisibleProperty.link( visible => {
+    model.comparisonSignsAndTextVisibleProperty.link( visible => {
       comparisonSignsNode.visible = visible;
+      comparisonTextNode.visible = visible;
     } );
 
     // update the visibility of the BlockValuesNode and NumberLineNode
