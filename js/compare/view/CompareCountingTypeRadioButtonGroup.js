@@ -17,8 +17,8 @@ import BlockValuesNode from './BlockValuesNode.js';
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 
 // constants
-const ICON_SIZE = 36; // the width and height of the icons used for the buttons, in screen coordinates
-const BUTTON_X_MARGIN = 8; // in screen coordinates
+const ICON_SIZE = 32; // the width and height of the icons used for the buttons, in screen coordinates
+const BUTTON_X_MARGIN = 7; // in screen coordinates
 
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
