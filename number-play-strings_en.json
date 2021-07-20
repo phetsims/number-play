@@ -80,6 +80,15 @@
   "twenty": {
     "value": "twenty"
   },
+  "isLessThan": {
+    "value": "is less than"
+  },
+  "isMoreThan": {
+    "value": "is greater than"
+  },
+  "isEqualTo": {
+    "value": "is equal to"
+  },
   "word": {
     "value": "Word"
   },

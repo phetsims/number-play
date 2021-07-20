@@ -25,54 +25,8 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
 const wordString = numberPlayStrings.word;
-const zeroString = numberPlayStrings.zero;
-const oneString = numberPlayStrings.one;
-const twoString = numberPlayStrings.two;
-const threeString = numberPlayStrings.three;
-const fourString = numberPlayStrings.four;
-const fiveString = numberPlayStrings.five;
-const sixString = numberPlayStrings.six;
-const sevenString = numberPlayStrings.seven;
-const eightString = numberPlayStrings.eight;
-const nineString = numberPlayStrings.nine;
-const tenString = numberPlayStrings.ten;
-const elevenString = numberPlayStrings.eleven;
-const twelveString = numberPlayStrings.twelve;
-const thirteenString = numberPlayStrings.thirteen;
-const fourteenString = numberPlayStrings.fourteen;
-const fifteenString = numberPlayStrings.fifteen;
-const sixteenString = numberPlayStrings.sixteen;
-const seventeenString = numberPlayStrings.seventeen;
-const eighteenString = numberPlayStrings.eighteen;
-const nineteenString = numberPlayStrings.nineteen;
-const twentyString = numberPlayStrings.twenty;
 const englishString = numberPlayStrings.english;
 const spanishString = numberPlayStrings.spanish;
-
-// constants
-const MAP_NUMBER_TO_STRING = {
-  0: zeroString,
-  1: oneString,
-  2: twoString,
-  3: threeString,
-  4: fourString,
-  5: fiveString,
-  6: sixString,
-  7: sevenString,
-  8: eightString,
-  9: nineString,
-  10: tenString,
-  11: elevenString,
-  12: twelveString,
-  13: thirteenString,
-  14: fourteenString,
-  15: fifteenString,
-  16: sixteenString,
-  17: seventeenString,
-  18: eighteenString,
-  19: nineteenString,
-  20: twentyString
-};
 
 class WordAccordionBox extends AccordionBox {
 
@@ -100,7 +54,7 @@ class WordAccordionBox extends AccordionBox {
       rectWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH - 55
     } );
 
-    const wordText = new Text( MAP_NUMBER_TO_STRING[ currentNumberProperty.value ], {
+    const wordText = new Text( NumberPlayConstants.NUMBER_TO_STRING[ currentNumberProperty.value ], {
       font: config.font
     } );
     wordText.left = contentNode.left;
@@ -155,7 +109,7 @@ class WordAccordionBox extends AccordionBox {
     super( contentNode, config );
 
     currentNumberProperty.lazyLink( currentNumber => {
-      wordText.text = MAP_NUMBER_TO_STRING[ currentNumber ];
+      wordText.text = NumberPlayConstants.NUMBER_TO_STRING[ currentNumber ];
     } );
   }
 }

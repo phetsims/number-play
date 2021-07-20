@@ -9,6 +9,30 @@
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
+import numberPlayStrings from '../numberPlayStrings.js';
+
+// strings
+const zeroString = numberPlayStrings.zero;
+const oneString = numberPlayStrings.one;
+const twoString = numberPlayStrings.two;
+const threeString = numberPlayStrings.three;
+const fourString = numberPlayStrings.four;
+const fiveString = numberPlayStrings.five;
+const sixString = numberPlayStrings.six;
+const sevenString = numberPlayStrings.seven;
+const eightString = numberPlayStrings.eight;
+const nineString = numberPlayStrings.nine;
+const tenString = numberPlayStrings.ten;
+const elevenString = numberPlayStrings.eleven;
+const twelveString = numberPlayStrings.twelve;
+const thirteenString = numberPlayStrings.thirteen;
+const fourteenString = numberPlayStrings.fourteen;
+const fifteenString = numberPlayStrings.fifteen;
+const sixteenString = numberPlayStrings.sixteen;
+const seventeenString = numberPlayStrings.seventeen;
+const eighteenString = numberPlayStrings.eighteen;
+const nineteenString = numberPlayStrings.nineteen;
+const twentyString = numberPlayStrings.twenty;
 
 // constants used to define other constants
 const LIGHT_GREEN_BACKGROUND = 'rgb( 215, 255, 227 )';
@@ -82,7 +106,32 @@ const NumberPlayConstants = {
 
   // misc TODO: when base classes exist, move bucket specs there
   BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
-  BUCKET_SIZE: new Dimension2( 100, 50 ) // in screen coordinates
+  BUCKET_SIZE: new Dimension2( 100, 50 ), // in screen coordinates
+
+  // map number values to their corresponding string
+  NUMBER_TO_STRING: {
+    0: zeroString,
+    1: oneString,
+    2: twoString,
+    3: threeString,
+    4: fourString,
+    5: fiveString,
+    6: sixString,
+    7: sevenString,
+    8: eightString,
+    9: nineString,
+    10: tenString,
+    11: elevenString,
+    12: twelveString,
+    13: thirteenString,
+    14: fourteenString,
+    15: fifteenString,
+    16: sixteenString,
+    17: seventeenString,
+    18: eighteenString,
+    19: nineteenString,
+    20: twentyString
+  }
 };
 
 numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

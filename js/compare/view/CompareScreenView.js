@@ -8,6 +8,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -22,6 +23,7 @@ import BlockValuesNode from './BlockValuesNode.js';
 import CompareAccordionBox from './CompareAccordionBox.js';
 import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButtonGroup.js';
 import CompareNumberLineNode from './CompareNumberLineNode.js';
+import ComparisonTextNode from './ComparisonTextNode.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
@@ -107,6 +109,21 @@ class CompareScreenView extends ScreenView {
     countingTypeRadioButtonGroup.top = leftNumeralAccordionBox.top;
     this.addChild( countingTypeRadioButtonGroup );
 
+    // create and add the comparison signs node
+    const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
+    this.addChild( comparisonSignsNode );
+    comparisonSignsNode.centerX = this.layoutBounds.centerX;
+    comparisonSignsNode.centerY = leftNumeralAccordionBox.centerY;
+
+    // create and add the comparison statement
+    const comparisonTextNode = new ComparisonTextNode(
+      model.leftCurrentNumberProperty,
+      model.rightCurrentNumberProperty,
+      this.layoutBounds
+    );
+    comparisonTextNode.centerY = new Range( leftNumeralAccordionBox.bottom, leftCompareAccordionBox.top ).getCenter();
+    this.addChild( comparisonTextNode );
+
     // create and add the comparison signs checkbox
     const boxWidth = 30;
     const comparisonSignsCheckbox = new Checkbox(
@@ -117,12 +134,6 @@ class CompareScreenView extends ScreenView {
     comparisonSignsCheckbox.left = countingTypeRadioButtonGroup.left;
     comparisonSignsCheckbox.top = countingTypeRadioButtonGroup.bottom + 14;
     this.addChild( comparisonSignsCheckbox );
-
-    // create and add the comparison signs node
-    const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
-    comparisonSignsNode.centerX = this.layoutBounds.centerX;
-    comparisonSignsNode.centerY = leftNumeralAccordionBox.centerY;
-    this.addChild( comparisonSignsNode );
 
     // create and add the BlockValuesNode
     const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
