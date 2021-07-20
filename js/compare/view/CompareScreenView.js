@@ -37,6 +37,17 @@ const greaterThanString = '>';
 class CompareScreenView extends ScreenView {
 
   /**
+   * Resets the view.
+   * @public
+   */
+  reset() {
+    this.leftNumeralAccordionBoxExpandedProperty.reset();
+    this.rightNumeralAccordionBoxExpandedProperty.reset();
+    this.leftCompareAccordionBoxExpandedProperty.reset();
+    this.rightCompareAccordionBoxExpandedProperty.reset();
+  }
+
+  /**
    * @param {CompareModel} model
    * @param {Tandem} tandem
    */
@@ -109,13 +120,24 @@ class CompareScreenView extends ScreenView {
     countingTypeRadioButtonGroup.top = leftNumeralAccordionBox.top;
     this.addChild( countingTypeRadioButtonGroup );
 
+    // create and add the show comparison checkbox
+    const boxWidth = 30;
+    const showComparisonCheckbox = new Checkbox(
+      new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
+      model.comparisonSignsAndTextVisibleProperty, {
+        boxWidth: boxWidth
+      } );
+    showComparisonCheckbox.left = countingTypeRadioButtonGroup.left;
+    showComparisonCheckbox.top = countingTypeRadioButtonGroup.bottom + 13; // empirically determined
+    this.addChild( showComparisonCheckbox );
+
     // create and add the comparison signs node
     const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
     this.addChild( comparisonSignsNode );
     comparisonSignsNode.centerX = this.layoutBounds.centerX;
     comparisonSignsNode.centerY = leftNumeralAccordionBox.centerY;
 
-    // create and add the comparison statement
+    // create and add the ComparisonTextNode
     const comparisonTextNode = new ComparisonTextNode(
       model.leftCurrentNumberProperty,
       model.rightCurrentNumberProperty,
@@ -123,17 +145,6 @@ class CompareScreenView extends ScreenView {
     );
     comparisonTextNode.centerY = new Range( leftNumeralAccordionBox.bottom, leftCompareAccordionBox.top ).getCenter();
     this.addChild( comparisonTextNode );
-
-    // create and add the comparison signs checkbox
-    const boxWidth = 30;
-    const comparisonSignsCheckbox = new Checkbox(
-      new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
-      model.comparisonSignsAndTextVisibleProperty, {
-        boxWidth: boxWidth
-      } );
-    comparisonSignsCheckbox.left = countingTypeRadioButtonGroup.left;
-    comparisonSignsCheckbox.top = countingTypeRadioButtonGroup.bottom + 14;
-    this.addChild( comparisonSignsCheckbox );
 
     // create and add the BlockValuesNode
     const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
@@ -181,17 +192,6 @@ class CompareScreenView extends ScreenView {
       blockValuesNode.visible = countingType === CompareCountingType.BLOCKS;
       compareNumberLineNode.visible = countingType === CompareCountingType.NUMBER_LINE;
     } );
-  }
-
-  /**
-   * Resets the view.
-   * @public
-   */
-  reset() {
-    this.leftNumeralAccordionBoxExpandedProperty.reset();
-    this.rightNumeralAccordionBoxExpandedProperty.reset();
-    this.leftCompareAccordionBoxExpandedProperty.reset();
-    this.rightCompareAccordionBoxExpandedProperty.reset();
   }
 }
 
