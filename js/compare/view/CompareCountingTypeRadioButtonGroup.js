@@ -9,7 +9,7 @@
 import Range from '../../../../dot/js/Range.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
-import eyeSlashRegularShape from '../../../../sherpa/js/fontawesome-5/eyeSlashRegularShape.js';
+import eyeSlashSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSlashSolidShape.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
@@ -38,7 +38,7 @@ class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
         minorTickMarkHalfLineLength: 11, // empirically determined
         majorTickMarkHalfLineLength: 32 // empirically determined
       } );
-    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashRegularShape, { fill: Color.BLACK } );
+    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
 
     // create an icon for each value of CompareCountingType
     const countingTypeRadioButtons = CompareCountingType.VALUES.map( countingType => {
