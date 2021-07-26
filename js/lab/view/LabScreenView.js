@@ -17,6 +17,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import DragListener from '../../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
@@ -52,9 +53,13 @@ class LabScreenView extends ScreenView {
       1
     );
 
+    // @private {Node} - Node for all pieces to share
+    this.pieceLayer = new Node();
+    const backgroundDragTargetNode = new Rectangle( playAreaViewBounds ); // see OnesPlayAreaNode for doc
+    this.addChild( backgroundDragTargetNode );
+
     // @private {NumberPieceNode[]}
     this.numberPieceNodes = [];
-
     const animationDuration = 0.4; // in seconds
 
     // @private {Node}
@@ -73,15 +78,14 @@ class LabScreenView extends ScreenView {
     model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
-    // @private {Node} - Node for all pieces to share
-    this.pieceLayer = new Node();
 
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
       model.onesPlayArea,
       playAreaViewBounds,
       this.modelViewTransform, {
-        paperNumberLayerNode: this.pieceLayer
+        paperNumberLayerNode: this.pieceLayer,
+        backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
     this.addChild( onesPlayAreaNode );
@@ -96,7 +100,8 @@ class LabScreenView extends ScreenView {
       playAreaViewBounds,
       this.modelViewTransform, {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: leftPlayObjectTypeProperty
+        playObjectTypeProperty: leftPlayObjectTypeProperty,
+        backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
     this.addChild( leftObjectsPlayAreaNode );
@@ -108,7 +113,8 @@ class LabScreenView extends ScreenView {
       playAreaViewBounds,
       this.modelViewTransform, {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: rightPlayObjectTypeProperty
+        playObjectTypeProperty: rightPlayObjectTypeProperty,
+        backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
     this.addChild( rightObjectsPlayAreaNode );

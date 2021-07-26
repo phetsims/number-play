@@ -36,6 +36,7 @@ class OnesPlayAreaNode extends Node {
 
     options = merge( {
       paperNumberLayerNode: null, // {null|Node}
+      backgroundDragTargetNode: null, // {null|Node}
       playObjectTypeProperty: null, // {EnumerationProperty.<PlayObjectType>|null}
       groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
       viewHasIndependentModel: true // {boolean} whether this view is hooked up to its own model or a shared model
@@ -80,9 +81,15 @@ class OnesPlayAreaNode extends Node {
 
     // @private {ClosestDragListener} - Handle touches nearby to the numbers, and interpret those as the proper drag.
     this.closestDragListener = new ClosestDragListener( 30, 0 );
-    const backgroundDragTarget = new Rectangle( playAreaViewBounds );
-    backgroundDragTarget.addInputListener( this.closestDragListener );
-    this.addChild( backgroundDragTarget );
+    let backgroundDragTargetNode = null;
+    if ( options.backgroundDragTargetNode ) {
+      backgroundDragTargetNode = options.backgroundDragTargetNode;
+    }
+    else {
+      backgroundDragTargetNode = new Rectangle( playAreaViewBounds );
+      this.addChild( backgroundDragTargetNode );
+    }
+    backgroundDragTargetNode.addInputListener( this.closestDragListener );
 
     const paperNumberAddedListener = this.onPaperNumberAdded.bind( this );
     const paperNumberRemovedListener = this.onPaperNumberRemoved.bind( this );
@@ -252,7 +259,12 @@ class OnesPlayAreaNode extends Node {
       // if grouping is turned off, repel away
       if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === GroupingLinkingType.NO_GROUPING ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
-          this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {return { left: -10, right: 10 };} );
+          this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
+            return {
+              left: -10,
+              right: 10
+            };
+          } );
         }
       }
       else {
