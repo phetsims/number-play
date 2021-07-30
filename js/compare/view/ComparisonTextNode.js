@@ -52,7 +52,7 @@ class ComparisonTextNode extends Node {
 
     // create and add the comparison text
     const textNode = new Text(
-      getComparisonString( leftCurrentNumberProperty.value, rightCurrentNumberProperty.value ), {
+      this.comparisonStringProperty.value, {
         font: new PhetFont( 16 )
       } );
     this.addChild( textNode );
