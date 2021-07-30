@@ -16,6 +16,9 @@
       "fractions-common",
       "twixt"
     ],
+    "simFeatures": {
+      "supportsSpeechSynthesis": true
+    },
     "simulation": true,
     "runnable": true,
     "supportedBrands": [

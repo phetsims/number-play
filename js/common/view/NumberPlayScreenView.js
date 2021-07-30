@@ -7,9 +7,11 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import voicingManager from '../../../../scenery/js/accessibility/voicing/voicingManager.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -17,11 +19,11 @@ import groupingSceneOne from '../../../images/grouping_scene_1_png.js';
 import groupingSceneTwo from '../../../images/grouping_scene_2_png.js';
 import groupingSceneThree from '../../../images/grouping_scene_3_png.js';
 import numberPlay from '../../numberPlay.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumeralAccordionBox from './NumeralAccordionBox.js';
 import ObjectsAccordionBox from './ObjectsAccordionBox.js';
 import OnesAccordionBox from './OnesAccordionBox.js';
+import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
 import WordAccordionBox from './WordAccordionBox.js';
@@ -147,6 +149,16 @@ class NumberPlayScreenView extends ScreenView {
       tandem: config.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    // create and add the SpeechSynthesisButton if the voiceManager is supported on the device and enabled
+    if ( voicingManager.isSpeechSynthesisSupported() && voicingManager.initialized ) {
+      const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, {
+        readNumber: true
+      } );
+      speechSynthesisButton.centerX = resetAllButton.centerX;
+      speechSynthesisButton.top = tenFrameAccordionBox.top;
+      this.addChild( speechSynthesisButton );
+    }
 
     // create the icons for the RectangularRadioButtonGroup
     const groupingLinkingButtons = [];
