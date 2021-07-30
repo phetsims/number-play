@@ -13,10 +13,12 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import voicingManager from '../../../../scenery/js/accessibility/voicing/voicingManager.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumeralAccordionBox from '../../common/view/NumeralAccordionBox.js';
+import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
 import BlockValuesNode from './BlockValuesNode.js';
@@ -168,6 +170,14 @@ class CompareScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    // create and add the SpeechSynthesisButton if the voiceManager is supported on the device and enabled
+    if ( voicingManager.isSpeechSynthesisSupported() && voicingManager.initialized ) {
+      const speechSynthesisButton = new SpeechSynthesisButton( comparisonTextNode.comparisonStringProperty );
+      speechSynthesisButton.centerX = resetAllButton.centerX;
+      speechSynthesisButton.top = rightNumeralAccordionBox.top;
+      this.addChild( speechSynthesisButton );
+    }
 
     // update the comparison signs node's text and the BlockValuesNode when either current number changes
     Property.multilink( [ model.leftCurrentNumberProperty, model.rightCurrentNumberProperty ],
