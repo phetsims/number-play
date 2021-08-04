@@ -11,6 +11,7 @@
 import Property from '../../../../axon/js/Property.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -21,7 +22,6 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
-import OnesCreatorNode from './OnesCreatorNode.js';
 
 class OnesPlayAreaNode extends Node {
 
@@ -122,15 +122,18 @@ class OnesPlayAreaNode extends Node {
     const bucketHole = new BucketHole( playArea.bucket, translateMVT );
     this.addChild( bucketHole );
 
-    // @private {OnesCreatorNode} - Shows the 1 that can be dragged.
-    this.onesCreatorNode = new OnesCreatorNode( this, playArea.sumProperty, this.playObjectTypeProperty );
-    this.addChild( this.onesCreatorNode );
+    // @private {CountingCreatorNode} - Shows the 1 that can be dragged.
+    this.countingCreatorNode = new CountingCreatorNode( 0, this, playArea.sumProperty, {
+      updateCurrentNumber: true,
+      playObjectTypeProperty: this.playObjectTypeProperty
+    } );
+    this.addChild( this.countingCreatorNode );
 
     // create and add the bucket front
     const bucketFrontNode = new BucketFront( playArea.bucket, translateMVT );
     bucketFrontNode.centerBottom = translateMVT.modelToViewPosition( playArea.bucket.position );
     bucketHole.center = bucketFrontNode.centerTop;
-    this.onesCreatorNode.centerBottom = bucketFrontNode.center;
+    this.countingCreatorNode.centerBottom = bucketFrontNode.center;
     this.addChild( bucketFrontNode );
 
     // @private {Node} - Where all of the paper numbers are. Created if not provided.
@@ -307,7 +310,7 @@ class OnesPlayAreaNode extends Node {
       position.x + localBounds.maxX, position.y + localBounds.maxY );
 
     // And the bounds of our panel
-    const panelBounds = this.onesCreatorNode.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
+    const panelBounds = this.countingCreatorNode.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
 
     return panelBounds.intersectsBounds( parentBounds );
   }
@@ -364,7 +367,7 @@ class OnesPlayAreaNode extends Node {
       paperNumber.numberValueProperty.value = 0;
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
-      let targetPosition = this.onesCreatorNode.getOriginPosition();
+      let targetPosition = this.countingCreatorNode.getOriginPosition();
 
       // TODO: the ternary below is a hack that shouldn't be needed once https://github.com/phetsims/number-play/issues/6 is fixed.
       const paperCenterOffset = new PaperNumber( paperNumberValue > 0 ? paperNumberValue : 1, new Vector2( 0, 0 ) ).getLocalBounds().center;
