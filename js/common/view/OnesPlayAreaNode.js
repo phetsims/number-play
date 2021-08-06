@@ -13,7 +13,6 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import BucketFront from '../../../../scenery-phet/js/bucket/BucketFront.js';
@@ -301,13 +300,7 @@ class OnesPlayAreaNode extends Node {
    * @returns {boolean}
    */
   isNumberInReturnZone( paperNumber ) {
-    // TODO: This may need more attention, see https://github.com/phetsims/number-play/issues/19
-    const localBounds = paperNumber.alternateBounds && paperNumber.viewHasIndependentModel ?
-                        paperNumber.alternateBounds : paperNumber.getLocalBounds();
-
-    const position = paperNumber.positionProperty.value;
-    const parentBounds = new Bounds2( position.x + localBounds.minX, position.y + localBounds.minY,
-      position.x + localBounds.maxX, position.y + localBounds.maxY );
+    const parentBounds = this.findPaperNumberNode( paperNumber ).bounds;
 
     // And the bounds of our panel
     const panelBounds = this.countingCreatorNode.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
@@ -347,7 +340,7 @@ class OnesPlayAreaNode extends Node {
   onNumberAnimationFinished( paperNumber ) {
 
     // If it animated to the return zone, it's probably split and meant to be returned.
-    if ( this.isNumberInReturnZone( paperNumber ) && this.playArea.paperNumbers.includes( paperNumber ) ) {
+    if ( this.playArea.paperNumbers.includes( paperNumber ) && this.isNumberInReturnZone( paperNumber ) ) {
       this.playArea.removePaperNumber( paperNumber );
     }
   }
