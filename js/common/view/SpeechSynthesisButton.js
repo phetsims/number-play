@@ -10,11 +10,11 @@
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
-import voicingManager from '../../../../scenery/js/accessibility/voicing/voicingManager.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import bullhornSolidShape from '../../../../sherpa/js/fontawesome-5/bullhornSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import voicingUtteranceQueue from '../../../../scenery/js/accessibility/voicing/voicingUtteranceQueue.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
@@ -34,11 +34,10 @@ class SpeechSynthesisButton extends RectangularPushButton {
     }, options );
 
     const listener = () => {
-      voicingManager.cancel(); // cancel any existing speaking
 
       // read out a number by integer => word or just read out a string
-      options.readNumber ? voicingManager.speakImmediately( NumberPlayConstants.NUMBER_TO_STRING[ property.value ] ) :
-      voicingManager.speakImmediately( property.value );
+      options.readNumber ? voicingUtteranceQueue.announceImmediately( NumberPlayConstants.NUMBER_TO_STRING[ property.value ] ) :
+      voicingUtteranceQueue.announceImmediately( property.value );
     };
 
     super( {
