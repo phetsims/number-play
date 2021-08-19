@@ -12,16 +12,13 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import OnOffSwitch from '../../../../sun/js/OnOffSwitch.js';
-import speakerImage from '../../../images/speaker_png.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
 const wordString = numberPlayStrings.word;
@@ -86,25 +83,7 @@ class WordAccordionBox extends AccordionBox {
     languageControl.addChild( spanishText );
     languageControl.pickable = false;
     languageControl.opacity = disabledOpacity;
-    // contentNode.addChild( languageControl );
-
-    // create and add speaker button
-    const speakerButton = new RectangularPushButton( {
-      content: new Image( speakerImage, {
-        maxWidth: 26,
-        maxHeight: 26
-      } ),
-      listener: () => {},
-      baseColor: 'yellow',
-      xMargin: 5,
-      yMargin: 6,
-      pickable: false,
-      opacity: disabledOpacity
-    } );
-    speakerButton.setScaleMagnitude( config.speakerButtonScale );
-    speakerButton.right = contentNode.right + config.speakerButtonOffset.x;
-    speakerButton.centerY = wordText.centerY + config.speakerButtonOffset.y;
-    // contentNode.addChild( speakerButton );
+    contentNode.addChild( languageControl );
 
     super( contentNode, config );
 
