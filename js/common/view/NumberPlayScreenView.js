@@ -150,8 +150,8 @@ class NumberPlayScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
-    // create and add the SpeechSynthesisButton if the voiceManager is supported on the device and enabled
-    if ( voicingManager.isSpeechSynthesisSupported() && voicingManager.initialized ) {
+    // create and add the SpeechSynthesisButton if the voiceManager is initialized
+    if ( voicingManager.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, {
         readNumber: true
       } );
