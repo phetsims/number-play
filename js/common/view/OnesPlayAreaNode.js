@@ -179,8 +179,11 @@ class OnesPlayAreaNode extends Node {
     // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
     paperNumber.numberValueProperty.link( numberValue => {
       if ( numberValue < 1 ) {
-        paperNumberNode.pickable = false;
         paperNumberNode.interruptSubtreeInput();
+        paperNumberNode.pickable = false;
+
+        // TODO: this is a temporary solution for https://github.com/phetsims/number-play/issues/39 that breaks encapsulation
+        paperNumberNode.moveDragHandler = null;
       }
     } );
 
