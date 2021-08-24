@@ -34,6 +34,20 @@ class SpeechSynthesisButton extends RectangularPushButton {
       readNumber: false
     }, options );
 
+    // get the locale the sim is running in
+    const locale = phet.joist.sim.locale;
+
+    // set the first voice for the desired locale, if available
+    const translatedVoices = _.filter( voicingManager.voices, voice => {
+      return voice.lang.includes( locale );
+    } );
+    if ( translatedVoices.length > 0 ) {
+      voicingManager.voiceProperty.set( translatedVoices[ 0 ] );
+    }
+    else {
+      console.log( `No voices found for locale: ${locale}` );
+    }
+
     const speechUtterance = new Utterance();
     const listener = () => {
 
