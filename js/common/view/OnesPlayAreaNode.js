@@ -181,9 +181,6 @@ class OnesPlayAreaNode extends Node {
       if ( numberValue < 1 ) {
         paperNumberNode.interruptSubtreeInput();
         paperNumberNode.pickable = false;
-
-        // TODO: this is a temporary solution for https://github.com/phetsims/number-play/issues/39 that breaks encapsulation
-        paperNumberNode.moveDragHandler = null;
       }
     } );
 
