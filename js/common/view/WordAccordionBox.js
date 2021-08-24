@@ -59,8 +59,9 @@ class WordAccordionBox extends AccordionBox {
     contentNode.addChild( wordText );
 
     // create toggle switch and labels
+    const secondLocaleProperty = new BooleanProperty( phet.joist.sim.locale === 'es' );
     const languageControl = new Node();
-    const onOffSwitch = new OnOffSwitch( new BooleanProperty( false ), {
+    const onOffSwitch = new OnOffSwitch( secondLocaleProperty, {
       size: new Dimension2( 40, 20 ),
       trackFillLeft: 'lightgray',
       trackFillRight: 'lightgray'
