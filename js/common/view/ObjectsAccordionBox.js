@@ -131,6 +131,16 @@ class ObjectsAccordionBox extends AccordionBox {
     }
 
     super( contentNode, config );
+
+    // @public {EnumerationProperty.<PlayObjectType>}
+    this.playObjectTypeProperty = playObjectTypeProperty;
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.playObjectTypeProperty.reset();
   }
 }
 

@@ -125,17 +125,17 @@ class NumberPlayScreenView extends ScreenView {
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
     this.addChild( onesAccordionBox );
 
-    // create and add the ObjectsAccordionBox
-    const objectsAccordionBox = new ObjectsAccordionBox(
+    // @public {ObjectsAccordionBox} - create and add the ObjectsAccordionBox
+    this.objectsAccordionBox = new ObjectsAccordionBox(
       model.objectsPlayArea,
       config.lowerAccordionBoxHeight, {
         linkedPlayArea: model.onesPlayArea,
         groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty
       } );
-    objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    objectsAccordionBox.bottom = onesAccordionBox.bottom;
-    this.addChild( objectsAccordionBox );
+    this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    this.objectsAccordionBox.bottom = onesAccordionBox.bottom;
+    this.addChild( this.objectsAccordionBox );
 
     // create and add the ResetAllButton
     const resetAllButton = new ResetAllButton( {
@@ -183,7 +183,7 @@ class NumberPlayScreenView extends ScreenView {
       buttonContentYMargin: margin
     } );
     groupingLinkingRadioButtonGroup.centerX = resetAllButton.centerX;
-    groupingLinkingRadioButtonGroup.top = objectsAccordionBox.top;
+    groupingLinkingRadioButtonGroup.top = this.objectsAccordionBox.top;
     this.addChild( groupingLinkingRadioButtonGroup );
 
     // content for organizePlayObjectsButton
@@ -219,6 +219,7 @@ class NumberPlayScreenView extends ScreenView {
     this.tenFrameAccordionBoxExpandedProperty.reset();
     this.onesAccordionBoxExpandedProperty.reset();
     this.objectsAccordionBoxExpandedProperty.reset();
+    this.objectsAccordionBox.reset();
   }
 }
 
