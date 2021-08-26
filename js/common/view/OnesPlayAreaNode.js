@@ -109,7 +109,9 @@ class OnesPlayAreaNode extends Node {
 
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( groupingLinkingType === GroupingLinkingType.NO_GROUPING && this.playObjectTypeProperty ) {
+      if ( ( groupingLinkingType === GroupingLinkingType.NO_GROUPING ||
+             groupingLinkingType === GroupingLinkingType.GROUPING )
+           && this.playObjectTypeProperty ) {
         playArea.paperNumbers.forEach( paperNumber => {
           const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
           paperNumberNode.updateNumber();
