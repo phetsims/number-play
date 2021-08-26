@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.0-dev.23 Thu Aug 26 2021 09:21:43 GMT-0700 (Pacific Daylight Time)",
+  "comment": "# number-play 1.0.0-dev.24 Thu Aug 26 2021 09:29:22 GMT-0700 (Pacific Daylight Time)",
   "assert": {
     "sha": "f360fa1bd09a47b3c9e49cd90c8dddd136a13e0c",
     "branch": "master"
@@ -17,7 +17,7 @@
     "branch": "master"
   },
   "counting-common": {
-    "sha": "aac87db628a80c053868bb531c96b4f06d637567",
+    "sha": "8e13bc5870f5754c35176a0edf2e573792cbc0e2",
     "branch": "master"
   },
   "dot": {
@@ -37,7 +37,7 @@
     "branch": "master"
   },
   "number-play": {
-    "sha": "01cab56c895f70e158f633456c753807c3665042",
+    "sha": "be2fcf9a0b8287f44838df007a4bd6b7e89b6f9d",
     "branch": "master"
   },
   "perennial-alias": {
