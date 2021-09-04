@@ -1,0 +1,23 @@
+{
+  "extends": "../chipper/tsconfig-core.json",
+  "references": [
+    {
+      "path": "../counting-common"
+    },
+    {
+      "path": "../fractions-common"
+    },
+    {
+      "path": "../twixt"
+    },
+    {
+      "path": "../joist"
+    }
+  ],
+  "include": [
+    "js/**/*",
+    "sounds/**/*",
+    "mipmaps/**/*",
+    "images/**/*"
+  ]
+}
