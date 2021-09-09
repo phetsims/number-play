@@ -17,6 +17,7 @@ import voicingManager from '../../../../scenery/js/accessibility/voicing/voicing
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import LanguageControlNode from '../../common/view/LanguageControlNode.js';
 import NumeralAccordionBox from '../../common/view/NumeralAccordionBox.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
@@ -171,12 +172,31 @@ class CompareScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
+    // create and add the LanguageControlNode (disabled until further design is complete), see https://github.com/phetsims/number-play/issues/31
+    const languageControlNode = new LanguageControlNode();
+    languageControlNode.pickable = false;
+    languageControlNode.opacity = 0.5;
+    this.addChild( languageControlNode );
+
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
     if ( voicingManager.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton( comparisonTextNode.comparisonStringProperty );
       speechSynthesisButton.centerX = resetAllButton.centerX;
       speechSynthesisButton.top = rightNumeralAccordionBox.top;
       this.addChild( speechSynthesisButton );
+
+      // position the languageControlNode relative to the speechSynthesisButton
+      languageControlNode.centerX = new Range( rightNumeralAccordionBox.right, speechSynthesisButton.left ).getCenter();
+      languageControlNode.centerY = speechSynthesisButton.centerY;
+      console.log( languageControlNode.top );
+      console.log( rightNumeralAccordionBox.top );
+    }
+    else {
+
+      // position the languageControlNode relative to the rightNumeralAccordionBox if the speechSynthesisButton doesn't
+      // exist
+      languageControlNode.centerX = new Range( rightNumeralAccordionBox.right, this.layoutBounds.maxX ).getCenter();
+      languageControlNode.top = rightNumeralAccordionBox.top + 10; // empirically determined
     }
 
     // update the comparison signs node's text and the BlockValuesNode when either current number changes
