@@ -188,8 +188,6 @@ class CompareScreenView extends ScreenView {
       // position the languageControlNode relative to the speechSynthesisButton
       languageControlNode.centerX = new Range( rightNumeralAccordionBox.right, speechSynthesisButton.left ).getCenter();
       languageControlNode.centerY = speechSynthesisButton.centerY;
-      console.log( languageControlNode.top );
-      console.log( rightNumeralAccordionBox.top );
     }
     else {
 
