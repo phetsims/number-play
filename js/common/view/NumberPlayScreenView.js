@@ -47,13 +47,13 @@ class NumberPlayScreenView extends ScreenView {
     config = merge( {
 
       // config for WordAccordionBox. see WordAccordionBox for additional fields. the keys defined here are optional,
-      // but config is used because the additional required.
+      // but config is used because the additional keys are required.
       wordAccordionBoxConfig: {
         fill: null // {ColorDef} - accordion box background fill
       },
 
-      // config for NumeralAccordionBox. see NumeralAccordionBox for additional fields the keys defined here are
-      // optional, but config is used because the additional required.
+      // config for NumeralAccordionBox. see NumeralAccordionBox for additional fields. the keys defined here are
+      // optional, but config is used because the additional keys are required.
       numeralAccordionBoxConfig: {
         fill: null // {ColorDef} - accordion box background fill
       },
