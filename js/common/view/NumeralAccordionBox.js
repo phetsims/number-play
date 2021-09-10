@@ -35,18 +35,13 @@ class NumeralAccordionBox extends AccordionBox {
       minWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
 
-      font: null, // {Font} @required - font of the displayed string value
+      font: required( config.font ), // {Font} - font of the displayed string value
       arrowButtonConfig: {
-        arrowWidth: null, // {number} @required
-        arrowHeight: null, // {number} @required
-        spacing: null // {number} @required
+        arrowWidth: required( config.arrowButtonConfig.arrowWidth ), // {number}
+        arrowHeight: required( config.arrowButtonConfig.arrowHeight ), // {number}
+        spacing: required( config.arrowButtonConfig.spacing ) // {number}
       }
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
-
-    assert && assert( config.font, 'font is required' );
-    assert && assert( config.arrowButtonConfig.arrowWidth, 'arrowWidth is required' );
-    assert && assert( config.arrowButtonConfig.arrowHeight, 'arrowHeight is required' );
-    assert && assert( config.arrowButtonConfig.spacing, 'spacing is required' );
 
     const contentNode = new Rectangle( {
       rectHeight: height
