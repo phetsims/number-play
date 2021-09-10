@@ -17,8 +17,10 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import BucketFront from '../../../../scenery-phet/js/bucket/BucketFront.js';
 import BucketHole from '../../../../scenery-phet/js/bucket/BucketHole.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 
@@ -136,6 +138,35 @@ class OnesPlayAreaNode extends Node {
     bucketHole.center = bucketFrontNode.centerTop;
     this.countingCreatorNode.centerBottom = bucketFrontNode.center;
     this.addChild( bucketFrontNode );
+
+    // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
+    const arrowButtonConfig = {
+      arrowWidth: 14,  // empirically determined
+      arrowHeight: 14, // empirically determined
+      spacing: 5       // empirically determined
+    };
+    const upArrowButton = new ArrowButton( 'up', () => {
+      this.playArea.currentNumberProperty.value =
+        Math.min( this.playArea.currentNumberProperty.range.max, this.playArea.currentNumberProperty.value + 1 );
+    }, arrowButtonConfig );
+    const downArrowButton = new ArrowButton( 'down', () => {
+      this.playArea.currentNumberProperty.value =
+        Math.max( this.playArea.currentNumberProperty.range.min, this.playArea.currentNumberProperty.value - 1 );
+    }, arrowButtonConfig );
+    const arrowButtons = new HBox( {
+      children: [ upArrowButton, downArrowButton ],
+      spacing: arrowButtonConfig.spacing
+    } );
+    arrowButtons.centerX = bucketFrontNode.centerX;
+    arrowButtons.centerY = bucketFrontNode.centerY + 2;
+    this.addChild( arrowButtons );
+
+    // disable the arrow buttons when the currentNumberProperty value is at its min or max range
+    const currentNumberPropertyObserver = currentNumber => {
+      upArrowButton.enabled = currentNumber !== this.playArea.currentNumberProperty.range.max;
+      downArrowButton.enabled = currentNumber !== this.playArea.currentNumberProperty.range.min;
+    };
+    this.playArea.currentNumberProperty.link( currentNumberPropertyObserver );
 
     // @private {Node} - Where all of the paper numbers are. Created if not provided.
     this.paperNumberLayerNode = null;
