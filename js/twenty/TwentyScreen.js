@@ -58,7 +58,7 @@ class TwentyScreen extends Screen {
           spacing: 5       // empirically determined
         }
       },
-      tenFrameAccordionBoxConfig: {
+      tenFrameAccordionBoxOptions: {
         fill: NumberPlayConstants.ORANGE_BACKGROUND,
         contentAlign: 'right'
       },

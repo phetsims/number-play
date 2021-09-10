@@ -10,6 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
+import required from '../../../../phet-core/js/required.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import voicingManager from '../../../../scenery/js/accessibility/voicing/voicingManager.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
@@ -45,38 +46,33 @@ class NumberPlayScreenView extends ScreenView {
     // TODO: convert to required() where appropriate, revert back to an option where appropriate (e.g. fill)
     config = merge( {
 
-      // config for WordAccordionBox. see WordAccordionBox for additional fields
+      // config for WordAccordionBox. see WordAccordionBox for additional fields. the keys defined here are optional,
+      // but config is used because the additional required.
       wordAccordionBoxConfig: {
-        fill: null // {ColorDef} @required - accordion box background fill
+        fill: null // {ColorDef} - accordion box background fill
       },
 
-      // config for NumeralAccordionBox. see NumeralAccordionBox for additional fields
+      // config for NumeralAccordionBox. see NumeralAccordionBox for additional fields the keys defined here are
+      // optional, but config is used because the additional required.
       numeralAccordionBoxConfig: {
-        fill: null // {ColorDef} @required - accordion box background fill
+        fill: null // {ColorDef} - accordion box background fill
       },
 
-      // config for TenFrameAccordionBox.
-      tenFrameAccordionBoxConfig: {
-        fill: null // {ColorDef} @required - accordion box background fill
+      // options for TenFrameAccordionBox.
+      tenFrameAccordionBoxOptions: {
+        fill: null // {ColorDef} - accordion box background fill
       },
 
       // accordion box heights. these are not part of specific accordion box configs because they apply to
       // multiple accordion boxes.
-      upperAccordionBoxHeight: null, // {number} @required
-      lowerAccordionBoxHeight: null, // {number} @required
+      upperAccordionBoxHeight: required( config.upperAccordionBoxHeight ), // {number}
+      lowerAccordionBoxHeight: required( config.lowerAccordionBoxHeight ), // {number}
 
       // phet-io
       tandem: config.tandem
     }, config );
 
     super( config );
-
-    // check for required config
-    assert && assert( config.wordAccordionBoxConfig.fill, 'fill is required' );
-    assert && assert( config.numeralAccordionBoxConfig.fill, 'fill is required' );
-    assert && assert( config.tenFrameAccordionBoxConfig.fill, 'fill is required' );
-    assert && assert( config.upperAccordionBoxHeight, 'upperAccordionBoxHeight is required' );
-    assert && assert( config.lowerAccordionBoxHeight, 'lowerAccordionBoxHeight is required' );
 
     // @public {BooleanProperty} - Properties used to control the expanded state of each accordion box
     this.wordAccordionBoxExpandedProperty = new BooleanProperty( false );
@@ -90,7 +86,7 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       config.upperAccordionBoxHeight, merge( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
-      }, config.tenFrameAccordionBoxConfig ) );
+      }, config.tenFrameAccordionBoxOptions ) );
     tenFrameAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     tenFrameAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
     this.addChild( tenFrameAccordionBox );

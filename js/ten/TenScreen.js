@@ -58,7 +58,7 @@ class TenScreen extends Screen {
           spacing: 10      // empirically determined
         }
       },
-      tenFrameAccordionBoxConfig: {
+      tenFrameAccordionBoxOptions: {
         fill: NumberPlayConstants.GREEN_BACKGROUND,
         contentAlign: 'center'
       },
