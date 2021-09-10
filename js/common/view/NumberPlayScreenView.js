@@ -43,7 +43,6 @@ class NumberPlayScreenView extends ScreenView {
    */
   constructor( model, config ) {
 
-    // TODO: convert to required() where appropriate, revert back to an option where appropriate (e.g. fill)
     config = merge( {
 
       // config for WordAccordionBox. see WordAccordionBox for additional fields. the keys defined here are optional,
