@@ -17,6 +17,9 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import LanguageControlNode from './LanguageControlNode.js';
 
+// constants
+const CONTENT_MAX_WIDTH = 260; // empirically determined to not shrink the accordion box content
+
 // strings
 const wordString = numberPlayStrings.word;
 
@@ -30,31 +33,38 @@ class WordAccordionBox extends AccordionBox {
   constructor( currentNumberProperty, height, config ) {
 
     config = merge( {
-      titleNode: new Text( wordString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
+      titleNode: new Text( wordString, {
+        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+        maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+      } ),
       minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
 
-      font: required( config.font ),                               // {Font} - font of the displayed string value
-      textOffsetY: required( config.textOffsetY ),                 // {number}
+      font: required( config.font ), // {Font} - font of the displayed string value
+      textOffsetY: required( config.textOffsetY ), // {number}
       languageControlOffset: required( config.languageControlOffset ), // {Vector2}
       speakerButtonOffset: required( config.speakerButtonOffset ), // {Vector2}
-      speakerButtonScale: required( config.speakerButtonScale )    // {number}
+      speakerButtonScale: required( config.speakerButtonScale ) // {number}
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
     const contentNode = new Rectangle( {
       rectHeight: height,
-      rectWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH - 55
+      rectWidth: CONTENT_MAX_WIDTH
     } );
 
     const wordText = new Text( NumberPlayConstants.NUMBER_TO_STRING[ currentNumberProperty.value ], {
-      font: config.font
+      font: config.font,
+      maxWidth: CONTENT_MAX_WIDTH
     } );
     wordText.left = contentNode.left;
     wordText.centerY = contentNode.centerY + config.textOffsetY;
     contentNode.addChild( wordText );
 
     // create and add the LanguageControlNode (disabled until further design is complete), see https://github.com/phetsims/number-play/issues/31
-    const languageControlNode = new LanguageControlNode();
+    const languageControlNode = new LanguageControlNode( {
+      // make sure the offset doesn't cause it to poke out of either end of the content node when at its max width
+      maxWidth: CONTENT_MAX_WIDTH + config.languageControlOffset.x * 2
+    } );
     languageControlNode.centerX = contentNode.centerX + config.languageControlOffset.x;
     languageControlNode.bottom = contentNode.bottom + config.languageControlOffset.y;
     languageControlNode.pickable = false;

@@ -44,14 +44,14 @@ class TenScreen extends Screen {
         fill: NumberPlayConstants.GREEN_BACKGROUND,
         font: new PhetFont( 62 ),
         textOffsetY: -1,
-        languageControlOffset: new Vector2( 2, -12 ),
+        languageControlOffset: new Vector2( 0, -12 ),
         speakerButtonOffset: new Vector2( 16, 6 ),
         speakerButtonScale: 1
       },
       numeralAccordionBoxConfig: {
         fill: NumberPlayConstants.LIGHT_ORANGE_BACKGROUND,
         font: new PhetFont( 98 ),
-        contentXMargin: 0, // empirically determined
+        contentXMargin: 0, // zero out to manage x margins in subclass
         arrowButtonConfig: {
           arrowWidth: 20,  // empirically determined
           arrowHeight: 20, // empirically determined

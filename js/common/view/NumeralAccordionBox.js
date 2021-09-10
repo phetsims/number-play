@@ -8,6 +8,7 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
+import required from '../../../../phet-core/js/required.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -31,7 +32,10 @@ class NumeralAccordionBox extends AccordionBox {
   constructor( currentNumberProperty, height, config ) {
 
     config = merge( {
-      titleNode: new Text( numeralString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
+      titleNode: new Text( numeralString, {
+        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+        maxWidth: 142 // empirically determined to not shrink accordion box content
+      } ),
       minWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
 

@@ -39,9 +39,12 @@ class ObjectsAccordionBox extends AccordionBox {
   constructor( objectsPlayArea, height, config ) {
 
     config = merge( {
+      titleNode: new Text( objectsString, {
+        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+        maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
+      } ),
       minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
-      titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
       fill: NumberPlayConstants.BLUE_BACKGROUND,
       linkedPlayArea: null, // {null|OnesPlayArea}
       groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}

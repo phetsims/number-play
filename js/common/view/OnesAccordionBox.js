@@ -31,9 +31,12 @@ class OnesAccordionBox extends AccordionBox {
   constructor( onesPlayArea, height, config ) {
 
     config = merge( {
+      titleNode: new Text( onesString, {
+        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+        maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
+      } ),
       minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
-      titleNode: new Text( onesString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
       fill: NumberPlayConstants.PURPLE_BACKGROUND
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 

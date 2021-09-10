@@ -23,8 +23,9 @@ const spanishString = numberPlayStrings.spanish;
 class LanguageControlNode extends Node {
 
   /**
+   * @param {options} [options]
    */
-  constructor() {
+  constructor( options ) {
     super();
 
     // TODO: this will likely eventually be moved out of this type once it is in use, see https://github.com/phetsims/number-play/issues/31
@@ -52,6 +53,8 @@ class LanguageControlNode extends Node {
     spanishText.centerY = englishText.centerY;
     this.addChild( englishText );
     this.addChild( spanishText );
+
+    this.mutate( options );
   }
 }
 
