@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+// Copyright 2019-2021, University of Colorado Boulder
 
 /**
  * Class for the 'Numeral' accordion box, which is the panel in the top center of the sim that displays a numerical
