@@ -15,7 +15,7 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import LanguageControlNode from './LanguageControlNode.js';
+import LocaleSwitch from './LocaleSwitch.js';
 
 // constants
 const CONTENT_MAX_WIDTH = 260; // empirically determined to not shrink the accordion box content
@@ -42,7 +42,7 @@ class WordAccordionBox extends AccordionBox {
 
       font: required( config.font ), // {Font} - font of the displayed string value
       textOffsetY: required( config.textOffsetY ), // {number}
-      languageControlOffset: required( config.languageControlOffset ), // {Vector2}
+      localeSwitchOffset: required( config.localeSwitchOffset ), // {Vector2}
       speakerButtonOffset: required( config.speakerButtonOffset ), // {Vector2}
       speakerButtonScale: required( config.speakerButtonScale ) // {number}
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
@@ -60,16 +60,14 @@ class WordAccordionBox extends AccordionBox {
     wordText.centerY = contentNode.centerY + config.textOffsetY;
     contentNode.addChild( wordText );
 
-    // create and add the LanguageControlNode (disabled until further design is complete), see https://github.com/phetsims/number-play/issues/31
-    const languageControlNode = new LanguageControlNode( {
-      // make sure the offset doesn't cause it to poke out of either end of the content node when at its max width
-      maxWidth: CONTENT_MAX_WIDTH + config.languageControlOffset.x * 2
-    } );
-    languageControlNode.centerX = contentNode.centerX + config.languageControlOffset.x;
-    languageControlNode.bottom = contentNode.bottom + config.languageControlOffset.y;
-    languageControlNode.pickable = false;
-    languageControlNode.opacity = 0.5;
-    contentNode.addChild( languageControlNode );
+    // make sure the offset doesn't cause the LocaleSwitch to poke out of either end of the content node when at its max width
+    const localeSwitchMaxWidth = CONTENT_MAX_WIDTH - Math.abs( config.localeSwitchOffset.x ) * 2;
+
+    // create and add the LocaleSwitch
+    const localeSwitch = new LocaleSwitch( localeSwitchMaxWidth );
+    localeSwitch.centerX = contentNode.centerX + config.localeSwitchOffset.x;
+    localeSwitch.bottom = contentNode.bottom + config.localeSwitchOffset.y;
+    contentNode.addChild( localeSwitch );
 
     super( contentNode, config );
 

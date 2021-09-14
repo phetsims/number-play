@@ -44,7 +44,7 @@ class TenScreen extends Screen {
         fill: NumberPlayConstants.GREEN_BACKGROUND,
         font: new PhetFont( 62 ),
         textOffsetY: -1,
-        languageControlOffset: new Vector2( 0, -12 ),
+        localeSwitchOffset: new Vector2( 0, -12 ),
         speakerButtonOffset: new Vector2( 16, 6 ),
         speakerButtonScale: 1
       },
