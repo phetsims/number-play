@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * A toggle switch with labels for either state for choosing one locale or another.
+ * An ABSwitch for choosing the primary or secondary locale.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
