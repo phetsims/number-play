@@ -195,7 +195,8 @@ class CompareScreenView extends ScreenView {
     }
 
     // create and add the LocaleSwitch
-    const localeSwitch = new LocaleSwitch( localeSwitchXRange.getLength() );
+    const localeSwitchXMargin = 10; // empirically determined
+    const localeSwitch = new LocaleSwitch( localeSwitchXRange.getLength() - localeSwitchXMargin * 2 );
     localeSwitch.centerX = localeSwitchXRange.getCenter();
     localeSwitch.centerY = localeSwitchCenterY;
     this.addChild( localeSwitch );

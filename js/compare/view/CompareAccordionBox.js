@@ -48,7 +48,10 @@ class CompareAccordionBox extends AccordionBox {
   constructor( playArea, height, options ) {
 
     options = merge( {
-      titleNode: new Text( objectsString, { font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT } ),
+      titleNode: new Text( objectsString, {
+        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+        maxWidth: 344 // empirically determined to not shrink accordion box content
+      } ),
       minWidth: WIDTH,
       maxWidth: WIDTH,
 
