@@ -41,7 +41,7 @@ class WordAccordionBox extends AccordionBox {
       maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
 
       font: required( config.font ), // {Font} - font of the displayed string value
-      textOffsetY: required( config.textOffsetY ), // {number}
+      textOffset: required( config.textOffset ), // {Vector2}
       localeSwitchOffset: required( config.localeSwitchOffset ), // {Vector2}
       speakerButtonOffset: required( config.speakerButtonOffset ), // {Vector2}
       speakerButtonScale: required( config.speakerButtonScale ) // {number}
@@ -54,10 +54,10 @@ class WordAccordionBox extends AccordionBox {
 
     const wordText = new Text( NumberPlayConstants.NUMBER_TO_STRING[ currentNumberProperty.value ], {
       font: config.font,
-      maxWidth: CONTENT_MAX_WIDTH
+      maxWidth: CONTENT_MAX_WIDTH - config.textOffset.x
     } );
-    wordText.left = contentNode.left;
-    wordText.centerY = contentNode.centerY + config.textOffsetY;
+    wordText.left = contentNode.left + config.textOffset.x;
+    wordText.centerY = contentNode.centerY + config.textOffset.y;
     contentNode.addChild( wordText );
 
     // make sure the offset doesn't cause the LocaleSwitch to poke out of either end of the content node when at its max width

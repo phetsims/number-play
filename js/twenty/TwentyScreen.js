@@ -44,7 +44,7 @@ class TwentyScreen extends Screen {
         fill: NumberPlayConstants.ORANGE_BACKGROUND,
         font: new PhetFont( 54 ),
         contentXMargin: 10, // zero out to manage x margins in subclass TODO: unsure why 10 is needed to act like 0
-        textOffsetY: -10,
+        textOffset: new Vector2( 10, -10 ),
         localeSwitchOffset: new Vector2( -10, -7 ),
         speakerButtonOffset: new Vector2( 0, 38 ),
         speakerButtonScale: 0.8
