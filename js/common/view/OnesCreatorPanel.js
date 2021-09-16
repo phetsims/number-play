@@ -8,12 +8,12 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import CountingCreatorNode from '../../../../../counting-common/js/common/view/CountingCreatorNode.js';
-import merge from '../../../../../phet-core/js/merge.js';
-import HBox from '../../../../../scenery/js/nodes/HBox.js';
-import Panel from '../../../../../sun/js/Panel.js';
+import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
+import merge from '../../../../phet-core/js/merge.js';
+import HBox from '../../../../scenery/js/nodes/HBox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import Panel from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
 
 class OnesCreatorPanel extends Panel {
