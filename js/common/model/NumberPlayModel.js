@@ -19,11 +19,9 @@ class NumberPlayModel {
   /**
    * @param {number} highestCount - the highest integer number that can be counted to
    * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
-   * @param {number} objectMaxScale - see PlayObject for doc
-   * @param {Vector2} organizedObjectPadding - see ObjectsPlayArea for doc
    * @param {Tandem} tandem
    */
-  constructor( highestCount, paperNumberOrigin, objectMaxScale, organizedObjectPadding, tandem ) {
+  constructor( highestCount, paperNumberOrigin, tandem ) {
 
     // @public {NumberProperty} - the current "counted to" number, which is the central aspect of this whole sim
     this.currentNumberProperty = new NumberProperty( 0, {

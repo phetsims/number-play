@@ -10,7 +10,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray from '../../../../axon/js/createObservableArray.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import FractionsCommonConstants from '../../../../fractions-common/js/common/FractionsCommonConstants.js';
@@ -49,15 +48,11 @@ class LabModel {
       this.numberStacks.push( stack );
     } );
 
-    const bucketOffsetX = 140;
-
     // @public (read-only) - the model for managing paper ones in the playArea
     this.onesPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
       paperNumberOrigin,
-      new BooleanProperty( false ), {
-        bucketPosition: new Vector2( -bucketOffsetX, 0 )
-      }
+      new BooleanProperty( false )
     );
 
     // @public (read-only) - the model for managing dogs in the playArea
@@ -71,9 +66,7 @@ class LabModel {
     this.rightObjectsPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
       paperNumberOrigin,
-      new BooleanProperty( false ), {
-        bucketPosition: new Vector2( bucketOffsetX, 0 )
-      }
+      new BooleanProperty( false )
     );
   }
 

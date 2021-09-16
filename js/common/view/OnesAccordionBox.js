@@ -8,14 +8,12 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 
@@ -45,24 +43,16 @@ class OnesAccordionBox extends AccordionBox {
       rectWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH
     } );
 
-    const playAreaMarginY = 15;
     const playAreaViewBounds = new Bounds2(
       contentNode.left,
       contentNode.top,
       contentNode.right,
-      contentNode.bottom - playAreaMarginY
-    );
-
-    const translateMVT = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      new Vector2( playAreaViewBounds.left + NumberPlayConstants.BUCKET_SIZE.width / 2, playAreaViewBounds.bottom ),
-      1
+      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
     const onesPlayAreaNode = new OnesPlayAreaNode(
       onesPlayArea,
-      playAreaViewBounds,
-      translateMVT
+      playAreaViewBounds
     );
     contentNode.addChild( onesPlayAreaNode );
 

@@ -6,7 +6,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Dimension2 from '../../../dot/js/Dimension2.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
@@ -68,6 +67,7 @@ const NumberPlayConstants = {
   ACCORDION_BOX_X_MARGIN: 72,               // distance between the sides of the sim and all adjacent accordion boxes
   ACCORDION_BOX_TOP_MARGIN: 26,             // distance between the top of the sim and all 'upper' accordion boxes
   ACCORDION_BOX_BOTTOM_MARGIN: 15,          // distance between the bottom of the sim and all 'lower' accordion boxes
+  PLAY_AREA_Y_MARGIN: 17,                   // distance between the bottom of the play area and bottom of the accordion box
 
   // options for all AccordionBox instances
   ACCORDION_BOX_OPTIONS: {
@@ -105,10 +105,6 @@ const NumberPlayConstants = {
   PURPLE_BACKGROUND: 'rgb( 252, 220, 255 )',
   BLUE_BACKGROUND: 'rgb( 204, 239, 255 )',
   WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
-
-  // misc TODO: when base classes exist, move bucket specs there
-  BUCKET_BASE_COLOR: 'rgb( 100, 101, 162 )',
-  BUCKET_SIZE: new Dimension2( 100, 50 ), // in screen coordinates
 
   // map number values to their corresponding string
   NUMBER_TO_STRING: {

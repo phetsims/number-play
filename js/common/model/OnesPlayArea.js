@@ -14,8 +14,6 @@ import CountingCommonModel from '../../../../counting-common/js/common/model/Cou
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import Bucket from '../../../../phetcommon/js/model/Bucket.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
@@ -40,15 +38,10 @@ class OnesPlayArea extends CountingCommonModel {
    * @param {BooleanProperty} isResetting
    * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
    */
-  constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty, options ) {
-
+  constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty ) {
     super();
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
-
-    options = merge( {
-      bucketPosition: Vector2.ZERO // {Vector2}
-    }, options );
 
     // @public
     this.currentNumberProperty = currentNumberProperty;
@@ -69,13 +62,6 @@ class OnesPlayArea extends CountingCommonModel {
     } );
     this.paperNumbers.addItemRemovedListener( paperNumber => {
       paperNumber.numberValueProperty.unlink( calculateTotalListener );
-    } );
-
-    // @public (read-only)
-    this.bucket = new Bucket( {
-      baseColor: NumberPlayConstants.BUCKET_BASE_COLOR,
-      size: NumberPlayConstants.BUCKET_SIZE,
-      position: options.bucketPosition
     } );
 
     // @public {boolean} whether the view of this play area is controlling the current number
@@ -198,9 +184,6 @@ class OnesPlayArea extends CountingCommonModel {
     // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
     // time.
     paperNumberToReturn.numberValueProperty.value = 0;
-    // TODO: band-aid, see https://github.com/phetsims/number-play/issues/19
-    paperNumberOrigin = paperNumberToReturn.alternateBounds && paperNumberToReturn.viewHasIndependentModel ?
-                        paperNumberOrigin.plusXY( 0, paperNumberToReturn.getDragTargetOffset().y ) : paperNumberOrigin;
     paperNumberToReturn.setDestination( paperNumberOrigin, true );
   }
 

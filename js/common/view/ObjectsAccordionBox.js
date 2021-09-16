@@ -13,9 +13,7 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -58,26 +56,18 @@ class ObjectsAccordionBox extends AccordionBox {
       rectWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH
     } );
 
-    const playAreaMarginY = 15;
     const playAreaViewBounds = new Bounds2(
       contentNode.left,
       contentNode.top,
       contentNode.right,
-      contentNode.bottom - playAreaMarginY
-    );
-
-    const translateMVT = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      new Vector2( playAreaViewBounds.left + NumberPlayConstants.BUCKET_SIZE.width / 2, playAreaViewBounds.bottom ),
-      1
+      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
     const playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,
-      playAreaViewBounds,
-      translateMVT, {
+      playAreaViewBounds, {
         playObjectTypeProperty: playObjectTypeProperty,
         groupingLinkingTypeProperty: config.groupingLinkingTypeProperty
       }
@@ -109,12 +99,10 @@ class ObjectsAccordionBox extends AccordionBox {
     contentNode.addChild( radioButtonGroup );
 
     // add the linked play area
-    const objectPlayAreaBottomMargin = 29; // empirically determined to keep paper ones above the bottom when linked
     if ( config.linkedPlayArea && config.groupingLinkingTypeProperty ) {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         config.linkedPlayArea,
-        playAreaViewBounds.withMaxY( playAreaViewBounds.bottom - objectPlayAreaBottomMargin ),
-        translateMVT, {
+        playAreaViewBounds, {
           playObjectTypeProperty: playObjectTypeProperty,
           viewHasIndependentModel: false
         }

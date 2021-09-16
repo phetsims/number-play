@@ -15,11 +15,10 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
@@ -27,7 +26,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
@@ -66,17 +64,11 @@ class CompareAccordionBox extends AccordionBox {
     } );
 
     // create view bounds for the ObjectsPlayAreaNode
-    const playAreaMarginY = 15;
     const objectsPlayAreaViewBounds = new Bounds2(
       contentNode.left,
-      contentNode.top + playAreaMarginY,
+      contentNode.top + NumberPlayConstants.PLAY_AREA_Y_MARGIN,
       contentNode.right,
-      contentNode.bottom - playAreaMarginY
-    );
-    const translateMVT = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      new Vector2( objectsPlayAreaViewBounds.left + NumberPlayConstants.BUCKET_SIZE.width / 2, objectsPlayAreaViewBounds.bottom ),
-      1
+      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
     // create view bounds for the OnesPlayAreaNode
@@ -84,7 +76,7 @@ class CompareAccordionBox extends AccordionBox {
       contentNode.left,
       contentNode.top,
       contentNode.right,
-      contentNode.bottom - playAreaMarginY
+      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
     // create and add the ObjectsPlayAreaNode
@@ -94,8 +86,7 @@ class CompareAccordionBox extends AccordionBox {
     } );
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       playArea.objectsPlayArea,
-      onesPlayAreaViewBounds,
-      translateMVT, {
+      onesPlayAreaViewBounds, {
         playObjectTypeProperty: objectsTypeProperty,
         groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING )
       }
@@ -105,8 +96,7 @@ class CompareAccordionBox extends AccordionBox {
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
       playArea.onesPlayArea,
-      onesPlayAreaViewBounds,
-      translateMVT
+      onesPlayAreaViewBounds
     );
     contentNode.addChild( onesPlayAreaNode );
 

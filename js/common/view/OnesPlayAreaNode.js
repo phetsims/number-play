@@ -11,28 +11,23 @@
 import Property from '../../../../axon/js/Property.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
-import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import BucketFront from '../../../../scenery-phet/js/bucket/BucketFront.js';
-import BucketHole from '../../../../scenery-phet/js/bucket/BucketHole.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
+import OnesCreatorPanel from './OnesCreatorPanel.js';
 
 class OnesPlayAreaNode extends Node {
 
   /**
    * @param {OnesPlayArea} playArea
    * @param {Bounds2} playAreaViewBounds
-   * @param {ModelViewTransform2} translateMVT
    * @param {object} [options]
    */
-  constructor( playArea, playAreaViewBounds, translateMVT, options ) {
+  constructor( playArea, playAreaViewBounds, options ) {
     super();
 
     options = merge( {
@@ -121,52 +116,10 @@ class OnesPlayAreaNode extends Node {
       }
     } );
 
-    // create and add the bucket back
-    const bucketHole = new BucketHole( playArea.bucket, translateMVT );
-    this.addChild( bucketHole );
-
-    // @private {CountingCreatorNode} - Shows the 1 that can be dragged.
-    this.countingCreatorNode = new CountingCreatorNode( 0, this, playArea.sumProperty, {
-      updateCurrentNumber: true,
-      playObjectTypeProperty: this.playObjectTypeProperty
-    } );
-    this.addChild( this.countingCreatorNode );
-
-    // create and add the bucket front
-    const bucketFrontNode = new BucketFront( playArea.bucket, translateMVT );
-    bucketFrontNode.centerBottom = translateMVT.modelToViewPosition( playArea.bucket.position );
-    bucketHole.center = bucketFrontNode.centerTop;
-    this.countingCreatorNode.centerBottom = bucketFrontNode.center;
-    this.addChild( bucketFrontNode );
-
-    // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
-    const arrowButtonConfig = {
-      arrowWidth: 14,  // empirically determined
-      arrowHeight: 14, // empirically determined
-      spacing: 5       // empirically determined
-    };
-    const upArrowButton = new ArrowButton( 'up', () => {
-      this.playArea.currentNumberProperty.value =
-        Math.min( this.playArea.currentNumberProperty.range.max, this.playArea.currentNumberProperty.value + 1 );
-    }, arrowButtonConfig );
-    const downArrowButton = new ArrowButton( 'down', () => {
-      this.playArea.currentNumberProperty.value =
-        Math.max( this.playArea.currentNumberProperty.range.min, this.playArea.currentNumberProperty.value - 1 );
-    }, arrowButtonConfig );
-    const arrowButtons = new HBox( {
-      children: [ upArrowButton, downArrowButton ],
-      spacing: arrowButtonConfig.spacing
-    } );
-    arrowButtons.centerX = bucketFrontNode.centerX;
-    arrowButtons.centerY = bucketFrontNode.centerY + 2;
-    this.addChild( arrowButtons );
-
-    // disable the arrow buttons when the currentNumberProperty value is at its min or max range
-    const currentNumberPropertyObserver = currentNumber => {
-      upArrowButton.enabled = currentNumber !== this.playArea.currentNumberProperty.range.max;
-      downArrowButton.enabled = currentNumber !== this.playArea.currentNumberProperty.range.min;
-    };
-    this.playArea.currentNumberProperty.link( currentNumberPropertyObserver );
+    // @private {OnesCreatorPanel} - create and add the OnesCreatorPanel
+    this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
+    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY;
+    this.addChild( this.onesCreatorPanel );
 
     // @private {Node} - Where all of the paper numbers are. Created if not provided.
     this.paperNumberLayerNode = null;
@@ -322,7 +275,7 @@ class OnesPlayAreaNode extends Node {
     const parentBounds = this.findPaperNumberNode( paperNumber ).bounds;
 
     // And the bounds of our panel
-    const panelBounds = this.countingCreatorNode.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
+    const panelBounds = this.onesCreatorPanel.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
 
     return panelBounds.intersectsBounds( parentBounds );
   }
@@ -379,7 +332,7 @@ class OnesPlayAreaNode extends Node {
       paperNumber.numberValueProperty.value = 0;
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
-      let targetPosition = this.countingCreatorNode.getOriginPosition();
+      let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
 
       // TODO: the ternary below is a hack that shouldn't be needed once https://github.com/phetsims/number-play/issues/6 is fixed.
       const paperCenterOffset = new PaperNumber( paperNumberValue > 0 ? paperNumberValue : 1, new Vector2( 0, 0 ) ).getLocalBounds().center;
