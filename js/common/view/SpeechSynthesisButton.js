@@ -38,7 +38,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
     const locale = phet.joist.sim.locale;
 
     // set the first voice for the desired locale, if available
-    const translatedVoices = _.filter( voicingManager.voices, voice => {
+    const translatedVoices = _.filter( voicingManager.getPrioritizedVoices(), voice => {
       return voice.lang.includes( locale );
     } );
     if ( translatedVoices.length > 0 ) {
