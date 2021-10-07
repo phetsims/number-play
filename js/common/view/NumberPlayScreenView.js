@@ -178,30 +178,45 @@ class NumberPlayScreenView extends ScreenView {
       buttonContentYMargin: margin
     } );
     groupingLinkingRadioButtonGroup.centerX = resetAllButton.centerX;
-    groupingLinkingRadioButtonGroup.top = this.objectsAccordionBox.top;
+    groupingLinkingRadioButtonGroup.centerY = this.objectsAccordionBox.centerY;
     this.addChild( groupingLinkingRadioButtonGroup );
 
     // content for organizePlayObjectsButton
     const xMargin = 4;
+    const yMargin = 10;
     const tenFramePath = TenFrameNode.getTenFramePath( {
       fill: null,
-      lineWidth: 2.5
+      lineWidth: 3
     } );
     tenFramePath.setScaleMagnitude( ( resetAllButton.width - xMargin * 2 ) / tenFramePath.width );
 
     // create and add a button to organize the ObjectsAccordionBox playObjects in a grid
-    const organizePlayObjectsButton = new RectangularPushButton( {
+    const organizeOnesButton = new RectangularPushButton( {
+      content: tenFramePath,
+      listener: () => {
+        // model.onesPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model, then bring it back
+      },
+      baseColor: NumberPlayConstants.PURPLE_BACKGROUND,
+      xMargin: xMargin,
+      yMargin: yMargin
+    } );
+    organizeOnesButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_X_PADDING;
+    organizeOnesButton.top = onesAccordionBox.top;
+    this.addChild( organizeOnesButton );
+
+    // create and add a button to organize the ObjectsAccordionBox playObjects in a grid
+    const organizeObjectsButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
         // model.objectsPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model, then bring it back
       },
       baseColor: NumberPlayConstants.BLUE_BACKGROUND,
       xMargin: xMargin,
-      yMargin: 7
+      yMargin: yMargin
     } );
-    organizePlayObjectsButton.centerX = resetAllButton.centerX;
-    organizePlayObjectsButton.bottom = resetAllButton.top - 12; // empirically determined
-    // this.addChild( organizePlayObjectsButton );
+    organizeObjectsButton.centerX = resetAllButton.centerX;
+    organizeObjectsButton.top = this.objectsAccordionBox.top;
+    this.addChild( organizeObjectsButton );
   }
 
   /**
