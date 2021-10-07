@@ -84,7 +84,7 @@ class NumberPlayScreenView extends ScreenView {
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       config.upperAccordionBoxHeight, merge( {
-        expandedProperty: this.tenFrameAccordionBoxExpandedProperty
+        expandedProperty: this.wordAccordionBoxExpandedProperty
       }, config.wordAccordionBoxConfig ) );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
