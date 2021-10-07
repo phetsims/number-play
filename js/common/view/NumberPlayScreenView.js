@@ -80,15 +80,15 @@ class NumberPlayScreenView extends ScreenView {
     this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
 
-    // create and add the TenFrameAccordionBox
-    const tenFrameAccordionBox = new TenFrameAccordionBox(
+    // create and add the WordAccordionBox
+    const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       config.upperAccordionBoxHeight, merge( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
-      }, config.tenFrameAccordionBoxOptions ) );
-    tenFrameAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    tenFrameAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
-    this.addChild( tenFrameAccordionBox );
+      }, config.wordAccordionBoxConfig ) );
+    wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
+    this.addChild( wordAccordionBox );
 
     // create and add the NumeralAccordionBox
     const numeralAccordionBox = new NumeralAccordionBox(
@@ -97,18 +97,18 @@ class NumberPlayScreenView extends ScreenView {
         expandedProperty: this.numeralAccordionBoxExpandedProperty
       }, config.numeralAccordionBoxConfig ) );
     numeralAccordionBox.centerX = this.layoutBounds.centerX;
-    numeralAccordionBox.top = tenFrameAccordionBox.top;
+    numeralAccordionBox.top = wordAccordionBox.top;
     this.addChild( numeralAccordionBox );
 
-    // create and add the WordAccordionBox
-    const wordAccordionBox = new WordAccordionBox(
+    // create and add the TenFrameAccordionBox
+    const tenFrameAccordionBox = new TenFrameAccordionBox(
       model.currentNumberProperty,
       config.upperAccordionBoxHeight, merge( {
-        expandedProperty: this.wordAccordionBoxExpandedProperty
-      }, config.wordAccordionBoxConfig ) );
-    wordAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    wordAccordionBox.top = numeralAccordionBox.top;
-    this.addChild( wordAccordionBox );
+        expandedProperty: this.tenFrameAccordionBoxExpandedProperty
+      }, config.tenFrameAccordionBoxOptions ) );
+    tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    tenFrameAccordionBox.top = wordAccordionBox.top;
+    this.addChild( tenFrameAccordionBox );
 
     // create and add the OnesAccordionBox
     const onesAccordionBox = new OnesAccordionBox(
@@ -150,7 +150,7 @@ class NumberPlayScreenView extends ScreenView {
       const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, {
         readNumber: true
       } );
-      speechSynthesisButton.centerX = resetAllButton.centerX;
+      speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_X_PADDING;
       speechSynthesisButton.top = tenFrameAccordionBox.top;
       this.addChild( speechSynthesisButton );
     }
