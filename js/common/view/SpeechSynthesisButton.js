@@ -38,15 +38,20 @@ class SpeechSynthesisButton extends RectangularPushButton {
     const locale = phet.joist.sim.locale;
 
     // set the first voice for the desired locale, if available
-    const translatedVoices = _.filter( voicingManager.getPrioritizedVoices(), voice => {
-      return voice.lang.includes( locale );
-    } );
-    if ( translatedVoices.length > 0 ) {
-      voicingManager.voiceProperty.set( translatedVoices[ 0 ] );
-    }
-    else {
-      console.log( `No voices found for locale: ${locale}` );
-    }
+    const voicesChangedListener = () => {
+      const translatedVoices = _.filter( voicingManager.getPrioritizedVoices(), voice => {
+        return voice.lang.includes( locale );
+      } );
+      if ( translatedVoices.length > 0 ) {
+        voicingManager.voiceProperty.set( translatedVoices[ 0 ] );
+      }
+      else {
+        console.log( `No voices found for locale: ${locale}` );
+      }
+
+      voicingManager.voicesChangedEmitter.removeListener( voicesChangedListener );
+    };
+    voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
 
     const speechUtterance = new Utterance();
     const listener = () => {
