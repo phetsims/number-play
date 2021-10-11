@@ -10,6 +10,7 @@ import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CompareScreen from './compare/CompareScreen.js';
+import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
 import numberPlayStrings from './numberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
@@ -35,8 +36,9 @@ simLauncher.launch( () => {
   const sim = new Sim( numberPlayTitleString, [
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
-    new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) )
+    new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) ),
     // TODO: add Game screen here, see https://github.com/phetsims/number-play/issues/62
+    new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) )
   ], simOptions );
   sim.start();
 } );

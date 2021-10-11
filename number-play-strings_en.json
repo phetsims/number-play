@@ -109,5 +109,8 @@
   },
   "spanish": {
     "value": "Español"
+  },
+  "level": {
+    "value": "Level {{levelNumber}}"
   }
 }
