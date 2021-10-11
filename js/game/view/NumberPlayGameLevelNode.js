@@ -26,13 +26,13 @@ class NumberPlayGameLevelNode extends Node {
     super();
 
     // Text displayed in the status bar
-    const statusBarTextNode = new RichText( level.statusBarMessage, {
+    const levelDescriptionText = new RichText( level.statusBarMessage, {
       font: new PhetFont( 16 ),
       maxWidth: 650 // determined empirically
     } );
 
     // Bar across the top of the screen
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, statusBarTextNode, level.scoreProperty, {
+    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
       floatToTop: false,
       spacing: 20,
       backButtonListener: () => {
