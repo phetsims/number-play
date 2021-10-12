@@ -1,5 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
+import StringProperty from '../../../../axon/js/StringProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
@@ -17,6 +18,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.statusBarMessage = StringUtils.fillIn( numberPlayStrings.level, {
       levelNumber: levelNumber
     } );
+
+    // @public (read-only) {StringProperty}
+    this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
   }
 }
 

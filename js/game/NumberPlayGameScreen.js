@@ -11,6 +11,7 @@ import Property from '../../../axon/js/Property.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import Image from '../../../scenery/js/nodes/Image.js';
+import Color from '../../../scenery/js/util/Color.js';
 import gameScreenIconImage from '../../images/game_screen_icon_png.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
@@ -28,7 +29,7 @@ class NumberPlayGameScreen extends Screen {
 
     const options = {
       name: screenGameString,
-      backgroundColorProperty: new Property( 'white' ),
+      backgroundColorProperty: new Property( new Color( 0xE6EEFF ) ),
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

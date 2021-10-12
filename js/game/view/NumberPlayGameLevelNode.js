@@ -10,6 +10,7 @@
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
+import Color from '../../../../scenery/js/util/Color.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
 
@@ -31,16 +32,17 @@ class NumberPlayGameLevelNode extends Node {
       maxWidth: 650 // determined empirically
     } );
 
-    // Bar across the top of the screen
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
+    // @public (read-only) {InfiniteStatusBar} - bar across the top of the screen
+    this.statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
       floatToTop: false,
       spacing: 20,
+      barFill: new Color( 0x8DB3FF ),
       backButtonListener: () => {
         this.interruptSubtreeInput();
         levelProperty.value = null; // back to the level-selection UI
       }
     } );
-    this.addChild( statusBar );
+    this.addChild( this.statusBar );
 
     // @public {NumberPlayGameLevel}
     this.level = level;
