@@ -1,6 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 import StringProperty from '../../../../axon/js/StringProperty.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
@@ -21,6 +22,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
     // @public (read-only) {StringProperty}
     this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
+
+    // @public (read-only) {number} - the random number generated to create a subitized representation for
+    this.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
   }
 }
 

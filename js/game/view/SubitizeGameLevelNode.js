@@ -23,6 +23,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 // constants
 const SUBITIZE_NODE_WIDTH = 425;
 const SUBITIZE_NODE_HEIGHT = 275;
+const ANSWER_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
@@ -73,18 +74,52 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     // create and add answerButtons which give the options to select between 1 - 5
     const answerButtons = new HBox( { spacing: 40 } );
     for ( let i = 1; i < 6; i++ ) {
-      answerButtons.addChild( new RectangularPushButton( {
-        content: new Text( i, { font: new PhetFont( 10 ) } ),
+      const thisButton = new RectangularPushButton( {
+        content: new Text( i, ANSWER_BUTTON_TEXT_OPTIONS ),
         baseColor: Color.YELLOW,
         size: new Dimension2( 80, 100 ),
         cornerRadius: 10,
-        xMargin: 25,
-        yMargin: 22
-      } ) );
+        xMargin: 26,
+        yMargin: 24,
+        listener: () => {
+          if ( level.subitizeNumber === i ) {
+
+            // create and replace the correct answer button with a rectangle and the correct number on top
+            const correctAnswerRectangle = new Rectangle( thisButton.leftTop.x, thisButton.leftTop.y, thisButton.width, thisButton.height, {
+              fill: Color.GREEN,
+              cornerRadius: 10
+            } );
+            const correctAnswerText = new Text( level.subitizeNumber, ANSWER_BUTTON_TEXT_OPTIONS );
+            correctAnswerText.center = correctAnswerRectangle.center;
+            correctAnswerRectangle.addChild( correctAnswerText );
+            answerButtons.replaceChild( thisButton, correctAnswerRectangle );
+
+            // disable all other buttons that are incorrect and not already disabled
+            for ( let j = 1; j < answerButtons.getChildrenCount() + 1; j++ ) {
+              if ( ( j !== i ) && answerButtons.getChildAt( j - 1 ).getEnabledProperty().value ) {
+                answerButtons.getChildAt( j - 1 ).setEnabled( false );
+              }
+            }
+          }
+          else {
+            // disable incorrect answer button
+            thisButton.setEnabled( false );
+          }
+        }
+      } );
+      answerButtons.addChild( thisButton );
     }
     answerButtons.centerX = subitizerNode.centerX;
     answerButtons.top = subitizerNode.bottom + 40; // empirically determined
     this.addChild( answerButtons );
+
+    // create and add subitizeNumberText
+    //TODO: this is a placeholder, see https://github.com/phetsims/number-play/issues/62
+    const subitizeNumberText = new Text( level.subitizeNumber, {
+      font: new PhetFont( 60 )
+    } );
+    subitizeNumberText.center = subitizerNode.center;
+    this.addChild( subitizeNumberText );
   }
 }
 

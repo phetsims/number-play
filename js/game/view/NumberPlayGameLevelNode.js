@@ -28,7 +28,7 @@ class NumberPlayGameLevelNode extends Node {
 
     // Text displayed in the status bar
     const levelDescriptionText = new RichText( level.statusBarMessage, {
-      font: new PhetFont( 16 ),
+      font: new PhetFont( 21 ),
       maxWidth: 650 // determined empirically
     } );
 
@@ -42,6 +42,8 @@ class NumberPlayGameLevelNode extends Node {
         levelProperty.value = null; // back to the level-selection UI
       }
     } );
+    // color the back button in the status bar yellow
+    this.statusBar.getChildAt( 1 ).getChildAt( 0 ).baseColor = Color.YELLOW;
     this.addChild( this.statusBar );
 
     // @public {NumberPlayGameLevel}
