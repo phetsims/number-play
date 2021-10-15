@@ -23,9 +23,10 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     // @public (read-only) {StringProperty}
     this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
 
-    // @public (read-only) {number} - the random number generated to create a subitized representation for
+    // @public {number} - the random number generated to create a subitized representation for
     this.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
   }
+
 }
 
 numberPlay.register( 'SubitizeGameLevel', SubitizeGameLevel );

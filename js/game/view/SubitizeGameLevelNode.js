@@ -8,6 +8,9 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import BackButton from '../../../../scenery-phet/js/buttons/BackButton.js';
+import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -15,6 +18,8 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import Animation from '../../../../twixt/js/Animation.js';
+import Easing from '../../../../twixt/js/Easing.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
@@ -71,6 +76,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     showAgainButton.setBottom( subitizerNode.getBottom() );
     this.addChild( showAgainButton );
 
+    level.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
+    let correctAnswerButton; // keep track of the correctAnswerButton to show it again it when resetting for new challenge
     // create and add answerButtons which give the options to select between 1 - 5
     const answerButtons = new HBox( { spacing: 40 } );
     for ( let i = 1; i < 6; i++ ) {
@@ -83,25 +90,31 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
         yMargin: 24,
         listener: () => {
           if ( level.subitizeNumber === i ) {
+            correctAnswerButton = thisButton;
+            level.isSolvedProperty.value = true;
+            this.frownyFaceNode.visible = false;
 
             // create and replace the correct answer button with a rectangle and the correct number on top
-            const correctAnswerRectangle = new Rectangle( thisButton.leftTop.x, thisButton.leftTop.y, thisButton.width, thisButton.height, {
+            const correctAnswerRectangle = new Rectangle( correctAnswerButton.leftTop.x, correctAnswerButton.leftTop.y, correctAnswerButton.width, correctAnswerButton.height, {
               fill: Color.GREEN,
               cornerRadius: 10
             } );
             const correctAnswerText = new Text( level.subitizeNumber, ANSWER_BUTTON_TEXT_OPTIONS );
             correctAnswerText.center = correctAnswerRectangle.center;
             correctAnswerRectangle.addChild( correctAnswerText );
-            answerButtons.replaceChild( thisButton, correctAnswerRectangle );
+            answerButtons.replaceChild( correctAnswerButton, correctAnswerRectangle );
 
             // disable all other buttons that are incorrect and not already disabled
-            for ( let j = 1; j < answerButtons.getChildrenCount() + 1; j++ ) {
-              if ( ( j !== i ) && answerButtons.getChildAt( j - 1 ).getEnabledProperty().value ) {
-                answerButtons.getChildAt( j - 1 ).setEnabled( false );
+            for ( let j = 0; j < answerButtons.getChildrenCount(); j++ ) {
+              if ( ( ( j + 1 ) !== i ) && answerButtons.getChildAt( j ).getEnabledProperty().value ) {
+                answerButtons.getChildAt( j ).setEnabled( false );
               }
             }
           }
           else {
+            level.isSolvedProperty.value = false;
+            this.showFrownyFace();
+
             // disable incorrect answer button
             thisButton.setEnabled( false );
           }
@@ -120,6 +133,74 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     } );
     subitizeNumberText.center = subitizerNode.center;
     this.addChild( subitizeNumberText );
+
+    // create and add smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
+    const smileyFaceNode = new FaceNode( 125 /* headDiameter */, {
+      visibleProperty: level.isSolvedProperty
+    } );
+    smileyFaceNode.top = subitizerNode.top;
+    smileyFaceNode.left = answerButtons.right;
+    this.addChild( smileyFaceNode );
+
+    // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
+    this.frownyFaceNode = new FaceNode( 125 /* headDiameter */, {
+      visible: false
+    } );
+    this.frownyFaceNode.top = subitizerNode.top;
+    this.frownyFaceNode.left = answerButtons.right;
+    this.frownyFaceNode.frown();
+    this.addChild( this.frownyFaceNode );
+    this.frownyFaceAnimation = null; // {Animation|null}
+
+    // create and add nextChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
+    const nextChallengeButton = new BackButton( {
+      baseColor: Color.YELLOW,
+      visibleProperty: level.isSolvedProperty,
+      listener: () => {
+        level.isSolvedProperty.reset();
+
+        // enable answerButtons and replace the corectAnswerRectangle with a correctAnswerButton
+        for ( let i = 0; i < answerButtons.getChildrenCount(); i++ ) {
+          answerButtons.getChildAt( i ).setEnabled( true );
+          if ( ( i + 1 ) === level.subitizeNumber ) {
+            answerButtons.replaceChild( answerButtons.getChildAt( i ), correctAnswerButton );
+          }
+        }
+
+        level.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
+        subitizeNumberText.text = level.subitizeNumber;
+      }
+    } );
+    nextChallengeButton.centerX = smileyFaceNode.centerX;
+    nextChallengeButton.centerY = answerButtons.centerY;
+    nextChallengeButton.rotateAround( nextChallengeButton.center, 3.14 ); //shadow looks weird?
+    this.addChild( nextChallengeButton );
+  }
+
+  /**
+   * Shows a frowny face and animates it to fade out when the user made an incorrect guess.
+   * @private
+   */
+  showFrownyFace() {
+    // Animate opacity of frownyFaceNode, fade it out.
+    this.frownyFaceNode.visible = true;
+    this.frownyFaceNode.opacityProperty.value = 1;
+    this.frownyFaceAnimation = new Animation( {
+      delay: 1,
+      duration: 0.8,
+      targets: [ {
+        property: this.frownyFaceNode.opacityProperty,
+        easing: Easing.LINEAR,
+        to: 0
+      } ]
+    } );
+
+    this.frownyFaceAnimation.finishEmitter.addListener( () => {
+      this.frownyFaceNode.visible = false;
+      this.frownyFaceAnimation = null;
+    } );
+
+    this.frownyFaceAnimation.start();
   }
 }
 
