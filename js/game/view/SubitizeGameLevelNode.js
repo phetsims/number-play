@@ -7,12 +7,14 @@
  * @author Luisa Vargas
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BackButton from '../../../../scenery-phet/js/buttons/BackButton.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
+import StarNode from '../../../../scenery-phet/js/StarNode.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
@@ -24,6 +26,7 @@ import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 
 // constants
 const SUBITIZE_NODE_WIDTH = 425;
@@ -41,6 +44,9 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
   constructor( level, levelProperty, layoutBounds, visibleBoundsProperty ) {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty );
+
+    // number of times any button in answerButtons was pressed
+    const numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
 
     // create and add the questionText which is the prompt above the subitizerNode box
     const questionText = new Text( level.questionStringProperty.value, {
@@ -76,7 +82,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     showAgainButton.setBottom( subitizerNode.getBottom() );
     this.addChild( showAgainButton );
 
-    level.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
     let correctAnswerButton; // keep track of the correctAnswerButton to show it again it when resetting for new challenge
     // create and add answerButtons which give the options to select between 1 - 5
     const answerButtons = new HBox( { spacing: 40 } );
@@ -89,6 +94,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
         xMargin: 26,
         yMargin: 24,
         listener: () => {
+          numberOfAnswerButtonPressesProperty.value++;
           if ( level.subitizeNumber === i ) {
             correctAnswerButton = thisButton;
             level.isSolvedProperty.value = true;
@@ -110,9 +116,15 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
                 answerButtons.getChildAt( j ).setEnabled( false );
               }
             }
+
+            if ( numberOfAnswerButtonPressesProperty.value === 1 ) {
+              level.scoreProperty.value++;
+              pointsAwardedNode.visible = true;
+            }
           }
           else {
             level.isSolvedProperty.value = false;
+            pointsAwardedNode.visible = false;
             this.showFrownyFace();
 
             // disable incorrect answer button
@@ -135,7 +147,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( subitizeNumberText );
 
     // create and add smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
-    const smileyFaceNode = new FaceNode( 125 /* headDiameter */, {
+    const smileyFaceNode = new FaceNode( 150 /* headDiameter */, {
       visibleProperty: level.isSolvedProperty
     } );
     smileyFaceNode.top = subitizerNode.top;
@@ -143,7 +155,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( smileyFaceNode );
 
     // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
-    this.frownyFaceNode = new FaceNode( 125 /* headDiameter */, {
+    this.frownyFaceNode = new FaceNode( 150 /* headDiameter */, {
       visible: false
     } );
     this.frownyFaceNode.top = subitizerNode.top;
@@ -152,29 +164,44 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( this.frownyFaceNode );
     this.frownyFaceAnimation = null; // {Animation|null}
 
-    // create and add nextChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
-    const nextChallengeButton = new BackButton( {
+    // create and add poinstAwardedNode which is shown when a correct guess is made on the first answerButtons press
+    const starNode = new StarNode( { value: 1, scale: 4 } );
+    starNode.centerX = this.frownyFaceNode.centerX;
+    starNode.top = this.frownyFaceNode.bottom + 40; // empirically determined
+    const pointsNode = new Text( '+1', { font: new PhetFont( 40 ), fill: 'black' } );
+    pointsNode.center = starNode.center;
+    pointsNode.centerY += 5;
+    const pointsAwardedNode = new Node( { children: [ starNode, pointsNode ], visible: false } );
+    this.addChild( pointsAwardedNode );
+
+    const newChallenge = () => {
+      numberOfAnswerButtonPressesProperty.value = 0;
+      level.isSolvedProperty.reset();
+      pointsAwardedNode.visible = false;
+
+      // enable answerButtons and replace the corectAnswerRectangle with a correctAnswerButton
+      for ( let i = 0; i < answerButtons.getChildrenCount(); i++ ) {
+        answerButtons.getChildAt( i ).setEnabled( true );
+        if ( ( i + 1 ) === level.subitizeNumber ) {
+          answerButtons.replaceChild( answerButtons.getChildAt( i ), correctAnswerButton );
+        }
+      }
+
+      level.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
+      subitizeNumberText.text = level.subitizeNumber;
+    };
+    //level.newSubitizeNumberEmitter.addListener(newChallenge); //correctAnswerButton undefined??
+
+    // create and add newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
+    const newChallengeButton = new BackButton( {
       baseColor: Color.YELLOW,
       visibleProperty: level.isSolvedProperty,
-      listener: () => {
-        level.isSolvedProperty.reset();
-
-        // enable answerButtons and replace the corectAnswerRectangle with a correctAnswerButton
-        for ( let i = 0; i < answerButtons.getChildrenCount(); i++ ) {
-          answerButtons.getChildAt( i ).setEnabled( true );
-          if ( ( i + 1 ) === level.subitizeNumber ) {
-            answerButtons.replaceChild( answerButtons.getChildAt( i ), correctAnswerButton );
-          }
-        }
-
-        level.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
-        subitizeNumberText.text = level.subitizeNumber;
-      }
+      listener: newChallenge
     } );
-    nextChallengeButton.centerX = smileyFaceNode.centerX;
-    nextChallengeButton.centerY = answerButtons.centerY;
-    nextChallengeButton.rotateAround( nextChallengeButton.center, 3.14 ); //shadow looks weird?
-    this.addChild( nextChallengeButton );
+    newChallengeButton.centerX = smileyFaceNode.centerX;
+    newChallengeButton.centerY = answerButtons.centerY;
+    newChallengeButton.rotateAround( newChallengeButton.center, 3.14 ); //shadow looks weird?
+    this.addChild( newChallengeButton );
   }
 
   /**

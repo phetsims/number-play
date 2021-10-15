@@ -31,13 +31,6 @@ class NumberPlayGameLevel {
     this.isSolvedProperty = new BooleanProperty( false );
   }
 
-  /**
-   * @public
-   */
-  reset() {
-    this.scoreProperty.reset();
-    this.isSolvedProperty.reset();
-  }
 }
 
 numberPlay.register( 'NumberPlayGameLevel', NumberPlayGameLevel );

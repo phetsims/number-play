@@ -1,5 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
+import Emitter from '../../../../axon/js/Emitter.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -25,8 +26,19 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
     // @public {number} - the random number generated to create a subitized representation for
     this.subitizeNumber = dotRandom.nextIntBetween( 1, 5 );
+
+    // @public Fires when the level is reset
+    this.newSubitizeNumberEmitter = new Emitter();
   }
 
+  /**
+   * @public
+   */
+  reset() {
+    this.newSubitizeNumberEmitter.emit();
+    this.scoreProperty.reset();
+    this.isSolvedProperty.reset();
+  }
 }
 
 numberPlay.register( 'SubitizeGameLevel', SubitizeGameLevel );
