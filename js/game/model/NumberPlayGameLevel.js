@@ -12,6 +12,7 @@ import numberPlay from '../../numberPlay.js';
  */
 
 class NumberPlayGameLevel {
+
   /**
    * @param {number} levelNumber
    */
@@ -31,6 +32,13 @@ class NumberPlayGameLevel {
     this.isSolvedProperty = new BooleanProperty( false );
   }
 
+  /**
+   * @public
+   */
+  reset() {
+    this.isSolvedProperty.reset();
+    this.scoreProperty.reset();
+  }
 }
 
 numberPlay.register( 'NumberPlayGameLevel', NumberPlayGameLevel );
