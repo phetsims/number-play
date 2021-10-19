@@ -9,7 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import BackButton from '../../../../scenery-phet/js/buttons/BackButton.js';
+import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
@@ -105,10 +105,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
     // create and add pointsAwardedNode which is shown when a correct guess is made on the first answerButtons press
     const pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
-    const starNode = new StarNode( { value: 1, scale: 4 } );
+    const starNode = new StarNode( { value: 1, scale: 3 } );
     starNode.centerX = this.frownyFaceNode.centerX;
     starNode.top = this.frownyFaceNode.bottom + 40; // empirically determined
-    const pointsNode = new Text( '+1', { font: new PhetFont( 40 ), fill: 'black' } );
+    const pointsNode = new Text( '+1', { font: new PhetFont( 30 ), fill: 'black' } );
     pointsNode.center = starNode.center;
     pointsNode.centerY += 5;
     const pointsAwardedNode = new Node( {
@@ -135,14 +135,21 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     level.newSubitizeNumberEmitter.addListener( newChallenge );
 
     // create and add newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
-    const newChallengeButton = new BackButton( {
+    const arrowShape = new ArrowShape( 0, 0, 42, 0, {
+      tailWidth: 12,
+      headWidth: 25,
+      headHeight: 23
+    } );
+    const newChallengeButton = new RectangularPushButton( {
       baseColor: Color.YELLOW,
+      xMargin: 27,
+      yMargin: 10.9,
+      content: new Path( arrowShape, { fill: 'black' } ),
       visibleProperty: level.isSolvedProperty,
       listener: newChallenge
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
     newChallengeButton.centerY = answerButtons.centerY;
-    newChallengeButton.rotateAround( newChallengeButton.center, 3.14 ); // TODO: shadow looks weird?
     this.addChild( newChallengeButton );
   }
 
