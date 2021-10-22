@@ -95,7 +95,7 @@ class SubitizerModel {
           const randomY = dotRandom.nextIntBetween( -1, 1 );
 
           // add a new coordinate if it doesn't exist yet
-          if ( _.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
+          if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
             coordinates.push( { x: randomX, y: randomY } );
           }
         }
