@@ -8,6 +8,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
+import SubitizerModel from './SubitizerModel.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
@@ -27,6 +28,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
     // @public {NumberProperty} - the random number generated to create a subitized representation for
     this.subitizeNumberProperty = new NumberProperty( dotRandom.nextIntBetween( 1, 5 ) );
+
+    // @public (read-only) {SubitizerModel}
+    this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty );
 
     // @public Fires when the level is reset
     this.newSubitizeNumberEmitter = new Emitter();

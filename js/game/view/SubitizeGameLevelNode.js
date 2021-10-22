@@ -9,6 +9,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -26,6 +27,7 @@ import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
+import SubitizerView from './SubitizerView.js';
 
 // constants
 const SUBITIZE_NODE_WIDTH = 425;
@@ -86,7 +88,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( subitizeNumberText );
 
     // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
-    this.frownyFaceNode = new FaceNode( 150 /* headDiameter */, {
+    this.frownyFaceNode = new FaceNode( 160 /* headDiameter */, {
       visible: false
     } );
     this.frownyFaceNode.top = subitizerNode.top;
@@ -96,7 +98,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.frownyFaceAnimation = null; // {Animation|null}
 
     // create and add smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
-    const smileyFaceNode = new FaceNode( 150 /* headDiameter */, {
+    const smileyFaceNode = new FaceNode( 160 /* headDiameter */, {
       visibleProperty: level.isSolvedProperty
     } );
     smileyFaceNode.top = subitizerNode.top;
@@ -151,6 +153,12 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     newChallengeButton.centerX = smileyFaceNode.centerX;
     newChallengeButton.centerY = answerButtons.centerY;
     this.addChild( newChallengeButton );
+
+    const modelViewTransform = ModelViewTransform2.createOffsetScaleMapping( subitizerNode.center, 90 );
+
+    // create and add the subitizerView
+    const subitizerView = new SubitizerView( level.subitizerModel, modelViewTransform );
+    this.addChild( subitizerView );
   }
 
   /**
