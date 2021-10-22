@@ -91,11 +91,11 @@ class SubitizerModel {
 
         // generate random coordinates for the subitizeNumber positions
         while ( coordinates.length < subitizeNumber ) {
-          let randomX = dotRandom.nextIntBetween( -2, 2 );
-          let randomY = dotRandom.nextIntBetween( -1, 1 );
+          const randomX = dotRandom.nextIntBetween( -2, 2 );
+          const randomY = dotRandom.nextIntBetween( -1, 1 );
 
           // add a new coordinate if it doesn't exist yet
-          if ( _.find( coordinates, object => { return object.x === randomX && object.y === randomY } ) === undefined ) {
+          if ( _.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
             coordinates.push( { x: randomX, y: randomY } );
           }
         }

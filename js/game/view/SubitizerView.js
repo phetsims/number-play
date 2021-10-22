@@ -31,7 +31,7 @@ class SubitizerView extends Node {
 
       // create and add each object to the drawingNode
       coordinates.forEach( coordinate => {
-        const object = objectType === 'circle' ? new Circle( 20, { fill: Color.BLACK } ) : "";
+        const object = objectType === 'circle' ? new Circle( 20, { fill: Color.BLACK } ) : '';
         object.centerX = modelViewTransform.modelToViewX( coordinate.x );
         object.centerY = modelViewTransform.modelToViewY( coordinate.y );
         drawingNode.addChild( object );
