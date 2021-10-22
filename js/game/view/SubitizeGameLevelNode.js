@@ -9,7 +9,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -17,7 +16,6 @@ import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -28,10 +26,6 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerView from './SubitizerView.js';
-
-// constants
-const SUBITIZE_NODE_WIDTH = 425;
-const SUBITIZE_NODE_HEIGHT = 275;
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
@@ -53,21 +47,19 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     questionText.top = this.statusBar.bottom + 20; // empirically determined
     this.addChild( questionText );
 
-    // create and add the subitizerNode
-    //TODO: this is a placeholder, see https://github.com/phetsims/number-play/issues/62
-    const subitizerNode = new Rectangle( layoutBounds.centerX - SUBITIZE_NODE_WIDTH / 2, layoutBounds.centerY - SUBITIZE_NODE_HEIGHT / 2, SUBITIZE_NODE_WIDTH, SUBITIZE_NODE_HEIGHT, 10, 10, {
-      fill: 'white'
-    } );
-    subitizerNode.top = questionText.bottom + 15; // empirically determined
-    this.addChild( subitizerNode );
+    // create and add the subitizerView
+    const subitizerView = new SubitizerView( level.subitizerModel );
+    subitizerView.centerX = layoutBounds.centerX;
+    subitizerView.top = questionText.bottom + 15; // empirically determined
+    this.addChild( subitizerView );
 
     // create and add the speechSynthesisButton
     const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );
     speechSynthesisButton.setLeftCenter( questionText.getRightCenter() );
-    speechSynthesisButton.left = subitizerNode.right + 10; // empirically determined
+    speechSynthesisButton.left = subitizerView.right + 10; // empirically determined
     this.addChild( speechSynthesisButton );
 
-    // create and add the showAgainButton which flashes the content in the subitizerNode again
+    // create and add the showAgainButton which flashes the content in the subitizerView again
     const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
     const showAgainButton = new RectangularPushButton( {
       content: resetIcon,
@@ -76,22 +68,14 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       baseColor: new Color( 0x8DB3FF )
     } );
     showAgainButton.left = speechSynthesisButton.left;
-    showAgainButton.setBottom( subitizerNode.getBottom() );
+    showAgainButton.setBottom( subitizerView.getBottom() );
     this.addChild( showAgainButton );
-
-    // create and add subitizeNumberText
-    //TODO: this is a placeholder, see https://github.com/phetsims/number-play/issues/62
-    const subitizeNumberText = new Text( level.subitizeNumberProperty.value, {
-      font: new PhetFont( 60 )
-    } );
-    subitizeNumberText.center = subitizerNode.center;
-    this.addChild( subitizeNumberText );
 
     // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( 160 /* headDiameter */, {
       visible: false
     } );
-    this.frownyFaceNode.top = subitizerNode.top;
+    this.frownyFaceNode.top = subitizerView.top;
     this.frownyFaceNode.right = layoutBounds.maxX - 45; // empirically determined
     this.frownyFaceNode.frown();
     this.addChild( this.frownyFaceNode );
@@ -101,7 +85,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     const smileyFaceNode = new FaceNode( 160 /* headDiameter */, {
       visibleProperty: level.isSolvedProperty
     } );
-    smileyFaceNode.top = subitizerNode.top;
+    smileyFaceNode.top = subitizerView.top;
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
@@ -122,8 +106,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     // create and add the answerButtons
     const answerButtons = new NumberPlayGameAnswerButtons( level,
       pointsAwardedNodeVisibleProperty, showFrownyFace => this.toggleFrownyFaceVisibility( showFrownyFace ) );
-    answerButtons.centerX = subitizerNode.centerX;
-    answerButtons.top = subitizerNode.bottom + 40; // empirically determined
+    answerButtons.centerX = subitizerView.centerX;
+    answerButtons.top = subitizerView.bottom + 40; // empirically determined
     this.addChild( answerButtons );
 
     // listener for the next button and for resetting the level
@@ -132,7 +116,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       pointsAwardedNode.visible = false;
       answerButtons.reset();
       level.subitizeNumberProperty.value = dotRandom.nextIntBetween( 1, 5 );
-      subitizeNumberText.text = level.subitizeNumberProperty.value;
     };
     level.newSubitizeNumberEmitter.addListener( newChallenge );
 
@@ -153,12 +136,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     newChallengeButton.centerX = smileyFaceNode.centerX;
     newChallengeButton.centerY = answerButtons.centerY;
     this.addChild( newChallengeButton );
-
-    const modelViewTransform = ModelViewTransform2.createOffsetScaleMapping( subitizerNode.center, 90 );
-
-    // create and add the subitizerView
-    const subitizerView = new SubitizerView( level.subitizerModel, modelViewTransform );
-    this.addChild( subitizerView );
   }
 
   /**
