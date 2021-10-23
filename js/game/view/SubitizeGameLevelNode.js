@@ -25,7 +25,7 @@ import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
-import SubitizerView from './SubitizerView.js';
+import SubitizerNode from './SubitizerNode.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
@@ -47,19 +47,19 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     questionText.top = this.statusBar.bottom + 20; // empirically determined
     this.addChild( questionText );
 
-    // create and add the subitizerView
-    const subitizerView = new SubitizerView( level.subitizerModel );
-    subitizerView.centerX = layoutBounds.centerX;
-    subitizerView.top = questionText.bottom + 15; // empirically determined
-    this.addChild( subitizerView );
+    // create and add the subitizerNode
+    const subitizerNode = new SubitizerNode( level.subitizerModel );
+    subitizerNode.centerX = layoutBounds.centerX;
+    subitizerNode.top = questionText.bottom + 15; // empirically determined
+    this.addChild( subitizerNode );
 
     // create and add the speechSynthesisButton
     const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );
     speechSynthesisButton.setLeftCenter( questionText.getRightCenter() );
-    speechSynthesisButton.left = subitizerView.right + 10; // empirically determined
+    speechSynthesisButton.left = subitizerNode.right + 10; // empirically determined
     this.addChild( speechSynthesisButton );
 
-    // create and add the showAgainButton which flashes the content in the subitizerView again
+    // create and add the showAgainButton which flashes the content in the subitizerNode again
     const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
     const showAgainButton = new RectangularPushButton( {
       content: resetIcon,
@@ -68,14 +68,14 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       baseColor: new Color( 0x8DB3FF )
     } );
     showAgainButton.left = speechSynthesisButton.left;
-    showAgainButton.setBottom( subitizerView.getBottom() );
+    showAgainButton.setBottom( subitizerNode.getBottom() );
     this.addChild( showAgainButton );
 
     // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( 160 /* headDiameter */, {
       visible: false
     } );
-    this.frownyFaceNode.top = subitizerView.top;
+    this.frownyFaceNode.top = subitizerNode.top;
     this.frownyFaceNode.right = layoutBounds.maxX - 45; // empirically determined
     this.frownyFaceNode.frown();
     this.addChild( this.frownyFaceNode );
@@ -85,7 +85,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     const smileyFaceNode = new FaceNode( 160 /* headDiameter */, {
       visibleProperty: level.isSolvedProperty
     } );
-    smileyFaceNode.top = subitizerView.top;
+    smileyFaceNode.top = subitizerNode.top;
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
@@ -106,8 +106,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     // create and add the answerButtons
     const answerButtons = new NumberPlayGameAnswerButtons( level,
       pointsAwardedNodeVisibleProperty, showFrownyFace => this.toggleFrownyFaceVisibility( showFrownyFace ) );
-    answerButtons.centerX = subitizerView.centerX;
-    answerButtons.top = subitizerView.bottom + 40; // empirically determined
+    answerButtons.centerX = subitizerNode.centerX;
+    answerButtons.top = subitizerNode.bottom + 40; // empirically determined
     this.addChild( answerButtons );
 
     // listener for the next button and for resetting the level

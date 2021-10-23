@@ -15,12 +15,12 @@ const HEIGHT = 275; // empirically determined, in screen coordinates
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
 
 /**
- * SubitizerView displays the subitized objects in the view.
+ * SubitizerNode displays the subitized objects in the view.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-class SubitizerView extends Node {
+class SubitizerNode extends Node {
 
   /**
    * @param subitizerModel {SubitizerModel}
@@ -67,5 +67,5 @@ class SubitizerView extends Node {
   }
 }
 
-numberPlay.register( 'SubitizerView', SubitizerView );
-export default SubitizerView;
+numberPlay.register( 'SubitizerNode', SubitizerNode );
+export default SubitizerNode;
