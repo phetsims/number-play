@@ -9,13 +9,16 @@ import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import SubitizerModel from './SubitizerModel.js';
+import Range from '../../../../dot/js/Range.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
   /**
    * @param {number} levelNumber
+   * @param {number} minimumSubitizeNumber - minimum number to create a subitized representation for
+   * @param {number} maximumSubitizeNumber - maximum number to create a subitized representation for
    */
-  constructor( levelNumber ) {
+  constructor( levelNumber, minimumSubitizeNumber, maximumSubitizeNumber ) {
     super( levelNumber );
 
     // @public (read-only) {string} - message shown in the status bar that appears at the top of each level
@@ -26,11 +29,16 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     // @public (read-only) {StringProperty}
     this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
 
+    // @public (read-only) {Range} - the range of the subitize number representation for this level
+    this.subitizeRange = new Range( minimumSubitizeNumber, maximumSubitizeNumber );
+
     // @public {NumberProperty} - the random number generated to create a subitized representation for
-    this.subitizeNumberProperty = new NumberProperty( dotRandom.nextIntBetween( 1, 5 ) );
+    this.subitizeNumberProperty = new NumberProperty( this.getNextSubitizeNumber(), {
+      range: this.subitizeRange
+    } );
 
     // @public (read-only) {SubitizerModel}
-    this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty );
+    this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty, levelNumber === 1 );
 
     // @public Fires when the level is reset
     this.newSubitizeNumberEmitter = new Emitter();
@@ -42,6 +50,14 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   reset() {
     super.reset();
     this.newSubitizeNumberEmitter.emit();
+  }
+
+  /**
+   * @returns {number}
+   * @public
+   */
+  getNextSubitizeNumber() {
+    return dotRandom.nextIntBetween( this.subitizeRange.min, this.subitizeRange.max );
   }
 }
 

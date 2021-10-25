@@ -71,9 +71,10 @@ const SHAPES = {
 class SubitizerModel {
 
   /**
-   * @param subitizeNumberProperty {NumberProperty}
+   * @param {NumberProperty} subitizeNumberProperty
+   * @param {Boolean} randomAndArranged TODO: figure out the arranged patterns for level 2
    */
-  constructor( subitizeNumberProperty ) {
+  constructor( subitizeNumberProperty, randomAndArranged ) {
 
     // @public (read-only) {NumberProperty} - the rotation of the current shape
     this.rotationProperty = new NumberProperty( 0 );
@@ -83,8 +84,10 @@ class SubitizerModel {
       this.rotationProperty.reset();
       let coordinates = [];
 
-      // 50/50 chance whether the pattern uses an arranged configuration or a random one
-      if ( dotRandom.nextBoolean() ) {
+      // 50/50 chance whether the pattern uses an arranged configuration or a random one for level 1, level 2 always
+      // uses a random configuration
+      const arranged = randomAndArranged ? dotRandom.nextBoolean() : false;
+      if ( arranged ) {
 
         // pick out a random shape for the corresponding subitizeNumber
         const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );

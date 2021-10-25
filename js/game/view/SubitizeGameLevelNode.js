@@ -8,7 +8,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -115,7 +114,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       level.isSolvedProperty.reset();
       pointsAwardedNode.visible = false;
       answerButtons.reset();
-      level.subitizeNumberProperty.value = dotRandom.nextIntBetween( 1, 5 );
+      level.subitizeNumberProperty.value = level.getNextSubitizeNumber();
     };
     level.newSubitizeNumberEmitter.addListener( newChallenge );
 

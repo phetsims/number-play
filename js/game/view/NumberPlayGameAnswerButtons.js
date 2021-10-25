@@ -27,6 +27,7 @@ class NumberPlayGameAnswerButtons extends Node {
   /**
    * @param {SubitizeGameLevel} level
    * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
+   * @param {function(boolean)} toggleFrownyFaceVisibilityCallback
    */
   constructor( level, pointsAwardedNodeVisibleProperty, toggleFrownyFaceVisibilityCallback ) {
 
@@ -78,14 +79,13 @@ class NumberPlayGameAnswerButtons extends Node {
     };
 
     // create the buttons and green rectangles together
-    for ( let i = 0; i < 5; i++ ) {
-      const value = i + 1;
+    for ( let i = 0; i < level.subitizeRange.getLength() + 1; i++ ) {
+      const value = i + level.subitizeRange.min;
       const button = new RectangularPushButton( {
         content: new Text( value, ANSWER_BUTTON_TEXT_OPTIONS ),
         baseColor: Color.YELLOW,
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
-        xMargin: 26,
         yMargin: 24,
         listener: () => buttonListener( i )
       } );
