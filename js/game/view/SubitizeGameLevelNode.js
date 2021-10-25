@@ -64,7 +64,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       content: resetIcon,
       xMargin: 6,
       yMargin: 6,
-      baseColor: new Color( 0x8DB3FF )
+      baseColor: new Color( 0x8DB3FF ),
+      listener: () => {
+        level.subitizerModel.visibleProperty.value = true;
+      }
     } );
     showAgainButton.left = speechSynthesisButton.left;
     showAgainButton.setBottom( subitizerNode.getBottom() );
@@ -115,6 +118,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       pointsAwardedNode.visible = false;
       answerButtons.reset();
       level.subitizeNumberProperty.value = level.getNextSubitizeNumber();
+      level.subitizerModel.visibleProperty.value = true;
     };
     level.newSubitizeNumberEmitter.addListener( newChallenge );
 

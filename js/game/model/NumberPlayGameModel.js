@@ -42,6 +42,7 @@ class NumberPlayGameModel {
    * @public
    */
   step( dt ) {
+    this.levels.forEach( level => level.step( dt ) );
   }
 }
 

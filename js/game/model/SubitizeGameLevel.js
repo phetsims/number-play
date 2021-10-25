@@ -53,6 +53,14 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   }
 
   /**
+   * @param {number} dt
+   * @public
+   */
+  step( dt ) {
+    this.subitizerModel.step( dt );
+  }
+
+  /**
    * @returns {number}
    * @public
    */

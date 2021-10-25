@@ -1,5 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -61,6 +62,7 @@ const SHAPES = {
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
+const SUBITIZER_TIME_VISIBLE = 0.5; // in seconds, specified by designers
 
 /**
  * SubitizerModel generates the arranged and random patterns of the objects.
@@ -75,6 +77,9 @@ class SubitizerModel {
    * @param {Boolean} randomAndArranged TODO: figure out the arranged patterns for level 2
    */
   constructor( subitizeNumberProperty, randomAndArranged ) {
+
+    // @public {NumberProperty} - whether the current shape is visible
+    this.visibleProperty = new BooleanProperty( true );
 
     // @public (read-only) {NumberProperty} - the rotation of the current shape
     this.rotationProperty = new NumberProperty( 0 );
@@ -116,6 +121,26 @@ class SubitizerModel {
       return coordinates;
     } );
 
+    // @private - the number of seconds the sim clock has run since the subitizer was made visible
+    this.secondsSinceVisible = 0;
+  }
+
+  /**
+   * @param {number} dt
+   * @public
+   */
+  step( dt ) {
+
+    // keep adding to secondsSinceVisible if the subitizer is visible
+    if ( this.visibleProperty.value ) {
+      this.secondsSinceVisible += dt;
+
+      // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
+      if ( this.secondsSinceVisible > SUBITIZER_TIME_VISIBLE ) {
+        this.visibleProperty.value = false;
+        this.secondsSinceVisible = 0;
+      }
+    }
   }
 }
 

@@ -39,7 +39,9 @@ class SubitizerNode extends Node {
     const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 90 );
 
     // create and add the drawingNode, which is where the objects are added to and it rotates if rotationProperty is set
-    const drawingNode = new Node();
+    const drawingNode = new Node( {
+      visibleProperty: subitizerModel.visibleProperty
+    } );
     this.addChild( drawingNode );
 
     // update the view shape when the model coordinates change
