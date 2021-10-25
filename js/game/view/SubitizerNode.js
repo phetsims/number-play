@@ -38,31 +38,28 @@ class SubitizerNode extends Node {
     // for scaling the objects
     const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 90 );
 
-    // create and add the drawingNode, which is what the rotationNode is added to
+    // create and add the drawingNode, which is where the objects are added to and it rotates if rotationProperty is set
     const drawingNode = new Node();
     this.addChild( drawingNode );
 
     // update the view shape when the model coordinates change
     subitizerModel.coordinatesProperty.link( coordinates => {
+      drawingNode.setRotation( 0 );
       drawingNode.removeAllChildren();
 
-      // create the rotationNode, where the objects are added
-      const rotationNode = new Node();
-
-      // create and add each object to the rotationNode
+      // create and add each object to the drawingNode
       coordinates.forEach( coordinate => {
         const object = new Circle( 20, { fill: Color.BLACK } ); // TODO: use more than one object
         object.centerX = scaleMVT.modelToViewX( coordinate.x );
         object.centerY = scaleMVT.modelToViewY( coordinate.y );
-        rotationNode.addChild( object );
+        drawingNode.addChild( object );
       } );
 
-      // rotate the rotationNode randomly if a rotationProperty value exists
+      // rotate the drawingNode randomly if a rotationProperty value exists
       if ( subitizerModel.rotationProperty.value && dotRandom.nextBoolean() ) {
-        rotationNode.rotateAround( rotationNode.center, subitizerModel.rotationProperty.value );
+        drawingNode.setRotation( subitizerModel.rotationProperty.value );
       }
 
-      drawingNode.addChild( rotationNode );
     } );
   }
 }
