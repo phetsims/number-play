@@ -104,7 +104,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
     // create and add the answerButtons
     const answerButtons = new NumberPlayGameAnswerButtons( level,
-      pointsAwardedNodeVisibleProperty, showFrownyFace => this.toggleFrownyFaceVisibility( showFrownyFace ) );
+      pointsAwardedNodeVisibleProperty, showFrownyFace => this.setFrownyFaceVisibility( showFrownyFace ) );
     answerButtons.centerX = subitizerNode.centerX;
     answerButtons.top = subitizerNode.bottom + 40; // empirically determined
     this.addChild( answerButtons );
@@ -143,7 +143,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * @param {boolean} showFrownyFace
    * @private
    */
-  toggleFrownyFaceVisibility( showFrownyFace ) {
+  setFrownyFaceVisibility( showFrownyFace ) {
 
     this.frownyFaceNode.visible = showFrownyFace;
 

@@ -27,9 +27,9 @@ class NumberPlayGameAnswerButtons extends Node {
   /**
    * @param {SubitizeGameLevel} level
    * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
-   * @param {function(boolean)} toggleFrownyFaceVisibilityCallback
+   * @param {function(boolean)} setFrownyFaceVisibilityCallback
    */
-  constructor( level, pointsAwardedNodeVisibleProperty, toggleFrownyFaceVisibilityCallback ) {
+  constructor( level, pointsAwardedNodeVisibleProperty, setFrownyFaceVisibilityCallback ) {
 
     super();
 
@@ -55,7 +55,7 @@ class NumberPlayGameAnswerButtons extends Node {
       // this button is the correct answer button
       if ( level.subitizeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
-        toggleFrownyFaceVisibilityCallback( false );
+        setFrownyFaceVisibilityCallback( false );
 
         this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
 
@@ -71,7 +71,7 @@ class NumberPlayGameAnswerButtons extends Node {
       }
       else {
         pointsAwardedNodeVisibleProperty.value = false;
-        toggleFrownyFaceVisibilityCallback( true );
+        setFrownyFaceVisibilityCallback( true );
 
         // disable incorrect answer button
         buttonObject.button.setEnabled( false );
