@@ -1,8 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlay from '../../numberPlay.js';
@@ -78,6 +78,9 @@ class SubitizerModel {
    */
   constructor( subitizeNumberProperty, randomAndArranged ) {
 
+    // @public {NumberProperty}
+    this.subitizeNumberProperty = subitizeNumberProperty;
+
     // @public {NumberProperty} - whether the current shape is visible
     this.visibleProperty = new BooleanProperty( true );
 
@@ -85,44 +88,19 @@ class SubitizerModel {
     this.rotationProperty = new NumberProperty( 0 );
 
     // @public (read-only) {DerivedProperty.<Vector2[]>} - the coordinates of the current shape
-    this.coordinatesProperty = new DerivedProperty( [ subitizeNumberProperty ], subitizeNumber => {
-      this.rotationProperty.reset();
-      let coordinates = [];
-
-      // 50/50 chance whether the pattern uses an arranged configuration or a random one for level 1, level 2 always
-      // uses a random configuration
-      const arranged = randomAndArranged ? dotRandom.nextBoolean() : false;
-      if ( arranged ) {
-
-        // pick out a random shape for the corresponding subitizeNumber
-        const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
-        const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
-        coordinates = shape.coordinates;
-
-        // if the shape has rotations available, randomly pick one to assign
-        if ( shape.rotations.length ) {
-          const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
-          this.rotationProperty.value = shape.rotations[ randomRotationIndex ];
-        }
-      }
-      else {
-
-        // generate random coordinates for the subitizeNumber positions
-        while ( coordinates.length < subitizeNumber ) {
-          const randomX = dotRandom.nextIntBetween( -2, 2 );
-          const randomY = dotRandom.nextIntBetween( -1, 1 );
-
-          // add a new coordinate if it doesn't exist yet
-          if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
-            coordinates.push( new Vector2( randomX, randomY ) );
-          }
-        }
-      }
-      return coordinates;
+    this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
+      valueType: Array,
+      arrayElementType: Vector2
     } );
+
+    // @private - whether we can choose to use a random and arranged pattern
+    this.randomAndArranged = randomAndArranged;
 
     // @private - the number of seconds the sim clock has run since the subitizer was made visible
     this.secondsSinceVisible = 0;
+
+    // initialize first set of coordinates
+    this.setNewCoordinates();
   }
 
   /**
@@ -141,6 +119,76 @@ class SubitizerModel {
         this.secondsSinceVisible = 0;
       }
     }
+  }
+
+  /**
+   * Sets this.coordinatesProperty with new coordinates for the current subitizeNumber
+   * @public
+   */
+  setNewCoordinates() {
+    const subitizeNumber = this.subitizeNumberProperty.value;
+    this.rotationProperty.reset();
+    let coordinates = [];
+
+    // 50/50 chance whether the pattern uses an arranged configuration or a random one for level 1, level 2 always
+    // uses a random configuration
+    const arranged = this.randomAndArranged ? dotRandom.nextBoolean() : false;
+    if ( arranged ) {
+
+      // pick out a random shape for the corresponding subitizeNumber
+      const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
+      const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
+      coordinates = shape.coordinates;
+
+      // if the shape has rotations available, randomly pick one to assign
+      if ( shape.rotations.length ) {
+        const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
+        this.rotationProperty.value = shape.rotations[ randomRotationIndex ];
+      }
+    }
+    else {
+
+      // generate random coordinates for the subitizeNumber positions
+      while ( coordinates.length < subitizeNumber ) {
+        const randomX = dotRandom.nextIntBetween( -2, 2 );
+        const randomY = dotRandom.nextIntBetween( -1, 1 );
+
+        // add a new coordinate if it doesn't exist yet
+        if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
+          coordinates.push( new Vector2( randomX, randomY ) );
+        }
+      }
+    }
+
+    if ( !this.isSameCoordinates( this.coordinatesProperty.value, coordinates ) ) {
+      this.coordinatesProperty.value = coordinates;
+    }
+    else {
+      this.setNewCoordinates();
+    }
+  }
+
+  /**
+   * Compares two sets of coordinates and returns if they are equal or not
+   *
+   * @param {Vector2[]} coordinatesSetOne
+   * @param {Vector2[]} coordinatesSetTwo
+   * @returns {boolean}
+   * @private
+   */
+  isSameCoordinates( coordinatesSetOne, coordinatesSetTwo ) {
+    let coordinatesAreEqual = true;
+    if ( coordinatesSetOne.length === coordinatesSetTwo.length ) {
+      for ( let i = 0; i < coordinatesSetOne.length; i++ ) {
+        if ( !coordinatesSetOne[ i ].equals( coordinatesSetTwo[ i ] ) ) {
+          return false;
+        }
+      }
+    }
+    else {
+      coordinatesAreEqual = false;
+    }
+    return coordinatesAreEqual;
   }
 }
 

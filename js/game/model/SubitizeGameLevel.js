@@ -4,12 +4,12 @@ import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import Range from '../../../../dot/js/Range.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import SubitizerModel from './SubitizerModel.js';
-import Range from '../../../../dot/js/Range.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
@@ -33,9 +33,14 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.subitizeRange = new Range( minimumSubitizeNumber, maximumSubitizeNumber );
 
     // @public {NumberProperty} - the random number generated to create a subitized representation for
-    this.subitizeNumberProperty = new NumberProperty( this.getNextSubitizeNumber(), {
+    this.subitizeNumberProperty = new NumberProperty( this.getNewSubitizeNumber(), {
       range: this.subitizeRange
     } );
+
+    // @private - used to store old subitizeNumber values. this.oldSubitizeNumberOne tracks the most recent value of
+    // this.subitizeNumberProperty, and this.oldSubitizeNumberTwo tracks the value used before that.
+    this.oldSubitizeNumberOne = this.subitizeNumberProperty.value;
+    this.oldSubitizeNumberTwo = this.subitizeNumberProperty.value;
 
     // @public (read-only) {SubitizerModel}
     this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty, levelNumber === 1 );
@@ -60,11 +65,33 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.subitizerModel.step( dt );
   }
 
+
   /**
-   * @returns {number}
+   * Sets a new subitize number. Can be the value of the previous subitize number, but there cannot be three of the same
+   * number in a row.
+   *
    * @public
    */
-  getNextSubitizeNumber() {
+  setNewSubitizeNumber() {
+    assert && assert( this.subitizeRange.min !== this.subitizeRange.max,
+      `subitizeRange must contain more than one number: ${this.subitizeRange.toString()}` );
+
+    // shift values down to make room for a new subitize number
+    this.oldSubitizeNumberTwo = this.oldSubitizeNumberOne;
+    this.oldSubitizeNumberOne = this.subitizeNumberProperty.value;
+
+    let newSubitizeNumber = this.getNewSubitizeNumber();
+    while ( newSubitizeNumber === this.oldSubitizeNumberOne && newSubitizeNumber === this.oldSubitizeNumberTwo ) {
+      newSubitizeNumber = this.getNewSubitizeNumber();
+    }
+    this.subitizeNumberProperty.value = newSubitizeNumber;
+  }
+
+  /**
+   * @returns {number}
+   * @private
+   */
+  getNewSubitizeNumber() {
     return dotRandom.nextIntBetween( this.subitizeRange.min, this.subitizeRange.max );
   }
 }
