@@ -130,10 +130,10 @@ class SubitizerModel {
     this.rotationProperty.reset();
     let coordinates = [];
 
-    // 50/50 chance whether the pattern uses an arranged configuration or a random one for level 1, level 2 always
+    // 60/40 chance whether the pattern uses an random configuration or an arranged one for level 1, level 2 always
     // uses a configuration in a randomly set pattern/array
     if ( this.randomAndArranged ) {
-      if ( dotRandom.nextBoolean() ) {
+      if ( dotRandom.nextDouble() >= 0.4 ) {
 
         // pick out a random shape for the corresponding subitizeNumber
         const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
