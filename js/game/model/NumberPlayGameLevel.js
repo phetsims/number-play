@@ -30,6 +30,9 @@ class NumberPlayGameLevel {
     // @public {BooleanProperty} - Whether the current challenge has been solved. A challenge is considered solved when
     // the user has correctly guessed the answer
     this.isSolvedProperty = new BooleanProperty( false );
+
+    // @public {BooleanProperty} - Whether the current challenge has not been solved.
+    this.isNotSolvedProperty = new BooleanProperty( true );
   }
 
   /**

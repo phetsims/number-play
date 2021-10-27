@@ -55,6 +55,7 @@ class NumberPlayGameAnswerButtons extends Node {
       // this button is the correct answer button
       if ( level.subitizeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
+        level.isNotSolvedProperty.value = false;
         setFrownyFaceVisibilityCallback( false );
 
         this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
@@ -92,9 +93,9 @@ class NumberPlayGameAnswerButtons extends Node {
 
       // create and replace the correct answer button with a rectangle and the correct number on top
       const rectangle = new Rectangle( 0, 0, BUTTON_DIMENSION.width, BUTTON_DIMENSION.height, {
-          fill: Color.GREEN,
-          cornerRadius: 10
-        } );
+        fill: Color.GREEN,
+        cornerRadius: 10
+      } );
       const correctAnswerText = new Text( value, ANSWER_BUTTON_TEXT_OPTIONS );
       correctAnswerText.center = rectangle.center;
       rectangle.addChild( correctAnswerText );

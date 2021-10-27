@@ -65,6 +65,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       xMargin: 6,
       yMargin: 6,
       baseColor: new Color( 0x8DB3FF ),
+      enabledProperty: level.isNotSolvedProperty,
       listener: () => {
         level.subitizerModel.visibleProperty.value = true;
       }
@@ -115,6 +116,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     // listener for the next button and for resetting the level
     const newChallenge = () => {
       level.isSolvedProperty.reset();
+      level.isNotSolvedProperty.reset();
       pointsAwardedNode.visible = false;
       answerButtons.reset();
       level.setNewSubitizeNumber();
