@@ -131,31 +131,56 @@ class SubitizerModel {
     let coordinates = [];
 
     // 50/50 chance whether the pattern uses an arranged configuration or a random one for level 1, level 2 always
-    // uses a random configuration
-    const arranged = this.randomAndArranged ? dotRandom.nextBoolean() : false;
-    if ( arranged ) {
+    // uses a configuration in a randomly set pattern/array
+    if ( this.randomAndArranged ) {
+      if ( dotRandom.nextBoolean() ) {
 
-      // pick out a random shape for the corresponding subitizeNumber
-      const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
-      const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
-      coordinates = shape.coordinates;
+        // pick out a random shape for the corresponding subitizeNumber
+        const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
+        const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
+        coordinates = shape.coordinates;
 
-      // if the shape has rotations available, randomly pick one to assign
-      if ( shape.rotations.length ) {
-        const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
-        this.rotationProperty.value = shape.rotations[ randomRotationIndex ];
+        // if the shape has rotations available, randomly pick one to assign
+        if ( shape.rotations.length ) {
+          const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
+          this.rotationProperty.value = shape.rotations[ randomRotationIndex ];
+        }
+      }
+      else {
+
+        // generate random coordinates for the subitizeNumber positions
+        while ( coordinates.length < subitizeNumber ) {
+          const randomX = dotRandom.nextIntBetween( -2, 2 );
+          const randomY = dotRandom.nextIntBetween( -1, 1 );
+
+          // add a new coordinate if it doesn't exist yet
+          if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
+            coordinates.push( new Vector2( randomX, randomY ) );
+          }
+        }
       }
     }
     else {
 
-      // generate random coordinates for the subitizeNumber positions
-      while ( coordinates.length < subitizeNumber ) {
-        const randomX = dotRandom.nextIntBetween( -2, 2 );
-        const randomY = dotRandom.nextIntBetween( -1, 1 );
+      // get a random numberOfRows and set the numberOfColumns
+      const maxNumberOfRows = 3;
+      const minNumberOfRows = 2;
+      const numberOfRows = dotRandom.nextIntBetween( minNumberOfRows, maxNumberOfRows );
+      let numberOfColumns = 0;
 
-        // add a new coordinate if it doesn't exist yet
-        if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
-          coordinates.push( new Vector2( randomX, randomY ) );
+      // get the number of necessary columns to fit all the object representations to subitize
+      while ( numberOfColumns * numberOfRows < subitizeNumber ) {
+        numberOfColumns++;
+      }
+
+      // create and add the coordinates
+      const startX = ( numberOfColumns - 1 ) / -2;
+      const startY = ( numberOfRows - 1 ) / -2;
+      for ( let j = 0; j < numberOfRows; j++ ) {
+        for ( let i = 0; i < numberOfColumns; i++ ) {
+          if ( coordinates.length < subitizeNumber ) {
+            coordinates.push( new Vector2( startX + i, startY + j ) );
+          }
         }
       }
     }
