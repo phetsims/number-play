@@ -217,6 +217,13 @@ class NumberPlayScreenView extends ScreenView {
     organizeObjectsButton.centerX = resetAllButton.centerX;
     organizeObjectsButton.top = this.objectsAccordionBox.top;
     this.addChild( organizeObjectsButton );
+
+    // set the visibility of the organize buttons based on the state of grouping/linking
+    model.groupingLinkingTypeProperty.link( groupingLinkingType => {
+      organizeOnesButton.visible = groupingLinkingType === GroupingLinkingType.NO_GROUPING ||
+                                   groupingLinkingType === GroupingLinkingType.GROUPING;
+      organizeObjectsButton.visible = groupingLinkingType === GroupingLinkingType.NO_GROUPING;
+    } );
   }
 
   /**
