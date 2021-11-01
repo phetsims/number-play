@@ -39,7 +39,7 @@ class NumberPlayModel {
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
 
     // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
+    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty, false );
   }
 
   /**

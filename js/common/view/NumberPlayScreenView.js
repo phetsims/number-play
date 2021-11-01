@@ -194,7 +194,7 @@ class NumberPlayScreenView extends ScreenView {
     const organizeOnesButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
-        // model.onesPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model, then bring it back
+        model.onesPlayArea.organizeObjects();
       },
       baseColor: NumberPlayConstants.PURPLE_BACKGROUND,
       xMargin: xMargin,
@@ -208,7 +208,7 @@ class NumberPlayScreenView extends ScreenView {
     const organizeObjectsButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
-        // model.objectsPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model, then bring it back
+        model.objectsPlayArea.organizeObjects();
       },
       baseColor: NumberPlayConstants.BLUE_BACKGROUND,
       xMargin: xMargin,
