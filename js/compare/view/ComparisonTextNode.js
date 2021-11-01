@@ -41,7 +41,7 @@ class ComparisonTextNode extends Node {
       const comparisonString = leftCurrentNumber < rightCurrentNumber ? isLessThanString :
                                leftCurrentNumber > rightCurrentNumber ? isMoreThanString : isEqualToString;
       const rightNumberString = NumberPlayConstants.NUMBER_TO_STRING[ rightCurrentNumber ];
-      return `${leftNumberString} ${comparisonString} ${rightNumberString}`;
+      return `${leftNumberString} ${comparisonString} ${rightNumberString}.`;
     };
 
     // @public (read-only) {DerivedProperty.<string>} - update the comparison string when either current number changes.
