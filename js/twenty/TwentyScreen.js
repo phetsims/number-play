@@ -49,7 +49,7 @@ class TwentyScreen extends Screen {
         speakerButtonOffset: new Vector2( 0, 38 ),
         speakerButtonScale: 0.8
       },
-      numeralAccordionBoxConfig: {
+      totalAccordionBoxConfig: {
         fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND,
         font: new PhetFont( 76 ),
         arrowButtonConfig: {

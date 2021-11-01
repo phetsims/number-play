@@ -47,8 +47,8 @@ const NumberPlayConstants = {
 
   // accordion box sizing, all of which is defined here for convenience. values come from the screen design asset.
 
-  // sizing for the 'upper' accordion boxes, which include the 'Number', 'Numeral', and 'Ten Frame' accordion boxes
-  NUMERAL_ACCORDION_BOX_WIDTH: 192,         // width of the 'Numeral' accordion box on both screens
+  // sizing for the 'upper' accordion boxes, which include the 'Number', 'Total', and 'Ten Frame' accordion boxes
+  TOTAL_ACCORDION_BOX_WIDTH: 192,         // width of the 'Total' accordion box on both screens
   UPPER_OUTER_ACCORDION_BOX_WIDTH: 304,     // width of the accordion boxes in the upper left and right of both screens
   UPPER_OUTER_AB_TITLE_MAX_WIDTH: 254,      // max width of the title of the upper outer accordion boxes
   TEN_UPPER_ACCORDION_BOX_HEIGHT: 146,      // height of the upper accordion boxes on the 'Ten' screen

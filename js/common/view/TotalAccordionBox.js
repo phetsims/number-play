@@ -1,7 +1,7 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
 /**
- * Class for the 'Numeral' accordion box, which is the panel in the top center of the sim that displays a numerical
+ * Class for the 'Total' accordion box, which is the panel in the top center of the sim that displays a numerical
  * representation of the current number.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -20,9 +20,9 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
-const numeralString = numberPlayStrings.numeral;
+const totalString = numberPlayStrings.total;
 
-class NumeralAccordionBox extends AccordionBox {
+class TotalAccordionBox extends AccordionBox {
 
   /**
    * @param {NumberProperty} currentNumberProperty
@@ -32,12 +32,12 @@ class NumeralAccordionBox extends AccordionBox {
   constructor( currentNumberProperty, height, config ) {
 
     config = merge( {
-      titleNode: new Text( numeralString, {
+      titleNode: new Text( totalString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: 142 // empirically determined to not shrink accordion box content
       } ),
-      minWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.NUMERAL_ACCORDION_BOX_WIDTH,
+      minWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH,
+      maxWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH,
 
       font: required( config.font ), // {Font} - font of the displayed string value
       arrowButtonConfig: {
@@ -91,5 +91,5 @@ class NumeralAccordionBox extends AccordionBox {
   }
 }
 
-numberPlay.register( 'NumeralAccordionBox', NumeralAccordionBox );
-export default NumeralAccordionBox;
+numberPlay.register( 'TotalAccordionBox', TotalAccordionBox );
+export default TotalAccordionBox;

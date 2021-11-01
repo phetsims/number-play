@@ -48,7 +48,7 @@ class TenScreen extends Screen {
         speakerButtonOffset: new Vector2( 16, 6 ),
         speakerButtonScale: 1
       },
-      numeralAccordionBoxConfig: {
+      totalAccordionBoxConfig: {
         fill: NumberPlayConstants.LIGHT_ORANGE_BACKGROUND,
         font: new PhetFont( 98 ),
         contentXMargin: 0, // zero out to manage x margins in subclass
