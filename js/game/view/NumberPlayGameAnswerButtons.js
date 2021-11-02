@@ -55,7 +55,6 @@ class NumberPlayGameAnswerButtons extends Node {
       // this button is the correct answer button
       if ( level.subitizeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
-        level.isNotSolvedProperty.value = false;
         setFrownyFaceVisibilityCallback( false );
         level.subitizerModel.isPlayingProperty.value = false;
         level.subitizerModel.visibleProperty.value = true;
@@ -111,7 +110,7 @@ class NumberPlayGameAnswerButtons extends Node {
 
     // @private {HBox}
     this.hbox = new HBox( {
-      children: this.buttonObjects.map( buttonRectangle => buttonRectangle.button ),
+      children: this.buttonObjects.map( buttonObject => buttonObject.button ),
       spacing: 40
     } );
     this.addChild( this.hbox );

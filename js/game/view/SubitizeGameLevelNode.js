@@ -8,6 +8,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -66,7 +67,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       xMargin: 6,
       yMargin: 6,
       baseColor: new Color( 0x8DB3FF ),
-      enabledProperty: level.isNotSolvedProperty,
+      enabledProperty: new DerivedProperty( [ level.isSolvedProperty ], isSolved => !isSolved ),
       listener: () => {
         level.subitizerModel.visibleProperty.value = true;
       }
@@ -117,7 +118,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     // listener for the next button and for resetting the level
     const newChallenge = () => {
       level.isSolvedProperty.reset();
-      level.isNotSolvedProperty.reset();
       pointsAwardedNode.visible = false;
       answerButtons.reset();
       level.setNewSubitizeNumber();

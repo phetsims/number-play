@@ -76,7 +76,7 @@ class SubitizerModel {
 
   /**
    * @param {NumberProperty} subitizeNumberProperty
-   * @param {Boolean} randomAndArranged TODO: figure out the arranged patterns for level 2
+   * @param {Boolean} randomAndArranged
    */
   constructor( subitizeNumberProperty, randomAndArranged ) {
 
