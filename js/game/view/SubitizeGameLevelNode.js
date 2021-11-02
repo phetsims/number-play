@@ -20,6 +20,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
@@ -122,6 +123,9 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       level.setNewSubitizeNumber();
       level.subitizerModel.setNewCoordinates();
       level.subitizerModel.isPlayingProperty.reset();
+      if ( NumberPlayQueryParameters.showCorrectAnswer ) {
+        answerButtons.showCorrectAnswer( level.subitizeNumberProperty );
+      }
     };
     level.newSubitizeNumberEmitter.addListener( newChallenge );
 

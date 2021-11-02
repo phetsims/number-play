@@ -115,6 +115,20 @@ class NumberPlayGameAnswerButtons extends Node {
       spacing: 40
     } );
     this.addChild( this.hbox );
+
+    // @private - for use in showCorrectAnswer
+    this.buttonListener = buttonListener;
+  }
+
+  /**
+   * Fires button listener on the correct answer button.
+   *
+   * @param {NumberProperty} subitizeNumberProperty
+   * @public
+   */
+  showCorrectAnswer( subitizeNumberProperty ) {
+    const index = subitizeNumberProperty.value - subitizeNumberProperty.range.min;
+    this.buttonListener( index );
   }
 
   /**
