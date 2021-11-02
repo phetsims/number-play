@@ -3,6 +3,7 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlay from '../../numberPlay.js';
@@ -63,6 +64,7 @@ const SHAPES = {
   } ]
 };
 const SUBITIZER_TIME_VISIBLE = 0.5; // in seconds, specified by designers
+const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
 
 /**
  * SubitizerModel generates the arranged and random patterns of the objects.
@@ -101,6 +103,8 @@ class SubitizerModel {
 
     // initialize first set of coordinates
     this.setNewCoordinates();
+
+    this.objectWidth = OBJECT_WIDTH;
   }
 
   /**
@@ -150,11 +154,12 @@ class SubitizerModel {
 
         // generate random coordinates for the subitizeNumber positions
         while ( coordinates.length < subitizeNumber ) {
-          const randomX = dotRandom.nextIntBetween( -2, 2 );
-          const randomY = dotRandom.nextIntBetween( -1, 1 );
+          const randomX = dotRandom.nextDoubleBetween( -2, 2 );
+          const randomY = dotRandom.nextDoubleBetween( -1, 1 );
 
-          // add a new coordinate if it doesn't exist yet
-          if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) ) {
+          // add a new coordinate if it doesn't exist yet and does not overlap with the existing coordinates
+          const objectsOverlap = this.objectsOverlap( coordinates, randomX, randomY );
+          if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
             coordinates.push( new Vector2( randomX, randomY ) );
           }
         }
@@ -191,6 +196,37 @@ class SubitizerModel {
     else {
       this.setNewCoordinates();
     }
+  }
+
+  /**
+   * Compares the bounds of a coordinate to be added to all other existing coordinates and returns if the coordinate to
+   * be added overlaps with any existing coordinate
+   * @param {Vector2[][]} coordinates
+   * @param {number} randomX - X coordinate
+   * @param {number} randomY - Y coordinate
+   * @returns {boolean}
+   * @private
+   */
+  objectsOverlap( coordinates, randomX, randomY ) {
+    let overlap = false;
+    const objectTotalWidth = OBJECT_WIDTH + 0.1;
+    const objectTotalHalfWidth = objectTotalWidth / 2;
+    if ( coordinates.length > 0 ) {
+      for ( let i = 0; i < coordinates.length; i++ ) {
+        console.log( 'trying new coordinates' );
+        const coordinate = coordinates[ i ];
+        const coordinateObjectBounds = new Bounds2( coordinate.x - objectTotalHalfWidth, coordinate.y - objectTotalHalfWidth, coordinate.x + objectTotalHalfWidth, coordinate.y + objectTotalHalfWidth );
+        console.log( 'coordinateObjectBounds ' + coordinateObjectBounds );
+        const randomObjectBounds = new Bounds2( randomX - objectTotalHalfWidth, randomY - objectTotalHalfWidth, randomX + objectTotalHalfWidth, randomY + objectTotalHalfWidth );
+        console.log( 'randomObjectBounds ' + randomObjectBounds );
+        overlap = coordinateObjectBounds.intersectsBounds( randomObjectBounds );
+        console.log( overlap );
+        if ( overlap ) {
+          break;
+        }
+      }
+    }
+    return overlap;
   }
 
   /**

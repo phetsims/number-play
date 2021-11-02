@@ -51,7 +51,7 @@ class SubitizerNode extends Node {
 
       // create and add each object to the drawingNode
       coordinates.forEach( coordinate => {
-        const object = new Circle( 20, { fill: Color.BLACK } ); // TODO: use more than one object
+        const object = new Circle( scaleMVT.modelToViewDeltaX( subitizerModel.objectWidth * 0.5 ), { fill: Color.BLACK } ); // TODO: use more than one object
         object.centerX = scaleMVT.modelToViewX( coordinate.x );
         object.centerY = scaleMVT.modelToViewY( coordinate.y );
         drawingNode.addChild( object );
