@@ -202,7 +202,7 @@ class SubitizerModel {
    *
    * @param {Vector2[]} coordinates
    * @param {number} rotationAngle - in radians
-   * @returns {Vector2[]} coordinates
+   * @returns {Vector2[]}
    * @private
    */
   rotateCoordinates( coordinates, rotationAngle ) {
