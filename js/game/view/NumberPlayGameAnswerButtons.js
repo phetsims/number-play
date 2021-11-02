@@ -57,6 +57,8 @@ class NumberPlayGameAnswerButtons extends Node {
         level.isSolvedProperty.value = true;
         level.isNotSolvedProperty.value = false;
         setFrownyFaceVisibilityCallback( false );
+        level.subitizerModel.isPlayingProperty.value = false;
+        level.subitizerModel.visibleProperty.value = true;
 
         this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
 

@@ -105,6 +105,9 @@ class SubitizerModel {
     this.setNewCoordinates();
 
     this.objectWidth = OBJECT_WIDTH;
+
+    // @public {Property.<boolean>} - indicates the play/pause state of the subitizer model. Manipulated only in the view.
+    this.isPlayingProperty = new BooleanProperty( true );
   }
 
   /**
@@ -113,8 +116,8 @@ class SubitizerModel {
    */
   step( dt ) {
 
-    // keep adding to secondsSinceVisible if the subitizer is visible
-    if ( this.visibleProperty.value ) {
+    // keep adding to secondsSinceVisible if the subitizer is visible and not paused
+    if ( this.visibleProperty.value && this.isPlayingProperty.value ) {
       this.secondsSinceVisible += dt;
 
       // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired

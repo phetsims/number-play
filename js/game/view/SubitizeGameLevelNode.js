@@ -121,7 +121,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       answerButtons.reset();
       level.setNewSubitizeNumber();
       level.subitizerModel.setNewCoordinates();
-      level.subitizerModel.visibleProperty.value = true;
+      level.subitizerModel.isPlayingProperty.reset();
     };
     level.newSubitizeNumberEmitter.addListener( newChallenge );
 
