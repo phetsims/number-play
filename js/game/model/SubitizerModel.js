@@ -4,6 +4,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlay from '../../numberPlay.js';
 
@@ -143,7 +144,7 @@ class SubitizerModel {
         coordinates = shape.coordinates;
 
         // if the shape has rotations available, randomly pick one to assign
-        if ( shape.rotations.length ) {
+        if ( shape.rotations.length && dotRandom.nextBoolean() ) {
           const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
           coordinates = this.rotateCoordinates( coordinates, shape.rotations[ randomRotationIndex ] );
         }
@@ -197,15 +198,22 @@ class SubitizerModel {
   }
 
   /**
-   * Rotate the coordinates shape around the center
-   * @param {Vector2[][]} coordinates
-   * @param {number} rotationAngle
-   * @returns {Vector2[][]} coordinates
+   * Rotate each coordinate of the shape shape around the origin.
+   *
+   * @param {Vector2[]} coordinates
+   * @param {number} rotationAngle - in radians
+   * @returns {Vector2[]} coordinates
    * @private
    */
   rotateCoordinates( coordinates, rotationAngle ) {
-    // rotate the shape randomly
-    return coordinates;
+    const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
+
+    const rotatedCoordinates = [];
+    coordinates.forEach( point => {
+      rotatedCoordinates.push( rotationMatrix.timesVector2( point ) );
+    } );
+
+    return rotatedCoordinates;
   }
 
   /**
