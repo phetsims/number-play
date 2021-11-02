@@ -1,5 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
@@ -8,6 +10,7 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import numberPlay from '../../numberPlay.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 
 // constants
 const WIDTH = 425; // empirically determined, in screen coordinates
@@ -49,9 +52,22 @@ class SubitizerNode extends Node {
       drawingNode.setRotation( 0 );
       drawingNode.removeAllChildren();
 
+      // create array of objects available and choose a random object from that array
+      const objectTypes = [ 'CIRCLE' ];
+      PlayObjectType.VALUES.forEach( playObjectType => objectTypes.push( playObjectType ) );
+      const randomObject = dotRandom.sample( objectTypes );
+
       // create and add each object to the drawingNode
       coordinates.forEach( coordinate => {
-        const object = new Circle( scaleMVT.modelToViewDeltaX( subitizerModel.objectWidth * 0.5 ), { fill: Color.BLACK } ); // TODO: use more than one object
+        let object;
+        if ( randomObject === 'CIRCLE' ) {
+          object = new Circle( scaleMVT.modelToViewDeltaX( subitizerModel.objectWidth * 0.5 ), { fill: Color.BLACK } );
+        }
+        else {
+          object = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ randomObject ], {
+            maxHeight: scaleMVT.modelToViewDeltaX( subitizerModel.objectWidth )
+          } );
+        }
         object.centerX = scaleMVT.modelToViewX( coordinate.x );
         object.centerY = scaleMVT.modelToViewY( coordinate.y );
         drawingNode.addChild( object );
@@ -60,6 +76,7 @@ class SubitizerNode extends Node {
       // rotate the drawingNode randomly if a rotationProperty value exists
       if ( subitizerModel.rotationProperty.value && dotRandom.nextBoolean() ) {
         drawingNode.setRotation( subitizerModel.rotationProperty.value );
+        drawingNode.children.forEach( object => object.setRotation( ( 3.14 * 2 ) - subitizerModel.rotationProperty.value ) );
       }
 
     } );
