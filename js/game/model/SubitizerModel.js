@@ -1,7 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -86,9 +85,6 @@ class SubitizerModel {
     // @public {NumberProperty} - whether the current shape is visible
     this.visibleProperty = new BooleanProperty( true );
 
-    // @public (read-only) {NumberProperty} - the rotation of the current shape
-    this.rotationProperty = new NumberProperty( 0 );
-
     // @public (read-only) {DerivedProperty.<Vector2[]>} - the coordinates of the current shape
     this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
@@ -134,7 +130,6 @@ class SubitizerModel {
    */
   setNewCoordinates() {
     const subitizeNumber = this.subitizeNumberProperty.value;
-    this.rotationProperty.reset();
     let coordinates = [];
 
     // 60/40 chance whether the pattern uses an random configuration or an arranged one for level 1, level 2 always
@@ -150,7 +145,7 @@ class SubitizerModel {
         // if the shape has rotations available, randomly pick one to assign
         if ( shape.rotations.length ) {
           const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
-          this.rotationProperty.value = shape.rotations[ randomRotationIndex ];
+          coordinates = this.rotateCoordinates( coordinates, shape.rotations[ randomRotationIndex ] );
         }
       }
       else {
@@ -199,6 +194,18 @@ class SubitizerModel {
     else {
       this.setNewCoordinates();
     }
+  }
+
+  /**
+   * Rotate the coordinates shape around the center
+   * @param {Vector2[][]} coordinates
+   * @param {number} rotationAngle
+   * @returns {Vector2[][]} coordinates
+   * @private
+   */
+  rotateCoordinates( coordinates, rotationAngle ) {
+    // rotate the shape randomly
+    return coordinates;
   }
 
   /**

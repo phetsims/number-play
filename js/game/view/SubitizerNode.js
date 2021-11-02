@@ -49,7 +49,6 @@ class SubitizerNode extends Node {
 
     // update the view shape when the model coordinates change
     subitizerModel.coordinatesProperty.link( coordinates => {
-      drawingNode.setRotation( 0 );
       drawingNode.removeAllChildren();
 
       // create array of objects available and choose a random object from that array
@@ -72,13 +71,6 @@ class SubitizerNode extends Node {
         object.centerY = scaleMVT.modelToViewY( coordinate.y );
         drawingNode.addChild( object );
       } );
-
-      // rotate the drawingNode randomly if a rotationProperty value exists
-      if ( subitizerModel.rotationProperty.value && dotRandom.nextBoolean() ) {
-        drawingNode.setRotation( subitizerModel.rotationProperty.value );
-        drawingNode.children.forEach( object => object.setRotation( ( 3.14 * 2 ) - subitizerModel.rotationProperty.value ) );
-      }
-
     } );
   }
 }
