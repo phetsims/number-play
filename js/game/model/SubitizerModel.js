@@ -213,14 +213,10 @@ class SubitizerModel {
     const objectTotalHalfWidth = objectTotalWidth / 2;
     if ( coordinates.length > 0 ) {
       for ( let i = 0; i < coordinates.length; i++ ) {
-        console.log( 'trying new coordinates' );
         const coordinate = coordinates[ i ];
         const coordinateObjectBounds = new Bounds2( coordinate.x - objectTotalHalfWidth, coordinate.y - objectTotalHalfWidth, coordinate.x + objectTotalHalfWidth, coordinate.y + objectTotalHalfWidth );
-        console.log( 'coordinateObjectBounds ' + coordinateObjectBounds );
         const randomObjectBounds = new Bounds2( randomX - objectTotalHalfWidth, randomY - objectTotalHalfWidth, randomX + objectTotalHalfWidth, randomY + objectTotalHalfWidth );
-        console.log( 'randomObjectBounds ' + randomObjectBounds );
         overlap = coordinateObjectBounds.intersectsBounds( randomObjectBounds );
-        console.log( overlap );
         if ( overlap ) {
           break;
         }
