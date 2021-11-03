@@ -123,6 +123,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       level.setNewSubitizeNumber();
       level.subitizerModel.setNewCoordinates();
       level.subitizerModel.isPlayingProperty.reset();
+      level.numberOfAnswerButtonPressesProperty.reset();
       if ( NumberPlayQueryParameters.showCorrectAnswer ) {
         answerButtons.showCorrectAnswer( level.subitizeNumberProperty );
       }

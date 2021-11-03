@@ -7,7 +7,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -33,9 +32,6 @@ class NumberPlayGameAnswerButtons extends Node {
 
     super();
 
-    // @private {NumberProperty} number of times any button in answerButtons was pressed
-    this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
-
     // @private {Object[]}
     this.buttonObjects = [];
 
@@ -49,7 +45,7 @@ class NumberPlayGameAnswerButtons extends Node {
      * @param {number} index - the index of the button in the group
      */
     const buttonListener = index => {
-      this.numberOfAnswerButtonPressesProperty.value++;
+      level.numberOfAnswerButtonPressesProperty.value++;
       const buttonObject = this.buttonObjects[ index ];
 
       // this button is the correct answer button
@@ -66,7 +62,7 @@ class NumberPlayGameAnswerButtons extends Node {
         } );
 
         // if this is the first guess, increase the score
-        if ( this.numberOfAnswerButtonPressesProperty.value === 1 ) {
+        if ( level.numberOfAnswerButtonPressesProperty.value === 1 ) {
           level.scoreProperty.value++;
           pointsAwardedNodeVisibleProperty.value = true;
         }
@@ -136,7 +132,6 @@ class NumberPlayGameAnswerButtons extends Node {
    * @public
    */
   reset() {
-    this.numberOfAnswerButtonPressesProperty.reset();
     this.buttonObjects.forEach( object => object.button.setEnabled( true ) );
     this.hbox.children = this.buttonObjects.map( object => object.button );
   }

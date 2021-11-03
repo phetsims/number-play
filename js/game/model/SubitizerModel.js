@@ -1,11 +1,13 @@
 // Copyright 2021, University of Colorado Boulder
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
@@ -63,7 +65,6 @@ const SHAPES = {
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
-const SUBITIZER_TIME_VISIBLE = 0.5; // in seconds, specified by designers
 const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
 
 /**
@@ -76,9 +77,10 @@ class SubitizerModel {
 
   /**
    * @param {NumberProperty} subitizeNumberProperty
+   * @param {NumberProperty} numberOfAnswerButtonPressesProperty
    * @param {Boolean} randomAndArranged
    */
-  constructor( subitizeNumberProperty, randomAndArranged ) {
+  constructor( subitizeNumberProperty, numberOfAnswerButtonPressesProperty, randomAndArranged ) {
 
     // @public {NumberProperty}
     this.subitizeNumberProperty = subitizeNumberProperty;
@@ -101,10 +103,19 @@ class SubitizerModel {
     // initialize first set of coordinates
     this.setNewCoordinates();
 
+    // @public
     this.objectWidth = OBJECT_WIDTH;
 
     // @public {Property.<boolean>} - indicates the play/pause state of the subitizer model. Manipulated only in the view.
     this.isPlayingProperty = new BooleanProperty( true );
+
+    // @private {DerivedProperty.<number>} - the time the subitizerNode is visible
+    this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], numberOfAnswerButtonPresses => {
+      if ( numberOfAnswerButtonPresses > NumberPlayQueryParameters.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
+        return this.subitizerTimeVisibleProperty.value + NumberPlayQueryParameters.SUBITIZER_TIME_INCREASE_AMOUNT;
+      }
+      return NumberPlayQueryParameters.subitizerTimeVisible;
+    } );
   }
 
   /**
@@ -118,7 +129,7 @@ class SubitizerModel {
       this.secondsSinceVisible += dt;
 
       // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
-      if ( this.secondsSinceVisible > SUBITIZER_TIME_VISIBLE ) {
+      if ( this.secondsSinceVisible > this.subitizerTimeVisibleProperty.value ) {
         this.visibleProperty.value = false;
         this.secondsSinceVisible = 0;
       }

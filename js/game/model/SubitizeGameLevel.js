@@ -42,8 +42,11 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.oldSubitizeNumberOne = this.subitizeNumberProperty.value;
     this.oldSubitizeNumberTwo = this.subitizeNumberProperty.value;
 
+    // @public {NumberProperty} number of times any wrong answer button in answerButtons was pressed
+    this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
+
     // @public (read-only) {SubitizerModel}
-    this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty, levelNumber === 1 );
+    this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty, this.numberOfAnswerButtonPressesProperty, levelNumber === 1 );
 
     // @public Fires when the level is reset
     this.newSubitizeNumberEmitter = new Emitter();
