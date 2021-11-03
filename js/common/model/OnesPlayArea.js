@@ -10,6 +10,8 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import CountingCommonModel from '../../../../counting-common/js/common/model/CountingCommonModel.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -38,13 +40,16 @@ class OnesPlayArea extends CountingCommonModel {
    * @param {BooleanProperty} isResetting
    * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
    */
-  constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty ) {
+  constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty, isOnes = true ) {
     super();
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
     // @public
     this.currentNumberProperty = currentNumberProperty;
+
+    // @private
+    this.paperNumberOrigin = paperNumberOrigin;
 
     // @public {NumberProperty} - The total sum of the current numbers
     this.sumProperty = new NumberProperty( currentNumberProperty.range.min, {
@@ -66,6 +71,11 @@ class OnesPlayArea extends CountingCommonModel {
 
     // @public {boolean} whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
+
+    const objectBounds = isOnes ? new BaseNumber( 1, 0 ).bounds : CountingCommonConstants.PLAY_OBJECT_SIZE;
+
+    // @private {Vector2[]}
+    this.organizedObjectSpots = this.calculateOrganizedObjectSpots( objectBounds.width, objectBounds.height );
 
     // if the current number changes, add or remove paperNumbers from the play area
     currentNumberProperty.link( ( currentNumber, previousNumber ) => {
@@ -185,6 +195,73 @@ class OnesPlayArea extends CountingCommonModel {
     // time.
     paperNumberToReturn.numberValueProperty.value = 0;
     paperNumberToReturn.setDestination( paperNumberOrigin, true );
+  }
+
+  /**
+   * Calculates the spots for organized objects
+   *
+   * @param {Vector2} organizedObjectPadding - x and y padding for playObjects organized in a grid
+   * @returns {Vector2[]}
+   * @private
+   */
+  calculateOrganizedObjectSpots( objectWidth, objectHeight ) {
+    const gridWidth = 5; // empirically determined
+    const gridHeight = this.currentNumberProperty.range.max / gridWidth;
+    const organizedObjectPadding = new Vector2( 5, 8 );
+    const yOffset = MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - ( objectHeight * 2 / gridHeight );
+
+    const spots = [];
+
+    // iterate through and store the center point of every spot
+    for ( let i = 0; i < gridHeight; i++ ) {
+      for ( let j = 0; j < gridWidth; j++ ) {
+        spots.push( new Vector2(
+          this.paperNumberOrigin.x + MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X + ( ( objectWidth + organizedObjectPadding.x ) * j ),
+          this.paperNumberOrigin.y + yOffset + ( ( objectHeight + organizedObjectPadding.y ) * i )
+        ) );
+      }
+    }
+    return spots;
+  }
+
+  /**
+   * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
+   *
+   * @public
+   */
+  organizeObjects() {
+
+    assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
+
+    const objectsToBreakDown = [ ...this.paperNumbers ];
+    objectsToBreakDown.forEach( paperNumber => {
+      if ( paperNumber.numberValueProperty.value > 1 ) {
+        const paperNumberPosition = paperNumber.positionProperty.value;
+        const paperNumberValue = paperNumber.numberValueProperty.value;
+        this.removePaperNumber( paperNumber );
+
+        for ( let i = 0; i < paperNumberValue; i++ ) {
+          const newPaperNumber = new PaperNumber( 1, paperNumberPosition );
+          this.addPaperNumber( newPaperNumber );
+        }
+      }
+    } );
+
+    // copy the current playObjectsInPlayArea so we can mutate it
+    let objectsToOrganize = [ ...this.paperNumbers ];
+    const numberOfObjectsToOrganize = objectsToOrganize.length;
+
+    for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
+      const destination = this.organizedObjectSpots[ i ];
+
+      // sort the  playObjectToOrganize by closest to the destination
+      objectsToOrganize = _.sortBy( objectsToOrganize, object => {
+        return object.positionProperty.value.distance( destination );
+      } );
+      const objectToOrganize = objectsToOrganize.shift();
+
+      objectToOrganize.setDestination( destination, true );
+    }
   }
 
   /**

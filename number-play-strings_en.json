@@ -92,8 +92,8 @@
   "word": {
     "value": "Word"
   },
-  "numeral": {
-    "value": "Numeral"
+  "total": {
+    "value": "Total"
   },
   "tenFrame": {
     "value": "Ten Frame"

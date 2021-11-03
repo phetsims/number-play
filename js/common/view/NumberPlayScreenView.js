@@ -21,7 +21,7 @@ import groupingSceneTwo from '../../../images/grouping_scene_2_png.js';
 import groupingSceneThree from '../../../images/grouping_scene_3_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import NumeralAccordionBox from './NumeralAccordionBox.js';
+import TotalAccordionBox from './TotalAccordionBox.js';
 import ObjectsAccordionBox from './ObjectsAccordionBox.js';
 import OnesAccordionBox from './OnesAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
@@ -51,9 +51,9 @@ class NumberPlayScreenView extends ScreenView {
         fill: null // {ColorDef} - accordion box background fill
       },
 
-      // config for NumeralAccordionBox. see NumeralAccordionBox for additional fields. the keys defined here are
+      // config for TotalAccordionBox. see TotalAccordionBox for additional fields. the keys defined here are
       // optional, but config is used because the additional keys are required.
-      numeralAccordionBoxConfig: {
+      totalAccordionBoxConfig: {
         fill: null // {ColorDef} - accordion box background fill
       },
 
@@ -75,7 +75,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // @public {BooleanProperty} - Properties used to control the expanded state of each accordion box
     this.wordAccordionBoxExpandedProperty = new BooleanProperty( false );
-    this.numeralAccordionBoxExpandedProperty = new BooleanProperty( true );
+    this.totalAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.tenFrameAccordionBoxExpandedProperty = new BooleanProperty( false );
     this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
@@ -90,15 +90,15 @@ class NumberPlayScreenView extends ScreenView {
     wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
     this.addChild( wordAccordionBox );
 
-    // create and add the NumeralAccordionBox
-    const numeralAccordionBox = new NumeralAccordionBox(
+    // create and add the TotalAccordionBox
+    const totalAccordionBox = new TotalAccordionBox(
       model.currentNumberProperty,
       config.upperAccordionBoxHeight, merge( {
-        expandedProperty: this.numeralAccordionBoxExpandedProperty
-      }, config.numeralAccordionBoxConfig ) );
-    numeralAccordionBox.centerX = this.layoutBounds.centerX;
-    numeralAccordionBox.top = wordAccordionBox.top;
-    this.addChild( numeralAccordionBox );
+        expandedProperty: this.totalAccordionBoxExpandedProperty
+      }, config.totalAccordionBoxConfig ) );
+    totalAccordionBox.centerX = this.layoutBounds.centerX;
+    totalAccordionBox.top = wordAccordionBox.top;
+    this.addChild( totalAccordionBox );
 
     // create and add the TenFrameAccordionBox
     const tenFrameAccordionBox = new TenFrameAccordionBox(
@@ -194,7 +194,7 @@ class NumberPlayScreenView extends ScreenView {
     const organizeOnesButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
-        // model.onesPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model, then bring it back
+        model.onesPlayArea.organizeObjects();
       },
       baseColor: NumberPlayConstants.PURPLE_BACKGROUND,
       xMargin: xMargin,
@@ -208,7 +208,7 @@ class NumberPlayScreenView extends ScreenView {
     const organizeObjectsButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
-        // model.objectsPlayArea.organizePlayObjects(); TODO: make this work with the paper ones model, then bring it back
+        model.objectsPlayArea.organizeObjects();
       },
       baseColor: NumberPlayConstants.BLUE_BACKGROUND,
       xMargin: xMargin,
@@ -217,6 +217,13 @@ class NumberPlayScreenView extends ScreenView {
     organizeObjectsButton.centerX = resetAllButton.centerX;
     organizeObjectsButton.top = this.objectsAccordionBox.top;
     this.addChild( organizeObjectsButton );
+
+    // set the visibility of the organize buttons based on the state of grouping/linking
+    model.groupingLinkingTypeProperty.link( groupingLinkingType => {
+      organizeOnesButton.visible = groupingLinkingType === GroupingLinkingType.NO_GROUPING ||
+                                   groupingLinkingType === GroupingLinkingType.GROUPING;
+      organizeObjectsButton.visible = groupingLinkingType === GroupingLinkingType.NO_GROUPING;
+    } );
   }
 
   /**
@@ -225,7 +232,7 @@ class NumberPlayScreenView extends ScreenView {
    */
   reset() {
     this.wordAccordionBoxExpandedProperty.reset();
-    this.numeralAccordionBoxExpandedProperty.reset();
+    this.totalAccordionBoxExpandedProperty.reset();
     this.tenFrameAccordionBoxExpandedProperty.reset();
     this.onesAccordionBoxExpandedProperty.reset();
     this.objectsAccordionBoxExpandedProperty.reset();

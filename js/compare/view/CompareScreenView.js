@@ -18,7 +18,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import LocaleSwitch from '../../common/view/LocaleSwitch.js';
-import NumeralAccordionBox from '../../common/view/NumeralAccordionBox.js';
+import TotalAccordionBox from '../../common/view/TotalAccordionBox.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
@@ -44,8 +44,8 @@ class CompareScreenView extends ScreenView {
    * @public
    */
   reset() {
-    this.leftNumeralAccordionBoxExpandedProperty.reset();
-    this.rightNumeralAccordionBoxExpandedProperty.reset();
+    this.leftTotalAccordionBoxExpandedProperty.reset();
+    this.rightTotalAccordionBoxExpandedProperty.reset();
     this.leftCompareAccordionBoxExpandedProperty.reset();
     this.rightCompareAccordionBoxExpandedProperty.reset();
   }
@@ -61,13 +61,13 @@ class CompareScreenView extends ScreenView {
     } );
 
     // @public
-    this.leftNumeralAccordionBoxExpandedProperty = new BooleanProperty( true );
-    this.rightNumeralAccordionBoxExpandedProperty = new BooleanProperty( true );
+    this.leftTotalAccordionBoxExpandedProperty = new BooleanProperty( true );
+    this.rightTotalAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.leftCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.rightCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
 
-    // config for the left and right NumeralAccordionBox
-    const numeralAccordionBoxConfig = {
+    // config for the left and right TotalAccordionBox
+    const totalAccordionBoxConfig = {
       fill: NumberPlayConstants.WHITE_BACKGROUND,
       font: new PhetFont( 90 ),
       arrowButtonConfig: {
@@ -77,23 +77,23 @@ class CompareScreenView extends ScreenView {
       }
     };
 
-    // create and add the left NumeralAccordionBox
-    const leftNumeralAccordionBox = new NumeralAccordionBox(
+    // create and add the left TotalAccordionBox
+    const leftTotalAccordionBox = new TotalAccordionBox(
       model.leftCurrentNumberProperty,
       UPPER_ACCORDION_BOX_HEIGHT, merge( {
-        expandedProperty: this.leftNumeralAccordionBoxExpandedProperty
-      }, numeralAccordionBoxConfig ) );
-    leftNumeralAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
-    this.addChild( leftNumeralAccordionBox );
+        expandedProperty: this.leftTotalAccordionBoxExpandedProperty
+      }, totalAccordionBoxConfig ) );
+    leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
+    this.addChild( leftTotalAccordionBox );
 
-    // create and add the right NumeralAccordionBox
-    const rightNumeralAccordionBox = new NumeralAccordionBox(
+    // create and add the right TotalAccordionBox
+    const rightTotalAccordionBox = new TotalAccordionBox(
       model.rightCurrentNumberProperty,
       UPPER_ACCORDION_BOX_HEIGHT, merge( {
-        expandedProperty: this.rightNumeralAccordionBoxExpandedProperty
-      }, numeralAccordionBoxConfig ) );
-    rightNumeralAccordionBox.top = leftNumeralAccordionBox.top;
-    this.addChild( rightNumeralAccordionBox );
+        expandedProperty: this.rightTotalAccordionBoxExpandedProperty
+      }, totalAccordionBoxConfig ) );
+    rightTotalAccordionBox.top = leftTotalAccordionBox.top;
+    this.addChild( rightTotalAccordionBox );
 
     // create and add the left CompareAccordionBox
     const leftCompareAccordionBox = new CompareAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
@@ -113,14 +113,14 @@ class CompareScreenView extends ScreenView {
     rightCompareAccordionBox.bottom = leftCompareAccordionBox.bottom;
     this.addChild( rightCompareAccordionBox );
 
-    // set the x-position of the NumeralAccordionBox's after the CompareObjectAccordionBoxes have been added
-    leftNumeralAccordionBox.right = leftCompareAccordionBox.right;
-    rightNumeralAccordionBox.left = rightCompareAccordionBox.left;
+    // set the x-position of the TotalAccordionBox's after the CompareObjectAccordionBoxes have been added
+    leftTotalAccordionBox.right = leftCompareAccordionBox.right;
+    rightTotalAccordionBox.left = rightCompareAccordionBox.left;
 
     // create and add the CompareCountingTypeRadioButtonGroup
     const countingTypeRadioButtonGroup = new CompareCountingTypeRadioButtonGroup( model.countingTypeProperty );
     countingTypeRadioButtonGroup.left = leftCompareAccordionBox.left;
-    countingTypeRadioButtonGroup.top = leftNumeralAccordionBox.top;
+    countingTypeRadioButtonGroup.top = leftTotalAccordionBox.top;
     this.addChild( countingTypeRadioButtonGroup );
 
     // create and add the show comparison checkbox
@@ -138,7 +138,7 @@ class CompareScreenView extends ScreenView {
     const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
     this.addChild( comparisonSignsNode );
     comparisonSignsNode.centerX = this.layoutBounds.centerX;
-    comparisonSignsNode.centerY = leftNumeralAccordionBox.centerY;
+    comparisonSignsNode.centerY = leftTotalAccordionBox.centerY;
 
     // create and add the ComparisonTextNode
     const comparisonTextNode = new ComparisonTextNode(
@@ -146,7 +146,7 @@ class CompareScreenView extends ScreenView {
       model.rightCurrentNumberProperty,
       this.layoutBounds
     );
-    comparisonTextNode.centerY = new Range( leftNumeralAccordionBox.bottom, leftCompareAccordionBox.top ).getCenter();
+    comparisonTextNode.centerY = new Range( leftTotalAccordionBox.bottom, leftCompareAccordionBox.top ).getCenter();
     this.addChild( comparisonTextNode );
 
     // create and add the BlockValuesNode
@@ -180,18 +180,18 @@ class CompareScreenView extends ScreenView {
     if ( voicingManager.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton( comparisonTextNode.comparisonStringProperty );
       speechSynthesisButton.centerX = resetAllButton.centerX;
-      speechSynthesisButton.top = rightNumeralAccordionBox.top;
+      speechSynthesisButton.top = rightTotalAccordionBox.top;
       this.addChild( speechSynthesisButton );
 
       // position the localeSwitch relative to the speechSynthesisButton
-      localeSwitchXRange = new Range( rightNumeralAccordionBox.right, speechSynthesisButton.left );
+      localeSwitchXRange = new Range( rightTotalAccordionBox.right, speechSynthesisButton.left );
       localeSwitchCenterY = speechSynthesisButton.centerY;
     }
     else {
 
-      // position the localeSwitch relative to the rightNumeralAccordionBox if the speechSynthesisButton doesn't exist
-      localeSwitchXRange = new Range( rightNumeralAccordionBox.right, this.layoutBounds.maxX );
-      localeSwitchCenterY = rightNumeralAccordionBox.top + 20; // empirically determined
+      // position the localeSwitch relative to the rightTotalAccordionBox if the speechSynthesisButton doesn't exist
+      localeSwitchXRange = new Range( rightTotalAccordionBox.right, this.layoutBounds.maxX );
+      localeSwitchCenterY = rightTotalAccordionBox.top + 20; // empirically determined
     }
 
     // create and add the LocaleSwitch
