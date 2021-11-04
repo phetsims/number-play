@@ -86,7 +86,10 @@ class SubitizerModel {
     this.subitizeNumberProperty = subitizeNumberProperty;
 
     // @public {NumberProperty} - whether the current shape is visible
-    this.visibleProperty = new BooleanProperty( true );
+    this.visibleProperty = new BooleanProperty( false );
+
+    // @public {BooleanProperty} - whether the play button is visible
+    this.playButtonVisibleProperty = new BooleanProperty( true );
 
     // @public (read-only) {DerivedProperty.<Vector2[]>} - the coordinates of the current shape
     this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
@@ -107,7 +110,7 @@ class SubitizerModel {
     this.objectWidth = OBJECT_WIDTH;
 
     // @public {Property.<boolean>} - indicates the play/pause state of the subitizer model. Manipulated only in the view.
-    this.isPlayingProperty = new BooleanProperty( true );
+    this.isPlayingProperty = new BooleanProperty( false );
 
     // @private {DerivedProperty.<number>} - the time the subitizerNode is visible
     this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], numberOfAnswerButtonPresses => {
@@ -130,7 +133,7 @@ class SubitizerModel {
 
       // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
       if ( this.secondsSinceVisible > this.subitizerTimeVisibleProperty.value ) {
-        this.visibleProperty.value = false;
+        this.visibleProperty.reset();
         this.secondsSinceVisible = 0;
       }
     }

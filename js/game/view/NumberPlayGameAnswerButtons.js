@@ -52,7 +52,7 @@ class NumberPlayGameAnswerButtons extends Node {
       if ( level.subitizeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
         setFrownyFaceVisibilityCallback( false );
-        level.subitizerModel.isPlayingProperty.value = false;
+        level.subitizerModel.isPlayingProperty.reset();
         level.subitizerModel.visibleProperty.value = true;
 
         this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
