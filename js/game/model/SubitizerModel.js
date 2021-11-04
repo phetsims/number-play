@@ -7,6 +7,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
 
@@ -114,8 +115,8 @@ class SubitizerModel {
 
     // @private {DerivedProperty.<number>} - the time the subitizerNode is visible
     this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], numberOfAnswerButtonPresses => {
-      if ( numberOfAnswerButtonPresses > NumberPlayQueryParameters.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
-        return this.subitizerTimeVisibleProperty.value + NumberPlayQueryParameters.SUBITIZER_TIME_INCREASE_AMOUNT;
+      if ( numberOfAnswerButtonPresses > NumberPlayConstants.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
+        return this.subitizerTimeVisibleProperty.value + NumberPlayConstants.SUBITIZER_TIME_INCREASE_AMOUNT;
       }
       return NumberPlayQueryParameters.subitizerTimeVisible;
     } );
