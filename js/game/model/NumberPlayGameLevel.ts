@@ -13,10 +13,14 @@ import numberPlay from '../../numberPlay.js';
 
 class NumberPlayGameLevel {
 
+  levelNumber: number;
+  scoreProperty: NumberProperty;
+  isSolvedProperty: BooleanProperty;
+
   /**
    * @param {number} levelNumber
    */
-  constructor( levelNumber ) {
+  constructor( levelNumber: number ) {
 
     // @public (read-only) {number}
     this.levelNumber = levelNumber;
@@ -24,7 +28,7 @@ class NumberPlayGameLevel {
     // @public - the total number of points that have been awarded for this level
     this.scoreProperty = new NumberProperty( 0, {
       numberType: 'Integer',
-      isValidValue: value => ( value >= 0 )
+      isValidValue: ( value: number ) => ( value >= 0 )
     } );
 
     // @public {BooleanProperty} - Whether the current challenge has been solved. A challenge is considered solved when

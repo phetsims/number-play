@@ -13,12 +13,22 @@ import Subitizer from './Subitizer.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
+  statusBarMessage: string;
+  questionStringProperty: StringProperty;
+  subitizeRange: Range;
+  subitizeNumberProperty: NumberProperty;
+  oldSubitizeNumberOne: number;
+  oldSubitizeNumberTwo: number;
+  numberOfAnswerButtonPressesProperty: NumberProperty;
+  subitizer: Subitizer;
+  playButtonVisibleProperty: BooleanProperty;
+
   /**
    * @param {number} levelNumber
    * @param {number} minimumSubitizeNumber - minimum number to create a subitized representation for
    * @param {number} maximumSubitizeNumber - maximum number to create a subitized representation for
    */
-  constructor( levelNumber, minimumSubitizeNumber, maximumSubitizeNumber ) {
+  constructor( levelNumber: number, minimumSubitizeNumber: number, maximumSubitizeNumber: number ) {
     super( levelNumber );
 
     // @public (read-only) {string} - message shown in the status bar that appears at the top of each level
@@ -89,7 +99,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    * @param {number} dt
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     this.subitizer.step( dt );
   }
 

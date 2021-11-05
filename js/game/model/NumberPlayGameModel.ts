@@ -8,15 +8,19 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from './SubitizeGameLevel.js';
 
 class NumberPlayGameModel {
 
+  levels: SubitizeGameLevel[];
+  levelProperty: Property<null | SubitizeGameLevel>
+
   /**
    * @param {Tandem} tandem
    */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     // @public {SubitizeGameLevel[]}
     this.levels = [ new SubitizeGameLevel( 1, 1, 5 ), new SubitizeGameLevel( 2, 6, 10 ) ];
@@ -41,7 +45,7 @@ class NumberPlayGameModel {
    * @param {number} dt - time step, in seconds
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
     this.levels.forEach( level => level.step( dt ) );
   }
 }

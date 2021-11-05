@@ -2,6 +2,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -10,6 +11,14 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
+
+//TODO-TS: naming for a type used as a constant like this?
+type Shapes = {
+  [ key: number ]: {
+    coordinates: Vector2[],
+    rotations: number[]
+  }[],
+};
 
 // constants
 
@@ -21,9 +30,9 @@ const DEGREES_180 = Math.PI;
 const DEGREES_270 = Math.PI * ( 3 / 2 );
 
 // convenience function for easier reading
-const v2 = ( x, y ) => new Vector2( x, y );
+const v2 = ( x: number, y: number ) => new Vector2( x, y );
 
-const SHAPES = {
+const SHAPES: Shapes = {
   1: [ {
     coordinates: [ v2( 0, 0 ) ], // centered dot
     rotations: []
@@ -75,13 +84,24 @@ const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 class Subitizer {
+  subitizeNumberProperty: NumberProperty;
+  visibleProperty: BooleanProperty;
+  coordinatesProperty: Property<Vector2[]>;
+  randomAndArranged: boolean;
+  secondsSinceVisible: number;
+  objectWidth: number;
+  isPlayingProperty: BooleanProperty;
+  subitizerTimeVisibleProperty: DerivedProperty<number>;
 
   /**
    * @param {NumberProperty} subitizeNumberProperty
    * @param {NumberProperty} numberOfAnswerButtonPressesProperty
    * @param {Boolean} randomAndArranged
    */
-  constructor( subitizeNumberProperty, numberOfAnswerButtonPressesProperty, randomAndArranged ) {
+  constructor( subitizeNumberProperty: NumberProperty,
+               numberOfAnswerButtonPressesProperty: NumberProperty,
+               randomAndArranged: boolean
+  ) {
 
     // @public {NumberProperty}
     this.subitizeNumberProperty = subitizeNumberProperty;
@@ -89,29 +109,29 @@ class Subitizer {
     // @public {NumberProperty} - whether the current shape is visible
     this.visibleProperty = new BooleanProperty( false );
 
-    // @public (read-only) {DerivedProperty.<Vector2[]>} - the coordinates of the current shape
+    // @public (read-only) {Property.<Vector2[]>} - the coordinates of the current shape
     this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
       arrayElementType: Vector2
     } );
 
-    // @private - whether we can choose to use a random and arranged pattern
+    // @private {boolean} - whether we can choose to use a random and arranged pattern
     this.randomAndArranged = randomAndArranged;
 
-    // @private - the number of seconds the sim clock has run since the subitizer was made visible
+    // @private {number} - the number of seconds the sim clock has run since the subitizer was made visible
     this.secondsSinceVisible = 0;
 
     // initialize first set of coordinates
     this.setNewCoordinates();
 
-    // @public
+    // @public {number}
     this.objectWidth = OBJECT_WIDTH;
 
-    // @public {Property.<boolean>} - indicates the play/pause state of the subitizer model. Manipulated only in the view.
+    // @public {BooleanProperty} - indicates the play/pause state of the subitizer model. Manipulated only in the view.
     this.isPlayingProperty = new BooleanProperty( false );
 
     // @private {DerivedProperty.<number>} - the time the subitizerNode is visible
-    this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], numberOfAnswerButtonPresses => {
+    this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], ( numberOfAnswerButtonPresses: number ) => {
       if ( numberOfAnswerButtonPresses > NumberPlayConstants.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
         return this.subitizerTimeVisibleProperty.value + NumberPlayConstants.SUBITIZER_TIME_INCREASE_AMOUNT;
       }
@@ -123,7 +143,7 @@ class Subitizer {
    * @param {number} dt
    * @public
    */
-  step( dt ) {
+  step( dt: number ) {
 
     // keep adding to secondsSinceVisible if the subitizer is visible and not paused
     if ( this.visibleProperty.value && this.isPlayingProperty.value ) {
@@ -217,10 +237,10 @@ class Subitizer {
    * @returns {Vector2[]}
    * @private
    */
-  rotateCoordinates( coordinates, rotationAngle ) {
+  rotateCoordinates( coordinates: Vector2[], rotationAngle: number ) {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
 
-    const rotatedCoordinates = [];
+    const rotatedCoordinates: Vector2[] = [];
     coordinates.forEach( point => {
       rotatedCoordinates.push( rotationMatrix.timesVector2( point ) );
     } );
@@ -231,13 +251,13 @@ class Subitizer {
   /**
    * Compares the bounds of a coordinate to be added to all other existing coordinates and returns if the coordinate to
    * be added overlaps with any existing coordinate
-   * @param {Vector2[][]} coordinates
+   * @param {Vector2[]} coordinates
    * @param {number} randomX - X coordinate
    * @param {number} randomY - Y coordinate
    * @returns {boolean}
    * @private
    */
-  objectsOverlap( coordinates, randomX, randomY ) {
+  objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ) {
     let overlap = false;
     const objectTotalWidth = OBJECT_WIDTH + 0.1;
     const objectTotalHalfWidth = objectTotalWidth / 2;
@@ -263,7 +283,7 @@ class Subitizer {
    * @returns {boolean}
    * @private
    */
-  isSameCoordinates( coordinatesSetOne, coordinatesSetTwo ) {
+  isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ) {
     let coordinatesAreEqual = true;
     if ( coordinatesSetOne.length === coordinatesSetTwo.length ) {
       for ( let i = 0; i < coordinatesSetOne.length; i++ ) {
