@@ -115,8 +115,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
+    // @private {BooleanProperty}
+    this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
+
     // create and add pointsAwardedNode which is shown when a correct guess is made on the first answerButtons press
-    const pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
     const starNode = new StarNode( { value: 1, scale: 3 } );
     starNode.centerX = this.frownyFaceNode.centerX;
     starNode.top = this.frownyFaceNode.bottom + 40; // empirically determined
@@ -125,31 +127,16 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     pointsNode.centerY += 5;
     const pointsAwardedNode = new Node( {
       children: [ starNode, pointsNode ],
-      visibleProperty: pointsAwardedNodeVisibleProperty
+      visibleProperty: this.pointsAwardedNodeVisibleProperty
     } );
     this.addChild( pointsAwardedNode );
 
-    // create and add the answerButtons
-    const answerButtons = new NumberPlayGameAnswerButtons( level,
-      pointsAwardedNodeVisibleProperty, showFrownyFace => this.setFrownyFaceVisibility( showFrownyFace ) );
-    answerButtons.centerX = subitizerNode.centerX;
-    answerButtons.top = subitizerNode.bottom + 40; // empirically determined
-    this.addChild( answerButtons );
-
-    // listener for the next button and for resetting the level
-    const newChallenge = () => {
-      level.isSolvedProperty.reset();
-      pointsAwardedNode.visible = false;
-      answerButtons.reset();
-      level.setNewSubitizeNumber();
-      level.subitizer.setNewCoordinates();
-      level.subitizer.isPlayingProperty.value = true;
-      level.numberOfAnswerButtonPressesProperty.reset();
-      if ( NumberPlayQueryParameters.showCorrectAnswer ) {
-        answerButtons.showCorrectAnswer( level.subitizeNumberProperty );
-      }
-    };
-    level.newSubitizeNumberEmitter.addListener( newChallenge );
+    // @private {NumberPlayGameAnswerButtons} - create and add the answerButtons
+    this.answerButtons = new NumberPlayGameAnswerButtons( level,
+      this.pointsAwardedNodeVisibleProperty, showFrownyFace => this.setFrownyFaceVisibility( showFrownyFace ) );
+    this.answerButtons.centerX = subitizerNode.centerX;
+    this.answerButtons.top = subitizerNode.bottom + 40; // empirically determined
+    this.addChild( this.answerButtons );
 
     // create and add newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
     const arrowShape = new ArrowShape( 0, 0, 42, 0, {
@@ -163,11 +150,32 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       yMargin: 10.9,
       content: new Path( arrowShape, { fill: 'black' } ),
       visibleProperty: level.isSolvedProperty,
-      listener: newChallenge
+      listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
-    newChallengeButton.centerY = answerButtons.centerY;
+    newChallengeButton.centerY = this.answerButtons.centerY;
     this.addChild( newChallengeButton );
+  }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.pointsAwardedNodeVisibleProperty.reset();
+    this.answerButtons.reset();
+  }
+
+  /**
+   * Sets up a new challenge in the model and in the view.
+   * @private
+   */
+  newChallenge() {
+    this.level.newChallenge();
+    this.pointsAwardedNodeVisibleProperty.value = false;
+    this.answerButtons.reset();
+    if ( NumberPlayQueryParameters.showCorrectAnswer ) {
+      this.answerButtons.showCorrectAnswer( this.level.subitizeNumberProperty );
+    }
   }
 
   /**
@@ -240,8 +248,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
         this.setTextObjectVisibility( startSequenceText, textObject.center );
       }
       else {
-        this.subitizer.isPlayingProperty.value = true;
-        this.subitizer.visibleProperty.value = true;
+        this.newChallenge();
       }
     } );
 

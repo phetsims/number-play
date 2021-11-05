@@ -38,17 +38,18 @@ class NumberPlayGameScreenView extends ScreenView {
     const levelSelectionNode = new NumberPlayGameLevelSelectionNode( model, this.layoutBounds, {
       resetCallback: () => {
         model.reset();
+        this.reset();
       }
     } );
 
     // create the levels for the 'Subitize' game
-    const levelNodes = model.levels.map( level =>
+    this.levelNodes = model.levels.map( level =>
       new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // create the transitionNode which handles the animated slide transition between levelSelectionNode and a level
     const transitionNode = new TransitionNode( this.visibleBoundsProperty, {
       content: levelSelectionNode,
-      cachedNodes: [ levelSelectionNode, ...levelNodes ]
+      cachedNodes: [ levelSelectionNode, ...this.levelNodes ]
     } );
 
     // Transition between levelSelectionNode and the selected level when the model changes.
@@ -57,9 +58,10 @@ class NumberPlayGameScreenView extends ScreenView {
       this.interruptSubtreeInput();
 
       if ( level ) {
+        level.resetStartSequence();
 
         // Transition to the selected level.
-        const selectedLevelNode = _.find( levelNodes, levelNode => ( levelNode.level === level ) );
+        const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) );
         transitionNode.slideLeftTo( selectedLevelNode, TRANSITION_OPTIONS );
       }
       else {
@@ -77,7 +79,7 @@ class NumberPlayGameScreenView extends ScreenView {
    * @public
    */
   reset() {
-    //TODO
+    this.levelNodes.forEach( levelNode => levelNode.reset() );
   }
 }
 

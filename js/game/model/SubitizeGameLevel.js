@@ -1,7 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -51,9 +50,30 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
     // @public {BooleanProperty} - whether the play button is visible
     this.playButtonVisibleProperty = new BooleanProperty( true );
+  }
 
-    // @public Fires when the level is reset
-    this.newSubitizeNumberEmitter = new Emitter();
+  /**
+   * Shows the start sequence if the current challenge is unsolved.
+   * @public
+   */
+  resetStartSequence() {
+    if ( !this.isSolvedProperty.value ) {
+      this.playButtonVisibleProperty.reset();
+      this.subitizer.isPlayingProperty.reset();
+    }
+  }
+
+  /**
+   * Sets up a new challenge for this level.
+   * @public
+   */
+  newChallenge() {
+    this.isSolvedProperty.reset();
+    this.setNewSubitizeNumber();
+    this.subitizer.setNewCoordinates();
+    this.subitizer.isPlayingProperty.value = true;
+    this.subitizer.visibleProperty.value = true;
+    this.numberOfAnswerButtonPressesProperty.reset();
   }
 
   /**
@@ -63,7 +83,6 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     super.reset();
     this.subitizer.reset();
     this.playButtonVisibleProperty.reset();
-    this.newSubitizeNumberEmitter.emit();
   }
 
   /**

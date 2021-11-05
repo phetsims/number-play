@@ -53,7 +53,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        model.reset();
+        options.resetCallback && options.resetCallback();
       },
       right: layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
       bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
