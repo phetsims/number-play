@@ -1,5 +1,6 @@
 // Copyright 2021, University of Colorado Boulder
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
@@ -48,6 +49,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     // @public (read-only) {Subitizer}
     this.subitizer = new Subitizer( this.subitizeNumberProperty, this.numberOfAnswerButtonPressesProperty, levelNumber === 1 );
 
+    // @public {BooleanProperty} - whether the play button is visible
+    this.playButtonVisibleProperty = new BooleanProperty( true );
+
     // @public Fires when the level is reset
     this.newSubitizeNumberEmitter = new Emitter();
   }
@@ -58,6 +62,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   reset() {
     super.reset();
     this.subitizer.reset();
+    this.playButtonVisibleProperty.reset();
     this.newSubitizeNumberEmitter.emit();
   }
 

@@ -12,6 +12,7 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -53,6 +54,25 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     subitizerNode.centerX = layoutBounds.centerX;
     subitizerNode.top = questionText.bottom + 15; // empirically determined
     this.addChild( subitizerNode );
+
+    // create and add playButton
+    const playButton = new RectangularPushButton( {
+      baseColor: Color.YELLOW,
+      content: new Path( new PlayIconShape( 36, 45 ), {
+        fill: 'black',
+        centerX: 1.4,
+        centerY: 0
+      } ),
+      xMargin: 25,
+      yMargin: 19,
+      visibleProperty: level.playButtonVisibleProperty,
+      listener: () => {
+        playButton.visibleProperty.value = false;
+        this.setTextObjectVisibility( [ 3, 2, 1, 'GO' ], subitizerNode.center );
+      }
+    } );
+    playButton.center = subitizerNode.center;
+    this.addChild( playButton );
 
     // create and add the speechSynthesisButton
     const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );
@@ -181,6 +201,51 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
       this.frownyFaceAnimation.start();
     }
+  }
+
+  /**
+   * Animates an object in the start sequence to fade out
+   * @param {Array} startSequenceText - array of the text that will make the start sequence
+   * @param {Vector2} centerPosition
+   * @private
+   */
+  setTextObjectVisibility( startSequenceText, centerPosition ) {
+
+    // create and add textObject
+    const textObject = new Text( startSequenceText[ 0 ], {
+      font: new PhetFont( 55 )
+    } );
+    textObject.center = centerPosition;
+    this.addChild( textObject );
+    textObject.visible = true;
+
+    // Animate opacity of textObject, fade it out.
+    textObject.opacityProperty.value = 1;
+    let textObjectAnimation = new Animation( {
+      delay: 0.5,
+      duration: 0.5,
+      targets: [ {
+        property: textObject.opacityProperty,
+        easing: Easing.LINEAR,
+        to: 0
+      } ]
+    } );
+
+    textObjectAnimation.finishEmitter.addListener( () => {
+      textObject.visible = false;
+      textObjectAnimation = null;
+      startSequenceText.shift();
+      // animate the remaining objects in the start sequence if there are any remaining or start the game
+      if ( startSequenceText.length > 0 ) {
+        this.setTextObjectVisibility( startSequenceText, textObject.center );
+      }
+      else {
+        this.subitizer.isPlayingProperty.value = true;
+        this.subitizer.visibleProperty.value = true;
+      }
+    } );
+
+    textObjectAnimation.start();
   }
 }
 

@@ -89,9 +89,6 @@ class Subitizer {
     // @public {NumberProperty} - whether the current shape is visible
     this.visibleProperty = new BooleanProperty( false );
 
-    // @public {BooleanProperty} - whether the play button is visible
-    this.playButtonVisibleProperty = new BooleanProperty( true );
-
     // @public (read-only) {DerivedProperty.<Vector2[]>} - the coordinates of the current shape
     this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
@@ -285,7 +282,6 @@ class Subitizer {
    * @public
    */
   reset() {
-    this.playButtonVisibleProperty.reset();
     this.visibleProperty.reset();
     this.isPlayingProperty.reset();
   }
