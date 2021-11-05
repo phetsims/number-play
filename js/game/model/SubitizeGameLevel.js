@@ -9,7 +9,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
-import SubitizerModel from './SubitizerModel.js';
+import Subitizer from './Subitizer.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
@@ -45,8 +45,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     // @public {NumberProperty} number of times any wrong answer button in answerButtons was pressed
     this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
 
-    // @public (read-only) {SubitizerModel}
-    this.subitizerModel = new SubitizerModel( this.subitizeNumberProperty, this.numberOfAnswerButtonPressesProperty, levelNumber === 1 );
+    // @public (read-only) {Subitizer}
+    this.subitizer = new Subitizer( this.subitizeNumberProperty, this.numberOfAnswerButtonPressesProperty, levelNumber === 1 );
 
     // @public Fires when the level is reset
     this.newSubitizeNumberEmitter = new Emitter();
@@ -57,7 +57,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    */
   reset() {
     super.reset();
-    this.subitizerModel.reset();
+    this.subitizer.reset();
     this.newSubitizeNumberEmitter.emit();
   }
 
@@ -66,7 +66,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    * @public
    */
   step( dt ) {
-    this.subitizerModel.step( dt );
+    this.subitizer.step( dt );
   }
 
 

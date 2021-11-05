@@ -49,7 +49,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( questionText );
 
     // create and add the subitizerNode
-    const subitizerNode = new SubitizerNode( level.subitizerModel );
+    const subitizerNode = new SubitizerNode( level.subitizer );
     subitizerNode.centerX = layoutBounds.centerX;
     subitizerNode.top = questionText.bottom + 15; // empirically determined
     this.addChild( subitizerNode );
@@ -67,10 +67,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       xMargin: 6,
       yMargin: 6,
       baseColor: new Color( 0x8DB3FF ),
-      enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizerModel.isPlayingProperty, level.subitizerModel.visibleProperty ],
+      enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, level.subitizer.visibleProperty ],
         ( isSolved, isPlaying, subitizerVisible ) => !isSolved && isPlaying && !subitizerVisible ),
       listener: () => {
-        level.subitizerModel.visibleProperty.value = true;
+        level.subitizer.visibleProperty.value = true;
       }
     } );
     showAgainButton.left = speechSynthesisButton.left;
@@ -122,8 +122,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       pointsAwardedNode.visible = false;
       answerButtons.reset();
       level.setNewSubitizeNumber();
-      level.subitizerModel.setNewCoordinates();
-      level.subitizerModel.isPlayingProperty.value = true;
+      level.subitizer.setNewCoordinates();
+      level.subitizer.isPlayingProperty.value = true;
       level.numberOfAnswerButtonPressesProperty.reset();
       if ( NumberPlayQueryParameters.showCorrectAnswer ) {
         answerButtons.showCorrectAnswer( level.subitizeNumberProperty );

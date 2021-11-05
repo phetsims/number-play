@@ -69,12 +69,12 @@ const SHAPES = {
 const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
 
 /**
- * SubitizerModel generates the arranged and random patterns of the objects.
+ * Subitizer generates the arranged and random patterns of the objects.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
-class SubitizerModel {
+class Subitizer {
 
   /**
    * @param {NumberProperty} subitizeNumberProperty
@@ -291,5 +291,5 @@ class SubitizerModel {
   }
 }
 
-numberPlay.register( 'SubitizerModel', SubitizerModel );
-export default SubitizerModel;
+numberPlay.register( 'Subitizer', Subitizer );
+export default Subitizer;

@@ -33,13 +33,13 @@ const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
 class SubitizerNode extends Node {
 
   /**
-   * @param subitizerModel {SubitizerModel}
+   * @param subitizer {Subitizer}
    */
-  constructor( subitizerModel ) {
+  constructor( subitizer ) {
     super();
 
     // @private, for use in setTextObjectVisibility
-    this.subitizerModel = subitizerModel;
+    this.subitizer = subitizer;
 
     // create and add a backgroundNode
     const backgroundNode = new Rectangle( 0, 0, WIDTH, HEIGHT, CORNER_RADIUS, CORNER_RADIUS, {
@@ -64,7 +64,7 @@ class SubitizerNode extends Node {
       } ),
       xMargin: 25,
       yMargin: 19,
-      visibleProperty: subitizerModel.playButtonVisibleProperty,
+      visibleProperty: subitizer.playButtonVisibleProperty,
       listener: playButtonListener
     } );
     playButton.center = backgroundNode.center;
@@ -75,12 +75,12 @@ class SubitizerNode extends Node {
 
     // create and add the drawingNode, which is where the objects are added to and it rotates if rotationProperty is set
     const drawingNode = new Node( {
-      visibleProperty: subitizerModel.visibleProperty
+      visibleProperty: subitizer.visibleProperty
     } );
     this.addChild( drawingNode );
 
     // update the view shape when the model coordinates change
-    subitizerModel.coordinatesProperty.link( coordinates => {
+    subitizer.coordinatesProperty.link( coordinates => {
       drawingNode.removeAllChildren();
 
       // create array of objects available and choose a random object from that array
@@ -92,11 +92,11 @@ class SubitizerNode extends Node {
       coordinates.forEach( coordinate => {
         let object;
         if ( randomObject === 'CIRCLE' ) {
-          object = new Circle( scaleMVT.modelToViewDeltaX( subitizerModel.objectWidth * 0.5 ), { fill: Color.BLACK } );
+          object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectWidth * 0.5 ), { fill: Color.BLACK } );
         }
         else {
           object = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ randomObject ], {
-            maxHeight: scaleMVT.modelToViewDeltaX( subitizerModel.objectWidth )
+            maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectWidth )
           } );
         }
         object.centerX = scaleMVT.modelToViewX( coordinate.x );
@@ -143,8 +143,8 @@ class SubitizerNode extends Node {
         this.setTextObjectVisibility( startSequenceText, textObject.center );
       }
       else {
-        this.subitizerModel.isPlayingProperty.value = true;
-        this.subitizerModel.visibleProperty.value = true;
+        this.subitizer.isPlayingProperty.value = true;
+        this.subitizer.visibleProperty.value = true;
       }
     } );
 

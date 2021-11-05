@@ -54,8 +54,8 @@ class NumberPlayGameAnswerButtons extends Node {
       if ( level.subitizeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
         setFrownyFaceVisibilityCallback( false );
-        level.subitizerModel.isPlayingProperty.reset();
-        level.subitizerModel.visibleProperty.value = true;
+        level.subitizer.isPlayingProperty.reset();
+        level.subitizer.visibleProperty.value = true;
 
         this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
 
@@ -87,7 +87,7 @@ class NumberPlayGameAnswerButtons extends Node {
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,
-        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizerModel.isPlayingProperty, enabledProperty ],
+        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, enabledProperty ],
           ( isSolved, isPlaying, enabled ) => !isSolved && isPlaying && enabled ),
         listener: () => buttonListener( i )
       } );
