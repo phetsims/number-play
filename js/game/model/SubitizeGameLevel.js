@@ -57,8 +57,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    */
   reset() {
     super.reset();
+    this.subitizerModel.reset();
     this.newSubitizeNumberEmitter.emit();
-    this.subitizerModel.playButtonVisibleProperty.reset();
   }
 
   /**

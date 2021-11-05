@@ -7,6 +7,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -57,10 +59,6 @@ class NumberPlayGameAnswerButtons extends Node {
 
         this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
 
-        this.buttonObjects.forEach( object => {
-          level.subitizeNumberProperty.value !== object.value && object.button.setEnabled( false );
-        } );
-
         // if this is the first guess, increase the score
         if ( level.numberOfAnswerButtonPressesProperty.value === 1 ) {
           level.scoreProperty.value++;
@@ -72,19 +70,25 @@ class NumberPlayGameAnswerButtons extends Node {
         setFrownyFaceVisibilityCallback( true );
 
         // disable incorrect answer button
-        buttonObject.button.setEnabled( false );
+        buttonObject.enabledProperty.value = false;
       }
     };
 
     // create the buttons and green rectangles together
     for ( let i = 0; i < level.subitizeRange.getLength() + 1; i++ ) {
       const value = i + level.subitizeRange.min;
+
+      // used to disable individual buttons but the true 'enabledProperty' for this button relies on other properties too,
+      // see the derived property usage below
+      const enabledProperty = new BooleanProperty( true );
       const button = new RectangularPushButton( {
         content: new Text( value, ANSWER_BUTTON_TEXT_OPTIONS ),
         baseColor: Color.YELLOW,
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,
+        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizerModel.isPlayingProperty, enabledProperty ],
+          ( isSolved, isPlaying, enabled ) => !isSolved && isPlaying && enabled ),
         listener: () => buttonListener( i )
       } );
 
@@ -100,7 +104,8 @@ class NumberPlayGameAnswerButtons extends Node {
       this.buttonObjects.push( {
         value: value,
         button: button,
-        rectangle: rectangle
+        rectangle: rectangle,
+        enabledProperty: enabledProperty
       } );
     }
 
@@ -132,7 +137,7 @@ class NumberPlayGameAnswerButtons extends Node {
    * @public
    */
   reset() {
-    this.buttonObjects.forEach( object => object.button.setEnabled( true ) );
+    this.buttonObjects.forEach( object => object.enabledProperty.reset() );
     this.hbox.children = this.buttonObjects.map( object => object.button );
   }
 }

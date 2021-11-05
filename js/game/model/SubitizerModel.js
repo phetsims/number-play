@@ -280,6 +280,15 @@ class SubitizerModel {
     }
     return coordinatesAreEqual;
   }
+
+  /**
+   * @public
+   */
+  reset() {
+    this.playButtonVisibleProperty.reset();
+    this.visibleProperty.reset();
+    this.isPlayingProperty.reset();
+  }
 }
 
 numberPlay.register( 'SubitizerModel', SubitizerModel );

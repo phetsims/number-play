@@ -67,7 +67,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       xMargin: 6,
       yMargin: 6,
       baseColor: new Color( 0x8DB3FF ),
-      enabledProperty: new DerivedProperty( [ level.isSolvedProperty ], isSolved => !isSolved ),
+      enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizerModel.isPlayingProperty, level.subitizerModel.visibleProperty ],
+        ( isSolved, isPlaying, subitizerVisible ) => !isSolved && isPlaying && !subitizerVisible ),
       listener: () => {
         level.subitizerModel.visibleProperty.value = true;
       }
