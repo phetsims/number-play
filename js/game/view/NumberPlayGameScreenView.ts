@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2021, University of Colorado Boulder
 
 /**
  * ScreenView for the 'Game' screen.
