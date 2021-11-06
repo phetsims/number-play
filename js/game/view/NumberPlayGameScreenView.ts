@@ -8,11 +8,14 @@
  */
 
 import ScreenView from '../../../../joist/js/ScreenView.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import TransitionNode from '../../../../twixt/js/TransitionNode.js';
 import numberPlay from '../../numberPlay.js';
+import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -23,23 +26,22 @@ const TRANSITION_OPTIONS = {
 };
 
 class NumberPlayGameScreenView extends ScreenView {
+  levelNodes: SubitizeGameLevelNode[];
 
   /**
    * @param {NumberPlayGameModel} model
    * @param {Tandem} tandem
    */
-  constructor( model, tandem ) {
+  constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
     super( {
       tandem: tandem
     } );
 
     // create the levelSelectionNode
-    const levelSelectionNode = new NumberPlayGameLevelSelectionNode( model, this.layoutBounds, {
-      resetCallback: () => {
-        model.reset();
-        this.reset();
-      }
+    const levelSelectionNode = new NumberPlayGameLevelSelectionNode( model, this.layoutBounds, () => {
+      model.reset();
+      this.reset();
     } );
 
     // create the levels for the 'Subitize' game
@@ -54,7 +56,7 @@ class NumberPlayGameScreenView extends ScreenView {
 
     // Transition between levelSelectionNode and the selected level when the model changes.
     // A null value for levelProperty indicates that no level is selected, and levelSelectionNode should be shown.
-    model.levelProperty.lazyLink( level => {
+    model.levelProperty.lazyLink( ( level: SubitizeGameLevel | null ) => {
       this.interruptSubtreeInput();
 
       if ( level ) {
@@ -62,6 +64,7 @@ class NumberPlayGameScreenView extends ScreenView {
 
         // Transition to the selected level.
         const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) );
+        // @ts-ignore
         transitionNode.slideLeftTo( selectedLevelNode, TRANSITION_OPTIONS );
       }
       else {

@@ -11,6 +11,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import numberPlay from '../../numberPlay.js';
 import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
+import Subitizer from '../model/Subitizer.js';
 
 // constants
 const WIDTH = 425; // empirically determined, in screen coordinates
@@ -24,11 +25,12 @@ const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 class SubitizerNode extends Node {
+  subitizer: Subitizer;
 
   /**
    * @param subitizer {Subitizer}
    */
-  constructor( subitizer ) {
+  constructor( subitizer: Subitizer ) {
     super();
 
     // @private, for use in setTextObjectVisibility
@@ -51,7 +53,8 @@ class SubitizerNode extends Node {
     this.addChild( drawingNode );
 
     // update the view shape when the model coordinates change
-    subitizer.coordinatesProperty.link( coordinates => {
+    // TODO-TS: how do we know what usages to get rid of once Property supports TS?
+    subitizer.coordinatesProperty.link( ( coordinates: Vector2[] ) => {
       drawingNode.removeAllChildren();
 
       // create array of objects available and choose a random object from that array
@@ -66,12 +69,16 @@ class SubitizerNode extends Node {
           object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectWidth * 0.5 ), { fill: Color.BLACK } );
         }
         else {
+          // @ts-ignore TODO-TS: Random.sample type doc is wrong?
           object = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ randomObject ], {
             maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectWidth )
           } );
         }
+        // @ts-ignore
         object.centerX = scaleMVT.modelToViewX( coordinate.x );
+        // @ts-ignore
         object.centerY = scaleMVT.modelToViewY( coordinate.y );
+        // @ts-ignore
         drawingNode.addChild( object );
       } );
     } );

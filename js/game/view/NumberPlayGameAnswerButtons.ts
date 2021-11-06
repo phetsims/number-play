@@ -18,26 +18,41 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+
+// types
+type ButtonObject = {
+  value: number,
+  button: RectangularPushButton,
+  rectangle: Rectangle,
+  enabledProperty: BooleanProperty
+};
 
 // constants
 const ANSWER_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
 const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 
 class NumberPlayGameAnswerButtons extends Node {
+  buttonObjects: ButtonObject[];
+  level: SubitizeGameLevel;
+  hBox: HBox;
+  buttonListener: ( index: number ) => void;
 
   /**
    * @param {SubitizeGameLevel} level
    * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
    * @param {function(boolean)} setFrownyFaceVisibilityCallback
    */
-  constructor( level, pointsAwardedNodeVisibleProperty, setFrownyFaceVisibilityCallback ) {
-
+  constructor( level: SubitizeGameLevel,
+               pointsAwardedNodeVisibleProperty: BooleanProperty,
+               setFrownyFaceVisibilityCallback: ( showFrownyFace: boolean ) => void ) {
     super();
 
     // @private {Object[]}
     this.buttonObjects = [];
 
-    // @private {number}
+    // @private {SubitizeGameLevel}
     this.level = level;
 
     /**
@@ -46,7 +61,7 @@ class NumberPlayGameAnswerButtons extends Node {
      *
      * @param {number} index - the index of the button in the group
      */
-    const buttonListener = index => {
+    const buttonListener = ( index: number ) => {
       level.numberOfAnswerButtonPressesProperty.value++;
       const buttonObject = this.buttonObjects[ index ];
 
@@ -57,7 +72,7 @@ class NumberPlayGameAnswerButtons extends Node {
         level.subitizer.isPlayingProperty.reset();
         level.subitizer.visibleProperty.value = true;
 
-        this.hbox.replaceChild( buttonObject.button, buttonObject.rectangle );
+        this.hBox.replaceChild( buttonObject.button, buttonObject.rectangle );
 
         // if this is the first guess, increase the score
         if ( level.numberOfAnswerButtonPressesProperty.value === 1 ) {
@@ -88,7 +103,7 @@ class NumberPlayGameAnswerButtons extends Node {
         cornerRadius: 10,
         yMargin: 24,
         enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, enabledProperty ],
-          ( isSolved, isPlaying, enabled ) => !isSolved && isPlaying && enabled ),
+          ( isSolved: boolean, isPlaying: boolean, enabled: boolean ) => !isSolved && isPlaying && enabled ),
         listener: () => buttonListener( i )
       } );
 
@@ -110,11 +125,11 @@ class NumberPlayGameAnswerButtons extends Node {
     }
 
     // @private {HBox}
-    this.hbox = new HBox( {
+    this.hBox = new HBox( {
       children: this.buttonObjects.map( buttonObject => buttonObject.button ),
       spacing: 40
     } );
-    this.addChild( this.hbox );
+    this.addChild( this.hBox );
 
     // @private - for use in showCorrectAnswer
     this.buttonListener = buttonListener;
@@ -126,7 +141,8 @@ class NumberPlayGameAnswerButtons extends Node {
    * @param {NumberProperty} subitizeNumberProperty
    * @public
    */
-  showCorrectAnswer( subitizeNumberProperty ) {
+  showCorrectAnswer( subitizeNumberProperty: NumberProperty ) {
+    // @ts-ignore TODO-TS: Define common type for NumberProperty with required range?
     const index = subitizeNumberProperty.value - subitizeNumberProperty.range.min;
     this.buttonListener( index );
   }
@@ -138,7 +154,7 @@ class NumberPlayGameAnswerButtons extends Node {
    */
   reset() {
     this.buttonObjects.forEach( object => object.enabledProperty.reset() );
-    this.hbox.children = this.buttonObjects.map( object => object.button );
+    this.hBox.children = this.buttonObjects.map( object => object.button );
   }
 }
 

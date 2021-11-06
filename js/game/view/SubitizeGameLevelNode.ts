@@ -9,6 +9,8 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -25,19 +27,29 @@ import Easing from '../../../../twixt/js/Easing.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
+  frownyFaceNode: FaceNode;
+  frownyFaceAnimation: Animation | null;
+  pointsAwardedNodeVisibleProperty: BooleanProperty;
+  answerButtons: NumberPlayGameAnswerButtons;
 
   /**
    * @param {SubitizeGameLevel} level
-   * @param {Property.<SubitizeGameLevel>} levelProperty
+   * @param {Property.<SubitizeGameLeve|nulll>} levelProperty
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
-  constructor( level, levelProperty, layoutBounds, visibleBoundsProperty ) {
+  constructor( level: SubitizeGameLevel,
+               levelProperty: Property<SubitizeGameLevel | null>,
+               layoutBounds: Bounds2,
+               visibleBoundsProperty: Property<Bounds2>
+  ) {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty );
 
@@ -68,7 +80,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       visibleProperty: level.playButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;
-        this.setTextObjectVisibility( [ 3, 2, 1, 'GO' ], subitizerNode.center );
+        this.setTextObjectVisibility( [ '3', '2', '1', 'GO' ], subitizerNode.center );
       }
     } );
     playButton.center = subitizerNode.center;
@@ -88,7 +100,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       yMargin: 6,
       baseColor: new Color( 0x8DB3FF ),
       enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, level.subitizer.visibleProperty ],
-        ( isSolved, isPlaying, subitizerVisible ) => !isSolved && isPlaying && !subitizerVisible ),
+        ( isSolved: boolean, isPlaying: boolean, subitizerVisible: boolean ) => !isSolved && isPlaying && !subitizerVisible ),
       listener: () => {
         level.subitizer.visibleProperty.value = true;
       }
@@ -105,7 +117,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.frownyFaceNode.right = layoutBounds.maxX - 45; // empirically determined
     this.frownyFaceNode.frown();
     this.addChild( this.frownyFaceNode );
-    this.frownyFaceAnimation = null; // {Animation|null}
+    this.frownyFaceAnimation = null;
 
     // create and add smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
     const smileyFaceNode = new FaceNode( 160 /* headDiameter */, {
@@ -170,10 +182,12 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * @private
    */
   newChallenge() {
+    // @ts-ignore TODO-TS
     this.level.newChallenge();
     this.pointsAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();
     if ( NumberPlayQueryParameters.showCorrectAnswer ) {
+      // @ts-ignore TODO-TS
       this.answerButtons.showCorrectAnswer( this.level.subitizeNumberProperty );
     }
   }
@@ -184,7 +198,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * @param {boolean} showFrownyFace
    * @private
    */
-  setFrownyFaceVisibility( showFrownyFace ) {
+  setFrownyFaceVisibility( showFrownyFace: boolean ) {
 
     this.frownyFaceNode.visible = showFrownyFace;
 
@@ -217,7 +231,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * @param {Vector2} centerPosition
    * @private
    */
-  setTextObjectVisibility( startSequenceText, centerPosition ) {
+  setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
 
     // create and add textObject
     const textObject = new Text( startSequenceText[ 0 ], {
@@ -229,7 +243,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 
     // Animate opacity of textObject, fade it out.
     textObject.opacityProperty.value = 1;
-    let textObjectAnimation = new Animation( {
+    let textObjectAnimation: Animation | null = new Animation( {
       delay: 0.5,
       duration: 0.5,
       targets: [ {

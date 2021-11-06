@@ -8,6 +8,7 @@
  * @author Luisa Vargas
  */
 
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
@@ -18,6 +19,7 @@ import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAn
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
@@ -26,7 +28,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
    * @param {Bounds2} layoutBounds
    * @param {Object} [options]
    */
-  constructor( model, layoutBounds, options ) {
+  constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
 
     // a level-selection button for each level
     const levelSelectionButtons = model.levels.map(
@@ -53,15 +55,13 @@ class NumberPlayGameLevelSelectionNode extends Node {
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
-        options.resetCallback && options.resetCallback();
+        resetCallback();
       },
       right: layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
       bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
     } );
 
-    options.children = [ levelSelectionButtonsBox, resetAllButton ];
-
-    super( options );
+    super( { children: [ levelSelectionButtonsBox, resetAllButton ] } );
   }
 
 }
