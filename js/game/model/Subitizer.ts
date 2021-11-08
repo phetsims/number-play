@@ -55,7 +55,7 @@ const SHAPES: Shapes = {
     coordinates: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // row
     rotations: []
   }, {
-    coordinates: [ v2( -1, -1 ), v2( 1, -1 ), v2( -1, 1 ), v2( 1, 1 ) ], // square
+    coordinates: [ v2( -0.75, -0.75 ), v2( 0.75, -0.75 ), v2( -0.75, 0.75 ), v2( 0.75, 0.75 ) ], // square
     rotations: [ DEGREES_45 ]
   } ],
   5: [ {
