@@ -66,7 +66,7 @@ class NumberPlayGameAnswerButtons extends Node {
       const buttonObject = this.buttonObjects[ index ];
 
       // this button is the correct answer button
-      if ( level.subitizeNumberProperty.value === buttonObject.value ) {
+      if ( level.challengeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
         setFrownyFaceVisibilityCallback( false );
         level.subitizer.isPlayingProperty.reset();
@@ -90,8 +90,8 @@ class NumberPlayGameAnswerButtons extends Node {
     };
 
     // create the buttons and green rectangles together
-    for ( let i = 0; i < level.subitizeRange.getLength() + 1; i++ ) {
-      const value = i + level.subitizeRange.min;
+    for ( let i = 0; i < level.challengeRange.getLength() + 1; i++ ) {
+      const value = i + level.challengeRange.min;
 
       // used to disable individual buttons but the true 'enabledProperty' for this button relies on other properties too,
       // see the derived property usage below
@@ -138,10 +138,10 @@ class NumberPlayGameAnswerButtons extends Node {
   /**
    * Fires button listener on the correct answer button.
    *
-   * @param {NumberProperty} subitizeNumberProperty
+   * @param {NumberProperty} challengeNumberProperty
    */
-  public showCorrectAnswer( subitizeNumberProperty: NumberProperty ) {
-    const index = subitizeNumberProperty.value - subitizeNumberProperty.range!.min;
+  public showCorrectAnswer( challengeNumberProperty: NumberProperty ) {
+    const index = challengeNumberProperty.value - challengeNumberProperty.range!.min;
     this.buttonListener( index );
   }
 

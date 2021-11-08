@@ -202,7 +202,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.answerButtons.reset();
     if ( NumberPlayQueryParameters.showCorrectAnswer ) {
       // @ts-ignore TODO-TS
-      this.answerButtons.showCorrectAnswer( this.level.subitizeNumberProperty );
+      this.answerButtons.showCorrectAnswer( this.level.challengeNumberProperty );
     }
   }
 

@@ -84,7 +84,7 @@ const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 class Subitizer {
-  public subitizeNumberProperty: NumberProperty;
+  public challengeNumberProperty: NumberProperty;
   public visibleProperty: BooleanProperty;
   public coordinatesProperty: Property<Vector2[]>; //TODO-TS what to do about read-only?
   private readonly randomAndArranged: boolean;
@@ -94,17 +94,17 @@ class Subitizer {
   private subitizerTimeVisibleProperty: DerivedProperty<number>;
 
   /**
-   * @param {NumberProperty} subitizeNumberProperty
+   * @param {NumberProperty} challengeNumberProperty
    * @param {NumberProperty} numberOfAnswerButtonPressesProperty
    * @param {Boolean} randomAndArranged
    */
-  constructor( subitizeNumberProperty: NumberProperty,
+  constructor( challengeNumberProperty: NumberProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
                randomAndArranged: boolean
   ) {
 
     // @public {NumberProperty}
-    this.subitizeNumberProperty = subitizeNumberProperty;
+    this.challengeNumberProperty = challengeNumberProperty;
 
     // @public {NumberProperty} - whether the current shape is visible
     this.visibleProperty = new BooleanProperty( false );
@@ -160,7 +160,7 @@ class Subitizer {
    * Sets this.coordinatesProperty with new coordinates for the current subitizeNumber
    */
   public setNewCoordinates() {
-    const subitizeNumber = this.subitizeNumberProperty.value;
+    const subitizeNumber = this.challengeNumberProperty.value;
     let coordinates = [];
 
     // 60/40 chance whether the pattern uses an random configuration or an arranged one for level 1, level 2 always
