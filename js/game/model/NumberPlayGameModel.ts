@@ -14,8 +14,8 @@ import SubitizeGameLevel from './SubitizeGameLevel.js';
 
 class NumberPlayGameModel {
 
-  levels: SubitizeGameLevel[];
-  levelProperty: Property<null | SubitizeGameLevel>
+  public levels: SubitizeGameLevel[];
+  public levelProperty: Property<null | SubitizeGameLevel>
 
   /**
    * @param {Tandem} tandem
@@ -34,18 +34,16 @@ class NumberPlayGameModel {
 
   /**
    * Resets the model.
-   * @public
    */
-  reset() {
+  public reset() {
     this.levels.forEach( level => level.reset() );
   }
 
   /**
    * Steps the model.
    * @param {number} dt - time step, in seconds
-   * @public
    */
-  step( dt: number ) {
+  public step( dt: number ) {
     this.levels.forEach( level => level.step( dt ) );
   }
 }

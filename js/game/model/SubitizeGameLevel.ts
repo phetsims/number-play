@@ -13,15 +13,15 @@ import Subitizer from './Subitizer.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
-  statusBarMessage: string;
-  questionStringProperty: StringProperty;
-  subitizeRange: Range;
-  subitizeNumberProperty: NumberProperty;
-  oldSubitizeNumberOne: number;
-  oldSubitizeNumberTwo: number;
-  numberOfAnswerButtonPressesProperty: NumberProperty;
-  subitizer: Subitizer;
-  playButtonVisibleProperty: BooleanProperty;
+  public statusBarMessage: string;
+  public questionStringProperty: StringProperty;
+  public subitizeRange: Range;
+  public subitizeNumberProperty: NumberProperty;
+  private oldSubitizeNumberOne: number;
+  private oldSubitizeNumberTwo: number;
+  public numberOfAnswerButtonPressesProperty: NumberProperty;
+  public subitizer: Subitizer;
+  public playButtonVisibleProperty: BooleanProperty;
 
   /**
    * @param {number} levelNumber
@@ -64,9 +64,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
   /**
    * Shows the start sequence if the current challenge is unsolved.
-   * @public
    */
-  resetStartSequence() {
+  public resetStartSequence() {
     if ( !this.isSolvedProperty.value ) {
       this.playButtonVisibleProperty.reset();
       this.subitizer.isPlayingProperty.reset();
@@ -75,9 +74,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
   /**
    * Sets up a new challenge for this level.
-   * @public
    */
-  newChallenge() {
+  public newChallenge() {
     this.isSolvedProperty.reset();
     this.setNewSubitizeNumber();
     this.subitizer.setNewCoordinates();
@@ -86,10 +84,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.numberOfAnswerButtonPressesProperty.reset();
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset() {
     super.reset();
     this.subitizer.reset();
     this.playButtonVisibleProperty.reset();
@@ -97,9 +92,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
   /**
    * @param {number} dt
-   * @public
    */
-  step( dt: number ) {
+  public step( dt: number ) {
     this.subitizer.step( dt );
   }
 
@@ -107,10 +101,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   /**
    * Sets a new subitize number. Can be the value of the previous subitize number, but there cannot be three of the same
    * number in a row.
-   *
-   * @public
    */
-  setNewSubitizeNumber() {
+  public setNewSubitizeNumber() {
     assert && assert( this.subitizeRange.min !== this.subitizeRange.max,
       `subitizeRange must contain more than one number: ${this.subitizeRange.toString()}` );
 
@@ -127,9 +119,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
   /**
    * @returns {number}
-   * @private
    */
-  getNewSubitizeNumber() {
+  private getNewSubitizeNumber() {
     return dotRandom.nextIntBetween( this.subitizeRange.min, this.subitizeRange.max );
   }
 }

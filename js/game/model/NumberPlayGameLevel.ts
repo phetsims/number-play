@@ -13,9 +13,9 @@ import numberPlay from '../../numberPlay.js';
 
 class NumberPlayGameLevel {
 
-  levelNumber: number;
-  scoreProperty: NumberProperty;
-  isSolvedProperty: BooleanProperty;
+  public levelNumber: number;
+  public scoreProperty: NumberProperty;
+  public isSolvedProperty: BooleanProperty;
 
   /**
    * @param {number} levelNumber
@@ -36,10 +36,7 @@ class NumberPlayGameLevel {
     this.isSolvedProperty = new BooleanProperty( false );
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset() {
     this.isSolvedProperty.reset();
     this.scoreProperty.reset();
   }

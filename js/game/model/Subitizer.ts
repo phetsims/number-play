@@ -84,14 +84,14 @@ const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 class Subitizer {
-  subitizeNumberProperty: NumberProperty;
-  visibleProperty: BooleanProperty;
-  coordinatesProperty: Property<Vector2[]>;
-  randomAndArranged: boolean;
-  secondsSinceVisible: number;
-  objectWidth: number;
-  isPlayingProperty: BooleanProperty;
-  subitizerTimeVisibleProperty: DerivedProperty<number>;
+  public subitizeNumberProperty: NumberProperty;
+  public visibleProperty: BooleanProperty;
+  public coordinatesProperty: Property<Vector2[]>; //TODO-TS what to do about read-only?
+  private readonly randomAndArranged: boolean;
+  private secondsSinceVisible: number;
+  public objectWidth: number;
+  public isPlayingProperty: BooleanProperty;
+  private subitizerTimeVisibleProperty: DerivedProperty<number>;
 
   /**
    * @param {NumberProperty} subitizeNumberProperty
@@ -141,9 +141,8 @@ class Subitizer {
 
   /**
    * @param {number} dt
-   * @public
    */
-  step( dt: number ) {
+  public step( dt: number ) {
 
     // keep adding to secondsSinceVisible if the subitizer is visible and not paused
     if ( this.visibleProperty.value && this.isPlayingProperty.value ) {
@@ -159,9 +158,8 @@ class Subitizer {
 
   /**
    * Sets this.coordinatesProperty with new coordinates for the current subitizeNumber
-   * @public
    */
-  setNewCoordinates() {
+  public setNewCoordinates() {
     const subitizeNumber = this.subitizeNumberProperty.value;
     let coordinates = [];
 
@@ -178,7 +176,7 @@ class Subitizer {
         // if the shape has rotations available, randomly pick one to assign
         if ( shape.rotations.length && dotRandom.nextBoolean() ) {
           const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
-          coordinates = this.rotateCoordinates( coordinates, shape.rotations[ randomRotationIndex ] );
+          coordinates = Subitizer.rotateCoordinates( coordinates, shape.rotations[ randomRotationIndex ] );
         }
       }
       else {
@@ -189,7 +187,7 @@ class Subitizer {
           const randomY = dotRandom.nextDoubleBetween( -1, 1 );
 
           // add a new coordinate if it doesn't exist yet and does not overlap with the existing coordinates
-          const objectsOverlap = this.objectsOverlap( coordinates, randomX, randomY );
+          const objectsOverlap = Subitizer.objectsOverlap( coordinates, randomX, randomY );
           if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
             coordinates.push( new Vector2( randomX, randomY ) );
           }
@@ -221,12 +219,17 @@ class Subitizer {
       }
     }
 
-    if ( !this.isSameCoordinates( this.coordinatesProperty.value, coordinates ) ) {
+    if ( !Subitizer.isSameCoordinates( this.coordinatesProperty.value, coordinates ) ) {
       this.coordinatesProperty.value = coordinates;
     }
     else {
       this.setNewCoordinates();
     }
+  }
+
+  public reset() {
+    this.visibleProperty.reset();
+    this.isPlayingProperty.reset();
   }
 
   /**
@@ -235,9 +238,8 @@ class Subitizer {
    * @param {Vector2[]} coordinates
    * @param {number} rotationAngle - in radians
    * @returns {Vector2[]}
-   * @private
    */
-  rotateCoordinates( coordinates: Vector2[], rotationAngle: number ) {
+  private static rotateCoordinates( coordinates: Vector2[], rotationAngle: number ) {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
 
     const rotatedCoordinates: Vector2[] = [];
@@ -255,9 +257,8 @@ class Subitizer {
    * @param {number} randomX - X coordinate
    * @param {number} randomY - Y coordinate
    * @returns {boolean}
-   * @private
    */
-  objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ) {
+  private static objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ) {
     let overlap = false;
     const objectTotalWidth = OBJECT_WIDTH + 0.1;
     const objectTotalHalfWidth = objectTotalWidth / 2;
@@ -281,9 +282,8 @@ class Subitizer {
    * @param {Vector2[]} coordinatesSetOne
    * @param {Vector2[]} coordinatesSetTwo
    * @returns {boolean}
-   * @private
    */
-  isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ) {
+  private static isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ) {
     let coordinatesAreEqual = true;
     if ( coordinatesSetOne.length === coordinatesSetTwo.length ) {
       for ( let i = 0; i < coordinatesSetOne.length; i++ ) {
@@ -296,14 +296,6 @@ class Subitizer {
       coordinatesAreEqual = false;
     }
     return coordinatesAreEqual;
-  }
-
-  /**
-   * @public
-   */
-  reset() {
-    this.visibleProperty.reset();
-    this.isPlayingProperty.reset();
   }
 }
 
