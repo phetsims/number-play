@@ -141,8 +141,7 @@ class NumberPlayGameAnswerButtons extends Node {
    * @param {NumberProperty} subitizeNumberProperty
    */
   public showCorrectAnswer( subitizeNumberProperty: NumberProperty ) {
-    // @ts-ignore TODO-TS: Define common type for NumberProperty with required range?
-    const index = subitizeNumberProperty.value - subitizeNumberProperty.range.min;
+    const index = subitizeNumberProperty.value - subitizeNumberProperty.range!.min;
     this.buttonListener( index );
   }
 
