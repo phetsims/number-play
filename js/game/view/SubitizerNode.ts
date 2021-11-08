@@ -25,7 +25,7 @@ const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 class SubitizerNode extends Node {
-  subitizer: Subitizer;
+  private subitizer: Subitizer;
 
   /**
    * @param subitizer {Subitizer}

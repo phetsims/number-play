@@ -18,9 +18,9 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 class NumberPlayGameLevelNode extends Node {
-  statusBar: InfiniteStatusBar;
-  level: NumberPlayGameLevel;
-  layoutBounds: Bounds2;
+  public statusBar: InfiniteStatusBar;
+  public level: NumberPlayGameLevel;
+  private layoutBounds: Bounds2;
 
   /**
    * @param {NumberPlayGameLevel} level

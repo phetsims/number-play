@@ -26,7 +26,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
   /**
    * @param {NumberPlayGameModel} model
    * @param {Bounds2} layoutBounds
-   * @param {Object} [options]
+   * @param {function} resetCallback
    */
   constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
 

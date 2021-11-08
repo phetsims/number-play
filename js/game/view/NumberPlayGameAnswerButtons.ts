@@ -34,10 +34,10 @@ const ANSWER_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
 const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 
 class NumberPlayGameAnswerButtons extends Node {
-  buttonObjects: ButtonObject[];
-  level: SubitizeGameLevel;
-  hBox: HBox;
-  buttonListener: ( index: number ) => void;
+  private readonly buttonObjects: ButtonObject[];
+  private level: SubitizeGameLevel;
+  private readonly hBox: HBox;
+  private readonly buttonListener: ( index: number ) => void;
 
   /**
    * @param {SubitizeGameLevel} level
@@ -139,9 +139,8 @@ class NumberPlayGameAnswerButtons extends Node {
    * Fires button listener on the correct answer button.
    *
    * @param {NumberProperty} subitizeNumberProperty
-   * @public
    */
-  showCorrectAnswer( subitizeNumberProperty: NumberProperty ) {
+  public showCorrectAnswer( subitizeNumberProperty: NumberProperty ) {
     // @ts-ignore TODO-TS: Define common type for NumberProperty with required range?
     const index = subitizeNumberProperty.value - subitizeNumberProperty.range.min;
     this.buttonListener( index );
@@ -149,10 +148,8 @@ class NumberPlayGameAnswerButtons extends Node {
 
   /**
    * Returns everything in the HBox to its original button state.
-   *
-   * @public
    */
-  reset() {
+  public reset() {
     this.buttonObjects.forEach( object => object.enabledProperty.reset() );
     this.hBox.children = this.buttonObjects.map( object => object.button );
   }

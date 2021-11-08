@@ -26,7 +26,7 @@ const TRANSITION_OPTIONS = {
 };
 
 class NumberPlayGameScreenView extends ScreenView {
-  levelNodes: SubitizeGameLevelNode[];
+  private readonly levelNodes: SubitizeGameLevelNode[];
 
   /**
    * @param {NumberPlayGameModel} model
@@ -79,9 +79,8 @@ class NumberPlayGameScreenView extends ScreenView {
 
   /**
    * Resets the view.
-   * @public
    */
-  reset() {
+  public reset() {
     this.levelNodes.forEach( levelNode => levelNode.reset() );
   }
 }

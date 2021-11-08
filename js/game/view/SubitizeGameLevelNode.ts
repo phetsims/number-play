@@ -34,14 +34,14 @@ import SubitizerNode from './SubitizerNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
-  frownyFaceNode: FaceNode;
-  frownyFaceAnimation: Animation | null;
-  pointsAwardedNodeVisibleProperty: BooleanProperty;
-  answerButtons: NumberPlayGameAnswerButtons;
+  private readonly frownyFaceNode: FaceNode;
+  private frownyFaceAnimation: Animation | null;
+  private readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
+  private readonly answerButtons: NumberPlayGameAnswerButtons;
 
   /**
    * @param {SubitizeGameLevel} level
-   * @param {Property.<SubitizeGameLeve|nulll>} levelProperty
+   * @param {Property.<SubitizeGameLevel|null>} levelProperty
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
@@ -169,19 +169,15 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( newChallengeButton );
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset() {
     this.pointsAwardedNodeVisibleProperty.reset();
     this.answerButtons.reset();
   }
 
   /**
    * Sets up a new challenge in the model and in the view.
-   * @private
    */
-  newChallenge() {
+  private newChallenge() {
     // @ts-ignore TODO-TS
     this.level.newChallenge();
     this.pointsAwardedNodeVisibleProperty.value = false;
@@ -196,9 +192,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * Shows or hides a frowny face - if shown, animates it to fade out when the user made an incorrect guess.
    *
    * @param {boolean} showFrownyFace
-   * @private
    */
-  setFrownyFaceVisibility( showFrownyFace: boolean ) {
+  private setFrownyFaceVisibility( showFrownyFace: boolean ) {
 
     this.frownyFaceNode.visible = showFrownyFace;
 
@@ -229,9 +224,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * Animates an object in the start sequence to fade out
    * @param {Array} startSequenceText - array of the text that will make the start sequence
    * @param {Vector2} centerPosition
-   * @private
    */
-  setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
+  private setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
 
     // create and add textObject
     const textObject = new Text( startSequenceText[ 0 ], {
