@@ -16,10 +16,11 @@ import Color from '../../../../scenery/js/util/Color.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 
 class NumberPlayGameLevelNode extends Node {
   public statusBar: InfiniteStatusBar;
-  public level: NumberPlayGameLevel;
+  public level: SubitizeGameLevel;
   private layoutBounds: Bounds2;
 
   /**
@@ -28,7 +29,7 @@ class NumberPlayGameLevelNode extends Node {
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
-  constructor( level: NumberPlayGameLevel,
+  constructor( level: SubitizeGameLevel,
                levelProperty: Property<NumberPlayGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {

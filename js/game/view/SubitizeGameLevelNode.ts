@@ -32,12 +32,15 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
   private readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
   private readonly answerButtons: NumberPlayGameAnswerButtons;
+  private textObjectAnimation: Animation | null;
+  private readonly startSequenceNode: Node;
 
   /**
    * @param {SubitizeGameLevel} level
@@ -80,7 +83,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       visibleProperty: level.playButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;
-        this.setTextObjectVisibility( [ '3', '2', '1', 'GO' ], subitizerNode.center );
+        this.setTextObjectVisibility( [ '3', '2', '1', numberPlayStrings.go ], subitizerNode.center );
       }
     } );
     playButton.center = subitizerNode.center;
@@ -167,6 +170,21 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     newChallengeButton.centerX = smileyFaceNode.centerX;
     newChallengeButton.centerY = this.answerButtons.centerY;
     this.addChild( newChallengeButton );
+
+    // create and add startSequenceNode, which is where the text objects in the start sequence are added
+    this.textObjectAnimation = null;
+    this.startSequenceNode = new Node();
+    this.addChild( this.startSequenceNode );
+
+    // cancel the animation and hide the startSequenceNode if the startSequencePlayingProperty is set to false
+    this.level.startSequencePlayingProperty.link( ( startSequencePlaying: boolean ) => {
+      if ( !startSequencePlaying && this.textObjectAnimation ) {
+        this.textObjectAnimation.stop();
+        this.textObjectAnimation = null;
+        this.startSequenceNode.visible = false;
+        this.startSequenceNode.removeAllChildren();
+      }
+    } );
   }
 
   public reset() {
@@ -226,18 +244,19 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * @param {Vector2} centerPosition
    */
   private setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
+    this.level.startSequencePlayingProperty.value = true;
 
     // create and add textObject
     const textObject = new Text( startSequenceText[ 0 ], {
       font: new PhetFont( 55 )
     } );
     textObject.center = centerPosition;
-    this.addChild( textObject );
-    textObject.visible = true;
+    this.startSequenceNode.addChild( textObject );
+    this.startSequenceNode.visible = true;
 
     // Animate opacity of textObject, fade it out.
     textObject.opacityProperty.value = 1;
-    let textObjectAnimation: Animation | null = new Animation( {
+    this.textObjectAnimation = new Animation( {
       delay: 0.5,
       duration: 0.5,
       targets: [ {
@@ -247,20 +266,21 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
       } ]
     } );
 
-    textObjectAnimation.finishEmitter.addListener( () => {
-      textObject.visible = false;
-      textObjectAnimation = null;
+    this.textObjectAnimation.finishEmitter.addListener( () => {
+      this.startSequenceNode.visible = false;
+      this.textObjectAnimation = null;
       startSequenceText.shift();
       // animate the remaining objects in the start sequence if there are any remaining or start the game
       if ( startSequenceText.length > 0 ) {
         this.setTextObjectVisibility( startSequenceText, textObject.center );
       }
       else {
+        this.level.startSequencePlayingProperty.reset();
         this.newChallenge();
       }
     } );
 
-    textObjectAnimation.start();
+    this.textObjectAnimation.start();
   }
 }
 

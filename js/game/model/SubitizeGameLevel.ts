@@ -22,6 +22,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   public numberOfAnswerButtonPressesProperty: NumberProperty;
   public subitizer: Subitizer;
   public playButtonVisibleProperty: BooleanProperty;
+  public startSequencePlayingProperty: BooleanProperty;
 
   /**
    * @param {number} levelNumber
@@ -60,6 +61,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
     // @public {BooleanProperty} - whether the play button is visible
     this.playButtonVisibleProperty = new BooleanProperty( true );
+
+    // @public {BooleanProperty} - whether the start sequence is playing. This can also be used to stop an existing animation
+    this.startSequencePlayingProperty = new BooleanProperty( false );
   }
 
   /**
@@ -67,6 +71,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    */
   public resetStartSequence() {
     if ( !this.isSolvedProperty.value ) {
+      this.startSequencePlayingProperty.reset();
       this.playButtonVisibleProperty.reset();
       this.subitizer.isPlayingProperty.reset();
     }
