@@ -27,7 +27,7 @@ class NumberPlayGameModel {
 
     // @public {Property.<null|SubitizeGameLevel>} - the selected game level
     // null means 'no selection' and causes the view to return to the level-selection UI
-    this.levelProperty = new Property( null, {
+    this.levelProperty = new Property<SubitizeGameLevel | null>( null, {
       validValues: [ null, ...this.levels ]
     } );
   }

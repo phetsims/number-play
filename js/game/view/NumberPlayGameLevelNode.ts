@@ -15,7 +15,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 
 class NumberPlayGameLevelNode extends Node {
@@ -30,7 +29,7 @@ class NumberPlayGameLevelNode extends Node {
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
   constructor( level: SubitizeGameLevel,
-               levelProperty: Property<NumberPlayGameLevel | null>,
+               levelProperty: Property<SubitizeGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
     super();
