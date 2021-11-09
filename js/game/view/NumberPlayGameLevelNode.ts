@@ -31,7 +31,7 @@ import Easing from '../../../../twixt/js/Easing.js';
 
 class NumberPlayGameLevelNode extends Node {
   public statusBar: InfiniteStatusBar;
-  public level: SubitizeGameLevel;
+  public level: SubitizeGameLevel | CardinalityCountGameLevel;
   private layoutBounds: Bounds2;
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
@@ -44,8 +44,8 @@ class NumberPlayGameLevelNode extends Node {
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
-  constructor( level: SubitizeGameLevel,
-               levelProperty: Property<SubitizeGameLevel | null>,
+  constructor( level: SubitizeGameLevel | CardinalityCountGameLevel,
+               levelProperty: Property<SubitizeGameLevel | CardinalityCountGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
     super();

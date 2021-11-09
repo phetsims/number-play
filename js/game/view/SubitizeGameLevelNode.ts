@@ -41,7 +41,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
   constructor( level: SubitizeGameLevel,
-               levelProperty: Property<SubitizeGameLevel | null>,
+               levelProperty: Property<SubitizeGameLevel | CardinalityCountGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2>
   ) {
