@@ -54,7 +54,7 @@ class SubitizerNode extends Node {
 
     // update the view shape when the model coordinates change
     // TODO-TS: how do we know what usages to get rid of once Property supports TS?
-    subitizer.coordinatesProperty.link( ( coordinates: Vector2[] ) => {
+    subitizer.coordinatesProperty.link( coordinates => {
       drawingNode.removeAllChildren();
 
       // create array of objects available and choose a random object from that array
