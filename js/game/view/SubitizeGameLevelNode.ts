@@ -27,7 +27,6 @@ import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
 

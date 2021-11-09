@@ -16,7 +16,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
-import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';

@@ -53,7 +53,6 @@ class SubitizerNode extends Node {
     this.addChild( drawingNode );
 
     // update the view shape when the model coordinates change
-    // TODO-TS: how do we know what usages to get rid of once Property supports TS?
     subitizer.coordinatesProperty.link( coordinates => {
       drawingNode.removeAllChildren();
 
