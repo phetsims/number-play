@@ -36,10 +36,15 @@ class NumberPlayModel {
     this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING );
 
     // @public (read-only) - the model for managing the play area in the OnesAccordionBox
-    this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty );
+    this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
+      isResettingProperty: this.isResettingProperty
+    } );
 
     // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, this.isResettingProperty, false );
+    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
+      isResettingProperty: this.isResettingProperty,
+      isOnes: false
+    } );
   }
 
   /**

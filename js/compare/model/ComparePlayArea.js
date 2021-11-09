@@ -26,10 +26,14 @@ class ComparePlayArea {
     this.playObjectTypeProperty = new EnumerationProperty( ComparePlayObjectType, ComparePlayObjectType.DOG );
 
     // @public (read-only) - the model for managing paper ones in the playArea
-    this.onesPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, isResettingProperty );
+    this.onesPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {
+      isResettingProperty: isResettingProperty
+    } );
 
     // @public (read-only) - the model for managing objects in the playArea
-    this.objectsPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, isResettingProperty );
+    this.objectsPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {
+      isResettingProperty: isResettingProperty
+    } );
   }
 
   /**

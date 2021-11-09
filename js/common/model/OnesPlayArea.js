@@ -16,6 +16,7 @@ import CountingCommonModel from '../../../../counting-common/js/common/model/Cou
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import merge from '../../../../phet-core/js/merge.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
@@ -37,11 +38,16 @@ class OnesPlayArea extends CountingCommonModel {
    * @param {NumberProperty} currentNumberProperty
    * @param {Vector2} paperNumberOrigin - origin of where paper numbers are created, but only used when the model is
    * responding to changes in currentNumberProperty, not when a user drags a paperNumber out of the bucket
-   * @param {BooleanProperty} isResetting
+   * @param {object} [options]
    * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
    */
-  constructor( currentNumberProperty, paperNumberOrigin, isResettingProperty, isOnes = true ) {
+  constructor( currentNumberProperty, paperNumberOrigin, options ) {
     super();
+
+    options = merge( {
+      isResettingProperty: null,
+      isOnes: true
+    }, options );
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -72,14 +78,14 @@ class OnesPlayArea extends CountingCommonModel {
     // @public {boolean} whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
 
-    const objectBounds = isOnes ? new BaseNumber( 1, 0 ).bounds : CountingCommonConstants.PLAY_OBJECT_SIZE;
+    const objectBounds = options.isOnes ? new BaseNumber( 1, 0 ).bounds : CountingCommonConstants.PLAY_OBJECT_SIZE;
 
     // @private {Vector2[]}
     this.organizedObjectSpots = this.calculateOrganizedObjectSpots( objectBounds.width, objectBounds.height );
 
     // if the current number changes, add or remove paperNumbers from the play area
     currentNumberProperty.link( ( currentNumber, previousNumber ) => {
-      if ( !this.isControllingCurrentNumber && !isResettingProperty.value ) {
+      if ( options.isResettingProperty && !options.isResettingProperty.value && !this.isControllingCurrentNumber ) {
         if ( currentNumber < previousNumber ) {
           _.times( previousNumber - currentNumber, () => {
 
@@ -98,6 +104,9 @@ class OnesPlayArea extends CountingCommonModel {
             }
           } );
         }
+      }
+      else {
+        // this.removeAllPaperNumbers(); // TODO: implement setting needed for cardinality game
       }
     } );
   }
@@ -129,7 +138,7 @@ class OnesPlayArea extends CountingCommonModel {
       // best performance, since this loop is nested
       for ( let i = 0; i < numberOfPaperNumbersInPlayArea; i++ ) {
         if ( this.paperNumbers.get( i ).positionProperty.value.distance(
-          paperNumber.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) )
+               paperNumber.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) )
              < MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS ) {
           spotIsAvailable = false;
         }
