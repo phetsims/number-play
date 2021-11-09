@@ -177,7 +177,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( this.startSequenceNode );
 
     // cancel the animation and hide the startSequenceNode if the startSequencePlayingProperty is set to false
-    this.level.startSequencePlayingProperty.link( ( startSequencePlaying: boolean ) => {
+    this.level.startSequencePlayingProperty.link( startSequencePlaying => {
       if ( !startSequencePlaying && this.textObjectAnimation ) {
         this.textObjectAnimation.stop();
         this.textObjectAnimation = null;
