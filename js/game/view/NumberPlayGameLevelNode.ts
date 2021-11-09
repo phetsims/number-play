@@ -27,6 +27,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
 
 class NumberPlayGameLevelNode extends Node {
   public statusBar: InfiniteStatusBar;
