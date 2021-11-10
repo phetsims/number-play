@@ -74,7 +74,11 @@ abstract class NumberPlayGameLevel {
     this.scoreProperty.reset();
   }
 
-  public abstract newChallenge(): void;
+  public newChallenge() { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
+    this.isSolvedProperty.reset();
+    this.setNewChallengeNumber();
+    this.numberOfAnswerButtonPressesProperty.reset();
+  }
 
   /**
    * Sets a new challenge number. Can be the value of the previous challenge number, but there cannot be three of the

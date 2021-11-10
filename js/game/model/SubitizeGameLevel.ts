@@ -50,12 +50,10 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    * Sets up a new challenge for this level.
    */
   public newChallenge() {
-    this.isSolvedProperty.reset();
-    this.setNewChallengeNumber();
+    super.newChallenge();
     this.subitizer.setNewCoordinates();
     this.subitizer.isPlayingProperty.value = true;
     this.subitizer.visibleProperty.value = true;
-    this.numberOfAnswerButtonPressesProperty.reset();
   }
 
   public reset() {

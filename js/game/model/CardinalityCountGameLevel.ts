@@ -22,12 +22,14 @@ class CardinalityCountGameLevel extends NumberPlayGameLevel {
   }
 
   public reset() {
+    super.reset();
   }
 
   public step( dt: number ) {
   }
 
-  newChallenge() {
+  public newChallenge() {
+    super.newChallenge();
   }
 }
 
