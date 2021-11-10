@@ -15,7 +15,7 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
+import CardinalityCountGameLevelNode from './CardinalityCountGameLevelNode.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -26,7 +26,7 @@ const TRANSITION_OPTIONS = {
 };
 
 class NumberPlayGameScreenView extends ScreenView {
-  private readonly levelNodes: SubitizeGameLevelNode[];
+  private readonly levelNodes: Array<SubitizeGameLevelNode | CardinalityCountGameLevelNode>;
 
   /**
    * @param {NumberPlayGameModel} model
@@ -44,9 +44,16 @@ class NumberPlayGameScreenView extends ScreenView {
       this.reset();
     } );
 
-    // create the levels for the 'Subitize' game
-    this.levelNodes = model.levels.map( level =>
+    // create the level nodes for the 'Subitize' game
+    const subitizeLevelNodes = model.subitizeLevels.map( level =>
       new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+
+    // create the level nodes for the 'Cardinality' game
+    const cardinalityLevelNodes = model.cardinalityLevels.map( level =>
+      new CardinalityCountGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+
+    // store all level nodes in one place for easy iteration
+    this.levelNodes = [ ...subitizeLevelNodes, ...cardinalityLevelNodes ];
 
     // create the transitionNode which handles the animated slide transition between levelSelectionNode and a level
     const transitionNode = new TransitionNode( this.visibleBoundsProperty, {
@@ -56,11 +63,12 @@ class NumberPlayGameScreenView extends ScreenView {
 
     // Transition between levelSelectionNode and the selected level when the model changes.
     // A null value for levelProperty indicates that no level is selected, and levelSelectionNode should be shown.
-    model.levelProperty.lazyLink( ( level: SubitizeGameLevel | null ) => {
+    model.levelProperty.lazyLink( level => {
       this.interruptSubtreeInput();
 
       if ( level ) {
-        level.resetStartSequence();
+        // @ts-ignore TODO-TS
+        level.resetStartSequence && level.resetStartSequence();
 
         // Transition to the selected level.
         const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) );

@@ -20,6 +20,7 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
 
 // types
 type ButtonObject = {
@@ -35,7 +36,7 @@ const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 
 class NumberPlayGameAnswerButtons extends Node {
   private readonly buttonObjects: ButtonObject[];
-  private level: SubitizeGameLevel;
+  private level: SubitizeGameLevel | CardinalityCountGameLevel;
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
 
@@ -44,9 +45,11 @@ class NumberPlayGameAnswerButtons extends Node {
    * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
    * @param {function(boolean)} setFrownyFaceVisibilityCallback
    */
-  constructor( level: SubitizeGameLevel,
+  constructor( level: SubitizeGameLevel | CardinalityCountGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
-               setFrownyFaceVisibilityCallback: ( showFrownyFace: boolean ) => void ) {
+               rightAnswerCallback: () => void,
+               wrongAnswerCallback: () => void,
+               enabledPropertyDependency: BooleanProperty = new BooleanProperty( true ) ) {
     super();
 
     // @private {Object[]}
@@ -68,9 +71,7 @@ class NumberPlayGameAnswerButtons extends Node {
       // this button is the correct answer button
       if ( level.challengeNumberProperty.value === buttonObject.value ) {
         level.isSolvedProperty.value = true;
-        setFrownyFaceVisibilityCallback( false );
-        level.subitizer.isPlayingProperty.reset();
-        level.subitizer.visibleProperty.value = true;
+        rightAnswerCallback();
 
         this.hBox.replaceChild( buttonObject.button, buttonObject.rectangle );
 
@@ -82,7 +83,7 @@ class NumberPlayGameAnswerButtons extends Node {
       }
       else {
         pointsAwardedNodeVisibleProperty.value = false;
-        setFrownyFaceVisibilityCallback( true );
+        wrongAnswerCallback();
 
         // disable incorrect answer button
         buttonObject.enabledProperty.value = false;
@@ -102,7 +103,7 @@ class NumberPlayGameAnswerButtons extends Node {
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,
-        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, enabledProperty ],
+        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, enabledProperty, enabledPropertyDependency ],
           ( isSolved: boolean, isPlaying: boolean, enabled: boolean ) => !isSolved && isPlaying && enabled ),
         listener: () => buttonListener( i )
       } );

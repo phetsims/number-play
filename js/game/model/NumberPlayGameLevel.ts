@@ -15,7 +15,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
  * @author Luisa Vargas
  */
 
-class NumberPlayGameLevel {
+abstract class NumberPlayGameLevel {
 
   public levelNumber: number;
   public statusBarMessage: string;
@@ -69,10 +69,12 @@ class NumberPlayGameLevel {
     this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
   }
 
-  public reset() {
+  protected reset() {
     this.isSolvedProperty.reset();
     this.scoreProperty.reset();
   }
+
+  public abstract newChallenge(): void;
 
   /**
    * Sets a new challenge number. Can be the value of the previous challenge number, but there cannot be three of the

@@ -20,7 +20,6 @@ import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
@@ -28,15 +27,18 @@ import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
-class NumberPlayGameLevelNode extends Node {
+abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
+
   public statusBar: InfiniteStatusBar;
-  public level: SubitizeGameLevel | CardinalityCountGameLevel;
+  public level: T;
   private layoutBounds: Bounds2;
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
-  private readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
-  private readonly answerButtons: NumberPlayGameAnswerButtons;
+  protected readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
+  protected abstract answerButtons: NumberPlayGameAnswerButtons;
 
   /**
    * @param {NumberPlayGameLevel} level
@@ -44,14 +46,13 @@ class NumberPlayGameLevelNode extends Node {
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
-  constructor( level: SubitizeGameLevel | CardinalityCountGameLevel,
+  constructor( level: T,
                levelProperty: Property<SubitizeGameLevel | CardinalityCountGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
     super();
 
     // Text displayed in the status bar
-    // @ts-ignore TODO-TS, subtype of NumberPlayGameLevel has statusBarMessage??
     const levelDescriptionText = new RichText( level.statusBarMessage, {
       font: new PhetFont( 21 ),
       maxWidth: 650 // determined empirically
@@ -113,14 +114,6 @@ class NumberPlayGameLevelNode extends Node {
     } );
     this.addChild( pointsAwardedNode );
 
-    // @private {NumberPlayGameAnswerButtons} - create and add the answerButtons
-    // @ts-ignore TODO-TS
-    this.answerButtons = new NumberPlayGameAnswerButtons( level,
-      this.pointsAwardedNodeVisibleProperty, showFrownyFace => this.setFrownyFaceVisibility( showFrownyFace ) );
-    this.answerButtons.centerX = layoutBounds.centerX;
-    this.answerButtons.bottom = layoutBounds.maxY - 58; // TODO magic number
-    this.addChild( this.answerButtons );
-
     // create and add newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
     const arrowShape = new ArrowShape( 0, 0, 42, 0, {
       tailWidth: 12,
@@ -136,11 +129,11 @@ class NumberPlayGameLevelNode extends Node {
       listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
-    newChallengeButton.centerY = this.answerButtons.centerY;
+    newChallengeButton.top = smileyFaceNode.bottom + 20;
     this.addChild( newChallengeButton );
   }
 
-  public reset() {
+  protected reset() {
     this.pointsAwardedNodeVisibleProperty.reset();
     this.answerButtons.reset();
   }
@@ -149,12 +142,10 @@ class NumberPlayGameLevelNode extends Node {
    * Sets up a new challenge in the model and in the view.
    */
   protected newChallenge() {
-    // @ts-ignore TODO-TS
     this.level.newChallenge();
     this.pointsAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();
     if ( NumberPlayQueryParameters.showCorrectAnswer ) {
-      // @ts-ignore TODO-TS
       this.answerButtons.showCorrectAnswer( this.level.challengeNumberProperty );
     }
   }
@@ -164,8 +155,7 @@ class NumberPlayGameLevelNode extends Node {
    *
    * @param {boolean} showFrownyFace
    */
-  private setFrownyFaceVisibility( showFrownyFace: boolean ) {
-
+  protected setFrownyFaceVisibility( showFrownyFace: boolean ) {
     this.frownyFaceNode.visible = showFrownyFace;
 
     if ( showFrownyFace ) {

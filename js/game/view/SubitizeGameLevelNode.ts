@@ -27,8 +27,10 @@ import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
+import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
-class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
+class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   private textObjectAnimation: Animation | null;
   private readonly startSequenceNode: Node;
@@ -46,6 +48,20 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
   ) {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty );
+
+    // create and add the answer buttons
+    this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
+        this.setFrownyFaceVisibility( false );
+        level.subitizer.isPlayingProperty.reset();
+        level.subitizer.visibleProperty.value = true;
+      }, () => {
+        this.setFrownyFaceVisibility( true );
+      },
+      level.subitizer.isPlayingProperty
+    );
+    this.answerButtons.centerX = layoutBounds.centerX;
+    this.answerButtons.bottom = layoutBounds.maxY - 58; // TODO magic number
+    this.addChild( this.answerButtons );
 
     // create and add the questionText which is the prompt above the subitizerNode box
     const questionText = new Text( level.questionStringProperty.value, {
@@ -109,7 +125,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     this.addChild( this.startSequenceNode );
 
     // cancel the animation and hide the startSequenceNode if the startSequencePlayingProperty is set to false
-    // @ts-ignore TODO-TS
     this.level.startSequencePlayingProperty.link( startSequencePlaying => {
       if ( !startSequencePlaying && this.textObjectAnimation ) {
         this.textObjectAnimation.stop();
@@ -120,13 +135,18 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
     } );
   }
 
+  public reset() {
+    super.reset();
+  }
+
+  protected answerButtons: NumberPlayGameAnswerButtons;
+
   /**
    * Animates an object in the start sequence to fade out
    * @param {Array} startSequenceText - array of the text that will make the start sequence
    * @param {Vector2} centerPosition
    */
   private setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
-    // @ts-ignore TODO-TS
     this.level.startSequencePlayingProperty.value = true;
 
     // create and add textObject
@@ -158,7 +178,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode {
         this.setTextObjectVisibility( startSequenceText, textObject.center );
       }
       else {
-        // @ts-ignore TODO-TS
         this.level.startSequencePlayingProperty.reset();
         this.newChallenge();
       }
