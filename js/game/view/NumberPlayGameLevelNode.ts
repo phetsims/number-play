@@ -30,6 +30,9 @@ import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
+// constants
+const FACE_DIAMETER = 160;
+
 abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
 
   public statusBar: InfiniteStatusBar;
@@ -82,17 +85,17 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.layoutBounds = layoutBounds;
 
     // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
-    this.frownyFaceNode = new FaceNode( 160 /* headDiameter */, {
+    this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
-    this.frownyFaceNode.top = 144; // TODO magic number
+    this.frownyFaceNode.top = 100; // empirically determined
     this.frownyFaceNode.right = layoutBounds.maxX - 45; // empirically determined
     this.frownyFaceNode.frown();
     this.addChild( this.frownyFaceNode );
     this.frownyFaceAnimation = null;
 
     // create and add smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
-    const smileyFaceNode = new FaceNode( 160 /* headDiameter */, {
+    const smileyFaceNode = new FaceNode( FACE_DIAMETER, {
       visibleProperty: level.isSolvedProperty
     } );
     smileyFaceNode.top = this.frownyFaceNode.top;
@@ -105,7 +108,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     // create and add pointsAwardedNode which is shown when a correct guess is made on the first answerButtons press
     const starNode = new StarNode( { value: 1, scale: 3 } );
     starNode.centerX = this.frownyFaceNode.centerX;
-    starNode.top = this.frownyFaceNode.bottom + 40; // empirically determined
+    starNode.top = this.frownyFaceNode.bottom + 20; // empirically determined
     const pointsNode = new Text( '+1', { font: new PhetFont( 30 ), fill: 'black' } );
     pointsNode.center = starNode.center;
     pointsNode.centerY += 5;
@@ -130,7 +133,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
-    newChallengeButton.top = smileyFaceNode.bottom + 20;
+    newChallengeButton.top = starNode.bottom + 20;
     this.addChild( newChallengeButton );
   }
 
