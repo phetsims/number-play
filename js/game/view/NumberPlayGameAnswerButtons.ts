@@ -20,7 +20,7 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
+import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 
 // types
 type ButtonObject = {
@@ -36,7 +36,7 @@ const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 
 class NumberPlayGameAnswerButtons extends Node {
   private readonly buttonObjects: ButtonObject[];
-  private level: SubitizeGameLevel | CardinalityCountGameLevel;
+  private level: SubitizeGameLevel | CardinalityGameLevel;
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
 
@@ -45,7 +45,7 @@ class NumberPlayGameAnswerButtons extends Node {
    * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
    * @param {function(boolean)} setFrownyFaceVisibilityCallback
    */
-  constructor( level: SubitizeGameLevel | CardinalityCountGameLevel,
+  constructor( level: SubitizeGameLevel | CardinalityGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,

@@ -26,7 +26,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
+import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
@@ -47,7 +47,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
   constructor( level: T,
-               levelProperty: Property<SubitizeGameLevel | CardinalityCountGameLevel | null>,
+               levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
     super();

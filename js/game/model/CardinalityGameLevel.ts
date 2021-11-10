@@ -4,12 +4,12 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 
 /**
- * CardinalityCountGameLevel is TODO
+ * CardinalityGameLevel is TODO
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas
  */
-class CardinalityCountGameLevel extends NumberPlayGameLevel {
+class CardinalityGameLevel extends NumberPlayGameLevel {
   // public objectsPlayArea: OnesPlayArea;
 
   constructor( levelNumber: number, minimumCountNumber: number, maximumCountNumber: number ) {
@@ -33,5 +33,5 @@ class CardinalityCountGameLevel extends NumberPlayGameLevel {
   }
 }
 
-numberPlay.register( 'CardinalityCountGameLevel', CardinalityCountGameLevel );
-export default CardinalityCountGameLevel;
+numberPlay.register( 'CardinalityGameLevel', CardinalityGameLevel );
+export default CardinalityGameLevel;

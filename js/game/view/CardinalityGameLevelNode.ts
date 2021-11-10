@@ -3,15 +3,15 @@
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
+import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
-class CardinalityCountGameLevelNode extends NumberPlayGameLevelNode<CardinalityCountGameLevel> {
+class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLevel> {
 
-  constructor( level: CardinalityCountGameLevel,
-               levelProperty: Property<SubitizeGameLevel | CardinalityCountGameLevel | null>,
+  constructor( level: CardinalityGameLevel,
+               levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
@@ -36,5 +36,5 @@ class CardinalityCountGameLevelNode extends NumberPlayGameLevelNode<CardinalityC
 
 }
 
-numberPlay.register( 'CardinalityCountGameLevelNode', CardinalityCountGameLevelNode );
-export default CardinalityCountGameLevelNode;
+numberPlay.register( 'CardinalityGameLevelNode', CardinalityGameLevelNode );
+export default CardinalityGameLevelNode;

@@ -27,7 +27,7 @@ import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import CardinalityCountGameLevel from '../model/CardinalityCountGameLevel.js';
+import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
@@ -42,7 +42,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
    * @param {Property.<Bounds2>} visibleBoundsProperty
    */
   constructor( level: SubitizeGameLevel,
-               levelProperty: Property<SubitizeGameLevel | CardinalityCountGameLevel | null>,
+               levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2>
   ) {

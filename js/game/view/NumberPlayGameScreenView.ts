@@ -15,7 +15,7 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
-import CardinalityCountGameLevelNode from './CardinalityCountGameLevelNode.js';
+import CardinalityGameLevelNode from './CardinalityGameLevelNode.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -26,7 +26,7 @@ const TRANSITION_OPTIONS = {
 };
 
 class NumberPlayGameScreenView extends ScreenView {
-  private readonly levelNodes: Array<SubitizeGameLevelNode | CardinalityCountGameLevelNode>;
+  private readonly levelNodes: Array<SubitizeGameLevelNode | CardinalityGameLevelNode>;
 
   /**
    * @param {NumberPlayGameModel} model
@@ -50,7 +50,7 @@ class NumberPlayGameScreenView extends ScreenView {
 
     // create the level nodes for the 'Cardinality' game
     const cardinalityLevelNodes = model.cardinalityLevels.map( level =>
-      new CardinalityCountGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+      new CardinalityGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // store all level nodes in one place for easy iteration
     this.levelNodes = [ ...subitizeLevelNodes, ...cardinalityLevelNodes ];
