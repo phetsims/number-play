@@ -25,9 +25,9 @@ class NumberPlayGameModel {
    */
   constructor( tandem: Tandem ) {
 
-    this.subitizeLevels = [ new SubitizeGameLevel( 1, 1, 5 ), new SubitizeGameLevel( 2, 6, 10 ) ];
     this.cardinalityLevels = [ new CardinalityGameLevel( 1, 1, 10 ), new CardinalityGameLevel( 2, 11, 20 ) ];
-    this.levels = [ ...this.subitizeLevels, ...this.cardinalityLevels ];
+    this.subitizeLevels = [ new SubitizeGameLevel( 1, 1, 5 ), new SubitizeGameLevel( 2, 6, 10 ) ];
+    this.levels = [ ...this.cardinalityLevels, ...this.subitizeLevels ];
 
     // @public {Property.<null|SubitizeGameLevel>} - the selected game level
     // null means 'no selection' and causes the view to return to the level-selection UI

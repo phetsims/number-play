@@ -29,8 +29,8 @@ abstract class NumberPlayGameLevel {
 
   /**
    * @param {number} levelNumber
-   * @param {number} minimumCountNumber
-   * @param {number} maximumCountNumber
+   * @param {number} minimumChallengeNumber
+   * @param {number} maximumChallengeNumber
    */
   constructor( levelNumber: number, minimumChallengeNumber: number, maximumChallengeNumber: number ) {
 
@@ -38,7 +38,7 @@ abstract class NumberPlayGameLevel {
     this.levelNumber = levelNumber;
 
     // @public (read-only) {string} - message shown in the status bar that appears at the top of each level
-    this.statusBarMessage = StringUtils.fillIn( numberPlayStrings.level, {
+    this.statusBarMessage = StringUtils.fillIn( numberPlayStrings.levelPattern, {
       levelNumber: levelNumber
     } );
 

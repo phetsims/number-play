@@ -44,16 +44,16 @@ class NumberPlayGameScreenView extends ScreenView {
       this.reset();
     } );
 
-    // create the level nodes for the 'Subitize' game
-    const subitizeLevelNodes = model.subitizeLevels.map( level =>
-      new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
-
     // create the level nodes for the 'Cardinality' game
     const cardinalityLevelNodes = model.cardinalityLevels.map( level =>
       new CardinalityGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
+    // create the level nodes for the 'Subitize' game
+    const subitizeLevelNodes = model.subitizeLevels.map( level =>
+      new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+
     // store all level nodes in one place for easy iteration
-    this.levelNodes = [ ...subitizeLevelNodes, ...cardinalityLevelNodes ];
+    this.levelNodes = [ ...cardinalityLevelNodes, ...subitizeLevelNodes ];
 
     // create the transitionNode which handles the animated slide transition between levelSelectionNode and a level
     const transitionNode = new TransitionNode( this.visibleBoundsProperty, {

@@ -20,6 +20,11 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import VBox from '../../../../scenery/js/nodes/VBox.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
+import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
@@ -29,29 +34,60 @@ class NumberPlayGameLevelSelectionNode extends Node {
    * @param {function} resetCallback
    */
   constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
+    super();
 
-    // a level-selection button for each level
-    const levelSelectionButtons = model.levels.map(
-      level => new LevelSelectionButton( new Text(
-        StringUtils.fillIn( numberPlayStrings.level, {
-          levelNumber: level.levelNumber
-        } )
-      ), level.scoreProperty, {
-        // LevelSelectionButton options
+    // create and add the title text
+    const titleText = new Text( numberPlayStrings.chooseYourGame, { font: new PhetFont( 40 ) } );
+    titleText.centerX = layoutBounds.centerX;
+    titleText.top = layoutBounds.top + 42; // empirically determined
+    this.addChild( titleText );
+
+    // creates a level-selection button for each level
+    const createLevelSelectionButton = ( level: SubitizeGameLevel | CardinalityGameLevel, gameNameString: string, baseColor: string ) => {
+      return new LevelSelectionButton( new VBox( {
+        children: [
+          new HStrut( 47 ),
+          new Text( gameNameString ),
+          new Text( StringUtils.fillIn( numberPlayStrings.levelPattern, { levelNumber: level.levelNumber } ) )
+        ]
+      } ), level.scoreProperty, {
         scoreDisplayConstructor: ScoreDisplayNumberAndStar,
         listener: () => {
           model.levelProperty.value = level;
-        }
-      } )
+        },
+        baseColor: baseColor
+      } );
+    };
+
+    // create the level selection buttons for the 'Cardinality' game
+    const cardinalityLevelSelectionButtons = model.cardinalityLevels.map(
+      level => createLevelSelectionButton( level, numberPlayStrings.cardinality, '#F28E81' )
     );
 
-    const levelSelectionButtonsBox = new HBox( {
-      children: levelSelectionButtons,
-      spacing: 40
+    // create the level selection buttons for the 'Subitize' game
+    const subitizeGameLevelSelectionButtons = model.subitizeLevels.map(
+      level => createLevelSelectionButton( level, numberPlayStrings.subitize, '#9485FF' )
+    );
+
+    // arrange and add the level selection buttons
+    const buttonSpacing = 30;
+    const levelSelectionButtonsBox = new VBox( {
+      children: [
+        new HBox( {
+          children: cardinalityLevelSelectionButtons,
+          spacing: buttonSpacing
+        } ),
+        new HBox( {
+          children: subitizeGameLevelSelectionButtons,
+          spacing: buttonSpacing
+        } )
+      ],
+      spacing: buttonSpacing
     } );
     levelSelectionButtonsBox.center = layoutBounds.center;
+    this.addChild( levelSelectionButtonsBox );
 
-    // Reset All button, at lower right
+    // create and add reset all button
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
@@ -60,8 +96,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
       right: layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
       bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
     } );
-
-    super( { children: [ levelSelectionButtonsBox, resetAllButton ] } );
+    this.addChild( resetAllButton );
   }
 
 }
