@@ -61,12 +61,12 @@ class NumberPlayGameLevelSelectionNode extends Node {
 
     // create the level selection buttons for the 'Cardinality' game
     const cardinalityLevelSelectionButtons = model.cardinalityLevels.map(
-      level => createLevelSelectionButton( level, numberPlayStrings.cardinality, '#F28E81' )
+      level => createLevelSelectionButton( level, numberPlayStrings.cardinality, NumberPlayConstants.CARDINALITY_GAME_COLOR )
     );
 
     // create the level selection buttons for the 'Subitize' game
     const subitizeGameLevelSelectionButtons = model.subitizeLevels.map(
-      level => createLevelSelectionButton( level, numberPlayStrings.subitize, '#9485FF' )
+      level => createLevelSelectionButton( level, numberPlayStrings.subitize, NumberPlayConstants.SUBITIZE_GAME_COLOR )
     );
 
     // arrange and add the level selection buttons

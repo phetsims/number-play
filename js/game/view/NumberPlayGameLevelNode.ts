@@ -49,7 +49,8 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   constructor( level: T,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
-               visibleBoundsProperty: Property<Bounds2> ) {
+               visibleBoundsProperty: Property<Bounds2>,
+               statusBarColor: string ) {
     super();
 
     // Text displayed in the status bar
@@ -61,9 +62,9 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     // @public (read-only) {InfiniteStatusBar} - bar across the top of the screen
     // @ts-ignore
     this.statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
-      floatToTop: false,
+      floatToTop: true,
       spacing: 20,
-      barFill: new Color( 0x8DB3FF ),
+      barFill: statusBarColor,
       backButtonListener: () => {
         this.interruptSubtreeInput();
         levelProperty.value = null; // back to the level-selection UI

@@ -7,6 +7,7 @@ import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLevel> {
 
@@ -15,7 +16,7 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.CARDINALITY_GAME_COLOR );
 
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {

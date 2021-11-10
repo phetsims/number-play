@@ -29,6 +29,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
@@ -44,10 +45,9 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
   constructor( level: SubitizeGameLevel,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
-               visibleBoundsProperty: Property<Bounds2>
-  ) {
+               visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.SUBITIZE_GAME_COLOR );
 
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
