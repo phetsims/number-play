@@ -1,5 +1,12 @@
 // Copyright 2021, University of Colorado Boulder
 
+/**
+ * Subitizer generates the arranged and random patterns of the objects.
+ *
+ * @author Luisa Vargas
+ * @author Chris Klusendorf (PhET Interactive Simulations)
+ */
+
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -75,62 +82,50 @@ const SHAPES: Shapes = {
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
-const OBJECT_WIDTH = 0.4444; // width of the object in model coordinates
+const OBJECT_SIZE = 0.4444; // width of the object in model coordinates
 
-/**
- * Subitizer generates the arranged and random patterns of the objects.
- *
- * @author Luisa Vargas
- * @author Chris Klusendorf (PhET Interactive Simulations)
- */
 class Subitizer {
-  public challengeNumberProperty: NumberProperty;
-  public visibleProperty: BooleanProperty;
-  public coordinatesProperty: Property<Vector2[]>; //TODO-TS what to do about read-only?
+
+  public readonly challengeNumberProperty: NumberProperty;
+  public readonly visibleProperty: BooleanProperty;
+  public readonly coordinatesProperty: Property<Vector2[]>;
   private readonly randomAndArranged: boolean;
   private secondsSinceVisible: number;
-  public objectWidth: number;
-  public isPlayingProperty: BooleanProperty;
+  public readonly objectSize: number;
+  public readonly isPlayingProperty: BooleanProperty;
   private subitizerTimeVisibleProperty: DerivedProperty<number>;
 
-  /**
-   * @param {NumberProperty} challengeNumberProperty
-   * @param {NumberProperty} numberOfAnswerButtonPressesProperty
-   * @param {Boolean} randomAndArranged
-   */
   constructor( challengeNumberProperty: NumberProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
                randomAndArranged: boolean
   ) {
-
-    // @public {NumberProperty}
     this.challengeNumberProperty = challengeNumberProperty;
 
-    // @public {NumberProperty} - whether the current shape is visible
+    // whether the current shape is visible
     this.visibleProperty = new BooleanProperty( false );
 
-    // @public (read-only) {Property.<Vector2[]>} - the coordinates of the current shape
+    // the coordinates of the current shape
     this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
       arrayElementType: Vector2
     } );
 
-    // @private {boolean} - whether we can choose to use a random and arranged pattern
+    // whether we can choose to use a random and arranged pattern
     this.randomAndArranged = randomAndArranged;
 
-    // @private {number} - the number of seconds the sim clock has run since the subitizer was made visible
+    // the number of seconds the sim clock has run since the subitizer was made visible
     this.secondsSinceVisible = 0;
 
     // initialize first set of coordinates
     this.setNewCoordinates();
 
-    // @public {number}
-    this.objectWidth = OBJECT_WIDTH;
+    // the width and height of every object used to make a shape
+    this.objectSize = OBJECT_SIZE;
 
-    // @public {BooleanProperty} - indicates the play/pause state of the subitizer model. Manipulated only in the view.
+    // indicates the play/pause state of the subitizer model. Manipulated only in the view.
     this.isPlayingProperty = new BooleanProperty( false );
 
-    // @private {DerivedProperty.<number>} - the time the subitizerNode is visible
+    // how long the subitizer is visible when shown
     this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], ( numberOfAnswerButtonPresses: number ) => {
       if ( numberOfAnswerButtonPresses > NumberPlayConstants.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
         return this.subitizerTimeVisibleProperty.value + NumberPlayConstants.SUBITIZER_TIME_INCREASE_AMOUNT;
@@ -139,9 +134,6 @@ class Subitizer {
     } );
   }
 
-  /**
-   * @param {number} dt
-   */
   public step( dt: number ) {
 
     // keep adding to secondsSinceVisible if the subitizer is visible and not paused
@@ -234,12 +226,8 @@ class Subitizer {
 
   /**
    * Rotate each coordinate of the shape shape around the origin.
-   *
-   * @param {Vector2[]} coordinates
-   * @param {number} rotationAngle - in radians
-   * @returns {Vector2[]}
    */
-  private static rotateCoordinates( coordinates: Vector2[], rotationAngle: number ) {
+  private static rotateCoordinates( coordinates: Vector2[], rotationAngle: number ): Vector2[] {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
 
     const rotatedCoordinates: Vector2[] = [];
@@ -253,20 +241,25 @@ class Subitizer {
   /**
    * Compares the bounds of a coordinate to be added to all other existing coordinates and returns if the coordinate to
    * be added overlaps with any existing coordinate
-   * @param {Vector2[]} coordinates
-   * @param {number} randomX - X coordinate
-   * @param {number} randomY - Y coordinate
-   * @returns {boolean}
    */
-  private static objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ) {
+  private static objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ): boolean {
     let overlap = false;
-    const objectTotalWidth = OBJECT_WIDTH + 0.1;
+    const objectTotalWidth = OBJECT_SIZE + 0.1;
     const objectTotalHalfWidth = objectTotalWidth / 2;
     if ( coordinates.length > 0 ) {
       for ( let i = 0; i < coordinates.length; i++ ) {
         const coordinate = coordinates[ i ];
-        const coordinateObjectBounds = new Bounds2( coordinate.x - objectTotalHalfWidth, coordinate.y - objectTotalHalfWidth, coordinate.x + objectTotalHalfWidth, coordinate.y + objectTotalHalfWidth );
-        const randomObjectBounds = new Bounds2( randomX - objectTotalHalfWidth, randomY - objectTotalHalfWidth, randomX + objectTotalHalfWidth, randomY + objectTotalHalfWidth );
+        const coordinateObjectBounds = new Bounds2(
+          coordinate.x - objectTotalHalfWidth,
+          coordinate.y - objectTotalHalfWidth,
+          coordinate.x + objectTotalHalfWidth,
+          coordinate.y + objectTotalHalfWidth
+        );
+        const randomObjectBounds = new Bounds2( randomX - objectTotalHalfWidth,
+          randomY - objectTotalHalfWidth,
+          randomX + objectTotalHalfWidth,
+          randomY + objectTotalHalfWidth
+        );
         overlap = coordinateObjectBounds.intersectsBounds( randomObjectBounds );
         if ( overlap ) {
           break;
@@ -278,12 +271,8 @@ class Subitizer {
 
   /**
    * Compares two sets of coordinates and returns if they are equal or not
-   *
-   * @param {Vector2[]} coordinatesSetOne
-   * @param {Vector2[]} coordinatesSetTwo
-   * @returns {boolean}
    */
-  private static isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ) {
+  private static isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ): boolean {
     let coordinatesAreEqual = true;
     if ( coordinatesSetOne.length === coordinatesSetTwo.length ) {
       for ( let i = 0; i < coordinatesSetOne.length; i++ ) {

@@ -24,9 +24,6 @@ const screenGameString = numberPlayStrings.screen.game;
 
 class NumberPlayGameScreen extends Screen {
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     const options = {

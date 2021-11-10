@@ -1,5 +1,12 @@
 // Copyright 2021, University of Colorado Boulder
 
+/**
+ * NumberPlayGameLevel is the model for a game level which each type of game will extend.
+ *
+ * @author Chris Klusendorf (PhET Interactive Simulations)
+ * @author Luisa Vargas
+ */
+
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import numberPlay from '../../numberPlay.js';
@@ -8,64 +15,51 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import Range from '../../../../dot/js/Range.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
-/**
- * NumberPlayGameLevel is the model for a game level which each type of game will extend.
- *
- * @author Chris Klusendorf (PhET Interactive Simulations)
- * @author Luisa Vargas
- */
-
 abstract class NumberPlayGameLevel {
 
-  public levelNumber: number;
-  public statusBarMessage: string;
-  public scoreProperty: NumberProperty;
-  public isSolvedProperty: BooleanProperty;
-  public challengeRange: Range;
-  public challengeNumberProperty: NumberProperty;
+  public readonly levelNumber: number;
+  public readonly statusBarMessage: string;
+  public readonly scoreProperty: NumberProperty;
+  public readonly isSolvedProperty: BooleanProperty;
+  public readonly challengeRange: Range;
+  public readonly challengeNumberProperty: NumberProperty;
   private oldChallengeNumberOne: number;
   private oldChallengeNumberTwo: number;
-  public numberOfAnswerButtonPressesProperty: NumberProperty;
+  public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
 
-  /**
-   * @param {number} levelNumber
-   * @param {number} minimumChallengeNumber
-   * @param {number} maximumChallengeNumber
-   */
   constructor( levelNumber: number, minimumChallengeNumber: number, maximumChallengeNumber: number ) {
 
-    // @public (read-only) {number}
     this.levelNumber = levelNumber;
 
-    // @public (read-only) {string} - message shown in the status bar that appears at the top of each level
+    // message shown in the status bar that appears at the top of each level
     this.statusBarMessage = StringUtils.fillIn( numberPlayStrings.levelPattern, {
       levelNumber: levelNumber
     } );
 
-    // @public - the total number of points that have been awarded for this level
+    // the total number of points that have been awarded for this level
     this.scoreProperty = new NumberProperty( 0, {
       numberType: 'Integer',
       isValidValue: ( value: number ) => ( value >= 0 )
     } );
 
-    // @public {BooleanProperty} - Whether the current challenge has been solved. A challenge is considered solved when
-    // the user has correctly guessed the answer
+    // whether the current challenge has been solved. A challenge is considered solved when the user has correctly
+    // guessed the answer
     this.isSolvedProperty = new BooleanProperty( false );
 
-    // @public (read-only) {Range} - the range of numbers used for all challenges of this level
+    // the range of numbers used for all challenges of this level
     this.challengeRange = new Range( minimumChallengeNumber, maximumChallengeNumber );
 
-    // @public {NumberProperty} - the random number generated to create a subitized representation for
+    // the random number generated to create a subitized representation for
     this.challengeNumberProperty = new NumberProperty( this.getNewChallengeNumber(), {
       range: this.challengeRange
     } );
 
-    // @private - used to store old challengeNumber values. this.oldChallengeNumberOne tracks the most recent value of
+    // used to store old challengeNumber values. this.oldChallengeNumberOne tracks the most recent value of
     // this.challengeNumberProperty, and this.oldChallengeNumberTwo tracks the value used before that.
     this.oldChallengeNumberOne = this.challengeNumberProperty.value;
     this.oldChallengeNumberTwo = this.challengeNumberProperty.value;
 
-    // @public {NumberProperty} - the number of times any wrong answer button in answerButtons was pressed
+    // the number of times any wrong answer button in answerButtons was pressed
     this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
   }
 
@@ -99,10 +93,7 @@ abstract class NumberPlayGameLevel {
     this.challengeNumberProperty.value = newSubitizeNumber;
   }
 
-  /**
-   * @returns {number}
-   */
-  private getNewChallengeNumber() {
+  private getNewChallengeNumber(): number {
     return dotRandom.nextIntBetween( this.challengeRange.min, this.challengeRange.max );
   }
 }

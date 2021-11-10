@@ -1,5 +1,12 @@
 // Copyright 2021, University of Colorado Boulder
 
+/**
+ * TODO
+ *
+ * @author Chris Klusendorf (PhET Interactive Simulations)
+ * @author Luisa Vargas
+ */
+
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 import numberPlay from '../../numberPlay.js';
@@ -9,30 +16,20 @@ import Subitizer from './Subitizer.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
-  public questionStringProperty: StringProperty;
-  public subitizer: Subitizer;
+  public readonly questionStringProperty: StringProperty;
+  public readonly subitizer: Subitizer;
   public playButtonVisibleProperty: BooleanProperty;
   public startSequencePlayingProperty: BooleanProperty;
 
-  /**
-   * @param {number} levelNumber
-   * @param {number} minimumSubitizeNumber - minimum number to create a subitized representation for
-   * @param {number} maximumSubitizeNumber - maximum number to create a subitized representation for
-   */
   constructor( levelNumber: number, minimumSubitizeNumber: number, maximumSubitizeNumber: number ) {
     super( levelNumber, minimumSubitizeNumber, maximumSubitizeNumber );
 
-    // @public (read-only) {StringProperty}
-    this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
-
-    // @public (read-only) {Subitizer}
     this.subitizer = new Subitizer( this.challengeNumberProperty, this.numberOfAnswerButtonPressesProperty, levelNumber === 1 );
 
-    // @public {BooleanProperty} - whether the play button is visible
-    this.playButtonVisibleProperty = new BooleanProperty( true );
-
-    // @public {BooleanProperty} - whether the start sequence is playing. This can also be used to stop an existing animation
+    // whether the start sequence is playing. This can also be used to stop an existing animation.
     this.startSequencePlayingProperty = new BooleanProperty( false );
+    this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
+    this.playButtonVisibleProperty = new BooleanProperty( true );
   }
 
   /**
@@ -62,9 +59,6 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.playButtonVisibleProperty.reset();
   }
 
-  /**
-   * @param {number} dt
-   */
   public step( dt: number ) {
     this.subitizer.step( dt );
   }

@@ -20,33 +20,22 @@ class NumberPlayGameModel {
   public readonly levels: Array<SubitizeGameLevel | CardinalityGameLevel>;
   public levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>
 
-  /**
-   * @param {Tandem} tandem
-   */
   constructor( tandem: Tandem ) {
 
     this.cardinalityLevels = [ new CardinalityGameLevel( 1, 1, 10 ), new CardinalityGameLevel( 2, 11, 20 ) ];
     this.subitizeLevels = [ new SubitizeGameLevel( 1, 1, 5 ), new SubitizeGameLevel( 2, 6, 10 ) ];
     this.levels = [ ...this.cardinalityLevels, ...this.subitizeLevels ];
 
-    // @public {Property.<null|SubitizeGameLevel>} - the selected game level
-    // null means 'no selection' and causes the view to return to the level-selection UI
+    // the selected game level - null means 'no selection' and causes the view to return to the level-selection UI
     this.levelProperty = new Property<SubitizeGameLevel | CardinalityGameLevel | null>( null, {
       validValues: [ null, ...this.levels ]
     } );
   }
 
-  /**
-   * Resets the model.
-   */
   public reset() {
     this.levels.forEach( level => level.reset() );
   }
 
-  /**
-   * Steps the model.
-   * @param {number} dt - time step, in seconds
-   */
   public step( dt: number ) {
     this.levels.forEach( level => level.step( dt ) );
   }
