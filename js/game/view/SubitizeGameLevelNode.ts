@@ -51,14 +51,15 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
-        this.setFrownyFaceVisibility( false );
-        level.subitizer.isPlayingProperty.reset();
-        level.subitizer.visibleProperty.value = true;
-      }, () => {
-        this.setFrownyFaceVisibility( true );
-      },
-      level.subitizer.isPlayingProperty
-    );
+      this.setFrownyFaceVisibility( false );
+      level.subitizer.isPlayingProperty.reset();
+      level.subitizer.visibleProperty.value = true;
+    }, () => {
+      this.setFrownyFaceVisibility( true );
+    }, {
+      buttonSpacing: 40, // empirically determined
+      enabledPropertyDependency: level.subitizer.isPlayingProperty
+    } );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - 58; // TODO magic number
     this.addChild( this.answerButtons );
