@@ -121,7 +121,9 @@ class NumberPlayGameAnswerButtons extends Node {
       // create and replace the correct answer button with a rectangle and the correct number on top
       const rectangle = new Rectangle( 0, 0, BUTTON_DIMENSION.width, BUTTON_DIMENSION.height, {
         fill: Color.GREEN,
-        cornerRadius: 10
+        cornerRadius: 10,
+        lineWidth: 0.5,
+        stroke: Color.GRAY
       } );
       const correctAnswerText = new Text( value, BUTTON_TEXT_OPTIONS );
       correctAnswerText.center = rectangle.center;

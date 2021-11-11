@@ -35,7 +35,7 @@ const twentyString = numberPlayStrings.twenty;
 
 // constants used to define other constants
 const LIGHT_GREEN_BACKGROUND = 'rgb( 215, 255, 227 )';
-const LIGHT_ORANGE_BACKGROUND = 'rgb( 255, 242, 220 )';
+const LIGHT_ORANGE_BACKGROUND = '#FFF7EB';
 
 const NumberPlayConstants = {
 

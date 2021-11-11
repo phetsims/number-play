@@ -38,7 +38,9 @@ class SubitizerNode extends Node {
 
     // create and add a backgroundNode
     const backgroundNode = new Rectangle( 0, 0, WIDTH, HEIGHT, CORNER_RADIUS, CORNER_RADIUS, {
-      fill: 'white'
+      fill: Color.WHITE,
+      stroke: Color.BLACK,
+      lineWidth: 2
     } );
     backgroundNode.center = Vector2.ZERO;
     this.addChild( backgroundNode );
