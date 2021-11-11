@@ -98,7 +98,6 @@ class OnesPlayAreaNode extends Node {
     }
     else {
       this.paperNumberLayerNode = new Node();
-      this.addChild( this.paperNumberLayerNode );
     }
 
     // Add nodes for every already-existing paper number
@@ -133,6 +132,9 @@ class OnesPlayAreaNode extends Node {
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
     }
+
+    // add the paperNumberLayerNode after the creator panel
+    this.addChild( this.paperNumberLayerNode );
 
     // @private
     this.includeOnesCreatorPanel = options.includeOnesCreatorPanel;
