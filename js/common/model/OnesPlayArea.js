@@ -14,6 +14,7 @@ import CountingCommonConstants from '../../../../counting-common/js/common/Count
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import CountingCommonModel from '../../../../counting-common/js/common/model/CountingCommonModel.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -27,6 +28,12 @@ const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -6;
 const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 280;
 const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -80;
 const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -230;
+const ANIMATE_INTO_PLAY_AREA_BOUNDS = new Bounds2(
+  MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X,
+  MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y,
+  MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X,
+  MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y
+);
 
 // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
 // play area, in screen coordinates
@@ -46,7 +53,11 @@ class OnesPlayArea extends CountingCommonModel {
 
     options = merge( {
       isResettingProperty: null,
-      isOnes: true
+      isOnes: true,
+      // TODO: yikes! for the last 3 options, they are quick fixes that will change soon
+      sumPropertyRange: null,
+      setAllObjects: false,
+      animateIntoPlayAreaBounds: new Bounds2( 20, 0, 500, 230 )
     }, options );
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
@@ -59,7 +70,7 @@ class OnesPlayArea extends CountingCommonModel {
 
     // @public {NumberProperty} - The total sum of the current numbers
     this.sumProperty = new NumberProperty( currentNumberProperty.range.min, {
-      range: currentNumberProperty.range
+      range: options.sumPropertyRange || currentNumberProperty.range
     } );
 
     // @private {Function} - To be called when we need to recalculate the total
@@ -100,13 +111,17 @@ class OnesPlayArea extends CountingCommonModel {
 
             // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
             if ( this.sumProperty.value < currentNumberProperty.range.max ) {
-              this.createPaperNumberFromBucket( paperNumberOrigin );
+              this.createPaperNumberFromBucket( paperNumberOrigin, ANIMATE_INTO_PLAY_AREA_BOUNDS );
             }
           } );
         }
       }
-      else {
-        // this.removeAllPaperNumbers(); // TODO: implement setting needed for cardinality game
+      else if ( options.setAllObjects ) {
+        this.removeAllPaperNumbers();
+
+        _.times( currentNumber, () => {
+          this.createPaperNumberFromBucket( paperNumberOrigin, options.animateIntoPlayAreaBounds, false );
+        } );
       }
     } );
   }
@@ -117,7 +132,7 @@ class OnesPlayArea extends CountingCommonModel {
    * @param paperNumberOrigin
    * @private
    */
-  createPaperNumberFromBucket( paperNumberOrigin ) {
+  createPaperNumberFromBucket( paperNumberOrigin, animateIntoPlayAreaBounds, shouldAnimate = true ) {
     let translateVector = null;
     let findCount = 0;
 
@@ -126,11 +141,11 @@ class OnesPlayArea extends CountingCommonModel {
     // looks for positions that are not overlapping with other playObjects in the play area
     while ( !translateVector ) {
       const possibleTranslateX = dotRandom.nextDouble() *
-                                 ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X ) +
-                                 MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X;
+                                 ( animateIntoPlayAreaBounds.maxX - animateIntoPlayAreaBounds.minX ) +
+                                 animateIntoPlayAreaBounds.minX;
       const possibleTranslateY = dotRandom.nextDouble() *
-                                 ( MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y ) +
-                                 MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y;
+                                 ( animateIntoPlayAreaBounds.maxY - animateIntoPlayAreaBounds.minY ) +
+                                 animateIntoPlayAreaBounds.minY;
       let spotIsAvailable = true;
       const numberOfPaperNumbersInPlayArea = this.paperNumbers.lengthProperty.value;
 
@@ -153,7 +168,7 @@ class OnesPlayArea extends CountingCommonModel {
 
     const destinationPosition = paperNumber.positionProperty.value.plus( translateVector );
 
-    paperNumber.setDestination( destinationPosition, true );
+    paperNumber.setDestination( destinationPosition, shouldAnimate );
     this.addPaperNumber( paperNumber );
   }
 
