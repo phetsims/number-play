@@ -72,6 +72,7 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
     const playAreaPanel = new Panel( playAreaNode, {
       xMargin: 0,
       yMargin: 0,
+      fill: NumberPlayConstants.BLUE_BACKGROUND,
       lineWidth: panelLineWidth
     } );
     playAreaPanel.centerX = layoutBounds.centerX;
