@@ -29,6 +29,9 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
@@ -44,21 +47,21 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
   constructor( level: SubitizeGameLevel,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
-               visibleBoundsProperty: Property<Bounds2>
-  ) {
+               visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.SUBITIZE_GAME_COLOR );
 
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
-        this.setFrownyFaceVisibility( false );
-        level.subitizer.isPlayingProperty.reset();
-        level.subitizer.visibleProperty.value = true;
-      }, () => {
-        this.setFrownyFaceVisibility( true );
-      },
-      level.subitizer.isPlayingProperty
-    );
+      this.setFrownyFaceVisibility( false );
+      level.subitizer.isPlayingProperty.reset();
+      level.subitizer.visibleProperty.value = true;
+    }, () => {
+      this.setFrownyFaceVisibility( true );
+    }, {
+      buttonSpacing: 40, // empirically determined
+      enabledPropertyDependency: level.subitizer.isPlayingProperty
+    } );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - 58; // TODO magic number
     this.addChild( this.answerButtons );
@@ -104,11 +107,14 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
     // create and add the showAgainButton which flashes the content in the subitizerNode again
     const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
+    const showAgainButtonSideLength = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
+    const showAgainButtonMargin = 6;
     const showAgainButton = new RectangularPushButton( {
       content: resetIcon,
-      xMargin: 6,
-      yMargin: 6,
-      baseColor: new Color( 0x8DB3FF ),
+      xMargin: showAgainButtonMargin,
+      yMargin: showAgainButtonMargin,
+      size: new Dimension2( showAgainButtonSideLength, showAgainButtonSideLength ),
+      baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR,
       enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, level.subitizer.visibleProperty ],
         ( isSolved: boolean, isPlaying: boolean, subitizerVisible: boolean ) => !isSolved && isPlaying && !subitizerVisible ),
       listener: () => {
@@ -116,7 +122,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       }
     } );
     showAgainButton.left = speechSynthesisButton.left;
-    showAgainButton.setBottom( subitizerNode.getBottom() );
+    showAgainButton.bottom = subitizerNode.bottom;
     this.addChild( showAgainButton );
 
     // create and add startSequenceNode, which is where the text objects in the start sequence are added

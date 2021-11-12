@@ -35,7 +35,7 @@ const twentyString = numberPlayStrings.twenty;
 
 // constants used to define other constants
 const LIGHT_GREEN_BACKGROUND = 'rgb( 215, 255, 227 )';
-const LIGHT_ORANGE_BACKGROUND = 'rgb( 255, 242, 220 )';
+const LIGHT_ORANGE_BACKGROUND = '#FFF7EB';
 
 const NumberPlayConstants = {
 
@@ -94,6 +94,7 @@ const NumberPlayConstants = {
   // screen backgrounds
   TEN_SCREEN_BACKGROUND: LIGHT_GREEN_BACKGROUND,
   TWENTY_SCREEN_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
+  GAME_SCREEN_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
 
   // accordion box backgrounds
   GREEN_BACKGROUND: 'rgb( 159, 237, 172 )',
@@ -105,6 +106,10 @@ const NumberPlayConstants = {
   PURPLE_BACKGROUND: 'rgb( 252, 220, 255 )',
   BLUE_BACKGROUND: 'rgb( 204, 239, 255 )',
   WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
+
+  // level colors for the game screen
+  CARDINALITY_GAME_COLOR: 'rgb( 242, 142, 129 )',
+  SUBITIZE_GAME_COLOR: 'rgb( 148, 133, 255 )',
 
   // map number values to their corresponding string
   NUMBER_TO_STRING: {

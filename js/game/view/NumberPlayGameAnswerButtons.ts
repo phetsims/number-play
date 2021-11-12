@@ -21,8 +21,13 @@ import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import merge from '../../../../phet-core/js/merge.js';
 
 // types
+type AnswerButtonsOptions = {
+  buttonSpacing: number,
+  enabledPropertyDependency: BooleanProperty
+}
 type ButtonObject = {
   value: number,
   button: RectangularPushButton,
@@ -31,7 +36,7 @@ type ButtonObject = {
 };
 
 // constants
-const ANSWER_BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
+const BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
 const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 
 class NumberPlayGameAnswerButtons extends Node {
@@ -49,8 +54,13 @@ class NumberPlayGameAnswerButtons extends Node {
                pointsAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,
-               enabledPropertyDependency: BooleanProperty = new BooleanProperty( true ) ) {
+               providedOptions?: Partial<AnswerButtonsOptions> ) {
     super();
+
+    const options = merge( {
+      buttonSpacing: 18,
+      enabledPropertyDependency: new BooleanProperty( true )
+    }, providedOptions ) as AnswerButtonsOptions;
 
     // @private {Object[]}
     this.buttonObjects = [];
@@ -98,12 +108,12 @@ class NumberPlayGameAnswerButtons extends Node {
       // see the derived property usage below
       const enabledProperty = new BooleanProperty( true );
       const button = new RectangularPushButton( {
-        content: new Text( value, ANSWER_BUTTON_TEXT_OPTIONS ),
+        content: new Text( value, BUTTON_TEXT_OPTIONS ),
         baseColor: Color.YELLOW,
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,
-        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, enabledProperty, enabledPropertyDependency ],
+        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, enabledProperty, options.enabledPropertyDependency ],
           ( isSolved: boolean, isPlaying: boolean, enabled: boolean ) => !isSolved && isPlaying && enabled ),
         listener: () => buttonListener( i )
       } );
@@ -111,9 +121,11 @@ class NumberPlayGameAnswerButtons extends Node {
       // create and replace the correct answer button with a rectangle and the correct number on top
       const rectangle = new Rectangle( 0, 0, BUTTON_DIMENSION.width, BUTTON_DIMENSION.height, {
         fill: Color.GREEN,
-        cornerRadius: 10
+        cornerRadius: 10,
+        lineWidth: 0.5,
+        stroke: Color.GRAY
       } );
-      const correctAnswerText = new Text( value, ANSWER_BUTTON_TEXT_OPTIONS );
+      const correctAnswerText = new Text( value, BUTTON_TEXT_OPTIONS );
       correctAnswerText.center = rectangle.center;
       rectangle.addChild( correctAnswerText );
 
@@ -128,7 +140,7 @@ class NumberPlayGameAnswerButtons extends Node {
     // @private {HBox}
     this.hBox = new HBox( {
       children: this.buttonObjects.map( buttonObject => buttonObject.button ),
-      spacing: 40
+      spacing: options.buttonSpacing
     } );
     this.addChild( this.hBox );
 

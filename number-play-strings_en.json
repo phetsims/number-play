@@ -110,7 +110,7 @@
   "spanish": {
     "value": "Español"
   },
-  "level": {
+  "levelPattern": {
     "value": "Level {{levelNumber}}"
   },
   "howManyDots":{
@@ -118,5 +118,14 @@
   },
   "go": {
     "value": "GO"
+  },
+  "chooseYourGame": {
+    "value": "Choose Your Game!"
+  },
+  "cardinality": {
+    "value": "Cardinality"
+  },
+  "subitize": {
+    "value": "Subitize"
   }
 }

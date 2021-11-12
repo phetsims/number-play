@@ -1,28 +1,45 @@
 // Copyright 2021, University of Colorado Boulder
 
-import numberPlay from '../../numberPlay.js';
-import NumberPlayGameLevel from './NumberPlayGameLevel.js';
-
 /**
  * CardinalityGameLevel is TODO
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas
  */
+
+import Vector2 from '../../../../dot/js/Vector2.js';
+import OnesPlayArea from '../../common/model/OnesPlayArea.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayGameLevel from './NumberPlayGameLevel.js';
+import Range from '../../../../dot/js/Range.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import dotRandom from '../../../../dot/js/dotRandom.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+
 class CardinalityGameLevel extends NumberPlayGameLevel {
-  // public objectsPlayArea: OnesPlayArea;
+  public readonly objectsPlayArea: OnesPlayArea;
+  playObjectTypeProperty: EnumerationProperty;
+  isTenFrameProperty: BooleanProperty;
 
   constructor( levelNumber: number, minimumCountNumber: number, maximumCountNumber: number ) {
     super( levelNumber, minimumCountNumber, maximumCountNumber );
 
-    // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
-    // this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
-    //   isOnes: false
-    // } );
+    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
+      isOnes: false,
+      sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
+      setAllObjects: true
+    } );
+
+    // @ts-ignore
+    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+    this.isTenFrameProperty = new BooleanProperty( dotRandom.nextBoolean() );
   }
 
   public reset() {
     super.reset();
+    this.playObjectTypeProperty.reset();
+    this.isTenFrameProperty.reset();
   }
 
   public step( dt: number ) {
@@ -30,6 +47,9 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
 
   public newChallenge() {
     super.newChallenge();
+    // @ts-ignore
+    this.playObjectTypeProperty.value = PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
+    this.isTenFrameProperty.value = dotRandom.nextBoolean();
   }
 }
 

@@ -35,7 +35,8 @@ class OnesPlayAreaNode extends Node {
       backgroundDragTargetNode: null, // {null|Node}
       playObjectTypeProperty: null, // {EnumerationProperty.<PlayObjectType>|null}
       groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
-      viewHasIndependentModel: true // {boolean} whether this view is hooked up to its own model or a shared model
+      viewHasIndependentModel: true, // {boolean} whether this view is hooked up to its own model or a shared model
+      includeOnesCreatorPanel: true
     }, options );
 
     // @private {Function} - Called with function( paperNumberNode ) on number splits
@@ -90,6 +91,15 @@ class OnesPlayAreaNode extends Node {
     const paperNumberAddedListener = this.onPaperNumberAdded.bind( this );
     const paperNumberRemovedListener = this.onPaperNumberRemoved.bind( this );
 
+    // @private {Node} - Where all of the paper numbers are. Created if not provided.
+    this.paperNumberLayerNode = null;
+    if ( options.paperNumberLayerNode ) {
+      this.paperNumberLayerNode = options.paperNumberLayerNode;
+    }
+    else {
+      this.paperNumberLayerNode = new Node();
+    }
+
     // Add nodes for every already-existing paper number
     playArea.paperNumbers.forEach( paperNumberAddedListener );
 
@@ -119,17 +129,15 @@ class OnesPlayAreaNode extends Node {
     // @private {OnesCreatorPanel} - create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
     this.onesCreatorPanel.bottom = playAreaViewBounds.maxY;
-    this.addChild( this.onesCreatorPanel );
+    if ( options.includeOnesCreatorPanel ) {
+      this.addChild( this.onesCreatorPanel );
+    }
 
-    // @private {Node} - Where all of the paper numbers are. Created if not provided.
-    this.paperNumberLayerNode = null;
-    if ( options.paperNumberLayerNode ) {
-      this.paperNumberLayerNode = options.paperNumberLayerNode;
-    }
-    else {
-      this.paperNumberLayerNode = new Node();
-      this.addChild( this.paperNumberLayerNode );
-    }
+    // add the paperNumberLayerNode after the creator panel
+    this.addChild( this.paperNumberLayerNode );
+
+    // @private
+    this.includeOnesCreatorPanel = options.includeOnesCreatorPanel;
   }
 
   /**
@@ -324,6 +332,10 @@ class OnesPlayAreaNode extends Node {
    * @param {PaperNumber} paperNumber
    */
   onNumberDragFinished( paperNumber ) {
+
+    if ( !this.includeOnesCreatorPanel ) {
+      return;
+    }
 
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {

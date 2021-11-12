@@ -38,7 +38,9 @@ class SubitizerNode extends Node {
 
     // create and add a backgroundNode
     const backgroundNode = new Rectangle( 0, 0, WIDTH, HEIGHT, CORNER_RADIUS, CORNER_RADIUS, {
-      fill: 'white'
+      fill: Color.WHITE,
+      stroke: Color.BLACK,
+      lineWidth: 2
     } );
     backgroundNode.center = Vector2.ZERO;
     this.addChild( backgroundNode );
@@ -65,12 +67,12 @@ class SubitizerNode extends Node {
       coordinates.forEach( coordinate => {
         let object;
         if ( randomObject === 'CIRCLE' ) {
-          object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectWidth * 0.5 ), { fill: Color.BLACK } );
+          object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize * 0.5 ), { fill: Color.BLACK } );
         }
         else {
           // @ts-ignore TODO-TS: Random.sample type doc is wrong?
           object = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ randomObject ], {
-            maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectWidth )
+            maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
           } );
         }
         // @ts-ignore
