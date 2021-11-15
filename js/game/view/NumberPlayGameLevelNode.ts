@@ -164,6 +164,11 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     if ( showFrownyFace ) {
 
+      if ( this.frownyFaceAnimation ) {
+        this.frownyFaceAnimation.stop();
+        this.frownyFaceAnimation = null;
+      }
+
       // Animate opacity of frownyFaceNode, fade it out.
       this.frownyFaceNode.opacityProperty.value = 1;
       this.frownyFaceAnimation = new Animation( {
