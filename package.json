@@ -15,7 +15,8 @@
     "phetLibs": [
       "counting-common",
       "fractions-common",
-      "twixt"
+      "twixt",
+      "vegas"
     ],
     "simFeatures": {
       "supportsSpeechSynthesis": true

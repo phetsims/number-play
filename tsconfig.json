@@ -12,6 +12,9 @@
     },
     {
       "path": "../joist"
+    },
+    {
+      "path": "../vegas"
     }
   ],
   "include": [
