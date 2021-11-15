@@ -42,14 +42,16 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   private frownyFaceAnimation: Animation | null;
   protected readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
+  static ANSWER_BUTTONS_MARGIN_Y: number;
 
   /**
    * @param {NumberPlayGameLevel} level
    * @param {Property.<NumberPlayGameLevel|null>} levelProperty
    * @param {Bounds2} layoutBounds
    * @param {Property.<Bounds2>} visibleBoundsProperty
+   * @param {string} statusBarColor
    */
-  constructor( level: T,
+  protected constructor( level: T,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2>,
@@ -190,6 +192,8 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     }
   }
 }
+
+NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y = 58;
 
 numberPlay.register( 'NumberPlayGameLevelNode', NumberPlayGameLevelNode );
 export default NumberPlayGameLevelNode;
