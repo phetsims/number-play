@@ -1,5 +1,12 @@
 // Copyright 2021, University of Colorado Boulder
 
+/**
+ * SubitizerNode displays the subitized objects in the view.
+ *
+ * @author Luisa Vargas
+ * @author Chris Klusendorf (PhET Interactive Simulations)
+ */
+
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -18,12 +25,6 @@ const WIDTH = 425; // empirically determined, in screen coordinates
 const HEIGHT = 275; // empirically determined, in screen coordinates
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
 
-/**
- * SubitizerNode displays the subitized objects in the view.
- *
- * @author Luisa Vargas
- * @author Chris Klusendorf (PhET Interactive Simulations)
- */
 class SubitizerNode extends Node {
   private subitizer: Subitizer;
 
