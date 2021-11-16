@@ -41,7 +41,7 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
       this.setFrownyFaceVisibility( true );
     } );
     this.answerButtons.centerX = layoutBounds.centerX;
-    this.answerButtons.bottom = layoutBounds.maxY - 58; // TODO magic number
+    this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
     this.addChild( this.answerButtons );
 
     const playAreaNode = new Rectangle( {

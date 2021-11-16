@@ -63,7 +63,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       enabledPropertyDependency: level.subitizer.isPlayingProperty
     } );
     this.answerButtons.centerX = layoutBounds.centerX;
-    this.answerButtons.bottom = layoutBounds.maxY - 58; // TODO magic number
+    this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
     this.addChild( this.answerButtons );
 
     // create and add the questionText which is the prompt above the subitizerNode box
