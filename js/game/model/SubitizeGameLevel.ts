@@ -13,6 +13,7 @@ import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
@@ -28,8 +29,15 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
     // whether the start sequence is playing. This can also be used to stop an existing animation.
     this.startSequencePlayingProperty = new BooleanProperty( false );
-    this.questionStringProperty = new StringProperty( numberPlayStrings.howManyDots );
     this.playButtonVisibleProperty = new BooleanProperty( true );
+    this.questionStringProperty = new DerivedProperty( [ this.subitizer.objectTypeProperty ], objectType => {
+      if ( objectType === 'circle' ) {
+        return numberPlayStrings.howManyDots;
+      }
+      else {
+        return numberPlayStrings.howManyObjects;
+      }
+    } );
   }
 
   /**
@@ -48,6 +56,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    */
   public newChallenge() {
     super.newChallenge();
+    this.subitizer.setNewPlayObjectType();
     this.subitizer.setNewCoordinates();
     this.subitizer.isPlayingProperty.value = true;
     this.subitizer.visibleProperty.value = true;

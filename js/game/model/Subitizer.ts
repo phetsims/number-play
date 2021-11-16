@@ -18,6 +18,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
+import SubitizeObjectTypeEnum from './SubitizeObjectTypeEnum.js';
+import { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
 
 //TODO-TS: naming for a type used as a constant like this?
 type Shapes = {
@@ -94,6 +96,7 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isPlayingProperty: BooleanProperty;
   private subitizerTimeVisibleProperty: DerivedProperty<number>;
+  public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
 
   constructor( challengeNumberProperty: NumberProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
@@ -124,6 +127,9 @@ class Subitizer {
 
     // indicates the play/pause state of the subitizer model. Manipulated only in the view.
     this.isPlayingProperty = new BooleanProperty( false );
+
+    // the object type of the current shape
+    this.objectTypeProperty = new Property<SubitizeObjectTypeEnum>( 'dog' );
 
     // how long the subitizer is visible when shown
     this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], ( numberOfAnswerButtonPresses: number ) => {
@@ -217,6 +223,14 @@ class Subitizer {
     else {
       this.setNewCoordinates();
     }
+  }
+
+  /**
+   * Sets this.objectTypeProperty with a new object type for the current challenge
+   */
+  public setNewPlayObjectType() {
+    // @ts-ignore TODO-TS: Random.sample type doc is wrong?
+    this.objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
   }
 
   public reset() {

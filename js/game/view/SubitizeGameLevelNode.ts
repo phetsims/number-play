@@ -71,9 +71,14 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     const questionText = new Text( level.questionStringProperty.value, {
       font: new PhetFont( 45 )
     } );
-    questionText.centerX = layoutBounds.centerX;
     questionText.top = this.statusBar.bottom + 20; // empirically determined
     this.addChild( questionText );
+
+    // update the question text when the question string changes
+    level.questionStringProperty.link( questionString => {
+      questionText.setText( questionString );
+      questionText.centerX = layoutBounds.centerX;
+    } );
 
     // create and add the subitizerNode
     const subitizerNode = new SubitizerNode( level.subitizer );

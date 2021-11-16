@@ -8,8 +8,6 @@
  */
 
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
-import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
@@ -56,20 +54,15 @@ class SubitizerNode extends Node {
     subitizer.coordinatesProperty.link( coordinates => {
       drawingNode.removeAllChildren();
 
-      // create array of objects available and choose a random object from that array
-      const objectTypes = [ 'CIRCLE' ];
-      PlayObjectType.VALUES.forEach( playObjectType => objectTypes.push( playObjectType ) );
-      const randomObject = dotRandom.sample( objectTypes );
-
       // create and add each object to the drawingNode
       coordinates.forEach( coordinate => {
         let object;
-        if ( randomObject === 'CIRCLE' ) {
+        if ( subitizer.objectTypeProperty.value === 'circle' ) {
           object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize * 0.5 ), { fill: Color.BLACK } );
         }
         else {
-          // @ts-ignore TODO-TS: Random.sample type doc is wrong?
-          object = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ randomObject ], {
+          // @ts-ignore
+          object = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ _.toUpper( subitizer.objectTypeProperty.value ) ], {
             maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
           } );
         }

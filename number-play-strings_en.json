@@ -116,6 +116,9 @@
   "howManyDots": {
     "value": "How many dots?"
   },
+  "howManyObjects": {
+    "value": "How many objects?"
+  },
   "go": {
     "value": "GO"
   },

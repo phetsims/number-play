@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2020-2021, University of Colorado Boulder
 
 /**
  * Auto-generated from modulify, DO NOT manually modify.
@@ -51,6 +51,7 @@ type StringsType = {
   'spanish': string,
   'levelPattern': string,
   'howManyDots': string,
+  'howManyObjects': string,
   'go': string,
   'chooseYourGame': string,
   'cardinality': string,
