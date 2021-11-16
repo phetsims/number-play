@@ -39,19 +39,31 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
     // set the first voice for the desired locale, if available
     const voicesChangedListener = () => {
-      const translatedVoices = _.filter( voicingManager.getPrioritizedVoices(), voice => {
-        return voice.lang.includes( locale );
-      } );
-      if ( translatedVoices.length > 0 ) {
-        voicingManager.voiceProperty.set( translatedVoices[ 0 ] );
-      }
-      else {
-        console.log( `No voices found for locale: ${locale}` );
-      }
 
-      voicingManager.voicesChangedEmitter.removeListener( voicesChangedListener );
+      // in case we don't have any voices yet, wait until the voicesChangedEmitter sends an event
+      if ( voicingManager.voices.length > 0 ) {
+
+        const translatedVoices = _.filter( voicingManager.getPrioritizedVoices(), voice => {
+          return voice.lang.includes( locale );
+        } );
+        if ( translatedVoices.length > 0 ) {
+          voicingManager.voiceProperty.set( translatedVoices[ 0 ] );
+        }
+        else {
+          console.log( `No voices found for locale: ${locale}` );
+        }
+
+        voicingManager.voicesChangedEmitter.removeListener( voicesChangedListener );
+      }
     };
+
+    // Voices may not be available on load or the list of voices may change - update if we get an indication that
+    // the list of available voices has changed
     voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
+
+    // However, some browsers DO give the voices eagerly and will never emit an event that the list changed so try to
+    // set the voice eagerly
+    voicesChangedListener();
 
     const speechUtterance = new Utterance();
     const listener = () => {
