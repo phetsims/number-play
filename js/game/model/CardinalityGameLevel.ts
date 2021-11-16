@@ -45,6 +45,9 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
   public step( dt: number ) {
   }
 
+  /**
+   * Sets up a new challenge for this level.
+   */
   public newChallenge() {
     super.newChallenge();
     // @ts-ignore

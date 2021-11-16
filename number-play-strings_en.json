@@ -113,7 +113,7 @@
   "levelPattern": {
     "value": "Level {{levelNumber}}"
   },
-  "howManyDots":{
+  "howManyDots": {
     "value": "How many dots?"
   },
   "go": {

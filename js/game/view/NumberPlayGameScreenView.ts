@@ -28,10 +28,6 @@ const TRANSITION_OPTIONS = {
 class NumberPlayGameScreenView extends ScreenView {
   private readonly levelNodes: Array<SubitizeGameLevelNode | CardinalityGameLevelNode>;
 
-  /**
-   * @param {NumberPlayGameModel} model
-   * @param {Tandem} tandem
-   */
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
     super( {
@@ -85,9 +81,6 @@ class NumberPlayGameScreenView extends ScreenView {
     this.addChild( transitionNode );
   }
 
-  /**
-   * Resets the view.
-   */
   public reset() {
     this.levelNodes.forEach( levelNode => levelNode.reset() );
   }

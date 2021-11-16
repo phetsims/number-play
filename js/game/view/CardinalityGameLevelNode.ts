@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * TODO
+ * CardinalityGameLevelNode is the class for a 'Cardinality' game level view.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -26,6 +26,7 @@ const HEIGHT = 325; // empirically determined, in screen coordinates
 
 // TODO: This file is in a prototype stage
 class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLevel> {
+  protected answerButtons: NumberPlayGameAnswerButtons;
 
   constructor( level: CardinalityGameLevel,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
@@ -110,9 +111,6 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
   public reset() {
     super.reset();
   }
-
-  protected answerButtons: NumberPlayGameAnswerButtons;
-
 }
 
 numberPlay.register( 'CardinalityGameLevelNode', CardinalityGameLevelNode );

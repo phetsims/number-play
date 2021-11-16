@@ -48,7 +48,9 @@ class NumberPlayGameAnswerButtons extends Node {
   /**
    * @param {SubitizeGameLevel} level
    * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
-   * @param {function(boolean)} setFrownyFaceVisibilityCallback
+   * @param {function(boolean)} rightAnswerCallback
+   * @param {function(boolean)} wrongAnswerCallback
+   * @param providedOptions
    */
   constructor( level: SubitizeGameLevel | CardinalityGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
@@ -150,8 +152,6 @@ class NumberPlayGameAnswerButtons extends Node {
 
   /**
    * Fires button listener on the correct answer button.
-   *
-   * @param {NumberProperty} challengeNumberProperty
    */
   public showCorrectAnswer( challengeNumberProperty: NumberProperty ) {
     const index = challengeNumberProperty.value - challengeNumberProperty.range!.min;

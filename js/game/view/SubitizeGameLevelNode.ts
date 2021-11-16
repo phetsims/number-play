@@ -37,6 +37,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   private textObjectAnimation: Animation | null;
   private readonly startSequenceNode: Node;
+  protected answerButtons: NumberPlayGameAnswerButtons;
 
   /**
    * @param {SubitizeGameLevel} level
@@ -144,8 +145,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
   public reset() {
     super.reset();
   }
-
-  protected answerButtons: NumberPlayGameAnswerButtons;
 
   /**
    * Animates an object in the start sequence to fade out
