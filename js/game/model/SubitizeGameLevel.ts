@@ -34,9 +34,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
       if ( objectType === 'circle' ) {
         return numberPlayStrings.howManyDots;
       }
-      else {
-        return numberPlayStrings.howManyObjects;
-      }
+      return numberPlayStrings.howManyObjects;
     } );
   }
 

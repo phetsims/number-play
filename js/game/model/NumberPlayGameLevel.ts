@@ -27,7 +27,7 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
 
-  constructor( levelNumber: number, minimumChallengeNumber: number, maximumChallengeNumber: number ) {
+  protected constructor( levelNumber: number, minimumChallengeNumber: number, maximumChallengeNumber: number ) {
 
     this.levelNumber = levelNumber;
 
