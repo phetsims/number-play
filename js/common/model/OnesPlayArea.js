@@ -68,6 +68,9 @@ class OnesPlayArea extends CountingCommonModel {
     // @private
     this.paperNumberOrigin = paperNumberOrigin;
 
+    // @private
+    this.animateIntoPlayAreaBounds = options.animateIntoPlayAreaBounds; // TODO:
+
     // @public {NumberProperty} - The total sum of the current numbers
     this.sumProperty = new NumberProperty( currentNumberProperty.range.min, {
       range: options.sumPropertyRange || currentNumberProperty.range
@@ -116,13 +119,19 @@ class OnesPlayArea extends CountingCommonModel {
           } );
         }
       }
-      else if ( options.setAllObjects ) {
-        this.removeAllPaperNumbers();
+    } );
+  }
 
-        _.times( currentNumber, () => {
-          this.createPaperNumberFromBucket( paperNumberOrigin, options.animateIntoPlayAreaBounds, false );
-        } );
-      }
+  /**
+   * Create and randomly position a group of objects whose sum is the current number.
+   *
+   * @public
+   */
+  createAllObjects() {
+    this.removeAllPaperNumbers();
+
+    _.times( this.currentNumberProperty.value, () => {
+      this.createPaperNumberFromBucket( this.paperNumberOrigin, this.animateIntoPlayAreaBounds, false );
     } );
   }
 

@@ -30,6 +30,7 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true
     } );
+    this.objectsPlayArea.createAllObjects();
 
     // @ts-ignore
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
@@ -50,6 +51,7 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
    */
   public newChallenge() {
     super.newChallenge();
+    this.objectsPlayArea.createAllObjects();
     // @ts-ignore
     this.playObjectTypeProperty.value = PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
     this.isTenFrameProperty.value = dotRandom.nextBoolean();
