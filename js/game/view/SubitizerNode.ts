@@ -24,6 +24,7 @@ const HEIGHT = 275; // empirically determined, in screen coordinates
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
 
 class SubitizerNode extends Node {
+
   private subitizer: Subitizer;
 
   constructor( subitizer: Subitizer ) {

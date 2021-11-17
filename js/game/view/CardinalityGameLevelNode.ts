@@ -26,7 +26,8 @@ const HEIGHT = 325; // empirically determined, in screen coordinates
 
 // TODO: This file is in a prototype stage
 class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLevel> {
-  protected answerButtons: NumberPlayGameAnswerButtons;
+
+  protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
   constructor( level: CardinalityGameLevel,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
@@ -50,7 +51,7 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
       rectHeight: HEIGHT
     } );
 
-    // create view bounds for the ObjectsPlayAreaNode
+    // create view bounds for the objects play area node
     const objectsPlayAreaViewBounds = new Bounds2(
       playAreaNode.left,
       playAreaNode.top + NumberPlayConstants.PLAY_AREA_Y_MARGIN,

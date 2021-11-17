@@ -40,18 +40,12 @@ const BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
 const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 
 class NumberPlayGameAnswerButtons extends Node {
+
   private readonly buttonObjects: ButtonObject[];
-  private level: SubitizeGameLevel | CardinalityGameLevel;
+  private readonly level: SubitizeGameLevel | CardinalityGameLevel;
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
 
-  /**
-   * @param {SubitizeGameLevel} level
-   * @param {BooleanProperty} pointsAwardedNodeVisibleProperty
-   * @param {function(boolean)} rightAnswerCallback
-   * @param {function(boolean)} wrongAnswerCallback
-   * @param providedOptions
-   */
   constructor( level: SubitizeGameLevel | CardinalityGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
@@ -64,10 +58,8 @@ class NumberPlayGameAnswerButtons extends Node {
       enabledPropertyDependency: new BooleanProperty( true )
     }, providedOptions ) as AnswerButtonsOptions;
 
-    // @private {Object[]}
     this.buttonObjects = [];
 
-    // @private {SubitizeGameLevel}
     this.level = level;
 
     /**
@@ -139,14 +131,13 @@ class NumberPlayGameAnswerButtons extends Node {
       } );
     }
 
-    // @private {HBox}
     this.hBox = new HBox( {
       children: this.buttonObjects.map( buttonObject => buttonObject.button ),
       spacing: options.buttonSpacing
     } );
     this.addChild( this.hBox );
 
-    // @private - for use in showCorrectAnswer
+    // for use in showCorrectAnswer
     this.buttonListener = buttonListener;
   }
 

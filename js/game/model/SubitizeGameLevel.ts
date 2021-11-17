@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * TODO
+ * SubitizeGameLevel is the class for a 'Subitize' game level model.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas

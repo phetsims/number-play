@@ -37,14 +37,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   private textObjectAnimation: Animation | null;
   private readonly startSequenceNode: Node;
-  protected answerButtons: NumberPlayGameAnswerButtons;
+  protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
-  /**
-   * @param {SubitizeGameLevel} level
-   * @param {Property.<SubitizeGameLevel|null>} levelProperty
-   * @param {Bounds2} layoutBounds
-   * @param {Property.<Bounds2>} visibleBoundsProperty
-   */
   constructor( level: SubitizeGameLevel,
                levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
                layoutBounds: Bounds2,
@@ -153,8 +147,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   /**
    * Animates an object in the start sequence to fade out
-   * @param {Array} startSequenceText - array of the text that will make the start sequence
-   * @param {Vector2} centerPosition
    */
   private setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
     this.level.startSequencePlayingProperty.value = true;

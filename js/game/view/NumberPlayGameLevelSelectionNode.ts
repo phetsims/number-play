@@ -28,11 +28,6 @@ import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
-  /**
-   * @param {NumberPlayGameModel} model
-   * @param {Bounds2} layoutBounds
-   * @param {function} resetCallback
-   */
   constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
     super();
 
@@ -98,7 +93,6 @@ class NumberPlayGameLevelSelectionNode extends Node {
     } );
     this.addChild( resetAllButton );
   }
-
 }
 
 numberPlay.register( 'NumberPlayGameLevelSelectionNode', NumberPlayGameLevelSelectionNode );

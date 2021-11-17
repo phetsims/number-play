@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * CardinalityGameLevel is TODO
+ * CardinalityGameLevel is the class for a 'Cardinality' game level model.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas
@@ -19,9 +19,10 @@ import CardinalityRepresentationTypeEnum, { CardinalityRepresentationTypeValues 
 import Property from '../../../../axon/js/Property.js';
 
 class CardinalityGameLevel extends NumberPlayGameLevel {
+
   public readonly objectsPlayArea: OnesPlayArea;
-  playObjectTypeProperty: EnumerationProperty;
-  representationTypeProperty: Property<CardinalityRepresentationTypeEnum>;
+  public readonly playObjectTypeProperty: EnumerationProperty;
+  public readonly representationTypeProperty: Property<CardinalityRepresentationTypeEnum>;
 
   constructor( levelNumber: number, minimumCountNumber: number, maximumCountNumber: number ) {
     super( levelNumber, minimumCountNumber, maximumCountNumber );
@@ -35,10 +36,10 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
 
     // @ts-ignore
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
-    this.representationTypeProperty = new Property<CardinalityRepresentationTypeEnum>( this.getNewRepresentationType() );
+    this.representationTypeProperty = new Property<CardinalityRepresentationTypeEnum>( CardinalityGameLevel.getNewRepresentationType() );
   }
 
-  private getNewRepresentationType() {
+  private static getNewRepresentationType() {
     return dotRandom.sample( CardinalityRepresentationTypeValues.slice() );
   }
 
@@ -59,7 +60,7 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
     this.objectsPlayArea.createAllObjects();
     // @ts-ignore
     this.playObjectTypeProperty.value = PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
-    this.representationTypeProperty.value = this.getNewRepresentationType();
+    this.representationTypeProperty.value = CardinalityGameLevel.getNewRepresentationType();
   }
 }
 

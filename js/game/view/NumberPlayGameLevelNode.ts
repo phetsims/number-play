@@ -35,36 +35,29 @@ const FACE_DIAMETER = 160;
 
 abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
 
-  public statusBar: InfiniteStatusBar;
-  public level: T;
-  private layoutBounds: Bounds2;
+  public readonly statusBar: InfiniteStatusBar;
+  public readonly level: T;
+  private readonly layoutBounds: Bounds2;
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
   protected readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
   static ANSWER_BUTTONS_MARGIN_Y: number;
 
-  /**
-   * @param {NumberPlayGameLevel} level
-   * @param {Property.<NumberPlayGameLevel|null>} levelProperty
-   * @param {Bounds2} layoutBounds
-   * @param {Property.<Bounds2>} visibleBoundsProperty
-   * @param {string} statusBarColor
-   */
   protected constructor( level: T,
-               levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
-               layoutBounds: Bounds2,
-               visibleBoundsProperty: Property<Bounds2>,
-               statusBarColor: string ) {
+                         levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
+                         layoutBounds: Bounds2,
+                         visibleBoundsProperty: Property<Bounds2>,
+                         statusBarColor: string ) {
     super();
 
-    // Text displayed in the status bar
+    // text displayed in the status bar
     const levelDescriptionText = new RichText( level.statusBarMessage, {
       font: new PhetFont( 21 ),
       maxWidth: 650 // determined empirically
     } );
 
-    // @public (read-only) {InfiniteStatusBar} - bar across the top of the screen
+    // bar across the top of the screen
     // @ts-ignore
     this.statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
       floatToTop: true,
@@ -80,13 +73,11 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.statusBar.getChildAt( 1 ).getChildAt( 0 ).baseColor = Color.YELLOW;
     this.addChild( this.statusBar );
 
-    // @public {NumberPlayGameLevel}
     this.level = level;
 
-    // @private {Bounds2}
     this.layoutBounds = layoutBounds;
 
-    // @private {FaceNode} - create and add frownyFaceNode which is visible when an incorrect answer button is pressed
+    // create and add frownyFaceNode which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
@@ -104,7 +95,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
-    // @private {BooleanProperty}
     this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
 
     // create and add pointsAwardedNode which is shown when a correct guess is made on the first answerButtons press
@@ -158,8 +148,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
   /**
    * Shows or hides a frowny face - if shown, animates it to fade out when the user made an incorrect guess.
-   *
-   * @param {boolean} showFrownyFace
    */
   protected setFrownyFaceVisibility( showFrownyFace: boolean ) {
     this.frownyFaceNode.visible = showFrownyFace;

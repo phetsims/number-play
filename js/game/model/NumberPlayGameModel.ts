@@ -18,7 +18,7 @@ class NumberPlayGameModel {
   public readonly subitizeLevels: SubitizeGameLevel[];
   public readonly cardinalityLevels: CardinalityGameLevel[];
   public readonly levels: Array<SubitizeGameLevel | CardinalityGameLevel>;
-  public levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>
+  public readonly levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>
 
   constructor( tandem: Tandem ) {
 

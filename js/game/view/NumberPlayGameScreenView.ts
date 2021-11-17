@@ -26,6 +26,7 @@ const TRANSITION_OPTIONS = {
 };
 
 class NumberPlayGameScreenView extends ScreenView {
+
   private readonly levelNodes: Array<SubitizeGameLevelNode | CardinalityGameLevelNode>;
 
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
