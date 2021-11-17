@@ -228,7 +228,7 @@ class Subitizer {
   /**
    * Sets this.objectTypeProperty with a new object type for the current challenge
    */
-  public setNewPlayObjectType() {
+  public setRandomPlayObjectType() {
     this.objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
   }
 

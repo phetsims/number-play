@@ -50,7 +50,7 @@ abstract class NumberPlayGameLevel {
     this.challengeRange = new Range( minimumChallengeNumber, maximumChallengeNumber );
 
     // the random number generated to create a subitized representation for
-    this.challengeNumberProperty = new NumberProperty( this.getNewChallengeNumber(), {
+    this.challengeNumberProperty = new NumberProperty( this.getRandomChallengeNumber(), {
       range: this.challengeRange
     } );
 
@@ -70,7 +70,7 @@ abstract class NumberPlayGameLevel {
 
   public newChallenge() { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
     this.isSolvedProperty.reset();
-    this.setNewChallengeNumber();
+    this.setRandomChallengeNumber();
     this.numberOfAnswerButtonPressesProperty.reset();
   }
 
@@ -78,7 +78,7 @@ abstract class NumberPlayGameLevel {
    * Sets a new challenge number. Can be the value of the previous challenge number, but there cannot be three of the
    * same number in a row.
    */
-  protected setNewChallengeNumber() {
+  protected setRandomChallengeNumber() {
     assert && assert( this.challengeRange.min !== this.challengeRange.max,
       `challengeRange must contain more than one number: ${this.challengeRange.toString()}` );
 
@@ -86,14 +86,14 @@ abstract class NumberPlayGameLevel {
     this.oldChallengeNumberTwo = this.oldChallengeNumberOne;
     this.oldChallengeNumberOne = this.challengeNumberProperty.value;
 
-    let newSubitizeNumber = this.getNewChallengeNumber();
+    let newSubitizeNumber = this.getRandomChallengeNumber();
     while ( newSubitizeNumber === this.oldChallengeNumberOne && newSubitizeNumber === this.oldChallengeNumberTwo ) {
-      newSubitizeNumber = this.getNewChallengeNumber();
+      newSubitizeNumber = this.getRandomChallengeNumber();
     }
     this.challengeNumberProperty.value = newSubitizeNumber;
   }
 
-  private getNewChallengeNumber(): number {
+  private getRandomChallengeNumber(): number {
     return dotRandom.nextIntBetween( this.challengeRange.min, this.challengeRange.max );
   }
 }
