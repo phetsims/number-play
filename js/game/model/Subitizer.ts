@@ -229,7 +229,6 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge
    */
   public setNewPlayObjectType() {
-    // @ts-ignore TODO-TS: Random.sample type doc is wrong?
     this.objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
   }
 

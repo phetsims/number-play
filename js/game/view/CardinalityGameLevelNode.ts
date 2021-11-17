@@ -87,11 +87,13 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
       fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND
     } );
 
+    // create and add the ten frame node
     const tenFrameNode = new TenFrameNode( level.challengeNumberProperty );
     tenFrameNode.scale( HEIGHT / tenFrameNode.height / 3.5 );
     tenFrameNode.center = tenFrameBackgroundNode.center;
     tenFrameBackgroundNode.addChild( tenFrameNode );
 
+    // create and add a panel for the ten frame
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
       xMargin: margin,
       yMargin: margin,
