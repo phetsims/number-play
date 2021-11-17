@@ -15,14 +15,13 @@ import Range from '../../../../dot/js/Range.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import CardinalityRepresentationTypeEnum, { CardinalityRepresentationTypeValues } from './CardinalityRepresentationTypeEnum.js';
-import Property from '../../../../axon/js/Property.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 class CardinalityGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
   public readonly playObjectTypeProperty: EnumerationProperty;
-  public readonly representationTypeProperty: Property<CardinalityRepresentationTypeEnum>;
+  public readonly isObjectsRepresentationProperty: BooleanProperty;
 
   constructor( levelNumber: number, minimumCountNumber: number, maximumCountNumber: number ) {
     super( levelNumber, minimumCountNumber, maximumCountNumber );
@@ -32,21 +31,21 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true
     } );
-    this.objectsPlayArea.createAllObjects();
 
     // @ts-ignore
-    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
-    this.representationTypeProperty = new Property<CardinalityRepresentationTypeEnum>( CardinalityGameLevel.getNewRepresentationType() );
+    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, this.getNewPlayObjectType() );
+    this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
-  private static getNewRepresentationType() {
-    return dotRandom.sample( CardinalityRepresentationTypeValues.slice() );
+  getNewPlayObjectType() {
+    // @ts-ignore
+    return PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
   }
 
   public reset() {
     super.reset();
     this.playObjectTypeProperty.reset();
-    this.representationTypeProperty.reset();
+    this.isObjectsRepresentationProperty.reset();
   }
 
   public step( dt: number ) {
@@ -57,10 +56,9 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
    */
   public newChallenge() {
     super.newChallenge();
-    this.objectsPlayArea.createAllObjects();
     // @ts-ignore
-    this.playObjectTypeProperty.value = PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
-    this.representationTypeProperty.value = CardinalityGameLevel.getNewRepresentationType();
+    this.playObjectTypeProperty.value = this.getNewPlayObjectType();
+    this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
   }
 }
 
