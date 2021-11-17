@@ -15,12 +15,13 @@ import Range from '../../../../dot/js/Range.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import CardinalityRepresentationTypeEnum, { CardinalityRepresentationTypeValues } from './CardinalityRepresentationTypeEnum.js';
+import Property from '../../../../axon/js/Property.js';
 
 class CardinalityGameLevel extends NumberPlayGameLevel {
   public readonly objectsPlayArea: OnesPlayArea;
   playObjectTypeProperty: EnumerationProperty;
-  isTenFrameProperty: BooleanProperty;
+  representationTypeProperty: Property<CardinalityRepresentationTypeEnum>;
 
   constructor( levelNumber: number, minimumCountNumber: number, maximumCountNumber: number ) {
     super( levelNumber, minimumCountNumber, maximumCountNumber );
@@ -34,13 +35,17 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
 
     // @ts-ignore
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
-    this.isTenFrameProperty = new BooleanProperty( dotRandom.nextBoolean() );
+    this.representationTypeProperty = new Property<CardinalityRepresentationTypeEnum>( this.getNewRepresentationType() );
+  }
+
+  private getNewRepresentationType() {
+    return dotRandom.sample( CardinalityRepresentationTypeValues.slice() );
   }
 
   public reset() {
     super.reset();
     this.playObjectTypeProperty.reset();
-    this.isTenFrameProperty.reset();
+    this.representationTypeProperty.reset();
   }
 
   public step( dt: number ) {
@@ -54,7 +59,7 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
     this.objectsPlayArea.createAllObjects();
     // @ts-ignore
     this.playObjectTypeProperty.value = PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
-    this.isTenFrameProperty.value = dotRandom.nextBoolean();
+    this.representationTypeProperty.value = this.getNewRepresentationType();
   }
 }
 

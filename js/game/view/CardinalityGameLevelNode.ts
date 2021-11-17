@@ -102,9 +102,10 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
     tenFramePanel.top = layoutBounds.top + 90; // empirically determined
     this.addChild( tenFramePanel );
 
-    level.isTenFrameProperty.link( isTenFrame => {
-      playAreaPanel.visible = !isTenFrame;
-      tenFramePanel.visible = isTenFrame;
+    // update the visibility of the panels when the representation types change
+    level.representationTypeProperty.link( representationType => {
+      playAreaPanel.visible = representationType === 'objects';
+      tenFramePanel.visible = representationType === 'tenFrame';
     } );
   }
 
