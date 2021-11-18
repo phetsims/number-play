@@ -31,10 +31,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.startSequencePlayingProperty = new BooleanProperty( false );
     this.playButtonVisibleProperty = new BooleanProperty( true );
     this.questionStringProperty = new DerivedProperty( [ this.subitizer.objectTypeProperty ], objectType => {
-      if ( objectType === 'circle' ) {
-        return numberPlayStrings.howManyDots;
-      }
-      return numberPlayStrings.howManyObjects;
+      return objectType === 'circle' ? numberPlayStrings.howManyDots : numberPlayStrings.howManyObjects;
     } );
   }
 
