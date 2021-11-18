@@ -30,10 +30,10 @@ class SubitizerNode extends Node {
   constructor( subitizer: Subitizer ) {
     super();
 
-    // @private, for use in setTextObjectVisibility
+    // for use in setTextObjectVisibility
     this.subitizer = subitizer;
 
-    // create and add a backgroundNode
+    // create and add the background node
     const backgroundNode = new Rectangle( 0, 0, WIDTH, HEIGHT, CORNER_RADIUS, CORNER_RADIUS, {
       fill: Color.WHITE,
       stroke: Color.BLACK,
@@ -45,7 +45,7 @@ class SubitizerNode extends Node {
     // for scaling the objects
     const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 90 );
 
-    // create and add the drawingNode, which is where the objects are added to and it rotates if rotationProperty is set
+    // create and add the drawing node, which is where the objects are added to and it rotates if rotationProperty is set
     const drawingNode = new Node( {
       visibleProperty: subitizer.visibleProperty
     } );
@@ -55,7 +55,7 @@ class SubitizerNode extends Node {
     subitizer.coordinatesProperty.link( coordinates => {
       drawingNode.removeAllChildren();
 
-      // create and add each object to the drawingNode
+      // create and add each object to the drawing node
       coordinates.forEach( coordinate => {
         let object;
         if ( subitizer.objectTypeProperty.value === 'circle' ) {

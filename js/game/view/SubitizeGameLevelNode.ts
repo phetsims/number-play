@@ -61,7 +61,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
     this.addChild( this.answerButtons );
 
-    // create and add the questionText which is the prompt above the subitizerNode box
+    // create and add the question text which is the prompt above the subitizer node box
     const questionText = new Text( level.questionStringProperty.value, {
       font: new PhetFont( 45 )
     } );
@@ -74,13 +74,13 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       questionText.centerX = layoutBounds.centerX;
     } );
 
-    // create and add the subitizerNode
+    // create and add the subitizer node
     const subitizerNode = new SubitizerNode( level.subitizer );
     subitizerNode.centerX = layoutBounds.centerX;
     subitizerNode.top = questionText.bottom + 15; // empirically determined
     this.addChild( subitizerNode );
 
-    // create and add playButton
+    // create and add the play button
     const playButton = new RectangularPushButton( {
       baseColor: Color.YELLOW,
       content: new Path( new PlayIconShape( 36, 45 ), {
@@ -99,13 +99,13 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     playButton.center = subitizerNode.center;
     this.addChild( playButton );
 
-    // create and add the speechSynthesisButton
+    // create and add the speech synthesis button
     const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );
     speechSynthesisButton.setLeftCenter( questionText.getRightCenter() );
     speechSynthesisButton.left = subitizerNode.right + 10; // empirically determined
     this.addChild( speechSynthesisButton );
 
-    // create and add the showAgainButton which flashes the content in the subitizerNode again
+    // create and add the show again button which flashes the content in the subitizer node again
     const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
     const showAgainButtonSideLength = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
     const showAgainButtonMargin = 6;
@@ -125,12 +125,12 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     showAgainButton.bottom = subitizerNode.bottom;
     this.addChild( showAgainButton );
 
-    // create and add startSequenceNode, which is where the text objects in the start sequence are added
+    // create and add the start sequence node, which is where the text objects in the start sequence are added
     this.textObjectAnimation = null;
     this.startSequenceNode = new Node();
     this.addChild( this.startSequenceNode );
 
-    // cancel the animation and hide the startSequenceNode if the startSequencePlayingProperty is set to false
+    // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
     this.level.startSequencePlayingProperty.link( startSequencePlaying => {
       if ( !startSequencePlaying && this.textObjectAnimation ) {
         this.textObjectAnimation.stop();
@@ -151,7 +151,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
   private setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
     this.level.startSequencePlayingProperty.value = true;
 
-    // create and add textObject
+    // create and add the text object
     const textObject = new Text( startSequenceText[ 0 ], {
       font: new PhetFont( 55 )
     } );
@@ -159,7 +159,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.startSequenceNode.addChild( textObject );
     this.startSequenceNode.visible = true;
 
-    // Animate opacity of textObject, fade it out.
+    // Animate opacity of the text object, fade it out.
     textObject.opacityProperty.value = 1;
     this.textObjectAnimation = new Animation( {
       delay: 0.5,

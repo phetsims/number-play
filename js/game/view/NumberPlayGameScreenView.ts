@@ -35,7 +35,7 @@ class NumberPlayGameScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    // create the levelSelectionNode
+    // create the level selection node
     const levelSelectionNode = new NumberPlayGameLevelSelectionNode( model, this.layoutBounds, () => {
       model.reset();
       this.reset();

@@ -77,7 +77,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     this.layoutBounds = layoutBounds;
 
-    // create and add frownyFaceNode which is visible when an incorrect answer button is pressed
+    // create and add the frowny face node which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
@@ -87,7 +87,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.addChild( this.frownyFaceNode );
     this.frownyFaceAnimation = null;
 
-    // create and add smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
+    // create and add the smiley face node which is visible when a challenge is solved, meaning a correct answer button was pressed
     const smileyFaceNode = new FaceNode( FACE_DIAMETER, {
       visibleProperty: level.isSolvedProperty
     } );
@@ -97,7 +97,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
 
-    // create and add pointsAwardedNode which is shown when a correct guess is made on the first answerButtons press
+    // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 3 } );
     starNode.centerX = this.frownyFaceNode.centerX;
     starNode.top = this.frownyFaceNode.bottom + 20; // empirically determined
@@ -110,7 +110,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     } );
     this.addChild( pointsAwardedNode );
 
-    // create and add newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
+    // create and add the new challenge button which is visible when a challenge is solved, meaning a correct answer button was pressed
     const arrowShape = new ArrowShape( 0, 0, 42, 0, {
       tailWidth: 12,
       headWidth: 25,
@@ -159,7 +159,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
         this.frownyFaceAnimation = null;
       }
 
-      // Animate opacity of frownyFaceNode, fade it out.
+      // Animate opacity of the frowny face node, fade it out.
       this.frownyFaceNode.opacityProperty.value = 1;
       this.frownyFaceAnimation = new Animation( {
         delay: 1,

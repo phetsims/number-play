@@ -65,8 +65,6 @@ class NumberPlayGameAnswerButtons extends Node {
     /**
      * Listener that is added to every answer button. It disabled selected buttons that are wrong, and turns correct
      * answer buttons green.
-     *
-     * @param {number} index - the index of the button in the group
      */
     const buttonListener = ( index: number ) => {
       level.numberOfAnswerButtonPressesProperty.value++;

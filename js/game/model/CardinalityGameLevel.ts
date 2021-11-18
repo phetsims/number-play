@@ -33,11 +33,11 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
     } );
 
     // @ts-ignore
-    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, this.getRandomPlayObjectType() );
+    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CardinalityGameLevel.getRandomPlayObjectType() );
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
-  getRandomPlayObjectType() {
+  private static getRandomPlayObjectType() {
     // @ts-ignore
     return PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
   }
@@ -57,7 +57,7 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
   public newChallenge() {
     super.newChallenge();
     // @ts-ignore
-    this.playObjectTypeProperty.value = this.getRandomPlayObjectType();
+    this.playObjectTypeProperty.value = CardinalityGameLevel.getRandomPlayObjectType();
     this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
   }
 }

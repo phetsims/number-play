@@ -125,7 +125,8 @@ class Subitizer {
     // the width and height of every object used to make a shape
     this.objectSize = OBJECT_SIZE;
 
-    // indicates the play/pause state of the subitizer model. Manipulated only in the view.
+    // Indicates the play/pause state of the subitizer model. A play state when the current challenge is not solved. A
+    // pause state when the challenge is solved. Manipulated only in the view.
     this.isPlayingProperty = new BooleanProperty( false );
 
     // the object type of the current shape
@@ -194,7 +195,7 @@ class Subitizer {
     }
     else {
 
-      // get a random numberOfRows and set the numberOfColumns
+      // get a random number of rows and set the number of columns
       const maxNumberOfRows = 3;
       const minNumberOfRows = 2;
       const numberOfRows = dotRandom.nextIntBetween( minNumberOfRows, maxNumberOfRows );
@@ -226,7 +227,7 @@ class Subitizer {
   }
 
   /**
-   * Sets this.objectTypeProperty with a new object type for the current challenge
+   * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   public setRandomPlayObjectType() {
     this.objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
@@ -253,7 +254,7 @@ class Subitizer {
 
   /**
    * Compares the bounds of a coordinate to be added to all other existing coordinates and returns if the coordinate to
-   * be added overlaps with any existing coordinate
+   * be added overlaps with any existing coordinate.
    */
   private static objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ): boolean {
     let overlap = false;
@@ -283,7 +284,7 @@ class Subitizer {
   }
 
   /**
-   * Compares two sets of coordinates and returns if they are equal or not
+   * Compares two sets of coordinates and returns if they are equal or not.
    */
   private static isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ): boolean {
     let coordinatesAreEqual = true;

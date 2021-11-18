@@ -54,7 +54,7 @@ abstract class NumberPlayGameLevel {
       range: this.challengeRange
     } );
 
-    // used to store old challengeNumber values. this.oldChallengeNumberOne tracks the most recent value of
+    // used to store old challenge number values. this.oldChallengeNumberOne tracks the most recent value of
     // this.challengeNumberProperty, and this.oldChallengeNumberTwo tracks the value used before that.
     this.oldChallengeNumberOne = this.challengeNumberProperty.value;
     this.oldChallengeNumberTwo = this.challengeNumberProperty.value;

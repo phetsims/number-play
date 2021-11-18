@@ -24,7 +24,7 @@ import TenFrameNode from '../../common/view/TenFrameNode.js';
 const WIDTH = 550; // empirically determined, in screen coordinates
 const HEIGHT = 325; // empirically determined, in screen coordinates
 
-// TODO: This file is in a prototype stage
+// TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated.
 class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
