@@ -31,7 +31,7 @@ import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
 // constants
-const FACE_DIAMETER = 160;
+const FACE_DIAMETER = 150;
 
 abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
 
@@ -81,7 +81,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
-    this.frownyFaceNode.top = 100; // empirically determined
+    this.frownyFaceNode.top = 90; // empirically determined
     this.frownyFaceNode.right = layoutBounds.maxX - 45; // empirically determined
     this.frownyFaceNode.frown();
     this.addChild( this.frownyFaceNode );
@@ -100,7 +100,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 3 } );
     starNode.centerX = this.frownyFaceNode.centerX;
-    starNode.top = this.frownyFaceNode.bottom + 20; // empirically determined
+    starNode.top = this.frownyFaceNode.bottom + 23; // empirically determined
     const pointsNode = new Text( '+1', { font: new PhetFont( 30 ), fill: 'black' } );
     pointsNode.center = starNode.center;
     pointsNode.centerY += 5;
@@ -125,7 +125,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
-    newChallengeButton.top = starNode.bottom + 20;
+    newChallengeButton.top = starNode.bottom + 24;
     this.addChild( newChallengeButton );
   }
 
