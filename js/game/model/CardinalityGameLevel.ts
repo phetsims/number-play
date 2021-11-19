@@ -37,6 +37,9 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
+  /**
+   * Return a new object type for the current challenge.
+   */
   private static getRandomPlayObjectType() {
     // @ts-ignore
     return PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
