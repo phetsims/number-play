@@ -53,8 +53,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     super.newChallenge();
     this.subitizer.setRandomPlayObjectType();
     this.subitizer.setNewCoordinates();
-    this.subitizer.isPlayingProperty.value = true;
-    this.subitizer.visibleProperty.value = true;
+    this.subitizer.inputEnabledProperty.reset();
+    this.subitizer.visibleProperty.reset();
+    this.subitizer.challengeStartedProperty.value = true;
   }
 
   public reset() {

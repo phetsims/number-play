@@ -97,6 +97,8 @@ class Subitizer {
   public readonly inputEnabledProperty: BooleanProperty;
   private subitizerTimeVisibleProperty: DerivedProperty<number>;
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
+  public challengeStartedProperty: BooleanProperty;
+  private subitizerVisibleDelaySeconds: number;
 
   constructor( challengeNumberProperty: NumberProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
@@ -119,11 +121,17 @@ class Subitizer {
     // the number of seconds the sim clock has run since the subitizer was made visible
     this.secondsSinceVisible = 0;
 
+    // the number of seconds the sim clock has run since the subitizer's visibility was delayed
+    this.subitizerVisibleDelaySeconds = 0;
+
     // initialize first set of coordinates
     this.setNewCoordinates();
 
     // the width and height of every object used to make a shape
     this.objectSize = OBJECT_SIZE;
+
+    // whether the current challenge started
+    this.challengeStartedProperty = new BooleanProperty( false );
 
     // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
     // False when the current challenge is solved. Manipulated only in the view.
@@ -142,6 +150,19 @@ class Subitizer {
   }
 
   public step( dt: number ) {
+
+    // delay the visibility of the subitizer at the start of every challenge
+    if ( this.challengeStartedProperty.value ) {
+      this.subitizerVisibleDelaySeconds += dt;
+
+      // show the subitizer and enable answer inputs after a delay of 0.5 seconds
+      if ( this.subitizerVisibleDelaySeconds > 0.5 ) {
+        this.inputEnabledProperty.value = true;
+        this.visibleProperty.value = true;
+        this.subitizerVisibleDelaySeconds = 0;
+        this.challengeStartedProperty.reset();
+      }
+    }
 
     // keep adding to secondsSinceVisible if the subitizer is visible and not paused
     if ( this.visibleProperty.value && this.inputEnabledProperty.value ) {
