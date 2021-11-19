@@ -94,7 +94,7 @@ class Subitizer {
   private readonly randomAndArranged: boolean;
   private secondsSinceVisible: number;
   public readonly objectSize: number;
-  public readonly isPlayingProperty: BooleanProperty;
+  public readonly inputEnabledProperty: BooleanProperty;
   private subitizerTimeVisibleProperty: DerivedProperty<number>;
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
 
@@ -125,9 +125,9 @@ class Subitizer {
     // the width and height of every object used to make a shape
     this.objectSize = OBJECT_SIZE;
 
-    // Indicates the play/pause state of the subitizer model. A play state when the current challenge is not solved. A
-    // pause state when the challenge is solved. Manipulated only in the view.
-    this.isPlayingProperty = new BooleanProperty( false );
+    // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
+    // False when the current challenge is solved. Manipulated only in the view.
+    this.inputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
     this.objectTypeProperty = new Property<SubitizeObjectTypeEnum>( 'dog' );
@@ -144,7 +144,7 @@ class Subitizer {
   public step( dt: number ) {
 
     // keep adding to secondsSinceVisible if the subitizer is visible and not paused
-    if ( this.visibleProperty.value && this.isPlayingProperty.value ) {
+    if ( this.visibleProperty.value && this.inputEnabledProperty.value ) {
       this.secondsSinceVisible += dt;
 
       // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
@@ -235,7 +235,7 @@ class Subitizer {
 
   public reset() {
     this.visibleProperty.reset();
-    this.isPlayingProperty.reset();
+    this.inputEnabledProperty.reset();
   }
 
   /**

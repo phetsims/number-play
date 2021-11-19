@@ -49,13 +49,13 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
       this.setFrownyFaceVisibility( false );
-      level.subitizer.isPlayingProperty.reset();
+      level.subitizer.inputEnabledProperty.reset();
       level.subitizer.visibleProperty.value = true;
     }, () => {
       this.setFrownyFaceVisibility( true );
     }, {
       buttonSpacing: 40, // empirically determined
-      enabledPropertyDependency: level.subitizer.isPlayingProperty
+      enabledPropertyDependency: level.subitizer.inputEnabledProperty
     } );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
@@ -115,7 +115,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       yMargin: showAgainButtonMargin,
       size: new Dimension2( showAgainButtonSideLength, showAgainButtonSideLength ),
       baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR,
-      enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.isPlayingProperty, level.subitizer.visibleProperty ],
+      enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.inputEnabledProperty, level.subitizer.visibleProperty ],
         ( isSolved: boolean, isPlaying: boolean, subitizerVisible: boolean ) => !isSolved && isPlaying && !subitizerVisible ),
       listener: () => {
         level.subitizer.visibleProperty.value = true;

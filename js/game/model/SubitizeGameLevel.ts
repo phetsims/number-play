@@ -42,7 +42,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     if ( !this.isSolvedProperty.value ) {
       this.startSequencePlayingProperty.reset();
       this.playButtonVisibleProperty.reset();
-      this.subitizer.isPlayingProperty.reset();
+      this.subitizer.inputEnabledProperty.reset();
     }
   }
 
