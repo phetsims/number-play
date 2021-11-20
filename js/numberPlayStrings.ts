@@ -54,7 +54,7 @@ type StringsType = {
   'howManyObjects': string,
   'go': string,
   'chooseYourGame': string,
-  'cardinality': string,
+  'counting': string,
   'subitize': string
 };
 

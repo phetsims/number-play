@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * CardinalityGameLevel is the class for a 'Cardinality' game level model.
+ * CountingGameLevel is the class for a 'Counting' game level model.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas
@@ -17,7 +17,7 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
-class CardinalityGameLevel extends NumberPlayGameLevel {
+class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
   public readonly playObjectTypeProperty: EnumerationProperty;
@@ -33,7 +33,7 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
     } );
 
     // @ts-ignore
-    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CardinalityGameLevel.getRandomPlayObjectType() );
+    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
@@ -60,10 +60,10 @@ class CardinalityGameLevel extends NumberPlayGameLevel {
   public newChallenge() {
     super.newChallenge();
     // @ts-ignore
-    this.playObjectTypeProperty.value = CardinalityGameLevel.getRandomPlayObjectType();
+    this.playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
     this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
   }
 }
 
-numberPlay.register( 'CardinalityGameLevel', CardinalityGameLevel );
-export default CardinalityGameLevel;
+numberPlay.register( 'CountingGameLevel', CountingGameLevel );
+export default CountingGameLevel;

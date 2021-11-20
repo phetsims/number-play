@@ -25,10 +25,12 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   constructor( levelNumber: number, minimumSubitizeNumber: number, maximumSubitizeNumber: number ) {
     super( levelNumber, minimumSubitizeNumber, maximumSubitizeNumber );
 
-    this.subitizer = new Subitizer( this.challengeNumberProperty, this.numberOfAnswerButtonPressesProperty, levelNumber === 1 );
-
     // whether the start sequence is playing. This can also be used to stop an existing animation.
     this.startSequencePlayingProperty = new BooleanProperty( false );
+
+    this.subitizer = new Subitizer( this.challengeNumberProperty, this.numberOfAnswerButtonPressesProperty,
+      this.startSequencePlayingProperty, levelNumber === 1 );
+
     this.playButtonVisibleProperty = new BooleanProperty( true );
     this.questionStringProperty = new DerivedProperty( [ this.subitizer.objectTypeProperty ], objectType => {
       return objectType === 'circle' ? numberPlayStrings.howManyDots : numberPlayStrings.howManyObjects;
@@ -49,13 +51,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   /**
    * Sets up a new challenge for this level.
    */
-  public newChallenge() {
+  public newChallenge(): void {
     super.newChallenge();
-    this.subitizer.setRandomPlayObjectType();
-    this.subitizer.setNewCoordinates();
-    this.subitizer.inputEnabledProperty.reset();
-    this.subitizer.visibleProperty.reset();
-    this.subitizer.challengeStartedProperty.value = true;
+    this.subitizer.newChallenge();
   }
 
   public reset() {

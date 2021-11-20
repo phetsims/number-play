@@ -108,7 +108,7 @@ const NumberPlayConstants = {
   WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
 
   // level colors for the game screen
-  CARDINALITY_GAME_COLOR: 'rgb( 242, 142, 129 )',
+  COUNTING_GAME_COLOR: 'rgb( 242, 142, 129 )',
   SUBITIZE_GAME_COLOR: 'rgb( 148, 133, 255 )',
 
   // map number values to their corresponding string
@@ -139,7 +139,9 @@ const NumberPlayConstants = {
   // subitizer game
   SUBITIZER_TIME_VISIBLE: 0.5, // time the subitize node is shown, in seconds
   SUBITIZER_GUESSES_AT_NORMAL_TIME: 2, // number of guesses before increasing the subitizer time visible
-  SUBITIZER_TIME_INCREASE_AMOUNT: 0.1 // amount the subitizer time visible is increased by, in seconds
+  SUBITIZER_TIME_INCREASE_AMOUNT: 0.1, // amount the subitizer time visible is increased by, in seconds
+
+  NUMBER_OF_GAME_LEVELS: 4
 
 };
 

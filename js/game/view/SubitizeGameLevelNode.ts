@@ -27,7 +27,7 @@ import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -40,7 +40,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
   constructor( level: SubitizeGameLevel,
-               levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
+               levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
@@ -180,8 +180,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
         this.setTextObjectVisibility( startSequenceText, textObject.center );
       }
       else {
-        this.level.startSequencePlayingProperty.reset();
         this.newChallenge();
+        this.level.startSequencePlayingProperty.reset();
       }
     } );
 

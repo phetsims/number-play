@@ -15,7 +15,7 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
-import CardinalityGameLevelNode from './CardinalityGameLevelNode.js';
+import CountingGameLevelNode from './CountingGameLevelNode.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -27,7 +27,7 @@ const TRANSITION_OPTIONS = {
 
 class NumberPlayGameScreenView extends ScreenView {
 
-  private readonly levelNodes: Array<SubitizeGameLevelNode | CardinalityGameLevelNode>;
+  private readonly levelNodes: Array<SubitizeGameLevelNode | CountingGameLevelNode>;
 
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
@@ -41,16 +41,16 @@ class NumberPlayGameScreenView extends ScreenView {
       this.reset();
     } );
 
-    // create the level nodes for the 'Cardinality' game
-    const cardinalityLevelNodes = model.cardinalityLevels.map( level =>
-      new CardinalityGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+    // create the level nodes for the 'Counting' game
+    const countingLevelNodes = model.countingLevels.map( level =>
+      new CountingGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // create the level nodes for the 'Subitize' game
     const subitizeLevelNodes = model.subitizeLevels.map( level =>
       new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // store all level nodes in one place for easy iteration
-    this.levelNodes = [ ...cardinalityLevelNodes, ...subitizeLevelNodes ];
+    this.levelNodes = [ ...countingLevelNodes, ...subitizeLevelNodes ];
 
     // create the transitionNode which handles the animated slide transition between levelSelectionNode and a level
     const transitionNode = new TransitionNode( this.visibleBoundsProperty, {

@@ -20,6 +20,25 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
     public: true,
     type: 'number',
     defaultValue: NumberPlayConstants.SUBITIZER_TIME_VISIBLE
+  },
+
+  gameLevels: {
+    public: true,
+    type: 'array',
+    elementSchema: {
+      type: 'number',
+      isValidValue: Number.isInteger
+    },
+    defaultValue: null,
+    isValidValue: array => {
+      return ( array === null ) || (
+        array.length > 0 &&
+        // unique level numbers
+        array.length === _.uniq( array ).length &&
+        // valid level numbers
+        _.every( array, element => element > 0 && element <= NumberPlayConstants.NUMBER_OF_GAME_LEVELS )
+      );
+    }
   }
 
 } );

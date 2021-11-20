@@ -20,7 +20,7 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import CountingGameLevel from '../model/CountingGameLevel.js';
 import merge from '../../../../phet-core/js/merge.js';
 
 // types
@@ -42,11 +42,11 @@ const BUTTON_DIMENSION = new Dimension2( 80, 100 );
 class NumberPlayGameAnswerButtons extends Node {
 
   private readonly buttonObjects: ButtonObject[];
-  private readonly level: SubitizeGameLevel | CardinalityGameLevel;
+  private readonly level: SubitizeGameLevel | CountingGameLevel;
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
 
-  constructor( level: SubitizeGameLevel | CardinalityGameLevel,
+  constructor( level: SubitizeGameLevel | CountingGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,

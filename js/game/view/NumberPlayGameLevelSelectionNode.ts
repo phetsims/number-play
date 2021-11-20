@@ -23,7 +23,7 @@ import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
-import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import CountingGameLevel from '../model/CountingGameLevel.js';
 import HStrut from '../../../../scenery/js/nodes/HStrut.js';
 
 class NumberPlayGameLevelSelectionNode extends Node {
@@ -38,7 +38,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     this.addChild( titleText );
 
     // creates a level-selection button for each level
-    const createLevelSelectionButton = ( level: SubitizeGameLevel | CardinalityGameLevel, gameNameString: string, baseColor: string ) => {
+    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, gameNameString: string, baseColor: string ) => {
       return new LevelSelectionButton( new VBox( {
         children: [
           new HStrut( 47 ),
@@ -54,9 +54,9 @@ class NumberPlayGameLevelSelectionNode extends Node {
       } );
     };
 
-    // create the level selection buttons for the 'Cardinality' game
-    const cardinalityLevelSelectionButtons = model.cardinalityLevels.map(
-      level => createLevelSelectionButton( level, numberPlayStrings.cardinality, NumberPlayConstants.CARDINALITY_GAME_COLOR )
+    // create the level selection buttons for the 'Counting' game
+    const countingLevelSelectionButtons = model.countingLevels.map(
+      level => createLevelSelectionButton( level, numberPlayStrings.counting, NumberPlayConstants.COUNTING_GAME_COLOR )
     );
 
     // create the level selection buttons for the 'Subitize' game
@@ -69,7 +69,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     const levelSelectionButtonsBox = new VBox( {
       children: [
         new HBox( {
-          children: cardinalityLevelSelectionButtons,
+          children: countingLevelSelectionButtons,
           spacing: buttonSpacing
         } ),
         new HBox( {

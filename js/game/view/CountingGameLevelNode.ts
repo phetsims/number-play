@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * CardinalityGameLevelNode is the class for a 'Cardinality' game level view.
+ * CountingGameLevelNode is the class for a 'Counting' game level view.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -9,7 +9,7 @@
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import CountingGameLevel from '../model/CountingGameLevel.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
@@ -25,16 +25,16 @@ const WIDTH = 550; // empirically determined, in screen coordinates
 const HEIGHT = 325; // empirically determined, in screen coordinates
 
 // TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated.
-class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLevel> {
+class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
-  constructor( level: CardinalityGameLevel,
-               levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
+  constructor( level: CountingGameLevel,
+               levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.CARDINALITY_GAME_COLOR );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.COUNTING_GAME_COLOR );
 
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
@@ -117,5 +117,5 @@ class CardinalityGameLevelNode extends NumberPlayGameLevelNode<CardinalityGameLe
   }
 }
 
-numberPlay.register( 'CardinalityGameLevelNode', CardinalityGameLevelNode );
-export default CardinalityGameLevelNode;
+numberPlay.register( 'CountingGameLevelNode', CountingGameLevelNode );
+export default CountingGameLevelNode;

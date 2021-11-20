@@ -26,7 +26,7 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import CardinalityGameLevel from '../model/CardinalityGameLevel.js';
+import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
@@ -45,7 +45,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   static ANSWER_BUTTONS_MARGIN_Y: number;
 
   protected constructor( level: T,
-                         levelProperty: Property<SubitizeGameLevel | CardinalityGameLevel | null>,
+                         levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: Property<Bounds2>,
                          statusBarColor: string ) {
@@ -138,6 +138,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
    * Sets up a new challenge in the model and in the view.
    */
   protected newChallenge() {
+    // @ts-ignore
     this.level.newChallenge();
     this.pointsAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();

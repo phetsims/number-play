@@ -99,12 +99,15 @@ class Subitizer {
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
   public challengeStartedProperty: BooleanProperty;
   private subitizerVisibleDelaySeconds: number;
+  private startSequencePlayingProperty: BooleanProperty;
 
   constructor( challengeNumberProperty: NumberProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
+               startSequencePlayingProperty: BooleanProperty,
                randomAndArranged: boolean
   ) {
     this.challengeNumberProperty = challengeNumberProperty;
+    this.startSequencePlayingProperty = startSequencePlayingProperty;
 
     // whether the current shape is visible
     this.visibleProperty = new BooleanProperty( false );
@@ -174,6 +177,15 @@ class Subitizer {
         this.secondsSinceVisible = 0;
       }
     }
+  }
+
+  newChallenge(): void {
+    const isStartSequence = this.startSequencePlayingProperty.value; //TODO: pretty weird, keep working on this
+    this.inputEnabledProperty.value = isStartSequence;
+    this.visibleProperty.value = isStartSequence;
+    this.challengeStartedProperty.value = !isStartSequence;
+    !isStartSequence && this.setRandomPlayObjectType();
+    this.setNewCoordinates();
   }
 
   /**
