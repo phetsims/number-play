@@ -8,7 +8,7 @@
       "path": "../fractions-common"
     },
     {
-      "path": "../twixt"
+      "path": "../twixt/tsconfig-module.json"
     },
     {
       "path": "../joist/tsconfig-module.json"
