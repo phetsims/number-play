@@ -27,9 +27,17 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
 
-  protected constructor( levelNumber: number, minimumChallengeNumber: number, maximumChallengeNumber: number ) {
+  /**
+   * @param levelNumber
+   * @param levelChallengeRange - the range of challenge numbers for a level, where 'range' is referring to a
+   * mathematical range, where the min and max values are unknown, so it is just a number
+   */
+  protected constructor( levelNumber: number, levelChallengeRange: number ) {
 
     this.levelNumber = levelNumber;
+
+    // the range of numbers used for all challenges of this level
+    this.challengeRange = NumberPlayGameLevel.getChallengeRange( levelNumber, levelChallengeRange );
 
     // message shown in the status bar that appears at the top of each level
     this.statusBarMessage = StringUtils.fillIn( numberPlayStrings.levelPattern, {
@@ -45,9 +53,6 @@ abstract class NumberPlayGameLevel {
     // whether the current challenge has been solved. A challenge is considered solved when the user has correctly
     // guessed the answer
     this.isSolvedProperty = new BooleanProperty( false );
-
-    // the range of numbers used for all challenges of this level
-    this.challengeRange = new Range( minimumChallengeNumber, maximumChallengeNumber );
 
     // the random number generated to create a subitized representation for
     this.challengeNumberProperty = new NumberProperty( this.getRandomChallengeNumber(), {
@@ -95,6 +100,23 @@ abstract class NumberPlayGameLevel {
 
   private getRandomChallengeNumber(): number {
     return dotRandom.nextIntBetween( this.challengeRange.min, this.challengeRange.max );
+  }
+
+  /**
+   * Calculates the range of the challenge numbers for the given level number and input range. This is converting
+   * levelChallengeRange, a mathematical range (see parameter doc of this class), to a Range type, which includes min
+   * and max values.
+   *
+   * Examples:
+   * 1, 10 => 1, 10
+   * 2, 10 => 11, 20
+   * 1, 5 => 1, 5
+   * 2, 5 => 6, 10
+   */
+  private static getChallengeRange( levelNumber: number, levelChallengeRange: number ): Range {
+    const minimumChallengeNumber = ( levelNumber - 1 ) * levelChallengeRange + 1;
+    const maximumChallengeNumber = levelNumber * levelChallengeRange;
+    return new Range( minimumChallengeNumber, maximumChallengeNumber );
   }
 }
 

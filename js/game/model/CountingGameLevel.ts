@@ -17,14 +17,17 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
+// constants
+const LEVEL_INPUT_RANGE = 10;
+
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
   public readonly playObjectTypeProperty: EnumerationProperty;
   public readonly isObjectsRepresentationProperty: BooleanProperty;
 
-  constructor( levelNumber: number, minimumCountNumber: number, maximumCountNumber: number ) {
-    super( levelNumber, minimumCountNumber, maximumCountNumber );
+  constructor( levelNumber: number ) {
+    super( levelNumber, LEVEL_INPUT_RANGE );
 
     this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
       isOnes: false,

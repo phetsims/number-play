@@ -15,6 +15,9 @@ import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
+// constants
+const LEVEL_INPUT_RANGE = 5;
+
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
   public readonly questionStringProperty: StringProperty;
@@ -22,8 +25,8 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   public playButtonVisibleProperty: BooleanProperty;
   public startSequencePlayingProperty: BooleanProperty;
 
-  constructor( levelNumber: number, minimumSubitizeNumber: number, maximumSubitizeNumber: number ) {
-    super( levelNumber, minimumSubitizeNumber, maximumSubitizeNumber );
+  constructor( levelNumber: number ) {
+    super( levelNumber, LEVEL_INPUT_RANGE );
 
     // whether the start sequence is playing. This can also be used to stop an existing animation.
     this.startSequencePlayingProperty = new BooleanProperty( false );
