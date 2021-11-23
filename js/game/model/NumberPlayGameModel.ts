@@ -47,16 +47,17 @@ class NumberPlayGameModel {
   }
 
   /**
-   * Returns the level number for each level code that matches the provided level letter by extracting the level
-   * numbers from the level codes.
+   * Returns the level number for each level code that matches the provided level character by extracting the level
+   * numbers from the level codes. It also sorts them to ensure level x is displayed before level x+1 in case the level
+   * codes were provided out of order.
    *
    * @param levelCodes - the array of two-character codes that represent game levels
-   * @param levelLetter - the letter that indicates which level codes should be kept and turned into numbers
+   * @param levelCharacter - the character that indicates which level codes should be kept and turned into numbers
    */
-  private static getLevelNumbers( levelCodes: string[], levelLetter: string ): number[] {
-    return levelCodes.filter( string => string.includes( levelLetter ) ).map( levelName =>
-      parseInt( levelName.replace( levelLetter, '' ) ) // eslint-disable-line
-    );
+  private static getLevelNumbers( levelCodes: string[], levelCharacter: string ): number[] {
+    const levelsCodesToInclude = levelCodes.filter( levelCode => levelCode.includes( levelCharacter ) );
+    const levelNumbers = levelsCodesToInclude.map( levelName => parseInt( levelName.replace( levelCharacter, '' ) ) ); // eslint-disable-line
+    return _.sortBy( levelNumbers );
   }
 }
 
