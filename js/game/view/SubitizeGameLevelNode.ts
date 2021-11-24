@@ -13,31 +13,26 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import Animation from '../../../../twixt/js/Animation.js';
-import Easing from '../../../../twixt/js/Easing.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
+import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
-  private textObjectAnimation: Animation | null;
-  private readonly startSequenceNode: Node;
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
+  private readonly subitizeStartSequenceNode: SubitizeStartSequenceNode;
 
   constructor( level: SubitizeGameLevel,
                levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
@@ -80,6 +75,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     subitizerNode.top = questionText.bottom + 15; // empirically determined
     this.addChild( subitizerNode );
 
+    // create and add the start sequence node
+    this.subitizeStartSequenceNode = new SubitizeStartSequenceNode( layoutBounds, () => {this.newChallenge();}, level.startSequencePlayingProperty );
+    this.addChild( this.subitizeStartSequenceNode );
+
     // create and add the play button
     const playButton = new RectangularPushButton( {
       baseColor: Color.YELLOW,
@@ -93,11 +92,19 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       visibleProperty: level.playButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;
-        this.setTextObjectVisibility( [ '3', '2', '1', numberPlayStrings.go ], subitizerNode.center );
+        this.subitizeStartSequenceNode.start();
       }
     } );
-    playButton.center = subitizerNode.center;
+    playButton.centerX = subitizerNode.centerX;
+    playButton.centerY = subitizerNode.centerY + 60;
     this.addChild( playButton );
+
+    // show the start sequence node if the play button is visible
+    level.playButtonVisibleProperty.link( playButtonVisible => {
+      if ( playButtonVisible ) {
+        this.subitizeStartSequenceNode.visible = playButtonVisible;
+      }
+    } );
 
     // create and add the speech synthesis button
     const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );
@@ -125,18 +132,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     showAgainButton.bottom = subitizerNode.bottom;
     this.addChild( showAgainButton );
 
-    // create and add the start sequence node, which is where the text objects in the start sequence are added
-    this.textObjectAnimation = null;
-    this.startSequenceNode = new Node();
-    this.addChild( this.startSequenceNode );
-
     // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
     this.level.startSequencePlayingProperty.link( startSequencePlaying => {
-      if ( !startSequencePlaying && this.textObjectAnimation ) {
-        this.textObjectAnimation.stop();
-        this.textObjectAnimation = null;
-        this.startSequenceNode.visible = false;
-        this.startSequenceNode.removeAllChildren();
+      if ( !startSequencePlaying ) {
+        this.subitizeStartSequenceNode.reset();
       }
     } );
   }
@@ -145,47 +144,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     super.reset();
   }
 
-  /**
-   * Animates an object in the start sequence to fade out
-   */
-  private setTextObjectVisibility( startSequenceText: string[], centerPosition: Vector2 ) {
-    this.level.startSequencePlayingProperty.value = true;
-
-    // create and add the text object
-    const textObject = new Text( startSequenceText[ 0 ], {
-      font: new PhetFont( 55 )
-    } );
-    textObject.center = centerPosition;
-    this.startSequenceNode.addChild( textObject );
-    this.startSequenceNode.visible = true;
-
-    // Animate opacity of the text object, fade it out.
-    textObject.opacityProperty.value = 1;
-    this.textObjectAnimation = new Animation( {
-      delay: 0.5,
-      duration: 0.5,
-      targets: [ {
-        property: textObject.opacityProperty,
-        easing: Easing.LINEAR,
-        to: 0
-      } ]
-    } );
-
-    this.textObjectAnimation.finishEmitter.addListener( () => {
-      this.startSequenceNode.visible = false;
-      this.textObjectAnimation = null;
-      startSequenceText.shift();
-      // animate the remaining objects in the start sequence if there are any remaining or start the game
-      if ( startSequenceText.length > 0 ) {
-        this.setTextObjectVisibility( startSequenceText, textObject.center );
-      }
-      else {
-        this.newChallenge();
-        this.level.startSequencePlayingProperty.reset();
-      }
-    } );
-
-    this.textObjectAnimation.start();
+  step( dt: number ) {
+    this.subitizeStartSequenceNode.step( dt );
   }
 }
 
