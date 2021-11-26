@@ -11,7 +11,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import Image from '../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../scenery/js/imports.js';
 import tenScreenIconImage from '../../images/ten_screen_icon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';

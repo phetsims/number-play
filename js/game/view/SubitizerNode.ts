@@ -10,12 +10,12 @@
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
+import { Circle } from '../../../../scenery/js/imports.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import Subitizer from '../model/Subitizer.js';
 
 // constants

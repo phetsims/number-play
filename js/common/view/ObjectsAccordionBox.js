@@ -14,10 +14,10 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import Image from '../../../../scenery/js/nodes/Image.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Image } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';

@@ -10,10 +10,10 @@
 import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { HBox } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import numberPlayStrings from '../../numberPlayStrings.js';

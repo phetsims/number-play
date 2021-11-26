@@ -7,7 +7,7 @@
  */
 
 import StackNodesBox from '../../../../fractions-common/js/building/view/StackNodesBox.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Node } from '../../../../scenery/js/imports.js';
 import Carousel from '../../../../sun/js/Carousel.js';
 import numberPlay from '../../numberPlay.js';
 

@@ -12,11 +12,11 @@ import Shape from '../../../../kite/js/Shape.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Circle } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Path } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 

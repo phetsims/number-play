@@ -10,7 +10,7 @@ import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import Image from '../../../scenery/js/nodes/Image.js';
+import { Image } from '../../../scenery/js/imports.js';
 import labScreenIconImage from '../../images/lab_screen_icon_png.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';

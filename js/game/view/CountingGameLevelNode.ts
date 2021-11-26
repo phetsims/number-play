@@ -15,7 +15,7 @@ import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';

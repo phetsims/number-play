@@ -11,9 +11,9 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import HBox from '../../../../scenery/js/nodes/HBox.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
+import { HBox } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -21,10 +21,10 @@ import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import VBox from '../../../../scenery/js/nodes/VBox.js';
+import { VBox } from '../../../../scenery/js/imports.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
-import HStrut from '../../../../scenery/js/nodes/HStrut.js';
+import { HStrut } from '../../../../scenery/js/imports.js';
 
 class NumberPlayGameLevelSelectionNode extends Node {
 

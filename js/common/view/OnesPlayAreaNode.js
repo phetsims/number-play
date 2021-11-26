@@ -14,8 +14,8 @@ import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';

@@ -15,9 +15,9 @@ import NumberPieceNode from '../../../../fractions-common/js/building/view/Numbe
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import DragListener from '../../../../scenery/js/listeners/DragListener.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
+import { DragListener } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
