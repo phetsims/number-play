@@ -10,4 +10,5 @@
 const CountingRepresentationTypeValues = [ 'tenFrame', 'objects' ] as const;
 type CountingRepresentationTypeEnum = ( typeof CountingRepresentationTypeValues )[number];
 
-export { CountingRepresentationTypeValues, CountingRepresentationTypeEnum as default };
+export { CountingRepresentationTypeValues };
+export type { CountingRepresentationTypeEnum as default };
