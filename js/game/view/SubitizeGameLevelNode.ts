@@ -79,6 +79,13 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.subitizeStartSequenceNode = new SubitizeStartSequenceNode( layoutBounds, () => {this.newChallenge();}, level.startSequencePlayingProperty );
     this.addChild( this.subitizeStartSequenceNode );
 
+    // show the start sequence node if the play button is visible
+    level.playButtonVisibleProperty.link( playButtonVisible => {
+      if ( playButtonVisible ) {
+        this.subitizeStartSequenceNode.visible = playButtonVisible;
+      }
+    } );
+
     // create and add the play button
     const playButton = new RectangularPushButton( {
       baseColor: Color.YELLOW,
@@ -98,13 +105,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     playButton.centerX = subitizerNode.centerX;
     playButton.centerY = subitizerNode.centerY + 60;
     this.addChild( playButton );
-
-    // show the start sequence node if the play button is visible
-    level.playButtonVisibleProperty.link( playButtonVisible => {
-      if ( playButtonVisible ) {
-        this.subitizeStartSequenceNode.visible = playButtonVisible;
-      }
-    } );
 
     // create and add the speech synthesis button
     const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );

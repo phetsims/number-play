@@ -42,6 +42,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
   /**
    * Return a new object type for the current challenge.
+   * TODO-TS: Add return type when PlayObjectType is converted to a suppoerted enumeration pattern.
    */
   private static getRandomPlayObjectType() {
     // @ts-ignore
