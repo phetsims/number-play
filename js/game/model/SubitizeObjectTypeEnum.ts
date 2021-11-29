@@ -12,4 +12,5 @@ import { PlayObjectTypeValues } from '../../common/model/PlayObjectTypeEnum.js';
 const SubitizeObjectTypeValues = [ ...PlayObjectTypeValues, 'circle' ] as const;
 type SubitizeObjectTypeEnum = ( typeof SubitizeObjectTypeValues )[number];
 
-export { SubitizeObjectTypeValues, SubitizeObjectTypeEnum as default };
+export { SubitizeObjectTypeValues };
+export type { SubitizeObjectTypeEnum as default };

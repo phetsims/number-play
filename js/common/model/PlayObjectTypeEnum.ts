@@ -10,4 +10,5 @@
 const PlayObjectTypeValues = [ 'dog', 'apple', 'turtle', 'ball' ] as const;
 type PlayObjectTypeEnum = ( typeof PlayObjectTypeValues )[number];
 
-export { PlayObjectTypeValues, PlayObjectTypeEnum as default };
+export { PlayObjectTypeValues };
+export type { PlayObjectTypeEnum as default };
