@@ -7,7 +7,6 @@ import Circle from '../../../../scenery/js/nodes/Circle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
 const X_DISTANCE_BETWEEN_CIRCLES = 120; // empirically determined
@@ -56,16 +55,16 @@ class SubitizeStartSequenceNode extends Node {
   }
 
   /**
-   * Draw a non-filled circle as default. Draw a filled circle if an old circle is passed in from fillCircle().
+   * Draw a non-filled circle as default. Draw a filled circle if an unfilled circle is passed in from fillCircle().
    */
-  private static drawCircle( oldCirclePosition?: Vector2 ): Circle {
+  private static drawCircle( unfilledCircle?: Node ): Circle {
     const circle = new Circle( 40, {
       stroke: 'purple',
       lineWidth: 5,
-      fill: oldCirclePosition ? 'purple' : Color.WHITE
+      fill: unfilledCircle ? 'purple' : Color.WHITE
     } );
-    if ( oldCirclePosition ) {
-      circle.center = oldCirclePosition;
+    if ( unfilledCircle ) {
+      circle.center = unfilledCircle.center;
     }
     return circle;
   }
@@ -76,7 +75,7 @@ class SubitizeStartSequenceNode extends Node {
   private fillCircle(): void {
     this.numberOfCirclesFilledProperty.value++;
     const circle = this.getChildAt( this.numberOfCirclesFilledProperty.value - 1 );
-    this.replaceChild( circle, SubitizeStartSequenceNode.drawCircle( circle.center ) );
+    this.replaceChild( circle, SubitizeStartSequenceNode.drawCircle( circle ) );
   }
 
   public step( dt: number ): void {
