@@ -112,7 +112,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     } );
   }
 
-  public reset() {
+  public reset(): void {
     super.reset();
   }
 }

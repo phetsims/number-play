@@ -68,12 +68,12 @@ abstract class NumberPlayGameLevel {
     this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
   }
 
-  protected reset() {
+  protected reset(): void {
     this.isSolvedProperty.reset();
     this.scoreProperty.reset();
   }
 
-  public newChallenge() { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
+  public newChallenge(): void { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
     this.isSolvedProperty.reset();
     this.setRandomChallengeNumber();
     this.numberOfAnswerButtonPressesProperty.reset();
@@ -83,7 +83,7 @@ abstract class NumberPlayGameLevel {
    * Sets a new challenge number. Can be the value of the previous challenge number, but there cannot be three of the
    * same number in a row.
    */
-  protected setRandomChallengeNumber() {
+  protected setRandomChallengeNumber(): void {
     assert && assert( this.challengeRange.min !== this.challengeRange.max,
       `challengeRange must contain more than one number: ${this.challengeRange.toString()}` );
 

@@ -48,19 +48,19 @@ class CountingGameLevel extends NumberPlayGameLevel {
     return PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
   }
 
-  public reset() {
+  public reset(): void {
     super.reset();
     this.playObjectTypeProperty.reset();
     this.isObjectsRepresentationProperty.reset();
   }
 
-  public step( dt: number ) {
+  public step( dt: number ): void {
   }
 
   /**
    * Sets up a new challenge for this level.
    */
-  public newChallenge() {
+  public newChallenge(): void {
     super.newChallenge();
     // @ts-ignore
     this.playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();

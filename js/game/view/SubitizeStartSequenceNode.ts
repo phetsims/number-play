@@ -75,7 +75,6 @@ class SubitizeStartSequenceNode extends Node {
    */
   private fillCircle(): void {
     this.numberOfCirclesFilledProperty.value++;
-    console.log( 'circles filled = ' + this.numberOfCirclesFilledProperty.value );
     const circle = this.getChildAt( this.numberOfCirclesFilledProperty.value - 1 );
     this.replaceChild( circle, SubitizeStartSequenceNode.drawCircle( circle.center ) );
   }

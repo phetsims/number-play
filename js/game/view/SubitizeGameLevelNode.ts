@@ -140,11 +140,11 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     } );
   }
 
-  public reset() {
+  public reset(): void {
     super.reset();
   }
 
-  step( dt: number ) {
+  step( dt: number ): void {
     this.subitizeStartSequenceNode.step( dt );
   }
 }

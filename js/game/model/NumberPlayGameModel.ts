@@ -38,11 +38,11 @@ class NumberPlayGameModel {
     } );
   }
 
-  public reset() {
+  public reset(): void {
     this.levels.forEach( level => level.reset() );
   }
 
-  public step( dt: number ) {
+  public step( dt: number ): void {
     this.levels.forEach( level => level.step( dt ) );
   }
 

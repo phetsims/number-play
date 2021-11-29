@@ -142,7 +142,7 @@ class NumberPlayGameAnswerButtons extends Node {
   /**
    * Fires button listener on the correct answer button.
    */
-  public showCorrectAnswer( challengeNumberProperty: NumberProperty ) {
+  public showCorrectAnswer( challengeNumberProperty: NumberProperty ): void {
     const index = challengeNumberProperty.value - challengeNumberProperty.range!.min;
     this.buttonListener( index );
   }
@@ -150,7 +150,7 @@ class NumberPlayGameAnswerButtons extends Node {
   /**
    * Returns everything in the HBox to its original button state.
    */
-  public reset() {
+  public reset(): void {
     this.buttonObjects.forEach( object => object.enabledProperty.reset() );
     this.hBox.children = this.buttonObjects.map( object => object.button );
   }

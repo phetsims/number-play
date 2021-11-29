@@ -129,7 +129,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.addChild( newChallengeButton );
   }
 
-  protected reset() {
+  protected reset(): void {
     this.pointsAwardedNodeVisibleProperty.reset();
     this.answerButtons.reset();
   }
@@ -137,7 +137,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   /**
    * Sets up a new challenge in the model and in the view.
    */
-  protected newChallenge() {
+  protected newChallenge(): void {
     // @ts-ignore
     this.level.newChallenge();
     this.pointsAwardedNodeVisibleProperty.value = false;
@@ -150,7 +150,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   /**
    * Shows or hides a frowny face - if shown, animates it to fade out when the user made an incorrect guess.
    */
-  protected setFrownyFaceVisibility( showFrownyFace: boolean ) {
+  protected setFrownyFaceVisibility( showFrownyFace: boolean ): void {
     this.frownyFaceNode.visible = showFrownyFace;
 
     if ( showFrownyFace ) {

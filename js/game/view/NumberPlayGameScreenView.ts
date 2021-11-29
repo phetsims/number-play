@@ -90,14 +90,14 @@ class NumberPlayGameScreenView extends ScreenView {
     this.addChild( transitionNode );
   }
 
-  public step( dt: number ) {
+  public step( dt: number ): void {
     // if on a levelNode, then step the subitize game view
     if ( this.stepSubitizeView ) {
       this.subitizeLevelNodes.forEach( subitizeGameLevelNode => subitizeGameLevelNode.step( dt ) );
     }
   }
 
-  public reset() {
+  public reset(): void {
     this.levelNodes.forEach( levelNode => levelNode.reset() );
   }
 }

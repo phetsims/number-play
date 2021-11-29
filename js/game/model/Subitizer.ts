@@ -152,7 +152,7 @@ class Subitizer {
     } );
   }
 
-  public step( dt: number ) {
+  public step( dt: number ): void {
 
     // delay the visibility of the subitizer at the start of every challenge
     if ( this.challengeStartedProperty.value ) {
@@ -191,7 +191,7 @@ class Subitizer {
   /**
    * Sets this.coordinatesProperty with new coordinates for the current subitizeNumber
    */
-  public setNewCoordinates() {
+  public setNewCoordinates(): void {
     const subitizeNumber = this.challengeNumberProperty.value;
     let coordinates = [];
 
@@ -262,11 +262,11 @@ class Subitizer {
   /**
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
-  public setRandomPlayObjectType() {
+  public setRandomPlayObjectType(): void {
     this.objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
   }
 
-  public reset() {
+  public reset(): void {
     this.visibleProperty.reset();
     this.inputEnabledProperty.reset();
   }
