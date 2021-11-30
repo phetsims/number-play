@@ -202,7 +202,7 @@ class Subitizer {
     const isStartSequence = this.startSequencePlayingProperty.value; //TODO: pretty weird, keep working on this
     this.inputEnabledProperty.value = isStartSequence;
     this.visibleProperty.value = isStartSequence;
-    this.challengeStartedProperty.value = !isStartSequence;
+    this.challengeStartedProperty.value = !isStartSequence && !NumberPlayQueryParameters.showCorrectAnswer;
     !isStartSequence && this.setRandomPlayObjectType();
     this.setNewCoordinates();
   }
