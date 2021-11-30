@@ -41,12 +41,12 @@ class SubitizerNode extends Node {
     } );
     this.addChild( drawingNode );
 
-    // update the view shape when the model coordinates change
-    subitizer.coordinatesProperty.link( coordinates => {
+    // update the view shape when the model points change
+    subitizer.pointsProperty.link( points => {
       drawingNode.removeAllChildren();
 
       // create and add each object to the drawing node
-      coordinates.forEach( coordinate => {
+      points.forEach( point => {
         let object;
         if ( subitizer.objectTypeProperty.value === 'circle' ) {
           object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize * 0.5 ), { fill: Color.BLACK } );
@@ -57,8 +57,8 @@ class SubitizerNode extends Node {
             maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
           } );
         }
-        object.centerX = scaleMVT.modelToViewX( coordinate.x );
-        object.centerY = scaleMVT.modelToViewY( coordinate.y );
+        object.centerX = scaleMVT.modelToViewX( point.x );
+        object.centerY = scaleMVT.modelToViewY( point.y );
         drawingNode.addChild( object );
       } );
     } );

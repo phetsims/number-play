@@ -24,7 +24,7 @@ import SubitizeObjectTypeEnum, { SubitizeObjectTypeValues } from './SubitizeObje
 //TODO-TS: naming for a type used as a constant like this?
 type Shapes = {
   [ key: number ]: {
-    coordinates: Vector2[],
+    points: Vector2[],
     rotations: number[]
   }[],
 };
@@ -44,53 +44,53 @@ const v2 = ( x: number, y: number ) => new Vector2( x, y );
 
 const SHAPES: Shapes = {
   1: [ {
-    coordinates: [ v2( 0, 0 ) ], // centered dot
+    points: [ v2( 0, 0 ) ], // centered dot
     rotations: []
   } ],
   2: [ {
-    coordinates: [ v2( -0.5, 0 ), v2( 0.5, 0 ) ], // row
+    points: [ v2( -0.5, 0 ), v2( 0.5, 0 ) ], // row
     rotations: [ DEGREES_45, DEGREES_90, DEGREES_135 ]
   } ],
   3: [ {
-    coordinates: [ v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ) ], // row
+    points: [ v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ) ], // row
     rotations: [ DEGREES_90 ]
   }, {
-    coordinates: [ v2( -1, -1 ), v2( 0, 0 ), v2( 1, 1 ) ], // diagonal row
+    points: [ v2( -1, -1 ), v2( 0, 0 ), v2( 1, 1 ) ], // diagonal row
     rotations: [ DEGREES_90 ]
   }, {
-    coordinates: [ v2( -1, 1 ), v2( 0, -1 ), v2( 1, 1 ) ], // triangle pointing up
+    points: [ v2( -1, 1 ), v2( 0, -1 ), v2( 1, 1 ) ], // triangle pointing up
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ],
   4: [ {
-    coordinates: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // row
+    points: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // row
     rotations: []
   }, {
-    coordinates: [ v2( -0.7, -0.7 ), v2( 0.7, -0.7 ), v2( -0.7, 0.7 ), v2( 0.7, 0.7 ) ], // square
+    points: [ v2( -0.7, -0.7 ), v2( 0.7, -0.7 ), v2( -0.7, 0.7 ), v2( 0.7, 0.7 ) ], // square
     rotations: [ DEGREES_45 ]
   } ],
   5: [ {
-    coordinates: [ v2( -2, 0 ), v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ), v2( 2, 0 ) ], // row
+    points: [ v2( -2, 0 ), v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ), v2( 2, 0 ) ], // row
     rotations: []
   }, {
-    coordinates: [ v2( -1, -1 ), v2( 1, -1 ), v2( 0, 0 ), v2( -1, 1 ), v2( 1, 1 ) ], // 5 in a "die" formation
+    points: [ v2( -1, -1 ), v2( 1, -1 ), v2( 0, 0 ), v2( -1, 1 ), v2( 1, 1 ) ], // 5 in a "die" formation
     rotations: []
   }, {
-    coordinates: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, -0.5 ), v2( 1, 0.5 ) ], // 3 left and 2 centered on right
+    points: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, -0.5 ), v2( 1, 0.5 ) ], // 3 left and 2 centered on right
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   }, {
-    coordinates: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, -1 ), v2( 1, 0 ) ], // 3 left and 2 top right
+    points: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, -1 ), v2( 1, 0 ) ], // 3 left and 2 top right
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   }, {
-    coordinates: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, 0 ), v2( 1, 1 ) ], // 3 left and 2 bottom right
+    points: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, 0 ), v2( 1, 1 ) ], // 3 left and 2 bottom right
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
 
-// width of the object, in model coordinates. An object is the representation that is rendered at each coordinate of a
+// width of the object, in model units. An object is the representation that is rendered at each point of a
 // shape.
 const OBJECT_SIZE = 0.7;
 
-// padding around an object, in model coordinates. This is the closest distance that two objects can be together,
+// padding around an object, in model units. This is the closest distance that two objects can be together,
 // measured from edge to edge (not center to center).
 const OBJECT_PADDING = 0.2;
 
@@ -106,7 +106,7 @@ class Subitizer {
 
   public readonly challengeNumberProperty: NumberProperty;
   public readonly visibleProperty: BooleanProperty;
-  public readonly coordinatesProperty: Property<Vector2[]>;
+  public readonly pointsProperty: Property<Vector2[]>;
   private readonly randomAndArranged: boolean;
   private secondsSinceVisible: number;
   public readonly objectSize: number;
@@ -129,8 +129,8 @@ class Subitizer {
     // whether the current shape is visible
     this.visibleProperty = new BooleanProperty( false );
 
-    // the coordinates of the current shape
-    this.coordinatesProperty = new Property( [ Vector2.ZERO ], {
+    // the points of the current shape
+    this.pointsProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
       arrayElementType: Vector2
     } );
@@ -144,8 +144,8 @@ class Subitizer {
     // the number of seconds the sim clock has run since the subitizer's visibility was delayed
     this.subitizerVisibleDelaySeconds = 0;
 
-    // initialize first set of coordinates
-    this.setNewCoordinates();
+    // initialize first set of points
+    this.setNewPoints();
 
     // the width and height of every object used to make a shape
     this.objectSize = OBJECT_SIZE;
@@ -204,15 +204,15 @@ class Subitizer {
     this.visibleProperty.value = isStartSequence;
     this.challengeStartedProperty.value = !isStartSequence && !NumberPlayQueryParameters.showCorrectAnswer;
     !isStartSequence && this.setRandomPlayObjectType();
-    this.setNewCoordinates();
+    this.setNewPoints();
   }
 
   /**
-   * Sets this.coordinatesProperty with new coordinates for the current subitizeNumber
+   * Sets this.pointsProperty with new points for the current subitizeNumber
    */
-  public setNewCoordinates(): void {
+  public setNewPoints(): void {
     const subitizeNumber = this.challengeNumberProperty.value;
-    let coordinates = [];
+    let points = [];
 
     // 60/40 chance whether the pattern uses an random configuration or an arranged one for level 1, level 2 always
     // uses a configuration in a randomly set pattern/array
@@ -222,25 +222,25 @@ class Subitizer {
         // pick out a random shape for the corresponding subitizeNumber
         const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
         const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
-        coordinates = shape.coordinates;
+        points = shape.points;
 
         // if the shape has rotations available, randomly pick one to rotate by 50% of the time
         if ( shape.rotations.length && dotRandom.nextBoolean() ) {
           const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
-          coordinates = Subitizer.rotateCoordinates( coordinates, shape.rotations[ randomRotationIndex ] );
+          points = Subitizer.rotatePoints( points, shape.rotations[ randomRotationIndex ] );
         }
       }
       else {
 
-        // generate random coordinates for the subitizeNumber positions
-        while ( coordinates.length < subitizeNumber ) {
+        // generate random points for the subitizeNumber positions
+        while ( points.length < subitizeNumber ) {
           const randomX = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minX, SHAPE_BOUNDS.maxX );
           const randomY = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minY, SHAPE_BOUNDS.maxY );
 
-          // add a new coordinate if it doesn't exist yet and does not overlap with the existing coordinates
-          const objectsOverlap = Subitizer.objectsOverlap( coordinates, randomX, randomY );
-          if ( !_.find( coordinates, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
-            coordinates.push( new Vector2( randomX, randomY ) );
+          // add a new point if it doesn't exist yet and does not overlap with the existing points
+          const objectsOverlap = Subitizer.objectsOverlap( points, randomX, randomY );
+          if ( !_.find( points, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
+            points.push( new Vector2( randomX, randomY ) );
           }
         }
       }
@@ -258,23 +258,23 @@ class Subitizer {
         numberOfColumns++;
       }
 
-      // create and add the coordinates
+      // create and add the points
       const startX = ( numberOfColumns - 1 ) / -2;
       const startY = ( numberOfRows - 1 ) / -2;
       for ( let j = 0; j < numberOfRows; j++ ) {
         for ( let i = 0; i < numberOfColumns; i++ ) {
-          if ( coordinates.length < subitizeNumber ) {
-            coordinates.push( new Vector2( startX + i, startY + j ) );
+          if ( points.length < subitizeNumber ) {
+            points.push( new Vector2( startX + i, startY + j ) );
           }
         }
       }
     }
 
-    if ( !Subitizer.isSameCoordinates( this.coordinatesProperty.value, coordinates ) ) {
-      this.coordinatesProperty.value = coordinates;
+    if ( !Subitizer.isSamePoints( this.pointsProperty.value, points ) ) {
+      this.pointsProperty.value = points;
     }
     else {
-      this.setNewCoordinates();
+      this.setNewPoints();
     }
   }
 
@@ -291,42 +291,42 @@ class Subitizer {
   }
 
   /**
-   * Rotate each coordinate of the shape shape around the origin.
+   * Rotates each point of the shape shape around the origin.
    */
-  private static rotateCoordinates( coordinates: Vector2[], rotationAngle: number ): Vector2[] {
+  private static rotatePoints( points: Vector2[], rotationAngle: number ): Vector2[] {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
 
-    const rotatedCoordinates: Vector2[] = [];
-    coordinates.forEach( point => {
-      rotatedCoordinates.push( rotationMatrix.timesVector2( point ) );
+    const rotatedPoints: Vector2[] = [];
+    points.forEach( point => {
+      rotatedPoints.push( rotationMatrix.timesVector2( point ) );
     } );
 
-    return rotatedCoordinates;
+    return rotatedPoints;
   }
 
   /**
-   * Compares the bounds of a coordinate to be added to all other existing coordinates and returns if the coordinate to
-   * be added overlaps with any existing coordinate.
+   * Compares the bounds of a point to be added to all other existing points and returns if the point to
+   * be added overlaps with any existing point.
    */
-  private static objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ): boolean {
+  private static objectsOverlap( points: Vector2[], randomX: number, randomY: number ): boolean {
     let overlap = false;
     const objectTotalWidth = OBJECT_SIZE + OBJECT_PADDING;
     const objectTotalHalfWidth = objectTotalWidth / 2;
-    if ( coordinates.length > 0 ) {
-      for ( let i = 0; i < coordinates.length; i++ ) {
-        const coordinate = coordinates[ i ];
-        const coordinateObjectBounds = new Bounds2(
-          coordinate.x - objectTotalHalfWidth,
-          coordinate.y - objectTotalHalfWidth,
-          coordinate.x + objectTotalHalfWidth,
-          coordinate.y + objectTotalHalfWidth
+    if ( points.length > 0 ) {
+      for ( let i = 0; i < points.length; i++ ) {
+        const point = points[ i ];
+        const pointObjectBounds = new Bounds2(
+          point.x - objectTotalHalfWidth,
+          point.y - objectTotalHalfWidth,
+          point.x + objectTotalHalfWidth,
+          point.y + objectTotalHalfWidth
         );
         const randomObjectBounds = new Bounds2( randomX - objectTotalHalfWidth,
           randomY - objectTotalHalfWidth,
           randomX + objectTotalHalfWidth,
           randomY + objectTotalHalfWidth
         );
-        overlap = coordinateObjectBounds.intersectsBounds( randomObjectBounds );
+        overlap = pointObjectBounds.intersectsBounds( randomObjectBounds );
         if ( overlap ) {
           break;
         }
@@ -336,25 +336,25 @@ class Subitizer {
   }
 
   /**
-   * Compares two sets of coordinates and returns if they are equal or not.
+   * Compares two sets of points and returns if they are equal or not.
    */
-  private static isSameCoordinates( coordinatesSetOne: Vector2[], coordinatesSetTwo: Vector2[] ): boolean {
-    let coordinatesAreEqual = true;
-    if ( coordinatesSetOne.length === coordinatesSetTwo.length ) {
-      for ( let i = 0; i < coordinatesSetOne.length; i++ ) {
-        if ( !coordinatesSetOne[ i ].equals( coordinatesSetTwo[ i ] ) ) {
+  private static isSamePoints( pointsSetOne: Vector2[], pointsSetTwo: Vector2[] ): boolean {
+    let pointsAreEqual = true;
+    if ( pointsSetOne.length === pointsSetTwo.length ) {
+      for ( let i = 0; i < pointsSetOne.length; i++ ) {
+        if ( !pointsSetOne[ i ].equals( pointsSetTwo[ i ] ) ) {
           return false;
         }
       }
     }
     else {
-      coordinatesAreEqual = false;
+      pointsAreEqual = false;
     }
-    return coordinatesAreEqual;
+    return pointsAreEqual;
   }
 
   /**
-   * Asserts that every coordinate in every shape is within the model bounds for every possible rotation of the shape.
+   * Asserts that every point in every shape is within the model bounds for every possible rotation of the shape.
    */
   private static assertValidShapes(): void {
     for ( const key in SHAPES ) {
@@ -362,12 +362,12 @@ class Subitizer {
         const shapeRotations = shape.rotations;
         shapeRotations.unshift( 0 ); // add 0 degrees to every set of rotations so 0 is tested too
 
-        // check that the coordinates of each rotation for a shape are within the model bounds
+        // check that the points of each rotation for a shape are within the model bounds
         shapeRotations.forEach( rotationAngle => {
-          const rotatedCoordinates = Subitizer.rotateCoordinates( shape.coordinates, rotationAngle );
-          rotatedCoordinates.forEach( coordinate => {
-            assert && assert( SHAPE_BOUNDS.containsPoint( Subitizer.fixCoordinate( coordinate ) ),
-              `vector point ${coordinate.toString()} from shape ${key} is outside the object bounds when rotation ` +
+          const rotatedPoints = Subitizer.rotatePoints( shape.points, rotationAngle );
+          rotatedPoints.forEach( point => {
+            assert && assert( SHAPE_BOUNDS.containsPoint( Subitizer.fixPoint( point ) ),
+              `vector point ${point.toString()} from shape ${key} is outside the object bounds when rotation ` +
               `${rotationAngle} is applied: ${SHAPE_BOUNDS.toString()}` );
           } );
         } );
@@ -376,10 +376,10 @@ class Subitizer {
   }
 
   /**
-   * Fixes coordinates that have wrong values due to JavaScript decimal math error
+   * Fixes points that have wrong values due to JavaScript decimal math error
    */
-  private static fixCoordinate( coordinate: Vector2 ): Vector2 {
-    return new Vector2( Utils.toFixedNumber( coordinate.x, DECIMALS ), Utils.toFixedNumber( coordinate.y, DECIMALS ) );
+  private static fixPoint( point: Vector2 ): Vector2 {
+    return new Vector2( Utils.toFixedNumber( point.x, DECIMALS ), Utils.toFixedNumber( point.y, DECIMALS ) );
   }
 }
 
