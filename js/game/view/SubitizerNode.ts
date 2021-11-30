@@ -10,17 +10,11 @@
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Circle, Color, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import { Circle } from '../../../../scenery/js/imports.js';
-import { Image } from '../../../../scenery/js/imports.js';
 import Subitizer from '../model/Subitizer.js';
 
 // constants
-const WIDTH = 425; // empirically determined, in screen coordinates
-const HEIGHT = 275; // empirically determined, in screen coordinates
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
 
 class SubitizerNode extends Node {
@@ -33,17 +27,18 @@ class SubitizerNode extends Node {
     // for use in setTextObjectVisibility
     this.subitizer = subitizer;
 
+    // for scaling the objects
+    const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 90 ); // empirically determined
+
     // create and add the background node
-    const backgroundNode = new Rectangle( 0, 0, WIDTH, HEIGHT, CORNER_RADIUS, CORNER_RADIUS, {
-      fill: Color.WHITE,
-      stroke: Color.BLACK,
-      lineWidth: 2
-    } );
+    const backgroundNode = new Rectangle( 0, 0, scaleMVT.modelToViewDeltaX( Subitizer.SUBITIZER_BOUNDS.width ),
+      scaleMVT.modelToViewDeltaY( Subitizer.SUBITIZER_BOUNDS.height ), CORNER_RADIUS, CORNER_RADIUS, {
+        fill: Color.WHITE,
+        stroke: Color.BLACK,
+        lineWidth: 2
+      } );
     backgroundNode.center = Vector2.ZERO;
     this.addChild( backgroundNode );
-
-    // for scaling the objects
-    const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 90 );
 
     // create and add the drawing node, which is where the objects are added to and it rotates if rotationProperty is set
     const drawingNode = new Node( {
@@ -67,11 +62,8 @@ class SubitizerNode extends Node {
             maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
           } );
         }
-        // @ts-ignore
         object.centerX = scaleMVT.modelToViewX( coordinate.x );
-        // @ts-ignore
         object.centerY = scaleMVT.modelToViewY( coordinate.y );
-        // @ts-ignore
         drawingNode.addChild( object );
       } );
     } );

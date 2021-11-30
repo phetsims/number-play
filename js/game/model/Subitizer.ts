@@ -14,12 +14,12 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
+import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeObjectTypeEnum from './SubitizeObjectTypeEnum.js';
-import { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
+import SubitizeObjectTypeEnum, { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
 
 //TODO-TS: naming for a type used as a constant like this?
 type Shapes = {
@@ -30,6 +30,7 @@ type Shapes = {
 };
 
 // constants
+const DECIMALS = 4;
 
 // angles, all in radians
 const DEGREES_45 = Math.PI * 0.25;
@@ -64,7 +65,7 @@ const SHAPES: Shapes = {
     coordinates: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // row
     rotations: []
   }, {
-    coordinates: [ v2( -0.75, -0.75 ), v2( 0.75, -0.75 ), v2( -0.75, 0.75 ), v2( 0.75, 0.75 ) ], // square
+    coordinates: [ v2( -0.7, -0.7 ), v2( 0.7, -0.7 ), v2( -0.7, 0.7 ), v2( 0.7, 0.7 ) ], // square
     rotations: [ DEGREES_45 ]
   } ],
   5: [ {
@@ -84,7 +85,22 @@ const SHAPES: Shapes = {
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
-const OBJECT_SIZE = 0.4444; // width of the object in model coordinates
+
+// width of the object, in model coordinates. An object is the representation that is rendered at each coordinate of a
+// shape.
+const OBJECT_SIZE = 0.7;
+
+// padding around an object, in model coordinates. This is the closest distance that two objects can be together,
+// measured from edge to edge (not center to center).
+const OBJECT_PADDING = 0.2;
+
+// the area in which the objects of a shape can be created. This does not take into account the size of an object, but
+// rather the area where the centers of each object are allowed.
+const SHAPE_BOUNDS = new Bounds2( -2, -1, 2, 1 );
+
+// the area for the whole subitizer, including padding between the exterior and where the objects are allowed to be.
+// this is used to render the subitizer node in the view.
+const SUBITIZER_BOUNDS = SHAPE_BOUNDS.dilated( OBJECT_SIZE / 2 + OBJECT_PADDING );
 
 class Subitizer {
 
@@ -100,6 +116,7 @@ class Subitizer {
   public challengeStartedProperty: BooleanProperty;
   private subitizerVisibleDelaySeconds: number;
   private startSequencePlayingProperty: BooleanProperty;
+  public static SUBITIZER_BOUNDS: Bounds2;
 
   constructor( challengeNumberProperty: NumberProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
@@ -150,6 +167,8 @@ class Subitizer {
       }
       return NumberPlayQueryParameters.subitizerTimeVisible;
     } );
+
+    Subitizer.assertValidShapes();
   }
 
   public step( dt: number ): void {
@@ -179,7 +198,7 @@ class Subitizer {
     }
   }
 
-  newChallenge(): void {
+  public newChallenge(): void {
     const isStartSequence = this.startSequencePlayingProperty.value; //TODO: pretty weird, keep working on this
     this.inputEnabledProperty.value = isStartSequence;
     this.visibleProperty.value = isStartSequence;
@@ -205,7 +224,7 @@ class Subitizer {
         const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
         coordinates = shape.coordinates;
 
-        // if the shape has rotations available, randomly pick one to assign
+        // if the shape has rotations available, randomly pick one to rotate by 50% of the time
         if ( shape.rotations.length && dotRandom.nextBoolean() ) {
           const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
           coordinates = Subitizer.rotateCoordinates( coordinates, shape.rotations[ randomRotationIndex ] );
@@ -215,8 +234,8 @@ class Subitizer {
 
         // generate random coordinates for the subitizeNumber positions
         while ( coordinates.length < subitizeNumber ) {
-          const randomX = dotRandom.nextDoubleBetween( -2, 2 );
-          const randomY = dotRandom.nextDoubleBetween( -1, 1 );
+          const randomX = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minX, SHAPE_BOUNDS.maxX );
+          const randomY = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minY, SHAPE_BOUNDS.maxY );
 
           // add a new coordinate if it doesn't exist yet and does not overlap with the existing coordinates
           const objectsOverlap = Subitizer.objectsOverlap( coordinates, randomX, randomY );
@@ -291,7 +310,7 @@ class Subitizer {
    */
   private static objectsOverlap( coordinates: Vector2[], randomX: number, randomY: number ): boolean {
     let overlap = false;
-    const objectTotalWidth = OBJECT_SIZE + 0.1;
+    const objectTotalWidth = OBJECT_SIZE + OBJECT_PADDING;
     const objectTotalHalfWidth = objectTotalWidth / 2;
     if ( coordinates.length > 0 ) {
       for ( let i = 0; i < coordinates.length; i++ ) {
@@ -333,7 +352,38 @@ class Subitizer {
     }
     return coordinatesAreEqual;
   }
+
+  /**
+   * Asserts that every coordinate in every shape is within the model bounds for every possible rotation of the shape.
+   */
+  private static assertValidShapes(): void {
+    for ( const key in SHAPES ) {
+      SHAPES[ key ].forEach( shape => { // iterate over each shape in the shape set for the given number (key)
+        const shapeRotations = shape.rotations;
+        shapeRotations.unshift( 0 ); // add 0 degrees to every set of rotations so 0 is tested too
+
+        // check that the coordinates of each rotation for a shape are within the model bounds
+        shapeRotations.forEach( rotationAngle => {
+          const rotatedCoordinates = Subitizer.rotateCoordinates( shape.coordinates, rotationAngle );
+          rotatedCoordinates.forEach( coordinate => {
+            assert && assert( SHAPE_BOUNDS.containsPoint( Subitizer.fixCoordinate( coordinate ) ),
+              `vector point ${coordinate.toString()} from shape ${key} is outside the object bounds when rotation ` +
+              `${rotationAngle} is applied: ${SHAPE_BOUNDS.toString()}` );
+          } );
+        } );
+      } );
+    }
+  }
+
+  /**
+   * Fixes coordinates that have wrong values due to JavaScript decimal math error
+   */
+  private static fixCoordinate( coordinate: Vector2 ): Vector2 {
+    return new Vector2( Utils.toFixedNumber( coordinate.x, DECIMALS ), Utils.toFixedNumber( coordinate.y, DECIMALS ) );
+  }
 }
+
+Subitizer.SUBITIZER_BOUNDS = SUBITIZER_BOUNDS;
 
 numberPlay.register( 'Subitizer', Subitizer );
 export default Subitizer;
