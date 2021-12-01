@@ -29,7 +29,6 @@ class NumberPlayGameScreen extends Screen {
     const options = {
       name: screenGameString,
       backgroundColorProperty: new ColorProperty( new Color( NumberPlayConstants.GAME_SCREEN_BACKGROUND ) ),
-      // @ts-ignore, see https://github.com/phetsims/number-play/issues/71
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

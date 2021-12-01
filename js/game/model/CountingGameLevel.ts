@@ -34,8 +34,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true
     } );
-
-    // @ts-ignore
+    
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
@@ -63,7 +62,6 @@ class CountingGameLevel extends NumberPlayGameLevel {
    */
   public newChallenge(): void {
     super.newChallenge();
-    // @ts-ignore
     this.playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
     this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
   }

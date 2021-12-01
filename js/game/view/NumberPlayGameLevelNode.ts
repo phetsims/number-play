@@ -138,7 +138,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
    * Sets up a new challenge in the model and in the view.
    */
   protected newChallenge(): void {
-    // @ts-ignore
     this.level.newChallenge();
     this.pointsAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();
