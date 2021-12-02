@@ -52,7 +52,6 @@ type StringsType = {
   'levelPattern': string,
   'howManyDots': string,
   'howManyObjects': string,
-  'go': string,
   'chooseYourGame': string,
   'counting': string,
   'subitize': string
