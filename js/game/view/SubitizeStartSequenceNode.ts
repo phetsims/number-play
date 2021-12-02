@@ -1,10 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
-import Node from '../../../../scenery/js/nodes/Node.js';
+import { Circle, Color, Node } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Color from '../../../../scenery/js/util/Color.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
