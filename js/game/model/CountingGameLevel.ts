@@ -16,6 +16,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -27,14 +28,14 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly isObjectsRepresentationProperty: BooleanProperty;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, LEVEL_INPUT_RANGE );
+    super( levelNumber, numberPlayStrings.counting, LEVEL_INPUT_RANGE );
 
     this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
       isOnes: false,
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true
     } );
-    
+
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }

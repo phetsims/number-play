@@ -11,6 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 5;
@@ -22,7 +23,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   public startSequencePlayingProperty: BooleanProperty;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, LEVEL_INPUT_RANGE );
+    super( levelNumber, numberPlayStrings.subitize, LEVEL_INPUT_RANGE );
 
     // whether the start sequence is playing. This can also be used to stop an existing animation.
     this.startSequencePlayingProperty = new BooleanProperty( false );

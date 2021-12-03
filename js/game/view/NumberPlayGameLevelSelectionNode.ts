@@ -38,11 +38,11 @@ class NumberPlayGameLevelSelectionNode extends Node {
     this.addChild( titleText );
 
     // creates a level-selection button for each level
-    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, gameNameString: string, baseColor: string ) => {
+    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: string ) => {
       return new LevelSelectionButton( new VBox( {
         children: [
           new HStrut( 47 ),
-          new Text( gameNameString ),
+          new Text( level.gameName ),
           new Text( StringUtils.fillIn( numberPlayStrings.levelPattern, { levelNumber: level.levelNumber } ) )
         ]
       } ), level.scoreProperty, {
@@ -56,12 +56,12 @@ class NumberPlayGameLevelSelectionNode extends Node {
 
     // create the level selection buttons for the 'Counting' game
     const countingLevelSelectionButtons = model.countingLevels.map(
-      level => createLevelSelectionButton( level, numberPlayStrings.counting, NumberPlayConstants.COUNTING_GAME_COLOR )
+      level => createLevelSelectionButton( level, NumberPlayConstants.COUNTING_GAME_COLOR )
     );
 
     // create the level selection buttons for the 'Subitize' game
     const subitizeGameLevelSelectionButtons = model.subitizeLevels.map(
-      level => createLevelSelectionButton( level, numberPlayStrings.subitize, NumberPlayConstants.SUBITIZE_GAME_COLOR )
+      level => createLevelSelectionButton( level, NumberPlayConstants.SUBITIZE_GAME_COLOR )
     );
 
     // arrange and add the level selection buttons

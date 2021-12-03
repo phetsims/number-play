@@ -50,8 +50,7 @@ type StringsType = {
   'english': string,
   'spanish': string,
   'levelPattern': string,
-  'howManyDots': string,
-  'howManyObjects': string,
+  'gameLevelPattern': string,
   'chooseYourGame': string,
   'counting': string,
   'subitize': string

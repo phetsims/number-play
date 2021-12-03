@@ -29,6 +29,8 @@ import Easing from '../../../../twixt/js/Easing.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 
 // constants
 const FACE_DIAMETER = 150;
@@ -53,7 +55,10 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     super();
 
     // text displayed in the status bar
-    const levelDescriptionText = new RichText( level.statusBarMessage, {
+    const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameLevelPattern, {
+      gameName: level.gameName,
+      levelNumber: level.levelNumber
+    } ), {
       font: new PhetFont( 21 ),
       maxWidth: 650 // determined empirically
     } );

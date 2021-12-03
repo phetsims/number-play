@@ -113,11 +113,8 @@
   "levelPattern": {
     "value": "Level {{levelNumber}}"
   },
-  "howManyDots": {
-    "value": "How many dots?"
-  },
-  "howManyObjects": {
-    "value": "How many objects?"
+  "gameLevelPattern": {
+    "value": "{{gameName}}: Level {{levelNumber}}"
   },
   "chooseYourGame": {
     "value": "Choose Your Game!"

@@ -10,15 +10,12 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import numberPlay from '../../numberPlay.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import Range from '../../../../dot/js/Range.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 
 abstract class NumberPlayGameLevel {
 
   public readonly levelNumber: number;
-  public readonly statusBarMessage: string;
   public readonly scoreProperty: NumberProperty;
   public readonly isSolvedProperty: BooleanProperty;
   public readonly challengeRange: Range;
@@ -26,23 +23,21 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberOne: number;
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
+  public readonly gameName: string;
 
   /**
    * @param levelNumber
+   * @param gameName
    * @param levelChallengeRange - the range of challenge numbers for a level, where 'range' is referring to a
    * mathematical range, where the min and max values are unknown, so it is just a number
    */
-  protected constructor( levelNumber: number, levelChallengeRange: number ) {
+  protected constructor( levelNumber: number, gameName: string, levelChallengeRange: number ) {
 
     this.levelNumber = levelNumber;
+    this.gameName = gameName;
 
     // the range of numbers used for all challenges of this level
     this.challengeRange = NumberPlayGameLevel.getChallengeRange( levelNumber, levelChallengeRange );
-
-    // message shown in the status bar that appears at the top of each level
-    this.statusBarMessage = StringUtils.fillIn( numberPlayStrings.levelPattern, {
-      levelNumber: levelNumber
-    } );
 
     // the total number of points that have been awarded for this level
     this.scoreProperty = new NumberProperty( 0, {
