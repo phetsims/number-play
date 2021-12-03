@@ -99,7 +99,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       yMargin: showAgainButtonMargin,
       size: new Dimension2( showAgainButtonSideLength, showAgainButtonSideLength ),
       baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR,
-      enabledProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.inputEnabledProperty, level.subitizer.visibleProperty ],
+      visibleProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.inputEnabledProperty, level.subitizer.visibleProperty ],
         ( isSolved: boolean, isPlaying: boolean, subitizerVisible: boolean ) => !isSolved && isPlaying && !subitizerVisible ),
       listener: () => {
         level.subitizer.visibleProperty.value = true;
