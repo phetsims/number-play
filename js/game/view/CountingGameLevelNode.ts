@@ -43,7 +43,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       this.setFrownyFaceVisibility( true );
     } );
     this.answerButtons.centerX = layoutBounds.centerX;
-    this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
+    this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
     const playAreaNode = new Rectangle( {
@@ -78,7 +78,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       lineWidth: panelLineWidth
     } );
     playAreaPanel.centerX = layoutBounds.centerX;
-    playAreaPanel.top = layoutBounds.top + 90; // empirically determined
+    playAreaPanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
     this.addChild( playAreaPanel );
 
     const margin = 10;
@@ -102,7 +102,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       lineWidth: panelLineWidth
     } );
     tenFramePanel.centerX = layoutBounds.centerX;
-    tenFramePanel.top = layoutBounds.top + 90; // empirically determined
+    tenFramePanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
     this.addChild( tenFramePanel );
 
     // update the visibility of the panels when the representation types change

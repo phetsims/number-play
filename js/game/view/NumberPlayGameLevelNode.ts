@@ -10,7 +10,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { HBox, Node } from '../../../../scenery/js/imports.js';
 import { RichText } from '../../../../scenery/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
@@ -42,7 +42,8 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   private frownyFaceAnimation: Animation | null;
   protected readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
-  static ANSWER_BUTTONS_MARGIN_Y: number;
+  static ANSWER_BUTTONS_BOTTOM_MARGIN_Y: number;
+  static GAME_AREA_NODE_BOTTOM_MARGIN_Y: number;
 
   protected constructor( level: T,
                          levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
@@ -81,7 +82,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
-    this.frownyFaceNode.top = 90; // empirically determined
+    this.frownyFaceNode.top = 98; // empirically determined to top-align with the main game node
     this.frownyFaceNode.right = layoutBounds.maxX - 45; // empirically determined
     this.frownyFaceNode.frown();
     this.addChild( this.frownyFaceNode );
@@ -99,15 +100,13 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 1.5 } );
-    starNode.centerX = this.frownyFaceNode.centerX + starNode.width / 2;
-    starNode.top = this.frownyFaceNode.bottom + 23; // empirically determined
     const pointsNode = new Text( '+1', { font: new PhetFont( 40 ), fill: 'black' } );
-    pointsNode.centerY = starNode.centerY;
-    pointsNode.right = starNode.left - 10; // empirically determined
-    const pointsAwardedNode = new Node( {
-      children: [ starNode, pointsNode ],
+    const pointsAwardedNode = new HBox( {
+      children: [ pointsNode, starNode ],
+      spacing: 10,
       visibleProperty: this.pointsAwardedNodeVisibleProperty
     } );
+    pointsAwardedNode.centerX = smileyFaceNode.centerX;
     this.addChild( pointsAwardedNode );
 
     // create and add the new challenge button which is visible when a challenge is solved, meaning a correct answer button was pressed
@@ -125,8 +124,14 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
-    newChallengeButton.top = starNode.bottom + 24;
+    newChallengeButton.bottom = this.layoutBounds.maxY -
+                                NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y -
+                                NumberPlayGameAnswerButtons.BUTTON_DIMENSION.height -
+                                NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( newChallengeButton );
+
+    // y-position the points awarded node after the new challenge button is created
+    pointsAwardedNode.centerY = ( newChallengeButton.top + smileyFaceNode.bottom ) / 2;
   }
 
   protected reset(): void {
@@ -181,7 +186,8 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   }
 }
 
-NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y = 58;
+NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y = 50;
+NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y = 40; // distance above answer buttons
 
 numberPlay.register( 'NumberPlayGameLevelNode', NumberPlayGameLevelNode );
 export default NumberPlayGameLevelNode;

@@ -45,6 +45,7 @@ class NumberPlayGameAnswerButtons extends Node {
   private readonly level: SubitizeGameLevel | CountingGameLevel;
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
+  static BUTTON_DIMENSION: Dimension2;
 
   constructor( level: SubitizeGameLevel | CountingGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
@@ -155,6 +156,7 @@ class NumberPlayGameAnswerButtons extends Node {
     this.hBox.children = this.buttonObjects.map( object => object.button );
   }
 }
+NumberPlayGameAnswerButtons.BUTTON_DIMENSION = BUTTON_DIMENSION;
 
 numberPlay.register( 'NumberPlayGameAnswerButtons', NumberPlayGameAnswerButtons );
 export default NumberPlayGameAnswerButtons;

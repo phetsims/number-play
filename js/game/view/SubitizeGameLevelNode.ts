@@ -49,13 +49,13 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       enabledPropertyDependency: level.subitizer.inputEnabledProperty
     } );
     this.answerButtons.centerX = layoutBounds.centerX;
-    this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
+    this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
     // create and add the subitizer node
     const subitizerNode = new SubitizerNode( level.subitizer );
     subitizerNode.centerX = layoutBounds.centerX;
-    subitizerNode.top = questionText.bottom + 15; // empirically determined
+    subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
     this.addChild( subitizerNode );
 
     // create and add the start sequence node
