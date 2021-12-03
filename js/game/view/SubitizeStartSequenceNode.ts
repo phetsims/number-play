@@ -73,7 +73,8 @@ class SubitizeStartSequenceNode extends Node {
     this.fillRectangleWidthProperty.reset();
 
     this.fillRectangleAnimation = new Animation( {
-      duration: 3,
+      delay: 0.1,
+      duration: 1.2,
       targets: [ {
         property: this.fillRectangleWidthProperty,
         easing: Easing.LINEAR,
