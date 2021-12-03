@@ -10,7 +10,6 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -23,7 +22,6 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
-import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
 
 // constants
 const SHOW_AGAIN_BUTTON_MARGIN = 12; // empirically determined
@@ -31,7 +29,6 @@ const SHOW_AGAIN_BUTTON_MARGIN = 12; // empirically determined
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
-  private readonly subitizeStartSequenceNode: SubitizeStartSequenceNode;
 
   constructor( level: SubitizeGameLevel,
                levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
@@ -57,34 +54,10 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.addChild( this.answerButtons );
 
     // create and add the subitizer node
-    const subitizerNode = new SubitizerNode( level.subitizer );
+    const subitizerNode = new SubitizerNode( level.subitizer, level.startSequencePlayingProperty, level.playButtonVisibleProperty, () => this.newChallenge() );
     subitizerNode.centerX = layoutBounds.centerX;
     subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
     this.addChild( subitizerNode );
-
-    // create and add the start sequence node
-    this.subitizeStartSequenceNode = new SubitizeStartSequenceNode( () => this.newChallenge(), level.startSequencePlayingProperty );
-    this.subitizeStartSequenceNode.center = subitizerNode.center;
-    this.addChild( this.subitizeStartSequenceNode );
-
-    // create and add the play button
-    const playButton = new RectangularPushButton( {
-      baseColor: Color.YELLOW,
-      content: new Path( new PlayIconShape( 36, 45 ), {
-        fill: 'black',
-        centerX: 1.4,
-        centerY: 0
-      } ),
-      xMargin: 25,
-      yMargin: 19,
-      visibleProperty: level.playButtonVisibleProperty,
-      listener: () => {
-        playButton.visibleProperty.value = false;
-        this.subitizeStartSequenceNode.start();
-      }
-    } );
-    playButton.center = subitizerNode.center;
-    this.addChild( playButton );
 
     // create and add the show again button which flashes the content in the subitizer node again
     const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
@@ -105,13 +78,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     showAgainButton.right = subitizerNode.right - SHOW_AGAIN_BUTTON_MARGIN;
     showAgainButton.bottom = subitizerNode.bottom - SHOW_AGAIN_BUTTON_MARGIN;
     this.addChild( showAgainButton );
-
-    // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
-    this.level.startSequencePlayingProperty.link( startSequencePlaying => {
-      if ( !startSequencePlaying ) {
-        this.subitizeStartSequenceNode.reset();
-      }
-    } );
   }
 
   public reset(): void {

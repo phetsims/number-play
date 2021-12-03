@@ -10,16 +10,20 @@
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, Color, Image, Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Circle, Color, Image, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import Subitizer from '../model/Subitizer.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
+import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 // constants
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
 
 class SubitizerNode extends Node {
 
-  constructor( subitizer: Subitizer ) {
+  constructor( subitizer: Subitizer, startSequencePlayingProperty: BooleanProperty, playButtonVisibleProperty: BooleanProperty, newChallenge: () => void ) {
     super();
 
     // for scaling the objects
@@ -34,6 +38,37 @@ class SubitizerNode extends Node {
       } );
     backgroundNode.center = Vector2.ZERO;
     this.addChild( backgroundNode );
+
+    // create and add the start sequence node
+    const subitizeStartSequenceNode = new SubitizeStartSequenceNode( newChallenge, startSequencePlayingProperty );
+    subitizeStartSequenceNode.center = this.center;
+    this.addChild( subitizeStartSequenceNode );
+
+    // create and add the play button
+    const playButton = new RectangularPushButton( {
+      baseColor: Color.YELLOW,
+      content: new Path( new PlayIconShape( 36, 45 ), {
+        fill: Color.BLACK,
+        centerX: 1.4,
+        centerY: 0
+      } ),
+      xMargin: 25,
+      yMargin: 19,
+      visibleProperty: playButtonVisibleProperty,
+      listener: () => {
+        playButton.visibleProperty.value = false;
+        subitizeStartSequenceNode.start();
+      }
+    } );
+    playButton.center = this.center;
+    this.addChild( playButton );
+
+    // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
+    startSequencePlayingProperty.link( startSequencePlaying => {
+      if ( !startSequencePlaying ) {
+        subitizeStartSequenceNode.reset();
+      }
+    } );
 
     // create and add the drawing node, which is where the objects are added to
     const drawingNode = new Node( {
