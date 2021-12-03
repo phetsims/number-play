@@ -51,6 +51,7 @@ class NumberPlayGameAnswerButtons extends Node {
                pointsAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,
+               buttonColor: string,
                providedOptions?: Partial<AnswerButtonsOptions> ) {
     super();
 
@@ -102,7 +103,7 @@ class NumberPlayGameAnswerButtons extends Node {
       const enabledProperty = new BooleanProperty( true );
       const button = new RectangularPushButton( {
         content: new Text( value, BUTTON_TEXT_OPTIONS ),
-        baseColor: Color.YELLOW,
+        baseColor: buttonColor,
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,

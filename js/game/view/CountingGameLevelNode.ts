@@ -38,10 +38,12 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
     // create and add the answer buttons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
-      this.setFrownyFaceVisibility( false );
-    }, () => {
-      this.setFrownyFaceVisibility( true );
-    } );
+        this.setFrownyFaceVisibility( false );
+      }, () => {
+        this.setFrownyFaceVisibility( true );
+      },
+      NumberPlayConstants.COUNTING_GAME_COLOR_LIGHT
+    );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );

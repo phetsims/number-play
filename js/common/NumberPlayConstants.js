@@ -109,7 +109,9 @@ const NumberPlayConstants = {
 
   // level colors for the game screen
   COUNTING_GAME_COLOR: 'rgb( 242, 142, 129 )',
+  COUNTING_GAME_COLOR_LIGHT: 'rgb( 245, 188, 181 )',
   SUBITIZE_GAME_COLOR: 'rgb( 148, 133, 255 )',
+  SUBITIZE_GAME_COLOR_LIGHT: 'rgb( 195, 193, 247 )',
 
   // map number values to their corresponding string
   NUMBER_TO_STRING: {
