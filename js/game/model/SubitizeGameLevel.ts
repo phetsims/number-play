@@ -8,19 +8,15 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
 import numberPlay from '../../numberPlay.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 5;
 
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
-  public readonly questionStringProperty: StringProperty;
   public readonly subitizer: Subitizer;
   public playButtonVisibleProperty: BooleanProperty;
   public startSequencePlayingProperty: BooleanProperty;
@@ -35,9 +31,6 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
       this.startSequencePlayingProperty, levelNumber === 1 );
 
     this.playButtonVisibleProperty = new BooleanProperty( true );
-    this.questionStringProperty = new DerivedProperty( [ this.subitizer.objectTypeProperty ], objectType => {
-      return objectType === 'circle' ? numberPlayStrings.howManyDots : numberPlayStrings.howManyObjects;
-    } );
   }
 
   /**

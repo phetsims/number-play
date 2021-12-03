@@ -10,12 +10,10 @@
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
-import { Color, Path, Text } from '../../../../scenery/js/imports.js';
+import { Color, Path } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
@@ -54,19 +52,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_MARGIN_Y;
     this.addChild( this.answerButtons );
 
-    // create and add the question text which is the prompt above the subitizer node box
-    const questionText = new Text( level.questionStringProperty.value, {
-      font: new PhetFont( 45 )
-    } );
-    questionText.top = this.statusBar.bottom + 20; // empirically determined
-    this.addChild( questionText );
-
-    // update the question text when the question string changes
-    level.questionStringProperty.link( questionString => {
-      questionText.setText( questionString );
-      questionText.centerX = layoutBounds.centerX;
-    } );
-
     // create and add the subitizer node
     const subitizerNode = new SubitizerNode( level.subitizer );
     subitizerNode.centerX = layoutBounds.centerX;
@@ -103,12 +88,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     playButton.centerX = subitizerNode.centerX;
     playButton.centerY = subitizerNode.centerY + 60;
     this.addChild( playButton );
-
-    // create and add the speech synthesis button
-    const speechSynthesisButton = new SpeechSynthesisButton( level.questionStringProperty );
-    speechSynthesisButton.setLeftCenter( questionText.getRightCenter() );
-    speechSynthesisButton.left = subitizerNode.right + 10; // empirically determined
-    this.addChild( speechSynthesisButton );
 
     // create and add the show again button which flashes the content in the subitizer node again
     const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
