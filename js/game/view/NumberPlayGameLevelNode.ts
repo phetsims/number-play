@@ -98,12 +98,12 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
 
     // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
-    const starNode = new StarNode( { value: 1, scale: 3 } );
-    starNode.centerX = this.frownyFaceNode.centerX;
+    const starNode = new StarNode( { value: 1, scale: 1.5 } );
+    starNode.centerX = this.frownyFaceNode.centerX + starNode.width / 2;
     starNode.top = this.frownyFaceNode.bottom + 23; // empirically determined
-    const pointsNode = new Text( '+1', { font: new PhetFont( 30 ), fill: 'black' } );
-    pointsNode.center = starNode.center;
-    pointsNode.centerY += 5;
+    const pointsNode = new Text( '+1', { font: new PhetFont( 40 ), fill: 'black' } );
+    pointsNode.centerY = starNode.centerY;
+    pointsNode.right = starNode.left - 10; // empirically determined
     const pointsAwardedNode = new Node( {
       children: [ starNode, pointsNode ],
       visibleProperty: this.pointsAwardedNodeVisibleProperty
