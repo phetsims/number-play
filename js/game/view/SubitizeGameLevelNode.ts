@@ -25,7 +25,9 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
 
+// constants
 const SHOW_AGAIN_BUTTON_MARGIN = 12; // empirically determined
+
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
