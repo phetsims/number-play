@@ -23,7 +23,7 @@ class SubitizerNode extends Node {
     super();
 
     // for scaling the objects
-    const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 90 ); // empirically determined
+    const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 105 ); // empirically determined
 
     // create and add the background node
     const backgroundNode = new Rectangle( 0, 0, scaleMVT.modelToViewDeltaX( Subitizer.SUBITIZER_BOUNDS.width ),
