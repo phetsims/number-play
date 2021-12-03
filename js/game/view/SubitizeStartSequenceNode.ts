@@ -1,96 +1,96 @@
 // Copyright 2021, University of Colorado Boulder
 
-import { Circle, Color, Node } from '../../../../scenery/js/imports.js';
+import { Color, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Animation from '../../../../twixt/js/Animation.js';
+import Easing from '../../../../twixt/js/Easing.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
-const X_DISTANCE_BETWEEN_CIRCLES = 120; // empirically determined
-const NUMBER_OF_CIRCLES = 3;
+const WIDTH = 280;
+const HEIGHT = 30;
+const LINE_WIDTH = 2;
+const OUTER_CORNER_RADIUS = 8;
+const INNER_CORNER_RADIUS = OUTER_CORNER_RADIUS - LINE_WIDTH / 2;
 
 class SubitizeStartSequenceNode extends Node {
 
-  private readonly layoutBounds: Bounds2;
   private readonly startSequencePlayingProperty: BooleanProperty;
-  private secondsSinceFill: number;
-  private readonly numberOfCirclesFilledProperty: NumberProperty;
   private readonly newChallenge: () => void;
+  private fillRectangleAnimation: Animation | null;
+  private readonly fillRectangleWidthProperty: NumberProperty;
 
-  constructor( layoutBounds: Bounds2, newChallenge: () => void, startSequencePlayingProperty: BooleanProperty ) {
+  constructor( newChallenge: () => void, startSequencePlayingProperty: BooleanProperty ) {
     super();
 
-    // for use in reset
-    this.layoutBounds = layoutBounds;
-
     // for use in end
-    this.newChallenge = () => newChallenge();
+    this.newChallenge = newChallenge;
 
     this.startSequencePlayingProperty = startSequencePlayingProperty;
-    this.secondsSinceFill = 0;
-    this.numberOfCirclesFilledProperty = new NumberProperty( 0 );
+
+    // the rectangle that is a border to the filled rectangle
+    const borderRectangle = new Rectangle( 0, 0, WIDTH, HEIGHT, OUTER_CORNER_RADIUS, OUTER_CORNER_RADIUS, {
+      fill: Color.WHITE,
+      stroke: Color.BLACK,
+      lineWidth: LINE_WIDTH
+    } );
+    borderRectangle.center = Vector2.ZERO;
+    this.addChild( borderRectangle );
+
+    // the rectangle that whose width will increase from left to right to 'fill' the border rectangle
+    const fillRectangle = new Rectangle( 0, LINE_WIDTH / 2, 0, HEIGHT - LINE_WIDTH, INNER_CORNER_RADIUS, INNER_CORNER_RADIUS, {
+      fill: NumberPlayConstants.SUBITIZE_GAME_COLOR
+    } );
+    fillRectangle.left = borderRectangle.left + LINE_WIDTH;
+    fillRectangle.centerY = borderRectangle.centerY;
+    this.addChild( fillRectangle );
+
+    // for use in the animation
+    this.fillRectangleWidthProperty = new NumberProperty( 0 );
+    this.fillRectangleAnimation = null;
 
     this.reset();
+
+    this.fillRectangleWidthProperty.link( fillRectangleWidth => {
+      fillRectangle.setRectWidth( fillRectangleWidth );
+    } );
   }
 
   /**
-   * Reset the start sequence by removing all circles and adding 'non-filled' circles (the fill color is the same as the
-   * background).
+   * Reset the start sequence by cancelling any existing animation and recreating the animation to fill the rectangle.
    */
   public reset(): void {
-    this.numberOfCirclesFilledProperty.reset();
-    this.secondsSinceFill = 0;
-    this.removeAllChildren();
-    let xStart = this.layoutBounds.centerX - X_DISTANCE_BETWEEN_CIRCLES;
-    for ( let i = 0; i < NUMBER_OF_CIRCLES; i++ ) {
-      const circle = SubitizeStartSequenceNode.drawCircle();
-      circle.centerX = xStart;
-      circle.centerY = this.layoutBounds.centerY - 90; // empirically determined
-      this.addChild( circle );
-      xStart += X_DISTANCE_BETWEEN_CIRCLES;
-    }
-  }
+    this.visible = false;
 
-  /**
-   * Draw a non-filled circle as default. Draw a filled circle if an unfilled circle is passed in from fillCircle().
-   */
-  private static drawCircle( unfilledCircle?: Node ): Circle {
-    const circle = new Circle( 40, {
-      stroke: 'purple',
-      lineWidth: 5,
-      fill: unfilledCircle ? 'purple' : Color.WHITE
+    if ( this.fillRectangleAnimation ) {
+      this.fillRectangleAnimation.stop();
+      this.fillRectangleAnimation = null;
+    }
+
+    this.fillRectangleWidthProperty.reset();
+
+    this.fillRectangleAnimation = new Animation( {
+      duration: 3,
+      targets: [ {
+        property: this.fillRectangleWidthProperty,
+        easing: Easing.LINEAR,
+        to: WIDTH - LINE_WIDTH
+      } ]
     } );
-    if ( unfilledCircle ) {
-      circle.center = unfilledCircle.center;
-    }
-    return circle;
+
+    this.fillRectangleAnimation.finishEmitter.addListener( () => this.end() );
   }
 
   /**
-   * Fill in the circle whose number is the value of this.numberOfCirclesFilledProperty.
+   * Start the start sequence by making the start sequence node visible and starting the animation.
    */
-  private fillCircle(): void {
-    this.numberOfCirclesFilledProperty.value++;
-    const circle = this.getChildAt( this.numberOfCirclesFilledProperty.value - 1 );
-    this.replaceChild( circle, SubitizeStartSequenceNode.drawCircle( circle ) );
-  }
-
-  public step( dt: number ): void {
-    if ( this.startSequencePlayingProperty.value ) {
-      this.secondsSinceFill += dt;
-
-      // fill a circle every second until all circles are filled, where the start sequence ends
-      if ( this.secondsSinceFill >= 1 ) {
-        if ( this.numberOfCirclesFilledProperty.value >= NUMBER_OF_CIRCLES ) {
-          this.end();
-        }
-        else {
-          this.fillCircle();
-          this.secondsSinceFill = 0;
-        }
-      }
-    }
+  public start(): void {
+    this.visible = true;
+    this.startSequencePlayingProperty.value = true;
+    this.fillRectangleAnimation && this.fillRectangleAnimation.start();
   }
 
   /**
@@ -98,16 +98,9 @@ class SubitizeStartSequenceNode extends Node {
    */
   private end(): void {
     this.visible = false;
+    this.fillRectangleAnimation = null;
     this.newChallenge();
     this.startSequencePlayingProperty.reset();
-  }
-
-  /**
-   * Start the start sequence by filling in the first circle.
-   */
-  public start(): void {
-    this.startSequencePlayingProperty.value = true;
-    this.fillCircle();
   }
 }
 

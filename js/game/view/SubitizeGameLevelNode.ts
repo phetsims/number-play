@@ -63,15 +63,9 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.addChild( subitizerNode );
 
     // create and add the start sequence node
-    this.subitizeStartSequenceNode = new SubitizeStartSequenceNode( layoutBounds, () => {this.newChallenge();}, level.startSequencePlayingProperty );
+    this.subitizeStartSequenceNode = new SubitizeStartSequenceNode( () => this.newChallenge(), level.startSequencePlayingProperty );
+    this.subitizeStartSequenceNode.center = subitizerNode.center;
     this.addChild( this.subitizeStartSequenceNode );
-
-    // show the start sequence node if the play button is visible
-    level.playButtonVisibleProperty.link( playButtonVisible => {
-      if ( playButtonVisible ) {
-        this.subitizeStartSequenceNode.visible = playButtonVisible;
-      }
-    } );
 
     // create and add the play button
     const playButton = new RectangularPushButton( {
@@ -89,8 +83,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
         this.subitizeStartSequenceNode.start();
       }
     } );
-    playButton.centerX = subitizerNode.centerX;
-    playButton.centerY = subitizerNode.centerY + 60;
+    playButton.center = subitizerNode.center;
     this.addChild( playButton );
 
     // create and add the show again button which flashes the content in the subitizer node again
@@ -123,10 +116,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   public reset(): void {
     super.reset();
-  }
-
-  step( dt: number ): void {
-    this.subitizeStartSequenceNode.step( dt );
   }
 }
 

@@ -29,7 +29,6 @@ class NumberPlayGameScreenView extends ScreenView {
 
   private readonly levelNodes: Array<SubitizeGameLevelNode | CountingGameLevelNode>;
   private readonly subitizeLevelNodes: SubitizeGameLevelNode[];
-  private stepSubitizeView: boolean;
 
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
@@ -60,9 +59,6 @@ class NumberPlayGameScreenView extends ScreenView {
       cachedNodes: [ levelSelectionNode, ...this.levelNodes ]
     } );
 
-    // to pause the step function when on the levelSelectionNode
-    this.stepSubitizeView = true;
-
     // Transition between levelSelectionNode and the selected level when the model changes.
     // A null value for levelProperty indicates that no level is selected, and levelSelectionNode should be shown.
     model.levelProperty.lazyLink( level => {
@@ -72,15 +68,12 @@ class NumberPlayGameScreenView extends ScreenView {
         // @ts-ignore TODO-TS
         level.resetStartSequence && level.resetStartSequence();
 
-        this.stepSubitizeView = true;
-
         // Transition to the selected level.
         const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) );
         // @ts-ignore
         transitionNode.slideLeftTo( selectedLevelNode, TRANSITION_OPTIONS );
       }
       else {
-        this.stepSubitizeView = false;
 
         // Selected level was null, so transition to levelSelectionNode.
         transitionNode.slideRightTo( levelSelectionNode, TRANSITION_OPTIONS );
@@ -88,13 +81,6 @@ class NumberPlayGameScreenView extends ScreenView {
     } );
 
     this.addChild( transitionNode );
-  }
-
-  public step( dt: number ): void {
-    // if on a levelNode, then step the subitize game view
-    if ( this.stepSubitizeView ) {
-      this.subitizeLevelNodes.forEach( subitizeGameLevelNode => subitizeGameLevelNode.step( dt ) );
-    }
   }
 
   public reset(): void {
