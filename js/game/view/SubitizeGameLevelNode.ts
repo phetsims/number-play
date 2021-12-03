@@ -25,6 +25,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
 
+const SHOW_AGAIN_BUTTON_MARGIN = 12; // empirically determined
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
@@ -106,8 +107,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
         level.subitizer.visibleProperty.value = true;
       }
     } );
-    showAgainButton.left = speechSynthesisButton.left;
-    showAgainButton.bottom = subitizerNode.bottom;
+    showAgainButton.right = subitizerNode.right - SHOW_AGAIN_BUTTON_MARGIN;
+    showAgainButton.bottom = subitizerNode.bottom - SHOW_AGAIN_BUTTON_MARGIN;
     this.addChild( showAgainButton );
 
     // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
