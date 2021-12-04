@@ -105,13 +105,14 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 1.5 } );
-    const pointsNode = new Text( '+1', { font: new PhetFont( 40 ), fill: 'black' } );
+    const pointsNode = new Text( '+1', { font: new PhetFont( 44 ), fill: 'black' } );
     const pointsAwardedNode = new HBox( {
       children: [ pointsNode, starNode ],
       spacing: 10,
       visibleProperty: this.pointsAwardedNodeVisibleProperty
     } );
-    pointsAwardedNode.centerX = smileyFaceNode.centerX;
+    pointsAwardedNode.centerX = smileyFaceNode.centerX - 2; // empirically determined tweak to look centered
+    pointsAwardedNode.top = smileyFaceNode.bottom + 20; // empirically determined
     this.addChild( pointsAwardedNode );
 
     // create and add the new challenge button which is visible when a challenge is solved, meaning a correct answer button was pressed
@@ -134,9 +135,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
                                 NumberPlayGameAnswerButtons.BUTTON_DIMENSION.height -
                                 NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( newChallengeButton );
-
-    // y-position the points awarded node after the new challenge button is created
-    pointsAwardedNode.centerY = ( newChallengeButton.top + smileyFaceNode.bottom ) / 2;
   }
 
   protected reset(): void {
