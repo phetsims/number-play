@@ -66,7 +66,7 @@ class NumberPlayGameScreenView extends ScreenView {
 
       if ( level ) {
         // @ts-ignore TODO-TS
-        level.subitizer && level.subitizer.resetStartSequence();
+        level.subitizer && level.subitizer.resetLoadingBar();
 
         // Transition to the selected level.
         const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) );

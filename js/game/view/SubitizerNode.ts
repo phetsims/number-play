@@ -15,7 +15,7 @@ import numberPlay from '../../numberPlay.js';
 import Subitizer from '../model/Subitizer.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
-import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
+import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
 
@@ -41,10 +41,10 @@ class SubitizerNode extends Node {
     backgroundNode.center = Vector2.ZERO;
     this.addChild( backgroundNode );
 
-    // create and add the start sequence node
-    const subitizeStartSequenceNode = new SubitizeStartSequenceNode( newChallenge, subitizer.startSequencePlayingProperty );
-    subitizeStartSequenceNode.center = this.center;
-    this.addChild( subitizeStartSequenceNode );
+    // create and add the loading bar node
+    const subitizeLoadingBarNode = new SubitizeLoadingBarNode( newChallenge, subitizer.loadingBarAnimatingProperty );
+    subitizeLoadingBarNode.center = this.center;
+    this.addChild( subitizeLoadingBarNode );
 
     // create and add the play button
     const playButton = new RectangularPushButton( {
@@ -59,7 +59,7 @@ class SubitizerNode extends Node {
       visibleProperty: subitizer.playButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;
-        subitizeStartSequenceNode.start();
+        subitizeLoadingBarNode.start();
       }
     } );
     playButton.center = this.center;
@@ -69,22 +69,22 @@ class SubitizerNode extends Node {
     const revealButton = new SubitizeRevealButton(
       isChallengeSolvedProperty,
       subitizer.inputEnabledProperty,
-      subitizer.visibleProperty
+      subitizer.shapeVisibleProperty
     );
     revealButton.right = this.right - REVEAL_BUTTON_MARGIN;
     revealButton.bottom = this.bottom - REVEAL_BUTTON_MARGIN;
     this.addChild( revealButton );
 
-    // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
-    subitizer.startSequencePlayingProperty.link( startSequencePlaying => {
-      if ( !startSequencePlaying ) {
-        subitizeStartSequenceNode.reset();
+    // cancel the animation and hide the loading bar node if loadingBarAnimatingProperty is set to false
+    subitizer.loadingBarAnimatingProperty.link( loadingBarAnimating => {
+      if ( !loadingBarAnimating ) {
+        subitizeLoadingBarNode.reset();
       }
     } );
 
     // create and add the drawing node, which is where the objects are added to
     const drawingNode = new Node( {
-      visibleProperty: subitizer.visibleProperty
+      visibleProperty: subitizer.shapeVisibleProperty
     } );
     this.addChild( drawingNode );
 

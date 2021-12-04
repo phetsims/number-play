@@ -32,7 +32,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
         this.setFrownyFaceVisibility( false );
         level.subitizer.inputEnabledProperty.reset();
-        level.subitizer.visibleProperty.value = true;
+        level.subitizer.shapeVisibleProperty.value = true;
       }, () => {
         this.setFrownyFaceVisibility( true );
       },

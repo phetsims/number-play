@@ -16,20 +16,20 @@ const LINE_WIDTH = 2;
 const OUTER_CORNER_RADIUS = 8;
 const INNER_CORNER_RADIUS = OUTER_CORNER_RADIUS - LINE_WIDTH / 2;
 
-class SubitizeStartSequenceNode extends Node {
+class SubitizeLoadingBarNode extends Node {
 
-  private readonly startSequencePlayingProperty: BooleanProperty;
+  private readonly animatingProperty: BooleanProperty;
   private readonly newChallenge: () => void;
   private fillRectangleAnimation: Animation | null;
   private readonly fillRectangleWidthProperty: NumberProperty;
 
-  constructor( newChallenge: () => void, startSequencePlayingProperty: BooleanProperty ) {
+  constructor( newChallenge: () => void, animatingProperty: BooleanProperty ) {
     super();
 
     // for use in end
     this.newChallenge = newChallenge;
 
-    this.startSequencePlayingProperty = startSequencePlayingProperty;
+    this.animatingProperty = animatingProperty;
 
     // the rectangle that is a border to the filled rectangle
     const borderRectangle = new Rectangle( 0, 0, WIDTH, HEIGHT, OUTER_CORNER_RADIUS, OUTER_CORNER_RADIUS, {
@@ -60,7 +60,7 @@ class SubitizeStartSequenceNode extends Node {
   }
 
   /**
-   * Reset the start sequence by cancelling any existing animation and recreating the animation to fill the rectangle.
+   * Reset the loading bar by cancelling any existing animation and recreating the animation to fill the rectangle.
    */
   public reset(): void {
     this.visible = false;
@@ -86,24 +86,24 @@ class SubitizeStartSequenceNode extends Node {
   }
 
   /**
-   * Start the start sequence by making the start sequence node visible and starting the animation.
+   * Start the loading bar by making the loading bar node visible and starting the animation.
    */
   public start(): void {
     this.visible = true;
-    this.startSequencePlayingProperty.value = true;
+    this.animatingProperty.value = true;
     this.fillRectangleAnimation && this.fillRectangleAnimation.start();
   }
 
   /**
-   * End the start sequence by hiding the start sequence node, and starting a new challenge.
+   * End the loading bar by hiding the loading bar node, and starting a new challenge.
    */
   private end(): void {
     this.visible = false;
     this.fillRectangleAnimation = null;
     this.newChallenge();
-    this.startSequencePlayingProperty.reset();
+    this.animatingProperty.reset();
   }
 }
 
-numberPlay.register( 'SubitizeStartSequenceNode', SubitizeStartSequenceNode );
-export default SubitizeStartSequenceNode;
+numberPlay.register( 'SubitizeLoadingBarNode', SubitizeLoadingBarNode );
+export default SubitizeLoadingBarNode;

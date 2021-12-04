@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Subitizer generates the arranged and random patterns of the objects.
+ * Subitizer generates the arranged and random objects that make up a shape.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -106,7 +106,7 @@ class Subitizer {
 
   private readonly challengeNumberProperty: NumberProperty;
   private readonly isChallengeSolvedProperty: BooleanProperty;
-  public readonly visibleProperty: BooleanProperty;
+  public readonly shapeVisibleProperty: BooleanProperty;
   public readonly pointsProperty: Property<Vector2[]>;
   private readonly randomAndArranged: boolean;
   private secondsSinceVisible: number;
@@ -116,7 +116,7 @@ class Subitizer {
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
   public challengeStartedProperty: BooleanProperty;
   private subitizerVisibleDelaySeconds: number;
-  public readonly startSequencePlayingProperty: BooleanProperty;
+  public readonly loadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
   public readonly playButtonVisibleProperty: BooleanProperty;
 
@@ -127,11 +127,11 @@ class Subitizer {
   ) {
     this.challengeNumberProperty = challengeNumberProperty;
     this.isChallengeSolvedProperty = isChallengeSolvedProperty;
-    this.visibleProperty = new BooleanProperty( false );
+    this.shapeVisibleProperty = new BooleanProperty( false );
     this.playButtonVisibleProperty = new BooleanProperty( true );
 
-    // whether the start sequence is playing. This can also be used to stop an existing animation.
-    this.startSequencePlayingProperty = new BooleanProperty( false );
+    // whether the loading bar is animating. This can also be used to stop an existing animation.
+    this.loadingBarAnimatingProperty = new BooleanProperty( false );
 
     // the points of the current shape
     this.pointsProperty = new Property( [ Vector2.ZERO ], {
@@ -184,39 +184,39 @@ class Subitizer {
       // show the subitizer and enable answer inputs after a delay of 0.5 seconds
       if ( this.subitizerVisibleDelaySeconds > 0.5 ) {
         this.inputEnabledProperty.value = true;
-        this.visibleProperty.value = true;
+        this.shapeVisibleProperty.value = true;
         this.subitizerVisibleDelaySeconds = 0;
         this.challengeStartedProperty.reset();
       }
     }
 
     // keep adding to secondsSinceVisible if the subitizer is visible and not paused
-    if ( this.visibleProperty.value && this.inputEnabledProperty.value ) {
+    if ( this.shapeVisibleProperty.value && this.inputEnabledProperty.value ) {
       this.secondsSinceVisible += dt;
 
       // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
       if ( this.secondsSinceVisible > this.subitizerTimeVisibleProperty.value ) {
-        this.visibleProperty.reset();
+        this.shapeVisibleProperty.reset();
         this.secondsSinceVisible = 0;
       }
     }
   }
 
   public newChallenge(): void {
-    const isStartSequence = this.startSequencePlayingProperty.value; //TODO: pretty weird, keep working on this
-    this.inputEnabledProperty.value = isStartSequence;
-    this.visibleProperty.value = isStartSequence;
-    this.challengeStartedProperty.value = !isStartSequence && !NumberPlayQueryParameters.showCorrectAnswer;
-    !isStartSequence && this.setRandomPlayObjectType();
+    const isLoadingBarAnimating = this.loadingBarAnimatingProperty.value; //TODO: pretty weird, keep working on this
+    this.inputEnabledProperty.value = isLoadingBarAnimating;
+    this.shapeVisibleProperty.value = isLoadingBarAnimating;
+    this.challengeStartedProperty.value = !isLoadingBarAnimating && !NumberPlayQueryParameters.showCorrectAnswer;
+    !isLoadingBarAnimating && this.setRandomPlayObjectType();
     this.setNewPoints();
   }
 
   /**
-   * Shows the start sequence if the current challenge is unsolved.
+   * Shows the loading bar if the current challenge is unsolved.
    */
-  public resetStartSequence(): void {
+  public resetLoadingBar(): void {
     if ( !this.isChallengeSolvedProperty.value ) {
-      this.startSequencePlayingProperty.reset();
+      this.loadingBarAnimatingProperty.reset();
       this.playButtonVisibleProperty.reset();
       this.inputEnabledProperty.reset();
     }
@@ -301,7 +301,7 @@ class Subitizer {
   }
 
   public reset(): void {
-    this.visibleProperty.reset();
+    this.shapeVisibleProperty.reset();
     this.inputEnabledProperty.reset();
     this.playButtonVisibleProperty.reset();
   }

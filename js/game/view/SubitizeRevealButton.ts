@@ -25,7 +25,7 @@ const BUTTON_CONTENT_MARGIN = 6; // empirically determined, in screen coordinate
 class SubitizeRevealButton extends RectangularPushButton {
 
   constructor( isChallengeSolvedProperty: BooleanProperty, subitizerInputEnabledProperty: BooleanProperty,
-               subitizerVisibleProperty: BooleanProperty ) {
+               shapeVisibleProperty: BooleanProperty ) {
 
     const resetIcon = new Path( new ResetShape( RESET_SHAPE_RADIUS ), {
       fill: Color.BLACK
@@ -34,9 +34,9 @@ class SubitizeRevealButton extends RectangularPushButton {
     // The show again button is visible only when a challenge is unsolved, when the subitizer is accepting input, and
     // when the subitizer shape is not visible.
     const visibleProperty = new DerivedProperty(
-      [ isChallengeSolvedProperty, subitizerInputEnabledProperty, subitizerVisibleProperty ],
-      ( isChallengeSolved, subitizerInputEnabled, subitizerVisible ) => {
-        return !isChallengeSolved && subitizerInputEnabled && !subitizerVisible;
+      [ isChallengeSolvedProperty, subitizerInputEnabledProperty, shapeVisibleProperty ],
+      ( isChallengeSolved, subitizerInputEnabled, shapeVisible ) => {
+        return !isChallengeSolved && subitizerInputEnabled && !shapeVisible;
       } );
 
     super( {
@@ -47,7 +47,7 @@ class SubitizeRevealButton extends RectangularPushButton {
       baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
       visibleProperty: visibleProperty,
       listener: () => {
-        subitizerVisibleProperty.value = true;
+        shapeVisibleProperty.value = true;
       }
     } );
   }
