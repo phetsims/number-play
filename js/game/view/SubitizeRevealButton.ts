@@ -18,9 +18,9 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // constants
-const RESET_SHAPE_RADIUS = 16; // empirically determined
+const RESET_SHAPE_RADIUS = 16; // empirically determined, in screen coordinates
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
-const BUTTON_CONTENT_MARGIN = 6; // empirically determined
+const BUTTON_CONTENT_MARGIN = 6; // empirically determined, in screen coordinates
 
 class SubitizeRevealButton extends RectangularPushButton {
 

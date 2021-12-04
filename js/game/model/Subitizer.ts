@@ -104,7 +104,8 @@ const SUBITIZER_BOUNDS = SHAPE_BOUNDS.dilated( OBJECT_SIZE / 2 + OBJECT_PADDING 
 
 class Subitizer {
 
-  public readonly challengeNumberProperty: NumberProperty;
+  private readonly challengeNumberProperty: NumberProperty;
+  private readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly visibleProperty: BooleanProperty;
   public readonly pointsProperty: Property<Vector2[]>;
   private readonly randomAndArranged: boolean;
@@ -115,19 +116,22 @@ class Subitizer {
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
   public challengeStartedProperty: BooleanProperty;
   private subitizerVisibleDelaySeconds: number;
-  private startSequencePlayingProperty: BooleanProperty;
+  public readonly startSequencePlayingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
+  public readonly playButtonVisibleProperty: BooleanProperty;
 
   constructor( challengeNumberProperty: NumberProperty,
+               isChallengeSolvedProperty: BooleanProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
-               startSequencePlayingProperty: BooleanProperty,
                randomAndArranged: boolean
   ) {
     this.challengeNumberProperty = challengeNumberProperty;
-    this.startSequencePlayingProperty = startSequencePlayingProperty;
-
-    // whether the current shape is visible
+    this.isChallengeSolvedProperty = isChallengeSolvedProperty;
     this.visibleProperty = new BooleanProperty( false );
+    this.playButtonVisibleProperty = new BooleanProperty( true );
+
+    // whether the start sequence is playing. This can also be used to stop an existing animation.
+    this.startSequencePlayingProperty = new BooleanProperty( false );
 
     // the points of the current shape
     this.pointsProperty = new Property( [ Vector2.ZERO ], {
@@ -205,6 +209,17 @@ class Subitizer {
     this.challengeStartedProperty.value = !isStartSequence && !NumberPlayQueryParameters.showCorrectAnswer;
     !isStartSequence && this.setRandomPlayObjectType();
     this.setNewPoints();
+  }
+
+  /**
+   * Shows the start sequence if the current challenge is unsolved.
+   */
+  public resetStartSequence(): void {
+    if ( !this.isChallengeSolvedProperty.value ) {
+      this.startSequencePlayingProperty.reset();
+      this.playButtonVisibleProperty.reset();
+      this.inputEnabledProperty.reset();
+    }
   }
 
   /**
@@ -288,6 +303,7 @@ class Subitizer {
   public reset(): void {
     this.visibleProperty.reset();
     this.inputEnabledProperty.reset();
+    this.playButtonVisibleProperty.reset();
   }
 
   /**

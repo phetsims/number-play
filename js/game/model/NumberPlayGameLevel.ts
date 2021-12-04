@@ -68,6 +68,9 @@ abstract class NumberPlayGameLevel {
     this.scoreProperty.reset();
   }
 
+  /**
+   * Sets up a new challenge for this level.
+   */
   public newChallenge(): void { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
     this.isChallengeSolvedProperty.reset();
     this.setRandomChallengeNumber();

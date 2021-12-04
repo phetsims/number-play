@@ -17,13 +17,15 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import SubitizeStartSequenceNode from './SubitizeStartSequenceNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import SubitizeRevealButton from './SubitizeRevealButton.js';
 
 // constants
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
+const REVEAL_BUTTON_MARGIN = 12; // empirically determined, in screen coordinates
 
 class SubitizerNode extends Node {
 
-  constructor( subitizer: Subitizer, startSequencePlayingProperty: BooleanProperty, playButtonVisibleProperty: BooleanProperty, newChallenge: () => void ) {
+  constructor( subitizer: Subitizer, isChallengeSolvedProperty: BooleanProperty, newChallenge: () => void ) {
     super();
 
     // for scaling the objects
@@ -40,7 +42,7 @@ class SubitizerNode extends Node {
     this.addChild( backgroundNode );
 
     // create and add the start sequence node
-    const subitizeStartSequenceNode = new SubitizeStartSequenceNode( newChallenge, startSequencePlayingProperty );
+    const subitizeStartSequenceNode = new SubitizeStartSequenceNode( newChallenge, subitizer.startSequencePlayingProperty );
     subitizeStartSequenceNode.center = this.center;
     this.addChild( subitizeStartSequenceNode );
 
@@ -54,7 +56,7 @@ class SubitizerNode extends Node {
       } ),
       xMargin: 25,
       yMargin: 19,
-      visibleProperty: playButtonVisibleProperty,
+      visibleProperty: subitizer.playButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;
         subitizeStartSequenceNode.start();
@@ -63,8 +65,18 @@ class SubitizerNode extends Node {
     playButton.center = this.center;
     this.addChild( playButton );
 
+    // create and add the reveal button
+    const revealButton = new SubitizeRevealButton(
+      isChallengeSolvedProperty,
+      subitizer.inputEnabledProperty,
+      subitizer.visibleProperty
+    );
+    revealButton.right = this.right - REVEAL_BUTTON_MARGIN;
+    revealButton.bottom = this.bottom - REVEAL_BUTTON_MARGIN;
+    this.addChild( revealButton );
+
     // cancel the animation and hide the start sequence node if the startSequencePlayingProperty is set to false
-    startSequencePlayingProperty.link( startSequencePlaying => {
+    subitizer.startSequencePlayingProperty.link( startSequencePlaying => {
       if ( !startSequencePlaying ) {
         subitizeStartSequenceNode.reset();
       }

@@ -16,10 +16,6 @@ import SubitizerNode from './SubitizerNode.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import SubitizeRevealButton from './SubitizeRevealButton.js';
-
-// constants
-const REVEAL_BUTTON_MARGIN = 12; // empirically determined
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
@@ -51,23 +47,12 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     // create and add the subitizer node
     const subitizerNode = new SubitizerNode(
       level.subitizer,
-      level.startSequencePlayingProperty,
-      level.playButtonVisibleProperty,
+      level.isChallengeSolvedProperty,
       () => this.newChallenge()
     );
     subitizerNode.centerX = layoutBounds.centerX;
     subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
     this.addChild( subitizerNode );
-
-    // create and add the reveal button
-    const revealButton = new SubitizeRevealButton(
-      level.isChallengeSolvedProperty,
-      level.subitizer.inputEnabledProperty,
-      level.subitizer.visibleProperty
-    );
-    revealButton.right = subitizerNode.right - REVEAL_BUTTON_MARGIN;
-    revealButton.bottom = subitizerNode.bottom - REVEAL_BUTTON_MARGIN;
-    this.addChild( revealButton );
   }
 
   public reset(): void {
