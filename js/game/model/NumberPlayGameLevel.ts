@@ -17,7 +17,7 @@ abstract class NumberPlayGameLevel {
 
   public readonly levelNumber: number;
   public readonly scoreProperty: NumberProperty;
-  public readonly isSolvedProperty: BooleanProperty;
+  public readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly challengeRange: Range;
   public readonly challengeNumberProperty: NumberProperty;
   private oldChallengeNumberOne: number;
@@ -47,7 +47,7 @@ abstract class NumberPlayGameLevel {
 
     // whether the current challenge has been solved. A challenge is considered solved when the user has correctly
     // guessed the answer
-    this.isSolvedProperty = new BooleanProperty( false );
+    this.isChallengeSolvedProperty = new BooleanProperty( false );
 
     // the random number generated to create a subitized representation for
     this.challengeNumberProperty = new NumberProperty( this.getRandomChallengeNumber(), {
@@ -64,12 +64,12 @@ abstract class NumberPlayGameLevel {
   }
 
   protected reset(): void {
-    this.isSolvedProperty.reset();
+    this.isChallengeSolvedProperty.reset();
     this.scoreProperty.reset();
   }
 
   public newChallenge(): void { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
-    this.isSolvedProperty.reset();
+    this.isChallengeSolvedProperty.reset();
     this.setRandomChallengeNumber();
     this.numberOfAnswerButtonPressesProperty.reset();
   }

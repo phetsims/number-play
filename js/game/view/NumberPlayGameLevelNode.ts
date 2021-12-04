@@ -95,7 +95,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // create and add the smiley face node which is visible when a challenge is solved, meaning a correct answer button was pressed
     const smileyFaceNode = new FaceNode( FACE_DIAMETER, {
-      visibleProperty: level.isSolvedProperty
+      visibleProperty: level.isChallengeSolvedProperty
     } );
     smileyFaceNode.top = this.frownyFaceNode.top;
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
@@ -125,7 +125,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       xMargin: 27,
       yMargin: 10.9,
       content: new Path( arrowShape, { fill: 'black' } ),
-      visibleProperty: level.isSolvedProperty,
+      visibleProperty: level.isChallengeSolvedProperty,
       listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;

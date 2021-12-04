@@ -26,7 +26,7 @@ import merge from '../../../../phet-core/js/merge.js';
 // types
 type AnswerButtonsOptions = {
   buttonSpacing: number,
-  enabledPropertyDependency: BooleanProperty
+  dependencyEnabledProperty: BooleanProperty
 }
 type ButtonObject = {
   value: number,
@@ -57,7 +57,7 @@ class NumberPlayGameAnswerButtons extends Node {
 
     const options = merge( {
       buttonSpacing: 18,
-      enabledPropertyDependency: new BooleanProperty( true )
+      dependencyEnabledProperty: new BooleanProperty( true )
     }, providedOptions ) as AnswerButtonsOptions;
 
     this.buttonObjects = [];
@@ -74,7 +74,7 @@ class NumberPlayGameAnswerButtons extends Node {
 
       // this button is the correct answer button
       if ( level.challengeNumberProperty.value === buttonObject.value ) {
-        level.isSolvedProperty.value = true;
+        level.isChallengeSolvedProperty.value = true;
         rightAnswerCallback();
 
         this.hBox.replaceChild( buttonObject.button, buttonObject.rectangle );
@@ -98,8 +98,8 @@ class NumberPlayGameAnswerButtons extends Node {
     for ( let i = 0; i < level.challengeRange.getLength() + 1; i++ ) {
       const value = i + level.challengeRange.min;
 
-      // used to disable individual buttons but the true 'enabledProperty' for this button relies on other properties too,
-      // see the derived property usage below
+      // used to disable individual buttons but the true 'enabledProperty' for this button relies on other properties
+      // too, see the derived property usage below
       const enabledProperty = new BooleanProperty( true );
       const button = new RectangularPushButton( {
         content: new Text( value, BUTTON_TEXT_OPTIONS ),
@@ -107,8 +107,8 @@ class NumberPlayGameAnswerButtons extends Node {
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,
-        enabledProperty: new DerivedProperty( [ level.isSolvedProperty, enabledProperty, options.enabledPropertyDependency ],
-          ( isSolved: boolean, isPlaying: boolean, enabled: boolean ) => !isSolved && isPlaying && enabled ),
+        enabledProperty: new DerivedProperty( [ level.isChallengeSolvedProperty, enabledProperty, options.dependencyEnabledProperty ],
+          ( isChallengeSolved, enabled, dependencyEnabled ) => !isChallengeSolved && enabled && dependencyEnabled ),
         listener: () => buttonListener( i )
       } );
 

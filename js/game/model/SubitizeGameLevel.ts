@@ -38,7 +38,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    * Shows the start sequence if the current challenge is unsolved.
    */
   public resetStartSequence(): void {
-    if ( !this.isSolvedProperty.value ) {
+    if ( !this.isChallengeSolvedProperty.value ) {
       this.startSequencePlayingProperty.reset();
       this.playButtonVisibleProperty.reset();
       this.subitizer.inputEnabledProperty.reset();
