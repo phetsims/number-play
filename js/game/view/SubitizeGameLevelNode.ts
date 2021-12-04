@@ -59,25 +59,15 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
     this.addChild( subitizerNode );
 
-    // create and add the show again button which flashes the content in the subitizer node again
-    const resetIcon = new Path( new ResetShape( 16 ), { fill: Color.BLACK } );
-    const showAgainButtonSideLength = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
-    const showAgainButtonMargin = 6;
-    const showAgainButton = new RectangularPushButton( {
-      content: resetIcon,
-      xMargin: showAgainButtonMargin,
-      yMargin: showAgainButtonMargin,
-      size: new Dimension2( showAgainButtonSideLength, showAgainButtonSideLength ),
-      baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
-      visibleProperty: new DerivedProperty( [ level.isSolvedProperty, level.subitizer.inputEnabledProperty, level.subitizer.visibleProperty ],
-        ( isSolved: boolean, isPlaying: boolean, subitizerVisible: boolean ) => !isSolved && isPlaying && !subitizerVisible ),
-      listener: () => {
-        level.subitizer.visibleProperty.value = true;
-      }
-    } );
-    showAgainButton.right = subitizerNode.right - SHOW_AGAIN_BUTTON_MARGIN;
-    showAgainButton.bottom = subitizerNode.bottom - SHOW_AGAIN_BUTTON_MARGIN;
-    this.addChild( showAgainButton );
+    // create and add the reveal button
+    const revealButton = new SubitizeRevealButton(
+      level.isSolvedProperty,
+      level.subitizer.inputEnabledProperty,
+      level.subitizer.visibleProperty
+    );
+    revealButton.right = subitizerNode.right - REVEAL_BUTTON_MARGIN;
+    revealButton.bottom = subitizerNode.bottom - REVEAL_BUTTON_MARGIN;
+    this.addChild( revealButton );
   }
 
   public reset(): void {
