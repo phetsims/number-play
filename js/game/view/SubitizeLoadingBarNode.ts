@@ -15,6 +15,8 @@ const HEIGHT = 30;
 const LINE_WIDTH = 2;
 const OUTER_CORNER_RADIUS = 8;
 const INNER_CORNER_RADIUS = OUTER_CORNER_RADIUS - LINE_WIDTH / 2;
+const ANIMATION_DURATION = 2; // in seconds
+const ANIMATION_DELAY = 0.1; // in seconds
 
 class SubitizeLoadingBarNode extends Node {
 
@@ -73,8 +75,8 @@ class SubitizeLoadingBarNode extends Node {
     this.fillRectangleWidthProperty.reset();
 
     this.fillRectangleAnimation = new Animation( {
-      delay: 0.1,
-      duration: 1.2,
+      delay: ANIMATION_DELAY,
+      duration: ANIMATION_DURATION,
       targets: [ {
         property: this.fillRectangleWidthProperty,
         easing: Easing.LINEAR,
