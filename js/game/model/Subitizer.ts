@@ -109,13 +109,13 @@ class Subitizer {
   public readonly shapeVisibleProperty: BooleanProperty;
   public readonly pointsProperty: Property<Vector2[]>;
   private readonly randomAndArranged: boolean;
-  private secondsSinceVisible: number;
+  private secondsSinceShapeVisible: number;
   public readonly objectSize: number;
   public readonly inputEnabledProperty: BooleanProperty;
   private subitizerTimeVisibleProperty: DerivedProperty<number>;
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
-  public challengeStartedProperty: BooleanProperty;
-  private subitizerVisibleDelaySeconds: number;
+  public startDelay: boolean;
+  private shapeVisibleDelaySeconds: number;
   public readonly loadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
   public readonly playButtonVisibleProperty: BooleanProperty;
@@ -139,14 +139,14 @@ class Subitizer {
       arrayElementType: Vector2
     } );
 
-    // whether we can choose to use a random and arranged pattern
+    // whether we can choose to use a random and arranged shape
     this.randomAndArranged = randomAndArranged;
 
-    // the number of seconds the sim clock has run since the subitizer was made visible
-    this.secondsSinceVisible = 0;
+    // the number of seconds the sim clock has run since the shape was made visible
+    this.secondsSinceShapeVisible = 0;
 
-    // the number of seconds the sim clock has run since the subitizer's visibility was delayed
-    this.subitizerVisibleDelaySeconds = 0;
+    // the number of seconds the sim clock has run since the shape's visibility was delayed
+    this.shapeVisibleDelaySeconds = 0;
 
     // initialize first set of points
     this.setNewPoints();
@@ -155,7 +155,7 @@ class Subitizer {
     this.objectSize = OBJECT_SIZE;
 
     // whether the current challenge started
-    this.challengeStartedProperty = new BooleanProperty( false );
+    this.startDelay = false;
 
     // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
     // False when the current challenge is solved. Manipulated only in the view.
@@ -164,7 +164,7 @@ class Subitizer {
     // the object type of the current shape
     this.objectTypeProperty = new Property<SubitizeObjectTypeEnum>( 'dog' );
 
-    // how long the subitizer is visible when shown
+    // how long the shape is visible when shown
     this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], ( numberOfAnswerButtonPresses: number ) => {
       if ( numberOfAnswerButtonPresses > NumberPlayConstants.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
         return this.subitizerTimeVisibleProperty.value + NumberPlayConstants.SUBITIZER_TIME_INCREASE_AMOUNT;
@@ -178,48 +178,73 @@ class Subitizer {
   public step( dt: number ): void {
 
     // delay the visibility of the subitizer at the start of every challenge
-    if ( this.challengeStartedProperty.value ) {
-      this.subitizerVisibleDelaySeconds += dt;
+    if ( this.startDelay ) {
+      this.shapeVisibleDelaySeconds += dt;
 
+      // hide the loading bar after a delay of 0.2 seconds
+      if ( this.shapeVisibleDelaySeconds > 0.2 && this.loadingBarAnimatingProperty.value ) {
+        this.loadingBarAnimatingProperty.value = false;
+      }
       // show the subitizer and enable answer inputs after a delay of 0.5 seconds
-      if ( this.subitizerVisibleDelaySeconds > 0.5 ) {
+      else if ( this.shapeVisibleDelaySeconds > 0.5 ) {
         this.inputEnabledProperty.value = true;
         this.shapeVisibleProperty.value = true;
-        this.subitizerVisibleDelaySeconds = 0;
-        this.challengeStartedProperty.reset();
+        this.resetSubitizerDelay();
       }
     }
 
-    // keep adding to secondsSinceVisible if the subitizer is visible and not paused
+    // keep adding to secondsSinceShapeVisible if the subitizer is visible and not paused
     if ( this.shapeVisibleProperty.value && this.inputEnabledProperty.value ) {
-      this.secondsSinceVisible += dt;
+      this.secondsSinceShapeVisible += dt;
 
       // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
-      if ( this.secondsSinceVisible > this.subitizerTimeVisibleProperty.value ) {
-        this.shapeVisibleProperty.reset();
-        this.secondsSinceVisible = 0;
+      if ( this.secondsSinceShapeVisible > this.subitizerTimeVisibleProperty.value ) {
+        this.resetSubitizerVisible();
       }
     }
   }
 
   public newChallenge(): void {
-    const isLoadingBarAnimating = this.loadingBarAnimatingProperty.value; //TODO: pretty weird, keep working on this
-    this.inputEnabledProperty.value = isLoadingBarAnimating;
-    this.shapeVisibleProperty.value = isLoadingBarAnimating;
-    this.challengeStartedProperty.value = !isLoadingBarAnimating && !NumberPlayQueryParameters.showCorrectAnswer;
-    !isLoadingBarAnimating && this.setRandomPlayObjectType();
+
+    // set values for the step function to handle sequence of showing and hiding game parts for a new challenge
+    this.startDelay = true;
+    this.inputEnabledProperty.value = false;
+    this.shapeVisibleProperty.value = false;
+
+    // set play object type and shape
+    this.setRandomPlayObjectType();
     this.setNewPoints();
+
+    // skip the challenge started sequence in the step function
+    if ( NumberPlayQueryParameters.showCorrectAnswer ) {
+      this.loadingBarAnimatingProperty.value = false;
+      this.startDelay = false;
+    }
   }
 
   /**
-   * Shows the loading bar if the current challenge is unsolved.
+   * Reset start sequence if the current challenge is unsolved. Because the start sequence proceeds normally if a user
+   * chooses to leave a challenge after kicking off the start sequence (by clicking play), we need to reset all aspects
+   * of the start sequence (including all parts that happen during the step function).
    */
-  public resetLoadingBar(): void {
+  public resetStartSequence(): void {
     if ( !this.isChallengeSolvedProperty.value ) {
       this.loadingBarAnimatingProperty.reset();
+      this.resetSubitizerDelay();
+      this.resetSubitizerVisible();
       this.playButtonVisibleProperty.reset();
       this.inputEnabledProperty.reset();
     }
+  }
+
+  private resetSubitizerDelay(): void {
+    this.shapeVisibleDelaySeconds = 0;
+    this.startDelay = false;
+  }
+
+  private resetSubitizerVisible(): void {
+    this.shapeVisibleProperty.reset();
+    this.secondsSinceShapeVisible = 0;
   }
 
   /**

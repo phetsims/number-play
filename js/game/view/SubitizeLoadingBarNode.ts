@@ -20,18 +20,18 @@ const ANIMATION_DELAY = 0.1; // in seconds
 
 class SubitizeLoadingBarNode extends Node {
 
-  private readonly animatingProperty: BooleanProperty;
+  private readonly loadingBarAnimatingProperty: BooleanProperty;
   private readonly newChallenge: () => void;
   private fillRectangleAnimation: Animation | null;
   private readonly fillRectangleWidthProperty: NumberProperty;
 
-  constructor( newChallenge: () => void, animatingProperty: BooleanProperty ) {
+  constructor( newChallenge: () => void, loadingBarAnimatingProperty: BooleanProperty ) {
     super();
 
     // for use in end
     this.newChallenge = newChallenge;
 
-    this.animatingProperty = animatingProperty;
+    this.loadingBarAnimatingProperty = loadingBarAnimatingProperty;
 
     // the rectangle that is a border to the filled rectangle
     const borderRectangle = new Rectangle( 0, 0, WIDTH, HEIGHT, OUTER_CORNER_RADIUS, OUTER_CORNER_RADIUS, {
@@ -59,12 +59,15 @@ class SubitizeLoadingBarNode extends Node {
     this.fillRectangleWidthProperty.link( fillRectangleWidth => {
       fillRectangle.setRectWidth( fillRectangleWidth );
     } );
+
+    // cancel the animation and hide the loading bar node if loadingBarAnimatingProperty is set to false
+    loadingBarAnimatingProperty.link( loadingBarAnimating => !loadingBarAnimating && this.reset() );
   }
 
   /**
    * Reset the loading bar by cancelling any existing animation and recreating the animation to fill the rectangle.
    */
-  public reset(): void {
+  private reset(): void {
     this.visible = false;
 
     if ( this.fillRectangleAnimation ) {
@@ -92,18 +95,16 @@ class SubitizeLoadingBarNode extends Node {
    */
   public start(): void {
     this.visible = true;
-    this.animatingProperty.value = true;
+    this.loadingBarAnimatingProperty.value = true;
     this.fillRectangleAnimation && this.fillRectangleAnimation.start();
   }
 
   /**
-   * End the loading bar by hiding the loading bar node, and starting a new challenge.
+   * End the loading bar by starting a new challenge.
    */
   private end(): void {
-    this.visible = false;
     this.fillRectangleAnimation = null;
     this.newChallenge();
-    this.animatingProperty.reset();
   }
 }
 

@@ -75,13 +75,6 @@ class SubitizerNode extends Node {
     revealButton.bottom = this.bottom - REVEAL_BUTTON_MARGIN;
     this.addChild( revealButton );
 
-    // cancel the animation and hide the loading bar node if loadingBarAnimatingProperty is set to false
-    subitizer.loadingBarAnimatingProperty.link( loadingBarAnimating => {
-      if ( !loadingBarAnimating ) {
-        subitizeLoadingBarNode.reset();
-      }
-    } );
-
     // create and add the drawing node, which is where the objects are added to
     const drawingNode = new Node( {
       visibleProperty: subitizer.shapeVisibleProperty
