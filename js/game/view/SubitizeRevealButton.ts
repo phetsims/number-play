@@ -11,14 +11,13 @@ import { Color, Path } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import ResetShape from '../../../../scenery-phet/js/ResetShape.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 
 // constants
-const RESET_SHAPE_RADIUS = 16; // empirically determined, in screen coordinates
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
 const BUTTON_CONTENT_MARGIN = 6; // empirically determined, in screen coordinates
 
@@ -27,11 +26,11 @@ class SubitizeRevealButton extends RectangularPushButton {
   constructor( isChallengeSolvedProperty: BooleanProperty, subitizerInputEnabledProperty: BooleanProperty,
                shapeVisibleProperty: BooleanProperty ) {
 
-    const resetIcon = new Path( new ResetShape( RESET_SHAPE_RADIUS ), {
+    const eyeNode = new Path( eyeSolidShape, {
       fill: Color.BLACK
     } );
 
-    // The show again button is visible only when a challenge is unsolved, when the subitizer is accepting input, and
+    // The reveal button is visible only when a challenge is unsolved, when the subitizer is accepting input, and
     // when the subitizer shape is not visible.
     const visibleProperty = new DerivedProperty(
       [ isChallengeSolvedProperty, subitizerInputEnabledProperty, shapeVisibleProperty ],
@@ -40,7 +39,7 @@ class SubitizeRevealButton extends RectangularPushButton {
       } );
 
     super( {
-      content: resetIcon,
+      content: eyeNode,
       xMargin: BUTTON_CONTENT_MARGIN,
       yMargin: BUTTON_CONTENT_MARGIN,
       size: new Dimension2( BUTTON_SIDE_LENGTH, BUTTON_SIDE_LENGTH ),
