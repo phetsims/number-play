@@ -139,9 +139,10 @@ const NumberPlayConstants = {
   },
 
   // subitizer game
-  SUBITIZER_TIME_VISIBLE: 0.5, // time the subitize node is shown, in seconds
-  SUBITIZER_GUESSES_AT_NORMAL_TIME: 2, // number of guesses before increasing the subitizer time visible
-  SUBITIZER_TIME_INCREASE_AMOUNT: 0.1 // amount the subitizer time visible is increased by, in seconds
+  SHAPE_DELAY_TIME: 0.5, // amount of time to delay before showing the shape
+  SHAPE_VISIBLE_TIME: 0.5, // amount of time the shape is shown, in seconds
+  SHAPE_VISIBLE_TIME_INCREASE_AMOUNT: 0.1, // amount the shape visible time is increased by, in seconds
+  NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME: 2 // number of guesses before increasing the shape visible time
 };
 
 numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

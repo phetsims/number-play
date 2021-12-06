@@ -19,11 +19,11 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
   // For internal use only, not public facing.
   showCorrectAnswer: { type: 'flag' },
 
-  // time the subitizer node is shown
+  // time the shape is shown in the subitize game
   subitizerTimeVisible: {
     public: true,
     type: 'number',
-    defaultValue: NumberPlayConstants.SUBITIZER_TIME_VISIBLE
+    defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME
   },
 
   // the levels to show in the 'Game' screen

@@ -1,7 +1,14 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * Subitizer generates the arranged and random objects that make up a shape.
+ * Subitizer generates the arranged and random points that make up a shape. It is also responsible for the sequence of
+ * showing and hiding a shape during a challenge.
+ *
+ * A shape is a set of points which can be predetermined (hard coded points), random (randomly generated points), or
+ * arranged (a grid-like arrangement generated with some randomness).
+ *
+ * An object is the representation that is rendered at each point of a shape. An object can take many forms, see
+ * SubitizeObjectTypeEnum for available types.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -21,8 +28,7 @@ import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js
 import numberPlay from '../../numberPlay.js';
 import SubitizeObjectTypeEnum, { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
 
-//TODO-TS: naming for a type used as a constant like this?
-type Shapes = {
+type PredeterminedShapes = {
   [ key: number ]: {
     points: Vector2[],
     rotations: number[]
@@ -42,7 +48,7 @@ const DEGREES_270 = Math.PI * ( 3 / 2 );
 // convenience function for easier reading
 const v2 = ( x: number, y: number ) => new Vector2( x, y );
 
-const SHAPES: Shapes = {
+const PREDETERMINED_SHAPES: PredeterminedShapes = {
   1: [ {
     points: [ v2( 0, 0 ) ], // centered dot
     rotations: []
@@ -86,16 +92,15 @@ const SHAPES: Shapes = {
   } ]
 };
 
-// width of the object, in model units. An object is the representation that is rendered at each point of a
-// shape.
+// width of each object, in model units
 const OBJECT_SIZE = 0.7;
 
 // padding around an object, in model units. This is the closest distance that two objects can be together,
 // measured from edge to edge (not center to center).
 const OBJECT_PADDING = 0.2;
 
-// the area in which the objects of a shape can be created. This does not take into account the size of an object, but
-// rather the area where the centers of each object are allowed.
+// the area in which the points of a shape can be created. This does not take into account the size of an object 
+// rendered at each point, because a point is the center of its corresponding object.
 const SHAPE_BOUNDS = new Bounds2( -2, -1, 2, 1 );
 
 // the area for the whole subitizer, including padding between the exterior and where the objects are allowed to be.
@@ -108,14 +113,14 @@ class Subitizer {
   private readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly shapeVisibleProperty: BooleanProperty;
   public readonly pointsProperty: Property<Vector2[]>;
-  private readonly randomAndArranged: boolean;
-  private secondsSinceShapeVisible: number;
+  private readonly randomOrPredetermined: boolean;
+  private timeSinceShapeVisible: number;
   public readonly objectSize: number;
   public readonly inputEnabledProperty: BooleanProperty;
-  private subitizerTimeVisibleProperty: DerivedProperty<number>;
+  private timeToShowShapeProperty: DerivedProperty<number>;
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
-  public startDelay: boolean;
-  private shapeVisibleDelaySeconds: number;
+  public isDelayStarted: boolean;
+  private timeSinceDelayStarted: number;
   public readonly loadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
   public readonly playButtonVisibleProperty: BooleanProperty;
@@ -123,15 +128,19 @@ class Subitizer {
   constructor( challengeNumberProperty: NumberProperty,
                isChallengeSolvedProperty: BooleanProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
-               randomAndArranged: boolean
+               randomOrPredetermined: boolean
   ) {
     this.challengeNumberProperty = challengeNumberProperty;
     this.isChallengeSolvedProperty = isChallengeSolvedProperty;
-    this.shapeVisibleProperty = new BooleanProperty( false );
+
+    // whether the play button is visible
     this.playButtonVisibleProperty = new BooleanProperty( true );
 
     // whether the loading bar is animating. This can also be used to stop an existing animation.
     this.loadingBarAnimatingProperty = new BooleanProperty( false );
+
+    // whether the current shape is visible
+    this.shapeVisibleProperty = new BooleanProperty( false );
 
     // the points of the current shape
     this.pointsProperty = new Property( [ Vector2.ZERO ], {
@@ -140,22 +149,20 @@ class Subitizer {
     } );
 
     // whether we can choose to use a random and arranged shape
-    this.randomAndArranged = randomAndArranged;
+    this.randomOrPredetermined = randomOrPredetermined;
 
-    // the number of seconds the sim clock has run since the shape was made visible
-    this.secondsSinceShapeVisible = 0;
+    // whether the delay has been started. a delay happens at the beginning of a new challenge, before revealing the
+    // shape for that challenge.
+    this.isDelayStarted = false;
 
-    // the number of seconds the sim clock has run since the shape's visibility was delayed
-    this.shapeVisibleDelaySeconds = 0;
+    // the amount of time that the sim clock has run since the delay was started, in seconds
+    this.timeSinceDelayStarted = 0;
 
-    // initialize first set of points
-    this.setNewPoints();
+    // the amount of time that the sim clock has run since the shape was made visible, in seconds
+    this.timeSinceShapeVisible = 0;
 
-    // the width and height of every object used to make a shape
+    // the width and height of every object
     this.objectSize = OBJECT_SIZE;
-
-    // whether the current challenge started
-    this.startDelay = false;
 
     // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
     // False when the current challenge is solved. Manipulated only in the view.
@@ -164,42 +171,45 @@ class Subitizer {
     // the object type of the current shape
     this.objectTypeProperty = new Property<SubitizeObjectTypeEnum>( 'dog' );
 
-    // how long the shape is visible when shown
-    this.subitizerTimeVisibleProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ], ( numberOfAnswerButtonPresses: number ) => {
-      if ( numberOfAnswerButtonPresses > NumberPlayConstants.SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
-        return this.subitizerTimeVisibleProperty.value + NumberPlayConstants.SUBITIZER_TIME_INCREASE_AMOUNT;
-      }
-      return NumberPlayQueryParameters.subitizerTimeVisible;
-    } );
+    // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
+    // the time that the shape is shown is increased if the user gets the answer wrong multiple times.
+    this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ],
+      ( numberOfAnswerButtonPresses: number ) => {
+        if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
+          return this.timeToShowShapeProperty.value + NumberPlayConstants.SHAPE_VISIBLE_TIME_INCREASE_AMOUNT;
+        }
+        return NumberPlayQueryParameters.subitizerTimeVisible;
+      } );
 
-    Subitizer.assertValidShapes();
+    Subitizer.assertValidPredeterminedShapes();
+
+    // initialize first set of points
+    this.setNewPoints();
   }
 
   public step( dt: number ): void {
+    
+    if ( this.isDelayStarted ) {
+      this.timeSinceDelayStarted += dt;
 
-    // delay the visibility of the subitizer at the start of every challenge
-    if ( this.startDelay ) {
-      this.shapeVisibleDelaySeconds += dt;
-
-      // hide the loading bar after a delay of 0.2 seconds
-      if ( this.shapeVisibleDelaySeconds > 0.2 && this.loadingBarAnimatingProperty.value ) {
+      // hide the loading bar after briefly showing it in a filled state
+      if ( this.timeSinceDelayStarted > 0.2 && this.loadingBarAnimatingProperty.value ) {
         this.loadingBarAnimatingProperty.value = false;
       }
-      // show the subitizer and enable answer inputs after a delay of 0.5 seconds
-      else if ( this.shapeVisibleDelaySeconds > 0.5 ) {
+      // show the shape and enable answer inputs after a delay
+      else if ( this.timeSinceDelayStarted > NumberPlayConstants.SHAPE_DELAY_TIME ) {
         this.inputEnabledProperty.value = true;
         this.shapeVisibleProperty.value = true;
-        this.resetSubitizerDelay();
+        this.resetDelay();
       }
     }
 
-    // keep adding to secondsSinceShapeVisible if the subitizer is visible and not paused
+    // hide the shape after it's been visible for long enough 
     if ( this.shapeVisibleProperty.value && this.inputEnabledProperty.value ) {
-      this.secondsSinceShapeVisible += dt;
-
-      // hide the subitizer and reset the time counter if the subitizer has been visible for as long as desired
-      if ( this.secondsSinceShapeVisible > this.subitizerTimeVisibleProperty.value ) {
-        this.resetSubitizerVisible();
+      this.timeSinceShapeVisible += dt;
+      
+      if ( this.timeSinceShapeVisible > this.timeToShowShapeProperty.value ) {
+        this.resetShapeVisible();
       }
     }
   }
@@ -207,7 +217,7 @@ class Subitizer {
   public newChallenge(): void {
 
     // set values for the step function to handle sequence of showing and hiding game parts for a new challenge
-    this.startDelay = true;
+    this.isDelayStarted = true;
     this.inputEnabledProperty.value = false;
     this.shapeVisibleProperty.value = false;
 
@@ -218,7 +228,7 @@ class Subitizer {
     // skip the challenge started sequence in the step function
     if ( NumberPlayQueryParameters.showCorrectAnswer ) {
       this.loadingBarAnimatingProperty.value = false;
-      this.startDelay = false;
+      this.isDelayStarted = false;
     }
   }
 
@@ -230,38 +240,41 @@ class Subitizer {
   public resetStartSequence(): void {
     if ( !this.isChallengeSolvedProperty.value ) {
       this.loadingBarAnimatingProperty.reset();
-      this.resetSubitizerDelay();
-      this.resetSubitizerVisible();
+      this.resetDelay();
+      this.resetShapeVisible();
       this.playButtonVisibleProperty.reset();
       this.inputEnabledProperty.reset();
     }
   }
 
-  private resetSubitizerDelay(): void {
-    this.shapeVisibleDelaySeconds = 0;
-    this.startDelay = false;
-  }
-
-  private resetSubitizerVisible(): void {
-    this.shapeVisibleProperty.reset();
-    this.secondsSinceShapeVisible = 0;
+  private resetDelay(): void {
+    this.timeSinceDelayStarted = 0;
+    this.isDelayStarted = false;
   }
 
   /**
-   * Sets this.pointsProperty with new points for the current subitizeNumber
+   * Hides the shape and resets the time counter for how long the shape has been visible.
+   */
+  private resetShapeVisible(): void {
+    this.shapeVisibleProperty.reset();
+    this.timeSinceShapeVisible = 0;
+  }
+
+  /**
+   * Sets this.pointsProperty with new points for the current challenge number
    */
   public setNewPoints(): void {
-    const subitizeNumber = this.challengeNumberProperty.value;
+    const challengeNumber = this.challengeNumberProperty.value;
     let points = [];
 
-    // 60/40 chance whether the pattern uses an random configuration or an arranged one for level 1, level 2 always
-    // uses a configuration in a randomly set pattern/array
-    if ( this.randomAndArranged ) {
+    // if randomOrPredetermined, then 60/40 chance whether the shape uses random or predetermined points.
+    // if not randomOrPredetermined, then the shape uses arranged points.
+    if ( this.randomOrPredetermined ) {
       if ( dotRandom.nextDouble() >= 0.4 ) {
 
-        // pick out a random shape for the corresponding subitizeNumber
-        const randomPatternIndex = dotRandom.nextInt( SHAPES[ subitizeNumber ].length );
-        const shape = SHAPES[ subitizeNumber ][ randomPatternIndex ];
+        // pick out a predetermined shape randomly for the corresponding challenge number
+        const patternIndex = dotRandom.nextInt( PREDETERMINED_SHAPES[ challengeNumber ].length );
+        const shape = PREDETERMINED_SHAPES[ challengeNumber ][ patternIndex ];
         points = shape.points;
 
         // if the shape has rotations available, randomly pick one to rotate by 50% of the time
@@ -272,8 +285,8 @@ class Subitizer {
       }
       else {
 
-        // generate random points for the subitizeNumber positions
-        while ( points.length < subitizeNumber ) {
+        // generate random points
+        while ( points.length < challengeNumber ) {
           const randomX = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minX, SHAPE_BOUNDS.maxX );
           const randomY = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minY, SHAPE_BOUNDS.maxY );
 
@@ -287,14 +300,14 @@ class Subitizer {
     }
     else {
 
-      // get a random number of rows and set the number of columns
+      // get a random number of rows and set the number of columns for drawing an arranged shape
       const maxNumberOfRows = 3;
       const minNumberOfRows = 2;
       const numberOfRows = dotRandom.nextIntBetween( minNumberOfRows, maxNumberOfRows );
       let numberOfColumns = 0;
 
-      // get the number of necessary columns to fit all the object representations to subitize
-      while ( numberOfColumns * numberOfRows < subitizeNumber ) {
+      // get the number of necessary columns to fit all the object representations to arrange
+      while ( numberOfColumns * numberOfRows < challengeNumber ) {
         numberOfColumns++;
       }
 
@@ -303,7 +316,7 @@ class Subitizer {
       const startY = ( numberOfRows - 1 ) / -2;
       for ( let j = 0; j < numberOfRows; j++ ) {
         for ( let i = 0; i < numberOfColumns; i++ ) {
-          if ( points.length < subitizeNumber ) {
+          if ( points.length < challengeNumber ) {
             points.push( new Vector2( startX + i, startY + j ) );
           }
         }
@@ -332,7 +345,7 @@ class Subitizer {
   }
 
   /**
-   * Rotates each point of the shape shape around the origin.
+   * Rotates each point of the shape around the origin.
    */
   private static rotatePoints( points: Vector2[], rotationAngle: number ): Vector2[] {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
@@ -395,11 +408,12 @@ class Subitizer {
   }
 
   /**
-   * Asserts that every point in every shape is within the model bounds for every possible rotation of the shape.
+   * Asserts that every point in every predetermined shape is within the model bounds for every possible rotation of the
+   * shape.
    */
-  private static assertValidShapes(): void {
-    for ( const key in SHAPES ) {
-      SHAPES[ key ].forEach( shape => { // iterate over each shape in the shape set for the given number (key)
+  private static assertValidPredeterminedShapes(): void {
+    for ( const key in PREDETERMINED_SHAPES ) {
+      PREDETERMINED_SHAPES[ key ].forEach( shape => { // iterate over each shape in the shape set for the given number (key)
         const shapeRotations = shape.rotations;
         shapeRotations.unshift( 0 ); // add 0 degrees to every set of rotations so 0 is tested too
 
