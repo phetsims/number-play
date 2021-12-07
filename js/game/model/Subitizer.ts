@@ -121,7 +121,7 @@ class Subitizer {
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
   public isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
-  public readonly loadingBarAnimatingProperty: BooleanProperty;
+  public readonly isLoadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
   public readonly playButtonVisibleProperty: BooleanProperty;
 
@@ -137,7 +137,7 @@ class Subitizer {
     this.playButtonVisibleProperty = new BooleanProperty( true );
 
     // whether the loading bar is animating. This can also be used to stop an existing animation.
-    this.loadingBarAnimatingProperty = new BooleanProperty( false );
+    this.isLoadingBarAnimatingProperty = new BooleanProperty( false );
 
     // whether the current shape is visible
     this.shapeVisibleProperty = new BooleanProperty( false );
@@ -193,8 +193,8 @@ class Subitizer {
       this.timeSinceDelayStarted += dt;
 
       // hide the loading bar after briefly showing it in a filled state
-      if ( this.timeSinceDelayStarted > 0.2 && this.loadingBarAnimatingProperty.value ) {
-        this.loadingBarAnimatingProperty.value = false;
+      if ( this.timeSinceDelayStarted > 0.2 && this.isLoadingBarAnimatingProperty.value ) {
+        this.isLoadingBarAnimatingProperty.value = false;
       }
       // show the shape and enable answer inputs after a delay
       else if ( this.timeSinceDelayStarted > NumberPlayConstants.SHAPE_DELAY_TIME ) {
@@ -227,7 +227,7 @@ class Subitizer {
 
     // skip the challenge started sequence in the step function
     if ( NumberPlayQueryParameters.showCorrectAnswer ) {
-      this.loadingBarAnimatingProperty.value = false;
+      this.isLoadingBarAnimatingProperty.value = false;
       this.isDelayStarted = false;
     }
   }
@@ -239,7 +239,7 @@ class Subitizer {
    */
   public resetStartSequence(): void {
     if ( !this.isChallengeSolvedProperty.value ) {
-      this.loadingBarAnimatingProperty.reset();
+      this.isLoadingBarAnimatingProperty.reset();
       this.resetDelay();
       this.resetShapeVisible();
       this.playButtonVisibleProperty.reset();
@@ -273,14 +273,14 @@ class Subitizer {
       if ( dotRandom.nextDouble() >= 0.4 ) {
 
         // pick out a predetermined shape randomly for the corresponding challenge number
-        const patternIndex = dotRandom.nextInt( PREDETERMINED_SHAPES[ challengeNumber ].length );
-        const shape = PREDETERMINED_SHAPES[ challengeNumber ][ patternIndex ];
+        const shapeIndex = dotRandom.nextInt( PREDETERMINED_SHAPES[ challengeNumber ].length );
+        const shape = PREDETERMINED_SHAPES[ challengeNumber ][ shapeIndex ];
         points = shape.points;
 
         // if the shape has rotations available, randomly pick one to rotate by 50% of the time
         if ( shape.rotations.length && dotRandom.nextBoolean() ) {
-          const randomRotationIndex = dotRandom.nextInt( shape.rotations.length );
-          points = Subitizer.rotatePoints( points, shape.rotations[ randomRotationIndex ] );
+          const rotationIndex = dotRandom.nextInt( shape.rotations.length );
+          points = Subitizer.rotatePoints( points, shape.rotations[ rotationIndex ] );
         }
       }
       else {

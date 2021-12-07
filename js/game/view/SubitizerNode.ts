@@ -42,7 +42,7 @@ class SubitizerNode extends Node {
     this.addChild( backgroundNode );
 
     // create and add the loading bar node
-    const subitizeLoadingBarNode = new SubitizeLoadingBarNode( newChallenge, subitizer.loadingBarAnimatingProperty );
+    const subitizeLoadingBarNode = new SubitizeLoadingBarNode( newChallenge, subitizer.isLoadingBarAnimatingProperty );
     subitizeLoadingBarNode.center = this.center;
     this.addChild( subitizeLoadingBarNode );
 

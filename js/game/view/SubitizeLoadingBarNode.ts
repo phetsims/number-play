@@ -1,5 +1,13 @@
 // Copyright 2021, University of Colorado Boulder
 
+/**
+ * SubitizeLoadingBarNode contains the loading bar animation that happens after the user presses play when they enter the
+ * subitize game screen.
+ *
+ * @author Luisa Vargas
+ * @author Chris Klusendorf (PhET Interactive Simulations)
+ */
+
 import { Color, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -20,18 +28,15 @@ const ANIMATION_DELAY = 0.1; // in seconds
 
 class SubitizeLoadingBarNode extends Node {
 
-  private readonly loadingBarAnimatingProperty: BooleanProperty;
+  private readonly isLoadingBarAnimatingProperty: BooleanProperty;
   private readonly newChallenge: () => void;
   private fillRectangleAnimation: Animation | null;
   private readonly fillRectangleWidthProperty: NumberProperty;
 
-  constructor( newChallenge: () => void, loadingBarAnimatingProperty: BooleanProperty ) {
+  constructor( newChallenge: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
     super();
-
-    // for use in end
     this.newChallenge = newChallenge;
-
-    this.loadingBarAnimatingProperty = loadingBarAnimatingProperty;
+    this.isLoadingBarAnimatingProperty = isLoadingBarAnimatingProperty;
 
     // the rectangle that is a border to the filled rectangle
     const borderRectangle = new Rectangle( 0, 0, WIDTH, HEIGHT, OUTER_CORNER_RADIUS, OUTER_CORNER_RADIUS, {
@@ -42,7 +47,7 @@ class SubitizeLoadingBarNode extends Node {
     borderRectangle.center = Vector2.ZERO;
     this.addChild( borderRectangle );
 
-    // the rectangle that whose width will increase from left to right to 'fill' the border rectangle
+    // the rectangle whose width will increase from left to right to 'fill' the border rectangle
     const fillRectangle = new Rectangle( 0, LINE_WIDTH / 2, 0, HEIGHT - LINE_WIDTH, INNER_CORNER_RADIUS, INNER_CORNER_RADIUS, {
       fill: NumberPlayConstants.SUBITIZE_GAME_COLOR
     } );
@@ -50,8 +55,10 @@ class SubitizeLoadingBarNode extends Node {
     fillRectangle.centerY = borderRectangle.centerY;
     this.addChild( fillRectangle );
 
-    // for use in the animation
+    // the width of the fill rectangle during the animation
     this.fillRectangleWidthProperty = new NumberProperty( 0 );
+    
+    // used to store the animation, null if no animation is in progress
     this.fillRectangleAnimation = null;
 
     this.reset();
@@ -60,8 +67,8 @@ class SubitizeLoadingBarNode extends Node {
       fillRectangle.setRectWidth( fillRectangleWidth );
     } );
 
-    // cancel the animation and hide the loading bar node if loadingBarAnimatingProperty is set to false
-    loadingBarAnimatingProperty.link( loadingBarAnimating => !loadingBarAnimating && this.reset() );
+    // cancel the animation and hide the loading bar node if isLoadingBarAnimatingProperty is set to false
+    isLoadingBarAnimatingProperty.link( loadingBarAnimating => !loadingBarAnimating && this.reset() );
   }
 
   /**
@@ -95,7 +102,7 @@ class SubitizeLoadingBarNode extends Node {
    */
   public start(): void {
     this.visible = true;
-    this.loadingBarAnimatingProperty.value = true;
+    this.isLoadingBarAnimatingProperty.value = true;
     this.fillRectangleAnimation && this.fillRectangleAnimation.start();
   }
 
