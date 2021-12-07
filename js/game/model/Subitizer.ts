@@ -36,9 +36,8 @@ type PredeterminedShapes = {
 };
 
 // constants
-const DECIMALS = 4;
 
-// angles, all in radians
+// angles
 const DEGREES_45 = Math.PI * 0.25;
 const DEGREES_90 = Math.PI * 0.5;
 const DEGREES_135 = Math.PI * 0.75;
@@ -54,11 +53,11 @@ const PREDETERMINED_SHAPES: PredeterminedShapes = {
     rotations: []
   } ],
   2: [ {
-    points: [ v2( -0.5, 0 ), v2( 0.5, 0 ) ], // row
+    points: [ v2( -0.5, 0 ), v2( 0.5, 0 ) ], // vertically-centered row
     rotations: [ DEGREES_45, DEGREES_90, DEGREES_135 ]
   } ],
   3: [ {
-    points: [ v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ) ], // row
+    points: [ v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ) ], // // vertically-centered row
     rotations: [ DEGREES_90 ]
   }, {
     points: [ v2( -1, -1 ), v2( 0, 0 ), v2( 1, 1 ) ], // diagonal row
@@ -68,29 +67,32 @@ const PREDETERMINED_SHAPES: PredeterminedShapes = {
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ],
   4: [ {
-    points: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // row
+    points: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // vertically-centered row
     rotations: []
   }, {
     points: [ v2( -0.7, -0.7 ), v2( 0.7, -0.7 ), v2( -0.7, 0.7 ), v2( 0.7, 0.7 ) ], // square
     rotations: [ DEGREES_45 ]
   } ],
   5: [ {
-    points: [ v2( -2, 0 ), v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ), v2( 2, 0 ) ], // row
+    points: [ v2( -2, 0 ), v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ), v2( 2, 0 ) ], // vertically-centered row
     rotations: []
   }, {
     points: [ v2( -1, -1 ), v2( 1, -1 ), v2( 0, 0 ), v2( -1, 1 ), v2( 1, 1 ) ], // 5 in a "die" formation
     rotations: []
   }, {
-    points: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, -0.5 ), v2( 1, 0.5 ) ], // 3 left and 2 centered on right
+    points: [ v2( -0.5, -1 ), v2( -0.5, 0 ), v2( -0.5, 1 ), v2( 0.5, -0.5 ), v2( 0.5, 0.5 ) ], // 2 columns, 3:2 "zipper" formation
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   }, {
-    points: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, -1 ), v2( 1, 0 ) ], // 3 left and 2 top right
+    points: [ v2( -0.5, -1 ), v2( -0.5, 0 ), v2( -0.5, 1 ), v2( 0.5, -1 ), v2( 0.5, 0 ) ], // 2 columns, 3:2 top-aligned
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   }, {
-    points: [ v2( 0, -1 ), v2( 0, 0 ), v2( 0, 1 ), v2( 1, 0 ), v2( 1, 1 ) ], // 3 left and 2 bottom right
+    points: [ v2( -0.5, -1 ), v2( -0.5, 0 ), v2( -0.5, 1 ), v2( 0.5, 0 ), v2( 0.5, 1 ) ], // 2 columns, 3:2 bottom-aligned
     rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
+
+// how many decimals to round to when correcting buggy JS floats
+const DECIMALS = 4;
 
 // width of each object, in model units
 const OBJECT_SIZE = 0.7;
@@ -263,7 +265,7 @@ class Subitizer {
   /**
    * Sets this.pointsProperty with new points for the current challenge number
    */
-  public setNewPoints(): void {
+  private setNewPoints(): void {
     const challengeNumber = this.challengeNumberProperty.value;
     let points = [];
 
