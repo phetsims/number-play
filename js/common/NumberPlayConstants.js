@@ -142,7 +142,9 @@ const NumberPlayConstants = {
   SHAPE_DELAY_TIME: 0.5, // amount of time to delay before showing the shape
   SHAPE_VISIBLE_TIME: 0.5, // amount of time the shape is shown, in seconds
   SHAPE_VISIBLE_TIME_INCREASE_AMOUNT: 0.1, // amount the shape visible time is increased by, in seconds
-  NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME: 2 // number of guesses before increasing the shape visible time
+  NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME: 2, // number of guesses before increasing the shape visible time
+
+  TOUCH_AREA_DILATION: 9 // amount to increase all the buttons by in the game screen (except the reveal button), in view coordinates
 };
 
 numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

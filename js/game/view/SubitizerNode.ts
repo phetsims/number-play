@@ -18,6 +18,7 @@ import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // constants
 const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
@@ -56,6 +57,8 @@ class SubitizerNode extends Node {
       } ),
       xMargin: 25,
       yMargin: 19,
+      touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
+      touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
       visibleProperty: subitizer.playButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;

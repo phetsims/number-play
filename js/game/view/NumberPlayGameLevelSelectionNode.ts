@@ -50,7 +50,9 @@ class NumberPlayGameLevelSelectionNode extends Node {
         listener: () => {
           model.levelProperty.value = level;
         },
-        baseColor: baseColor
+        baseColor: baseColor,
+        touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
+        touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION
       } );
     };
 

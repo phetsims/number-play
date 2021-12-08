@@ -42,6 +42,8 @@ class SubitizeRevealButton extends RectangularPushButton {
       content: eyeNode,
       xMargin: BUTTON_CONTENT_MARGIN,
       yMargin: BUTTON_CONTENT_MARGIN,
+      touchAreaXDilation: 10,
+      touchAreaYDilation: 10,
       size: new Dimension2( BUTTON_SIDE_LENGTH, BUTTON_SIDE_LENGTH ),
       baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
       visibleProperty: visibleProperty,

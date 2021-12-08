@@ -31,6 +31,7 @@ import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // constants
 const FACE_DIAMETER = 150;
@@ -74,9 +75,11 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
         levelProperty.value = null; // back to the level-selection UI
       }
     } );
-    // color the back button in the status bar yellow
+    // color the back button in the statusBar yellow
+    const backButton = this.statusBar.getChildAt( 1 ).getChildAt( 0 );
     // @ts-ignore
-    this.statusBar.getChildAt( 1 ).getChildAt( 0 ).baseColor = Color.YELLOW;
+    backButton.baseColor = Color.YELLOW;
+    backButton.touchArea = backButton.bounds.dilated( NumberPlayConstants.TOUCH_AREA_DILATION );
     this.addChild( this.statusBar );
 
     this.level = level;
@@ -125,6 +128,8 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       baseColor: Color.YELLOW,
       xMargin: 27,
       yMargin: 10.9,
+      touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
+      touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
       content: new Path( arrowShape, { fill: 'black' } ),
       visibleProperty: level.isChallengeSolvedProperty,
       listener: () => this.newChallenge()

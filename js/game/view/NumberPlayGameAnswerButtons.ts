@@ -22,6 +22,7 @@ import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import merge from '../../../../phet-core/js/merge.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // types
 type AnswerButtonsOptions = {
@@ -107,6 +108,8 @@ class NumberPlayGameAnswerButtons extends Node {
         size: BUTTON_DIMENSION,
         cornerRadius: 10,
         yMargin: 24,
+        touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
+        touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
         enabledProperty: new DerivedProperty( [ level.isChallengeSolvedProperty, enabledProperty, options.dependencyEnabledProperty ],
           ( isChallengeSolved, enabled, dependencyEnabled ) => !isChallengeSolved && enabled && dependencyEnabled ),
         listener: () => buttonListener( i )
@@ -157,6 +160,7 @@ class NumberPlayGameAnswerButtons extends Node {
     this.hBox.children = this.buttonObjects.map( object => object.button );
   }
 }
+
 NumberPlayGameAnswerButtons.BUTTON_DIMENSION = BUTTON_DIMENSION;
 
 numberPlay.register( 'NumberPlayGameAnswerButtons', NumberPlayGameAnswerButtons );
