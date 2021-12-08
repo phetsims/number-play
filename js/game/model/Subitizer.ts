@@ -16,6 +16,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -119,7 +120,7 @@ class Subitizer {
   private timeSinceShapeVisible: number;
   public readonly objectSize: number;
   public readonly inputEnabledProperty: BooleanProperty;
-  private timeToShowShapeProperty: DerivedProperty<number>;
+  private timeToShowShapeProperty: IReadOnlyProperty<number>;
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
   public isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
