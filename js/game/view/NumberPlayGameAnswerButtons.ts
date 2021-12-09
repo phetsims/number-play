@@ -22,6 +22,7 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // types
 type AnswerButtonsOptions = {
+  buttonColor: string;
   buttonSpacing: number,
   dependencyEnabledProperty: BooleanProperty
 }
@@ -49,11 +50,11 @@ class NumberPlayGameAnswerButtons extends Node {
                pointsAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,
-               buttonColor: string,
                providedOptions?: Partial<AnswerButtonsOptions> ) {
     super();
 
     const options = merge( {
+      buttonColor: Color.WHITE,
       buttonSpacing: 18,
       dependencyEnabledProperty: new BooleanProperty( true )
     }, providedOptions ) as AnswerButtonsOptions;
@@ -101,7 +102,7 @@ class NumberPlayGameAnswerButtons extends Node {
       const enabledProperty = new BooleanProperty( true );
       const button = new RectangularPushButton( {
         content: new Text( value, BUTTON_TEXT_OPTIONS ),
-        baseColor: buttonColor,
+        baseColor: options.buttonColor,
         size: BUTTON_DIMENSION,
         cornerRadius: BUTTON_OBJECT_CORNER_RADIUS,
         yMargin: 24,

@@ -41,8 +41,9 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
         this.setFrownyFaceVisibility( false );
       }, () => {
         this.setFrownyFaceVisibility( true );
-      },
-      NumberPlayConstants.COUNTING_GAME_COLOR_LIGHT
+      }, {
+        buttonColor: NumberPlayConstants.COUNTING_GAME_COLOR_LIGHT
+      }
     );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;

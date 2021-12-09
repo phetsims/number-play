@@ -35,8 +35,8 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
         level.subitizer.isShapeVisibleProperty.value = true;
       }, () => {
         this.setFrownyFaceVisibility( true );
-      },
-      NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT, {
+      }, {
+        buttonColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
         buttonSpacing: 40, // empirically determined
         dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
       } );
