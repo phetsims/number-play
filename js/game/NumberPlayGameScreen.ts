@@ -9,7 +9,7 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
-import { Image } from '../../../scenery/js/imports.js';
+import { Color, ColorProperty, Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import gameScreenIconImage from '../../images/game_screen_icon_png.js';
 import numberPlay from '../numberPlay.js';
@@ -17,8 +17,6 @@ import numberPlayStrings from '../numberPlayStrings.js';
 import NumberPlayGameModel from './model/NumberPlayGameModel.js';
 import NumberPlayGameScreenView from './view/NumberPlayGameScreenView.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
-import { ColorProperty } from '../../../scenery/js/imports.js';
-import { Color } from '../../../scenery/js/imports.js';
 
 const screenGameString = numberPlayStrings.screen.game;
 
