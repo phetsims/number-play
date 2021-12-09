@@ -115,6 +115,9 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       playAreaPanel.visible = isObjects;
       tenFramePanel.visible = !isObjects;
     } );
+
+    // start a challenge
+    super.newChallenge();
   }
 
   public reset(): void {
