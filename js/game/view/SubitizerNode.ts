@@ -32,7 +32,7 @@ class SubitizerNode extends Node {
     // for scaling the objects
     const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 105 ); // empirically determined
 
-    // create and add the background node
+    // create and add the backgroundNode
     const backgroundNode = new Rectangle( 0, 0, scaleMVT.modelToViewDeltaX( Subitizer.SUBITIZER_BOUNDS.width ),
       scaleMVT.modelToViewDeltaY( Subitizer.SUBITIZER_BOUNDS.height ), CORNER_RADIUS, CORNER_RADIUS, {
         fill: Color.WHITE,
@@ -42,12 +42,12 @@ class SubitizerNode extends Node {
     backgroundNode.center = Vector2.ZERO;
     this.addChild( backgroundNode );
 
-    // create and add the loading bar node
+    // create and add the subitizeLoadingBarNode
     const subitizeLoadingBarNode = new SubitizeLoadingBarNode( newChallenge, subitizer.isLoadingBarAnimatingProperty );
     subitizeLoadingBarNode.center = this.center;
     this.addChild( subitizeLoadingBarNode );
 
-    // create and add the play button
+    // create and add the playButton
     const playButton = new RectangularPushButton( {
       baseColor: Color.YELLOW,
       content: new Path( new PlayIconShape( 36, 45 ), {
@@ -59,7 +59,7 @@ class SubitizerNode extends Node {
       yMargin: 19,
       touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
       touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
-      visibleProperty: subitizer.playButtonVisibleProperty,
+      visibleProperty: subitizer.isPlayButtonVisibleProperty,
       listener: () => {
         playButton.visibleProperty.value = false;
         subitizeLoadingBarNode.start();
@@ -68,19 +68,19 @@ class SubitizerNode extends Node {
     playButton.center = this.center;
     this.addChild( playButton );
 
-    // create and add the reveal button
-    const revealButton = new SubitizeRevealButton(
+    // create and add the subitizeRevealButton
+    const subitizeRevealButton = new SubitizeRevealButton(
       isChallengeSolvedProperty,
-      subitizer.inputEnabledProperty,
-      subitizer.shapeVisibleProperty
+      subitizer.isInputEnabledProperty,
+      subitizer.isShapeVisibleProperty
     );
-    revealButton.right = this.right - REVEAL_BUTTON_MARGIN;
-    revealButton.bottom = this.bottom - REVEAL_BUTTON_MARGIN;
-    this.addChild( revealButton );
+    subitizeRevealButton.right = this.right - REVEAL_BUTTON_MARGIN;
+    subitizeRevealButton.bottom = this.bottom - REVEAL_BUTTON_MARGIN;
+    this.addChild( subitizeRevealButton );
 
-    // create and add the drawing node, which is where the objects are added to
+    // create and add the drawingNode, which is where the objects are added to
     const drawingNode = new Node( {
-      visibleProperty: subitizer.shapeVisibleProperty
+      visibleProperty: subitizer.isShapeVisibleProperty
     } );
     this.addChild( drawingNode );
 
@@ -88,7 +88,7 @@ class SubitizerNode extends Node {
     subitizer.pointsProperty.link( points => {
       drawingNode.removeAllChildren();
 
-      // create and add each object to the drawing node
+      // create and add each object to the drawingNode
       points.forEach( point => {
         let object;
         if ( subitizer.objectTypeProperty.value === 'circle' ) {

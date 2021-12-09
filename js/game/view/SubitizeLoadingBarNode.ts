@@ -18,11 +18,11 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 
 // constants
-const WIDTH = 280;
-const HEIGHT = 30;
-const LINE_WIDTH = 2;
-const OUTER_CORNER_RADIUS = 8;
-const INNER_CORNER_RADIUS = OUTER_CORNER_RADIUS - LINE_WIDTH / 2;
+const RECTANGLE_WIDTH = 280;
+const RECTANGLE_HEIGHT = 30;
+const RECTANGLE_LINE_WIDTH = 2;
+const RECTANGLE_OUTER_CORNER_RADIUS = 8;
+const RECTANGLE_INNER_CORNER_RADIUS = RECTANGLE_OUTER_CORNER_RADIUS - RECTANGLE_LINE_WIDTH / 2;
 const ANIMATION_DURATION = 2; // in seconds
 const ANIMATION_DELAY = 0.1; // in seconds
 
@@ -39,19 +39,21 @@ class SubitizeLoadingBarNode extends Node {
     this.isLoadingBarAnimatingProperty = isLoadingBarAnimatingProperty;
 
     // the rectangle that is a border to the filled rectangle
-    const borderRectangle = new Rectangle( 0, 0, WIDTH, HEIGHT, OUTER_CORNER_RADIUS, OUTER_CORNER_RADIUS, {
+    const borderRectangle = new Rectangle( 0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, RECTANGLE_OUTER_CORNER_RADIUS,
+      RECTANGLE_OUTER_CORNER_RADIUS, {
       fill: Color.WHITE,
       stroke: Color.BLACK,
-      lineWidth: LINE_WIDTH
+      lineWidth: RECTANGLE_LINE_WIDTH
     } );
     borderRectangle.center = Vector2.ZERO;
     this.addChild( borderRectangle );
 
     // the rectangle whose width will increase from left to right to 'fill' the border rectangle
-    const fillRectangle = new Rectangle( 0, LINE_WIDTH / 2, 0, HEIGHT - LINE_WIDTH, INNER_CORNER_RADIUS, INNER_CORNER_RADIUS, {
+    const fillRectangle = new Rectangle( 0, RECTANGLE_LINE_WIDTH / 2, 0, RECTANGLE_HEIGHT - RECTANGLE_LINE_WIDTH,
+      RECTANGLE_INNER_CORNER_RADIUS, RECTANGLE_INNER_CORNER_RADIUS, {
       fill: NumberPlayConstants.SUBITIZE_GAME_COLOR
     } );
-    fillRectangle.left = borderRectangle.left + LINE_WIDTH;
+    fillRectangle.left = borderRectangle.left + RECTANGLE_LINE_WIDTH;
     fillRectangle.centerY = borderRectangle.centerY;
     this.addChild( fillRectangle );
 
@@ -90,7 +92,7 @@ class SubitizeLoadingBarNode extends Node {
       targets: [ {
         property: this.fillRectangleWidthProperty,
         easing: Easing.LINEAR,
-        to: WIDTH - LINE_WIDTH
+        to: RECTANGLE_WIDTH - RECTANGLE_LINE_WIDTH
       } ]
     } );
 

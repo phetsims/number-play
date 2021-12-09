@@ -36,7 +36,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.COUNTING_GAME_COLOR );
 
-    // create and add the answer buttons
+    // create and add the answerButtons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
         this.setFrownyFaceVisibility( false );
       }, () => {
@@ -53,7 +53,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       rectHeight: HEIGHT
     } );
 
-    // create view bounds for the objects play area node
+    // create view bounds for the objectsPlayAreaNode
     const objectsPlayAreaViewBounds = new Bounds2(
       playAreaNode.left,
       playAreaNode.top + NumberPlayConstants.PLAY_AREA_Y_MARGIN,
@@ -61,6 +61,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       playAreaNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
+    // create and add the objectsPlayAreaNode
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       level.objectsPlayArea,
       objectsPlayAreaViewBounds, {
@@ -72,6 +73,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     );
     playAreaNode.addChild( objectsPlayAreaNode );
 
+    // create and add the playAreaPanel, a panel for the play area
     const panelLineWidth = 2;
     const playAreaPanel = new Panel( playAreaNode, {
       xMargin: 0,
@@ -90,13 +92,13 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND
     } );
 
-    // create and add the ten frame node
+    // create and add the tenFrameNode
     const tenFrameNode = new TenFrameNode( level.challengeNumberProperty );
     tenFrameNode.scale( HEIGHT / tenFrameNode.height / 3.5 );
     tenFrameNode.center = tenFrameBackgroundNode.center;
     tenFrameBackgroundNode.addChild( tenFrameNode );
 
-    // create and add a panel for the ten frame
+    // create and add the tenFramePanel, a panel for the ten frame
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
       xMargin: margin,
       yMargin: margin,

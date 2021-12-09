@@ -39,6 +39,7 @@ type ButtonObject = {
 // constants
 const BUTTON_TEXT_OPTIONS = { font: new PhetFont( 45 ) };
 const BUTTON_DIMENSION = new Dimension2( 80, 100 );
+const BUTTON_OBJECT_CORNER_RADIUS = 10;
 
 class NumberPlayGameAnswerButtons extends Node {
 
@@ -106,7 +107,7 @@ class NumberPlayGameAnswerButtons extends Node {
         content: new Text( value, BUTTON_TEXT_OPTIONS ),
         baseColor: buttonColor,
         size: BUTTON_DIMENSION,
-        cornerRadius: 10,
+        cornerRadius: BUTTON_OBJECT_CORNER_RADIUS,
         yMargin: 24,
         touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
         touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
@@ -118,7 +119,7 @@ class NumberPlayGameAnswerButtons extends Node {
       // create and replace the correct answer button with a rectangle and the correct number on top
       const rectangle = new Rectangle( 0, 0, BUTTON_DIMENSION.width, BUTTON_DIMENSION.height, {
         fill: Color.GREEN,
-        cornerRadius: 10,
+        cornerRadius: BUTTON_OBJECT_CORNER_RADIUS,
         lineWidth: 0.5,
         stroke: Color.GRAY
       } );
@@ -148,8 +149,8 @@ class NumberPlayGameAnswerButtons extends Node {
    * Fires button listener on the correct answer button.
    */
   public showCorrectAnswer( challengeNumberProperty: NumberProperty ): void {
-    const index = challengeNumberProperty.value - challengeNumberProperty.range!.min;
-    this.buttonListener( index );
+    const buttonObjectIndex = challengeNumberProperty.value - challengeNumberProperty.range!.min;
+    this.buttonListener( buttonObjectIndex );
   }
 
   /**

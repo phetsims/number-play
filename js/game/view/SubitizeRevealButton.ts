@@ -23,8 +23,8 @@ const BUTTON_CONTENT_MARGIN = 6; // empirically determined, in screen coordinate
 
 class SubitizeRevealButton extends RectangularPushButton {
 
-  constructor( isChallengeSolvedProperty: BooleanProperty, subitizerInputEnabledProperty: BooleanProperty,
-               shapeVisibleProperty: BooleanProperty ) {
+  constructor( isChallengeSolvedProperty: BooleanProperty, subitizerIsInputEnabledProperty: BooleanProperty,
+               isShapeVisibleProperty: BooleanProperty ) {
 
     const eyeNode = new Path( eyeSolidShape, {
       fill: Color.BLACK
@@ -32,10 +32,10 @@ class SubitizeRevealButton extends RectangularPushButton {
 
     // The reveal button is visible only when a challenge is unsolved, when the subitizer is accepting input, and
     // when the subitizer shape is not visible.
-    const visibleProperty = new DerivedProperty(
-      [ isChallengeSolvedProperty, subitizerInputEnabledProperty, shapeVisibleProperty ],
-      ( isChallengeSolved, subitizerInputEnabled, shapeVisible ) => {
-        return !isChallengeSolved && subitizerInputEnabled && !shapeVisible;
+    const revealButtonVisibleProperty = new DerivedProperty(
+      [ isChallengeSolvedProperty, subitizerIsInputEnabledProperty, isShapeVisibleProperty ],
+      ( isChallengeSolved, subitizerIsInputEnabled, isShapeVisible ) => {
+        return !isChallengeSolved && subitizerIsInputEnabled && !isShapeVisible;
       } );
 
     super( {
@@ -46,9 +46,9 @@ class SubitizeRevealButton extends RectangularPushButton {
       touchAreaYDilation: 10,
       size: new Dimension2( BUTTON_SIDE_LENGTH, BUTTON_SIDE_LENGTH ),
       baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
-      visibleProperty: visibleProperty,
+      visibleProperty: revealButtonVisibleProperty,
       listener: () => {
-        shapeVisibleProperty.value = true;
+        isShapeVisibleProperty.value = true;
       }
     } );
   }

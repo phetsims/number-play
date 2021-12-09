@@ -28,23 +28,23 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.SUBITIZE_GAME_COLOR );
 
-    // create and add the answer buttons
+    // create and add the answerButtons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
         this.setFrownyFaceVisibility( false );
-        level.subitizer.inputEnabledProperty.reset();
-        level.subitizer.shapeVisibleProperty.value = true;
+        level.subitizer.isInputEnabledProperty.value = false;
+        level.subitizer.isShapeVisibleProperty.value = true;
       }, () => {
         this.setFrownyFaceVisibility( true );
       },
       NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT, {
         buttonSpacing: 40, // empirically determined
-        dependencyEnabledProperty: level.subitizer.inputEnabledProperty
+        dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
       } );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
-    // create and add the subitizer node
+    // create and add the subitizerNode
     const subitizerNode = new SubitizerNode(
       level.subitizer,
       level.isChallengeSolvedProperty,

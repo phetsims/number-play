@@ -57,7 +57,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     };
 
     // create the level selection buttons for the 'Counting' game
-    const countingLevelSelectionButtons = model.countingLevels.map(
+    const countingGameLevelSelectionButtons = model.countingLevels.map(
       level => createLevelSelectionButton( level, NumberPlayConstants.COUNTING_GAME_COLOR )
     );
 
@@ -71,7 +71,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     const levelSelectionButtonsBox = new VBox( {
       children: [
         new HBox( {
-          children: countingLevelSelectionButtons,
+          children: countingGameLevelSelectionButtons,
           spacing: buttonSpacing
         } ),
         new HBox( {

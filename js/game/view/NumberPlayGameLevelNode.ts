@@ -55,7 +55,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
                          statusBarColor: string ) {
     super();
 
-    // text displayed in the status bar
+    // text displayed in the statusBar
     const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameLevelPattern, {
       gameName: level.gameName,
       levelNumber: level.levelNumber
@@ -86,7 +86,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     this.layoutBounds = layoutBounds;
 
-    // create and add the frowny face node which is visible when an incorrect answer button is pressed
+    // create and add the frownyFaceNode which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
@@ -96,7 +96,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.addChild( this.frownyFaceNode );
     this.frownyFaceAnimation = null;
 
-    // create and add the smiley face node which is visible when a challenge is solved, meaning a correct answer button was pressed
+    // create and add the smileyFaceNode which is visible when a challenge is solved, meaning a correct answer button was pressed
     const smileyFaceNode = new FaceNode( FACE_DIAMETER, {
       visibleProperty: level.isChallengeSolvedProperty
     } );
@@ -106,7 +106,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
 
-    // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
+    // create and add the pointsAwardedNode which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 1.5 } );
     const pointsNode = new Text( '+1', { font: new PhetFont( 44 ), fill: Color.BLACK } );
     const pointsAwardedNode = new HBox( {
@@ -118,7 +118,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     pointsAwardedNode.top = smileyFaceNode.bottom + 20; // empirically determined
     this.addChild( pointsAwardedNode );
 
-    // create and add the new challenge button which is visible when a challenge is solved, meaning a correct answer button was pressed
+    // create and add the newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
     const arrowShape = new ArrowShape( 0, 0, 42, 0, {
       tailWidth: 12,
       headWidth: 25,

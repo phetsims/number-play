@@ -123,19 +123,19 @@ class Subitizer {
 
   private readonly challengeNumberProperty: NumberProperty;
   private readonly isChallengeSolvedProperty: BooleanProperty;
-  public readonly shapeVisibleProperty: BooleanProperty;
+  public readonly isShapeVisibleProperty: BooleanProperty;
   public readonly pointsProperty: Property<Vector2[]>;
   private readonly randomOrPredetermined: boolean;
   private timeSinceShapeVisible: number;
   public readonly objectSize: number;
-  public readonly inputEnabledProperty: BooleanProperty;
+  public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
   public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
   public isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
-  public readonly playButtonVisibleProperty: BooleanProperty;
+  public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
   constructor( challengeNumberProperty: NumberProperty,
                isChallengeSolvedProperty: BooleanProperty,
@@ -146,13 +146,13 @@ class Subitizer {
     this.isChallengeSolvedProperty = isChallengeSolvedProperty;
 
     // whether the play button is visible
-    this.playButtonVisibleProperty = new BooleanProperty( true );
+    this.isPlayButtonVisibleProperty = new BooleanProperty( true );
 
     // whether the loading bar is animating. This can also be used to stop an existing animation.
     this.isLoadingBarAnimatingProperty = new BooleanProperty( false );
 
     // whether the current shape is visible
-    this.shapeVisibleProperty = new BooleanProperty( false );
+    this.isShapeVisibleProperty = new BooleanProperty( false );
 
     // the points of the current shape
     this.pointsProperty = new Property( [ Vector2.ZERO ], {
@@ -178,7 +178,7 @@ class Subitizer {
 
     // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
     // False when the current challenge is solved. Manipulated only in the view.
-    this.inputEnabledProperty = new BooleanProperty( false );
+    this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
     this.objectTypeProperty = new Property<SubitizeObjectTypeEnum>( 'dog' );
@@ -210,14 +210,14 @@ class Subitizer {
       }
       // show the shape and enable answer inputs after a delay
       else if ( this.timeSinceDelayStarted > NumberPlayConstants.SHAPE_DELAY_TIME ) {
-        this.inputEnabledProperty.value = true;
-        this.shapeVisibleProperty.value = true;
+        this.isInputEnabledProperty.value = true;
+        this.isShapeVisibleProperty.value = true;
         this.resetDelay();
       }
     }
 
     // hide the shape after it's been visible for long enough 
-    if ( this.shapeVisibleProperty.value && this.inputEnabledProperty.value ) {
+    if ( this.isShapeVisibleProperty.value && this.isInputEnabledProperty.value ) {
       this.timeSinceShapeVisible += dt;
 
       if ( this.timeSinceShapeVisible > this.timeToShowShapeProperty.value ) {
@@ -230,8 +230,8 @@ class Subitizer {
 
     // set values for the step function to handle sequence of showing and hiding game parts for a new challenge
     this.isDelayStarted = true;
-    this.inputEnabledProperty.value = false;
-    this.shapeVisibleProperty.value = false;
+    this.isInputEnabledProperty.value = false;
+    this.isShapeVisibleProperty.value = false;
 
     // set play object type and shape
     this.setRandomPlayObjectType();
@@ -254,8 +254,8 @@ class Subitizer {
       this.isLoadingBarAnimatingProperty.reset();
       this.resetDelay();
       this.resetShapeVisible();
-      this.playButtonVisibleProperty.reset();
-      this.inputEnabledProperty.reset();
+      this.isPlayButtonVisibleProperty.reset();
+      this.isInputEnabledProperty.reset();
     }
   }
 
@@ -268,7 +268,7 @@ class Subitizer {
    * Hides the shape and resets the time counter for how long the shape has been visible.
    */
   private resetShapeVisible(): void {
-    this.shapeVisibleProperty.reset();
+    this.isShapeVisibleProperty.reset();
     this.timeSinceShapeVisible = 0;
   }
 
@@ -309,9 +309,9 @@ class Subitizer {
   }
 
   public reset(): void {
-    this.shapeVisibleProperty.reset();
-    this.inputEnabledProperty.reset();
-    this.playButtonVisibleProperty.reset();
+    this.isShapeVisibleProperty.reset();
+    this.isInputEnabledProperty.reset();
+    this.isPlayButtonVisibleProperty.reset();
   }
 
   /**
@@ -426,7 +426,7 @@ class Subitizer {
    * Compares the bounds of a point to be added to all other existing points and returns if the point to
    * be added overlaps with any existing point.
    */
-  private static objectsOverlap( points: Vector2[], randomX: number, randomY: number ): boolean {
+  private static objectsOverlap( points: Vector2[], xCoordinate: number, yCoordinate: number ): boolean {
     let overlap = false;
     const objectTotalWidth = OBJECT_SIZE + OBJECT_PADDING;
     const objectTotalHalfWidth = objectTotalWidth / 2;
@@ -439,12 +439,13 @@ class Subitizer {
           point.x + objectTotalHalfWidth,
           point.y + objectTotalHalfWidth
         );
-        const randomObjectBounds = new Bounds2( randomX - objectTotalHalfWidth,
-          randomY - objectTotalHalfWidth,
-          randomX + objectTotalHalfWidth,
-          randomY + objectTotalHalfWidth
+        const otherPointObjectBounds = new Bounds2(
+          xCoordinate - objectTotalHalfWidth,
+          yCoordinate - objectTotalHalfWidth,
+          xCoordinate + objectTotalHalfWidth,
+          yCoordinate + objectTotalHalfWidth
         );
-        overlap = pointObjectBounds.intersectsBounds( randomObjectBounds );
+        overlap = pointObjectBounds.intersectsBounds( otherPointObjectBounds );
         if ( overlap ) {
           break;
         }
@@ -478,10 +479,9 @@ class Subitizer {
   private static assertValidPredeterminedShapes(): void {
     for ( const key in PREDETERMINED_SHAPES ) {
       PREDETERMINED_SHAPES[ key ].forEach( shape => { // iterate over each shape in the shape set for the given number (key)
-        const shapeRotations = shape.rotations;
 
         // check that the points of each rotation for a shape are within the model bounds
-        shapeRotations.forEach( rotationAngle => {
+        shape.rotations.forEach( rotationAngle => {
           const rotatedPoints = Subitizer.rotatePoints( shape.points, rotationAngle );
           rotatedPoints.forEach( point => {
             assert && assert( SHAPE_BOUNDS.containsPoint( Subitizer.fixPoint( point ) ),
