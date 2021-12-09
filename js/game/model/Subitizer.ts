@@ -39,6 +39,7 @@ type PredeterminedShapes = {
 // constants
 
 // angles
+const DEGREES_0 = 0;
 const DEGREES_45 = Math.PI * 0.25;
 const DEGREES_90 = Math.PI * 0.5;
 const DEGREES_135 = Math.PI * 0.75;
@@ -48,49 +49,51 @@ const DEGREES_270 = Math.PI * ( 3 / 2 );
 // convenience function for easier reading
 const v2 = ( x: number, y: number ) => new Vector2( x, y );
 
+// define predetermined shapes, which are all assumed to be centered around (0, 0)
 const PREDETERMINED_SHAPES: PredeterminedShapes = {
   1: [ {
     points: [ v2( 0, 0 ) ], // centered dot
-    rotations: []
+    rotations: [ DEGREES_0 ]
   } ],
   2: [ {
-    points: [ v2( -0.5, 0 ), v2( 0.5, 0 ) ], // vertically-centered row
-    rotations: [ DEGREES_45, DEGREES_90, DEGREES_135 ]
+    points: [ v2( -0.5, 0 ), v2( 0.5, 0 ) ], // row
+    rotations: [ DEGREES_0, DEGREES_45, DEGREES_90, DEGREES_135 ]
   } ],
   3: [ {
-    points: [ v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ) ], // // vertically-centered row
-    rotations: [ DEGREES_90 ]
+    points: [ v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ) ], // row
+    rotations: [ DEGREES_0, DEGREES_90 ]
   }, {
     points: [ v2( -1, -1 ), v2( 0, 0 ), v2( 1, 1 ) ], // diagonal row
-    rotations: [ DEGREES_90 ]
+    rotations: [ DEGREES_0, DEGREES_90 ]
   }, {
     points: [ v2( -1, 1 ), v2( 0, -1 ), v2( 1, 1 ) ], // triangle pointing up
-    rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
+    rotations: [ DEGREES_0, DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ],
   4: [ {
-    points: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // vertically-centered row
-    rotations: []
+    points: [ v2( -1.5, 0 ), v2( -0.5, 0 ), v2( 0.5, 0 ), v2( 1.5, 0 ) ], // row
+    rotations: [ DEGREES_0 ]
   }, {
     points: [ v2( -0.7, -0.7 ), v2( 0.7, -0.7 ), v2( -0.7, 0.7 ), v2( 0.7, 0.7 ) ], // square
-    rotations: [ DEGREES_45 ]
+    rotations: [ DEGREES_0, DEGREES_45 ]
   } ],
   5: [ {
-    points: [ v2( -2, 0 ), v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ), v2( 2, 0 ) ], // vertically-centered row
-    rotations: []
+    points: [ v2( -2, 0 ), v2( -1, 0 ), v2( 0, 0 ), v2( 1, 0 ), v2( 2, 0 ) ], // row
+    rotations: [ DEGREES_0 ]
   }, {
     points: [ v2( -1, -1 ), v2( 1, -1 ), v2( 0, 0 ), v2( -1, 1 ), v2( 1, 1 ) ], // 5 in a "die" formation
-    rotations: []
+    rotations: [ DEGREES_0 ]
   }, {
     points: [ v2( -0.5, -1 ), v2( -0.5, 0 ), v2( -0.5, 1 ), v2( 0.5, -0.5 ), v2( 0.5, 0.5 ) ], // 2 columns, 3:2 "zipper" formation
-    rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
+    rotations: [ DEGREES_0, DEGREES_90, DEGREES_180, DEGREES_270 ]
   }, {
     points: [ v2( -0.5, -1 ), v2( -0.5, 0 ), v2( -0.5, 1 ), v2( 0.5, -1 ), v2( 0.5, 0 ) ], // 2 columns, 3:2 top-aligned
-    rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
+    rotations: [ DEGREES_0, DEGREES_90, DEGREES_180, DEGREES_270 ]
   }, {
     points: [ v2( -0.5, -1 ), v2( -0.5, 0 ), v2( -0.5, 1 ), v2( 0.5, 0 ), v2( 0.5, 1 ) ], // 2 columns, 3:2 bottom-aligned
-    rotations: [ DEGREES_90, DEGREES_180, DEGREES_270 ]
+    rotations: [ DEGREES_0, DEGREES_90, DEGREES_180, DEGREES_270 ]
   } ]
 };
+const PROBABILITY_OF_PREDETERMINED_SHAPE = 0.6; // specified by designer
 
 // how many decimals to round to when correcting buggy JS floats
 const DECIMALS = 4;
@@ -109,6 +112,12 @@ const SHAPE_BOUNDS = new Bounds2( -2, -1, 2, 1 );
 // the area for the whole subitizer, including padding between the exterior and where the objects are allowed to be.
 // this is used to render the subitizer node in the view.
 const SUBITIZER_BOUNDS = SHAPE_BOUNDS.dilated( OBJECT_SIZE / 2 + OBJECT_PADDING );
+
+// for calculating arranged shapes. all dependant on SHAPE_BOUNDS, but clearer to state explicitly than derive
+const MIN_NUMBER_OF_COLUMNS = 2;
+const MAX_NUMBER_OF_COLUMNS = 5;
+const MIN_NUMBER_OF_ROWS = 2;
+const MAX_NUMBER_OF_ROWS = 3;
 
 class Subitizer {
 
@@ -151,7 +160,7 @@ class Subitizer {
       arrayElementType: Vector2
     } );
 
-    // whether we can choose to use a random and arranged shape
+    // if true, make random or predetermined shapes. if false, only make arranged shapes.
     this.randomOrPredetermined = randomOrPredetermined;
 
     // whether the delay has been started. a delay happens at the beginning of a new challenge, before revealing the
@@ -191,7 +200,7 @@ class Subitizer {
   }
 
   public step( dt: number ): void {
-    
+
     if ( this.isDelayStarted ) {
       this.timeSinceDelayStarted += dt;
 
@@ -210,7 +219,7 @@ class Subitizer {
     // hide the shape after it's been visible for long enough 
     if ( this.shapeVisibleProperty.value && this.inputEnabledProperty.value ) {
       this.timeSinceShapeVisible += dt;
-      
+
       if ( this.timeSinceShapeVisible > this.timeToShowShapeProperty.value ) {
         this.resetShapeVisible();
       }
@@ -268,65 +277,23 @@ class Subitizer {
    */
   private setNewPoints(): void {
     const challengeNumber = this.challengeNumberProperty.value;
-    let points = [];
+    let points;
 
-    // if randomOrPredetermined, then 60/40 chance whether the shape uses random or predetermined points.
-    // if not randomOrPredetermined, then the shape uses arranged points.
-    if ( this.randomOrPredetermined ) {
-      if ( dotRandom.nextDouble() >= 0.4 ) {
-
-        // pick out a predetermined shape randomly for the corresponding challenge number
-        const shapeIndex = dotRandom.nextInt( PREDETERMINED_SHAPES[ challengeNumber ].length );
-        const shape = PREDETERMINED_SHAPES[ challengeNumber ][ shapeIndex ];
-        points = shape.points;
-
-        // if the shape has rotations available, randomly pick one to rotate by 50% of the time
-        if ( shape.rotations.length && dotRandom.nextBoolean() ) {
-          const rotationIndex = dotRandom.nextInt( shape.rotations.length );
-          points = Subitizer.rotatePoints( points, shape.rotations[ rotationIndex ] );
-        }
-      }
-      else {
-
-        // generate random points
-        while ( points.length < challengeNumber ) {
-          const randomX = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minX, SHAPE_BOUNDS.maxX );
-          const randomY = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minY, SHAPE_BOUNDS.maxY );
-
-          // add a new point if it doesn't exist yet and does not overlap with the existing points
-          const objectsOverlap = Subitizer.objectsOverlap( points, randomX, randomY );
-          if ( !_.find( points, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
-            points.push( new Vector2( randomX, randomY ) );
-          }
-        }
-      }
+    if ( this.randomOrPredetermined && dotRandom.nextDouble() <= PROBABILITY_OF_PREDETERMINED_SHAPE ) {
+      points = Subitizer.getPredeterminedShapePoints( challengeNumber );
+    }
+    else if ( this.randomOrPredetermined ) {
+      points = Subitizer.getRandomShapePoints( challengeNumber );
     }
     else {
-
-      // get a random number of rows and set the number of columns for drawing an arranged shape
-      const maxNumberOfRows = 3;
-      const minNumberOfRows = 2;
-      const numberOfRows = dotRandom.nextIntBetween( minNumberOfRows, maxNumberOfRows );
-      let numberOfColumns = 0;
-
-      // get the number of necessary columns to fit all the object representations to arrange
-      while ( numberOfColumns * numberOfRows < challengeNumber ) {
-        numberOfColumns++;
-      }
-
-      // create and add the points
-      const startX = ( numberOfColumns - 1 ) / -2;
-      const startY = ( numberOfRows - 1 ) / -2;
-      for ( let j = 0; j < numberOfRows; j++ ) {
-        for ( let i = 0; i < numberOfColumns; i++ ) {
-          if ( points.length < challengeNumber ) {
-            points.push( new Vector2( startX + i, startY + j ) );
-          }
-        }
-      }
+      points = Subitizer.getArrangedShapePoints( challengeNumber );
     }
 
-    if ( !Subitizer.isSamePoints( this.pointsProperty.value, points ) ) {
+    assert && assert( points.length === challengeNumber, 'incorrect number of points for challengeNumber ' +
+                                                         `${challengeNumber}: ${points.length}` );
+
+    // two of the same shapes in a row are not allowed
+    if ( !Subitizer.arePointsEqual( this.pointsProperty.value, points ) ) {
       this.pointsProperty.value = points;
     }
     else {
@@ -348,7 +315,101 @@ class Subitizer {
   }
 
   /**
-   * Rotates each point of the shape around the origin.
+   * Randomly picks out a predetermined shape with N points and applies a random available rotation, where
+   * N = the provided challengeNumber.
+   */
+  private static getPredeterminedShapePoints( challengeNumber: number ): Vector2[] {
+    const shapeIndex = dotRandom.nextInt( PREDETERMINED_SHAPES[ challengeNumber ].length );
+    const shape = PREDETERMINED_SHAPES[ challengeNumber ][ shapeIndex ];
+
+    const rotationIndex = dotRandom.nextInt( shape.rotations.length );
+    return Subitizer.rotatePoints( shape.points, shape.rotations[ rotationIndex ] );
+  }
+
+  /**
+   * Randomly generates N points inside the available bounds, where N = the provided challengeNumber.
+   */
+  private static getRandomShapePoints( challengeNumber: number ): Vector2[] {
+    const points = [];
+
+    while ( points.length < challengeNumber ) {
+      const randomX = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minX, SHAPE_BOUNDS.maxX );
+      const randomY = dotRandom.nextDoubleBetween( SHAPE_BOUNDS.minY, SHAPE_BOUNDS.maxY );
+
+      // add a new point if it doesn't exist yet and does not overlap with the existing points
+      const objectsOverlap = Subitizer.objectsOverlap( points, randomX, randomY );
+      if ( !_.find( points, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
+        points.push( new Vector2( randomX, randomY ) );
+      }
+    }
+
+    return points;
+  }
+
+  /**
+   * Randomly generates an arranged shape with N points, where N = the provided challengeNumber. An arranged shape is
+   * a block of points, where the remainder of points that dont fit into the block are located on the upper left, upper
+   * right, lower left, or lower right of the block.
+   */
+  private static getArrangedShapePoints( challengeNumber: number ): Vector2[] {
+    const numberOfRows = dotRandom.nextIntBetween( MIN_NUMBER_OF_ROWS, MAX_NUMBER_OF_ROWS );
+    let minNumberOfColumns = MIN_NUMBER_OF_COLUMNS;
+
+    // get the minimum number of columns needed to fit all the points in the arrangement given the chosen number of rows
+    while ( minNumberOfColumns * numberOfRows < challengeNumber ) {
+      minNumberOfColumns++;
+    }
+
+    // get the maximum number of columns that should be used such that every row will still have a least one point given
+    // the chosen number of rows (since we generate the points from left to right, top to bottom).
+    let maxNumberOfColumns = minNumberOfColumns;
+    while ( challengeNumber > ( maxNumberOfColumns + 1 ) * ( numberOfRows - 1 ) &&
+            maxNumberOfColumns < MAX_NUMBER_OF_COLUMNS ) {
+      maxNumberOfColumns++;
+    }
+
+    const numberOfColumns = dotRandom.nextIntBetween( minNumberOfColumns, maxNumberOfColumns );
+
+    // calculate the center of the first point to draw in the shape (upper left corner of the shape). This assumes that
+    // the center of the shape is at (0, 0).
+    const getStartCoordinate = ( n: number ) => ( n - 1 ) / -2;
+    const startX = getStartCoordinate( numberOfColumns );
+    const startY = getStartCoordinate( numberOfRows );
+
+    // create and add all points in calculated "rectangle" (numberOfRows by numberOfColumns), which may end up being
+    // more points than are needed, drawing them from left to right, top to bottom
+    const points = [];
+    for ( let j = 0; j < numberOfRows; j++ ) {
+      for ( let i = 0; i < numberOfColumns; i++ ) {
+        points.push( new Vector2( startX + i, startY + j ) );
+      }
+    }
+
+    // both used for the correct number of points, where the remainder was removed from the block
+    let reducedPoints;
+    const reducedShiftedPoints = points;
+
+    // randomly pick between modifying the top row or bottom row
+    if ( dotRandom.nextBoolean() ) {
+      const sliceIndex = points.length - challengeNumber;
+      reducedPoints = points.slice( sliceIndex ); // remove extra points from the top row, left side
+
+      // remove extra points from the top row, right side
+      reducedShiftedPoints.splice( numberOfColumns - sliceIndex, sliceIndex );
+    }
+    else {
+      reducedPoints = points.slice( 0, challengeNumber ); // remove extra points from the bottom row, right side
+
+      // remove extra points from the bottom row, left side
+      reducedShiftedPoints.splice( points.length - numberOfColumns, points.length - challengeNumber );
+    }
+
+    // randomly pick between the two types of reduced points
+    return dotRandom.nextBoolean() ? reducedPoints : reducedShiftedPoints;
+  }
+
+  /**
+   * Rotates each point of the shape around the origin, which is assumed to be (0, 0).
    */
   private static rotatePoints( points: Vector2[], rotationAngle: number ): Vector2[] {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
@@ -395,7 +456,7 @@ class Subitizer {
   /**
    * Compares two sets of points and returns if they are equal or not.
    */
-  private static isSamePoints( pointsSetOne: Vector2[], pointsSetTwo: Vector2[] ): boolean {
+  private static arePointsEqual( pointsSetOne: Vector2[], pointsSetTwo: Vector2[] ): boolean {
     let pointsAreEqual = true;
     if ( pointsSetOne.length === pointsSetTwo.length ) {
       for ( let i = 0; i < pointsSetOne.length; i++ ) {
@@ -418,7 +479,6 @@ class Subitizer {
     for ( const key in PREDETERMINED_SHAPES ) {
       PREDETERMINED_SHAPES[ key ].forEach( shape => { // iterate over each shape in the shape set for the given number (key)
         const shapeRotations = shape.rotations;
-        shapeRotations.unshift( 0 ); // add 0 degrees to every set of rotations so 0 is tested too
 
         // check that the points of each rotation for a shape are within the model bounds
         shapeRotations.forEach( rotationAngle => {
