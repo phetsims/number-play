@@ -108,7 +108,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // create and add the points awarded node which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 1.5 } );
-    const pointsNode = new Text( '+1', { font: new PhetFont( 44 ), fill: 'black' } );
+    const pointsNode = new Text( '+1', { font: new PhetFont( 44 ), fill: Color.BLACK } );
     const pointsAwardedNode = new HBox( {
       children: [ pointsNode, starNode ],
       spacing: 10,
@@ -130,7 +130,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       yMargin: 10.9,
       touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
       touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
-      content: new Path( arrowShape, { fill: 'black' } ),
+      content: new Path( arrowShape, { fill: Color.BLACK } ),
       visibleProperty: level.isChallengeSolvedProperty,
       listener: () => this.newChallenge()
     } );

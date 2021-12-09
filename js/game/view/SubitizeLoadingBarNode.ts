@@ -57,7 +57,7 @@ class SubitizeLoadingBarNode extends Node {
 
     // the width of the fill rectangle during the animation
     this.fillRectangleWidthProperty = new NumberProperty( 0 );
-    
+
     // used to store the animation, null if no animation is in progress
     this.fillRectangleAnimation = null;
 

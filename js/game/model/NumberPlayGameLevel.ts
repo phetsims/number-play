@@ -85,15 +85,15 @@ abstract class NumberPlayGameLevel {
     assert && assert( this.challengeRange.min !== this.challengeRange.max,
       `challengeRange must contain more than one number: ${this.challengeRange.toString()}` );
 
-    // shift values down to make room for a new subitize number
+    // shift values down to make room for a new challenge number
     this.oldChallengeNumberTwo = this.oldChallengeNumberOne;
     this.oldChallengeNumberOne = this.challengeNumberProperty.value;
 
-    let newSubitizeNumber = this.getRandomChallengeNumber();
-    while ( newSubitizeNumber === this.oldChallengeNumberOne && newSubitizeNumber === this.oldChallengeNumberTwo ) {
-      newSubitizeNumber = this.getRandomChallengeNumber();
+    let newChallengeNumber = this.getRandomChallengeNumber();
+    while ( newChallengeNumber === this.oldChallengeNumberOne && newChallengeNumber === this.oldChallengeNumberTwo ) {
+      newChallengeNumber = this.getRandomChallengeNumber();
     }
-    this.challengeNumberProperty.value = newSubitizeNumber;
+    this.challengeNumberProperty.value = newChallengeNumber;
   }
 
   private getRandomChallengeNumber(): number {
