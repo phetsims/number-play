@@ -1,8 +1,8 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * SubitizeLoadingBarNode contains the loading bar animation that happens after the user presses play when they enter the
- * subitize game screen.
+ * SubitizeLoadingBarNode contains the loading bar animation that happens after the user presses play when they enter
+ * the subitize game screen.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
