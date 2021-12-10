@@ -6,12 +6,12 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import compareScreenIconImage from '../../images/compare_screen_icon_png.js';
+import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
@@ -30,7 +30,7 @@ class CompareScreen extends Screen {
 
     const options = {
       name: screenCompareString,
-      backgroundColorProperty: new Property( NumberPlayConstants.WHITE_BACKGROUND ),
+      backgroundColorProperty: NumberPlayColors.whiteBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( compareScreenIconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

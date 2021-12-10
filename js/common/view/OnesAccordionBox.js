@@ -9,11 +9,11 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Rectangle, Text } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 
@@ -35,7 +35,7 @@ class OnesAccordionBox extends AccordionBox {
       } ),
       minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
-      fill: NumberPlayConstants.PURPLE_BACKGROUND
+      fill: NumberPlayColors.purpleBackgroundColorProperty
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
 
     const contentNode = new Rectangle( {

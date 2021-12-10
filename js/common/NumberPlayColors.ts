@@ -12,6 +12,7 @@ import numberPlay from '../numberPlay.js';
 // constants used to define multiple colors
 const LIGHT_GREEN_BACKGROUND = new Color( 215, 255, 227 );
 const LIGHT_ORANGE_BACKGROUND = new Color( 255, 247, 235 );
+const WHITE_BACKGROUND = new Color( 255, 255, 255 );
 
 const NumberPlayColors = {
 
@@ -22,11 +23,14 @@ const NumberPlayColors = {
   twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'twentyScreenBackgroundColorProperty', {
     default: LIGHT_ORANGE_BACKGROUND
   } ),
+  compareScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'compareScreenBackgroundColorProperty', {
+    default: WHITE_BACKGROUND
+  } ),
   gameScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'gameScreenBackgroundColorProperty', {
     default: LIGHT_ORANGE_BACKGROUND
   } ),
 
-  // accordion box backgrounds
+  // backgrounds for accordion boxes and more
   greenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'greenBackgroundColorProperty', {
     default: new Color( 159, 237, 172 )
   } ),
@@ -52,7 +56,7 @@ const NumberPlayColors = {
     default: new Color( 204, 239, 255 )
   } ),
   whiteBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'whiteBackgroundColorProperty', {
-    default: Color.WHITE
+    default: WHITE_BACKGROUND
   } ),
 
   // game screen level colors

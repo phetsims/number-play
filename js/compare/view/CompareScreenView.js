@@ -13,13 +13,13 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { voicingManager } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Text, voicingManager } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import LocaleSwitch from '../../common/view/LocaleSwitch.js';
-import TotalAccordionBox from '../../common/view/TotalAccordionBox.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
+import TotalAccordionBox from '../../common/view/TotalAccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
 import BlockValuesNode from './BlockValuesNode.js';
@@ -68,7 +68,7 @@ class CompareScreenView extends ScreenView {
 
     // config for the left and right TotalAccordionBox
     const totalAccordionBoxConfig = {
-      fill: NumberPlayConstants.WHITE_BACKGROUND,
+      fill: NumberPlayColors.whiteBackgroundColorProperty,
       font: new PhetFont( 90 ),
       arrowButtonConfig: {
         arrowWidth: 18,  // empirically determined
@@ -98,7 +98,7 @@ class CompareScreenView extends ScreenView {
     // create and add the left CompareAccordionBox
     const leftCompareAccordionBox = new CompareAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
       expandedProperty: this.leftCompareAccordionBoxExpandedProperty,
-      fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND
+      fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
     leftCompareAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     leftCompareAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
@@ -107,7 +107,7 @@ class CompareScreenView extends ScreenView {
     // create and add the right CompareAccordionBox
     const rightCompareAccordionBox = new CompareAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
       expandedProperty: this.rightCompareAccordionBoxExpandedProperty,
-      fill: NumberPlayConstants.LIGHT_ORANGE_BACKGROUND
+      fill: NumberPlayColors.lightOrangeBackgroundColorProperty
     } );
     rightCompareAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     rightCompareAccordionBox.bottom = leftCompareAccordionBox.bottom;

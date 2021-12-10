@@ -14,14 +14,12 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Image } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, Image, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 
@@ -43,7 +41,7 @@ class ObjectsAccordionBox extends AccordionBox {
       } ),
       minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
-      fill: NumberPlayConstants.BLUE_BACKGROUND,
+      fill: NumberPlayColors.blueBackgroundColorProperty,
       linkedPlayArea: null, // {null|OnesPlayArea}
       groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
 

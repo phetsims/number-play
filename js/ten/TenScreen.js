@@ -6,7 +6,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
@@ -14,6 +13,7 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Image } from '../../../scenery/js/imports.js';
 import tenScreenIconImage from '../../images/ten_screen_icon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
+import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
@@ -31,7 +31,7 @@ class TenScreen extends Screen {
 
     const screenOptions = {
       name: screenTenString,
-      backgroundColorProperty: new Property( NumberPlayConstants.TEN_SCREEN_BACKGROUND ),
+      backgroundColorProperty: NumberPlayColors.tenScreenBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( tenScreenIconImage ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
@@ -41,7 +41,7 @@ class TenScreen extends Screen {
 
     const screenViewConfig = {
       wordAccordionBoxConfig: {
-        fill: NumberPlayConstants.GREEN_BACKGROUND,
+        fill: NumberPlayColors.greenBackgroundColorProperty,
         font: new PhetFont( 62 ),
         textOffset: new Vector2( 0, -1 ),
         localeSwitchOffset: new Vector2( 0, -12 ),
@@ -49,7 +49,7 @@ class TenScreen extends Screen {
         speakerButtonScale: 1
       },
       totalAccordionBoxConfig: {
-        fill: NumberPlayConstants.LIGHT_ORANGE_BACKGROUND,
+        fill: NumberPlayColors.lightOrangeBackgroundColorProperty,
         font: new PhetFont( 98 ),
         contentXMargin: 0, // zero out to manage x margins in subclass
         arrowButtonConfig: {
@@ -59,7 +59,7 @@ class TenScreen extends Screen {
         }
       },
       tenFrameAccordionBoxOptions: {
-        fill: NumberPlayConstants.GREEN_BACKGROUND,
+        fill: NumberPlayColors.greenBackgroundColorProperty,
         contentAlign: 'center'
       },
       upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,

@@ -12,21 +12,21 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import required from '../../../../phet-core/js/required.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { voicingManager } from '../../../../scenery/js/imports.js';
-import { Image } from '../../../../scenery/js/imports.js';
+import { Image, voicingManager } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import groupingSceneOne from '../../../images/grouping_scene_1_png.js';
 import groupingSceneTwo from '../../../images/grouping_scene_2_png.js';
 import groupingSceneThree from '../../../images/grouping_scene_3_png.js';
 import numberPlay from '../../numberPlay.js';
+import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import TotalAccordionBox from './TotalAccordionBox.js';
 import ObjectsAccordionBox from './ObjectsAccordionBox.js';
 import OnesAccordionBox from './OnesAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
+import TotalAccordionBox from './TotalAccordionBox.js';
 import WordAccordionBox from './WordAccordionBox.js';
 
 // constants
@@ -171,7 +171,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
     const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupingLinkingTypeProperty, groupingLinkingButtons, {
-      baseColor: NumberPlayConstants.BLUE_BACKGROUND,
+      baseColor: NumberPlayColors.blueBackgroundColorProperty,
       orientation: 'vertical',
       spacing: 10,
       buttonContentXMargin: margin,
@@ -196,7 +196,7 @@ class NumberPlayScreenView extends ScreenView {
       listener: () => {
         model.onesPlayArea.organizeObjects();
       },
-      baseColor: NumberPlayConstants.PURPLE_BACKGROUND,
+      baseColor: NumberPlayColors.purpleBackgroundColorProperty,
       xMargin: xMargin,
       yMargin: yMargin
     } );
@@ -210,7 +210,7 @@ class NumberPlayScreenView extends ScreenView {
       listener: () => {
         model.objectsPlayArea.organizeObjects();
       },
-      baseColor: NumberPlayConstants.BLUE_BACKGROUND,
+      baseColor: NumberPlayColors.blueBackgroundColorProperty,
       xMargin: xMargin,
       yMargin: yMargin
     } );

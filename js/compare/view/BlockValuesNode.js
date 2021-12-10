@@ -7,11 +7,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import { HBox, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
@@ -58,7 +55,7 @@ class BlockValuesNode extends Node {
     // create and add the left blocks
     _.times( leftCurrentNumber, () => {
       leftBlocks.push( new Rectangle( 0, 0, SIDE_LENGTH, SIDE_LENGTH, {
-        fill: NumberPlayConstants.MEDIUM_GREEN_FILL
+        fill: NumberPlayColors.mediumGreenBackgroundColorProperty
       } ) );
     } );
     const leftStack = new VBox( {
@@ -70,7 +67,7 @@ class BlockValuesNode extends Node {
     // create and add the right blocks
     _.times( rightCurrentNumber, () => {
       rightBlocks.push( new Rectangle( 0, 0, SIDE_LENGTH, SIDE_LENGTH, {
-        fill: NumberPlayConstants.MEDIUM_ORANGE_FILL
+        fill: NumberPlayColors.mediumOrangeBackgroundColorProperty
       } ) );
     } );
     const rightStack = new VBox( {

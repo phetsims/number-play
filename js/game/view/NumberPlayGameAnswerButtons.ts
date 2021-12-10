@@ -11,7 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, ColorProperty, HBox, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
@@ -22,7 +22,7 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // types
 type AnswerButtonsOptions = {
-  buttonColor: string;
+  buttonColor: ColorProperty;
   buttonSpacing: number,
   dependencyEnabledProperty: BooleanProperty
 }

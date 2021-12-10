@@ -13,9 +13,9 @@ import numberPlay from '../../numberPlay.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 // constants
 const RECTANGLE_WIDTH = 280;
@@ -41,18 +41,18 @@ class SubitizeLoadingBarNode extends Node {
     // the rectangle that is a border to the filled rectangle
     const borderRectangle = new Rectangle( 0, 0, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, RECTANGLE_OUTER_CORNER_RADIUS,
       RECTANGLE_OUTER_CORNER_RADIUS, {
-      fill: Color.WHITE,
-      stroke: Color.BLACK,
-      lineWidth: RECTANGLE_LINE_WIDTH
-    } );
+        fill: Color.WHITE,
+        stroke: Color.BLACK,
+        lineWidth: RECTANGLE_LINE_WIDTH
+      } );
     borderRectangle.center = Vector2.ZERO;
     this.addChild( borderRectangle );
 
     // the rectangle whose width will increase from left to right to 'fill' the border rectangle
     const fillRectangle = new Rectangle( 0, RECTANGLE_LINE_WIDTH / 2, 0, RECTANGLE_HEIGHT - RECTANGLE_LINE_WIDTH,
       RECTANGLE_INNER_CORNER_RADIUS, RECTANGLE_INNER_CORNER_RADIUS, {
-      fill: NumberPlayConstants.SUBITIZE_GAME_COLOR
-    } );
+        fill: NumberPlayColors.subitizeGameColorProperty
+      } );
     fillRectangle.left = borderRectangle.left + RECTANGLE_LINE_WIDTH;
     fillRectangle.centerY = borderRectangle.centerY;
     this.addChild( fillRectangle );

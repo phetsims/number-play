@@ -20,6 +20,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 const WIDTH = 550; // empirically determined, in screen coordinates
 const HEIGHT = 325; // empirically determined, in screen coordinates
@@ -34,7 +35,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.COUNTING_GAME_COLOR );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayColors.countingGameColorProperty );
 
     // create and add the answerButtons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
@@ -42,7 +43,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       }, () => {
         this.setFrownyFaceVisibility( true );
       }, {
-        buttonColor: NumberPlayConstants.COUNTING_GAME_COLOR_LIGHT
+        buttonColor: NumberPlayColors.countingGameLightColorProperty
       }
     );
     this.answerButtons.centerX = layoutBounds.centerX;
@@ -82,7 +83,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const playAreaPanel = new Panel( playAreaNode, {
       xMargin: 0,
       yMargin: 0,
-      fill: NumberPlayConstants.BLUE_BACKGROUND,
+      fill: NumberPlayColors.blueBackgroundColorProperty,
       lineWidth: panelLineWidth
     } );
     playAreaPanel.centerX = layoutBounds.centerX;
@@ -93,7 +94,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFrameBackgroundNode = new Rectangle( {
       rectWidth: WIDTH - margin * 2,
       rectHeight: HEIGHT - margin * 2,
-      fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND
+      fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
 
     // create and add the tenFrameNode
@@ -106,7 +107,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
       xMargin: margin,
       yMargin: margin,
-      fill: NumberPlayConstants.LIGHT_GREEN_BACKGROUND,
+      fill: NumberPlayColors.lightGreenBackgroundColorProperty,
       lineWidth: panelLineWidth
     } );
     tenFramePanel.centerX = layoutBounds.centerX;

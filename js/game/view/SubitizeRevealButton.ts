@@ -13,9 +13,9 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 // constants
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
@@ -45,7 +45,7 @@ class SubitizeRevealButton extends RectangularPushButton {
       touchAreaXDilation: 10,
       touchAreaYDilation: 10,
       size: new Dimension2( BUTTON_SIDE_LENGTH, BUTTON_SIDE_LENGTH ),
-      baseColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
+      baseColor: NumberPlayColors.subitizeGameLightColorProperty,
       visibleProperty: revealButtonVisibleProperty,
       listener: () => {
         isShapeVisibleProperty.value = true;

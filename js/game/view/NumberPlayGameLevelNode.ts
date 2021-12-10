@@ -10,7 +10,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
+import { Color, ColorProperty, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
@@ -48,7 +48,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
                          levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: Property<Bounds2>,
-                         statusBarColor: string ) {
+                         statusBarColor: ColorProperty ) {
     super();
 
     // text displayed in the statusBar

@@ -1,7 +1,7 @@
 // Copyright 2019-2021, University of Colorado Boulder
 
 /**
- * Constants used in multiple locations within this simulation.
+ * Constants defined for this simulation.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -32,10 +32,6 @@ const seventeenString = numberPlayStrings.seventeen;
 const eighteenString = numberPlayStrings.eighteen;
 const nineteenString = numberPlayStrings.nineteen;
 const twentyString = numberPlayStrings.twenty;
-
-// constants used to define other constants
-const LIGHT_GREEN_BACKGROUND = 'rgb( 215, 255, 227 )';
-const LIGHT_ORANGE_BACKGROUND = '#FFF7EB';
 
 const NumberPlayConstants = {
 
@@ -89,30 +85,6 @@ const NumberPlayConstants = {
   },
   ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
-  // colors
-
-  // screen backgrounds
-  TEN_SCREEN_BACKGROUND: LIGHT_GREEN_BACKGROUND,
-  TWENTY_SCREEN_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
-  GAME_SCREEN_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
-
-  // accordion box backgrounds
-  GREEN_BACKGROUND: 'rgb( 159, 237, 172 )',
-  LIGHT_GREEN_BACKGROUND: LIGHT_GREEN_BACKGROUND,
-  MEDIUM_GREEN_FILL: 'rgb( 150, 226, 168 )',
-  ORANGE_BACKGROUND: 'rgb( 249, 210, 172 )',
-  LIGHT_ORANGE_BACKGROUND: LIGHT_ORANGE_BACKGROUND,
-  MEDIUM_ORANGE_FILL: 'rgb( 247, 209, 159 )',
-  PURPLE_BACKGROUND: 'rgb( 252, 220, 255 )',
-  BLUE_BACKGROUND: 'rgb( 204, 239, 255 )',
-  WHITE_BACKGROUND: 'rgb( 255, 255, 255 )',
-
-  // level colors for the game screen
-  COUNTING_GAME_COLOR: 'rgb( 242, 142, 129 )',
-  COUNTING_GAME_COLOR_LIGHT: 'rgb( 245, 188, 181 )',
-  SUBITIZE_GAME_COLOR: 'rgb( 148, 133, 255 )',
-  SUBITIZE_GAME_COLOR_LIGHT: 'rgb( 195, 193, 247 )',
-
   // map number values to their corresponding string
   NUMBER_TO_STRING: {
     0: zeroString,
@@ -144,7 +116,8 @@ const NumberPlayConstants = {
   SHAPE_VISIBLE_TIME_INCREASE_AMOUNT: 0.1, // amount the shape visible time is increased by, in seconds
   NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME: 2, // number of guesses before increasing the shape visible time
 
-  TOUCH_AREA_DILATION: 9 // amount to increase all the buttons by in the game screen (except the reveal button), in screen coordinates
+  // amount to increase all the buttons by in the game screen (except the reveal button), in screen coordinates
+  TOUCH_AREA_DILATION: 9
 };
 
 numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );

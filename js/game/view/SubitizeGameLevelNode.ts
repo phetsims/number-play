@@ -15,7 +15,7 @@ import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
@@ -26,20 +26,20 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayConstants.SUBITIZE_GAME_COLOR );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, NumberPlayColors.subitizeGameColorProperty );
 
     // create and add the answerButtons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
-        this.setFrownyFaceVisibility( false );
-        level.subitizer.isInputEnabledProperty.value = false;
-        level.subitizer.isShapeVisibleProperty.value = true;
-      }, () => {
-        this.setFrownyFaceVisibility( true );
-      }, {
-        buttonColor: NumberPlayConstants.SUBITIZE_GAME_COLOR_LIGHT,
-        buttonSpacing: 40, // empirically determined
-        dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
-      } );
+      this.setFrownyFaceVisibility( false );
+      level.subitizer.isInputEnabledProperty.value = false;
+      level.subitizer.isShapeVisibleProperty.value = true;
+    }, () => {
+      this.setFrownyFaceVisibility( true );
+    }, {
+      buttonColor: NumberPlayColors.subitizeGameLightColorProperty,
+      buttonSpacing: 40, // empirically determined
+      dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
+    } );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );

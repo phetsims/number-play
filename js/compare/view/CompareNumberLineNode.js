@@ -12,12 +12,8 @@ import Shape from '../../../../kite/js/Shape.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Circle } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import { Circle, Color, Node, Path, Text } from '../../../../scenery/js/imports.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
@@ -40,14 +36,14 @@ class CompareNumberLineNode extends Node {
     // create and add an indicator for the leftCurrentNumberProperty
     const leftCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
       LeftRightDirection.LEFT,
-      NumberPlayConstants.MEDIUM_GREEN_FILL
+      NumberPlayColors.mediumGreenBackgroundColorProperty
     );
     numberLineNode.addChild( leftCurrentNumberIndicatorNode );
 
     // create and add an indicator for the rightCurrentNumberProperty
     const rightCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
       LeftRightDirection.RIGHT,
-      NumberPlayConstants.MEDIUM_ORANGE_FILL
+      NumberPlayColors.mediumOrangeBackgroundColorProperty
     );
     numberLineNode.addChild( rightCurrentNumberIndicatorNode );
 

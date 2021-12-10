@@ -11,7 +11,7 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { HBox, HStrut, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { ColorProperty, HBox, HStrut, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -21,6 +21,7 @@ import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
@@ -34,7 +35,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     this.addChild( titleText );
 
     // creates a level-selection button for each level
-    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: string ) => {
+    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: ColorProperty ) => {
       return new LevelSelectionButton( new VBox( {
         children: [
           new HStrut( 47 ),
@@ -54,12 +55,12 @@ class NumberPlayGameLevelSelectionNode extends Node {
 
     // create the level selection buttons for the 'Counting' game
     const countingGameLevelSelectionButtons = model.countingLevels.map(
-      level => createLevelSelectionButton( level, NumberPlayConstants.COUNTING_GAME_COLOR )
+      level => createLevelSelectionButton( level, NumberPlayColors.countingGameColorProperty )
     );
 
     // create the level selection buttons for the 'Subitize' game
     const subitizeGameLevelSelectionButtons = model.subitizeLevels.map(
-      level => createLevelSelectionButton( level, NumberPlayConstants.SUBITIZE_GAME_COLOR )
+      level => createLevelSelectionButton( level, NumberPlayColors.subitizeGameColorProperty )
     );
 
     // arrange and add the level selection buttons
