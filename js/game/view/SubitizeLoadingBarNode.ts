@@ -30,8 +30,8 @@ class SubitizeLoadingBarNode extends Node {
 
   private readonly isLoadingBarAnimatingProperty: BooleanProperty;
   private readonly newChallenge: () => void;
-  private fillRectangleAnimation: Animation | null;
-  private readonly fillRectangleWidthProperty: NumberProperty;
+  private loadingBarAnimation: Animation | null;
+  private readonly loadingBarWidthProperty: NumberProperty;
 
   constructor( newChallenge: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
     super();
@@ -49,24 +49,24 @@ class SubitizeLoadingBarNode extends Node {
     this.addChild( borderRectangle );
 
     // the rectangle whose width will increase from left to right to 'fill' the border rectangle
-    const fillRectangle = new Rectangle( 0, RECTANGLE_LINE_WIDTH / 2, 0, RECTANGLE_HEIGHT - RECTANGLE_LINE_WIDTH,
+    const loadingBarRectangle = new Rectangle( 0, RECTANGLE_LINE_WIDTH / 2, 0, RECTANGLE_HEIGHT - RECTANGLE_LINE_WIDTH,
       RECTANGLE_INNER_CORNER_RADIUS, RECTANGLE_INNER_CORNER_RADIUS, {
         fill: NumberPlayColors.subitizeGameColorProperty
       } );
-    fillRectangle.left = borderRectangle.left + RECTANGLE_LINE_WIDTH;
-    fillRectangle.centerY = borderRectangle.centerY;
-    this.addChild( fillRectangle );
+    loadingBarRectangle.left = borderRectangle.left + RECTANGLE_LINE_WIDTH;
+    loadingBarRectangle.centerY = borderRectangle.centerY;
+    this.addChild( loadingBarRectangle );
 
     // the width of the fill rectangle during the animation
-    this.fillRectangleWidthProperty = new NumberProperty( 0 );
+    this.loadingBarWidthProperty = new NumberProperty( 0 );
 
     // used to store the animation, null if no animation is in progress
-    this.fillRectangleAnimation = null;
+    this.loadingBarAnimation = null;
 
     this.reset();
 
-    this.fillRectangleWidthProperty.link( fillRectangleWidth => {
-      fillRectangle.setRectWidth( fillRectangleWidth );
+    this.loadingBarWidthProperty.link( loadingBarWidth => {
+      loadingBarRectangle.setRectWidth( loadingBarWidth );
     } );
 
     // cancel the animation and hide the loading bar node if isLoadingBarAnimatingProperty is set to false
@@ -79,24 +79,24 @@ class SubitizeLoadingBarNode extends Node {
   private reset(): void {
     this.visible = false;
 
-    if ( this.fillRectangleAnimation ) {
-      this.fillRectangleAnimation.stop();
-      this.fillRectangleAnimation = null;
+    if ( this.loadingBarAnimation ) {
+      this.loadingBarAnimation.stop();
+      this.loadingBarAnimation = null;
     }
 
-    this.fillRectangleWidthProperty.reset();
+    this.loadingBarWidthProperty.reset();
 
-    this.fillRectangleAnimation = new Animation( {
+    this.loadingBarAnimation = new Animation( {
       delay: ANIMATION_DELAY,
       duration: ANIMATION_DURATION,
       targets: [ {
-        property: this.fillRectangleWidthProperty,
+        property: this.loadingBarWidthProperty,
         easing: Easing.LINEAR,
         to: RECTANGLE_WIDTH - RECTANGLE_LINE_WIDTH
       } ]
     } );
 
-    this.fillRectangleAnimation.finishEmitter.addListener( () => this.end() );
+    this.loadingBarAnimation.finishEmitter.addListener( () => this.end() );
   }
 
   /**
@@ -105,14 +105,14 @@ class SubitizeLoadingBarNode extends Node {
   public start(): void {
     this.visible = true;
     this.isLoadingBarAnimatingProperty.value = true;
-    this.fillRectangleAnimation && this.fillRectangleAnimation.start();
+    this.loadingBarAnimation && this.loadingBarAnimation.start();
   }
 
   /**
    * End the loading bar by starting a new challenge.
    */
   private end(): void {
-    this.fillRectangleAnimation = null;
+    this.loadingBarAnimation = null;
     this.newChallenge();
   }
 }
