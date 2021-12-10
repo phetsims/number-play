@@ -22,8 +22,8 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 
-const WIDTH = 550; // empirically determined, in screen coordinates
-const HEIGHT = 325; // empirically determined, in screen coordinates
+const RECTANGLE_WIDTH = 550; // empirically determined, in screen coordinates
+const RECTANGLE_HEIGHT = 325; // empirically determined, in screen coordinates
 
 // TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated.
 class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
@@ -51,8 +51,8 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     this.addChild( this.answerButtons );
 
     const playAreaNode = new Rectangle( {
-      rectWidth: WIDTH,
-      rectHeight: HEIGHT
+      rectWidth: RECTANGLE_WIDTH,
+      rectHeight: RECTANGLE_HEIGHT
     } );
 
     // create view bounds for the objectsPlayAreaNode
@@ -92,14 +92,14 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
     const margin = 10;
     const tenFrameBackgroundNode = new Rectangle( {
-      rectWidth: WIDTH - margin * 2,
-      rectHeight: HEIGHT - margin * 2,
+      rectWidth: RECTANGLE_WIDTH - margin * 2,
+      rectHeight: RECTANGLE_HEIGHT - margin * 2,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
 
     // create and add the tenFrameNode
     const tenFrameNode = new TenFrameNode( level.challengeNumberProperty );
-    tenFrameNode.scale( HEIGHT / tenFrameNode.height / 3.5 );
+    tenFrameNode.scale( RECTANGLE_HEIGHT / tenFrameNode.height / 3.5 );
     tenFrameNode.center = tenFrameBackgroundNode.center;
     tenFrameBackgroundNode.addChild( tenFrameNode );
 
