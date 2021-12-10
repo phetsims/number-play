@@ -26,14 +26,19 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly objectsPlayArea: OnesPlayArea;
   public readonly playObjectTypeProperty: EnumerationProperty;
   public readonly isObjectsRepresentationProperty: BooleanProperty;
+  public readonly groupObjects: boolean;
 
   constructor( levelNumber: number ) {
     super( levelNumber, numberPlayStrings.counting, LEVEL_INPUT_RANGE );
 
+    // whether objects should be able to be grouped
+    this.groupObjects = levelNumber === 2;
+
     this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
       isOnes: false,
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
-      setAllObjects: true
+      setAllObjects: true,
+      setAllObjectsAsGrouped: this.groupObjects
     } );
 
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );

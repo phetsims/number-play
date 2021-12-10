@@ -34,6 +34,7 @@ const ANIMATE_INTO_PLAY_AREA_BOUNDS = new Bounds2(
   MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X,
   MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y
 );
+const GROUP_DIVISORS = [ 2, 5, 10 ]; // specified by designer
 
 // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
 // play area, in screen coordinates
@@ -54,13 +55,23 @@ class OnesPlayArea extends CountingCommonModel {
     options = merge( {
       isResettingProperty: null,
       isOnes: true,
-      // TODO: yikes! for the last 3 options, they are quick fixes that will change soon
+      // TODO: yikes! for the last 4 options, they are quick fixes that will likely change soon
       sumPropertyRange: null,
+      animateIntoPlayAreaBounds: new Bounds2( 20, 0, 500, 230 ),
       setAllObjects: false,
-      animateIntoPlayAreaBounds: new Bounds2( 20, 0, 500, 230 )
+      setAllObjectsAsGrouped: false
     }, options );
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
+
+    assert && options.setAllObjectsAsGrouped && assert( options.setAllObjects,
+      'options.setAllObjectsAsGrouped: true cannot be used without options.setAllOptions: true' );
+
+    // TODO: Like everything else related to "play area bounds" in this file, this is temporary and will not be needed
+    // once that pattern is omitted
+    if ( options.setAllObjectsAsGrouped ) {
+      options.animateIntoPlayAreaBounds = options.animateIntoPlayAreaBounds.erodedXY( 40, 50 );
+    }
 
     // @public
     this.currentNumberProperty = currentNumberProperty;
@@ -117,7 +128,7 @@ class OnesPlayArea extends CountingCommonModel {
         }
       }
       else if ( options.setAllObjects ) {
-        this.createAllObjects( currentNumber, options.animateIntoPlayAreaBounds );
+        this.createAllObjects( currentNumber, options.animateIntoPlayAreaBounds, options.setAllObjectsAsGrouped );
       }
     } );
   }
@@ -127,26 +138,62 @@ class OnesPlayArea extends CountingCommonModel {
    *
    * @private
    */
-  createAllObjects( currentNumber, animateIntoPlayAreaBounds ) {
+  createAllObjects( currentNumber, animateIntoPlayAreaBounds, setAllObjectsAsGrouped ) {
     this.removeAllPaperNumbers();
+    const objectShouldAnimate = false;
 
-    _.times( currentNumber, () => {
-      this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, false );
-    } );
+    if ( setAllObjectsAsGrouped ) {
+      const divisor = dotRandom.sample( GROUP_DIVISORS );
+      const numberOfCards = Math.floor( currentNumber / divisor );
+      const remainderCardValue = currentNumber % divisor;
+
+      _.times( numberOfCards, () => {
+        this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, {
+          shouldAnimate: objectShouldAnimate,
+          value: divisor
+        } );
+      } );
+
+      if ( remainderCardValue ) {
+        this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, {
+          shouldAnimate: objectShouldAnimate,
+          value: remainderCardValue,
+          remainder: true
+        } );
+      }
+    }
+    else {
+      _.times( currentNumber, () => {
+        this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, {
+          shouldAnimate: objectShouldAnimate
+        } );
+      } );
+    }
   }
 
   /**
    * Creates a paperNumber and animates it to a random open place in the play area.
    *
-   * @param paperNumberOrigin
+   * @param {Vector2} paperNumberOrigin
+   * @param {Bounds2} animateIntoPlayAreaBounds
+   * @param {boolean} shouldAnimate
    * @private
    */
-  createPaperNumberFromBucket( paperNumberOrigin, animateIntoPlayAreaBounds, shouldAnimate = true ) {
+  createPaperNumberFromBucket( paperNumberOrigin, animateIntoPlayAreaBounds, options ) {
+
+    options = merge( {
+      shouldAnimate: true,
+      value: NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
+      remainder: false
+    }, options );
+
     let translateVector = null;
     let findCount = 0;
 
-    const paperNumber = new PaperNumber( NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE, paperNumberOrigin );
+    const paperNumber = new PaperNumber( options.value, paperNumberOrigin );
 
+    // TODO: this algorithm does not take into account paper numbers that are on their way to a spot, and should
+    // be rewritten to be better and accommodate that constraint
     // looks for positions that are not overlapping with other playObjects in the play area
     while ( !translateVector ) {
       const possibleTranslateX = dotRandom.nextDouble() *
@@ -177,7 +224,7 @@ class OnesPlayArea extends CountingCommonModel {
 
     const destinationPosition = paperNumber.positionProperty.value.plus( translateVector );
 
-    paperNumber.setDestination( destinationPosition, shouldAnimate );
+    paperNumber.setDestination( destinationPosition, options.shouldAnimate );
     this.addPaperNumber( paperNumber );
   }
 
