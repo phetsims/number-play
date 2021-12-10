@@ -24,7 +24,7 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
-  public readonly playObjectTypeProperty: EnumerationProperty;
+  public readonly playObjectTypeProperty: EnumerationProperty<any>;
   public readonly isObjectsRepresentationProperty: BooleanProperty;
   public readonly groupObjects: boolean;
 
