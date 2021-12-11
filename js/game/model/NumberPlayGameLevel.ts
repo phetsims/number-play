@@ -51,6 +51,7 @@ abstract class NumberPlayGameLevel {
 
     // the random number generated to create a subitized representation for
     this.challengeNumberProperty = new NumberProperty( this.getRandomChallengeNumber(), {
+      numberType: 'Integer',
       range: this.challengeRange
     } );
 
@@ -60,7 +61,10 @@ abstract class NumberPlayGameLevel {
     this.oldChallengeNumberTwo = this.challengeNumberProperty.value;
 
     // the number of times any wrong answer button in answerButtons was pressed
-    this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, { numberType: 'Integer' } );
+    this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, {
+      numberType: 'Integer',
+      isValidValue: ( value: number ) => ( value >= 0 )
+    } );
   }
 
   protected reset(): void {
