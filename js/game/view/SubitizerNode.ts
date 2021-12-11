@@ -21,8 +21,8 @@ import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // constants
-const CORNER_RADIUS = 10; // empirically determined, in screen coordinates
-const REVEAL_BUTTON_MARGIN = 12; // empirically determined, in screen coordinates
+const CORNER_RADIUS = 10;
+const REVEAL_BUTTON_MARGIN = 12;
 
 class SubitizerNode extends Node {
 
@@ -30,7 +30,7 @@ class SubitizerNode extends Node {
     super();
 
     // for scaling the objects
-    const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 105 ); // empirically determined
+    const scaleMVT = ModelViewTransform2.createOffsetScaleMapping( Vector2.ZERO, 105 );
 
     // create and add the backgroundNode
     const backgroundNode = new Rectangle( 0, 0, scaleMVT.modelToViewDeltaX( Subitizer.SUBITIZER_BOUNDS.width ),
@@ -98,8 +98,8 @@ class SubitizerNode extends Node {
           object = new Image(
             // @ts-ignore TODO-TS: Update PLAY_OBJECT_TYPE_TO_IMAGE when PlayObjectType is converted to a supported enumeration pattern.
             CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ _.toUpper( subitizer.objectTypeProperty.value ) ], {
-            maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
-          } );
+              maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
+            } );
         }
         object.centerX = scaleMVT.modelToViewX( point.x );
         object.centerY = scaleMVT.modelToViewY( point.y );

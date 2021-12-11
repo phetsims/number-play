@@ -19,7 +19,7 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 // constants
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
-const BUTTON_CONTENT_MARGIN = 6; // empirically determined, in screen coordinates
+const BUTTON_CONTENT_MARGIN = 6;
 
 class SubitizeRevealButton extends RectangularPushButton {
 

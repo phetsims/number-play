@@ -22,8 +22,9 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 
-const RECTANGLE_WIDTH = 550; // empirically determined, in screen coordinates
-const RECTANGLE_HEIGHT = 325; // empirically determined, in screen coordinates
+// constants
+const RECTANGLE_WIDTH = 550;
+const RECTANGLE_HEIGHT = 325;
 
 // TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated.
 class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
@@ -87,7 +88,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       lineWidth: panelLineWidth
     } );
     playAreaPanel.centerX = layoutBounds.centerX;
-    playAreaPanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
+    playAreaPanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( playAreaPanel );
 
     const margin = 10;
@@ -111,7 +112,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       lineWidth: panelLineWidth
     } );
     tenFramePanel.centerX = layoutBounds.centerX;
-    tenFramePanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
+    tenFramePanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( tenFramePanel );
 
     // update the visibility of the panels when the representation types change

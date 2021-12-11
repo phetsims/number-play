@@ -37,7 +37,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       this.setFrownyFaceVisibility( true );
     }, {
       buttonColor: NumberPlayColors.subitizeGameLightColorProperty,
-      buttonSpacing: 40, // empirically determined
+      buttonSpacing: 40,
       dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
     } );
     this.answerButtons.centerX = layoutBounds.centerX;
@@ -51,7 +51,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
       () => this.newChallenge()
     );
     subitizerNode.centerX = layoutBounds.centerX;
-    subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y; // empirically determined
+    subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( subitizerNode );
   }
 

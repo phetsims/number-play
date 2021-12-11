@@ -23,6 +23,9 @@ import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 
+// constants
+const LEVEL_SELECTION_BUTTON_SPACING = 30;
+
 class NumberPlayGameLevelSelectionNode extends Node {
 
   constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
@@ -31,14 +34,14 @@ class NumberPlayGameLevelSelectionNode extends Node {
     // create and add the title text
     const titleText = new Text( numberPlayStrings.chooseYourGame, { font: new PhetFont( 40 ) } );
     titleText.centerX = layoutBounds.centerX;
-    titleText.top = layoutBounds.top + 42; // empirically determined
+    titleText.top = layoutBounds.top + 42;
     this.addChild( titleText );
 
     // creates a level-selection button for each level
     const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: ColorProperty ) => {
       return new LevelSelectionButton( new VBox( {
         children: [
-          new HStrut( 47 ),
+          new HStrut( 47 ), // empirically determined to keep text the same size, based on the button size
           new Text( level.gameName ),
           new Text( StringUtils.fillIn( numberPlayStrings.levelPattern, { levelNumber: level.levelNumber } ) )
         ]
@@ -64,19 +67,18 @@ class NumberPlayGameLevelSelectionNode extends Node {
     );
 
     // arrange and add the level selection buttons
-    const buttonSpacing = 30;
     const levelSelectionButtonsBox = new VBox( {
       children: [
         new HBox( {
           children: countingGameLevelSelectionButtons,
-          spacing: buttonSpacing
+          spacing: LEVEL_SELECTION_BUTTON_SPACING
         } ),
         new HBox( {
           children: subitizeGameLevelSelectionButtons,
-          spacing: buttonSpacing
+          spacing: LEVEL_SELECTION_BUTTON_SPACING
         } )
       ],
-      spacing: buttonSpacing
+      spacing: LEVEL_SELECTION_BUTTON_SPACING
     } );
     levelSelectionButtonsBox.center = layoutBounds.center;
     this.addChild( levelSelectionButtonsBox );
