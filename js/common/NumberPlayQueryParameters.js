@@ -37,7 +37,7 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
     defaultValue: GAME_LEVELS_DEFAULT_VALUES,
 
     // if provided, at least one level is required and repeated levels are not allowed
-    isValidValue: array => array.length > 0 && array.length === _.uniq( array ).length
+    isValidValue: array => ( array.length > 0 ) && ( array.length === _.uniq( array ).length )
   }
 
 } );
