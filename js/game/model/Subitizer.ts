@@ -486,8 +486,8 @@ class Subitizer {
           const rotatedPoints = Subitizer.rotatePoints( shape.points, rotationAngle );
           rotatedPoints.forEach( point => {
             assert && assert( SHAPE_BOUNDS.containsPoint( Subitizer.fixPoint( point ) ),
-              `vector point ${point.toString()} from shape ${key} is outside the object bounds when rotation ` +
-              `${rotationAngle} is applied: ${SHAPE_BOUNDS.toString()}` );
+              `vector point ${point.toString()} from shape ${key} is outside the object bounds when a rotation of ` +
+              `${rotationAngle * ( 180 / Math.PI )} degrees is applied: ${SHAPE_BOUNDS.toString()}` );
           } );
         } );
       } );

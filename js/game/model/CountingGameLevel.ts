@@ -42,7 +42,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     } );
 
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
-    this.isObjectsRepresentationProperty = new BooleanProperty( true );
+    this.isObjectsRepresentationProperty = new BooleanProperty( false );
   }
 
   /**
@@ -57,7 +57,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public reset(): void {
     super.reset();
     this.playObjectTypeProperty.reset();
-    this.isObjectsRepresentationProperty.reset();
+    this.isObjectsRepresentationProperty.value = true;
   }
 
   public step( dt: number ): void {
