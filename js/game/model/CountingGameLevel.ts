@@ -41,7 +41,10 @@ class CountingGameLevel extends NumberPlayGameLevel {
       setAllObjectsAsGrouped: this.groupObjects
     } );
 
+    // the object type of the current challenge
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
+
+    // whether the current representation of the challengeNumber are objects
     this.isObjectsRepresentationProperty = new BooleanProperty( false );
   }
 
@@ -57,7 +60,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public reset(): void {
     super.reset();
     this.playObjectTypeProperty.reset();
-    this.isObjectsRepresentationProperty.value = true;
+    this.isObjectsRepresentationProperty.value = true; // always use objects first as a representation of the current challenge
   }
 
   public step( dt: number ): void {

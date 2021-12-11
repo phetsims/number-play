@@ -110,6 +110,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
+    // whether the pointsAwardedNode is visible
     this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
 
     // create and add the pointsAwardedNode which is shown when a correct guess is made on the first answer button press

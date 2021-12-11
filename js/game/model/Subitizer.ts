@@ -30,6 +30,7 @@ import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js
 import numberPlay from '../../numberPlay.js';
 import SubitizeObjectTypeEnum, { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
 
+// types
 type PredeterminedShapes = {
   [ key: number ]: {
     points: Vector2[],
@@ -260,6 +261,9 @@ class Subitizer {
     }
   }
 
+  /**
+   * Resets the time counter for how much time has passed since the delay started.
+   */
   private resetDelay(): void {
     this.timeSinceDelayStarted = 0;
     this.isDelayStarted = false;
@@ -495,7 +499,7 @@ class Subitizer {
   }
 
   /**
-   * Fixes points that have wrong values due to JavaScript decimal math error
+   * Fixes points that have wrong values due to JavaScript decimal math error.
    */
   private static fixPoint( point: Vector2 ): Vector2 {
     return new Vector2( Utils.toFixedNumber( point.x, DECIMALS ), Utils.toFixedNumber( point.y, DECIMALS ) );

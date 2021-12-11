@@ -30,6 +30,9 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     );
   }
 
+  /**
+   * Sets up a new challenge for this level.
+   */
   public newChallenge(): void {
     super.newChallenge();
     this.subitizer.newChallenge();
