@@ -90,7 +90,7 @@ abstract class NumberPlayGameLevel {
     this.oldChallengeNumberOne = this.challengeNumberProperty.value;
 
     let newChallengeNumber = this.getRandomChallengeNumber();
-    while ( newChallengeNumber === this.oldChallengeNumberOne && newChallengeNumber === this.oldChallengeNumberTwo ) {
+    while ( ( newChallengeNumber === this.oldChallengeNumberOne ) && ( newChallengeNumber === this.oldChallengeNumberTwo ) ) {
       newChallengeNumber = this.getRandomChallengeNumber();
     }
     this.challengeNumberProperty.value = newChallengeNumber;

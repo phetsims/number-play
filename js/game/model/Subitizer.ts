@@ -280,7 +280,7 @@ class Subitizer {
     const challengeNumber = this.challengeNumberProperty.value;
     let points;
 
-    if ( this.randomOrPredetermined && dotRandom.nextDouble() <= PROBABILITY_OF_PREDETERMINED_SHAPE ) {
+    if ( this.randomOrPredetermined && ( dotRandom.nextDouble() <= PROBABILITY_OF_PREDETERMINED_SHAPE ) ) {
       points = Subitizer.getPredeterminedShapePoints( challengeNumber );
     }
     else if ( this.randomOrPredetermined ) {
@@ -339,7 +339,7 @@ class Subitizer {
 
       // add a new point if it doesn't exist yet and does not overlap with the existing points
       const objectsOverlap = Subitizer.objectsOverlap( points, randomX, randomY );
-      if ( !_.find( points, object => object.x === randomX && object.y === randomY ) && !objectsOverlap ) {
+      if ( !_.find( points, object => ( object.x === randomX ) && ( object.y === randomY ) ) && !objectsOverlap ) {
         points.push( new Vector2( randomX, randomY ) );
       }
     }

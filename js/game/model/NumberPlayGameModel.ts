@@ -32,7 +32,7 @@ class NumberPlayGameModel {
     this.subitizeLevels = gameBLevelNumbers.map( gameBLevelNumber => new SubitizeGameLevel( gameBLevelNumber ) );
     this.levels = [ ...this.countingLevels, ...this.subitizeLevels ];
 
-    // the selected game level - null means 'no selection' and causes the view to return to the level-selection UI
+    // the selected game level - null means 'no selection' so that the view returns to the level-selection UI
     this.levelProperty = new Property<SubitizeGameLevel | CountingGameLevel | null>( null, {
       validValues: [ null, ...this.levels ]
     } );
