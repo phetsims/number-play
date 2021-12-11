@@ -28,6 +28,12 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import merge from '../../../../phet-core/js/merge.js';
+
+// types
+type StatusBarOptions = {
+  statusBarFill: ColorProperty
+}
 
 // constants
 const FACE_DIAMETER = 150;
@@ -48,8 +54,12 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
                          levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: Property<Bounds2>,
-                         statusBarColor: ColorProperty ) {
+                         providedOptions?: StatusBarOptions ) {
     super();
+
+    const options = merge( {
+      statusBarFill: Color.WHITE
+    }, providedOptions ) as StatusBarOptions;
 
     // text displayed in the statusBar
     const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameLevelPattern, {
@@ -65,7 +75,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
       floatToTop: true,
       spacing: 20,
-      barFill: statusBarColor,
+      barFill: options.statusBarFill,
       backButtonListener: () => {
         this.interruptSubtreeInput();
         levelProperty.value = null; // back to the level-selection UI
