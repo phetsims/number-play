@@ -71,9 +71,9 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
         playObjectTypeProperty: level.playObjectTypeProperty,
         groupingLinkingTypeProperty: level.groupObjects ?
           // @ts-ignore
-                                     new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.GROUPING ) :
+          new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.GROUPING ) :
           // @ts-ignore
-                                     new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING ),
+          new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING ),
         includeOnesCreatorPanel: false
       }
     );

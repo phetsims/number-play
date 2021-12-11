@@ -82,7 +82,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       }
     } );
     // color the back button in the statusBar yellow
-    const backButton = this.statusBar.getChildAt( 1 ).getChildAt( 0 );
+    const backButton = this.statusBar.children[ 1 ].children[ 0 ];
     // @ts-ignore
     backButton.baseColor = Color.YELLOW;
     backButton.touchArea = backButton.bounds.dilated( NumberPlayConstants.TOUCH_AREA_DILATION );
