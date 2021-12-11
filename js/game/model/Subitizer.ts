@@ -15,6 +15,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -181,7 +182,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this.objectTypeProperty = new Property<SubitizeObjectTypeEnum>( 'dog' );
+    this.objectTypeProperty = new StringEnumerationProperty( SubitizeObjectTypeValues, 'dog' );
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
     // the time that the shape is shown is increased if the user gets the answer wrong multiple times.
