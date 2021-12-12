@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * NumberPlayGameLevelNode is the base class for a game level view.
+ * NumberPlayGameLevelNode is the base class for a game level view which each type of game will extend.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas

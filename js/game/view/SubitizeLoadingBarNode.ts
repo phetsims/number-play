@@ -57,7 +57,7 @@ class SubitizeLoadingBarNode extends Node {
     loadingBarRectangle.centerY = borderRectangle.centerY;
     this.addChild( loadingBarRectangle );
 
-    // the width of the fill rectangle during the animation
+    // the width of the loadingBarRectangle during the animation
     this.loadingBarWidthProperty = new NumberProperty( 0, {
       isValidValue: ( value: number ) => ( value >= 0 ) && ( value <= RECTANGLE_WIDTH - RECTANGLE_LINE_WIDTH )
     } );

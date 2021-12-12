@@ -138,7 +138,6 @@ class NumberPlayGameAnswerButtons extends Node {
     } );
     this.addChild( this.hBox );
 
-    // for use in showCorrectAnswer
     this.buttonListener = buttonListener;
   }
 

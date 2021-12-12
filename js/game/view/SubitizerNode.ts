@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * SubitizerNode displays the subitized objects in the view.
+ * SubitizerNode displays the subitized objects in the view and the start sequence for the subitize game.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)

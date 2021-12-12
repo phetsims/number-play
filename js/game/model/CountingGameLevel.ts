@@ -60,7 +60,9 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public reset(): void {
     super.reset();
     this.playObjectTypeProperty.reset();
-    this.isObjectsRepresentationProperty.value = true; // always use objects first as a representation of the current challenge
+
+    // always use objects first as a representation of the current challenge
+    this.isObjectsRepresentationProperty.value = true;
   }
 
   public step( dt: number ): void {
