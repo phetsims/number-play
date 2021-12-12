@@ -20,6 +20,7 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 // constants
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
 const BUTTON_CONTENT_MARGIN = 6;
+const BUTTON_TOUCH_AREA_DILATION = 10;
 
 class SubitizeRevealButton extends RectangularPushButton {
 
@@ -42,8 +43,8 @@ class SubitizeRevealButton extends RectangularPushButton {
       content: eyeNode,
       xMargin: BUTTON_CONTENT_MARGIN,
       yMargin: BUTTON_CONTENT_MARGIN,
-      touchAreaXDilation: 10,
-      touchAreaYDilation: 10,
+      touchAreaXDilation: BUTTON_TOUCH_AREA_DILATION,
+      touchAreaYDilation: BUTTON_TOUCH_AREA_DILATION,
       size: new Dimension2( BUTTON_SIDE_LENGTH, BUTTON_SIDE_LENGTH ),
       baseColor: NumberPlayColors.subitizeGameLightColorProperty,
       visibleProperty: revealButtonVisibleProperty,

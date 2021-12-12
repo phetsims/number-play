@@ -188,7 +188,7 @@ class Subitizer {
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
     // the time that the shape is shown is increased if the user gets the answer wrong multiple times.
     this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ],
-      ( numberOfAnswerButtonPresses: number ) => {
+      numberOfAnswerButtonPresses => {
         if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
           return this.timeToShowShapeProperty.value + NumberPlayConstants.SHAPE_VISIBLE_TIME_INCREASE_AMOUNT;
         }
@@ -397,13 +397,17 @@ class Subitizer {
     // randomly pick between modifying the top row or bottom row
     if ( dotRandom.nextBoolean() ) {
       const sliceIndex = points.length - challengeNumber;
-      reducedPoints = points.slice( sliceIndex ); // remove extra points from the top row, left side
+
+      // remove extra points from the top row, left side
+      reducedPoints = points.slice( sliceIndex );
 
       // remove extra points from the top row, right side
       reducedShiftedPoints.splice( numberOfColumns - sliceIndex, sliceIndex );
     }
     else {
-      reducedPoints = points.slice( 0, challengeNumber ); // remove extra points from the bottom row, right side
+
+      // remove extra points from the bottom row, right side
+      reducedPoints = points.slice( 0, challengeNumber );
 
       // remove extra points from the bottom row, left side
       reducedShiftedPoints.splice( points.length - numberOfColumns, points.length - challengeNumber );

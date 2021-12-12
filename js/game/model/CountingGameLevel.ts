@@ -32,7 +32,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     super( levelNumber, numberPlayStrings.counting, LEVEL_INPUT_RANGE );
 
     // whether objects should be able to be grouped
-    this.groupObjects = levelNumber === 2;
+    this.groupObjects = ( levelNumber === 2 );
 
     this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
       isOnes: false,

@@ -36,7 +36,9 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
-    super( level, levelProperty, layoutBounds, visibleBoundsProperty, { statusBarFill: NumberPlayColors.countingGameColorProperty } );
+    super( level, levelProperty, layoutBounds, visibleBoundsProperty, {
+      statusBarFill: NumberPlayColors.countingGameColorProperty
+    } );
 
     // create and add the answerButtons
     this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointsAwardedNodeVisibleProperty, () => {
@@ -121,7 +123,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       tenFramePanel.visible = !isObjects;
     } );
 
-    // start a challenge
+    // start a new challenge
     super.newChallenge();
   }
 

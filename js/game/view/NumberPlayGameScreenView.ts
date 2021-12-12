@@ -28,7 +28,6 @@ const TRANSITION_OPTIONS = {
 class NumberPlayGameScreenView extends ScreenView {
 
   private readonly levelNodes: Array<SubitizeGameLevelNode | CountingGameLevelNode>;
-  private readonly subitizeLevelNodes: SubitizeGameLevelNode[];
 
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
@@ -47,11 +46,11 @@ class NumberPlayGameScreenView extends ScreenView {
       new CountingGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // create the level nodes for the 'Subitize' game
-    this.subitizeLevelNodes = model.subitizeLevels.map( level =>
+    const subitizeLevelNodes = model.subitizeLevels.map( level =>
       new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // store all level nodes in one place for easy iteration
-    this.levelNodes = [ ...countingLevelNodes, ...this.subitizeLevelNodes ];
+    this.levelNodes = [ ...countingLevelNodes, ...subitizeLevelNodes ];
 
     // create the transitionNode which handles the animated slide transition between levelSelectionNode and a level
     const transitionNode = new TransitionNode( this.visibleBoundsProperty, {
@@ -59,8 +58,8 @@ class NumberPlayGameScreenView extends ScreenView {
       cachedNodes: [ levelSelectionNode, ...this.levelNodes ]
     } );
 
-    // Transition between levelSelectionNode and the selected level when the model changes.
-    // A null value for levelProperty indicates that no level is selected, and levelSelectionNode should be shown.
+    // Transition between the levelSelectionNode and the selected level when the model changes.
+    // if levelProperty has a null value, then no level is selected and levelSelectionNode will be displayed.
     model.levelProperty.lazyLink( level => {
       this.interruptSubtreeInput();
 

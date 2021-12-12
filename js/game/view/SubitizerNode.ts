@@ -26,7 +26,7 @@ const REVEAL_BUTTON_MARGIN = 12;
 
 class SubitizerNode extends Node {
 
-  constructor( subitizer: Subitizer, isChallengeSolvedProperty: BooleanProperty, newChallenge: () => void ) {
+  constructor( subitizer: Subitizer, isChallengeSolvedProperty: BooleanProperty, newChallengeCallback: () => void ) {
     super();
 
     // for scaling the objects
@@ -43,7 +43,7 @@ class SubitizerNode extends Node {
     this.addChild( backgroundNode );
 
     // create and add the subitizeLoadingBarNode
-    const subitizeLoadingBarNode = new SubitizeLoadingBarNode( newChallenge, subitizer.isLoadingBarAnimatingProperty );
+    const subitizeLoadingBarNode = new SubitizeLoadingBarNode( newChallengeCallback, subitizer.isLoadingBarAnimatingProperty );
     subitizeLoadingBarNode.center = this.center;
     this.addChild( subitizeLoadingBarNode );
 

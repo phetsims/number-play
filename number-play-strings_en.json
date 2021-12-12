@@ -124,5 +124,8 @@
   },
   "subitize": {
     "value": "Subitize"
+  },
+  "plusOne": {
+    "value": "+1"
   }
 }

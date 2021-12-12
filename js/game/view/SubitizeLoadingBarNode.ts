@@ -29,13 +29,14 @@ const ANIMATION_DELAY = 0.1; // in seconds
 class SubitizeLoadingBarNode extends Node {
 
   private readonly isLoadingBarAnimatingProperty: BooleanProperty;
-  private readonly newChallenge: () => void;
+  private readonly newChallengeCallback: () => void;
   private loadingBarAnimation: Animation | null;
   private readonly loadingBarWidthProperty: NumberProperty;
 
-  constructor( newChallenge: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
+  constructor( newChallengeCallback: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
     super();
-    this.newChallenge = newChallenge;
+
+    this.newChallengeCallback = newChallengeCallback;
     this.isLoadingBarAnimatingProperty = isLoadingBarAnimatingProperty;
 
     // the rectangle that is a border to the filled rectangle
@@ -115,7 +116,7 @@ class SubitizeLoadingBarNode extends Node {
    */
   private end(): void {
     this.loadingBarAnimation = null;
-    this.newChallenge();
+    this.newChallengeCallback();
   }
 }
 

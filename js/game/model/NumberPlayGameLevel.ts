@@ -49,7 +49,7 @@ abstract class NumberPlayGameLevel {
     // guessed the answer
     this.isChallengeSolvedProperty = new BooleanProperty( false );
 
-    // the random number generated to create a subitized representation for
+    // the random number generated to create a representation for
     this.challengeNumberProperty = new NumberProperty( this.getRandomChallengeNumber(), {
       numberType: 'Integer',
       range: this.challengeRange
@@ -100,6 +100,9 @@ abstract class NumberPlayGameLevel {
     this.challengeNumberProperty.value = newChallengeNumber;
   }
 
+  /**
+   * Generate a random challenge number that is in the defined challenge range.
+   */
   private getRandomChallengeNumber(): number {
     return dotRandom.nextIntBetween( this.challengeRange.min, this.challengeRange.max );
   }

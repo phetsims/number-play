@@ -67,7 +67,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       levelNumber: level.levelNumber
     } ), {
       font: new PhetFont( 21 ),
-      maxWidth: 650 // determined empirically
+      maxWidth: 650
     } );
 
     // bar across the top of the screen
@@ -81,7 +81,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
         levelProperty.value = null; // back to the level-selection UI
       }
     } );
-    // color the back button in the statusBar yellow
+    // color the backButton in the statusBar yellow and increase its touch area
     const backButton = this.statusBar.children[ 1 ].children[ 0 ];
     // @ts-ignore
     backButton.baseColor = Color.YELLOW;
@@ -115,7 +115,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // create and add the pointsAwardedNode which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 1.5 } );
-    const pointsNode = new Text( '+1', { font: new PhetFont( 44 ), fill: Color.BLACK } );
+    const pointsNode = new Text( numberPlayStrings.plusOne, { font: new PhetFont( 44 ), fill: Color.BLACK } );
     const pointsAwardedNode = new HBox( {
       children: [ pointsNode, starNode ],
       spacing: 10,

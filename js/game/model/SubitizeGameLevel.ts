@@ -38,12 +38,12 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
     this.subitizer.newChallenge();
   }
 
-  public reset() {
+  public reset(): void {
     super.reset();
     this.subitizer.reset();
   }
 
-  public step( dt: number ) {
+  public step( dt: number ): void {
     this.subitizer.step( dt );
   }
 }
