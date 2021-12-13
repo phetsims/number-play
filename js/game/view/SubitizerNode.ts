@@ -21,7 +21,7 @@ import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // constants
-const CORNER_RADIUS = 10;
+const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;
 const REVEAL_BUTTON_MARGIN = 12;
 
 class SubitizerNode extends Node {
@@ -34,7 +34,8 @@ class SubitizerNode extends Node {
 
     // create and add the backgroundNode
     const backgroundNode = new Rectangle( 0, 0, scaleMVT.modelToViewDeltaX( Subitizer.SUBITIZER_BOUNDS.width ),
-      scaleMVT.modelToViewDeltaY( Subitizer.SUBITIZER_BOUNDS.height ), CORNER_RADIUS, CORNER_RADIUS, {
+      scaleMVT.modelToViewDeltaY( Subitizer.SUBITIZER_BOUNDS.height ),
+      BACKGROUND_RECTANGLE_CORNER_RADIUS, BACKGROUND_RECTANGLE_CORNER_RADIUS, {
         fill: Color.WHITE,
         stroke: Color.BLACK,
         lineWidth: 2
@@ -92,7 +93,7 @@ class SubitizerNode extends Node {
       points.forEach( point => {
         let object;
         if ( subitizer.objectTypeProperty.value === 'circle' ) {
-          object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize * 0.5 ), { fill: Color.BLACK } );
+          object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize / 2 ), { fill: Color.BLACK } );
         }
         else {
           object = new Image(

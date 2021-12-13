@@ -132,8 +132,8 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  public objectTypeProperty: Property<SubitizeObjectTypeEnum>;
-  public isDelayStarted: boolean;
+  public readonly objectTypeProperty: Property<SubitizeObjectTypeEnum>;
+  private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
@@ -309,7 +309,7 @@ class Subitizer {
   /**
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
-  public setRandomPlayObjectType(): void {
+  private setRandomPlayObjectType(): void {
     this.objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
   }
 
@@ -324,6 +324,11 @@ class Subitizer {
    * N = the provided challengeNumber.
    */
   private static getPredeterminedShapePoints( challengeNumber: number ): Vector2[] {
+
+    assert && assert( PREDETERMINED_SHAPES && PREDETERMINED_SHAPES[ challengeNumber ],
+      `There exists no predetermined shape for challenge number ${challengeNumber}. ` +
+      `Predetermined shapes: ${Object.keys( PREDETERMINED_SHAPES ).toString()}` );
+
     const shapeIndex = dotRandom.nextInt( PREDETERMINED_SHAPES[ challengeNumber ].length );
     const shape = PREDETERMINED_SHAPES[ challengeNumber ][ shapeIndex ];
 

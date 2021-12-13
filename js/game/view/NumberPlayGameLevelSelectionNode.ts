@@ -43,7 +43,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
         children: [
           new HStrut( 47 ), // empirically determined to keep text the same size, based on the button size
           new Text( level.gameName ),
-          new Text( StringUtils.fillIn( numberPlayStrings.levelPattern, { levelNumber: level.levelNumber } ) )
+          new Text( StringUtils.fillIn( numberPlayStrings.levelNumberPattern, { levelNumber: level.levelNumber } ) )
         ]
       } ), level.scoreProperty, {
         scoreDisplayConstructor: ScoreDisplayNumberAndStar,

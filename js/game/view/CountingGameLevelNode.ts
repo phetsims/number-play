@@ -25,6 +25,8 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 // constants
 const RECTANGLE_WIDTH = 550;
 const RECTANGLE_HEIGHT = 325;
+const PANEL_LINE_WIDTH = 2;
+const TEN_FRAME_MARGIN = 10;
 
 // TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated.
 class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
@@ -82,21 +84,19 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     playAreaNode.addChild( objectsPlayAreaNode );
 
     // create and add the playAreaPanel, a panel for the play area
-    const panelLineWidth = 2;
     const playAreaPanel = new Panel( playAreaNode, {
       xMargin: 0,
       yMargin: 0,
       fill: NumberPlayColors.blueBackgroundColorProperty,
-      lineWidth: panelLineWidth
+      lineWidth: PANEL_LINE_WIDTH
     } );
     playAreaPanel.centerX = layoutBounds.centerX;
     playAreaPanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( playAreaPanel );
 
-    const margin = 10;
     const tenFrameBackgroundNode = new Rectangle( {
-      rectWidth: RECTANGLE_WIDTH - margin * 2,
-      rectHeight: RECTANGLE_HEIGHT - margin * 2,
+      rectWidth: RECTANGLE_WIDTH - TEN_FRAME_MARGIN * 2,
+      rectHeight: RECTANGLE_HEIGHT - TEN_FRAME_MARGIN * 2,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
 
@@ -108,10 +108,10 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
     // create and add the tenFramePanel, a panel for the ten frame
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
-      xMargin: margin,
-      yMargin: margin,
+      xMargin: TEN_FRAME_MARGIN,
+      yMargin: TEN_FRAME_MARGIN,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty,
-      lineWidth: panelLineWidth
+      lineWidth: PANEL_LINE_WIDTH
     } );
     tenFramePanel.centerX = layoutBounds.centerX;
     tenFramePanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;

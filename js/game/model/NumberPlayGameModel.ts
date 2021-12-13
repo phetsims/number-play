@@ -13,6 +13,8 @@ import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from './SubitizeGameLevel.js';
 import CountingGameLevel from './CountingGameLevel.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class NumberPlayGameModel {
 
@@ -24,8 +26,12 @@ class NumberPlayGameModel {
   constructor( tandem: Tandem ) {
 
     // get the level numbers specified by the gameLevels query parameter
-    const gameALevelNumbers = NumberPlayGameModel.getLevelNumbers( NumberPlayQueryParameters.gameLevels, 'a' );
-    const gameBLevelNumbers = NumberPlayGameModel.getLevelNumbers( NumberPlayQueryParameters.gameLevels, 'b' );
+    const gameALevelNumbers = NumberPlayGameModel.getLevelNumbers( NumberPlayQueryParameters.gameLevels,
+      StringUtils.fillIn( numberPlayStrings.aLevelNumberPattern, { levelNumber: '' } )
+    );
+    const gameBLevelNumbers = NumberPlayGameModel.getLevelNumbers( NumberPlayQueryParameters.gameLevels,
+      StringUtils.fillIn( numberPlayStrings.bLevelNumberPattern, { levelNumber: '' } )
+    );
 
     // create the levels for each game
     this.countingLevels = gameALevelNumbers.map( gameALevelNumber => new CountingGameLevel( gameALevelNumber ) );

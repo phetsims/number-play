@@ -49,12 +49,14 @@ type StringsType = {
   'objects': string,
   'english': string,
   'spanish': string,
-  'levelPattern': string,
-  'gameLevelPattern': string,
+  'levelNumberPattern': string,
+  'gameNameLevelNumberPattern': string,
   'chooseYourGame': string,
   'counting': string,
   'subitize': string,
-  'plusOne': string
+  'plusOne': string,
+  'aLevelNumberPattern': string,
+  'bLevelNumberPattern': string
 };
 
 const numberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;

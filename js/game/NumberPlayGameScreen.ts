@@ -18,14 +18,12 @@ import numberPlayStrings from '../numberPlayStrings.js';
 import NumberPlayGameModel from './model/NumberPlayGameModel.js';
 import NumberPlayGameScreenView from './view/NumberPlayGameScreenView.js';
 
-const screenGameString = numberPlayStrings.screen.game;
-
 class NumberPlayGameScreen extends Screen {
 
   constructor( tandem: Tandem ) {
 
     const options = {
-      name: screenGameString,
+      name: numberPlayStrings.screen.game,
       backgroundColorProperty: NumberPlayColors.gameScreenBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIconImage ), {
         maxIconWidthProportion: 1,

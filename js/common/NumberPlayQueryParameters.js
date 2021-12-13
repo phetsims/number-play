@@ -7,11 +7,18 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import StringUtils from '../../../phetcommon/js/util/StringUtils.js';
 import numberPlay from '../numberPlay.js';
+import numberPlayStrings from '../numberPlayStrings.js';
 import NumberPlayConstants from './NumberPlayConstants.js';
 
 // constants
-const GAME_LEVELS_DEFAULT_VALUES = [ 'a1', 'a2', 'b1', 'b2' ];
+const GAME_LEVELS_DEFAULT_VALUES = [
+  StringUtils.fillIn( numberPlayStrings.aLevelNumberPattern, { levelNumber: 1 } ),
+  StringUtils.fillIn( numberPlayStrings.aLevelNumberPattern, { levelNumber: 2 } ),
+  StringUtils.fillIn( numberPlayStrings.bLevelNumberPattern, { levelNumber: 1 } ),
+  StringUtils.fillIn( numberPlayStrings.bLevelNumberPattern, { levelNumber: 2 } )
+ ];
 
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 

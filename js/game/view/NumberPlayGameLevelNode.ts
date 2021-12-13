@@ -40,15 +40,13 @@ const FACE_DIAMETER = 150;
 
 abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
 
-  public readonly statusBar: InfiniteStatusBar;
   public readonly level: T;
-  private readonly layoutBounds: Bounds2;
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
   protected readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
-  static ANSWER_BUTTONS_BOTTOM_MARGIN_Y: number;
-  static GAME_AREA_NODE_BOTTOM_MARGIN_Y: number;
+  public static ANSWER_BUTTONS_BOTTOM_MARGIN_Y: number;
+  public static GAME_AREA_NODE_BOTTOM_MARGIN_Y: number;
 
   protected constructor( level: T,
                          levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
@@ -62,7 +60,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     }, providedOptions ) as StatusBarOptions;
 
     // text displayed in the statusBar
-    const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameLevelPattern, {
+    const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameNameLevelNumberPattern, {
       gameName: level.gameName,
       levelNumber: level.levelNumber
     } ), {
@@ -72,7 +70,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // bar across the top of the screen
     // @ts-ignore
-    this.statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
+    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
       floatToTop: true,
       spacing: 20,
       barFill: options.statusBarFill,
@@ -82,15 +80,13 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       }
     } );
     // color the backButton in the statusBar yellow and increase its touch area
-    const backButton = this.statusBar.children[ 1 ].children[ 0 ];
+    const backButton = statusBar.children[ 1 ].children[ 0 ];
     // @ts-ignore
     backButton.baseColor = Color.YELLOW;
     backButton.touchArea = backButton.bounds.dilated( NumberPlayConstants.TOUCH_AREA_DILATION );
-    this.addChild( this.statusBar );
+    this.addChild( statusBar );
 
     this.level = level;
-
-    this.layoutBounds = layoutBounds;
 
     // create and add the frownyFaceNode which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
@@ -126,7 +122,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.addChild( pointsAwardedNode );
 
     // create and add the newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
-    const arrowShape = new ArrowShape( 0, 0, 42, 0, {
+    const rightArrowShape = new ArrowShape( 0, 0, 42, 0, {
       tailWidth: 12,
       headWidth: 25,
       headHeight: 23
@@ -137,12 +133,12 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       yMargin: 10.9,
       touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
       touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
-      content: new Path( arrowShape, { fill: Color.BLACK } ),
+      content: new Path( rightArrowShape, { fill: Color.BLACK } ),
       visibleProperty: level.isChallengeSolvedProperty,
       listener: () => this.newChallenge()
     } );
     newChallengeButton.centerX = smileyFaceNode.centerX;
-    newChallengeButton.bottom = this.layoutBounds.maxY -
+    newChallengeButton.bottom = layoutBounds.maxY -
                                 NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y -
                                 NumberPlayGameAnswerButtons.BUTTON_DIMENSION.height -
                                 NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;

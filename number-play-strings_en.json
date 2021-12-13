@@ -110,10 +110,10 @@
   "spanish": {
     "value": "Español"
   },
-  "levelPattern": {
+  "levelNumberPattern": {
     "value": "Level {{levelNumber}}"
   },
-  "gameLevelPattern": {
+  "gameNameLevelNumberPattern": {
     "value": "{{gameName}}: Level {{levelNumber}}"
   },
   "chooseYourGame": {
@@ -127,5 +127,11 @@
   },
   "plusOne": {
     "value": "+1"
+  },
+  "aLevelNumberPattern": {
+    "value": "a{{levelNumber}}"
+  },
+  "bLevelNumberPattern": {
+    "value": "b{{levelNumber}}"
   }
 }

@@ -41,10 +41,9 @@ const BUTTON_OBJECT_CORNER_RADIUS = 10;
 class NumberPlayGameAnswerButtons extends Node {
 
   private readonly buttonObjects: ButtonObject[];
-  private readonly level: SubitizeGameLevel | CountingGameLevel;
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
-  static BUTTON_DIMENSION: Dimension2;
+  public static BUTTON_DIMENSION: Dimension2;
 
   constructor( level: SubitizeGameLevel | CountingGameLevel,
                pointsAwardedNodeVisibleProperty: BooleanProperty,
@@ -60,8 +59,6 @@ class NumberPlayGameAnswerButtons extends Node {
     }, providedOptions ) as AnswerButtonsOptions;
 
     this.buttonObjects = [];
-
-    this.level = level;
 
     /**
      * Listener that is added to every answer button. It disabled selected buttons that are wrong, and turns correct
@@ -153,8 +150,8 @@ class NumberPlayGameAnswerButtons extends Node {
    * Returns everything in the HBox to its original button state.
    */
   public reset(): void {
-    this.buttonObjects.forEach( object => object.enabledProperty.reset() );
-    this.hBox.children = this.buttonObjects.map( object => object.button );
+    this.buttonObjects.forEach( buttonObject => buttonObject.enabledProperty.reset() );
+    this.hBox.children = this.buttonObjects.map( buttonObject => buttonObject.button );
   }
 }
 

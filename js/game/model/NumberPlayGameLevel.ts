@@ -85,7 +85,7 @@ abstract class NumberPlayGameLevel {
    * Sets a new challenge number. Can be the value of the previous challenge number, but there cannot be three of the
    * same number in a row.
    */
-  protected setRandomChallengeNumber(): void {
+  private setRandomChallengeNumber(): void {
     assert && assert( this.challengeRange.min !== this.challengeRange.max,
       `challengeRange must contain more than one number: ${this.challengeRange.toString()}` );
 
