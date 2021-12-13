@@ -17,6 +17,8 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -24,8 +26,10 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
-  public readonly playObjectTypeProperty: EnumerationProperty;
-  public readonly isObjectsRepresentationProperty: BooleanProperty;
+  private readonly _playObjectTypeProperty: EnumerationProperty;
+  public readonly playObjectTypeProperty: IReadOnlyProperty<Enumeration>;
+  private readonly _isObjectsRepresentationProperty: BooleanProperty;
+  public readonly isObjectsRepresentationProperty: IReadOnlyProperty<boolean>;
   public readonly groupObjects: boolean;
 
   constructor( levelNumber: number ) {
@@ -42,11 +46,14 @@ class CountingGameLevel extends NumberPlayGameLevel {
     } );
 
     // the object type of the current challenge
-    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
+    // TODO-TS: Use updated enumeration pattern for Property when PlayObjectType is converted. See https://github.com/phetsims/number-play/issues/80
+    this._playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
+    this.playObjectTypeProperty = this._playObjectTypeProperty;
 
     // whether the current representation of the challengeNumber are objects. Always use objects as the first representation
     // of the current challenge
-    this.isObjectsRepresentationProperty = new BooleanProperty( true );
+    this._isObjectsRepresentationProperty = new BooleanProperty( true );
+    this.isObjectsRepresentationProperty = this._isObjectsRepresentationProperty;
   }
 
   /**
@@ -60,8 +67,8 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
   public reset(): void {
     super.reset();
-    this.playObjectTypeProperty.reset();
-    this.isObjectsRepresentationProperty.reset();
+    this._playObjectTypeProperty.reset();
+    this._isObjectsRepresentationProperty.reset();
   }
 
   public step( dt: number ): void {
@@ -72,8 +79,8 @@ class CountingGameLevel extends NumberPlayGameLevel {
    */
   public newChallenge(): void {
     super.newChallenge();
-    this.playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
-    this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
+    this._playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
+    this._isObjectsRepresentationProperty.value = !this._isObjectsRepresentationProperty.value;
   }
 }
 
