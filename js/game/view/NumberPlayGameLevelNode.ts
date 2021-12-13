@@ -37,13 +37,14 @@ type StatusBarOptions = {
 
 // constants
 const FACE_DIAMETER = 150;
+const PLUS_ONE_STRING = '+1'; // doesn't need to be translatable
 
 abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
 
   public readonly level: T;
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
-  protected readonly pointsAwardedNodeVisibleProperty: BooleanProperty;
+  protected readonly pointAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
   public static ANSWER_BUTTONS_BOTTOM_MARGIN_Y: number;
   public static GAME_AREA_NODE_BOTTOM_MARGIN_Y: number;
@@ -106,20 +107,20 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
-    // whether the pointsAwardedNode is visible
-    this.pointsAwardedNodeVisibleProperty = new BooleanProperty( false );
+    // whether the pointAwardedNode is visible
+    this.pointAwardedNodeVisibleProperty = new BooleanProperty( false );
 
-    // create and add the pointsAwardedNode which is shown when a correct guess is made on the first answer button press
+    // create and add the pointAwardedNode which is shown when a correct guess is made on the first answer button press
     const starNode = new StarNode( { value: 1, scale: 1.5 } );
-    const pointsNode = new Text( numberPlayStrings.plusOne, { font: new PhetFont( 44 ), fill: Color.BLACK } );
-    const pointsAwardedNode = new HBox( {
-      children: [ pointsNode, starNode ],
+    const plusOneNode = new Text( PLUS_ONE_STRING, { font: new PhetFont( 44 ), fill: Color.BLACK } );
+    const pointAwardedNode = new HBox( {
+      children: [ plusOneNode, starNode ],
       spacing: 10,
-      visibleProperty: this.pointsAwardedNodeVisibleProperty
+      visibleProperty: this.pointAwardedNodeVisibleProperty
     } );
-    pointsAwardedNode.centerX = smileyFaceNode.centerX - 2; // empirically determined tweak to look centered
-    pointsAwardedNode.top = smileyFaceNode.bottom + 20; // empirically determined
-    this.addChild( pointsAwardedNode );
+    pointAwardedNode.centerX = smileyFaceNode.centerX - 2; // empirically determined tweak to look centered
+    pointAwardedNode.top = smileyFaceNode.bottom + 20; // empirically determined
+    this.addChild( pointAwardedNode );
 
     // create and add the newChallengeButton which is visible when a challenge is solved, meaning a correct answer button was pressed
     const rightArrowShape = new ArrowShape( 0, 0, 42, 0, {
@@ -146,7 +147,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   }
 
   protected reset(): void {
-    this.pointsAwardedNodeVisibleProperty.reset();
+    this.pointAwardedNodeVisibleProperty.reset();
     this.answerButtons.reset();
   }
 
@@ -155,7 +156,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
    */
   protected newChallenge(): void {
     this.level.newChallenge();
-    this.pointsAwardedNodeVisibleProperty.value = false;
+    this.pointAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();
     if ( NumberPlayQueryParameters.showCorrectAnswer ) {
       this.answerButtons.showCorrectAnswer( this.level.challengeNumberProperty );

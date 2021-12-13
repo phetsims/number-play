@@ -46,7 +46,7 @@ class NumberPlayGameAnswerButtons extends Node {
   public static BUTTON_DIMENSION: Dimension2;
 
   constructor( level: SubitizeGameLevel | CountingGameLevel,
-               pointsAwardedNodeVisibleProperty: BooleanProperty,
+               pointAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,
                providedOptions?: Partial<AnswerButtonsOptions> ) {
@@ -78,11 +78,11 @@ class NumberPlayGameAnswerButtons extends Node {
         // if this is the first guess, increase the score
         if ( level.numberOfAnswerButtonPressesProperty.value === 1 ) {
           level.scoreProperty.value++;
-          pointsAwardedNodeVisibleProperty.value = true;
+          pointAwardedNodeVisibleProperty.value = true;
         }
       }
       else {
-        pointsAwardedNodeVisibleProperty.value = false;
+        pointAwardedNodeVisibleProperty.value = false;
         wrongAnswerCallback();
 
         // disable incorrect answer button
