@@ -110,6 +110,12 @@ const NumberPlayConstants = {
     20: twentyString
   },
 
+  // game screen
+
+  // generic naming for the two types of games (used for specifying game types with query parameters)
+  A: 'a',
+  B: 'b',
+
   // subitizer game
   SHAPE_DELAY_TIME: 0.5, // amount of time to delay before showing the shape
   SHAPE_VISIBLE_TIME: 0.5, // amount of time the shape is shown, in seconds

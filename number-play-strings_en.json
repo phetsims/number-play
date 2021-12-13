@@ -127,11 +127,5 @@
   },
   "plusOne": {
     "value": "+1"
-  },
-  "aLevelNumberPattern": {
-    "value": "a{{levelNumber}}"
-  },
-  "bLevelNumberPattern": {
-    "value": "b{{levelNumber}}"
   }
 }
