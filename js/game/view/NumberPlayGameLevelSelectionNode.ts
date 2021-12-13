@@ -32,7 +32,10 @@ class NumberPlayGameLevelSelectionNode extends Node {
     super();
 
     // create and add the title text
-    const titleText = new Text( numberPlayStrings.chooseYourGame, { font: new PhetFont( 40 ) } );
+    const titleText = new Text( numberPlayStrings.chooseYourGame, {
+      font: new PhetFont( 40 ),
+      maxWidth: layoutBounds.width - NumberPlayConstants.SCREEN_VIEW_X_PADDING * 2
+    } );
     titleText.centerX = layoutBounds.centerX;
     titleText.top = layoutBounds.top + 42;
     this.addChild( titleText );
