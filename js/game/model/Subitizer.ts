@@ -319,12 +319,6 @@ class Subitizer {
     this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
   }
 
-  public reset(): void {
-    this.isShapeVisibleProperty.reset();
-    this.isInputEnabledProperty.reset();
-    this._isPlayButtonVisibleProperty.reset();
-  }
-
   /**
    * Randomly picks out a predetermined shape with N points and applies a random available rotation, where
    * N = the provided challengeNumber.
