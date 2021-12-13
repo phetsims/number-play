@@ -44,13 +44,14 @@ class CountingGameLevel extends NumberPlayGameLevel {
     // the object type of the current challenge
     this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
 
-    // whether the current representation of the challengeNumber are objects
-    this.isObjectsRepresentationProperty = new BooleanProperty( false );
+    // whether the current representation of the challengeNumber are objects. Always use objects as the first representation
+    // of the current challenge
+    this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
   /**
    * Return a new object type for the current challenge.
-   * TODO-TS: Add return type when PlayObjectType is converted to a supported enumeration pattern.
+   * TODO-TS: Add return type when PlayObjectType is converted to a supported enumeration pattern. See https://github.com/phetsims/number-play/issues/80
    */
   private static getRandomPlayObjectType() {
     // @ts-ignore
@@ -60,9 +61,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public reset(): void {
     super.reset();
     this.playObjectTypeProperty.reset();
-
-    // always use objects first as a representation of the current challenge
-    this.isObjectsRepresentationProperty.value = true;
+    this.isObjectsRepresentationProperty.reset();
   }
 
   public step( dt: number ): void {

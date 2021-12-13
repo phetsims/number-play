@@ -97,7 +97,7 @@ class SubitizerNode extends Node {
         }
         else {
           object = new Image(
-            // @ts-ignore TODO-TS: Update PLAY_OBJECT_TYPE_TO_IMAGE when PlayObjectType is converted to a supported enumeration pattern.
+            // @ts-ignore TODO-TS: Update PLAY_OBJECT_TYPE_TO_IMAGE when PlayObjectType is converted to a supported enumeration pattern. See https://github.com/phetsims/number-play/issues/80
             CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ _.toUpper( subitizer.objectTypeProperty.value ) ], {
               maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
             } );

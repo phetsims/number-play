@@ -74,8 +74,9 @@ abstract class NumberPlayGameLevel {
 
   /**
    * Sets up a new challenge for this level.
+   * TODO-TS: why can't this be protected if i only want sub-class implementations to call it? See https://github.com/phetsims/number-play/issues/81.
    */
-  public newChallenge(): void { // TODO-TS: why can't this be protected if i only want sub-class implementations to be protected?
+  public newChallenge(): void {
     this.isChallengeSolvedProperty.value = false;
     this.setRandomChallengeNumber();
     this.numberOfAnswerButtonPressesProperty.reset();

@@ -28,7 +28,7 @@ const RECTANGLE_HEIGHT = 325;
 const PANEL_LINE_WIDTH = 2;
 const TEN_FRAME_MARGIN = 10;
 
-// TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated.
+// TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated. See https://github.com/phetsims/number-play/issues/82
 class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
@@ -122,9 +122,6 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       playAreaPanel.visible = isObjects;
       tenFramePanel.visible = !isObjects;
     } );
-
-    // start a new challenge
-    super.newChallenge();
   }
 
   public reset(): void {

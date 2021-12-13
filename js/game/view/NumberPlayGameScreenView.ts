@@ -64,7 +64,7 @@ class NumberPlayGameScreenView extends ScreenView {
       this.interruptSubtreeInput();
 
       if ( level ) {
-        // @ts-ignore TODO-TS
+        // @ts-ignore TODO-TS See https://github.com/phetsims/number-play/issues/81.
         level.subitizer && level.subitizer.resetStartSequence();
 
         // Transition to the selected level.
