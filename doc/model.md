@@ -55,7 +55,5 @@ Subitize | 2 | 6 | 10 |
 
 Since the challenges in both levels of each game are randomly generated, all levels can be played endlessly.
 One star is awarded per challenge that is successfully completed on the first try. On the 'Subitize' game,
-pressing the 'Reveal' button does not disqualify the user from getting a first-try star. Regardless of the 
-attempt number, the user always gets a smiley face when the correct answer is selected. When a wrong answer
-button is pressed, the button is disabled, and a frowny face is briefly shown. 
+pressing the 'Reveal' button does not disqualify the user from getting a first-try star.
 
