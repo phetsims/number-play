@@ -49,7 +49,6 @@ type StringsType = {
   'objects': string,
   'english': string,
   'spanish': string,
-  'levelNumberPattern': string,
   'gameNameLevelNumberPattern': string,
   'chooseYourGame': string,
   'counting': string,

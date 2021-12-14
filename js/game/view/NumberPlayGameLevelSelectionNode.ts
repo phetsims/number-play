@@ -9,9 +9,8 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { ColorProperty, HBox, HStrut, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { ColorProperty, HBox, Image, Node, Text, VBox } from '../../../../scenery/js/imports.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -22,9 +21,29 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import subitizeGameIcon1 from '../../../images/subitize_game_icon_1_png.js';
+import countingGameIcon1 from '../../../images/counting_game_icon_1_png.js';
+import subitizeGameIcon2 from '../../../images/subitize_game_icon_2_png.js';
+import countingGameIcon2 from '../../../images/counting_game_icon_2_png.js';
+
+// types
+type GameLevelToButtonImageType = {
+  [ key: string ]: {
+    [ key: number ]: HTMLImageElement
+  }
+}
 
 // constants
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
+const GAME_LEVEL_TO_BUTTON_IMAGE = {} as GameLevelToButtonImageType;
+GAME_LEVEL_TO_BUTTON_IMAGE[ numberPlayStrings.counting ] = {
+  1: countingGameIcon1,
+  2: countingGameIcon2
+};
+GAME_LEVEL_TO_BUTTON_IMAGE[ numberPlayStrings.subitize ] = {
+  1: subitizeGameIcon1,
+  2: subitizeGameIcon2
+};
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
@@ -42,21 +61,17 @@ class NumberPlayGameLevelSelectionNode extends Node {
 
     // creates a level-selection button for each level
     const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: ColorProperty ) => {
-      return new LevelSelectionButton( new VBox( {
-        children: [
-          new HStrut( 47 ), // empirically determined to keep text the same size, based on the button size
-          new Text( level.gameName ),
-          new Text( StringUtils.fillIn( numberPlayStrings.levelNumberPattern, { levelNumber: level.levelNumber } ) )
-        ]
-      } ), level.scoreProperty, {
-        scoreDisplayConstructor: ScoreDisplayNumberAndStar,
-        listener: () => {
-          model.levelProperty.value = level;
-        },
-        baseColor: baseColor,
-        touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
-        touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION
-      } );
+      return new LevelSelectionButton( new Image( GAME_LEVEL_TO_BUTTON_IMAGE[ level.gameName ][ level.levelNumber ] ),
+        level.scoreProperty, {
+          iconToScoreDisplayYSpace: 0,
+          scoreDisplayConstructor: ScoreDisplayNumberAndStar,
+          listener: () => {
+            model.levelProperty.value = level;
+          },
+          baseColor: baseColor,
+          touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
+          touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION
+        } );
     };
 
     // create the level selection buttons for the 'Counting' game

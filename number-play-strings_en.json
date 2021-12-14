@@ -110,9 +110,6 @@
   "spanish": {
     "value": "Español"
   },
-  "levelNumberPattern": {
-    "value": "Level {{levelNumber}}"
-  },
   "gameNameLevelNumberPattern": {
     "value": "{{gameName}}: Level {{levelNumber}}"
   },
