@@ -34,8 +34,8 @@ In Level 2, the objects are shown in the "grouped" state. The size of each group
 
 The 'Subitize' game uses the objects from the previous screens, as well as adding a "dot", but introduces a new 
 interface that only displays the objects for 0.5 seconds at a time. The 'Reveal' button (square eye button)
-appears when the objects are hidden so the user may press it to see them again. If three wrong answers have been 
-submitted, the time that objects are shown increases by 0.1 second, and continues to do so for each additional wrong
+appears when the objects are hidden so the user may press it to see them again. If three incorrect answers have been 
+submitted, the time that objects are shown increases by 0.1 second, and continues to do so for each additional incorrect
 answer.
 
 In Level 1, the objects can be shown in a random arrangement or a predetermined shape.
