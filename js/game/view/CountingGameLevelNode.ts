@@ -28,7 +28,6 @@ const RECTANGLE_HEIGHT = 325;
 const PANEL_LINE_WIDTH = 2;
 const TEN_FRAME_MARGIN = 10;
 
-// TODO: The parts of this file that are used for the play area need to be refactored once the play area is updated. See https://github.com/phetsims/number-play/issues/82
 class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
@@ -55,6 +54,8 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
+    // TODO: The parts of this file that are used for the play area node need to be refactored once the play area is updated.
+    // See https://github.com/phetsims/number-play/issues/82
     const playAreaNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH,
       rectHeight: RECTANGLE_HEIGHT
