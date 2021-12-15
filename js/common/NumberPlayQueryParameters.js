@@ -20,10 +20,6 @@ const GAME_LEVELS_DEFAULT_VALUES = [
 
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
-  // always show the correct answer
-  // For internal use only, not public facing.
-  showCorrectAnswer: { type: 'flag' },
-
   // time the shape is shown in the subitize game
   subitizerTimeVisible: {
     public: true,

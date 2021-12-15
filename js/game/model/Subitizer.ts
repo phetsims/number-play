@@ -246,7 +246,7 @@ class Subitizer {
     this.setNewPoints();
 
     // skip the challenge started sequence in the step function
-    if ( NumberPlayQueryParameters.showCorrectAnswer ) {
+    if ( phet.chipper.queryParameters.showAnswers ) {
       this.isLoadingBarAnimatingProperty.value = false;
       this.isDelayStarted = false;
     }

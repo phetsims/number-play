@@ -19,7 +19,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
@@ -158,7 +157,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.level.newChallenge();
     this.pointAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();
-    if ( NumberPlayQueryParameters.showCorrectAnswer ) {
+    if ( phet.chipper.queryParameters.showAnswers ) {
       this.answerButtons.showCorrectAnswer( this.level.challengeNumberProperty );
     }
   }
