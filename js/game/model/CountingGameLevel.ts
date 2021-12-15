@@ -71,6 +71,9 @@ class CountingGameLevel extends NumberPlayGameLevel {
     this._isObjectsRepresentationProperty.reset();
   }
 
+  /**
+   * @param dt - in seconds
+   */
   public step( dt: number ): void {
   }
 

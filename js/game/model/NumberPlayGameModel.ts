@@ -45,6 +45,9 @@ class NumberPlayGameModel {
     this.levels.forEach( level => level.reset() );
   }
 
+  /**
+   * @param dt - in seconds
+   */
   public step( dt: number ): void {
     this.levels.forEach( level => level.step( dt ) );
   }

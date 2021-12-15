@@ -207,6 +207,9 @@ class Subitizer {
     this.setNewPoints();
   }
 
+  /**
+   * @param dt - in seconds
+   */
   public step( dt: number ): void {
 
     if ( this.isDelayStarted ) {
