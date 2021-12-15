@@ -42,11 +42,9 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     } );
 
     // create and add the answerButtons
-    this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointAwardedNodeVisibleProperty, () => {
-        this.setFrownyFaceVisibility( false );
-      }, () => {
-        this.setFrownyFaceVisibility( true );
-      }, {
+    this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointAwardedNodeVisibleProperty,
+      () => this.setFrownyFaceVisibility( false ),
+      () => this.setFrownyFaceVisibility( true ), {
         buttonColor: NumberPlayColors.countingGameLightColorProperty
       }
     );
