@@ -17,59 +17,59 @@ const WHITE_BACKGROUND = new Color( 255, 255, 255 );
 const NumberPlayColors = {
 
   // screen backgrounds
-  tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'tenScreenBackgroundColorProperty', {
+  tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'tenScreenBackgroundColor', {
     default: LIGHT_GREEN_BACKGROUND
   } ),
-  twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'twentyScreenBackgroundColorProperty', {
+  twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'twentyScreenBackgroundColor', {
     default: LIGHT_ORANGE_BACKGROUND
   } ),
-  compareScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'compareScreenBackgroundColorProperty', {
+  compareScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'compareScreenBackgroundColor', {
     default: WHITE_BACKGROUND
   } ),
-  gameScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'gameScreenBackgroundColorProperty', {
+  gameScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'gameScreenBackgroundColor', {
     default: LIGHT_ORANGE_BACKGROUND
   } ),
 
   // backgrounds for accordion boxes and more
-  greenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'greenBackgroundColorProperty', {
+  greenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'greenBackgroundColor', {
     default: new Color( 159, 237, 172 )
   } ),
-  mediumGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumGreenBackgroundColorProperty', {
+  mediumGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumGreenBackgroundColor', {
     default: new Color( 150, 226, 168 )
   } ),
-  lightGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightGreenBackgroundColorProperty', {
+  lightGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightGreenBackgroundColor', {
     default: LIGHT_GREEN_BACKGROUND
   } ),
-  orangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'orangeBackgroundColorProperty', {
+  orangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'orangeBackgroundColor', {
     default: new Color( 249, 210, 172 )
   } ),
-  mediumOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumOrangeBackgroundColorProperty', {
+  mediumOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumOrangeBackgroundColor', {
     default: new Color( 247, 209, 159 )
   } ),
-  lightOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightOrangeBackgroundColorProperty', {
+  lightOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightOrangeBackgroundColor', {
     default: LIGHT_ORANGE_BACKGROUND
   } ),
-  purpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'purpleBackgroundColorProperty', {
+  purpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'purpleBackgroundColor', {
     default: new Color( 252, 220, 255 )
   } ),
-  blueBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'blueBackgroundColorProperty', {
+  blueBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'blueBackgroundColor', {
     default: new Color( 204, 239, 255 )
   } ),
-  whiteBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'whiteBackgroundColorProperty', {
+  whiteBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'whiteBackgroundColor', {
     default: WHITE_BACKGROUND
   } ),
 
   // game screen level colors
-  countingGameColorProperty: new ProfileColorProperty( numberPlay, 'countingGameColorProperty', {
+  countingGameColorProperty: new ProfileColorProperty( numberPlay, 'countingGameColor', {
     default: new Color( 242, 142, 129 )
   } ),
-  countingGameLightColorProperty: new ProfileColorProperty( numberPlay, 'countingGameLightColorProperty', {
+  countingGameLightColorProperty: new ProfileColorProperty( numberPlay, 'countingGameLightColor', {
     default: new Color( 245, 188, 181 )
   } ),
-  subitizeGameColorProperty: new ProfileColorProperty( numberPlay, 'subitizeGameColorProperty', {
+  subitizeGameColorProperty: new ProfileColorProperty( numberPlay, 'subitizeGameColor', {
     default: new Color( 148, 133, 255 )
   } ),
-  subitizeGameLightColorProperty: new ProfileColorProperty( numberPlay, 'subitizeGameLightColorProperty', {
+  subitizeGameLightColorProperty: new ProfileColorProperty( numberPlay, 'subitizeGameLightColor', {
     default: new Color( 195, 193, 247 )
   } )
 };
