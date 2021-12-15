@@ -66,9 +66,7 @@ class SubitizeLoadingBarNode extends Node {
 
     this.reset();
 
-    this.loadingBarWidthProperty.link( loadingBarWidth => {
-      loadingBarRectangle.setRectWidth( loadingBarWidth );
-    } );
+    this.loadingBarWidthProperty.link( loadingBarWidth => loadingBarRectangle.setRectWidth( loadingBarWidth ) );
 
     // cancel the animation and hide the loading bar node if isLoadingBarAnimatingProperty is set to false
     isLoadingBarAnimatingProperty.link( loadingBarAnimating => !loadingBarAnimating && this.reset() );

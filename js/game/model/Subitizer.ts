@@ -429,9 +429,7 @@ class Subitizer {
     const rotationMatrix = new Matrix3().setToRotationZ( rotationAngle );
 
     const rotatedPoints: Vector2[] = [];
-    points.forEach( point => {
-      rotatedPoints.push( rotationMatrix.timesVector2( point ) );
-    } );
+    points.forEach( point => rotatedPoints.push( rotationMatrix.timesVector2( point ) ) );
 
     return rotatedPoints;
   }
