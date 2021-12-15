@@ -139,9 +139,9 @@ class NumberPlayGameAnswerButtons extends Node {
   }
 
   /**
-   * Fires button listener on the correct answer button.
+   * Fires the button listener on the correct answer button.
    */
-  public showCorrectAnswer( challengeNumberProperty: NumberProperty ): void {
+  public showAnswer( challengeNumberProperty: NumberProperty ): void {
     const buttonObjectIndex = challengeNumberProperty.value - challengeNumberProperty.range!.min;
     this.buttonListener( buttonObjectIndex );
   }

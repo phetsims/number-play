@@ -158,7 +158,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.pointAwardedNodeVisibleProperty.value = false;
     this.answerButtons.reset();
     if ( phet.chipper.queryParameters.showAnswers ) {
-      this.answerButtons.showCorrectAnswer( this.level.challengeNumberProperty );
+      this.answerButtons.showAnswer( this.level.challengeNumberProperty );
     }
   }
 

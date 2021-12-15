@@ -17,9 +17,10 @@ import Panel from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
 
 class OnesCreatorPanel extends Panel {
+
   /**
-   * @param {MakeATenExploreScreenView} screenView
-   * @param {NumberProperty} sumProperty
+   * @param {OnesPlayArea} playArea
+   * @param {OnesPlayAreaNode} screenView
    * @param {Object} [options] - Passed to Node
    */
   constructor( playArea, screenView, options ) {
