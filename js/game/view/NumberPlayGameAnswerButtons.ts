@@ -94,8 +94,8 @@ class NumberPlayGameAnswerButtons extends Node {
     for ( let i = 0; i < level.challengeRange.getLength() + 1; i++ ) {
       const value = i + level.challengeRange.min;
 
-      // used to disable individual buttons but the true 'enabledProperty' for this button relies on other properties
-      // too, see the derived property usage below
+      // used to disable individual buttons but the true 'enabledProperty' for this button relies on other Properties
+      // too, see the DerivedProperty usage below
       const enabledProperty = new BooleanProperty( true );
       const button = new RectangularPushButton( {
         content: new Text( value, BUTTON_TEXT_OPTIONS ),
