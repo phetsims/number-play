@@ -20,11 +20,12 @@ const GAME_LEVELS_DEFAULT_VALUES = [
 
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
-  // time the shape is shown in the subitize game
+  // time that the objects are shown when they “flash” in the ‘Subitize’ game. Can increase if a user gets the answer
+  // wrong 3 times.
   subitizerTimeVisible: {
     public: true,
     type: 'number',
-    defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME
+    defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME // in seconds
   },
 
   // the levels to show in the 'Game' screen
