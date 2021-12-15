@@ -304,7 +304,7 @@ class Subitizer {
                                                          `${challengeNumber}: ${points.length}` );
 
     // two of the same shapes in a row are not allowed
-    if ( !Subitizer.arePointsEqual( this._pointsProperty.value, points ) ) {
+    if ( !_.isEqual( this._pointsProperty.value, points ) ) {
       this._pointsProperty.value = points;
     }
     else {
@@ -464,24 +464,6 @@ class Subitizer {
       }
     }
     return overlap;
-  }
-
-  /**
-   * Compares two sets of points and returns if they are equal or not.
-   */
-  private static arePointsEqual( pointsSetOne: Vector2[], pointsSetTwo: Vector2[] ): boolean {
-    let pointsAreEqual = true;
-    if ( pointsSetOne.length === pointsSetTwo.length ) {
-      for ( let i = 0; i < pointsSetOne.length; i++ ) {
-        if ( !pointsSetOne[ i ].equals( pointsSetTwo[ i ] ) ) {
-          return false;
-        }
-      }
-    }
-    else {
-      pointsAreEqual = false;
-    }
-    return pointsAreEqual;
   }
 
   /**

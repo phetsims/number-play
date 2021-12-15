@@ -1,5 +1,6 @@
 # Number Play - implementation notes
 
+
 ## Game screen
 
 Both games rely on the abstract classes
