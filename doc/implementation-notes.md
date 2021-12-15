@@ -13,4 +13,4 @@ and determines the shapes to show in the 'Subitize' game.
 
 [NumberPlayGameAnswerButtons](https://github.com/phetsims/number-play/blob/master/js/game/view/NumberPlayGameAnswerButtons.ts)
 are used in both games for the user to input their answer. A smiley face is shown when the correct answer is selected. 
-When a wrong answer button is pressed, the button is disabled, and a frowny face is briefly shown. 
+When an incorrect answer button is pressed, the button is disabled, and a frowny face is briefly shown. 
