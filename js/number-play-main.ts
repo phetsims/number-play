@@ -37,7 +37,6 @@ simLauncher.launch( () => {
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
     new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) ),
-    // TODO: add Game screen here, see https://github.com/phetsims/number-play/issues/62
     new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) )
   ], simOptions );
   sim.start();
