@@ -28,7 +28,8 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
     defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME
   },
 
-  // the levels to show in the 'Game' screen
+  // the levels to show in the 'Game' screen. 'a' levels correspond to the 'Counting' game, while 'b' levels
+  // correspond to the 'Subitize' game
   gameLevels: {
     public: true,
     type: 'array',
