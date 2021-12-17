@@ -12,8 +12,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from './SubitizeGameLevel.js';
 import CountingGameLevel from './CountingGameLevel.js';
-import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 
 class NumberPlayGameModel {
@@ -25,15 +23,9 @@ class NumberPlayGameModel {
 
   constructor( tandem: Tandem ) {
 
-    // get the level numbers specified by the gameLevels query parameter
-    const gameALevelNumbers = NumberPlayGameModel.getLevelNumbers( NumberPlayQueryParameters.gameLevels,
-      NumberPlayConstants.A );
-    const gameBLevelNumbers = NumberPlayGameModel.getLevelNumbers( NumberPlayQueryParameters.gameLevels,
-      NumberPlayConstants.B );
-
     // create the levels for each game
-    this.countingLevels = gameALevelNumbers.map( gameALevelNumber => new CountingGameLevel( gameALevelNumber ) );
-    this.subitizeLevels = gameBLevelNumbers.map( gameBLevelNumber => new SubitizeGameLevel( gameBLevelNumber ) );
+    this.countingLevels = [ new CountingGameLevel( 1 ), new CountingGameLevel( 2 ) ];
+    this.subitizeLevels = [ new SubitizeGameLevel( 1 ), new SubitizeGameLevel( 2 ) ];
     this.levels = [ ...this.countingLevels, ...this.subitizeLevels ];
 
     // the selected game level - null means 'no selection' so that the view returns to the level-selection UI
@@ -51,20 +43,6 @@ class NumberPlayGameModel {
    */
   public step( dt: number ): void {
     this.levels.forEach( level => level.step( dt ) );
-  }
-
-  /**
-   * Returns the level number for each level code that matches the provided level character by extracting the level
-   * numbers from the level codes. It also sorts them to ensure level x is displayed before level x+1 in case the level
-   * codes were provided out of order.
-   *
-   * @param levelCodes - the array of two-character codes that represent game levels
-   * @param levelCharacter - the character that indicates which level codes should be kept and turned into numbers
-   */
-  private static getLevelNumbers( levelCodes: string[], levelCharacter: string ): number[] {
-    const levelsCodesToInclude = levelCodes.filter( levelCode => levelCode.includes( levelCharacter ) );
-    const levelNumbers = levelsCodesToInclude.map( levelName => parseInt( levelName.replace( levelCharacter, '' ) ) ); // eslint-disable-line
-    return _.sortBy( levelNumbers );
   }
 }
 
