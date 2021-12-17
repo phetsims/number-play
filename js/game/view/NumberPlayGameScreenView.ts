@@ -16,6 +16,8 @@ import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
 import CountingGameLevelNode from './CountingGameLevelNode.js';
+import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -27,7 +29,7 @@ const TRANSITION_OPTIONS = {
 
 class NumberPlayGameScreenView extends ScreenView {
 
-  private readonly levelNodes: Array<SubitizeGameLevelNode | CountingGameLevelNode>;
+  private readonly levelNodes: Array<NumberPlayGameLevelNode<NumberPlayGameLevel>>;
 
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 

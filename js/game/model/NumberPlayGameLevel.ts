@@ -67,10 +67,15 @@ abstract class NumberPlayGameLevel {
     } );
   }
 
-  protected reset(): void {
+  public reset(): void {
     this.isChallengeSolvedProperty.reset();
     this.scoreProperty.reset();
   }
+
+  /**
+   * @param dt - in seconds. No-op because not all subclasses need a step function.
+   */
+  public step( dt: number ): void {}
 
   /**
    * Sets up a new challenge for this level.

@@ -10,7 +10,7 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { ColorProperty, HBox, Image, Node, Text, VBox } from '../../../../scenery/js/imports.js';
+import { ColorProperty, HBox, Image, Node, ProfileColorProperty, Text, VBox } from '../../../../scenery/js/imports.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -18,13 +18,13 @@ import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import subitizeGameIcon1 from '../../../images/subitize_game_icon_1_png.js';
 import countingGameIcon1 from '../../../images/counting_game_icon_1_png.js';
 import subitizeGameIcon2 from '../../../images/subitize_game_icon_2_png.js';
 import countingGameIcon2 from '../../../images/counting_game_icon_2_png.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 
 // types
 type GameLevelToButtonImageType = {
@@ -59,8 +59,8 @@ class NumberPlayGameLevelSelectionNode extends Node {
     titleText.top = layoutBounds.top + 42;
     this.addChild( titleText );
 
-    // creates a level-selection button for each level
-    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: ColorProperty ) => {
+    // creates a level selection button for each level
+    const createLevelSelectionButton = ( level: NumberPlayGameLevel, baseColor: ColorProperty ): LevelSelectionButton => {
       return new LevelSelectionButton( new Image( GAME_LEVEL_TO_BUTTON_IMAGE[ level.gameName ][ level.levelNumber ] ),
         level.scoreProperty, {
           iconToScoreDisplayYSpace: 0,
@@ -74,15 +74,28 @@ class NumberPlayGameLevelSelectionNode extends Node {
         } );
     };
 
-    // create the level selection buttons for the 'Counting' game
-    const countingGameLevelSelectionButtons = model.countingLevels.map(
-      level => createLevelSelectionButton( level, NumberPlayColors.countingGameColorProperty )
-    );
+    // creates all level selection buttons for a level and returns only the levels specified by the gameLevels query parameter
+    const getLevelSelectionButtons = (
+      levels: NumberPlayGameLevel[],
+      gameType: string,
+      gameColorProperty: ProfileColorProperty
+    ): LevelSelectionButton[] => {
+      const levelSelectionButtons: LevelSelectionButton[] = [];
+      const levelNumbers = NumberPlayGameLevelSelectionNode.getLevelNumbers( NumberPlayQueryParameters.gameLevels, gameType );
+      levels.forEach( level => {
+        const levelSelectionButton = createLevelSelectionButton( level, gameColorProperty );
+        if ( levelNumbers.includes( level.levelNumber ) ) {
+          levelSelectionButtons.push( levelSelectionButton );
+        }
+      } );
+      return levelSelectionButtons;
+    };
 
-    // create the level selection buttons for the 'Subitize' game
-    const subitizeGameLevelSelectionButtons = model.subitizeLevels.map(
-      level => createLevelSelectionButton( level, NumberPlayColors.subitizeGameColorProperty )
-    );
+    // create the level selection buttons for the each game
+    const countingGameLevelSelectionButtons = getLevelSelectionButtons( model.countingLevels, NumberPlayConstants.A,
+      NumberPlayColors.countingGameColorProperty );
+    const subitizeGameLevelSelectionButtons = getLevelSelectionButtons( model.subitizeLevels, NumberPlayConstants.B,
+      NumberPlayColors.subitizeGameColorProperty );
 
     // arrange and add the level selection buttons
     const levelSelectionButtonsBox = new VBox( {
@@ -111,6 +124,20 @@ class NumberPlayGameLevelSelectionNode extends Node {
       bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
     } );
     this.addChild( resetAllButton );
+  }
+
+  /**
+   * Returns the level number for each level code that matches the provided level character by extracting the level
+   * numbers from the level codes. It also sorts them to ensure level x is displayed before level x+1 in case the level
+   * codes were provided out of order.
+   *
+   * @param levelCodes - the array of two-character codes that represent game levels
+   * @param levelCharacter - the character that indicates which level codes should be kept and turned into numbers
+   */
+  private static getLevelNumbers( levelCodes: string[], levelCharacter: string ): number[] {
+    const levelsCodesToInclude = levelCodes.filter( levelCode => levelCode.includes( levelCharacter ) );
+    const levelNumbers = levelsCodesToInclude.map( levelName => parseInt( levelName.replace( levelCharacter, '' ) ) ); // eslint-disable-line
+    return _.sortBy( levelNumbers );
   }
 }
 

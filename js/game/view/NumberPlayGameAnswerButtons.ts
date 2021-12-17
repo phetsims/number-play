@@ -14,11 +14,10 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, ColorProperty, HBox, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // types
 type AnswerButtonsOptions = {
@@ -45,7 +44,7 @@ class NumberPlayGameAnswerButtons extends Node {
   private readonly buttonListener: ( index: number ) => void;
   public static BUTTON_DIMENSION: Dimension2;
 
-  constructor( level: SubitizeGameLevel | CountingGameLevel,
+  constructor( level: NumberPlayGameLevel,
                pointAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,

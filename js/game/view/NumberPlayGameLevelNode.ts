@@ -13,7 +13,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, ColorProperty, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
 import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
@@ -21,7 +20,6 @@ import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -49,7 +47,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   public static GAME_AREA_NODE_BOTTOM_MARGIN_Y: number;
 
   protected constructor( level: T,
-                         levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
+                         levelProperty: Property<NumberPlayGameLevel | null>,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: Property<Bounds2>,
                          providedOptions?: StatusBarOptions ) {
@@ -145,7 +143,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     this.addChild( newChallengeButton );
   }
 
-  protected reset(): void {
+  public reset(): void {
     this.pointAwardedNodeVisibleProperty.reset();
     this.answerButtons.reset();
   }
