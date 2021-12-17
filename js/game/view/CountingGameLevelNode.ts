@@ -11,7 +11,6 @@ import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
@@ -21,6 +20,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -33,7 +33,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
   constructor( level: CountingGameLevel,
-               levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
+               levelProperty: Property<NumberPlayGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
@@ -121,10 +121,6 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       playAreaPanel.visible = isObjects;
       tenFramePanel.visible = !isObjects;
     } );
-  }
-
-  public reset(): void {
-    super.reset();
   }
 }
 

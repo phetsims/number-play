@@ -14,13 +14,14 @@ import SubitizeGameLevel from './SubitizeGameLevel.js';
 import CountingGameLevel from './CountingGameLevel.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 
 class NumberPlayGameModel {
 
   public readonly subitizeLevels: SubitizeGameLevel[];
   public readonly countingLevels: CountingGameLevel[];
-  public readonly levels: Array<SubitizeGameLevel | CountingGameLevel>;
-  public readonly levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>
+  public readonly levels: Array<NumberPlayGameLevel>;
+  public readonly levelProperty: Property<NumberPlayGameLevel| null>
 
   constructor( tandem: Tandem ) {
 
@@ -36,7 +37,7 @@ class NumberPlayGameModel {
     this.levels = [ ...this.countingLevels, ...this.subitizeLevels ];
 
     // the selected game level - null means 'no selection' so that the view returns to the level-selection UI
-    this.levelProperty = new Property<SubitizeGameLevel | CountingGameLevel | null>( null, {
+    this.levelProperty = new Property<NumberPlayGameLevel | null>( null, {
       validValues: [ null, ...this.levels ]
     } );
   }

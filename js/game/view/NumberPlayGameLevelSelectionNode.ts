@@ -18,13 +18,12 @@ import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import subitizeGameIcon1 from '../../../images/subitize_game_icon_1_png.js';
 import countingGameIcon1 from '../../../images/counting_game_icon_1_png.js';
 import subitizeGameIcon2 from '../../../images/subitize_game_icon_2_png.js';
 import countingGameIcon2 from '../../../images/counting_game_icon_2_png.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // types
 type GameLevelToButtonImageType = {
@@ -60,7 +59,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     this.addChild( titleText );
 
     // creates a level-selection button for each level
-    const createLevelSelectionButton = ( level: SubitizeGameLevel | CountingGameLevel, baseColor: ColorProperty ) => {
+    const createLevelSelectionButton = ( level: NumberPlayGameLevel, baseColor: ColorProperty ) => {
       return new LevelSelectionButton( new Image( GAME_LEVEL_TO_BUTTON_IMAGE[ level.gameName ][ level.levelNumber ] ),
         level.scoreProperty, {
           iconToScoreDisplayYSpace: 0,

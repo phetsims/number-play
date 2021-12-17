@@ -39,13 +39,6 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   }
 
   /**
-   * Calls reset on super type - no need to reset the subitizer because that happens everytime the user enters the level
-   */
-  public reset(): void {
-    super.reset();
-  }
-
-  /**
    * @param dt - in seconds
    */
   public step( dt: number ): void {

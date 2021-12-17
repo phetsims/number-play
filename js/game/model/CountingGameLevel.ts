@@ -72,12 +72,6 @@ class CountingGameLevel extends NumberPlayGameLevel {
   }
 
   /**
-   * @param dt - in seconds
-   */
-  public step( dt: number ): void {
-  }
-
-  /**
    * Sets up a new challenge for this level.
    */
   public newChallenge(): void {
