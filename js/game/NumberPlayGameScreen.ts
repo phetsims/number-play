@@ -11,7 +11,7 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import gameScreenIconImage from '../../images/game_screen_icon_png.js';
+import gameScreenIcon_png from '../../images/gameScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
@@ -25,7 +25,7 @@ class NumberPlayGameScreen extends Screen {
     const options = {
       name: numberPlayStrings.screen.game,
       backgroundColorProperty: NumberPlayColors.gameScreenBackgroundColorProperty,
-      homeScreenIcon: new ScreenIcon( new Image( gameScreenIconImage ), {
+      homeScreenIcon: new ScreenIcon( new Image( gameScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

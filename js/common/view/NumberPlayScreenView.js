@@ -15,9 +15,9 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import { Image, voicingManager } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import groupingSceneOne from '../../../images/grouping_scene_1_png.js';
-import groupingSceneTwo from '../../../images/grouping_scene_2_png.js';
-import groupingSceneThree from '../../../images/grouping_scene_3_png.js';
+import groupingScene1_png from '../../../images/groupingScene1_png.js';
+import groupingScene2_png from '../../../images/groupingScene2_png.js';
+import groupingScene3_png from '../../../images/groupingScene3_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
@@ -31,9 +31,9 @@ import WordAccordionBox from './WordAccordionBox.js';
 
 // constants
 const groupingLinkingTypeToImage = {};
-groupingLinkingTypeToImage[ GroupingLinkingType.NO_GROUPING ] = groupingSceneOne;
-groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING ] = groupingSceneTwo;
-groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING_AND_LINKED ] = groupingSceneThree;
+groupingLinkingTypeToImage[ GroupingLinkingType.NO_GROUPING ] = groupingScene1_png;
+groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING ] = groupingScene2_png;
+groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING_AND_LINKED ] = groupingScene3_png;
 
 class NumberPlayScreenView extends ScreenView {
 

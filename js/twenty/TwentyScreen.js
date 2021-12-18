@@ -11,7 +11,7 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Image } from '../../../scenery/js/imports.js';
-import twentyScreenIconImage from '../../images/twenty_screen_icon_png.js';
+import twentyScreenIcon_png from '../../images/twentyScreenIcon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
@@ -32,7 +32,7 @@ class TwentyScreen extends Screen {
     const screenOptions = {
       name: screenTwentyString,
       backgroundColorProperty: NumberPlayColors.twentyScreenBackgroundColorProperty,
-      homeScreenIcon: new ScreenIcon( new Image( twentyScreenIconImage ), {
+      homeScreenIcon: new ScreenIcon( new Image( twentyScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

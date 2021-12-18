@@ -19,10 +19,10 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import subitizeGameIcon1 from '../../../images/subitize_game_icon_1_png.js';
-import countingGameIcon1 from '../../../images/counting_game_icon_1_png.js';
-import subitizeGameIcon2 from '../../../images/subitize_game_icon_2_png.js';
-import countingGameIcon2 from '../../../images/counting_game_icon_2_png.js';
+import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
+import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
+import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
+import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 
@@ -37,12 +37,12 @@ type GameLevelToButtonImageType = {
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
 const GAME_LEVEL_TO_BUTTON_IMAGE = {} as GameLevelToButtonImageType;
 GAME_LEVEL_TO_BUTTON_IMAGE[ numberPlayStrings.counting ] = {
-  1: countingGameIcon1,
-  2: countingGameIcon2
+  1: countingGameIcon1_png,
+  2: countingGameIcon2_png
 };
 GAME_LEVEL_TO_BUTTON_IMAGE[ numberPlayStrings.subitize ] = {
-  1: subitizeGameIcon1,
-  2: subitizeGameIcon2
+  1: subitizeGameIcon1_png,
+  2: subitizeGameIcon2_png
 };
 
 class NumberPlayGameLevelSelectionNode extends Node {

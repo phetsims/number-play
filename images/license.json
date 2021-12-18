@@ -1,5 +1,5 @@
 {
-  "compare_screen_icon.png": {
+  "compareScreenIcon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -7,7 +7,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "counting_game_icon_1.png": {
+  "countingGameIcon1.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -15,7 +15,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "counting_game_icon_2.png": {
+  "countingGameIcon2.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -23,7 +23,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "game_screen_icon.png": {
+  "gameScreenIcon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -31,7 +31,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "grouping_scene_1.png": {
+  "groupingScene1.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -39,7 +39,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "grouping_scene_2.png": {
+  "groupingScene2.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -47,7 +47,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "grouping_scene_3.png": {
+  "groupingScene3.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -55,7 +55,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "lab_screen_icon.png": {
+  "labScreenIcon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -63,7 +63,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "lab_screen_placeholder.png": {
+  "labScreenPlaceholder.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -71,7 +71,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "subitize_game_icon_1.png": {
+  "subitizeGameIcon1.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -79,7 +79,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "subitize_game_icon_2.png": {
+  "subitizeGameIcon2.png": {
     "text": [
       "Copyright 2021 University of Colorado Boulder"
     ],
@@ -87,7 +87,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "ten_screen_icon.png": {
+  "tenScreenIcon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],
@@ -95,7 +95,7 @@
     "license": "contact phethelp@colorado.edu",
     "notes": "created by Amanda McGarry"
   },
-  "twenty_screen_icon.png": {
+  "twentyScreenIcon.png": {
     "text": [
       "Copyright 2019 University of Colorado Boulder"
     ],

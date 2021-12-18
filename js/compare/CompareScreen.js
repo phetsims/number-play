@@ -10,7 +10,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
-import compareScreenIconImage from '../../images/compare_screen_icon_png.js';
+import compareScreenIcon_png from '../../images/compareScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import numberPlay from '../numberPlay.js';
@@ -31,7 +31,7 @@ class CompareScreen extends Screen {
     const options = {
       name: screenCompareString,
       backgroundColorProperty: NumberPlayColors.whiteBackgroundColorProperty,
-      homeScreenIcon: new ScreenIcon( new Image( compareScreenIconImage ), {
+      homeScreenIcon: new ScreenIcon( new Image( compareScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),

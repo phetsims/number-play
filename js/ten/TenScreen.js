@@ -11,7 +11,7 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Image } from '../../../scenery/js/imports.js';
-import tenScreenIconImage from '../../images/ten_screen_icon_png.js';
+import tenScreenIcon_png from '../../images/tenScreenIcon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
@@ -32,7 +32,7 @@ class TenScreen extends Screen {
     const screenOptions = {
       name: screenTenString,
       backgroundColorProperty: NumberPlayColors.tenScreenBackgroundColorProperty,
-      homeScreenIcon: new ScreenIcon( new Image( tenScreenIconImage ), {
+      homeScreenIcon: new ScreenIcon( new Image( tenScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
       } ),
