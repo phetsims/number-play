@@ -26,11 +26,21 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import merge from '../../../../phet-core/js/merge.js';
+import NumberPlayGameTypeEnum from '../model/NumberPlayGameTypeEnum.js';
 
 // types
 type StatusBarOptions = {
   statusBarFill: ColorProperty
 }
+type GameTypeToName = {
+  [key in NumberPlayGameTypeEnum]: string // eslint-disable-line no-unused-vars
+};
+
+// constants
+// TODO-TS: Might be better to use a rich enumeration for this
+const GAME_TYPE_TO_NAME = {} as GameTypeToName;
+GAME_TYPE_TO_NAME[ 'counting' ] = numberPlayStrings.counting; // eslint-disable-line dot-notation
+GAME_TYPE_TO_NAME[ 'subitize' ] = numberPlayStrings.subitize; // eslint-disable-line dot-notation
 
 // constants
 const FACE_DIAMETER = 150;
@@ -59,7 +69,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // text displayed in the statusBar
     const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameNameLevelNumberPattern, {
-      gameName: level.gameName,
+      gameName: GAME_TYPE_TO_NAME[ level.gameType ],
       levelNumber: level.levelNumber
     } ), {
       font: new PhetFont( 21 ),

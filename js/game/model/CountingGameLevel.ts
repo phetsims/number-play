@@ -16,7 +16,6 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
@@ -33,7 +32,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly groupObjects: boolean;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, numberPlayStrings.counting, LEVEL_INPUT_RANGE );
+    super( levelNumber, 'counting', LEVEL_INPUT_RANGE );
 
     // whether objects should be able to be grouped
     this.groupObjects = ( levelNumber === 2 );
