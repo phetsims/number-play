@@ -75,27 +75,25 @@ class NumberPlayGameLevelSelectionNode extends Node {
     };
 
     // creates all level selection buttons for a level and returns only the levels specified by the gameLevels query parameter
-    const getLevelSelectionButtons = (
-      levels: NumberPlayGameLevel[],
-      gameType: string,
-      gameColorProperty: ProfileColorProperty
-    ): LevelSelectionButton[] => {
-      const levelSelectionButtons: LevelSelectionButton[] = [];
-      const levelNumbers = NumberPlayGameLevelSelectionNode.getLevelNumbers( NumberPlayQueryParameters.gameLevels, gameType );
-      levels.forEach( level => {
-        const levelSelectionButton = createLevelSelectionButton( level, gameColorProperty );
-        if ( levelNumbers.includes( level.levelNumber ) ) {
-          levelSelectionButtons.push( levelSelectionButton );
-        }
-      } );
-      return levelSelectionButtons;
-    };
+    const getLevelSelectionButtons = ( levels: NumberPlayGameLevel[], gameColorProperty: ProfileColorProperty ) =>
+      levels.map( level => createLevelSelectionButton( level, gameColorProperty ) );
 
     // create the level selection buttons for the each game
-    const countingGameLevelSelectionButtons = getLevelSelectionButtons( model.countingLevels, NumberPlayConstants.A,
+    const countingGameLevelSelectionButtons = getLevelSelectionButtons( model.countingLevels,
       NumberPlayColors.countingGameColorProperty );
-    const subitizeGameLevelSelectionButtons = getLevelSelectionButtons( model.subitizeLevels, NumberPlayConstants.B,
+    const subitizeGameLevelSelectionButtons = getLevelSelectionButtons( model.subitizeLevels,
       NumberPlayColors.subitizeGameColorProperty );
+
+    const levelSelectionButtons = [ ...countingGameLevelSelectionButtons, ...subitizeGameLevelSelectionButtons ];
+
+    // Hide buttons for levels that are not included in gameLevels query parameter. We must still create these buttons
+    // so that we don't change the PhET-iO API. This assumes levelSelectionButtons are ordered correctly for their
+    // desired layout so that the query parameter values match what is specified in the gameLevels documentation.
+    if ( NumberPlayQueryParameters.gameLevels ) {
+      levelSelectionButtons.forEach( ( button, index ) => {
+        button.visible = NumberPlayQueryParameters.gameLevels.includes( index + 1 );
+      } );
+    }
 
     // arrange and add the level selection buttons
     const levelSelectionButtonsBox = new VBox( {
@@ -124,20 +122,6 @@ class NumberPlayGameLevelSelectionNode extends Node {
       bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
     } );
     this.addChild( resetAllButton );
-  }
-
-  /**
-   * Returns the level number for each level code that matches the provided level character by extracting the level
-   * numbers from the level codes. It also sorts them to ensure level x is displayed before level x+1 in case the level
-   * codes were provided out of order.
-   *
-   * @param levelCodes - the array of two-character codes that represent game levels
-   * @param levelCharacter - the character that indicates which level codes should be kept and turned into numbers
-   */
-  private static getLevelNumbers( levelCodes: string[], levelCharacter: string ): number[] {
-    const levelsCodesToInclude = levelCodes.filter( levelCode => levelCode.includes( levelCharacter ) );
-    const levelNumbers = levelsCodesToInclude.map( levelName => parseInt( levelName.replace( levelCharacter, '' ) ) ); // eslint-disable-line
-    return _.sortBy( levelNumbers );
   }
 }
 

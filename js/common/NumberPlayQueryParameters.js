@@ -7,16 +7,9 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import getGameLevelsSchema from '../../../vegas/js/getGameLevelsSchema.js';
 import numberPlay from '../numberPlay.js';
 import NumberPlayConstants from './NumberPlayConstants.js';
-
-// constants
-const GAME_LEVELS_DEFAULT_VALUES = [
-  `${NumberPlayConstants.A}1`, // a1
-  `${NumberPlayConstants.A}2`, // a2
-  `${NumberPlayConstants.B}1`, // b1
-  `${NumberPlayConstants.B}2`  // b2
-];
 
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
@@ -28,20 +21,14 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
     defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME
   },
 
-  // the levels to show in the 'Game' screen. 'a' levels correspond to the 'Counting' game, while 'b' levels
-  // correspond to the 'Subitize' game
-  gameLevels: {
-    public: true,
-    type: 'array',
-    elementSchema: {
-      type: 'string',
-      isValidValue: element => GAME_LEVELS_DEFAULT_VALUES.includes( element )
-    },
-    defaultValue: GAME_LEVELS_DEFAULT_VALUES,
-
-    // if provided, at least one level is required and repeated levels are not allowed
-    isValidValue: array => ( array.length > 0 ) && ( array.length === _.uniq( array ).length )
-  }
+  // Chooses the game levels that you want to appear on the 'Game' screen.
+  // Note that unlike some other PhET sims, higher level numbers are not necessarily more difficult.
+  // The values correspond to the games as follows:
+  // 1: Counting, Level 1
+  // 2: Counting, Level 2
+  // 3: Subitize, Level 1
+  // 4: Subitize, Level 2
+  gameLevels: getGameLevelsSchema( 4 )
 
 } );
 
