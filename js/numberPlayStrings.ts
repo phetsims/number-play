@@ -15,8 +15,7 @@ type StringsType = {
     'ten': string,
     'twenty': string,
     'compare': string,
-    'game': string,
-    'lab': string
+    'game': string
   },
   'zero': string,
   'one': string,
