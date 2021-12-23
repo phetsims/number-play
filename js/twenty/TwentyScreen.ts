@@ -11,6 +11,7 @@ import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import twentyScreenIcon_png from '../../images/twentyScreenIcon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
@@ -24,10 +25,7 @@ const screenTwentyString = numberPlayStrings.screen.twenty;
 
 class TwentyScreen extends Screen {
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const screenOptions = {
       name: screenTwentyString,
@@ -73,7 +71,7 @@ class TwentyScreen extends Screen {
         new Vector2( 58, 349 ), // empirically determined
         tandem.createTandem( 'model' )
       ),
-      model => new NumberPlayScreenView( model, screenViewConfig ),
+      ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewConfig ),
       screenOptions
     );
   }

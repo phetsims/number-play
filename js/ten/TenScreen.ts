@@ -18,16 +18,13 @@ import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 
 const screenTenString = numberPlayStrings.screen.ten;
 
-
 class TenScreen extends Screen {
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const screenOptions = {
       name: screenTenString,
@@ -73,7 +70,7 @@ class TenScreen extends Screen {
         new Vector2( 58, 306 ), // empirically determined
         tandem.createTandem( 'model' )
       ),
-      model => new NumberPlayScreenView( model, screenViewConfig ),
+      ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewConfig ),
       screenOptions
     );
   }

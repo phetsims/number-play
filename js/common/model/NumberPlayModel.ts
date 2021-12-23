@@ -13,34 +13,38 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from './OnesPlayArea.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class NumberPlayModel {
 
-  /**
-   * @param {number} highestCount - the highest integer number that can be counted to
-   * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
-   * @param {Tandem} tandem
-   */
-  constructor( highestCount, paperNumberOrigin, tandem ) {
+  public readonly currentNumberProperty: NumberProperty;
+  public readonly isResettingProperty: BooleanProperty;
+  public readonly groupingLinkingTypeProperty: EnumerationProperty;
+  public readonly onesPlayArea: OnesPlayArea;
+  public readonly objectsPlayArea: OnesPlayArea;
 
-    // @public {NumberProperty} - the current "counted to" number, which is the central aspect of this whole sim
+  constructor( highestCount: number, paperNumberOrigin: Vector2, tandem: Tandem ) {
+
+    // the current "counted to" number, which is the central aspect of this whole sim
     this.currentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
     } );
 
-    // @public {BooleanProperty} - true when the sim is being reset. this is used so that playAreas don't return things
-    // to their buckets the normal way (with animations), but instead with a different reset case (no animations).
+    // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
+    // way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
-    // @public {EnumerationProperty.<GroupingLinkingType>} - whether the ones and objects play areas ar linked
+    // whether the ones and objects play areas are linked
+    // @ts-ignore
     this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING );
 
-    // @public (read-only) - the model for managing the play area in the OnesAccordionBox
+    // the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
       isResettingProperty: this.isResettingProperty
     } );
 
-    // @public (read-only) - the model for managing the play area in the ObjectsAccordionBox
+    // the model for managing the play area in the ObjectsAccordionBox
     this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
       isResettingProperty: this.isResettingProperty,
       isOnes: false
@@ -49,19 +53,17 @@ class NumberPlayModel {
 
   /**
    * Steps the model.
-   * @param {number} dt
-   * @public
+   * @param dt - in seconds
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.onesPlayArea.step( dt );
     this.objectsPlayArea.step( dt );
   }
 
   /**
    * Resets the model.
-   * @public
    */
-  reset() {
+ public reset(): void {
     this.isResettingProperty.value = true;
     this.groupingLinkingTypeProperty.reset();
     this.onesPlayArea.reset();
