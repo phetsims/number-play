@@ -7,12 +7,10 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import merge from '../../../../phet-core/js/merge.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
-import { voicingManager } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Color } from '../../../../scenery/js/imports.js';
+import { Color, Path, voicingManager } from '../../../../scenery/js/imports.js';
 import bullhornSolidShape from '../../../../sherpa/js/fontawesome-5/bullhornSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -24,15 +22,7 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class SpeechSynthesisButton extends RectangularPushButton {
 
-  /**
-   * @param {Property.<String|Number>} property
-   * @param {Object} [options]
-   */
-  constructor( property, options ) {
-
-    options = merge( {
-      readNumber: false
-    }, options );
+  constructor( property: Property<string | number>, readNumber: boolean = false ) {
 
     // get the locale the sim is running in
     const locale = phet.joist.sim.locale;
@@ -47,6 +37,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
           return voice.lang.includes( locale );
         } );
         if ( translatedVoices.length > 0 ) {
+          // @ts-ignore
           voicingManager.voiceProperty.set( translatedVoices[ 0 ] );
         }
         else {
@@ -69,7 +60,8 @@ class SpeechSynthesisButton extends RectangularPushButton {
     const listener = () => {
 
       // read out a number by integer => word or just read out a string
-      speechUtterance.alert = options.readNumber ? NumberPlayConstants.NUMBER_TO_STRING[ property.value ] :
+      // @ts-ignore
+      speechUtterance.alert = readNumber ? NumberPlayConstants.NUMBER_TO_STRING[ property.value ] :
                               property.value;
 
       voicingManager.speakIgnoringEnabled( speechUtterance );

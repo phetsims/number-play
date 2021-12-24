@@ -147,9 +147,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
     if ( voicingManager.initialized ) {
-      const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, {
-        readNumber: true
-      } );
+      const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, true );
       speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_X_PADDING;
       speechSynthesisButton.top = tenFrameAccordionBox.top;
       this.addChild( speechSynthesisButton );
