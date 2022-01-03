@@ -17,6 +17,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -31,7 +32,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly groupObjects: boolean;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, 'counting', LEVEL_INPUT_RANGE );
+    super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );
 
     // whether objects should be able to be grouped
     this.groupObjects = ( levelNumber === 2 );

@@ -10,6 +10,7 @@
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 5;
@@ -19,7 +20,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   public readonly subitizer: Subitizer;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, 'subitize', LEVEL_INPUT_RANGE );
+    super( levelNumber, NumberPlayGameType.SUBITIZE, LEVEL_INPUT_RANGE );
 
     this.subitizer = new Subitizer(
       this.challengeNumberProperty,

@@ -19,33 +19,11 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
-import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
-import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
-import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import NumberPlayGameTypeEnum from '../model/NumberPlayGameTypeEnum.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
-
-// types
-type GameTypeToButtonImageType = {
-  [key in NumberPlayGameTypeEnum]: { // eslint-disable-line no-unused-vars
-    [ key: number ]: HTMLImageElement
-  }
-};
 
 // constants
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
-// TODO-TS: Might be better to use a rich enumeration for this
-const GAME_TYPE_TO_BUTTON_IMAGE = {} as GameTypeToButtonImageType;
-GAME_TYPE_TO_BUTTON_IMAGE[ 'counting' ] = { // eslint-disable-line dot-notation
-  1: countingGameIcon1_png,
-  2: countingGameIcon2_png
-};
-GAME_TYPE_TO_BUTTON_IMAGE[ 'subitize' ] = { // eslint-disable-line dot-notation
-  1: subitizeGameIcon1_png,
-  2: subitizeGameIcon2_png
-};
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
@@ -63,7 +41,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
 
     // creates a level selection button for each level
     const createLevelSelectionButton = ( level: NumberPlayGameLevel, baseColor: ColorProperty ): LevelSelectionButton => {
-      return new LevelSelectionButton( new Image( GAME_TYPE_TO_BUTTON_IMAGE[ level.gameType ][ level.levelNumber ] ),
+      return new LevelSelectionButton( new Image( level.gameType.levelImages[ level.levelNumber ] ),
         level.scoreProperty, {
           iconToScoreDisplayYSpace: 0,
           scoreDisplayConstructor: ScoreDisplayNumberAndStar,

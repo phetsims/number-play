@@ -12,7 +12,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import NumberPlayGameTypeEnum from './NumberPlayGameTypeEnum.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 abstract class NumberPlayGameLevel {
 
@@ -24,7 +24,7 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberOne: number;
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
-  public readonly gameType: NumberPlayGameTypeEnum;
+  public readonly gameType: NumberPlayGameType;
 
   /**
    * @param levelNumber
@@ -32,7 +32,7 @@ abstract class NumberPlayGameLevel {
    * @param levelChallengeRange - the range of challenge numbers for a level, where 'range' is referring to a
    * mathematical range, where the min and max values are unknown, so it is just a number
    */
-  protected constructor( levelNumber: number, gameType: NumberPlayGameTypeEnum, levelChallengeRange: number ) {
+  protected constructor( levelNumber: number, gameType: NumberPlayGameType, levelChallengeRange: number ) {
 
     this.levelNumber = levelNumber;
     this.gameType = gameType;
