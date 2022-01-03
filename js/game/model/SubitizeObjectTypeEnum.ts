@@ -7,10 +7,21 @@
  * @author Luisa Vargas
  */
 
-import { PlayObjectTypeValues } from '../../common/model/PlayObjectTypeEnum.js';
+import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import numberPlay from '../../numberPlay.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
-const SubitizeObjectTypeValues = [ ...PlayObjectTypeValues, 'circle' ] as const;
-type SubitizeObjectTypeEnum = ( typeof SubitizeObjectTypeValues )[number];
+class SubitizeObjectType extends EnumerationValue {
+  static DOG = new SubitizeObjectType();
+  static APPLE = new SubitizeObjectType();
+  static TURTLE = new SubitizeObjectType();
+  static BALL = new SubitizeObjectType();
+  static CIRCLE = new SubitizeObjectType();
 
-export { SubitizeObjectTypeValues };
-export type { SubitizeObjectTypeEnum as default };
+  static enumeration = new RichEnumeration<SubitizeObjectType>( SubitizeObjectType );
+
+  private constructor() { super(); }
+}
+
+numberPlay.register( 'SubitizeObjectType', SubitizeObjectType );
+export default SubitizeObjectType;

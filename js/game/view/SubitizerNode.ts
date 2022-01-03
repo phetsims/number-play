@@ -19,6 +19,7 @@ import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import SubitizeObjectTypeEnum from '../model/SubitizeObjectTypeEnum.js';
 
 // constants
 const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;
@@ -92,13 +93,13 @@ class SubitizerNode extends Node {
       // create and add each object to the drawingNode
       points.forEach( point => {
         let object;
-        if ( subitizer.objectTypeProperty.value === 'circle' ) {
+        if ( subitizer.objectTypeProperty.value === SubitizeObjectTypeEnum.CIRCLE ) {
           object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize / 2 ), { fill: Color.BLACK } );
         }
         else {
           object = new Image(
             // @ts-ignore TODO-TS: Update PLAY_OBJECT_TYPE_TO_IMAGE when PlayObjectType is converted to a supported enumeration pattern. See https://github.com/phetsims/number-play/issues/80
-            CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ _.toUpper( subitizer.objectTypeProperty.value ) ], {
+            CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ subitizer.objectTypeProperty.value ], {
               maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
             } );
         }

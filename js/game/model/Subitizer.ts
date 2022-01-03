@@ -15,7 +15,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -28,7 +28,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeObjectTypeEnum, { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
+import SubitizeObjectTypeEnum from './SubitizeObjectTypeEnum.js';
 
 // types
 type PredeterminedShapes = {
@@ -133,7 +133,7 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  private readonly _objectTypeProperty: Property<SubitizeObjectTypeEnum>;
+  private readonly _objectTypeProperty: RichEnumerationProperty<SubitizeObjectTypeEnum>;
   public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectTypeEnum>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
@@ -188,7 +188,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new StringEnumerationProperty( SubitizeObjectTypeValues, 'dog' );
+    this._objectTypeProperty = new RichEnumerationProperty<SubitizeObjectTypeEnum>( SubitizeObjectTypeEnum, SubitizeObjectTypeEnum.DOG );
     this.objectTypeProperty = this._objectTypeProperty;
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
@@ -319,7 +319,7 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   private setRandomPlayObjectType(): void {
-    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
+    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeEnum.enumeration.values.slice() );
   }
 
   /**
