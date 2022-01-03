@@ -8,7 +8,7 @@
  * arranged (a grid-like arrangement generated with some randomness).
  *
  * An object is the representation that is rendered at each point of a shape. An object can take many forms, see
- * SubitizeObjectTypeEnum for available types.
+ * SubitizeObjectType for available types.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
@@ -28,7 +28,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeObjectTypeEnum from './SubitizeObjectTypeEnum.js';
+import SubitizeObjectType from './SubitizeObjectType.js';
 
 // types
 type PredeterminedShapes = {
@@ -133,8 +133,8 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  private readonly _objectTypeProperty: RichEnumerationProperty<SubitizeObjectTypeEnum>;
-  public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectTypeEnum>;
+  private readonly _objectTypeProperty: RichEnumerationProperty<SubitizeObjectType>;
+  public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectType>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
@@ -188,7 +188,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new RichEnumerationProperty<SubitizeObjectTypeEnum>( SubitizeObjectTypeEnum, SubitizeObjectTypeEnum.DOG );
+    this._objectTypeProperty = new RichEnumerationProperty<SubitizeObjectType>( SubitizeObjectType, SubitizeObjectType.DOG );
     this.objectTypeProperty = this._objectTypeProperty;
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
@@ -319,7 +319,7 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   private setRandomPlayObjectType(): void {
-    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeEnum.enumeration.values.slice() );
+    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectType.enumeration.values.slice() );
   }
 
   /**

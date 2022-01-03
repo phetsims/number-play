@@ -19,7 +19,7 @@ import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import SubitizeObjectTypeEnum from '../model/SubitizeObjectTypeEnum.js';
+import SubitizeObjectType from '../model/SubitizeObjectType.js';
 
 // constants
 const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;
@@ -93,7 +93,7 @@ class SubitizerNode extends Node {
       // create and add each object to the drawingNode
       points.forEach( point => {
         let object;
-        if ( subitizer.objectTypeProperty.value === SubitizeObjectTypeEnum.CIRCLE ) {
+        if ( subitizer.objectTypeProperty.value === SubitizeObjectType.CIRCLE ) {
           object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize / 2 ), { fill: Color.BLACK } );
         }
         else {

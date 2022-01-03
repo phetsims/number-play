@@ -1,7 +1,7 @@
 // Copyright 2021, University of Colorado Boulder
 
 /**
- * SubitizeObjectTypeEnum identifies the play object type in the 'Subitize' game in Number Play.
+ * SubitizeObjectType identifies the play object type in the 'Subitize' game in Number Play.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  * @author Luisa Vargas
