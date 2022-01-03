@@ -7,7 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
@@ -32,8 +32,8 @@ class CompareModel {
       range: new Range( 0, highestCount )
     } );
 
-    // @public {EnumerationProperty.<CompareCountingType>}
-    this.countingTypeProperty = new EnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
+    // @public {RichEnumerationProperty.<CompareCountingType>}
+    this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
 
     // @public {BooleanProperty}
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );

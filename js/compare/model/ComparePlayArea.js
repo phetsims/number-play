@@ -8,7 +8,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import ComparePlayObjectType from './ComparePlayObjectType.js';
@@ -22,8 +22,8 @@ class ComparePlayArea {
    */
   constructor( currentNumberProperty, objectMaxScale, paperNumberOrigin, isResettingProperty ) {
 
-    // @public {EnumerationProperty.<ComparePlayObjectType>} - the current type of playObject being displayed
-    this.playObjectTypeProperty = new EnumerationProperty( ComparePlayObjectType, ComparePlayObjectType.DOG );
+    // @public {RichEnumerationProperty.<ComparePlayObjectType>} - the current type of playObject being displayed
+    this.playObjectTypeProperty = new RichEnumerationProperty( ComparePlayObjectType, ComparePlayObjectType.DOG );
 
     // @public (read-only) - the model for managing paper ones in the playArea
     this.onesPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {

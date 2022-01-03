@@ -33,8 +33,8 @@ class OnesPlayAreaNode extends Node {
     options = merge( {
       paperNumberLayerNode: null, // {null|Node}
       backgroundDragTargetNode: null, // {null|Node}
-      playObjectTypeProperty: null, // {EnumerationProperty.<PlayObjectType>|null}
-      groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
+      playObjectTypeProperty: null, // {RichEnumerationProperty.<PlayObjectType>|null}
+      groupingLinkingTypeProperty: null, // {RichEnumerationProperty.<GroupingLinkingType>|null}
       viewHasIndependentModel: true, // {boolean} whether this view is hooked up to its own model or a shared model
       includeOnesCreatorPanel: true
     }, options );
@@ -67,10 +67,10 @@ class OnesPlayAreaNode extends Node {
     //                                is resized.
     this.availableViewBoundsProperty = new Property( playAreaViewBounds );
 
-    // @private {EnumerationProperty.<PlayObjectType>}|null}
+    // @private {RichEnumerationProperty.<PlayObjectType>}|null}
     this.playObjectTypeProperty = options.playObjectTypeProperty;
 
-    // @private {EnumerationProperty.<GroupingLinkingType>}|null}
+    // @private {RichEnumerationProperty.<GroupingLinkingType>}|null}
     this.groupingLinkingTypeProperty = options.groupingLinkingTypeProperty;
 
     // @private {boolean}

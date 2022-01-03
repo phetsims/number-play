@@ -12,12 +12,11 @@ import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Range from '../../../../dot/js/Range.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -25,8 +24,8 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
-  private readonly _playObjectTypeProperty: EnumerationProperty;
-  public readonly playObjectTypeProperty: IReadOnlyProperty<Enumeration>;
+  private readonly _playObjectTypeProperty: RichEnumerationProperty<PlayObjectType>;
+  public readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType>;
   private readonly _isObjectsRepresentationProperty: BooleanProperty;
   public readonly isObjectsRepresentationProperty: IReadOnlyProperty<boolean>;
   public readonly groupObjects: boolean;
@@ -45,8 +44,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     } );
 
     // the object type of the current challenge
-    // TODO-TS: Use updated enumeration pattern for Property when PlayObjectType is converted. See https://github.com/phetsims/number-play/issues/80
-    this._playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
+    this._playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
     this.playObjectTypeProperty = this._playObjectTypeProperty;
 
     // whether the current representation of the challengeNumber are objects. Always use objects as the first representation
@@ -57,11 +55,9 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
   /**
    * Return a new object type for the current challenge.
-   * TODO-TS: Add return type when PlayObjectType is converted to a supported enumeration pattern. See https://github.com/phetsims/number-play/issues/80
    */
-  private static getRandomPlayObjectType() {
-    // @ts-ignore
-    return PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
+  private static getRandomPlayObjectType(): PlayObjectType {
+    return dotRandom.sample( PlayObjectType.enumeration.values.slice() );
   }
 
   public reset(): void {

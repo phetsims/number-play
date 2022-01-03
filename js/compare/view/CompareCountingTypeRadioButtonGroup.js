@@ -23,7 +23,7 @@ const BUTTON_X_MARGIN = 7; // in screen coordinates
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
 
   /**
-   * @param {EnumerationProperty.<CompareCountingType>}
+   * @param {RichEnumerationProperty.<CompareCountingType>}
    */
   constructor( countingTypeProperty ) {
 
@@ -41,7 +41,7 @@ class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
     countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
 
     // create an icon for each value of CompareCountingType
-    const countingTypeRadioButtons = CompareCountingType.VALUES.map( countingType => {
+    const countingTypeRadioButtons = CompareCountingType.enumeration.values.map( countingType => {
       const iconNode = countingTypeToNode[ countingType ];
       iconNode.maxWidth = ICON_SIZE;
       iconNode.maxHeight = ICON_SIZE;

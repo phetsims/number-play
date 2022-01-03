@@ -11,7 +11,7 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
@@ -88,7 +88,7 @@ class CompareAccordionBox extends AccordionBox {
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds, {
         playObjectTypeProperty: objectsTypeProperty,
-        groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING )
+        groupingLinkingTypeProperty: new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING )
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
@@ -102,7 +102,7 @@ class CompareAccordionBox extends AccordionBox {
 
     // create the icons for the RectangularRadioButtonGroup
     const buttons = [];
-    ComparePlayObjectType.VALUES.forEach( playObjectType => {
+    ComparePlayObjectType.enumeration.values.forEach( playObjectType => {
       let iconNode = null;
       if ( playObjectType === ComparePlayObjectType.PAPER_ONE ) {
         iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false );

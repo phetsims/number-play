@@ -7,7 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import Range from '../../../../dot/js/Range.js';
@@ -20,7 +20,7 @@ class NumberPlayModel {
 
   public readonly currentNumberProperty: NumberProperty;
   public readonly isResettingProperty: BooleanProperty;
-  public readonly groupingLinkingTypeProperty: EnumerationProperty;
+  public readonly groupingLinkingTypeProperty: RichEnumerationProperty<GroupingLinkingType>;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
 
@@ -36,8 +36,7 @@ class NumberPlayModel {
     this.isResettingProperty = new BooleanProperty( false );
 
     // whether the ones and objects play areas are linked
-    // @ts-ignore
-    this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING );
+    this.groupingLinkingTypeProperty = new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING );
 
     // the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {

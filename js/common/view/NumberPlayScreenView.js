@@ -156,7 +156,7 @@ class NumberPlayScreenView extends ScreenView {
     // create the icons for the RectangularRadioButtonGroup
     const groupingLinkingButtons = [];
     const margin = 3;
-    GroupingLinkingType.VALUES.forEach( groupingLinkingType => {
+    GroupingLinkingType.enumeration.values.forEach( groupingLinkingType => {
       const iconNode = new Image( groupingLinkingTypeToImage[ groupingLinkingType ], {
         maxWidth: resetAllButton.width - 2 * margin
       } );

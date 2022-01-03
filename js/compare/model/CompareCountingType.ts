@@ -6,11 +6,19 @@
  * @author Chris Klusendorf
  */
 
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import numberPlay from '../../numberPlay.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
 
-// @public
-const CompareCountingType = Enumeration.byKeys( [ 'BLOCKS', 'NUMBER_LINE', 'NONE' ] );
+class CompareCountingType extends EnumerationValue {
+  static BLOCKS = new CompareCountingType();
+  static NUMBER_LINE = new CompareCountingType();
+  static NONE = new CompareCountingType();
+
+  static enumeration = new RichEnumeration<CompareCountingType>( CompareCountingType );
+
+  private constructor() { super(); }
+}
 
 numberPlay.register( 'CompareCountingType', CompareCountingType );
 export default CompareCountingType;

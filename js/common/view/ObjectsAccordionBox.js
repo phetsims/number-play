@@ -7,7 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
@@ -43,7 +43,7 @@ class ObjectsAccordionBox extends AccordionBox {
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       fill: NumberPlayColors.blueBackgroundColorProperty,
       linkedPlayArea: null, // {null|OnesPlayArea}
-      groupingLinkingTypeProperty: null, // {EnumerationProperty.<GroupingLinkingType>|null}
+      groupingLinkingTypeProperty: null, // {RichEnumerationProperty.<GroupingLinkingType>|null}
 
       radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
       radioButtonSpacing: 10 // empirically determined
@@ -61,7 +61,7 @@ class ObjectsAccordionBox extends AccordionBox {
       contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
-    const playObjectTypeProperty = new EnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+    const playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, PlayObjectType.DOG );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,
@@ -74,7 +74,7 @@ class ObjectsAccordionBox extends AccordionBox {
 
     // create the icons for the RectangularRadioButtonGroup
     const buttons = [];
-    PlayObjectType.VALUES.forEach( playObjectType => {
+    PlayObjectType.enumeration.values.forEach( playObjectType => {
       const iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
         maxWidth: config.radioButtonSize.width,
         maxHeight: config.radioButtonSize.height
@@ -121,7 +121,7 @@ class ObjectsAccordionBox extends AccordionBox {
 
     super( contentNode, config );
 
-    // @public {EnumerationProperty.<PlayObjectType>}
+    // @public {RichEnumerationProperty.<PlayObjectType>}
     this.playObjectTypeProperty = playObjectTypeProperty;
   }
 

@@ -16,7 +16,7 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
@@ -73,10 +73,8 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       objectsPlayAreaViewBounds, {
         playObjectTypeProperty: level.playObjectTypeProperty,
         groupingLinkingTypeProperty: level.groupObjects ?
-          // @ts-ignore
-          new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.GROUPING ) :
-          // @ts-ignore
-          new EnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING ),
+                                     new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.GROUPING ) :
+                                     new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING ),
         includeOnesCreatorPanel: false
       }
     );
