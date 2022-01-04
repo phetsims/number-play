@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * SubitizeObjectType identifies the play object type in the 'Subitize' game in Number Play.

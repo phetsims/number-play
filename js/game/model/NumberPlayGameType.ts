@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';

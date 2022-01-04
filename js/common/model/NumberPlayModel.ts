@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Model class for Number Play. It is used for both the 'Ten' and 'Twenty' screens.
