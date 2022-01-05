@@ -61,7 +61,7 @@ class ObjectsAccordionBox extends AccordionBox {
       contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
-    const playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+    const playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.DOG );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,

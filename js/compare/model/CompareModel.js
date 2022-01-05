@@ -33,7 +33,7 @@ class CompareModel {
     } );
 
     // @public {RichEnumerationProperty.<CompareCountingType>}
-    this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
+    this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType.BLOCKS );
 
     // @public {BooleanProperty}
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );

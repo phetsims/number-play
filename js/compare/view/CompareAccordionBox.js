@@ -88,7 +88,7 @@ class CompareAccordionBox extends AccordionBox {
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds, {
         playObjectTypeProperty: objectsTypeProperty,
-        groupingLinkingTypeProperty: new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING )
+        groupingLinkingTypeProperty: new RichEnumerationProperty( GroupingLinkingType.NO_GROUPING )
       }
     );
     contentNode.addChild( objectsPlayAreaNode );

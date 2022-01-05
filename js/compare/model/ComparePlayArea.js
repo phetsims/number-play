@@ -23,7 +23,7 @@ class ComparePlayArea {
   constructor( currentNumberProperty, objectMaxScale, paperNumberOrigin, isResettingProperty ) {
 
     // @public {RichEnumerationProperty.<ComparePlayObjectType>} - the current type of playObject being displayed
-    this.playObjectTypeProperty = new RichEnumerationProperty( ComparePlayObjectType, ComparePlayObjectType.DOG );
+    this.playObjectTypeProperty = new RichEnumerationProperty( ComparePlayObjectType.DOG );
 
     // @public (read-only) - the model for managing paper ones in the playArea
     this.onesPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {

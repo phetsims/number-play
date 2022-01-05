@@ -94,7 +94,7 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberPanel );
 
     // create and add the left ObjectsPlayAreaNode
-    const leftPlayObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+    const leftPlayObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.DOG );
     const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
       playAreaViewBounds,
@@ -107,7 +107,7 @@ class LabScreenView extends ScreenView {
     this.addChild( leftObjectsPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const rightPlayObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, PlayObjectType.BALL );
+    const rightPlayObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.BALL );
     const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
       playAreaViewBounds,
