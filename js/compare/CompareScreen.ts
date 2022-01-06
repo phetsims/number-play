@@ -10,6 +10,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import compareScreenIcon_png from '../../images/compareScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
@@ -23,10 +24,7 @@ const screenCompareString = numberPlayStrings.screen.compare;
 
 class CompareScreen extends Screen {
 
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
       name: screenCompareString,
@@ -44,7 +42,7 @@ class CompareScreen extends Screen {
         new Vector2( 16, 262 ), // empirically determined
         1.3,                    // empirically determined
         tandem.createTandem( 'model' ) ),
-      model => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: CompareModel ) => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }
