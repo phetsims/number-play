@@ -22,7 +22,7 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class SpeechSynthesisButton extends RectangularPushButton {
 
-  constructor( property: Property<string | number>, readNumber: boolean = false ) {
+  constructor( property: Property<number> | Property<string>, readNumber: boolean = false ) {
 
     // get the locale the sim is running in
     const locale = phet.joist.sim.locale;

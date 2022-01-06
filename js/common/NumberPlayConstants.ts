@@ -9,6 +9,8 @@
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
+import { ProfileColorProperty } from '../../../scenery/js/imports.js';
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 
 // strings
 const zeroString = numberPlayStrings.zero;
@@ -32,6 +34,30 @@ const seventeenString = numberPlayStrings.seventeen;
 const eighteenString = numberPlayStrings.eighteen;
 const nineteenString = numberPlayStrings.nineteen;
 const twentyString = numberPlayStrings.twenty;
+
+// types
+type NumberToString = {
+  [ key: number ]: string
+}
+export type AccordionBoxOptions = { // TODO-TS: these should be defined in AccordionBox
+  resize: boolean,
+  titleAlignX: 'left' | 'center' | 'right',
+  titleXSpacing: number,
+  showTitleWhenExpanded: boolean,
+  cornerRadius: number,
+  titleYMargin: number,
+  buttonXMargin: number,
+  buttonYMargin: number,
+  contentXMargin: number,
+  contentYMargin: number,
+  contentXSpacing: number,
+  contentAlign: 'left' | 'center' | 'right',
+  fill: ProfileColorProperty,
+  expandCollapseButtonOptions: {
+    sideLength: number
+  },
+  expandedProperty: BooleanProperty
+}
 
 const NumberPlayConstants = {
 
@@ -82,7 +108,7 @@ const NumberPlayConstants = {
     expandCollapseButtonOptions: {
       sideLength: 20
     }
-  },
+  } as AccordionBoxOptions,
   ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
   // map number values to their corresponding string
@@ -108,7 +134,7 @@ const NumberPlayConstants = {
     18: eighteenString,
     19: nineteenString,
     20: twentyString
-  },
+  } as NumberToString,
 
   // game screen
 

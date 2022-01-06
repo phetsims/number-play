@@ -12,12 +12,20 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Circle } from '../../../../scenery/js/imports.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import { Circle, HBox, Node, PaintableOptions, Path } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+
+// types
+type GetSpotCentersOptions = {
+  numberOfTenFrames: number
+  sideLength: number
+  lineWidth: number
+};
+type GetTenFramePathOptions = {
+  sideLength: number
+} & Pick<PaintableOptions, 'fill'> & Pick<PaintableOptions, 'lineWidth'>;
 
 // constants - all are used for both drawing the ten frame shape and positioning the dots within the ten frame shape
 const NUMBER_OF_X_SQUARES = 5; // a ten frame is this many squares wide
@@ -27,20 +35,19 @@ const DISTANCE_BETWEEN_TEN_FRAMES = SIDE_LENGTH / 2; // horizontal spacing betwe
 const LINE_WIDTH = 0.8; // the line width of the lines in a ten frame. used in this class, not necessarily in getTenFramePath
 
 class TenFrameNode extends Node {
+  private readonly dotsLayer: Node;
+  private readonly dotSpots: Vector2[];
 
-  /**
-   * @param {NumberProperty} currentNumberProperty
-   */
-  constructor( currentNumberProperty ) {
+  constructor( currentNumberProperty: NumberProperty ) {
     super();
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
-    assert && assert( currentNumberProperty.range.max % NumberPlayConstants.TEN === 0,
-      `Provided range.max should be a multiple of ten, but was: ${currentNumberProperty.range.max}`
+    assert && assert( currentNumberProperty.range!.max % NumberPlayConstants.TEN === 0,
+      `Provided range.max should be a multiple of ten, but was: ${currentNumberProperty.range!.max}`
     );
 
-    const numberOfTenFrames = currentNumberProperty.range.max / NumberPlayConstants.TEN;
-    const tenFramePaths = [];
+    const numberOfTenFrames = currentNumberProperty.range!.max / NumberPlayConstants.TEN;
+    const tenFramePaths: Node[] = [];
 
     // create the calculated number of ten frames needed
     _.times( numberOfTenFrames, () => {
@@ -58,7 +65,7 @@ class TenFrameNode extends Node {
     this.dotsLayer = new Node();
     this.addChild( this.dotsLayer );
 
-    // @private {Vector2[]} - the center of every dot spot available
+    // the center of every dot spot available
     this.dotSpots = TenFrameNode.getSpotCenters( {
       numberOfTenFrames: numberOfTenFrames
     } );
@@ -71,11 +78,8 @@ class TenFrameNode extends Node {
 
   /**
    * Draws the provided number of dots on the dots layer.
-   *
-   * @param {number} numberOfDots
-   * @private
    */
-  updateDots( numberOfDots ) {
+  private updateDots( numberOfDots: number ): void {
     this.dotsLayer.removeAllChildren();
 
     for ( let i = 0; i < numberOfDots; i++ ) {
@@ -87,17 +91,14 @@ class TenFrameNode extends Node {
 
   /**
    * Calculates the center position of all the squares in a ten frame shape(s).
-   *
-   * @returns {Vector2[]}
-   * @public
    */
-  static getSpotCenters( options ) {
+  public static getSpotCenters( provideOptions?: Partial<GetSpotCentersOptions> ): Vector2[] {
 
-    options = merge( {
+    const options = merge( {
       numberOfTenFrames: 1,
       sideLength: SIDE_LENGTH,
       lineWidth: LINE_WIDTH
-    }, options );
+    }, provideOptions ) as GetSpotCentersOptions;
 
     const spots = [];
     const squareCenterOffset = options.sideLength / 2 + options.lineWidth / 2; // offset from the edge to the first square's center
@@ -128,13 +129,14 @@ class TenFrameNode extends Node {
    * @returns {Path}
    * @public
    */
-  static getTenFramePath( options ) {
+  static getTenFramePath( providedOptions?: Partial<GetTenFramePathOptions> ) {
 
-    options = merge( {
+    // TS-TODO: Is this Required needed? AKA does Pick preserve the 'optionalness' of a property or not?
+    const options = merge( {
       fill: 'white',
       lineWidth: LINE_WIDTH,
       sideLength: SIDE_LENGTH
-    }, options );
+    }, providedOptions ) as Required<GetTenFramePathOptions>;
 
     const tenFrameShape = new Shape()
       .moveTo( 0, 0 )

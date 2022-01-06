@@ -8,44 +8,39 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import required from '../../../../phet-core/js/required.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { Font, HBox, Rectangle, Text, VBox } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
+// types
+export type TotalAccordionBoxOptions = {
+  font: Font,
+  contentXMargin?: number,
+  arrowButtonOptions: Object, // TODO-TS: should be ArrowButtonOptions
+  arrowButtonSpacing: number
+};
+type TotalAccordionBoxImplementationOptions = AccordionBoxOptions & TotalAccordionBoxOptions;
+
+// strings
 const totalString = numberPlayStrings.total;
 
 class TotalAccordionBox extends AccordionBox {
 
-  /**
-   * @param {NumberProperty} currentNumberProperty
-   * @param {number} height - the height of this accordion box
-   * @param {Object} config
-   */
-  constructor( currentNumberProperty, height, config ) {
+  constructor( currentNumberProperty: NumberProperty, height: number, providedOptions: TotalAccordionBoxOptions ) {
 
-    config = merge( {
+    const options = merge( {
       titleNode: new Text( totalString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: 142 // empirically determined to not shrink accordion box content
       } ),
       minWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH,
-
-      font: required( config.font ), // {Font} - font of the displayed string value
-      arrowButtonConfig: {
-        arrowWidth: required( config.arrowButtonConfig.arrowWidth ), // {number}
-        arrowHeight: required( config.arrowButtonConfig.arrowHeight ), // {number}
-        spacing: required( config.arrowButtonConfig.spacing ) // {number}
-      }
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
+      maxWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as TotalAccordionBoxImplementationOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height
@@ -57,7 +52,7 @@ class TotalAccordionBox extends AccordionBox {
       align: 'right',
       noValueAlign: 'left',
       textOptions: {
-        font: config.font
+        font: options.font
       },
       backgroundFill: null,
       backgroundStroke: null
@@ -65,20 +60,20 @@ class TotalAccordionBox extends AccordionBox {
 
     // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
     const upArrowButton = new ArrowButton( 'up', () => {
-      currentNumberProperty.value = Math.min( currentNumberProperty.range.max, currentNumberProperty.value + 1 );
-    }, config.arrowButtonConfig );
+      currentNumberProperty.value = Math.min( currentNumberProperty.range!.max, currentNumberProperty.value + 1 );
+    }, options.arrowButtonOptions );
     const downArrowButton = new ArrowButton( 'down', () => {
-      currentNumberProperty.value = Math.max( currentNumberProperty.range.min, currentNumberProperty.value - 1 );
-    }, config.arrowButtonConfig );
+      currentNumberProperty.value = Math.max( currentNumberProperty.range!.min, currentNumberProperty.value - 1 );
+    }, options.arrowButtonOptions );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],
-      spacing: config.arrowButtonConfig.spacing
+      spacing: options.arrowButtonSpacing
     } );
 
     // disable the arrow buttons when the currentNumberProperty value is at its min or max range
-    const currentNumberPropertyObserver = currentNumber => {
-      upArrowButton.enabled = currentNumber !== currentNumberProperty.range.max;
-      downArrowButton.enabled = currentNumber !== currentNumberProperty.range.min;
+    const currentNumberPropertyObserver = ( currentNumber: number ) => {
+      upArrowButton.enabled = currentNumber !== currentNumberProperty.range!.max;
+      downArrowButton.enabled = currentNumber !== currentNumberProperty.range!.min;
     };
     currentNumberProperty.link( currentNumberPropertyObserver );
 
@@ -87,7 +82,7 @@ class TotalAccordionBox extends AccordionBox {
     numberControl.center = contentNode.center;
     contentNode.addChild( numberControl );
 
-    super( contentNode, config );
+    super( contentNode, options );
   }
 }
 

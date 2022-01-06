@@ -7,10 +7,9 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import GroupingLinkingType, { GroupingLinkingTypeValues } from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
-import required from '../../../../phet-core/js/required.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Image, voicingManager } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
@@ -20,60 +19,50 @@ import groupingScene2_png from '../../../images/groupingScene2_png.js';
 import groupingScene3_png from '../../../images/groupingScene3_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import ObjectsAccordionBox from './ObjectsAccordionBox.js';
 import OnesAccordionBox from './OnesAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
-import TotalAccordionBox from './TotalAccordionBox.js';
-import WordAccordionBox from './WordAccordionBox.js';
+import TotalAccordionBox, { TotalAccordionBoxOptions } from './TotalAccordionBox.js';
+import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
+import NumberPlayModel from '../model/NumberPlayModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+
+// types
+type GroupingLinkTypeToImage = {
+  [key in GroupingLinkingType]: HTMLImageElement; // eslint-disable-line no-unused-vars
+};
+type NumberPlayScreenViewOptions = {
+  wordAccordionBoxOptions: WordAccordionBoxOptions,
+  totalAccordionBoxOptions: TotalAccordionBoxOptions,
+  tenFrameAccordionBoxOptions: Partial<AccordionBoxOptions>,
+  upperAccordionBoxHeight: number,
+  lowerAccordionBoxHeight: number,
+  tandem: Tandem
+};
 
 // constants
-const groupingLinkingTypeToImage = {};
-groupingLinkingTypeToImage[ GroupingLinkingType.NO_GROUPING ] = groupingScene1_png;
-groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING ] = groupingScene2_png;
-groupingLinkingTypeToImage[ GroupingLinkingType.GROUPING_AND_LINKED ] = groupingScene3_png;
+const groupingLinkingTypeToImage = {} as GroupingLinkTypeToImage;
+groupingLinkingTypeToImage[ 'NO_GROUPING' ] = groupingScene1_png; // eslint-disable-line dot-notation
+groupingLinkingTypeToImage[ 'GROUPING' ] = groupingScene2_png; // eslint-disable-line dot-notation
+groupingLinkingTypeToImage[ 'GROUPING_AND_LINKED' ] = groupingScene3_png; // eslint-disable-line dot-notation
 
 class NumberPlayScreenView extends ScreenView {
 
-  /**
-   * @param {NumberPlayModel} model
-   * @param {Object} config
-   */
-  constructor( model, config ) {
+  public readonly wordAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly totalAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly onesAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly objectsAccordionBox: ObjectsAccordionBox;
 
-    config = merge( {
+  constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
 
-      // config for WordAccordionBox. see WordAccordionBox for additional fields. the keys defined here are optional,
-      // but config is used because the additional keys are required.
-      wordAccordionBoxConfig: {
-        fill: null // {ColorDef} - accordion box background fill
-      },
+    super( options );
 
-      // config for TotalAccordionBox. see TotalAccordionBox for additional fields. the keys defined here are
-      // optional, but config is used because the additional keys are required.
-      totalAccordionBoxConfig: {
-        fill: null // {ColorDef} - accordion box background fill
-      },
-
-      // options for TenFrameAccordionBox.
-      tenFrameAccordionBoxOptions: {
-        fill: null // {ColorDef} - accordion box background fill
-      },
-
-      // accordion box heights. these are not part of specific accordion box configs because they apply to
-      // multiple accordion boxes.
-      upperAccordionBoxHeight: required( config.upperAccordionBoxHeight ), // {number}
-      lowerAccordionBoxHeight: required( config.lowerAccordionBoxHeight ), // {number}
-
-      // phet-io
-      tandem: config.tandem
-    }, config );
-
-    super( config );
-
-    // @public {BooleanProperty} - Properties used to control the expanded state of each accordion box
+    // Properties used to control the expanded state of each accordion box
     this.wordAccordionBoxExpandedProperty = new BooleanProperty( false );
     this.totalAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.tenFrameAccordionBoxExpandedProperty = new BooleanProperty( false );
@@ -83,9 +72,9 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
-      config.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
-      }, config.wordAccordionBoxConfig ) );
+      }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
     this.addChild( wordAccordionBox );
@@ -93,9 +82,9 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the TotalAccordionBox
     const totalAccordionBox = new TotalAccordionBox(
       model.currentNumberProperty,
-      config.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
-      }, config.totalAccordionBoxConfig ) );
+      }, options.totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     totalAccordionBox.centerX = this.layoutBounds.centerX;
     totalAccordionBox.top = wordAccordionBox.top;
     this.addChild( totalAccordionBox );
@@ -103,9 +92,9 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the TenFrameAccordionBox
     const tenFrameAccordionBox = new TenFrameAccordionBox(
       model.currentNumberProperty,
-      config.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
-      }, config.tenFrameAccordionBoxOptions ) );
+      }, options.tenFrameAccordionBoxOptions ) );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
@@ -113,17 +102,17 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the OnesAccordionBox
     const onesAccordionBox = new OnesAccordionBox(
       model.onesPlayArea,
-      config.lowerAccordionBoxHeight, {
+      options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
     this.addChild( onesAccordionBox );
 
-    // @public {ObjectsAccordionBox} - create and add the ObjectsAccordionBox
+    // create and add the ObjectsAccordionBox
     this.objectsAccordionBox = new ObjectsAccordionBox(
       model.objectsPlayArea,
-      config.lowerAccordionBoxHeight, {
+      options.lowerAccordionBoxHeight, {
         linkedPlayArea: model.onesPlayArea,
         groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty
@@ -141,7 +130,7 @@ class NumberPlayScreenView extends ScreenView {
       },
       right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
       bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
-      tandem: config.tandem.createTandem( 'resetAllButton' )
+      tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
 
@@ -154,9 +143,10 @@ class NumberPlayScreenView extends ScreenView {
     }
 
     // create the icons for the RectangularRadioButtonGroup
+    // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup
     const groupingLinkingButtons = [];
     const margin = 3;
-    GroupingLinkingType.enumeration.values.forEach( groupingLinkingType => {
+    GroupingLinkingTypeValues.forEach( groupingLinkingType => {
       const iconNode = new Image( groupingLinkingTypeToImage[ groupingLinkingType ], {
         maxWidth: resetAllButton.width - 2 * margin
       } );
@@ -168,6 +158,7 @@ class NumberPlayScreenView extends ScreenView {
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+    // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup for groupingLinkingButtons, see above TODO
     const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupingLinkingTypeProperty, groupingLinkingButtons, {
       baseColor: NumberPlayColors.blueBackgroundColorProperty,
       orientation: 'vertical',
@@ -218,9 +209,9 @@ class NumberPlayScreenView extends ScreenView {
 
     // set the visibility of the organize buttons based on the state of grouping/linking
     model.groupingLinkingTypeProperty.link( groupingLinkingType => {
-      organizeOnesButton.visible = groupingLinkingType === GroupingLinkingType.NO_GROUPING ||
-                                   groupingLinkingType === GroupingLinkingType.GROUPING;
-      organizeObjectsButton.visible = groupingLinkingType === GroupingLinkingType.NO_GROUPING;
+      organizeOnesButton.visible = groupingLinkingType === 'NO_GROUPING' ||
+                                   groupingLinkingType === 'GROUPING';
+      organizeObjectsButton.visible = groupingLinkingType === 'NO_GROUPING';
     } );
   }
 

@@ -14,21 +14,17 @@ import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayColors from '../NumberPlayColors.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
+import OnesPlayArea from '../model/OnesPlayArea.js';
 
 const onesString = numberPlayStrings.ones;
 
 class OnesAccordionBox extends AccordionBox {
 
-  /**
-   * @param {OnesPlayArea} onesPlayArea
-   * @param {number} height - the height of this accordion box
-   * @param {Object} [options]
-   */
-  constructor( onesPlayArea, height, config ) {
+  constructor( onesPlayArea: OnesPlayArea, height: number, providedOptions: Partial<AccordionBoxOptions> ) {
 
-    config = merge( {
+    const options = merge( {
       titleNode: new Text( onesString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
@@ -36,7 +32,7 @@ class OnesAccordionBox extends AccordionBox {
       minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       fill: NumberPlayColors.purpleBackgroundColorProperty
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as AccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
@@ -56,7 +52,7 @@ class OnesAccordionBox extends AccordionBox {
     );
     contentNode.addChild( onesPlayAreaNode );
 
-    super( contentNode, config );
+    super( contentNode, options );
   }
 }
 

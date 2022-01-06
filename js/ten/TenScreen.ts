@@ -14,7 +14,7 @@ import { Image } from '../../../scenery/js/imports.js';
 import tenScreenIcon_png from '../../images/tenScreenIcon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
-import NumberPlayConstants from '../common/NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
@@ -36,29 +36,27 @@ class TenScreen extends Screen {
       tandem: tandem
     };
 
-    const screenViewConfig = {
-      wordAccordionBoxConfig: {
+    const screenViewOptions = {
+      wordAccordionBoxOptions: {
         fill: NumberPlayColors.greenBackgroundColorProperty,
         font: new PhetFont( 62 ),
         textOffset: new Vector2( 0, -1 ),
-        localeSwitchOffset: new Vector2( 0, -12 ),
-        speakerButtonOffset: new Vector2( 16, 6 ),
-        speakerButtonScale: 1
+        localeSwitchOffset: new Vector2( 0, -12 )
       },
-      totalAccordionBoxConfig: {
+      totalAccordionBoxOptions: {
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty,
         font: new PhetFont( 98 ),
         contentXMargin: 0, // zero out to manage x margins in subclass
-        arrowButtonConfig: {
-          arrowWidth: 20,  // empirically determined
-          arrowHeight: 20, // empirically determined
-          spacing: 10      // empirically determined
-        }
+        arrowButtonOptions: {
+          arrowWidth: 20, // empirically determined
+          arrowHeight: 20 // empirically determined
+        },
+        arrowButtonSpacing: 10 // empirically determined
       },
       tenFrameAccordionBoxOptions: {
         fill: NumberPlayColors.greenBackgroundColorProperty,
         contentAlign: 'center'
-      },
+      } as AccordionBoxOptions,
       upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,
       lowerAccordionBoxHeight: NumberPlayConstants.TEN_LOWER_ACCORDION_BOX_HEIGHT,
       tandem: tandem.createTandem( 'view' )
@@ -70,7 +68,7 @@ class TenScreen extends Screen {
         new Vector2( 58, 306 ), // empirically determined
         tandem.createTandem( 'model' )
       ),
-      ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewConfig ),
+      ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewOptions ),
       screenOptions
     );
   }

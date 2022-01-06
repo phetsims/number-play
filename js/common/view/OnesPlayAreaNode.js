@@ -9,13 +9,11 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { Node, Rectangle } from '../../../../scenery/js/imports.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';
@@ -116,8 +114,7 @@ class OnesPlayAreaNode extends Node {
 
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( ( groupingLinkingType === GroupingLinkingType.NO_GROUPING ||
-             groupingLinkingType === GroupingLinkingType.GROUPING )
+      if ( ( groupingLinkingType === 'NO_GROUPING' || groupingLinkingType === 'GROUPING' )
            && this.playObjectTypeProperty ) {
         playArea.paperNumbers.forEach( paperNumber => {
           const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
@@ -253,7 +250,7 @@ class OnesPlayAreaNode extends Node {
       const droppedPaperNumber = droppedNode.paperNumber;
 
       // if grouping is turned off, repel away
-      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === GroupingLinkingType.NO_GROUPING ) {
+      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === 'NO_GROUPING' ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
           this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {

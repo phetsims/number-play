@@ -20,21 +20,28 @@ import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularR
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayColors from '../NumberPlayColors.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
+import OnesPlayArea from '../model/OnesPlayArea.js';
+import Property from '../../../../axon/js/Property.js';
 
+// types
+type ObjectsAccordionBoxOptions = {
+  linkedPlayArea?: OnesPlayArea | null,
+  groupingLinkingTypeProperty?: Property<GroupingLinkingType> | null,
+  radioButtonSize: Dimension2,
+  radioButtonSpacing: number
+} & AccordionBoxOptions;
+
+// strings
 const objectsString = numberPlayStrings.objects;
 
 class ObjectsAccordionBox extends AccordionBox {
+  private readonly playObjectTypeProperty: RichEnumerationProperty<PlayObjectType>;
 
-  /**
-   * @param {NumberPlayPlayArea} objectsPlayArea
-   * @param {number} height - the height of this accordion box
-   * @param {Object} [options]
-   */
-  constructor( objectsPlayArea, height, config ) {
+  constructor( objectsPlayArea: OnesPlayArea, height: number, providedOptions: Partial<ObjectsAccordionBoxOptions> ) {
 
-    config = merge( {
+    const options = merge( {
       titleNode: new Text( objectsString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
@@ -42,12 +49,12 @@ class ObjectsAccordionBox extends AccordionBox {
       minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       fill: NumberPlayColors.blueBackgroundColorProperty,
-      linkedPlayArea: null, // {null|OnesPlayArea}
-      groupingLinkingTypeProperty: null, // {RichEnumerationProperty.<GroupingLinkingType>|null}
+      linkedPlayArea: null,
+      groupingLinkingTypeProperty: null,
 
       radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
       radioButtonSpacing: 10 // empirically determined
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as ObjectsAccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
@@ -67,17 +74,19 @@ class ObjectsAccordionBox extends AccordionBox {
       objectsPlayArea,
       playAreaViewBounds, {
         playObjectTypeProperty: playObjectTypeProperty,
-        groupingLinkingTypeProperty: config.groupingLinkingTypeProperty
+        groupingLinkingTypeProperty: options.groupingLinkingTypeProperty
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
 
     // create the icons for the RectangularRadioButtonGroup
+    // @ts-ignore
     const buttons = [];
     PlayObjectType.enumeration.values.forEach( playObjectType => {
+      // @ts-ignore
       const iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
-        maxWidth: config.radioButtonSize.width,
-        maxHeight: config.radioButtonSize.height
+        maxWidth: options.radioButtonSize.width,
+        maxHeight: options.radioButtonSize.height
       } );
 
       buttons.push( {
@@ -87,27 +96,28 @@ class ObjectsAccordionBox extends AccordionBox {
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+    // @ts-ignore
     const radioButtonGroup = new RectangularRadioButtonGroup( playObjectTypeProperty, buttons, {
       baseColor: Color.WHITE,
       orientation: 'horizontal',
-      spacing: config.radioButtonSpacing
+      spacing: options.radioButtonSpacing
     } );
     radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
     radioButtonGroup.bottom = playAreaViewBounds.bottom;
     contentNode.addChild( radioButtonGroup );
 
     // add the linked play area
-    if ( config.linkedPlayArea && config.groupingLinkingTypeProperty ) {
+    if ( options.linkedPlayArea && options.groupingLinkingTypeProperty ) {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
-        config.linkedPlayArea,
+        options.linkedPlayArea,
         playAreaViewBounds, {
           playObjectTypeProperty: playObjectTypeProperty,
           viewHasIndependentModel: false
         }
       );
 
-      config.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-        if ( groupingLinkingType === GroupingLinkingType.GROUPING_AND_LINKED ) {
+      options.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
+        if ( groupingLinkingType === 'GROUPING_AND_LINKED' ) {
           contentNode.removeChild( objectsPlayAreaNode );
           contentNode.addChild( linkedObjectsPlayAreaNode );
         }
@@ -119,9 +129,8 @@ class ObjectsAccordionBox extends AccordionBox {
       } );
     }
 
-    super( contentNode, config );
+    super( contentNode, options );
 
-    // @public {RichEnumerationProperty.<PlayObjectType>}
     this.playObjectTypeProperty = playObjectTypeProperty;
   }
 

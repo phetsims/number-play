@@ -8,14 +8,22 @@
  */
 
 import merge from '../../../../phet-core/js/merge.js';
-import required from '../../../../phet-core/js/required.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Font, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import LocaleSwitch from './LocaleSwitch.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+
+// types
+export type WordAccordionBoxOptions = {
+  textOffset: Vector2,
+  localeSwitchOffset: Vector2,
+  font: Font
+};
+type WordAccordionBoxImplementationOptions = AccordionBoxOptions & WordAccordionBoxOptions;
 
 // constants
 const CONTENT_MAX_WIDTH = 260; // empirically determined to not shrink the accordion box content
@@ -25,27 +33,16 @@ const wordString = numberPlayStrings.word;
 
 class WordAccordionBox extends AccordionBox {
 
-  /**
-   * @param {NumberProperty} currentNumberProperty
-   * @param {number} height - the height of this accordion box
-   * @param {Object} config
-   */
-  constructor( currentNumberProperty, height, config ) {
+  constructor( currentNumberProperty: NumberProperty, height: number, providedOptions: WordAccordionBoxOptions ) {
 
-    config = merge( {
+    const options = merge( {
       titleNode: new Text( wordString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       } ),
       minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
-
-      font: required( config.font ), // {Font} - font of the displayed string value
-      textOffset: required( config.textOffset ), // {Vector2}
-      localeSwitchOffset: required( config.localeSwitchOffset ), // {Vector2}
-      speakerButtonOffset: required( config.speakerButtonOffset ), // {Vector2}
-      speakerButtonScale: required( config.speakerButtonScale ) // {number}
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, config );
+      maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as WordAccordionBoxImplementationOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
@@ -53,23 +50,23 @@ class WordAccordionBox extends AccordionBox {
     } );
 
     const wordText = new Text( NumberPlayConstants.NUMBER_TO_STRING[ currentNumberProperty.value ], {
-      font: config.font,
-      maxWidth: CONTENT_MAX_WIDTH - config.textOffset.x
+      font: options.font,
+      maxWidth: CONTENT_MAX_WIDTH - options.textOffset.x
     } );
-    wordText.left = contentNode.left + config.textOffset.x;
-    wordText.centerY = contentNode.centerY + config.textOffset.y;
+    wordText.left = contentNode.left + options.textOffset.x;
+    wordText.centerY = contentNode.centerY + options.textOffset.y;
     contentNode.addChild( wordText );
 
     // make sure the offset doesn't cause the LocaleSwitch to poke out of either end of the content node when at its max width
-    const localeSwitchMaxWidth = CONTENT_MAX_WIDTH - Math.abs( config.localeSwitchOffset.x ) * 2;
+    const localeSwitchMaxWidth = CONTENT_MAX_WIDTH - Math.abs( options.localeSwitchOffset.x ) * 2;
 
     // create and add the LocaleSwitch
     const localeSwitch = new LocaleSwitch( localeSwitchMaxWidth );
-    localeSwitch.centerX = contentNode.centerX + config.localeSwitchOffset.x;
-    localeSwitch.bottom = contentNode.bottom + config.localeSwitchOffset.y;
+    localeSwitch.centerX = contentNode.centerX + options.localeSwitchOffset.x;
+    localeSwitch.bottom = contentNode.bottom + options.localeSwitchOffset.y;
     contentNode.addChild( localeSwitch );
 
-    super( contentNode, config );
+    super( contentNode, options );
 
     currentNumberProperty.lazyLink( currentNumber => {
       wordText.text = NumberPlayConstants.NUMBER_TO_STRING[ currentNumber ];

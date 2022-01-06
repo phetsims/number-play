@@ -16,7 +16,7 @@ import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-type levelImagesType = {
+type LevelImages = {
   [ key: number ]: HTMLImageElement
 }
 
@@ -34,9 +34,9 @@ class NumberPlayGameType extends EnumerationValue {
   static enumeration = new RichEnumeration<NumberPlayGameType>( NumberPlayGameType );
 
   public readonly gameName: string;
-  public readonly levelImages: levelImagesType;
+  public readonly levelImages: LevelImages;
 
-  private constructor( gameName: string, levelImages: levelImagesType ) {
+  private constructor( gameName: string, levelImages: LevelImages ) {
     super();
 
     this.gameName = gameName;
