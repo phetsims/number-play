@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Subitizer generates the arranged and random points that make up a shape. It is also responsible for the sequence of
@@ -188,7 +188,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new RichEnumerationProperty<SubitizeObjectType>( SubitizeObjectType, SubitizeObjectType.DOG );
+    this._objectTypeProperty = new RichEnumerationProperty( SubitizeObjectType.DOG );
     this.objectTypeProperty = this._objectTypeProperty;
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because

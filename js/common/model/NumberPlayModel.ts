@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Model class for Number Play. It is used for both the 'Ten' and 'Twenty' screens.
@@ -36,7 +36,7 @@ class NumberPlayModel {
     this.isResettingProperty = new BooleanProperty( false );
 
     // whether the ones and objects play areas are linked
-    this.groupingLinkingTypeProperty = new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING );
+    this.groupingLinkingTypeProperty = new RichEnumerationProperty( GroupingLinkingType.NO_GROUPING );
 
     // the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
@@ -62,7 +62,7 @@ class NumberPlayModel {
   /**
    * Resets the model.
    */
- public reset(): void {
+  public reset(): void {
     this.isResettingProperty.value = true;
     this.groupingLinkingTypeProperty.reset();
     this.onesPlayArea.reset();

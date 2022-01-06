@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Class for the 'Objects' accordion box, which is the panel in the lower right corner of the sim that displays an
@@ -61,7 +61,7 @@ class ObjectsAccordionBox extends AccordionBox {
       contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
-    const playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, PlayObjectType.DOG );
+    const playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.DOG );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,

@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Model class for the 'Compare' screen.
@@ -33,7 +33,7 @@ class CompareModel {
     } );
 
     // @public {RichEnumerationProperty.<CompareCountingType>}
-    this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType, CompareCountingType.BLOCKS );
+    this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType.BLOCKS );
 
     // @public {BooleanProperty}
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );

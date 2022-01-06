@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * CountingGameLevel is the class for a 'Counting' game level model.
@@ -45,7 +45,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     } );
 
     // the object type of the current challenge
-    this._playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
+    this._playObjectTypeProperty = new RichEnumerationProperty( CountingGameLevel.getRandomPlayObjectType() );
     this.playObjectTypeProperty = this._playObjectTypeProperty;
 
     // whether the current representation of the challengeNumber are objects. Always use objects as the first representation

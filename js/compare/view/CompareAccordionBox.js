@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Class for the `Objects` accordion box on the 'Compare' screen, which mixes the functionality of ObjectsAccordionBox
@@ -88,7 +88,7 @@ class CompareAccordionBox extends AccordionBox {
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds, {
         playObjectTypeProperty: objectsTypeProperty,
-        groupingLinkingTypeProperty: new RichEnumerationProperty( GroupingLinkingType, GroupingLinkingType.NO_GROUPING )
+        groupingLinkingTypeProperty: new RichEnumerationProperty( GroupingLinkingType.NO_GROUPING )
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
