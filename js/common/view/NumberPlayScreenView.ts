@@ -44,10 +44,10 @@ type NumberPlayScreenViewOptions = {
 };
 
 // constants
-const groupingLinkingTypeToImage = {} as GroupingLinkTypeToImage;
-groupingLinkingTypeToImage[ 'NO_GROUPING' ] = groupingScene1_png; // eslint-disable-line dot-notation
-groupingLinkingTypeToImage[ 'GROUPING' ] = groupingScene2_png; // eslint-disable-line dot-notation
-groupingLinkingTypeToImage[ 'GROUPING_AND_LINKED' ] = groupingScene3_png; // eslint-disable-line dot-notation
+const GROUPING_LINKING_TYPE_TO_IMAGE = {} as GroupingLinkTypeToImage;
+GROUPING_LINKING_TYPE_TO_IMAGE[ 'UNGROUPED' ] = groupingScene1_png; // eslint-disable-line dot-notation
+GROUPING_LINKING_TYPE_TO_IMAGE[ 'GROUPED' ] = groupingScene2_png; // eslint-disable-line dot-notation
+GROUPING_LINKING_TYPE_TO_IMAGE[ 'GROUPED_AND_LINKED' ] = groupingScene3_png; // eslint-disable-line dot-notation
 
 class NumberPlayScreenView extends ScreenView {
 
@@ -147,7 +147,7 @@ class NumberPlayScreenView extends ScreenView {
     const groupingLinkingButtons = [];
     const margin = 3;
     GroupingLinkingTypeValues.forEach( groupingLinkingType => {
-      const iconNode = new Image( groupingLinkingTypeToImage[ groupingLinkingType ], {
+      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE[ groupingLinkingType ], {
         maxWidth: resetAllButton.width - 2 * margin
       } );
 
@@ -209,9 +209,9 @@ class NumberPlayScreenView extends ScreenView {
 
     // set the visibility of the organize buttons based on the state of grouping/linking
     model.groupingLinkingTypeProperty.link( groupingLinkingType => {
-      organizeOnesButton.visible = groupingLinkingType === 'NO_GROUPING' ||
-                                   groupingLinkingType === 'GROUPING';
-      organizeObjectsButton.visible = groupingLinkingType === 'NO_GROUPING';
+      organizeOnesButton.visible = groupingLinkingType === 'UNGROUPED' ||
+                                   groupingLinkingType === 'GROUPED';
+      organizeObjectsButton.visible = groupingLinkingType === 'UNGROUPED';
     } );
   }
 

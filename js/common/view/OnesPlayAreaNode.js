@@ -114,7 +114,7 @@ class OnesPlayAreaNode extends Node {
 
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( ( groupingLinkingType === 'NO_GROUPING' || groupingLinkingType === 'GROUPING' )
+      if ( ( groupingLinkingType === 'UNGROUPED' || groupingLinkingType === 'GROUPED' )
            && this.playObjectTypeProperty ) {
         playArea.paperNumbers.forEach( paperNumber => {
           const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
@@ -250,7 +250,7 @@ class OnesPlayAreaNode extends Node {
       const droppedPaperNumber = droppedNode.paperNumber;
 
       // if grouping is turned off, repel away
-      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === 'NO_GROUPING' ) {
+      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === 'UNGROUPED' ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
           this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {

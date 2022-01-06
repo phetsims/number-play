@@ -117,7 +117,7 @@ class ObjectsAccordionBox extends AccordionBox {
       );
 
       options.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-        if ( groupingLinkingType === 'GROUPING_AND_LINKED' ) {
+        if ( groupingLinkingType === 'GROUPED_AND_LINKED' ) {
           contentNode.removeChild( objectsPlayAreaNode );
           contentNode.addChild( linkedObjectsPlayAreaNode );
         }

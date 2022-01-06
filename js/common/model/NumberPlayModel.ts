@@ -36,7 +36,7 @@ class NumberPlayModel {
     this.isResettingProperty = new BooleanProperty( false );
 
     // whether the ones and objects play areas are linked
-    this.groupingLinkingTypeProperty = new Property<GroupingLinkingType>( 'NO_GROUPING' );
+    this.groupingLinkingTypeProperty = new Property<GroupingLinkingType>( 'UNGROUPED' );
 
     // the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {

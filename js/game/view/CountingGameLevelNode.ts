@@ -71,7 +71,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       level.objectsPlayArea,
       objectsPlayAreaViewBounds, {
         playObjectTypeProperty: level.playObjectTypeProperty,
-        groupingLinkingTypeProperty: new Property<GroupingLinkingType>( level.groupObjects ? 'GROUPING' : 'NO_GROUPING' ),
+        groupingLinkingTypeProperty: new Property<GroupingLinkingType>( level.groupObjects ? 'GROUPED' : 'UNGROUPED' ),
         includeOnesCreatorPanel: false
       }
     );
