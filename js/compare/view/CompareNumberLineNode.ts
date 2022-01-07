@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Class for a 'Compare Number Line' Node, which creates a number line with two dynamic points that represent the value
