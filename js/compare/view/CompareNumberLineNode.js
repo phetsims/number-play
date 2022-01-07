@@ -9,7 +9,7 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationDeprecated from '../../../../phet-core/js/EnumerationDeprecated.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Circle, Color, Node, Path, Text } from '../../../../scenery/js/imports.js';
@@ -147,11 +147,11 @@ const getCurrentNumberIndicatorNode = ( triangleSide, triangleColor ) => {
 };
 
 /**
- * Enumeration for specifying which side the triangle should go on for the indicator node above.
+ * EnumerationDeprecated for specifying which side the triangle should go on for the indicator node above.
  *
  * @private
  */
-const LeftRightDirection = Enumeration.byKeys( [ 'LEFT', 'RIGHT' ] );
+const LeftRightDirection = EnumerationDeprecated.byKeys( [ 'LEFT', 'RIGHT' ] );
 
 numberPlay.register( 'CompareNumberLineNode', CompareNumberLineNode );
 export default CompareNumberLineNode;
