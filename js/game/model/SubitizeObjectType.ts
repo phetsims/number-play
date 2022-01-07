@@ -7,9 +7,9 @@
  * @author Luisa Vargas
  */
 
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
 import numberPlay from '../../numberPlay.js';
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
 class SubitizeObjectType extends EnumerationValue {
   static DOG = new SubitizeObjectType();

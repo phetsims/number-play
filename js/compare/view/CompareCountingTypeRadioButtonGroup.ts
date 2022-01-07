@@ -6,6 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
@@ -20,16 +21,15 @@ import CompareNumberLineNode from './CompareNumberLineNode.js';
 const ICON_SIZE = 32; // the width and height of the icons used for the buttons, in screen coordinates
 const BUTTON_X_MARGIN = 7; // in screen coordinates
 
-class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
+class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<CompareCountingType> {
 
-  /**
-   * @param {RichEnumerationProperty.<CompareCountingType>}
-   */
-  constructor( countingTypeProperty ) {
+  constructor( countingTypeProperty: RichEnumerationProperty<CompareCountingType> ) {
 
     // create a map from each CompareCountingType to a corresponding icon
     const countingTypeToNode = {};
+    // @ts-ignore TODO-TS: How to index objects with new enum patter?
     countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2, false );
+    // @ts-ignore
     countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode(
       new Range( 0, 5 ), {
         includeLabels: false,
@@ -38,10 +38,12 @@ class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup {
         minorTickMarkHalfLineLength: 11, // empirically determined
         majorTickMarkHalfLineLength: 32 // empirically determined
       } );
+    // @ts-ignore
     countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
 
     // create an icon for each value of CompareCountingType
     const countingTypeRadioButtons = CompareCountingType.enumeration.values.map( countingType => {
+      // @ts-ignore
       const iconNode = countingTypeToNode[ countingType ];
       iconNode.maxWidth = ICON_SIZE;
       iconNode.maxHeight = ICON_SIZE;

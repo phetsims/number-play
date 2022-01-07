@@ -44,10 +44,11 @@ type NumberPlayScreenViewOptions = {
 };
 
 // constants
-const GROUPING_LINKING_TYPE_TO_IMAGE = {} as GroupingLinkTypeToImage;
-GROUPING_LINKING_TYPE_TO_IMAGE[ 'UNGROUPED' ] = groupingScene1_png; // eslint-disable-line dot-notation
-GROUPING_LINKING_TYPE_TO_IMAGE[ 'GROUPED' ] = groupingScene2_png; // eslint-disable-line dot-notation
-GROUPING_LINKING_TYPE_TO_IMAGE[ 'GROUPED_AND_LINKED' ] = groupingScene3_png; // eslint-disable-line dot-notation
+const GROUPING_LINKING_TYPE_TO_IMAGE: GroupingLinkTypeToImage = {
+  'UNGROUPED': groupingScene1_png, // eslint-disable-line quote-props
+  'GROUPED': groupingScene2_png, // eslint-disable-line quote-props
+  'GROUPED_AND_LINKED': groupingScene3_png // eslint-disable-line quote-props
+};
 
 class NumberPlayScreenView extends ScreenView {
 

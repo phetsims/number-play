@@ -8,47 +8,47 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import ComparePlayObjectType from './ComparePlayObjectType.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 class ComparePlayArea {
+  public readonly playObjectTypeProperty: RichEnumerationProperty<ComparePlayObjectType>;
+  public readonly onesPlayArea: OnesPlayArea;
+  public readonly objectsPlayArea: OnesPlayArea;
 
-  /**
-   * @param {NumberProperty} currentNumberProperty
-   * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
-   * @param {BooleanProperty} isResetting
-   */
-  constructor( currentNumberProperty, objectMaxScale, paperNumberOrigin, isResettingProperty ) {
+  constructor( currentNumberProperty: NumberProperty,
+               objectMaxScale: number,
+               paperNumberOrigin: Vector2,
+               isResettingProperty: BooleanProperty ) {
 
-    // @public {RichEnumerationProperty.<ComparePlayObjectType>} - the current type of playObject being displayed
+    // the current type of playObject being displayed
     this.playObjectTypeProperty = new RichEnumerationProperty( ComparePlayObjectType.DOG );
 
-    // @public (read-only) - the model for managing paper ones in the playArea
+    // the model for managing paper ones in the playArea
     this.onesPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {
       isResettingProperty: isResettingProperty
     } );
 
-    // @public (read-only) - the model for managing objects in the playArea
+    // the model for managing objects in the playArea
     this.objectsPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {
       isResettingProperty: isResettingProperty
     } );
   }
 
   /**
-   * @param {number} dt - time step, in seconds
-   * @public
+   * @param dt - time step, in seconds
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.onesPlayArea.step( dt );
     this.objectsPlayArea.step( dt );
   }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
     this.playObjectTypeProperty.reset();

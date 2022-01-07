@@ -7,14 +7,26 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Shape from '../../../../kite/js/Shape.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Circle, Color, Node, Path, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
+import Range from '../../../../dot/js/Range.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+
+// types
+type GetNumberLineNodeOptions = {
+  includeLabels: boolean,
+  minorLineWidth: number,
+  majorLineWidth: number,
+  minorTickMarkHalfLineLength: number,
+  majorTickMarkHalfLineLength: number
+};
 
 // constants
 const PIXELS_PER_TICK_MARK = 20; // the number of pixels between the center of two tick marks, in screen coordinates
@@ -22,26 +34,22 @@ const INTEGERS_PER_MAJOR_TICK_MARK = 5; // the number of integers between two ma
 
 class CompareNumberLineNode extends Node {
 
-  /**
-   * @param {NumberProperty} leftCurrentNumberProperty
-   * @param {NumberProperty} rightCurrentNumberProperty
-   */
-  constructor( leftCurrentNumberProperty, rightCurrentNumberProperty ) {
+  constructor( leftCurrentNumberProperty: NumberProperty, rightCurrentNumberProperty: NumberProperty ) {
     super();
 
     // create and add the number line
-    const numberLineNode = CompareNumberLineNode.getNumberLineNode( leftCurrentNumberProperty.range );
+    const numberLineNode = CompareNumberLineNode.getNumberLineNode( leftCurrentNumberProperty.range! );
     this.addChild( numberLineNode );
 
     // create and add an indicator for the leftCurrentNumberProperty
-    const leftCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
+    const leftCurrentNumberIndicatorNode = CompareNumberLineNode.getCurrentNumberIndicatorNode(
       LeftRightDirection.LEFT,
       NumberPlayColors.mediumGreenBackgroundColorProperty
     );
     numberLineNode.addChild( leftCurrentNumberIndicatorNode );
 
     // create and add an indicator for the rightCurrentNumberProperty
-    const rightCurrentNumberIndicatorNode = getCurrentNumberIndicatorNode(
+    const rightCurrentNumberIndicatorNode = CompareNumberLineNode.getCurrentNumberIndicatorNode(
       LeftRightDirection.RIGHT,
       NumberPlayColors.mediumOrangeBackgroundColorProperty
     );
@@ -62,21 +70,18 @@ class CompareNumberLineNode extends Node {
    * Draws a number line node in a vertical orientation with minor + major tick marks and number labels on the major
    * tick marks.
    *
-   * @param {Range} range (inclusive)
-   * @param {boolean} includeLabels
-   * @param {object} [options]
-   * @returns {Node}
-   * @public
+   * @param range - inclusive
+   * @param [providedOptions]
    */
-  static getNumberLineNode( range, options ) {
+  public static getNumberLineNode( range: Range, providedOptions?: Partial<GetNumberLineNodeOptions> ): Node {
 
-    options = merge( {
+    const options = merge( {
       includeLabels: true,
       minorLineWidth: 1,
       majorLineWidth: 2,
       minorTickMarkHalfLineLength: 9,
       majorTickMarkHalfLineLength: 16
-    }, options );
+    }, providedOptions ) as GetNumberLineNodeOptions;
     const numberLineDistance = range.getLength();
 
     // create the base vertical line
@@ -111,47 +116,48 @@ class CompareNumberLineNode extends Node {
 
     return numberLineNode;
   }
+
+  /**
+   * Creates an indicator for the number line, which consists of a point with a triangle attached to it on the left or
+   * right side.
+   */
+  // TODO-TS: PaintDef
+  private static getCurrentNumberIndicatorNode( triangleSide: LeftRightDirection, triangleColor: PaintDef ) { // eslint-disable-line no-undef
+
+    // create the center point
+    const pointRadius = 5;
+    const pointNode = new Circle( pointRadius, { fill: Color.BLACK } );
+
+    // create and add the triangle on the left or right side
+    const sign = triangleSide === LeftRightDirection.LEFT ? -1 : 1;
+    const triangleOrigin = new Vector2( sign * ( pointRadius - 1 ), 0 ); // empirically determined
+    const triangleLongerSideLength = 20; // empirically determined
+    const triangleShorterSideLength = triangleLongerSideLength * 0.8; // empirically determined
+    const triangleShape = new Shape()
+      .moveToPoint( triangleOrigin )
+      .lineToRelative( sign * triangleLongerSideLength / Math.sqrt( 2 ), -triangleShorterSideLength / 2 )
+      .lineToRelative( 0, triangleShorterSideLength )
+      .lineToPoint( triangleOrigin ).close();
+    const triangleNode = new Path( triangleShape, {
+      fill: triangleColor
+    } );
+    pointNode.addChild( triangleNode );
+
+    return pointNode;
+  }
 }
 
 /**
- * Creates an indicator for the number line, which consists of a point with a triangle attached to it on the left or
- * right side.
- *
- * @param {LeftRightDirection} triangleSide
- * @param {string} triangleColor
- * @private
- */
-const getCurrentNumberIndicatorNode = ( triangleSide, triangleColor ) => {
-  assert && assert( LeftRightDirection.includes( triangleSide ), `Invalid triangle side: ${triangleSide}` );
-
-  // create the center point
-  const pointRadius = 5;
-  const pointNode = new Circle( pointRadius, { fill: Color.BLACK } );
-
-  // create and add the triangle on the left or right side
-  const sign = triangleSide === LeftRightDirection.LEFT ? -1 : 1;
-  const triangleOrigin = new Vector2( sign * ( pointRadius - 1 ), 0 ); // empirically determined
-  const triangleLongerSideLength = 20; // empirically determined
-  const triangleShorterSideLength = triangleLongerSideLength * 0.8; // empirically determined
-  const triangleShape = new Shape()
-    .moveToPoint( triangleOrigin )
-    .lineToRelative( sign * triangleLongerSideLength / Math.sqrt( 2 ), -triangleShorterSideLength / 2 )
-    .lineToRelative( 0, triangleShorterSideLength )
-    .lineToPoint( triangleOrigin ).close();
-  const triangleNode = new Path( triangleShape, {
-    fill: triangleColor
-  } );
-  pointNode.addChild( triangleNode );
-
-  return pointNode;
-};
-
-/**
  * Enumeration for specifying which side the triangle should go on for the indicator node above.
- *
- * @private
  */
-const LeftRightDirection = Enumeration.byKeys( [ 'LEFT', 'RIGHT' ] );
+class LeftRightDirection extends EnumerationValue {
+  static LEFT = new LeftRightDirection();
+  static RIGHT = new LeftRightDirection();
+
+  static enumeration = new RichEnumeration<LeftRightDirection>( LeftRightDirection );
+
+  private constructor() { super(); }
+}
 
 numberPlay.register( 'CompareNumberLineNode', CompareNumberLineNode );
 export default CompareNumberLineNode;

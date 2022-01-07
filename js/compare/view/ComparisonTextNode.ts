@@ -7,12 +7,15 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node } from '../../../../scenery/js/imports.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // strings
 const isLessThanString = numberPlayStrings.isLessThan;
@@ -20,35 +23,16 @@ const isMoreThanString = numberPlayStrings.isMoreThan;
 const isEqualToString = numberPlayStrings.isEqualTo;
 
 class ComparisonTextNode extends Node {
+  public readonly comparisonStringProperty: IReadOnlyProperty<string>
 
-  /**
-   * @param {NumberProperty} leftCurrentNumberProperty
-   * @param {NumberProperty} rightCurrentNumberProperty
-   * @param {Bounds2} layoutBounds
-   */
-  constructor( leftCurrentNumberProperty, rightCurrentNumberProperty, layoutBounds ) {
+  constructor( leftCurrentNumberProperty: NumberProperty, rightCurrentNumberProperty: NumberProperty, layoutBounds: Bounds2 ) {
     super();
 
-    /**
-     * Concatenates the string based on the current numbers. Example format: "Three is less than seven"
-     *
-     * @param {number} leftCurrentNumber
-     * @param {number} rightCurrentNumber
-     * @private
-     */
-    const getComparisonString = ( leftCurrentNumber, rightCurrentNumber ) => {
-      const leftNumberString = _.capitalize( NumberPlayConstants.NUMBER_TO_STRING[ leftCurrentNumber ] );
-      const comparisonString = leftCurrentNumber < rightCurrentNumber ? isLessThanString :
-                               leftCurrentNumber > rightCurrentNumber ? isMoreThanString : isEqualToString;
-      const rightNumberString = NumberPlayConstants.NUMBER_TO_STRING[ rightCurrentNumber ];
-      return `${leftNumberString} ${comparisonString} ${rightNumberString}.`;
-    };
-
-    // @public (read-only) {DerivedProperty.<string>} - update the comparison string when either current number changes.
+    // (read-only) - update the comparison string when either current number changes.
     // this string value is stored in a Property (instead of just setting the text directly) so it can be read
     // elsewhere in the screen view.
     this.comparisonStringProperty = new DerivedProperty( [ leftCurrentNumberProperty, rightCurrentNumberProperty ],
-      ( leftCurrentNumber, rightCurrentNumber ) => getComparisonString( leftCurrentNumber, rightCurrentNumber ) );
+      ( leftCurrentNumber, rightCurrentNumber ) => ComparisonTextNode.getComparisonString( leftCurrentNumber, rightCurrentNumber ) );
 
     // create and add the comparison text
     const textNode = new Text(
@@ -63,6 +47,17 @@ class ComparisonTextNode extends Node {
       textNode.text = comparisonString;
       this.centerX = layoutBounds.centerX;
     } );
+  }
+
+  /**
+   * Concatenates the string based on the current numbers. Example format: "Three is less than seven"
+   */
+  private static getComparisonString( leftCurrentNumber: number, rightCurrentNumber: number ): string {
+    const leftNumberString = _.capitalize( NumberPlayConstants.NUMBER_TO_STRING[ leftCurrentNumber ] );
+    const comparisonString = leftCurrentNumber < rightCurrentNumber ? isLessThanString :
+                             leftCurrentNumber > rightCurrentNumber ? isMoreThanString : isEqualToString;
+    const rightNumberString = NumberPlayConstants.NUMBER_TO_STRING[ rightCurrentNumber ];
+    return `${leftNumberString} ${comparisonString} ${rightNumberString}.`;
   }
 }
 

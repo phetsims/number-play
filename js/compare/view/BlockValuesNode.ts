@@ -7,6 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { HBox, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
@@ -17,11 +18,7 @@ const PADDING = 2; // padding between blocks
 
 class BlockValuesNode extends Node {
 
-  /**
-   * @param {NumberProperty} leftCurrentNumberProperty
-   * @param {NumberProperty} rightCurrentNumberProperty
-   */
-  constructor( leftCurrentNumberProperty, rightCurrentNumberProperty ) {
+  constructor( leftCurrentNumberProperty: NumberProperty, rightCurrentNumberProperty: NumberProperty ) {
     super();
 
     // TODO: Fix drawing so initial state can be setup and updated here
@@ -31,13 +28,13 @@ class BlockValuesNode extends Node {
    * Draws a blockValuesNode, which is two 'towers' of blocks, where the height of each tower corresponds to the
    * values of the provided numbers.
    *
-   * @param {number} leftCurrentNumber
-   * @param {number} rightCurrentNumber
-   * @param {boolean} includeInvisibleBlocks - use true if expecting any values of 0
-   * @returns {Node}
-   * @public
+   * @param leftCurrentNumber
+   * @param rightCurrentNumber
+   * @param includeInvisibleBlocks - use true if expecting any values of 0
    */
-  static getBlockValuesNode( leftCurrentNumber, rightCurrentNumber, includeInvisibleBlocks ) {
+  public static getBlockValuesNode( leftCurrentNumber: number,
+                                    rightCurrentNumber: number,
+                                    includeInvisibleBlocks: boolean ): Node {
     const leftBlocks = [];
     const rightBlocks = [];
 

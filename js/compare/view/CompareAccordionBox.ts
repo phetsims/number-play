@@ -21,42 +21,39 @@ import merge from '../../../../phet-core/js/merge.js';
 import { Color, Image, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import NumberPlayConstants, { AccordionBoxOptions } from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import ComparePlayArea from '../model/ComparePlayArea.js';
 import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
+const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
+const RADIO_BUTTON_SPACING = 10;
+const CONTENT_WIDTH = 350;
 const WIDTH = 394; // the width of this AccordionBox, in screen coordinates. from the screen's design asset.
 
 const objectsString = numberPlayStrings.objects;
 
 class CompareAccordionBox extends AccordionBox {
 
-  /**
-   * @param {ComparePlayArea} playArea
-   * @param {number} height - the height of this accordion box
-   * @param {Object} [options]
-   */
-  constructor( playArea, height, options ) {
+  constructor( playArea: ComparePlayArea, height: number, providedOptions: Partial<AccordionBoxOptions> ) {
 
-    options = merge( {
+    const options = merge( {
       titleNode: new Text( objectsString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: 344 // empirically determined to not shrink accordion box content
       } ),
       minWidth: WIDTH,
-      maxWidth: WIDTH,
-
-      contentWidth: 350, // {number}
-      radioButtonSize: new Dimension2( 28, 28 ), // {Dimension2}
-      radioButtonSpacing: 10 // {number}
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, options );
+      maxWidth: WIDTH
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as AccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
-      rectWidth: options.contentWidth
+      rectWidth: CONTENT_WIDTH
     } );
 
     // create view bounds for the ObjectsPlayAreaNode
@@ -76,10 +73,11 @@ class CompareAccordionBox extends AccordionBox {
     );
 
     // create and add the ObjectsPlayAreaNode
-    const objectsTypeProperty = new DerivedProperty( [ playArea.playObjectTypeProperty ], playObjectType => {
-      return playObjectType === ComparePlayObjectType.PAPER_ONE ?
-             objectsTypeProperty.value : ComparePlayObjectType[ playObjectType ];
-    } );
+    const objectsTypeProperty: IReadOnlyProperty<PlayObjectType> = new DerivedProperty( [ playArea.playObjectTypeProperty ],
+      playObjectType => playObjectType === ComparePlayObjectType.PAPER_ONE ?
+        // @ts-ignore
+                        objectsTypeProperty.value : ComparePlayObjectType[ playObjectType ] );
+
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds, {
@@ -97,17 +95,20 @@ class CompareAccordionBox extends AccordionBox {
     contentNode.addChild( onesPlayAreaNode );
 
     // create the icons for the RectangularRadioButtonGroup
+    // @ts-ignore TODO-TS: get type from RectangularRadioButtonGroup
     const buttons = [];
     ComparePlayObjectType.enumeration.values.forEach( playObjectType => {
       let iconNode = null;
       if ( playObjectType === ComparePlayObjectType.PAPER_ONE ) {
+        // @ts-ignore TODO-TS: Update when BaseNumberNode API is fixed
         iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false );
-        iconNode.setScaleMagnitude( options.radioButtonSize.height / iconNode.height / 4 );
+        iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height / 4 );
       }
       else {
+        // @ts-ignore TODO-TS remove ts-ignore when converted to a map
         iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
-          maxWidth: options.radioButtonSize.width,
-          maxHeight: options.radioButtonSize.height
+          maxWidth: RADIO_BUTTON_SIZE.width,
+          maxHeight: RADIO_BUTTON_SIZE.height
         } );
       }
 
@@ -118,10 +119,11 @@ class CompareAccordionBox extends AccordionBox {
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the ComparePlayObjectType of this play area
+    // @ts-ignore TODO-TS: will be typed when used from RectangularRadioButtonGroup above
     const radioButtonGroup = new RectangularRadioButtonGroup( playArea.playObjectTypeProperty, buttons, {
       baseColor: Color.WHITE,
       orientation: 'horizontal',
-      spacing: options.radioButtonSpacing
+      spacing: RADIO_BUTTON_SPACING
     } );
     radioButtonGroup.right = objectsPlayAreaViewBounds.right - 2; // empirically determined tweak
     radioButtonGroup.bottom = objectsPlayAreaViewBounds.bottom;

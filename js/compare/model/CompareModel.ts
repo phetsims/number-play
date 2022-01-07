@@ -13,54 +13,47 @@ import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from './CompareCountingType.js';
 import ComparePlayArea from './ComparePlayArea.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 
 class CompareModel {
+  public readonly leftCurrentNumberProperty: NumberProperty;
+  public readonly rightCurrentNumberProperty: NumberProperty;
+  public readonly countingTypeProperty: RichEnumerationProperty<CompareCountingType>;
+  public readonly comparisonSignsAndTextVisibleProperty: BooleanProperty;
+  private readonly isResettingProperty: BooleanProperty;
+  public readonly leftPlayArea: ComparePlayArea;
+  public readonly rightPlayArea: ComparePlayArea;
 
-  /**
-   * @param {number} highestCount - the highest integer number that can be counted to
-   * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
-   * @param {number} objectMaxScale - see PlayObject for doc
-   * @param {Tandem} tandem
-   */
-  constructor( highestCount, paperNumberOrigin, objectMaxScale, tandem ) {
+  constructor( highestCount: number, paperNumberOrigin: Vector2, objectMaxScale: number, tandem: Tandem ) {
 
-    // @public {NumberProperty}
     this.leftCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
     } );
     this.rightCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
     } );
-
-    // @public {RichEnumerationProperty.<CompareCountingType>}
     this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType.BLOCKS );
-
-    // @public {BooleanProperty}
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
-
-    // @public {BooleanProperty} - see NumberPlayModel for doc
     this.isResettingProperty = new BooleanProperty( false );
 
-    // @public
     this.leftPlayArea = new ComparePlayArea( this.leftCurrentNumberProperty, objectMaxScale, paperNumberOrigin, this.isResettingProperty );
     this.rightPlayArea = new ComparePlayArea( this.rightCurrentNumberProperty, objectMaxScale, paperNumberOrigin, this.isResettingProperty );
   }
 
   /**
    * Steps the model.
-   * @param {number} dt - time step, in seconds
-   * @public
+   * @param dt - time step, in seconds
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.leftPlayArea.step( dt );
     this.rightPlayArea.step( dt );
   }
 
   /**
    * Resets the model.
-   * @public
    */
-  reset() {
+  public reset(): void {
     this.isResettingProperty.value = true;
     this.leftPlayArea.reset();
     this.rightPlayArea.reset();

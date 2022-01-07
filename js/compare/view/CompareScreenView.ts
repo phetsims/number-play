@@ -15,13 +15,15 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text, voicingManager } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import LocaleSwitch from '../../common/view/LocaleSwitch.js';
 import SpeechSynthesisButton from '../../common/view/SpeechSynthesisButton.js';
-import TotalAccordionBox from '../../common/view/TotalAccordionBox.js';
+import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../common/view/TotalAccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
+import CompareModel from '../model/CompareModel.js';
 import BlockValuesNode from './BlockValuesNode.js';
 import CompareAccordionBox from './CompareAccordionBox.js';
 import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButtonGroup.js';
@@ -38,29 +40,15 @@ const equalString = '=';
 const greaterThanString = '>';
 
 class CompareScreenView extends ScreenView {
+  public readonly leftTotalAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly rightTotalAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly rightCompareAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly leftCompareAccordionBoxExpandedProperty: BooleanProperty;
 
-  /**
-   * Resets the view.
-   * @public
-   */
-  reset() {
-    this.leftTotalAccordionBoxExpandedProperty.reset();
-    this.rightTotalAccordionBoxExpandedProperty.reset();
-    this.leftCompareAccordionBoxExpandedProperty.reset();
-    this.rightCompareAccordionBoxExpandedProperty.reset();
-  }
+  constructor( model: CompareModel, tandem: Tandem ) {
 
-  /**
-   * @param {CompareModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model, tandem ) {
+    super( { tandem: tandem } );
 
-    super( {
-      tandem: tandem
-    } );
-
-    // @public
     this.leftTotalAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.rightTotalAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.leftCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
@@ -82,7 +70,7 @@ class CompareScreenView extends ScreenView {
       model.leftCurrentNumberProperty,
       UPPER_ACCORDION_BOX_HEIGHT, merge( {
         expandedProperty: this.leftTotalAccordionBoxExpandedProperty
-      }, totalAccordionBoxOptions ) );
+      }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
     this.addChild( leftTotalAccordionBox );
 
@@ -91,7 +79,7 @@ class CompareScreenView extends ScreenView {
       model.rightCurrentNumberProperty,
       UPPER_ACCORDION_BOX_HEIGHT, merge( {
         expandedProperty: this.rightTotalAccordionBoxExpandedProperty
-      }, totalAccordionBoxOptions ) );
+      }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
 
@@ -224,6 +212,16 @@ class CompareScreenView extends ScreenView {
       blockValuesNode.visible = countingType === CompareCountingType.BLOCKS;
       compareNumberLineNode.visible = countingType === CompareCountingType.NUMBER_LINE;
     } );
+  }
+
+  /**
+   * Resets the view.
+   */
+  public reset(): void {
+    this.leftTotalAccordionBoxExpandedProperty.reset();
+    this.rightTotalAccordionBoxExpandedProperty.reset();
+    this.leftCompareAccordionBoxExpandedProperty.reset();
+    this.rightCompareAccordionBoxExpandedProperty.reset();
   }
 }
 

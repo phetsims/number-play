@@ -16,13 +16,14 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
 
 class SpeechSynthesisButton extends RectangularPushButton {
 
-  constructor( property: Property<number> | Property<string>, readNumber: boolean = false ) {
+  constructor( property: Property<number> | IReadOnlyProperty<string>, readNumber: boolean = false ) {
 
     // get the locale the sim is running in
     const locale = phet.joist.sim.locale;
