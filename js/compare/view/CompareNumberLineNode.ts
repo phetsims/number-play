@@ -121,8 +121,7 @@ class CompareNumberLineNode extends Node {
    * Creates an indicator for the number line, which consists of a point with a triangle attached to it on the left or
    * right side.
    */
-  // TODO-TS: PaintDef
-  private static getCurrentNumberIndicatorNode( triangleSide: LeftRightDirection, triangleColor: PaintDef ) { // eslint-disable-line no-undef
+  private static getCurrentNumberIndicatorNode( triangleSide: LeftRightDirection, triangleColor: PaintDef ) {
 
     // create the center point
     const pointRadius = 5;

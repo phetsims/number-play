@@ -20,7 +20,7 @@ import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 
 // types
 type OnesCreatorPanelOptions = {
-  stroke: PaintDef, // eslint-disable-line no-undef
+  stroke: PaintDef,
   xMargin: number,
   yMargin: number
 };
