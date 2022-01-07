@@ -154,9 +154,7 @@ class LeftRightDirection extends EnumerationValue {
   static LEFT = new LeftRightDirection();
   static RIGHT = new LeftRightDirection();
 
-  static enumeration = new RichEnumeration<LeftRightDirection>( LeftRightDirection );
-
-  private constructor() { super(); }
+  static enumeration = new RichEnumeration( LeftRightDirection );
 }
 
 numberPlay.register( 'CompareNumberLineNode', CompareNumberLineNode );

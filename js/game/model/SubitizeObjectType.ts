@@ -18,9 +18,7 @@ class SubitizeObjectType extends EnumerationValue {
   static BALL = new SubitizeObjectType();
   static CIRCLE = new SubitizeObjectType();
 
-  static enumeration = new RichEnumeration<SubitizeObjectType>( SubitizeObjectType );
-
-  private constructor() { super(); }
+  static enumeration = new RichEnumeration( SubitizeObjectType );
 }
 
 numberPlay.register( 'SubitizeObjectType', SubitizeObjectType );

@@ -15,9 +15,7 @@ class ComparePlayObjectType extends EnumerationValue {
   static APPLE = new ComparePlayObjectType();
   static PAPER_ONE = new ComparePlayObjectType();
 
-  static enumeration = new RichEnumeration<ComparePlayObjectType>( ComparePlayObjectType );
-
-  private constructor() { super(); }
+  static enumeration = new RichEnumeration( ComparePlayObjectType );
 }
 
 numberPlay.register( 'ComparePlayObjectType', ComparePlayObjectType );
