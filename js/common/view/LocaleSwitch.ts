@@ -30,10 +30,7 @@ const spanishString = numberPlayStrings.spanish;
 
 class LocaleSwitch extends ABSwitch {
 
-  /**
-   * @param {number} maxWidth
-   */
-  constructor( maxWidth ) {
+  constructor( maxWidth: number ) {
 
     // TODO: this will likely be moved out of this type once it is in use, see https://github.com/phetsims/number-play/issues/31
     const secondLocaleProperty = new BooleanProperty( phet.joist.sim.locale === 'es' );

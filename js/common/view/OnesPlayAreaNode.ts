@@ -10,71 +10,95 @@
 
 import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Node, Rectangle } from '../../../../scenery/js/imports.js';
+import { Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
+import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+
+// types
+type OnesPlayAreaNodeOptions = {
+  paperNumberLayerNode: null | Node,
+  backgroundDragTargetNode: null | Node,
+  playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null,
+  groupingLinkingTypeProperty: Property<GroupingLinkingType> | null,
+  viewHasIndependentModel: boolean,
+  includeOnesCreatorPanel: boolean
+};
+type PaperNumberNodeMap = {
+  [ key: number ]: PaperNumberNode
+};
 
 class OnesPlayAreaNode extends Node {
+  private readonly numberSplitListener: Function;
+  private readonly numberInteractionListener: Function;
+  private readonly numberAnimationFinishedListener: Function;
+  private readonly numberDragFinishedListener: Function;
+  private playArea: OnesPlayArea;
+  private readonly tryToCombineNumbersCallback: Function;
+  private readonly addAndDragNumberCallback: Function;
+  private readonly paperNumberNodeMap: PaperNumberNodeMap;
+  public readonly availableViewBoundsProperty: Property<Bounds2>;
+  readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null;
+  private readonly groupingLinkingTypeProperty: Property<GroupingLinkingType> | null;
+  private readonly viewHasIndependentModel: boolean;
+  private readonly closestDragListener: ClosestDragListener;
+  private readonly paperNumberLayerNode: Node | null;
+  private readonly onesCreatorPanel: OnesCreatorPanel;
+  private readonly includeOnesCreatorPanel: boolean;
 
-  /**
-   * @param {OnesPlayArea} playArea
-   * @param {Bounds2} playAreaViewBounds
-   * @param {object} [options]
-   */
-  constructor( playArea, playAreaViewBounds, options ) {
+  constructor( playArea: OnesPlayArea, playAreaViewBounds: Bounds2, providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
     super();
 
-    options = merge( {
-      paperNumberLayerNode: null, // {null|Node}
-      backgroundDragTargetNode: null, // {null|Node}
-      playObjectTypeProperty: null, // {RichEnumerationProperty.<PlayObjectType>|null}
-      groupingLinkingTypeProperty: null, // {RichEnumerationProperty.<GroupingLinkingType>|null}
-      viewHasIndependentModel: true, // {boolean} whether this view is hooked up to its own model or a shared model
+    const options = merge( {
+      paperNumberLayerNode: null,
+      backgroundDragTargetNode: null,
+      playObjectTypeProperty: null,
+      groupingLinkingTypeProperty: null,
+      viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
       includeOnesCreatorPanel: true
-    }, options );
+    }, providedOptions ) as OnesPlayAreaNodeOptions;
 
-    // @private {Function} - Called with function( paperNumberNode ) on number splits
+    // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
+
+    // Called with function( paperNumberNode ) on number splits
     this.numberSplitListener = this.onNumberSplit.bind( this );
 
-    // @private {Function} - Called with function( paperNumberNode ) when a number begins to be interacted with.
-    this.numberInteractionListener = this.onNumberInteractionStarted.bind( this );
+    // Called with function( paperNumberNode ) when a number begins to be interacted with.
+    this.numberInteractionListener = OnesPlayAreaNode.onNumberInteractionStarted.bind( this );
 
-    // @private {Function} - Called with function( paperNumber ) when a number finishes animation
+    // Called with function( paperNumber ) when a number finishes animation
     this.numberAnimationFinishedListener = this.onNumberAnimationFinished.bind( this );
 
-    // @private {Function} - Called with function( paperNumber ) when a number finishes being dragged
+    // Called with function( paperNumber ) when a number finishes being dragged
     this.numberDragFinishedListener = this.onNumberDragFinished.bind( this );
 
-    // @public {OnesPlayArea}
     this.playArea = playArea;
 
-    // @private {Function}
     this.tryToCombineNumbersCallback = this.tryToCombineNumbers.bind( this );
 
-    // @private {Function}
     this.addAndDragNumberCallback = this.addAndDragNumber.bind( this );
 
-    // @private {number} PaperNumber.id => {PaperNumberNode} - lookup map for efficiency
+    // PaperNumber.id => {PaperNumberNode} - lookup map for efficiency
     this.paperNumberNodeMap = {};
 
-    // @public {Property.<Bounds2>} - The view coordinates where numbers can be dragged. Can update when the sim
-    //                                is resized.
+    // The view coordinates where numbers can be dragged. Can update when the sim is resized.
     this.availableViewBoundsProperty = new Property( playAreaViewBounds );
 
-    // @private {RichEnumerationProperty.<PlayObjectType>}|null}
     this.playObjectTypeProperty = options.playObjectTypeProperty;
 
-    // @private {RichEnumerationProperty.<GroupingLinkingType>}|null}
     this.groupingLinkingTypeProperty = options.groupingLinkingTypeProperty;
 
-    // @private {boolean}
     this.viewHasIndependentModel = options.viewHasIndependentModel;
 
-    // @private {ClosestDragListener} - Handle touches nearby to the numbers, and interpret those as the proper drag.
+    // Handle touches nearby to the numbers, and interpret those as the proper drag.
     this.closestDragListener = new ClosestDragListener( 30, 0 );
     let backgroundDragTargetNode = null;
     if ( options.backgroundDragTargetNode ) {
@@ -89,7 +113,7 @@ class OnesPlayAreaNode extends Node {
     const paperNumberAddedListener = this.onPaperNumberAdded.bind( this );
     const paperNumberRemovedListener = this.onPaperNumberRemoved.bind( this );
 
-    // @private {Node} - Where all of the paper numbers are. Created if not provided.
+    // Where all of the paper numbers are. Created if not provided.
     this.paperNumberLayerNode = null;
     if ( options.paperNumberLayerNode ) {
       this.paperNumberLayerNode = options.paperNumberLayerNode;
@@ -107,7 +131,7 @@ class OnesPlayAreaNode extends Node {
 
     // Persistent, no need to unlink
     this.availableViewBoundsProperty.lazyLink( availableViewBounds => {
-      playArea.paperNumbers.forEach( paperNumber => {
+      playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
         paperNumber.setConstrainedDestination( availableViewBounds, paperNumber.positionProperty.value );
       } );
     } );
@@ -116,14 +140,14 @@ class OnesPlayAreaNode extends Node {
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
       if ( ( groupingLinkingType === 'UNGROUPED' || groupingLinkingType === 'GROUPED' )
            && this.playObjectTypeProperty ) {
-        playArea.paperNumbers.forEach( paperNumber => {
+        playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
           const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
           paperNumberNode.updateNumber();
         } );
       }
     } );
 
-    // @private {OnesCreatorPanel} - create and add the OnesCreatorPanel
+    // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
     this.onesCreatorPanel.bottom = playAreaViewBounds.maxY;
     if ( options.includeOnesCreatorPanel ) {
@@ -133,18 +157,16 @@ class OnesPlayAreaNode extends Node {
     // add the paperNumberLayerNode after the creator panel
     this.addChild( this.paperNumberLayerNode );
 
-    // @private
     this.includeOnesCreatorPanel = options.includeOnesCreatorPanel;
   }
 
   /**
    * Add a paper number to the playArea and immediately start dragging it with the provided event.
-   * @public
    *
-   * @param {SceneryEvent} event - The Scenery event that triggered this.
-   * @param {PaperNumber} paperNumber - The paper number to add and then drag
+   * @param event - The Scenery event that triggered this.
+   * @param paperNumber - The paper number to add and then drag
    */
-  addAndDragNumber( event, paperNumber ) {
+  public addAndDragNumber( event: SceneryEvent, paperNumber: PaperNumber ): void {
 
     // Add it and lookup the related node.
     this.playArea.addPaperNumber( paperNumber );
@@ -154,12 +176,8 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * Creates and adds a PaperNumberNode.
-   * @public
-   *
-   * @param {PaperNumber} paperNumber
-   * @returns {PaperNumberNode} - The created node
    */
-  onPaperNumberAdded( paperNumber ) {
+  public onPaperNumberAdded( paperNumber: PaperNumber ): void {
 
     // let the model know if is being shared or not
     paperNumber.viewHasIndependentModel = this.viewHasIndependentModel;
@@ -176,31 +194,36 @@ class OnesPlayAreaNode extends Node {
     } );
 
     this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ] = paperNumberNode;
-    this.paperNumberLayerNode.addChild( paperNumberNode );
+    this.paperNumberLayerNode!.addChild( paperNumberNode );
     paperNumberNode.attachListeners();
 
     this.closestDragListener.addDraggableItem( paperNumberNode );
 
     // Add listeners
+    // @ts-ignore TODO: See TODO in the constructor
     paperNumberNode.splitEmitter.addListener( this.numberSplitListener );
+    // @ts-ignore
     paperNumberNode.interactionStartedEmitter.addListener( this.numberInteractionListener );
+    // @ts-ignore
     paperNumber.endAnimationEmitter.addListener( this.numberAnimationFinishedListener );
+    // @ts-ignore
     paperNumber.endDragEmitter.addListener( this.numberDragFinishedListener );
   }
 
   /**
    * Handles removing the relevant PaperNumberNode
-   * @public
-   *
-   * @param {PaperNumber} paperNumber
    */
-  onPaperNumberRemoved( paperNumber ) {
+  public onPaperNumberRemoved( paperNumber: PaperNumber ): void {
     const paperNumberNode = this.findPaperNumberNode( paperNumber );
 
     // Remove listeners
+    // @ts-ignore TODO: See TODO in the constructor
     paperNumber.endDragEmitter.removeListener( this.numberDragFinishedListener );
+    // @ts-ignore
     paperNumber.endAnimationEmitter.removeListener( this.numberAnimationFinishedListener );
+    // @ts-ignore
     paperNumberNode.interactionStartedEmitter.removeListener( this.numberInteractionListener );
+    // @ts-ignore
     paperNumberNode.splitEmitter.removeListener( this.numberSplitListener );
 
     delete this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ];
@@ -210,12 +233,8 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * Given a {PaperNumber}, find our current display ({PaperNumberNode}) of it.
-   * @public
-   *
-   * @param {PaperNumber} paperNumber
-   * @returns {PaperNumberNode}
    */
-  findPaperNumberNode( paperNumber ) {
+  public findPaperNumberNode( paperNumber: PaperNumber ): PaperNumberNode {
     const result = this.paperNumberNodeMap[ paperNumber.id ];
     assert && assert( result, 'Did not find matching Node' );
     return result;
@@ -223,23 +242,22 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * When the user drops a paper number they were dragging, see if it can combine with any other nearby paper numbers.
-   * @public
-   *
-   * @param {PaperNumber} draggedPaperNumber
    */
-  tryToCombineNumbers( draggedPaperNumber ) {
+  public tryToCombineNumbers( draggedPaperNumber: PaperNumber ): void {
     const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
-    const allPaperNumberNodes = _.filter( this.paperNumberLayerNode.children, child => child instanceof PaperNumberNode );
+    const allPaperNumberNodes = _.filter( this.paperNumberLayerNode!.children, child => child instanceof PaperNumberNode );
 
     // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket and should not
     // be tried to combined with. return if no paperNumbers are left or if the draggedPaperNumber's value is 0
     _.remove( allPaperNumberNodes, paperNumberNode => {
+      // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
       return paperNumberNode.paperNumber.numberValueProperty.value === 0;
     } );
     if ( allPaperNumberNodes.length === 0 || draggedPaperNumber.numberValueProperty.value === 0 ) {
       return;
     }
 
+    // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
     const droppedNodes = draggedNode.findAttachableNodes( allPaperNumberNodes );
 
     // Check them in reverse order (the one on the top should get more priority)
@@ -271,12 +289,8 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * Whether the paper number is predominantly over the explore panel (should be collected).
-   * @private
-   *
-   * @param {PaperNumber} paperNumber
-   * @returns {boolean}
    */
-  isNumberInReturnZone( paperNumber ) {
+  private isNumberInReturnZone( paperNumber: PaperNumber ): boolean {
     const parentBounds = this.findPaperNumberNode( paperNumber ).bounds;
 
     // And the bounds of our panel
@@ -287,21 +301,15 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * Called when a paper number node is split.
-   * @private
-   *
-   * @param {PaperNumberNode} paperNumberNode
    */
-  onNumberSplit( paperNumberNode ) {
+  private onNumberSplit( paperNumberNode: PaperNumberNode ): void {
     // this.playArea.splitCue.triggerFade();
   }
 
   /**
    * Called when a paper number node starts being interacted with.
-   * @private
-   *
-   * @param {PaperNumberNode} paperNumberNode
    */
-  onNumberInteractionStarted( paperNumberNode ) {
+  private static onNumberInteractionStarted( paperNumberNode: PaperNumberNode ): void {
     const paperNumber = paperNumberNode.paperNumber;
     if ( paperNumber.numberValueProperty.value > 1 ) {
       // this.playArea.splitCue.attachToNumber( paperNumber );
@@ -310,11 +318,8 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * Called when a paper number has finished animating to its destination.
-   * @private
-   *
-   * @param {PaperNumber} paperNumber
    */
-  onNumberAnimationFinished( paperNumber ) {
+  private onNumberAnimationFinished( paperNumber: PaperNumber ): void {
 
     // If it animated to the return zone, it's probably split and meant to be returned.
     if ( this.playArea.paperNumbers.includes( paperNumber ) && this.isNumberInReturnZone( paperNumber ) ) {
@@ -324,11 +329,8 @@ class OnesPlayAreaNode extends Node {
 
   /**
    * Called when a paper number has finished being dragged.
-   * @private
-   *
-   * @param {PaperNumber} paperNumber
    */
-  onNumberDragFinished( paperNumber ) {
+  private onNumberDragFinished( paperNumber: PaperNumber ): void {
 
     if ( !this.includeOnesCreatorPanel ) {
       return;
@@ -350,7 +352,7 @@ class OnesPlayAreaNode extends Node {
 
 
       // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-      if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range.min ) {
+      if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {
 
         // a user returned a number, so update the sim's currentNumberProperty
         this.playArea.isControllingCurrentNumber = true;

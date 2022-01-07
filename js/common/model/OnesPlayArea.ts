@@ -20,6 +20,25 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Range from '../../../../dot/js/Range.js';
+
+// types
+type OnesPlayAreaOptions = {
+  isResettingProperty: null | BooleanProperty,
+  isOnes: boolean,
+  sumPropertyRange: null | Range,
+  animateIntoPlayAreaBounds: Bounds2,
+  setAllObjects: boolean,
+  setAllObjectsAsGrouped: boolean
+};
+type CreatePaperNumberFromBucketOptions = {
+  shouldAnimate: boolean,
+  value: number,
+  remainder: boolean
+};
+
+// constants
 
 // TODO: These shouldn't be constants since the ones play area is different sizes between screens
 // min and max distances that playObjects being added to the play area via animation can travel. empirically
@@ -41,18 +60,23 @@ const GROUP_DIVISORS = [ 2, 5, 10 ]; // specified by designer
 const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
 class OnesPlayArea extends CountingCommonModel {
+  public currentNumberProperty: NumberProperty;
+  private readonly paperNumberOrigin: Vector2;
+  public sumProperty: NumberProperty;
+  public isControllingCurrentNumber: boolean;
+  private readonly organizedObjectSpots: Vector2[];
 
   /**
-   * @param {NumberProperty} currentNumberProperty
-   * @param {Vector2} paperNumberOrigin - origin of where paper numbers are created, but only used when the model is
+   * @param currentNumberProperty
+   * @param paperNumberOrigin - origin of where paper numbers are created, but only used when the model is
    * responding to changes in currentNumberProperty, not when a user drags a paperNumber out of the bucket
-   * @param {object} [options]
+   * @param [providedOptions]
    * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
    */
-  constructor( currentNumberProperty, paperNumberOrigin, options ) {
+  constructor( currentNumberProperty: NumberProperty, paperNumberOrigin: Vector2, providedOptions: Partial<OnesPlayAreaOptions> ) {
     super();
 
-    options = merge( {
+    const options = merge( {
       isResettingProperty: null,
       isOnes: true,
       // TODO: yikes! for the last 4 options, they are quick fixes that will likely change soon
@@ -60,7 +84,7 @@ class OnesPlayArea extends CountingCommonModel {
       animateIntoPlayAreaBounds: new Bounds2( 20, 0, 500, 230 ),
       setAllObjects: false,
       setAllObjectsAsGrouped: false
-    }, options );
+    }, providedOptions ) as OnesPlayAreaOptions;
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
@@ -73,14 +97,12 @@ class OnesPlayArea extends CountingCommonModel {
       options.animateIntoPlayAreaBounds = options.animateIntoPlayAreaBounds.erodedXY( 40, 50 );
     }
 
-    // @public
     this.currentNumberProperty = currentNumberProperty;
 
-    // @private
     this.paperNumberOrigin = paperNumberOrigin;
 
-    // @public {NumberProperty} - The total sum of the current numbers
-    this.sumProperty = new NumberProperty( currentNumberProperty.range.min, {
+    // The total sum of the current numbers
+    this.sumProperty = new NumberProperty( currentNumberProperty.range!.min, {
       range: options.sumPropertyRange || currentNumberProperty.range
     } );
 
@@ -90,29 +112,31 @@ class OnesPlayArea extends CountingCommonModel {
     this.paperNumbers.lengthProperty.link( calculateTotalListener );
 
     // Listen to number changes of paper numbers
-    this.paperNumbers.addItemAddedListener( paperNumber => {
+    this.paperNumbers.addItemAddedListener( ( paperNumber: PaperNumber ) => {
       paperNumber.numberValueProperty.link( calculateTotalListener );
     } );
-    this.paperNumbers.addItemRemovedListener( paperNumber => {
+    this.paperNumbers.addItemRemovedListener( ( paperNumber: PaperNumber ) => {
       paperNumber.numberValueProperty.unlink( calculateTotalListener );
     } );
 
-    // @public {boolean} whether the view of this play area is controlling the current number
+    // whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
 
     const objectBounds = options.isOnes ? new BaseNumber( 1, 0 ).bounds : CountingCommonConstants.PLAY_OBJECT_SIZE;
 
-    // @private {Vector2[]}
     this.organizedObjectSpots = this.calculateOrganizedObjectSpots( objectBounds.width, objectBounds.height );
 
     // if the current number changes, add or remove paperNumbers from the play area
     currentNumberProperty.link( ( currentNumber, previousNumber ) => {
       if ( options.isResettingProperty && !options.isResettingProperty.value && !this.isControllingCurrentNumber ) {
+        if ( !previousNumber ) { // TODO-TS: this is bad, fix this link
+          previousNumber = 0;
+        }
         if ( currentNumber < previousNumber ) {
           _.times( previousNumber - currentNumber, () => {
 
             // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-            if ( this.sumProperty.value > currentNumberProperty.range.min ) {
+            if ( this.sumProperty.value > currentNumberProperty.range!.min ) {
               this.returnPaperNumberToBucket( paperNumberOrigin );
             }
           } );
@@ -121,7 +145,7 @@ class OnesPlayArea extends CountingCommonModel {
           _.times( currentNumber - previousNumber, () => {
 
             // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-            if ( this.sumProperty.value < currentNumberProperty.range.max ) {
+            if ( this.sumProperty.value < currentNumberProperty.range!.max ) {
               this.createPaperNumberFromBucket( paperNumberOrigin, ANIMATE_INTO_PLAY_AREA_BOUNDS );
             }
           } );
@@ -135,10 +159,8 @@ class OnesPlayArea extends CountingCommonModel {
 
   /**
    * Create and randomly position a group of objects whose sum is the current number.
-   *
-   * @private
    */
-  createAllObjects( currentNumber, animateIntoPlayAreaBounds, setAllObjectsAsGrouped ) {
+  private createAllObjects( currentNumber: number, animateIntoPlayAreaBounds: Bounds2, setAllObjectsAsGrouped: boolean ) {
     this.removeAllPaperNumbers();
     const objectShouldAnimate = false;
 
@@ -173,19 +195,14 @@ class OnesPlayArea extends CountingCommonModel {
 
   /**
    * Creates a paperNumber and animates it to a random open place in the play area.
-   *
-   * @param {Vector2} paperNumberOrigin
-   * @param {Bounds2} animateIntoPlayAreaBounds
-   * @param {boolean} shouldAnimate
-   * @private
    */
-  createPaperNumberFromBucket( paperNumberOrigin, animateIntoPlayAreaBounds, options ) {
+  private createPaperNumberFromBucket( paperNumberOrigin: Vector2, animateIntoPlayAreaBounds: Bounds2, providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ) {
 
-    options = merge( {
+    const options = merge( {
       shouldAnimate: true,
       value: NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
       remainder: false
-    }, options );
+    }, providedOptions ) as CreatePaperNumberFromBucketOptions;
 
     let translateVector = null;
     let findCount = 0;
@@ -219,7 +236,7 @@ class OnesPlayArea extends CountingCommonModel {
       if ( ++findCount > 1000 ) {
         spotIsAvailable = true;
       }
-      translateVector = spotIsAvailable && new Vector2( possibleTranslateX, possibleTranslateY );
+      translateVector = spotIsAvailable ? new Vector2( possibleTranslateX, possibleTranslateY ) : Vector2.ZERO;
     }
 
     const destinationPosition = paperNumber.positionProperty.value.plus( translateVector );
@@ -231,11 +248,8 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Finds the closest paperNumber to their origin and animates it back over the bucket. If only paperNumbers with
    * values greater than one exist, break them up and send their components with values of one back.
-   *
-   * @param paperNumberOrigin
-   * @private
    */
-  returnPaperNumberToBucket( paperNumberOrigin ) {
+  private returnPaperNumberToBucket( paperNumberOrigin: Vector2 ) {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
 
     // sort by lowest value first, then by proximity to the bucket
@@ -261,11 +275,10 @@ class OnesPlayArea extends CountingCommonModel {
       const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
       paperNumberToReturn.changeNumber( amountRemaining );
 
-      const singlePaperNumberToReturn = new PaperNumber(
+      paperNumberToReturn = new PaperNumber(
         NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
         paperNumberToReturn.positionProperty.value
       );
-      paperNumberToReturn = singlePaperNumberToReturn;
       this.addPaperNumber( paperNumberToReturn );
     }
 
@@ -279,14 +292,10 @@ class OnesPlayArea extends CountingCommonModel {
 
   /**
    * Calculates the spots for organized objects
-   *
-   * @param {Vector2} organizedObjectPadding - x and y padding for playObjects organized in a grid
-   * @returns {Vector2[]}
-   * @private
    */
-  calculateOrganizedObjectSpots( objectWidth, objectHeight ) {
+  private calculateOrganizedObjectSpots( objectWidth: number, objectHeight: number ): Vector2[] {
     const gridWidth = 5; // empirically determined
-    const gridHeight = this.currentNumberProperty.range.max / gridWidth;
+    const gridHeight = this.currentNumberProperty.range!.max / gridWidth;
     const organizedObjectPadding = new Vector2( 5, 8 );
     const yOffset = MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - ( objectHeight * 2 / gridHeight );
 
@@ -306,10 +315,8 @@ class OnesPlayArea extends CountingCommonModel {
 
   /**
    * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
-   *
-   * @public
    */
-  organizeObjects() {
+  public organizeObjects() {
 
     assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
 
@@ -345,10 +352,9 @@ class OnesPlayArea extends CountingCommonModel {
   }
 
   /**
-   * @param {number} dt
-   * @public
+   * @param dt - in seconds
    */
-  step( dt ) {
+  public step( dt: number ) {
     super.step( dt );
 
     // Animate fading if necessary
@@ -357,11 +363,10 @@ class OnesPlayArea extends CountingCommonModel {
 
   /**
    * Updates the total sum of the paper numbers.
-   * @private
    */
-  calculateTotal() {
+  private calculateTotal() {
     let total = 0;
-    this.paperNumbers.forEach( paperNumber => {
+    this.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
       total += paperNumber.numberValueProperty.value;
     } );
     this.sumProperty.value = total;

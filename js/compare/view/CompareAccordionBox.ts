@@ -29,6 +29,7 @@ import ComparePlayArea from '../model/ComparePlayArea.js';
 import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
@@ -82,7 +83,7 @@ class CompareAccordionBox extends AccordionBox {
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds, {
         playObjectTypeProperty: objectsTypeProperty,
-        groupingLinkingTypeProperty: new Property( 'UNGROUPED' )
+        groupingLinkingTypeProperty: new Property<GroupingLinkingType>( 'UNGROUPED' )
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
