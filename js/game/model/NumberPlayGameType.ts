@@ -31,12 +31,12 @@ class NumberPlayGameType extends EnumerationValue {
     2: subitizeGameIcon2_png
   } );
 
-  static enumeration = new RichEnumeration<NumberPlayGameType>( NumberPlayGameType );
+  static enumeration = new RichEnumeration( NumberPlayGameType );
 
   public readonly gameName: string;
   public readonly levelImages: LevelImages;
 
-  private constructor( gameName: string, levelImages: LevelImages ) {
+  constructor( gameName: string, levelImages: LevelImages ) {
     super();
 
     this.gameName = gameName;

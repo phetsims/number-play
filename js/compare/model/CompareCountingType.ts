@@ -15,9 +15,7 @@ class CompareCountingType extends EnumerationValue {
   static NUMBER_LINE = new CompareCountingType();
   static NONE = new CompareCountingType();
 
-  static enumeration = new RichEnumeration<CompareCountingType>( CompareCountingType );
-
-  private constructor() { super(); }
+  static enumeration = new RichEnumeration( CompareCountingType );
 }
 
 numberPlay.register( 'CompareCountingType', CompareCountingType );
