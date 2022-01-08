@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Panel that contains a stack of  paper ones or objects, which can be clicked or dragged to create draggable
