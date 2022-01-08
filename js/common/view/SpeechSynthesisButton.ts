@@ -65,6 +65,10 @@ class SpeechSynthesisButton extends RectangularPushButton {
       speechUtterance.alert = readNumber ? NumberPlayConstants.NUMBER_TO_STRING[ property.value ] :
                               property.value;
 
+      // TODO: We should use a different function for this. This is used because we want to use speech synthesis
+      // TODO: outside of the Voicing framework, but we should have something better. A setup for
+      //  outside-of-voicing-use could also do the voicesChangedListener above as well.
+      // See https://github.com/phetsims/scenery/issues/1336
       voicingManager.speakIgnoringEnabled( speechUtterance );
     };
 
