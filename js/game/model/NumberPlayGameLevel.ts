@@ -69,8 +69,13 @@ abstract class NumberPlayGameLevel {
   }
 
   public reset(): void {
-    this.isChallengeSolvedProperty.reset();
     this.scoreProperty.reset();
+    this.isChallengeSolvedProperty.reset();
+    this.numberOfAnswerButtonPressesProperty.reset();
+
+    // the challengeNumber should not necessarily be reset to the same initial number that the screen loaded with,
+    // so don't use traditional reset()
+    this.challengeNumberProperty.value = this.getRandomChallengeNumber();
   }
 
   /**

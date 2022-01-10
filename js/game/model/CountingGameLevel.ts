@@ -63,8 +63,11 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
   public reset(): void {
     super.reset();
-    this._playObjectTypeProperty.reset();
     this._isObjectsRepresentationProperty.reset();
+
+    // the playObjectType should not necessarily be reset to the same initial value that the screen loaded with, so
+    // don't use traditional reset()
+    this._playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
   }
 
   /**
