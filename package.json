@@ -18,6 +18,7 @@
       "vegas"
     ],
     "simFeatures": {
+      "supportsSound": true,
       "supportsSpeechSynthesis": true
     },
     "simulation": true,
