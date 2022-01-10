@@ -236,7 +236,7 @@ class OnesPlayArea extends CountingCommonModel {
       if ( ++findCount > 1000 ) {
         spotIsAvailable = true;
       }
-      translateVector = spotIsAvailable ? new Vector2( possibleTranslateX, possibleTranslateY ) : Vector2.ZERO;
+      translateVector = spotIsAvailable ? new Vector2( possibleTranslateX, possibleTranslateY ) : null;
     }
 
     const destinationPosition = paperNumber.positionProperty.value.plus( translateVector );
