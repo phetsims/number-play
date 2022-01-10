@@ -14,7 +14,7 @@ import numberPlay from '../../numberPlay.js';
 class SubitizeObjectType extends EnumerationValue {
   static DOG = new SubitizeObjectType();
   static APPLE = new SubitizeObjectType();
-  static TURTLE = new SubitizeObjectType();
+  static CUPCAKE = new SubitizeObjectType();
   static BALL = new SubitizeObjectType();
   static CIRCLE = new SubitizeObjectType();
 
