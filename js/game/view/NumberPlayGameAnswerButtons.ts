@@ -18,6 +18,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 
 // types
 type AnswerButtonsOptions = {
@@ -59,6 +60,8 @@ class NumberPlayGameAnswerButtons extends Node {
 
     this.buttonObjects = [];
 
+    const gameAudioPlayer = new GameAudioPlayer();
+
     /**
      * Listener that is added to every answer button. It disabled selected buttons that are wrong, and turns correct
      * answer buttons green.
@@ -69,6 +72,10 @@ class NumberPlayGameAnswerButtons extends Node {
 
       // this button is the correct answer button
       if ( level.challengeNumberProperty.value === buttonObject.value ) {
+
+        // audio feedback
+        gameAudioPlayer.correctAnswer();
+
         level.isChallengeSolvedProperty.value = true;
         rightAnswerCallback();
 
@@ -81,6 +88,10 @@ class NumberPlayGameAnswerButtons extends Node {
         }
       }
       else {
+
+        // audio feedback
+        gameAudioPlayer.wrongAnswer();
+
         pointAwardedNodeVisibleProperty.value = false;
         wrongAnswerCallback();
 
