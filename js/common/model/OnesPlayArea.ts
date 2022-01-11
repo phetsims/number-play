@@ -225,7 +225,7 @@ class OnesPlayArea extends CountingCommonModel {
       // compare the proposed destination to the position of every playObject in the play area. use c-style loop for
       // best performance, since this loop is nested
       for ( let i = 0; i < numberOfPaperNumbersInPlayArea; i++ ) {
-        if ( this.paperNumbers.get( i ).positionProperty.value.distance(
+        if ( this.paperNumbers[ i ].positionProperty.value.distance(
                paperNumber.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) )
              < MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS ) {
           spotIsAvailable = false;
@@ -268,26 +268,28 @@ class OnesPlayArea extends CountingCommonModel {
     } );
 
     let paperNumberToReturn = sortedPaperNumbers.shift();
+    if ( paperNumberToReturn ) { // TODO-TS: guaranteed to be true based on the assert above, but TS doesn't know that...
 
-    // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
-    // 1 to return instead
-    if ( paperNumberToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
-      const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
-      paperNumberToReturn.changeNumber( amountRemaining );
+      // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
+      // 1 to return instead
+      if ( paperNumberToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
+        const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
+        paperNumberToReturn.changeNumber( amountRemaining );
 
-      paperNumberToReturn = new PaperNumber(
-        NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
-        paperNumberToReturn.positionProperty.value
-      );
-      this.addPaperNumber( paperNumberToReturn );
+        paperNumberToReturn = new PaperNumber(
+          NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
+          paperNumberToReturn.positionProperty.value
+        );
+        this.addPaperNumber( paperNumberToReturn );
+      }
+
+      // set its value to 0 and send it back to its origin. paperNumbers aren't removed from the playArea until they get
+      // back to the bucket, but we don't want them to count towards the sum while they're on their way to the bucket.
+      // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
+      // time.
+      paperNumberToReturn.numberValueProperty.value = 0;
+      paperNumberToReturn.setDestination( paperNumberOrigin, true );
     }
-
-    // set its value to 0 and send it back to its origin. paperNumbers aren't removed from the playArea until they get
-    // back to the bucket, but we don't want them to count towards the sum while they're on their way to the bucket.
-    // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
-    // time.
-    paperNumberToReturn.numberValueProperty.value = 0;
-    paperNumberToReturn.setDestination( paperNumberOrigin, true );
   }
 
   /**
@@ -347,7 +349,7 @@ class OnesPlayArea extends CountingCommonModel {
       } );
       const objectToOrganize = objectsToOrganize.shift();
 
-      objectToOrganize.setDestination( destination, true );
+      objectToOrganize && objectToOrganize.setDestination( destination, true );
     }
   }
 
