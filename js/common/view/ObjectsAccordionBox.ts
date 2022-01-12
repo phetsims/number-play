@@ -83,8 +83,7 @@ class ObjectsAccordionBox extends AccordionBox {
     // @ts-ignore
     const buttons = [];
     PlayObjectType.enumeration.values.forEach( playObjectType => {
-      // @ts-ignore
-      const iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
+      const iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( playObjectType.name ), {
         maxWidth: options.radioButtonSize.width,
         maxHeight: options.radioButtonSize.height
       } );

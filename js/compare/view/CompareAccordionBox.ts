@@ -106,8 +106,7 @@ class CompareAccordionBox extends AccordionBox {
         iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height / 4 );
       }
       else {
-        // @ts-ignore TODO-TS remove ts-ignore when converted to a map
-        iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE[ playObjectType ], {
+        iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( playObjectType.name ), {
           maxWidth: RADIO_BUTTON_SIZE.width,
           maxHeight: RADIO_BUTTON_SIZE.height
         } );
