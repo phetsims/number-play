@@ -23,13 +23,14 @@ import OnesCreatorPanel from './OnesCreatorPanel.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
   playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null,
-  groupingLinkingTypeProperty: Property<GroupingLinkingType> | null,
+  groupingLinkingTypeProperty: RichEnumerationProperty<GroupingLinkingType> | null,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
 };
@@ -45,7 +46,7 @@ class OnesPlayAreaNode extends Node {
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null;
-  private readonly groupingLinkingTypeProperty: Property<GroupingLinkingType> | null;
+  private readonly groupingLinkingTypeProperty: RichEnumerationProperty<GroupingLinkingType> | null;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;
@@ -136,7 +137,7 @@ class OnesPlayAreaNode extends Node {
 
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( ( groupingLinkingType === 'UNGROUPED' || groupingLinkingType === 'GROUPED' )
+      if ( ( groupingLinkingType === GroupingLinkingType.UNGROUPED || groupingLinkingType === GroupingLinkingType.GROUPED )
            && this.playObjectTypeProperty ) {
         playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
           const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
@@ -266,7 +267,7 @@ class OnesPlayAreaNode extends Node {
       const droppedPaperNumber = droppedNode.paperNumber;
 
       // if grouping is turned off, repel away
-      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === 'UNGROUPED' ) {
+      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === GroupingLinkingType.UNGROUPED ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
           this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {

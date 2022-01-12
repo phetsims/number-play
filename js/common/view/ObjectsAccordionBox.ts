@@ -23,12 +23,11 @@ import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
-import Property from '../../../../axon/js/Property.js';
 
 // types
 type ObjectsAccordionBoxOptions = {
   linkedPlayArea?: OnesPlayArea | null,
-  groupingLinkingTypeProperty?: Property<GroupingLinkingType> | null,
+  groupingLinkingTypeProperty?: RichEnumerationProperty<GroupingLinkingType> | null,
   radioButtonSize: Dimension2,
   radioButtonSpacing: number
 } & AccordionBoxOptions;
@@ -116,7 +115,7 @@ class ObjectsAccordionBox extends AccordionBox {
       );
 
       options.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-        if ( groupingLinkingType === 'GROUPED_AND_LINKED' ) {
+        if ( groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED ) {
           contentNode.removeChild( objectsPlayAreaNode );
           contentNode.addChild( linkedObjectsPlayAreaNode );
         }

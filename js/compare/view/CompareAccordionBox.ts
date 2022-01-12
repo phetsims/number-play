@@ -11,7 +11,6 @@
  */
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
@@ -30,6 +29,7 @@ import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
 
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
@@ -83,7 +83,7 @@ class CompareAccordionBox extends AccordionBox {
       playArea.objectsPlayArea,
       onesPlayAreaViewBounds, {
         playObjectTypeProperty: objectsTypeProperty,
-        groupingLinkingTypeProperty: new Property<GroupingLinkingType>( 'UNGROUPED' )
+        groupingLinkingTypeProperty: new RichEnumerationProperty( GroupingLinkingType.UNGROUPED )
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
