@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * NumberPlayGameAnswerButtons are buttons that can be selected to input an answer to a game.
