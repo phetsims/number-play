@@ -22,6 +22,7 @@ import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
@@ -31,9 +32,6 @@ type OnesPlayAreaNodeOptions = {
   groupingLinkingTypeProperty: Property<GroupingLinkingType> | null,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
-};
-type PaperNumberNodeMap = {
-  [ key: number ]: PaperNumberNode
 };
 
 class OnesPlayAreaNode extends Node {

@@ -55,6 +55,7 @@ class OnesCreatorPanel extends Panel {
       spacing: arrowButtonConfig.spacing
     } );
 
+    // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, {
       updateCurrentNumber: true,
       playObjectTypeProperty: screenView.playObjectTypeProperty
