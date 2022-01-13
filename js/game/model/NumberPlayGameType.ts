@@ -1,7 +1,7 @@
 // Copyright 2021-2022, University of Colorado Boulder
 
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
@@ -31,7 +31,7 @@ class NumberPlayGameType extends EnumerationValue {
     2: subitizeGameIcon2_png
   } );
 
-  static enumeration = new RichEnumeration( NumberPlayGameType );
+  static enumeration = new Enumeration( NumberPlayGameType );
 
   public readonly gameName: string;
   public readonly levelImages: LevelImages;

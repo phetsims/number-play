@@ -23,14 +23,14 @@ import OnesCreatorPanel from './OnesCreatorPanel.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
   playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null,
-  groupingLinkingTypeProperty: RichEnumerationProperty<GroupingLinkingType> | null,
+  groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType> | null,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
 };
@@ -46,7 +46,7 @@ class OnesPlayAreaNode extends Node {
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null;
-  private readonly groupingLinkingTypeProperty: RichEnumerationProperty<GroupingLinkingType> | null;
+  private readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType> | null;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;

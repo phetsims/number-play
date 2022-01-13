@@ -20,7 +20,7 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -72,7 +72,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       level.objectsPlayArea,
       objectsPlayAreaViewBounds, {
         playObjectTypeProperty: level.playObjectTypeProperty,
-        groupingLinkingTypeProperty: new RichEnumerationProperty( level.groupObjects ? GroupingLinkingType.GROUPED :
+        groupingLinkingTypeProperty: new EnumerationProperty( level.groupObjects ? GroupingLinkingType.GROUPED :
                                                                   GroupingLinkingType.UNGROUPED ),
         includeOnesCreatorPanel: false
       }

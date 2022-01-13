@@ -7,7 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
@@ -19,7 +19,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 class CompareModel {
   public readonly leftCurrentNumberProperty: NumberProperty;
   public readonly rightCurrentNumberProperty: NumberProperty;
-  public readonly countingTypeProperty: RichEnumerationProperty<CompareCountingType>;
+  public readonly countingTypeProperty: EnumerationProperty<CompareCountingType>;
   public readonly comparisonSignsAndTextVisibleProperty: BooleanProperty;
   private readonly isResettingProperty: BooleanProperty;
   public readonly leftPlayArea: ComparePlayArea;
@@ -33,7 +33,7 @@ class CompareModel {
     this.rightCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
     } );
-    this.countingTypeProperty = new RichEnumerationProperty( CompareCountingType.BLOCKS );
+    this.countingTypeProperty = new EnumerationProperty( CompareCountingType.BLOCKS );
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
     this.isResettingProperty = new BooleanProperty( false );
 

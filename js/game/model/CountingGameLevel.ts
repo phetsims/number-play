@@ -16,7 +16,7 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 
 // constants
@@ -25,7 +25,7 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
-  private readonly _playObjectTypeProperty: RichEnumerationProperty<PlayObjectType>;
+  private readonly _playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
   public readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType>;
   private readonly _isObjectsRepresentationProperty: BooleanProperty;
   public readonly isObjectsRepresentationProperty: IReadOnlyProperty<boolean>;
@@ -45,7 +45,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     } );
 
     // the object type of the current challenge
-    this._playObjectTypeProperty = new RichEnumerationProperty( CountingGameLevel.getRandomPlayObjectType() );
+    this._playObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomPlayObjectType() );
     this.playObjectTypeProperty = this._playObjectTypeProperty;
 
     // whether the current representation of the challengeNumber are objects. Always use objects as the first representation

@@ -17,7 +17,7 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // types
 type GetNumberLineNodeOptions = {
@@ -153,7 +153,7 @@ class LeftRightDirection extends EnumerationValue {
   static LEFT = new LeftRightDirection();
   static RIGHT = new LeftRightDirection();
 
-  static enumeration = new RichEnumeration( LeftRightDirection );
+  static enumeration = new Enumeration( LeftRightDirection );
 }
 
 numberPlay.register( 'CompareNumberLineNode', CompareNumberLineNode );

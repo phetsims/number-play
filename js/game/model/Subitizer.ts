@@ -15,7 +15,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -133,7 +133,7 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  private readonly _objectTypeProperty: RichEnumerationProperty<SubitizeObjectType>;
+  private readonly _objectTypeProperty: EnumerationProperty<SubitizeObjectType>;
   public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectType>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
@@ -188,7 +188,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new RichEnumerationProperty( SubitizeObjectType.DOG );
+    this._objectTypeProperty = new EnumerationProperty( SubitizeObjectType.DOG );
     this.objectTypeProperty = this._objectTypeProperty;
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because

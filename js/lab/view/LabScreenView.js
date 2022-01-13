@@ -6,7 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -94,7 +94,7 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberPanel );
 
     // create and add the left ObjectsPlayAreaNode
-    const leftPlayObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.DOG );
+    const leftPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
     const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
       playAreaViewBounds,
@@ -107,7 +107,7 @@ class LabScreenView extends ScreenView {
     this.addChild( leftObjectsPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const rightPlayObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.BALL );
+    const rightPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.BALL );
     const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
       playAreaViewBounds,

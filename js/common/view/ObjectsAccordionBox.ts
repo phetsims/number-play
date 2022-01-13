@@ -7,7 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
@@ -27,7 +27,7 @@ import OnesPlayArea from '../model/OnesPlayArea.js';
 // types
 type ObjectsAccordionBoxOptions = {
   linkedPlayArea?: OnesPlayArea | null,
-  groupingLinkingTypeProperty?: RichEnumerationProperty<GroupingLinkingType> | null,
+  groupingLinkingTypeProperty?: EnumerationProperty<GroupingLinkingType> | null,
   radioButtonSize: Dimension2,
   radioButtonSpacing: number
 } & AccordionBoxOptions;
@@ -36,7 +36,7 @@ type ObjectsAccordionBoxOptions = {
 const objectsString = numberPlayStrings.objects;
 
 class ObjectsAccordionBox extends AccordionBox {
-  private readonly playObjectTypeProperty: RichEnumerationProperty<PlayObjectType>;
+  private readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
 
   constructor( objectsPlayArea: OnesPlayArea, height: number, providedOptions: Partial<ObjectsAccordionBoxOptions> ) {
 
@@ -67,7 +67,7 @@ class ObjectsAccordionBox extends AccordionBox {
       contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
     );
 
-    const playObjectTypeProperty = new RichEnumerationProperty( PlayObjectType.DOG );
+    const playObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,

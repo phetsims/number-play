@@ -7,14 +7,14 @@
  * @author Luisa Vargas
  */
 
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import numberPlay from '../../numberPlay.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 
 class SubitizeObjectType extends PlayObjectType {
   static CIRCLE = new SubitizeObjectType();
 
-  static enumeration = new RichEnumeration( SubitizeObjectType, {
+  static enumeration = new Enumeration( SubitizeObjectType, {
     instanceType: PlayObjectType
   } );
 }

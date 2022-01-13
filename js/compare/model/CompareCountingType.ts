@@ -8,14 +8,14 @@
 
 import numberPlay from '../../numberPlay.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
-import RichEnumeration from '../../../../phet-core/js/RichEnumeration.js';
+import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 class CompareCountingType extends EnumerationValue {
   static BLOCKS = new CompareCountingType();
   static NUMBER_LINE = new CompareCountingType();
   static NONE = new CompareCountingType();
 
-  static enumeration = new RichEnumeration( CompareCountingType );
+  static enumeration = new Enumeration( CompareCountingType );
 }
 
 numberPlay.register( 'CompareCountingType', CompareCountingType );

@@ -14,13 +14,13 @@ import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from './OnesPlayArea.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 class NumberPlayModel {
 
   public readonly currentNumberProperty: NumberProperty;
   public readonly isResettingProperty: BooleanProperty;
-  public readonly groupingLinkingTypeProperty: RichEnumerationProperty<GroupingLinkingType>;
+  public readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
 
@@ -36,7 +36,7 @@ class NumberPlayModel {
     this.isResettingProperty = new BooleanProperty( false );
 
     // whether the ones and objects play areas are linked
-    this.groupingLinkingTypeProperty = new RichEnumerationProperty( GroupingLinkingType.UNGROUPED );
+    this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType.UNGROUPED );
 
     // the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {

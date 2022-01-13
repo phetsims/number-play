@@ -6,7 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import { Path } from '../../../../scenery/js/imports.js';
 import { Color } from '../../../../scenery/js/imports.js';
@@ -23,7 +23,7 @@ const BUTTON_X_MARGIN = 7; // in screen coordinates
 
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<CompareCountingType> {
 
-  constructor( countingTypeProperty: RichEnumerationProperty<CompareCountingType> ) {
+  constructor( countingTypeProperty: EnumerationProperty<CompareCountingType> ) {
 
     // create a map from each CompareCountingType to a corresponding icon
     const countingTypeToNode = {};

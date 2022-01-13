@@ -9,7 +9,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import RichEnumerationProperty from '../../../../axon/js/RichEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
@@ -17,7 +17,7 @@ import ComparePlayObjectType from './ComparePlayObjectType.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 
 class ComparePlayArea {
-  public readonly playObjectTypeProperty: RichEnumerationProperty<ComparePlayObjectType>;
+  public readonly playObjectTypeProperty: EnumerationProperty<ComparePlayObjectType>;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
 
@@ -27,7 +27,7 @@ class ComparePlayArea {
                isResettingProperty: BooleanProperty ) {
 
     // the current type of playObject being displayed
-    this.playObjectTypeProperty = new RichEnumerationProperty( ComparePlayObjectType.DOG );
+    this.playObjectTypeProperty = new EnumerationProperty( ComparePlayObjectType.DOG );
 
     // the model for managing paper ones in the playArea
     this.onesPlayArea = new OnesPlayArea( currentNumberProperty, paperNumberOrigin, {
