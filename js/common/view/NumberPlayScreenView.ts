@@ -7,7 +7,7 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import GroupingLinkingType, { GroupingLinkingTypeValues } from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -31,9 +31,6 @@ import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 
 // types
-type GroupingLinkTypeToImage = {
-  [key in GroupingLinkingType]: HTMLImageElement; // eslint-disable-line no-unused-vars
-};
 type NumberPlayScreenViewOptions = {
   wordAccordionBoxOptions: WordAccordionBoxOptions,
   totalAccordionBoxOptions: TotalAccordionBoxOptions,
@@ -44,11 +41,10 @@ type NumberPlayScreenViewOptions = {
 };
 
 // constants
-const GROUPING_LINKING_TYPE_TO_IMAGE: GroupingLinkTypeToImage = {
-  'UNGROUPED': groupingScene1_png, // eslint-disable-line quote-props
-  'GROUPED': groupingScene2_png, // eslint-disable-line quote-props
-  'GROUPED_AND_LINKED': groupingScene3_png // eslint-disable-line quote-props
-};
+const GROUPING_LINKING_TYPE_TO_IMAGE = new Map();
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.UNGROUPED, groupingScene1_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.GROUPED, groupingScene2_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.GROUPED_AND_LINKED, groupingScene3_png );
 
 class NumberPlayScreenView extends ScreenView {
 
@@ -147,8 +143,8 @@ class NumberPlayScreenView extends ScreenView {
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup
     const groupingLinkingButtons = [];
     const margin = 3;
-    GroupingLinkingTypeValues.forEach( groupingLinkingType => {
-      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE[ groupingLinkingType ], {
+    GroupingLinkingType.enumeration.values.forEach( groupingLinkingType => {
+      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupingLinkingType ), {
         maxWidth: resetAllButton.width - 2 * margin
       } );
 
@@ -210,9 +206,9 @@ class NumberPlayScreenView extends ScreenView {
 
     // set the visibility of the organize buttons based on the state of grouping/linking
     model.groupingLinkingTypeProperty.link( groupingLinkingType => {
-      organizeOnesButton.visible = groupingLinkingType === 'UNGROUPED' ||
-                                   groupingLinkingType === 'GROUPED';
-      organizeObjectsButton.visible = groupingLinkingType === 'UNGROUPED';
+      organizeOnesButton.visible = groupingLinkingType === GroupingLinkingType.UNGROUPED ||
+                                   groupingLinkingType === GroupingLinkingType.GROUPED;
+      organizeObjectsButton.visible = groupingLinkingType === GroupingLinkingType.UNGROUPED;
     } );
   }
 
