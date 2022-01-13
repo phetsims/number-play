@@ -74,10 +74,9 @@ class CompareAccordionBox extends AccordionBox {
     );
 
     // create and add the ObjectsPlayAreaNode
+    // TODO: No need for this derived Property once BaseNumberNode/BasePictorialNode is combined, see https://github.com/phetsims/number-play/issues/117
     const objectsTypeProperty: IReadOnlyProperty<PlayObjectType> = new DerivedProperty( [ playArea.playObjectTypeProperty ],
-      playObjectType => playObjectType === ComparePlayObjectType.PAPER_ONE ?
-        // @ts-ignore
-                        objectsTypeProperty.value : ComparePlayObjectType[ playObjectType ] );
+      playObjectType => playObjectType === ComparePlayObjectType.PAPER_ONE ? objectsTypeProperty.value : playObjectType );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       playArea.objectsPlayArea,
