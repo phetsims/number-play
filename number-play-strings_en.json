@@ -116,7 +116,16 @@
   "counting": {
     "value": "Counting"
   },
-  "subitize": {
-    "value": "Subitize"
+  "countFromPattern": {
+    "value": "Count from {{minimumChallengeNumber}}-{{maximumChallengeNumber}}"
+  },
+  "subitizing": {
+    "value": "Subitizing"
+  },
+  "subitizeFromPattern": {
+    "value": "Subitize from {{minimumChallengeNumber}}-{{maximumChallengeNumber}}"
+  },
+  "games": {
+    "value": "Games"
   }
 }

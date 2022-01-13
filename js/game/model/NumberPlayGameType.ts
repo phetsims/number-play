@@ -26,7 +26,7 @@ class NumberPlayGameType extends EnumerationValue {
     2: countingGameIcon2_png
   } );
 
-  static SUBITIZE = new NumberPlayGameType( numberPlayStrings.subitize, {
+  static SUBITIZE = new NumberPlayGameType( numberPlayStrings.subitizing, {
     1: subitizeGameIcon1_png,
     2: subitizeGameIcon2_png
   } );

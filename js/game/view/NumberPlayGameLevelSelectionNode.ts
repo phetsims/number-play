@@ -21,6 +21,8 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
+import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
+import InfoDialog from './InfoDialog.js';
 
 // constants
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
@@ -91,6 +93,22 @@ class NumberPlayGameLevelSelectionNode extends Node {
     } );
     levelSelectionButtonsBox.center = layoutBounds.center;
     this.addChild( levelSelectionButtonsBox );
+
+    // Info dialog is created on demand, then reused so we don't have to deal with buggy Dialog.dispose.
+    let infoDialog: InfoDialog | null = null;
+
+    // Info button, to right of 'Choose Your Game!', opens the Info dialog.
+    const infoButton = new InfoButton( {
+      iconFill: 'rgb( 41, 106, 163 )',
+      maxHeight: 0.75 * titleText.height,
+      listener: () => {
+        infoDialog = infoDialog || new InfoDialog( model.countingLevels, model.subitizeLevels );
+        infoDialog.show();
+      },
+      left: titleText.right + 20,
+      centerY: titleText.centerY
+    } );
+    this.addChild( infoButton );
 
     // create and add reset all button
     const resetAllButton = new ResetAllButton( {

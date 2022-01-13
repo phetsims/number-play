@@ -51,7 +51,10 @@ type StringsType = {
   'gameNameLevelNumberPattern': string,
   'chooseYourGame': string,
   'counting': string,
-  'subitize': string
+  'countFromPattern': string,
+  'subitizing': string,
+  'subitizeFromPattern': string,
+  'games': string
 };
 
 const numberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;
