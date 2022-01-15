@@ -100,8 +100,7 @@ class CompareAccordionBox extends AccordionBox {
     ComparePlayObjectType.enumeration.values.forEach( playObjectType => {
       let iconNode = null;
       if ( playObjectType === ComparePlayObjectType.PAPER_ONE ) {
-        // @ts-ignore TODO-TS: Update when BaseNumberNode API is fixed
-        iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1, false );
+        iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
         iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height / 4 );
       }
       else {

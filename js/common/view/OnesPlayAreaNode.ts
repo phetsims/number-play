@@ -10,7 +10,6 @@
 
 import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
@@ -24,12 +23,13 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
-  playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null,
+  playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
   groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType> | null,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
@@ -45,7 +45,7 @@ class OnesPlayAreaNode extends Node {
   private readonly addAndDragNumberCallback: Function;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
-  readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType> | null;
+  readonly playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
   private readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType> | null;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
@@ -59,7 +59,7 @@ class OnesPlayAreaNode extends Node {
     const options = merge( {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
-      playObjectTypeProperty: null,
+      playObjectTypeProperty: new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       groupingLinkingTypeProperty: null,
       viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
       includeOnesCreatorPanel: true
@@ -138,7 +138,7 @@ class OnesPlayAreaNode extends Node {
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
       if ( ( groupingLinkingType === GroupingLinkingType.UNGROUPED || groupingLinkingType === GroupingLinkingType.GROUPED )
-           && this.playObjectTypeProperty ) {
+           && this.playObjectTypeProperty.value !== CountingObjectType.PAPER_NUMBER ) {
         playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
           const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
           paperNumberNode.updateNumber();
