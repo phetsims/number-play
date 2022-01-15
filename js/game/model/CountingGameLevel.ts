@@ -55,10 +55,10 @@ class CountingGameLevel extends NumberPlayGameLevel {
   }
 
   /**
-   * Return a new object type for the current challenge.
+   * @param dt - in seconds
    */
-  private static getRandomPlayObjectType(): PlayObjectType {
-    return dotRandom.sample( PlayObjectType.enumeration.values.slice() );
+  public step( dt: number ): void {
+    this.objectsPlayArea.step( dt );
   }
 
   public reset(): void {
@@ -77,6 +77,13 @@ class CountingGameLevel extends NumberPlayGameLevel {
     super.newChallenge();
     this._playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
     this._isObjectsRepresentationProperty.value = !this._isObjectsRepresentationProperty.value;
+  }
+
+  /**
+   * Return a new object type for the current challenge.
+   */
+  private static getRandomPlayObjectType(): PlayObjectType {
+    return dotRandom.sample( PlayObjectType.enumeration.values.slice() );
   }
 }
 

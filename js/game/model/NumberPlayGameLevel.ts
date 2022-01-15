@@ -78,10 +78,7 @@ abstract class NumberPlayGameLevel {
     this.challengeNumberProperty.value = this.getRandomChallengeNumber();
   }
 
-  /**
-   * @param dt - in seconds. No-op because not all subclasses need a step function.
-   */
-  public step( dt: number ): void {}
+  abstract step( dt: number ): void
 
   /**
    * Sets up a new challenge for this level.
