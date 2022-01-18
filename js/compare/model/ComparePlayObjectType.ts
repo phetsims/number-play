@@ -13,7 +13,7 @@ import numberPlay from '../../numberPlay.js';
 class ComparePlayObjectType extends EnumerationValue {
   static DOG = new ComparePlayObjectType();
   static APPLE = new ComparePlayObjectType();
-  static PAPER_ONE = new ComparePlayObjectType();
+  static PAPER_NUMBER = new ComparePlayObjectType();
 
   static enumeration = new Enumeration( ComparePlayObjectType );
 }

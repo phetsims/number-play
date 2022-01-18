@@ -12,9 +12,9 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from './CompareCountingType.js';
-import ComparePlayArea from './ComparePlayArea.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 
 class CompareModel {
   public readonly leftCurrentNumberProperty: NumberProperty;
@@ -22,10 +22,10 @@ class CompareModel {
   public readonly countingTypeProperty: EnumerationProperty<CompareCountingType>;
   public readonly comparisonSignsAndTextVisibleProperty: BooleanProperty;
   private readonly isResettingProperty: BooleanProperty;
-  public readonly leftPlayArea: ComparePlayArea;
-  public readonly rightPlayArea: ComparePlayArea;
+  public readonly leftPlayArea: OnesPlayArea;
+  public readonly rightPlayArea: OnesPlayArea;
 
-  constructor( highestCount: number, paperNumberOrigin: Vector2, objectMaxScale: number, tandem: Tandem ) {
+  constructor( highestCount: number, paperNumberOrigin: Vector2, tandem: Tandem ) {
 
     this.leftCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
@@ -37,8 +37,12 @@ class CompareModel {
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
     this.isResettingProperty = new BooleanProperty( false );
 
-    this.leftPlayArea = new ComparePlayArea( this.leftCurrentNumberProperty, objectMaxScale, paperNumberOrigin, this.isResettingProperty );
-    this.rightPlayArea = new ComparePlayArea( this.rightCurrentNumberProperty, objectMaxScale, paperNumberOrigin, this.isResettingProperty );
+    this.leftPlayArea = new OnesPlayArea( this.leftCurrentNumberProperty, paperNumberOrigin, {
+      isResettingProperty: this.isResettingProperty
+    } );
+    this.rightPlayArea = new OnesPlayArea( this.rightCurrentNumberProperty, paperNumberOrigin, {
+      isResettingProperty: this.isResettingProperty
+    } );
   }
 
   /**
@@ -61,7 +65,7 @@ class CompareModel {
     this.rightCurrentNumberProperty.reset();
     this.comparisonSignsAndTextVisibleProperty.reset();
     this.countingTypeProperty.reset();
-    this.isResettingProperty.reset();
+    this.isResettingProperty.value = false;
   }
 }
 

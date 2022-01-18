@@ -40,7 +40,6 @@ class CompareScreen extends Screen {
       () => new CompareModel(
         NumberPlayConstants.TWENTY,
         new Vector2( 16, 262 ), // empirically determined
-        1.3,                    // empirically determined
         tandem.createTandem( 'model' ) ),
       ( model: CompareModel ) => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
       options
