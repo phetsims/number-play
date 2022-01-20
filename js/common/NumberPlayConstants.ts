@@ -93,7 +93,7 @@ const NumberPlayConstants = {
 
   // options for all AccordionBox instances
   ACCORDION_BOX_OPTIONS: {
-    resize: false,
+    resize: true,
     titleAlignX: 'left',
     titleXSpacing: 8,
     showTitleWhenExpanded: false,

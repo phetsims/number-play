@@ -24,6 +24,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
@@ -148,7 +149,7 @@ class OnesPlayAreaNode extends Node {
 
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
-    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY;
+    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
     }

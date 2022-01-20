@@ -45,8 +45,6 @@ class ObjectsAccordionBox extends AccordionBox {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
       } ),
-      minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       fill: NumberPlayColors.blueBackgroundColorProperty,
       linkedPlayArea: null,
       groupingLinkingTypeProperty: null,
@@ -64,8 +62,11 @@ class ObjectsAccordionBox extends AccordionBox {
       contentNode.left,
       contentNode.top,
       contentNode.right,
-      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
+      contentNode.bottom
     );
+
+    // set the local bounds so they don't change
+    contentNode.localBounds = playAreaViewBounds;
 
     const playObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
 
@@ -101,7 +102,7 @@ class ObjectsAccordionBox extends AccordionBox {
       spacing: options.radioButtonSpacing
     } );
     radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
-    radioButtonGroup.bottom = playAreaViewBounds.bottom;
+    radioButtonGroup.bottom = playAreaViewBounds.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
     contentNode.addChild( radioButtonGroup );
 
     // add the linked play area

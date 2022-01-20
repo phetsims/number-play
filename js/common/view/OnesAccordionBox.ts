@@ -29,8 +29,6 @@ class OnesAccordionBox extends AccordionBox {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
       } ),
-      minWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_WIDTH,
       fill: NumberPlayColors.purpleBackgroundColorProperty
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as AccordionBoxOptions;
 
@@ -43,8 +41,11 @@ class OnesAccordionBox extends AccordionBox {
       contentNode.left,
       contentNode.top,
       contentNode.right,
-      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
+      contentNode.bottom
     );
+
+    // set the local bounds explicitly so they don't change
+    contentNode.localBounds = playAreaViewBounds;
 
     const onesPlayAreaNode = new OnesPlayAreaNode(
       onesPlayArea,

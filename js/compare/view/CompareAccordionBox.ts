@@ -27,8 +27,7 @@ import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
 const RADIO_BUTTON_SPACING = 10;
-const CONTENT_WIDTH = 350;
-const WIDTH = 394; // the width of this AccordionBox, in screen coordinates. from the screen's design asset.
+const CONTENT_WIDTH = 350; // in screen coordinates
 
 const objectsString = numberPlayStrings.objects;
 
@@ -40,9 +39,7 @@ class CompareAccordionBox extends AccordionBox {
       titleNode: new Text( objectsString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: 344 // empirically determined to not shrink accordion box content
-      } ),
-      minWidth: WIDTH,
-      maxWidth: WIDTH
+      } )
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as AccordionBoxOptions;
 
     const contentNode = new Rectangle( {
@@ -55,8 +52,11 @@ class CompareAccordionBox extends AccordionBox {
       contentNode.left,
       contentNode.top,
       contentNode.right,
-      contentNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
+      contentNode.bottom
     );
+
+    // set the local bounds explicitly so they don't change
+    contentNode.localBounds = playAreaViewBounds;
 
     const playObjectTypeProperty = new EnumerationProperty( ComparePlayObjectType.DOG );
 
@@ -99,7 +99,7 @@ class CompareAccordionBox extends AccordionBox {
       spacing: RADIO_BUTTON_SPACING
     } );
     radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
-    radioButtonGroup.bottom = playAreaViewBounds.bottom;
+    radioButtonGroup.bottom = playAreaViewBounds.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
     contentNode.addChild( radioButtonGroup );
 
     super( contentNode, options );
