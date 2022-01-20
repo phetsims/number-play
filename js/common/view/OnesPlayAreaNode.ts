@@ -189,7 +189,7 @@ class OnesPlayAreaNode extends Node {
       this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, {
         groupingLinkingTypeProperty: this.groupingLinkingTypeProperty,
         baseNumberNodeOptions: {
-          handleYOffset: COUNTING_OBJECT_HANDLE_OFFSET_Y
+          handleOffsetY: COUNTING_OBJECT_HANDLE_OFFSET_Y
         }
       } );
 
