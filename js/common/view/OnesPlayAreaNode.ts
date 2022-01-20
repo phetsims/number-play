@@ -36,6 +36,9 @@ type OnesPlayAreaNodeOptions = {
   includeOnesCreatorPanel: boolean
 };
 
+// constants
+const COUNTING_OBJECT_HANDLE_OFFSET_Y = -44;  // empirically determined to be an appropriate length for just 10s and 1s
+
 class OnesPlayAreaNode extends Node {
   private readonly numberSplitListener: Function;
   private readonly numberInteractionListener: Function;
@@ -183,7 +186,12 @@ class OnesPlayAreaNode extends Node {
     paperNumber.viewHasIndependentModel = this.viewHasIndependentModel;
 
     const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
-      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, this.groupingLinkingTypeProperty );
+      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, {
+        groupingLinkingTypeProperty: this.groupingLinkingTypeProperty,
+        baseNumberNodeOptions: {
+          handleYOffset: COUNTING_OBJECT_HANDLE_OFFSET_Y
+        }
+      } );
 
     // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
     paperNumber.numberValueProperty.link( numberValue => {
