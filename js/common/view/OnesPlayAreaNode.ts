@@ -141,13 +141,11 @@ class OnesPlayAreaNode extends Node {
 
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
     this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( ( groupingLinkingType === GroupingLinkingType.UNGROUPED || groupingLinkingType === GroupingLinkingType.GROUPED )
-           && this.playObjectTypeProperty.value !== CountingObjectType.PAPER_NUMBER ) {
-        playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
-          const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
-          paperNumberNode.updateNumber();
-        } );
-      }
+      groupingLinkingType === GroupingLinkingType.UNGROUPED && playArea.breakApartCountingObject( true );
+      playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
+        const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
+        paperNumberNode.updateNumber();
+      } );
     } );
 
     // create and add the OnesCreatorPanel

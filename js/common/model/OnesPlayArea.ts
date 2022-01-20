@@ -316,25 +316,59 @@ class OnesPlayArea extends CountingCommonModel {
   }
 
   /**
-   * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
+   * Breaks apart a counting object into counting objects all with a value of 1. By default, it creates all new counting
+   * objects in the position of the original counting object. If stack=true, it arranges them according to the
+   * background shape of the original counting object.
+   *
+   * @param stack
    */
-  public organizeObjects() {
+  public breakApartCountingObject( stack: boolean = false ) {
 
-    assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
+    // TODO: cleanup and doc
 
     const objectsToBreakDown = [ ...this.paperNumbers ];
     objectsToBreakDown.forEach( paperNumber => {
       if ( paperNumber.numberValueProperty.value > 1 ) {
         const paperNumberPosition = paperNumber.positionProperty.value;
         const paperNumberValue = paperNumber.numberValueProperty.value;
+
+        const numberOfSets = paperNumberValue < NumberPlayConstants.TEN ? 1 : 2;
+        const numberOfRows = NumberPlayConstants.TEN;
+
+        const localBounds = paperNumber.getLocalBounds();
+        const origin = stack ? paperNumberPosition.minusXY( 0, 25 ) : paperNumberPosition;
+        const offsetYSegment = stack ? ( localBounds.height - CountingCommonConstants.PLAY_OBJECT_SIZE.height ) /
+                                       ( numberOfRows + 1 ) : 0;
+        let offsetY = 0;
+
+        let reAddedPaperNumbers = 0;
+        const xShift = paperNumberValue >= NumberPlayConstants.TEN && stack ? -CountingCommonConstants.PLAY_OBJECT_SIZE.width : 0;
+
         this.removePaperNumber( paperNumber );
 
-        for ( let i = 0; i < paperNumberValue; i++ ) {
-          const newPaperNumber = new PaperNumber( 1, paperNumberPosition );
-          this.addPaperNumber( newPaperNumber );
+        for ( let i = numberOfSets - 1; i >= 0; i-- ) {
+          for ( let j = 0; j < numberOfRows; j++ ) {
+            if ( reAddedPaperNumbers < paperNumberValue ) {
+              const newPaperNumber = new PaperNumber( 1, origin.plusXY( i * xShift, offsetY ) );
+              this.addPaperNumber( newPaperNumber );
+              offsetY += offsetYSegment;
+              reAddedPaperNumbers++;
+            }
+          }
+          offsetY = 0;
         }
       }
     } );
+  }
+
+  /**
+   * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
+   */
+  public organizeObjects() {
+
+    assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
+
+    this.breakApartCountingObject();
 
     // copy the current playObjectsInPlayArea so we can mutate it
     let objectsToOrganize = [ ...this.paperNumbers ];
