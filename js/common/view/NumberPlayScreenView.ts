@@ -193,7 +193,7 @@ class NumberPlayScreenView extends ScreenView {
     organizeOnesButton.top = onesAccordionBox.top;
     this.addChild( organizeOnesButton );
 
-    // create and add a button to organize the objectsAccordionBoc play objects in a grid
+    // create and add a button to organize the objectsAccordionBox play objects in a grid
     const organizeObjectsButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
