@@ -25,14 +25,16 @@ import numberPlay from '../../numberPlay.js';
 import CompareCountingType from '../model/CompareCountingType.js';
 import CompareModel from '../model/CompareModel.js';
 import BlockValuesNode from './BlockValuesNode.js';
-import CompareAccordionBox from './CompareAccordionBox.js';
 import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButtonGroup.js';
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 import ComparisonTextNode from './ComparisonTextNode.js';
+import ObjectsAccordionBox from '../../common/view/ObjectsAccordionBox.js';
+import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
 const LOWER_ACCORDION_BOX_HEIGHT = 426; // empirically determined, in screen coordinates
+const LOWER_ACCORDION_BOX_CONTENT_WIDTH = 350; // in screen coordinates
 
 // strings
 const lessThanString = '<';
@@ -84,8 +86,10 @@ class CompareScreenView extends ScreenView {
     this.addChild( rightTotalAccordionBox );
 
     // create and add the left CompareAccordionBox
-    const leftCompareAccordionBox = new CompareAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+    const leftCompareAccordionBox = new ObjectsAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+      playObjectTypes: ComparePlayObjectType,
       expandedProperty: this.leftCompareAccordionBoxExpandedProperty,
+      contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
     leftCompareAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
@@ -93,8 +97,10 @@ class CompareScreenView extends ScreenView {
     this.addChild( leftCompareAccordionBox );
 
     // create and add the right CompareAccordionBox
-    const rightCompareAccordionBox = new CompareAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+    const rightCompareAccordionBox = new ObjectsAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+      playObjectTypes: ComparePlayObjectType,
       expandedProperty: this.rightCompareAccordionBoxExpandedProperty,
+      contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightOrangeBackgroundColorProperty
     } );
     rightCompareAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;

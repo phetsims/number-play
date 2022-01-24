@@ -14,23 +14,29 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Color, Image, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, Image, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
+import ComparePlayObjectType from '../../compare/model/ComparePlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
+import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 
 // types
 type ObjectsAccordionBoxOptions = {
+  contentWidth: number,
+  playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
-  groupingLinkingTypeProperty?: EnumerationProperty<GroupingLinkingType> | null,
-  radioButtonSize: Dimension2,
-  radioButtonSpacing: number
+  groupingLinkingTypeProperty?: EnumerationProperty<GroupingLinkingType> | null
 } & AccordionBoxOptions;
+
+// constants
+const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
 
 // strings
 const objectsString = numberPlayStrings.objects;
@@ -45,17 +51,15 @@ class ObjectsAccordionBox extends AccordionBox {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
       } ),
-      fill: NumberPlayColors.blueBackgroundColorProperty,
+      contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
+      playObjectTypes: null,
       linkedPlayArea: null,
-      groupingLinkingTypeProperty: null,
-
-      radioButtonSize: new Dimension2( 28, 28 ), // empirically determined
-      radioButtonSpacing: 10 // empirically determined
+      groupingLinkingTypeProperty: null
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as ObjectsAccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
-      rectWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH
+      rectWidth: options.contentWidth
     } );
 
     const playAreaViewBounds = new Bounds2(
@@ -68,7 +72,10 @@ class ObjectsAccordionBox extends AccordionBox {
     // set the local bounds so they don't change
     contentNode.localBounds = playAreaViewBounds;
 
-    const playObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
+    // if types were provided, use the first one the default. otherwise default to paper numbers
+    const initialPlayObjectType = options.playObjectTypes ? options.playObjectTypes.enumeration!.values[ 0 ] :
+                                  CountingObjectType.PAPER_NUMBER;
+    const playObjectTypeProperty = new EnumerationProperty( initialPlayObjectType );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       objectsPlayArea,
@@ -79,31 +86,43 @@ class ObjectsAccordionBox extends AccordionBox {
     );
     contentNode.addChild( objectsPlayAreaNode );
 
-    // create the icons for the RectangularRadioButtonGroup
-    // @ts-ignore
-    const buttons = [];
-    PlayObjectType.enumeration.values.forEach( playObjectType => {
-      const iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( playObjectType.name ), {
-        maxWidth: options.radioButtonSize.width,
-        maxHeight: options.radioButtonSize.height
+    // TODO-TS: use specific RadioButtonGroup type
+    let radioButtonGroup: Node | null = null;
+    if ( options.playObjectTypes ) {
+
+      // create the icons for the RectangularRadioButtonGroup
+      // @ts-ignore
+      const buttons = [];
+      options.playObjectTypes.enumeration!.values.forEach( playObjectType => {
+        let iconNode = null;
+        if ( playObjectType === ComparePlayObjectType.PAPER_NUMBER ) {
+          iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
+          iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height / 4 );
+        }
+        else {
+          iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( playObjectType.name ), {
+            maxWidth: RADIO_BUTTON_SIZE.width,
+            maxHeight: RADIO_BUTTON_SIZE.height
+          } );
+        }
+
+        buttons.push( {
+          value: playObjectType,
+          node: iconNode
+        } );
       } );
 
-      buttons.push( {
-        value: playObjectType,
-        node: iconNode
+      // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+      // @ts-ignore
+      radioButtonGroup = new RectangularRadioButtonGroup( playObjectTypeProperty, buttons, {
+        baseColor: Color.WHITE,
+        orientation: 'horizontal',
+        spacing: 10
       } );
-    } );
-
-    // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
-    // @ts-ignore
-    const radioButtonGroup = new RectangularRadioButtonGroup( playObjectTypeProperty, buttons, {
-      baseColor: Color.WHITE,
-      orientation: 'horizontal',
-      spacing: options.radioButtonSpacing
-    } );
-    radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
-    radioButtonGroup.bottom = playAreaViewBounds.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
-    contentNode.addChild( radioButtonGroup );
+      radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
+      radioButtonGroup.bottom = playAreaViewBounds.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
+      contentNode.addChild( radioButtonGroup );
+    }
 
     // add the linked play area
     if ( options.linkedPlayArea && options.groupingLinkingTypeProperty ) {
@@ -124,7 +143,7 @@ class ObjectsAccordionBox extends AccordionBox {
           contentNode.removeChild( linkedObjectsPlayAreaNode );
           contentNode.addChild( objectsPlayAreaNode );
         }
-        radioButtonGroup.moveToFront();
+        radioButtonGroup && radioButtonGroup.moveToFront();
       } );
     }
 

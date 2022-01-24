@@ -21,7 +21,6 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import ObjectsAccordionBox from './ObjectsAccordionBox.js';
-import OnesAccordionBox from './OnesAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
@@ -29,6 +28,7 @@ import TotalAccordionBox, { TotalAccordionBoxOptions } from './TotalAccordionBox
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -97,10 +97,11 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( tenFrameAccordionBox );
 
     // create and add the OnesAccordionBox
-    const onesAccordionBox = new OnesAccordionBox(
+    const onesAccordionBox = new ObjectsAccordionBox(
       model.onesPlayArea,
       options.lowerAccordionBoxHeight, {
-        expandedProperty: this.onesAccordionBoxExpandedProperty
+        expandedProperty: this.onesAccordionBoxExpandedProperty,
+        fill: NumberPlayColors.purpleBackgroundColorProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
@@ -110,9 +111,11 @@ class NumberPlayScreenView extends ScreenView {
     this.objectsAccordionBox = new ObjectsAccordionBox(
       model.objectsPlayArea,
       options.lowerAccordionBoxHeight, {
+        playObjectTypes: PlayObjectType,
         linkedPlayArea: model.onesPlayArea,
         groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
-        expandedProperty: this.objectsAccordionBoxExpandedProperty
+        expandedProperty: this.objectsAccordionBoxExpandedProperty,
+        fill: NumberPlayColors.blueBackgroundColorProperty
       } );
     this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
     this.objectsAccordionBox.bottom = onesAccordionBox.bottom;
