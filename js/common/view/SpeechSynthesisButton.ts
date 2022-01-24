@@ -17,6 +17,7 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
@@ -65,12 +66,22 @@ class SpeechSynthesisButton extends RectangularPushButton {
       speechUtterance.alert = readNumber ? NumberPlayConstants.NUMBER_TO_STRING[ property.value ] :
                               property.value;
 
+      voicingManager.cancelUtterance( speechUtterance );
+
       // TODO: We should use a different function for this. This is used because we want to use speech synthesis
       // TODO: outside of the Voicing framework, but we should have something better. A setup for
       //  outside-of-voicing-use could also do the voicesChangedListener above as well.
       // See https://github.com/phetsims/scenery/issues/1336
       voicingManager.speakIgnoringEnabled( speechUtterance );
     };
+
+    // read numeric numbers aloud if the current number changes
+    // TODO: Consider moving this elsewhere by factoring out the voicing parts of this file.
+    if ( NumberPlayQueryParameters.countAloud && readNumber ) {
+      property.lazyLink( () => {
+        listener();
+      } );
+    }
 
     super( {
       content: new Path( bullhornSolidShape, {

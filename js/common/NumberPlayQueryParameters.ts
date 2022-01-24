@@ -28,8 +28,13 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
   // 2: Counting, Level 2
   // 3: Subitize, Level 1
   // 4: Subitize, Level 2
-  gameLevels: getGameLevelsSchema( 4 )
+  gameLevels: getGameLevelsSchema( 4 ),
 
+  // whether the current number should be read out loud whenever it changes
+  countAloud: {
+    public: true,
+    type: 'flag'
+  }
 } );
 
 numberPlay.register( 'NumberPlayQueryParameters', NumberPlayQueryParameters );
