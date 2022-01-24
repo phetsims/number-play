@@ -29,6 +29,7 @@ import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import numberPlayStrings from '../../numberPlayStrings.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -101,6 +102,7 @@ class NumberPlayScreenView extends ScreenView {
       model.onesPlayArea,
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
+        titleString: numberPlayStrings.ones,
         fill: NumberPlayColors.purpleBackgroundColorProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;

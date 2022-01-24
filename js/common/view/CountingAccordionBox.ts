@@ -29,6 +29,7 @@ import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.j
 
 // types
 type CountingAccordionBoxOptions = {
+  titleString: string,
   contentWidth: number,
   playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
@@ -38,19 +39,13 @@ type CountingAccordionBoxOptions = {
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
 
-// strings
-const objectsString = numberPlayStrings.objects;
-
 class CountingAccordionBox extends AccordionBox {
   private readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
 
   constructor( objectsPlayArea: OnesPlayArea, height: number, providedOptions: Partial<CountingAccordionBoxOptions> ) {
 
     const options = merge( {
-      titleNode: new Text( objectsString, {
-        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
-        maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
-      } ),
+      titleString: numberPlayStrings.objects,
       contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       playObjectTypes: null,
       linkedPlayArea: null,
@@ -147,7 +142,12 @@ class CountingAccordionBox extends AccordionBox {
       } );
     }
 
-    super( contentNode, options );
+    super( contentNode, merge( {
+      titleNode: new Text( options.titleString, {
+        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+        maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
+      } )
+    }, options ) );
 
     this.playObjectTypeProperty = playObjectTypeProperty;
   }
