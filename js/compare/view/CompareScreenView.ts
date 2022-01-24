@@ -28,7 +28,7 @@ import BlockValuesNode from './BlockValuesNode.js';
 import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButtonGroup.js';
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 import ComparisonTextNode from './ComparisonTextNode.js';
-import ObjectsAccordionBox from '../../common/view/ObjectsAccordionBox.js';
+import CountingAccordionBox from '../../common/view/CountingAccordionBox.js';
 import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 
 // constants
@@ -44,8 +44,8 @@ const greaterThanString = '>';
 class CompareScreenView extends ScreenView {
   public readonly leftTotalAccordionBoxExpandedProperty: BooleanProperty;
   public readonly rightTotalAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly rightCompareAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly leftCompareAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly rightCountingAccordionBoxExpandedProperty: BooleanProperty;
+  public readonly leftCountingAccordionBoxExpandedProperty: BooleanProperty;
 
   constructor( model: CompareModel, tandem: Tandem ) {
 
@@ -53,8 +53,8 @@ class CompareScreenView extends ScreenView {
 
     this.leftTotalAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.rightTotalAccordionBoxExpandedProperty = new BooleanProperty( true );
-    this.leftCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
-    this.rightCompareAccordionBoxExpandedProperty = new BooleanProperty( true );
+    this.leftCountingAccordionBoxExpandedProperty = new BooleanProperty( true );
+    this.rightCountingAccordionBoxExpandedProperty = new BooleanProperty( true );
 
     // config for the left and right TotalAccordionBox
     const totalAccordionBoxOptions = {
@@ -85,35 +85,35 @@ class CompareScreenView extends ScreenView {
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
 
-    // create and add the left CompareAccordionBox
-    const leftCompareAccordionBox = new ObjectsAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+    // create and add the left CountingAccordionBox
+    const leftCountingAccordionBox = new CountingAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
       playObjectTypes: ComparePlayObjectType,
-      expandedProperty: this.leftCompareAccordionBoxExpandedProperty,
+      expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
       contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
-    leftCompareAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    leftCompareAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
-    this.addChild( leftCompareAccordionBox );
+    leftCountingAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+    this.addChild( leftCountingAccordionBox );
 
-    // create and add the right CompareAccordionBox
-    const rightCompareAccordionBox = new ObjectsAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
+    // create and add the right CountingAccordionBox
+    const rightCountingAccordionBox = new CountingAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
       playObjectTypes: ComparePlayObjectType,
-      expandedProperty: this.rightCompareAccordionBoxExpandedProperty,
+      expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
       contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightOrangeBackgroundColorProperty
     } );
-    rightCompareAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    rightCompareAccordionBox.bottom = leftCompareAccordionBox.bottom;
-    this.addChild( rightCompareAccordionBox );
+    rightCountingAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    rightCountingAccordionBox.bottom = leftCountingAccordionBox.bottom;
+    this.addChild( rightCountingAccordionBox );
 
     // set the x-position of the TotalAccordionBox's after the CompareObjectAccordionBoxes have been added
-    leftTotalAccordionBox.right = leftCompareAccordionBox.right;
-    rightTotalAccordionBox.left = rightCompareAccordionBox.left;
+    leftTotalAccordionBox.right = leftCountingAccordionBox.right;
+    rightTotalAccordionBox.left = rightCountingAccordionBox.left;
 
     // create and add the CompareCountingTypeRadioButtonGroup
     const countingTypeRadioButtonGroup = new CompareCountingTypeRadioButtonGroup( model.countingTypeProperty );
-    countingTypeRadioButtonGroup.left = leftCompareAccordionBox.left;
+    countingTypeRadioButtonGroup.left = leftCountingAccordionBox.left;
     countingTypeRadioButtonGroup.top = leftTotalAccordionBox.top;
     this.addChild( countingTypeRadioButtonGroup );
 
@@ -140,7 +140,7 @@ class CompareScreenView extends ScreenView {
       model.rightCurrentNumberProperty,
       this.layoutBounds
     );
-    comparisonTextNode.centerY = new Range( leftTotalAccordionBox.bottom, leftCompareAccordionBox.top ).getCenter();
+    comparisonTextNode.centerY = new Range( leftTotalAccordionBox.bottom, leftCountingAccordionBox.top ).getCenter();
     this.addChild( comparisonTextNode );
 
     // create and add the BlockValuesNode
@@ -150,7 +150,7 @@ class CompareScreenView extends ScreenView {
     // create and add the CompareNumberLineNode
     const compareNumberLineNode = new CompareNumberLineNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
     compareNumberLineNode.x = comparisonSignsNode.centerX;
-    compareNumberLineNode.bottom = leftCompareAccordionBox.bottom - 4; // empirically determined adjustment
+    compareNumberLineNode.bottom = leftCountingAccordionBox.bottom - 4; // empirically determined adjustment
     this.addChild( compareNumberLineNode );
 
     // create and add the ResetAllButton
@@ -204,7 +204,7 @@ class CompareScreenView extends ScreenView {
         blockValuesNode.removeAllChildren();
         blockValuesNode.addChild( BlockValuesNode.getBlockValuesNode( leftCurrentNumber, rightCurrentNumber, true ) );
         blockValuesNode.centerX = comparisonSignsNode.centerX;
-        blockValuesNode.bottom = leftCompareAccordionBox.bottom - 2; // empirically determined tweak
+        blockValuesNode.bottom = leftCountingAccordionBox.bottom - 2; // empirically determined tweak
       } );
 
     // update the visibility of the comparison signs node
@@ -226,8 +226,8 @@ class CompareScreenView extends ScreenView {
   public reset(): void {
     this.leftTotalAccordionBoxExpandedProperty.reset();
     this.rightTotalAccordionBoxExpandedProperty.reset();
-    this.leftCompareAccordionBoxExpandedProperty.reset();
-    this.rightCompareAccordionBoxExpandedProperty.reset();
+    this.leftCountingAccordionBoxExpandedProperty.reset();
+    this.rightCountingAccordionBoxExpandedProperty.reset();
   }
 }
 

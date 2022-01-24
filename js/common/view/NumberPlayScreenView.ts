@@ -20,7 +20,7 @@ import groupingScene3_png from '../../../images/groupingScene3_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
-import ObjectsAccordionBox from './ObjectsAccordionBox.js';
+import CountingAccordionBox from './CountingAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
 import TenFrameNode from './TenFrameNode.js';
@@ -53,7 +53,7 @@ class NumberPlayScreenView extends ScreenView {
   public readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
   public readonly onesAccordionBoxExpandedProperty: BooleanProperty;
   public readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
-  private readonly objectsAccordionBox: ObjectsAccordionBox;
+  private readonly objectsAccordionBox: CountingAccordionBox;
 
   constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
 
@@ -96,8 +96,8 @@ class NumberPlayScreenView extends ScreenView {
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
 
-    // create and add the OnesAccordionBox
-    const onesAccordionBox = new ObjectsAccordionBox(
+    // create and add the CountingAccordionBox for paper ones
+    const onesAccordionBox = new CountingAccordionBox(
       model.onesPlayArea,
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
@@ -107,8 +107,8 @@ class NumberPlayScreenView extends ScreenView {
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
     this.addChild( onesAccordionBox );
 
-    // create and add the ObjectsAccordionBox
-    this.objectsAccordionBox = new ObjectsAccordionBox(
+    // create and add the CountingAccordionBox for play objects
+    this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
       options.lowerAccordionBoxHeight, {
         playObjectTypes: PlayObjectType,
@@ -179,7 +179,7 @@ class NumberPlayScreenView extends ScreenView {
     } );
     tenFramePath.setScaleMagnitude( ( resetAllButton.width - xMargin * 2 ) / tenFramePath.width );
 
-    // create and add a button to organize the ObjectsAccordionBox playObjects in a grid
+    // create and add a button to organize the onesAccordionBox paper ones in a grid
     const organizeOnesButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
@@ -193,7 +193,7 @@ class NumberPlayScreenView extends ScreenView {
     organizeOnesButton.top = onesAccordionBox.top;
     this.addChild( organizeOnesButton );
 
-    // create and add a button to organize the ObjectsAccordionBox playObjects in a grid
+    // create and add a button to organize the objectsAccordionBoc play objects in a grid
     const organizeObjectsButton = new RectangularPushButton( {
       content: tenFramePath,
       listener: () => {
