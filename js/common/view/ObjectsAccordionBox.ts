@@ -28,7 +28,7 @@ import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumbe
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 
 // types
-type ObjectsAccordionBoxOptions = {
+type CountingAccordionBoxOptions = {
   contentWidth: number,
   playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
@@ -41,10 +41,10 @@ const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
 // strings
 const objectsString = numberPlayStrings.objects;
 
-class ObjectsAccordionBox extends AccordionBox {
+class CountingAccordionBox extends AccordionBox {
   private readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
 
-  constructor( objectsPlayArea: OnesPlayArea, height: number, providedOptions: Partial<ObjectsAccordionBoxOptions> ) {
+  constructor( objectsPlayArea: OnesPlayArea, height: number, providedOptions: Partial<CountingAccordionBoxOptions> ) {
 
     const options = merge( {
       titleNode: new Text( objectsString, {
@@ -55,7 +55,7 @@ class ObjectsAccordionBox extends AccordionBox {
       playObjectTypes: null,
       linkedPlayArea: null,
       groupingLinkingTypeProperty: null
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as ObjectsAccordionBoxOptions;
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
@@ -160,5 +160,5 @@ class ObjectsAccordionBox extends AccordionBox {
   }
 }
 
-numberPlay.register( 'ObjectsAccordionBox', ObjectsAccordionBox );
-export default ObjectsAccordionBox;
+numberPlay.register( 'CountingAccordionBox', CountingAccordionBox );
+export default CountingAccordionBox;
