@@ -89,7 +89,7 @@ const NumberPlayConstants = {
   ACCORDION_BOX_X_MARGIN: 72,               // distance between the sides of the sim and all adjacent accordion boxes
   ACCORDION_BOX_TOP_MARGIN: 26,             // distance between the top of the sim and all 'upper' accordion boxes
   ACCORDION_BOX_BOTTOM_MARGIN: 15,          // distance between the bottom of the sim and all 'lower' accordion boxes
-  PLAY_AREA_Y_MARGIN: 17,                   // distance between the bottom of the play area and bottom of the accordion box
+  PLAY_AREA_Y_MARGIN: 11,                   // distance between the bottom of the play area and bottom of the accordion box
 
   // options for all AccordionBox instances
   ACCORDION_BOX_OPTIONS: {

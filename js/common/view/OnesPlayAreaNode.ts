@@ -151,6 +151,7 @@ class OnesPlayAreaNode extends Node {
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
     this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
+    this.onesCreatorPanel.left = playAreaViewBounds.minX;
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
     }

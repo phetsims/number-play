@@ -37,7 +37,8 @@ type CountingAccordionBoxOptions = {
 } & AccordionBoxOptions;
 
 // constants
-const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 );
+const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
+const LEFT_CONTENT_OVERFLOW = 19; // in screen coordinates
 
 class CountingAccordionBox extends AccordionBox {
   private readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
@@ -66,6 +67,9 @@ class CountingAccordionBox extends AccordionBox {
 
     // set the local bounds so they don't change
     contentNode.localBounds = playAreaViewBounds;
+
+    // compensate for AccordionBox not supporting usage of the space below the expand/collapse button
+    playAreaViewBounds.minX = playAreaViewBounds.minX - LEFT_CONTENT_OVERFLOW;
 
     // if types were provided, use the first one the default. otherwise default to paper numbers
     const initialPlayObjectType = options.playObjectTypes ? options.playObjectTypes.enumeration!.values[ 0 ] :
@@ -114,7 +118,7 @@ class CountingAccordionBox extends AccordionBox {
         orientation: 'horizontal',
         spacing: 10
       } );
-      radioButtonGroup.right = playAreaViewBounds.right - 2; // empirically determined tweak
+      radioButtonGroup.right = playAreaViewBounds.right - 1; // empirically determined tweak
       radioButtonGroup.bottom = playAreaViewBounds.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
       contentNode.addChild( radioButtonGroup );
     }
