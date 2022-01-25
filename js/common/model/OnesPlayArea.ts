@@ -335,9 +335,8 @@ class OnesPlayArea extends CountingCommonModel {
         const numberOfSets = paperNumberValue < NumberPlayConstants.TEN ? 1 : 2;
         const numberOfRows = NumberPlayConstants.TEN;
 
-        const localBounds = paperNumber.getLocalBounds();
         const origin = stack ? paperNumberPosition.minusXY( 0, 25 ) : paperNumberPosition;
-        const offsetYSegment = stack ? ( localBounds.height - CountingCommonConstants.PLAY_OBJECT_SIZE.height ) /
+        const offsetYSegment = stack ? ( paperNumber.localBounds.height - CountingCommonConstants.PLAY_OBJECT_SIZE.height ) /
                                        ( numberOfRows + 1 ) : 0;
         let offsetY = 0;
 

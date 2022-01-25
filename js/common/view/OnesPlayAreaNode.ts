@@ -12,7 +12,6 @@ import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
@@ -181,9 +180,6 @@ class OnesPlayAreaNode extends Node {
    */
   public onPaperNumberAdded( paperNumber: PaperNumber ): void {
 
-    // let the model know if is being shared or not
-    paperNumber.viewHasIndependentModel = this.viewHasIndependentModel;
-
     const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
       this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, {
         groupingLinkingTypeProperty: this.groupingLinkingTypeProperty,
@@ -351,12 +347,9 @@ class OnesPlayAreaNode extends Node {
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
-
-      // TODO: the ternary below is a hack that shouldn't be needed once https://github.com/phetsims/number-play/issues/6 is fixed.
-      const paperCenterOffset = new PaperNumber( paperNumberValue > 0 ? paperNumberValue : 1, new Vector2( 0, 0 ) ).getLocalBounds().center;
+      const paperCenterOffset = paperNumber.localBounds.center;
       targetPosition = targetPosition.minus( paperCenterOffset );
       paperNumber.setDestination( targetPosition, true );
-
 
       // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
       if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {
