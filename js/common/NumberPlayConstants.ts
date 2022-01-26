@@ -78,7 +78,7 @@ const NumberPlayConstants = {
 
   // sizing for the 'lower' accordion boxes, which include the 'Ones' and 'Objects' accordion boxes
   LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH: 364, // max width of the title of the lower outer accordion boxes
-  LOWER_ACCORDION_BOX_CONTENT_WIDTH: 383,   // width of the 'lower' accordion box content on both screens
+  LOWER_ACCORDION_BOX_CONTENT_WIDTH: 382,   // width of the 'lower' accordion box content on both screens
   TEN_LOWER_ACCORDION_BOX_HEIGHT: 420,      // height of the 'lower' accordion boxes on the 'Ten' screen
   TWENTY_LOWER_ACCORDION_BOX_HEIGHT: 468,   // height of the 'lower' accordion boxes on the 'Twenty' screen
 
