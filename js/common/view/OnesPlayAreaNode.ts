@@ -134,10 +134,8 @@ class OnesPlayAreaNode extends Node {
     playArea.paperNumbers.addItemRemovedListener( paperNumberRemovedListener );
 
     // Persistent, no need to unlink
-    this.availableViewBoundsProperty.lazyLink( availableViewBounds => {
-      playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
-        paperNumber.setConstrainedDestination( availableViewBounds, paperNumber.positionProperty.value );
-      } );
+    this.availableViewBoundsProperty.lazyLink( () => {
+      this.constrainAllPositions();
     } );
 
     // when the groupingLinkingType is switched to no grouping, break apart any object groups
@@ -146,6 +144,7 @@ class OnesPlayAreaNode extends Node {
       playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
         const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
         paperNumberNode.updateNumber();
+        this.constrainAllPositions();
       } );
     } );
 
@@ -296,6 +295,15 @@ class OnesPlayAreaNode extends Node {
         return; // No need to re-layer or try combining with others
       }
     }
+  }
+
+  /**
+   * Make sure all paper numbers are within the availableViewBounds
+   */
+  private constrainAllPositions(): void {
+    this.playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
+      paperNumber.setConstrainedDestination( this.availableViewBoundsProperty.value, paperNumber.positionProperty.value );
+    } );
   }
 
   /**
