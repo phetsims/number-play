@@ -9,6 +9,7 @@
  */
 
 import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { HBox } from '../../../../scenery/js/imports.js';
 import { VBox } from '../../../../scenery/js/imports.js';
@@ -58,7 +59,10 @@ class OnesCreatorPanel extends Panel {
     // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, {
       updateCurrentNumber: true,
-      playObjectTypeProperty: screenView.playObjectTypeProperty
+      playObjectTypeProperty: screenView.playObjectTypeProperty,
+      groupingLinkingTypeProperty: screenView.groupingLinkingTypeProperty,
+      targetScale: 0.6,
+      backTargetOffset: new Vector2( -5, -5 )
     } );
 
     const hBox = new HBox( {

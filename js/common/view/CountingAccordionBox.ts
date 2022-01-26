@@ -33,7 +33,7 @@ type CountingAccordionBoxOptions = {
   contentWidth: number,
   playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
-  groupingLinkingTypeProperty?: EnumerationProperty<GroupingLinkingType> | null
+  groupingLinkingTypeProperty?: EnumerationProperty<GroupingLinkingType>
 } & AccordionBoxOptions;
 
 // constants
@@ -51,7 +51,7 @@ class CountingAccordionBox extends AccordionBox {
       contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       playObjectTypes: null,
       linkedPlayArea: null,
-      groupingLinkingTypeProperty: null
+      groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.GROUPED )
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
 
     const contentNode = new Rectangle( {

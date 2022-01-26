@@ -31,7 +31,7 @@ type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
   playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
-  groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType> | null,
+  groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
 };
@@ -50,7 +50,7 @@ class OnesPlayAreaNode extends Node {
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   readonly playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
-  private readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType> | null;
+  public readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;
@@ -65,7 +65,7 @@ class OnesPlayAreaNode extends Node {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
       playObjectTypeProperty: new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
-      groupingLinkingTypeProperty: null,
+      groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.GROUPED ),
       viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
       includeOnesCreatorPanel: true
     }, providedOptions ) as OnesPlayAreaNodeOptions;
