@@ -35,7 +35,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     // create and add the title text
     const titleText = new Text( numberPlayStrings.chooseYourGame, {
       font: new PhetFont( 40 ),
-      maxWidth: layoutBounds.width - NumberPlayConstants.SCREEN_VIEW_X_PADDING * 2
+      maxWidth: layoutBounds.width - NumberPlayConstants.SCREEN_VIEW_PADDING_X * 2
     } );
     titleText.centerX = layoutBounds.centerX;
     titleText.top = layoutBounds.top + 42;
@@ -116,8 +116,8 @@ class NumberPlayGameLevelSelectionNode extends Node {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         resetCallback();
       },
-      right: layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
-      bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
+      right: layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
+      bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y
     } );
     this.addChild( resetAllButton );
   }

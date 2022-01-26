@@ -73,8 +73,8 @@ class NumberPlayScreenView extends ScreenView {
       options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
-    wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
+    wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
+    wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( wordAccordionBox );
 
     // create and add the TotalAccordionBox
@@ -93,7 +93,7 @@ class NumberPlayScreenView extends ScreenView {
       options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
       }, options.tenFrameAccordionBoxOptions ) );
-    tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
 
@@ -105,8 +105,8 @@ class NumberPlayScreenView extends ScreenView {
         titleString: numberPlayStrings.ones,
         fill: NumberPlayColors.purpleBackgroundColorProperty
       } );
-    onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+    onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
+    onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesAccordionBox );
 
     // create and add the CountingAccordionBox for play objects
@@ -119,7 +119,7 @@ class NumberPlayScreenView extends ScreenView {
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
       } );
-    this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     this.objectsAccordionBox.bottom = onesAccordionBox.bottom;
     this.addChild( this.objectsAccordionBox );
 
@@ -130,8 +130,8 @@ class NumberPlayScreenView extends ScreenView {
         model.reset();
         this.reset();
       },
-      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
-      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
+      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
+      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
@@ -139,7 +139,7 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
     if ( voicingManager.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, true );
-      speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_X_PADDING;
+      speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = tenFrameAccordionBox.top;
       this.addChild( speechSynthesisButton );
     }
@@ -191,7 +191,7 @@ class NumberPlayScreenView extends ScreenView {
       xMargin: xMargin,
       yMargin: yMargin
     } );
-    organizeOnesButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_X_PADDING;
+    organizeOnesButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     organizeOnesButton.top = onesAccordionBox.top;
     this.addChild( organizeOnesButton );
 

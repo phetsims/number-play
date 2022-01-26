@@ -43,9 +43,9 @@ class LabScreenView extends ScreenView {
 
     const playAreaViewBounds = new Bounds2(
       this.layoutBounds.left,
-      this.layoutBounds.top + NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
+      this.layoutBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
       this.layoutBounds.right,
-      this.layoutBounds.bottom - NumberPlayConstants.SCREEN_VIEW_Y_PADDING
+      this.layoutBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_Y
     );
     this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
       Vector2.ZERO,
@@ -123,7 +123,7 @@ class LabScreenView extends ScreenView {
 
     // position empirically determined
     tenFrameCreatorIconNode.centerX = this.modelViewTransform.modelToViewX( model.onesPlayArea.bucket.position.x ) - 180;
-    tenFrameCreatorIconNode.bottom = playAreaViewBounds.bottom - NumberPlayConstants.SCREEN_VIEW_X_PADDING;
+    tenFrameCreatorIconNode.bottom = playAreaViewBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     this.addChild( tenFrameCreatorIconNode );
 
     // @private {draggableTenFrameNode[]}
@@ -141,8 +141,8 @@ class LabScreenView extends ScreenView {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
       },
-      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
-      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
+      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
+      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );

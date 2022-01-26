@@ -33,7 +33,7 @@ import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
-const LOWER_ACCORDION_BOX_HEIGHT = 426; // empirically determined, in screen coordinates
+const LOWER_ACCORDION_BOX_HEIGHT = 437; // empirically determined, in screen coordinates
 const LOWER_ACCORDION_BOX_CONTENT_WIDTH = 350; // in screen coordinates
 
 // strings
@@ -73,7 +73,7 @@ class CompareScreenView extends ScreenView {
       UPPER_ACCORDION_BOX_HEIGHT, merge( {
         expandedProperty: this.leftTotalAccordionBoxExpandedProperty
       }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
-    leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.ACCORDION_BOX_TOP_MARGIN;
+    leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftTotalAccordionBox );
 
     // create and add the right TotalAccordionBox
@@ -92,8 +92,8 @@ class CompareScreenView extends ScreenView {
       contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
-    leftCountingAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
-    leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.ACCORDION_BOX_BOTTOM_MARGIN;
+    leftCountingAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
+    leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftCountingAccordionBox );
 
     // create and add the right CountingAccordionBox
@@ -103,7 +103,7 @@ class CompareScreenView extends ScreenView {
       contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightOrangeBackgroundColorProperty
     } );
-    rightCountingAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_X_MARGIN;
+    rightCountingAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     rightCountingAccordionBox.bottom = leftCountingAccordionBox.bottom;
     this.addChild( rightCountingAccordionBox );
 
@@ -160,8 +160,8 @@ class CompareScreenView extends ScreenView {
         model.reset();
         this.reset();
       },
-      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_X_PADDING,
-      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_Y_PADDING,
+      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
+      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );

@@ -38,7 +38,7 @@ class ComparisonTextNode extends Node {
     const textNode = new Text(
       this.comparisonStringProperty.value, {
         font: new PhetFont( 16 ),
-        maxWidth: layoutBounds.erodedX( NumberPlayConstants.ACCORDION_BOX_X_MARGIN ).width
+        maxWidth: layoutBounds.erodedX( NumberPlayConstants.ACCORDION_BOX_MARGIN_X ).width
       } );
     this.addChild( textNode );
 
