@@ -23,8 +23,8 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
@@ -151,8 +151,8 @@ class OnesPlayAreaNode extends Node {
 
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
-    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - NumberPlayConstants.PLAY_AREA_Y_MARGIN;
-    this.onesCreatorPanel.left = playAreaViewBounds.minX;
+    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
       this.paperNumberOrigin = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();

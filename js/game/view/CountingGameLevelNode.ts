@@ -12,7 +12,6 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
@@ -62,10 +61,13 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     // create view bounds for the objectsPlayAreaNode
     const objectsPlayAreaViewBounds = new Bounds2(
       playAreaNode.left,
-      playAreaNode.top + NumberPlayConstants.PLAY_AREA_Y_MARGIN,
+      playAreaNode.top,
       playAreaNode.right,
-      playAreaNode.bottom - NumberPlayConstants.PLAY_AREA_Y_MARGIN
+      playAreaNode.bottom
     );
+
+    // set the local bounds so they don't change
+    playAreaNode.localBounds = objectsPlayAreaViewBounds;
 
     // create and add the objectsPlayAreaNode
     const objectsPlayAreaNode = new OnesPlayAreaNode(
@@ -73,7 +75,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       objectsPlayAreaViewBounds, {
         playObjectTypeProperty: level.playObjectTypeProperty,
         groupingLinkingTypeProperty: new EnumerationProperty( level.groupObjects ? GroupingLinkingType.GROUPED :
-                                                                  GroupingLinkingType.UNGROUPED ),
+                                                              GroupingLinkingType.UNGROUPED ),
         includeOnesCreatorPanel: false
       }
     );
