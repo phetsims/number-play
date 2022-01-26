@@ -37,7 +37,7 @@ type OnesPlayAreaNodeOptions = {
 };
 
 // constants
-const COUNTING_OBJECT_HANDLE_OFFSET_Y = -44;  // empirically determined to be an appropriate length for just 10s and 1s
+const COUNTING_OBJECT_HANDLE_OFFSET_Y = -11;  // empirically determined to be an appropriate length for just 10s and 1s
 
 class OnesPlayAreaNode extends Node {
   private readonly numberSplitListener: Function;
