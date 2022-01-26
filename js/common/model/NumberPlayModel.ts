@@ -12,7 +12,6 @@ import GroupingLinkingType from '../../../../counting-common/js/common/model/Gro
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from './OnesPlayArea.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
@@ -24,7 +23,7 @@ class NumberPlayModel {
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
 
-  constructor( highestCount: number, paperNumberOrigin: Vector2, tandem: Tandem ) {
+  constructor( highestCount: number, tandem: Tandem ) {
 
     // the current "counted to" number, which is the central aspect of this whole sim
     this.currentNumberProperty = new NumberProperty( 0, {
@@ -39,12 +38,12 @@ class NumberPlayModel {
     this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType.UNGROUPED );
 
     // the model for managing the play area in the OnesAccordionBox
-    this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
+    this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, {
       isResettingProperty: this.isResettingProperty
     } );
 
     // the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, paperNumberOrigin, {
+    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, {
       isResettingProperty: this.isResettingProperty,
       isOnes: false
     } );

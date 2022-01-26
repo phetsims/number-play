@@ -65,7 +65,6 @@ class TenScreen extends Screen {
     super(
       () => new NumberPlayModel(
         NumberPlayConstants.TEN,
-        new Vector2( 58, 306 ), // empirically determined
         tandem.createTandem( 'model' )
       ),
       ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewOptions ),

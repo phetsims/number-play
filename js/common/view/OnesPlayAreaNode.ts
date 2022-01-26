@@ -24,6 +24,7 @@ import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/C
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
@@ -55,6 +56,7 @@ class OnesPlayAreaNode extends Node {
   private readonly paperNumberLayerNode: Node | null;
   private readonly onesCreatorPanel: OnesCreatorPanel;
   private readonly includeOnesCreatorPanel: boolean;
+  private readonly paperNumberOrigin: Vector2 = Vector2.ZERO;
 
   constructor( playArea: OnesPlayArea, playAreaViewBounds: Bounds2, providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
     super();
@@ -153,6 +155,12 @@ class OnesPlayAreaNode extends Node {
     this.onesCreatorPanel.left = playAreaViewBounds.minX;
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
+      this.paperNumberOrigin = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
+    }
+
+    // initialize the model with positioning information
+    if ( this.viewHasIndependentModel ) {
+      this.playArea.initialize( this.paperNumberOrigin, playAreaViewBounds );
     }
 
     // add the paperNumberLayerNode after the creator panel

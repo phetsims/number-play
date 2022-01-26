@@ -28,7 +28,6 @@ type OnesPlayAreaOptions = {
   isResettingProperty: null | BooleanProperty,
   isOnes: boolean,
   sumPropertyRange: null | Range,
-  animateIntoPlayAreaBounds: Bounds2,
   setAllObjects: boolean,
   setAllObjectsAsGrouped: boolean
 };
@@ -39,20 +38,6 @@ type CreatePaperNumberFromBucketOptions = {
 };
 
 // constants
-
-// TODO: These shouldn't be constants since the ones play area is different sizes between screens
-// min and max distances that playObjects being added to the play area via animation can travel. empirically
-// determined to be small enough to fit all needed cases. all in screen coordinates.
-const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = -6;
-const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X = 280;
-const MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -80;
-const MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y = -230;
-const ANIMATE_INTO_PLAY_AREA_BOUNDS = new Bounds2(
-  MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X,
-  MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y,
-  MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_X,
-  MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y
-);
 const GROUP_DIVISORS = [ 2, 5, 10 ]; // specified by designer
 
 // the minimum distance that a playObject added to the play area via animation can be to another playObject in the
@@ -61,27 +46,21 @@ const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
 class OnesPlayArea extends CountingCommonModel {
   public currentNumberProperty: NumberProperty;
-  private readonly paperNumberOrigin: Vector2;
+  private paperNumberOrigin: Vector2;
+  private playAreaBounds: Bounds2;
   public sumProperty: NumberProperty;
   public isControllingCurrentNumber: boolean;
-  private readonly organizedObjectSpots: Vector2[];
+  private organizedObjectSpots: Vector2[];
+  private initialized: boolean;
 
-  /**
-   * @param currentNumberProperty
-   * @param paperNumberOrigin - origin of where paper numbers are created, but only used when the model is
-   * responding to changes in currentNumberProperty, not when a user drags a paperNumber out of the bucket
-   * @param [providedOptions]
-   * TODO: paperNumberOrigin is a band-aid since paperNumberNodes don't use MVT
-   */
-  constructor( currentNumberProperty: NumberProperty, paperNumberOrigin: Vector2, providedOptions: Partial<OnesPlayAreaOptions> ) {
+  constructor( currentNumberProperty: NumberProperty, providedOptions: Partial<OnesPlayAreaOptions> ) {
     super();
 
     const options = merge( {
       isResettingProperty: null,
       isOnes: true,
-      // TODO: yikes! for the last 4 options, they are quick fixes that will likely change soon
+      // TODO: yikes! for the last 3 options, they are quick fixes that will likely change soon
       sumPropertyRange: null,
-      animateIntoPlayAreaBounds: new Bounds2( 20, 0, 500, 230 ),
       setAllObjects: false,
       setAllObjectsAsGrouped: false
     }, providedOptions ) as OnesPlayAreaOptions;
@@ -91,15 +70,15 @@ class OnesPlayArea extends CountingCommonModel {
     assert && options.setAllObjectsAsGrouped && assert( options.setAllObjects,
       'options.setAllObjectsAsGrouped: true cannot be used without options.setAllOptions: true' );
 
-    // TODO: Like everything else related to "play area bounds" in this file, this is temporary and will not be needed
-    // once that pattern is omitted
-    if ( options.setAllObjectsAsGrouped ) {
-      options.animateIntoPlayAreaBounds = options.animateIntoPlayAreaBounds.erodedXY( 40, 50 );
-    }
-
     this.currentNumberProperty = currentNumberProperty;
 
-    this.paperNumberOrigin = paperNumberOrigin;
+    // set later by the view
+    this.paperNumberOrigin = Vector2.ZERO;
+    this.playAreaBounds = new Bounds2( 0, 0, 0, 0 );
+    this.organizedObjectSpots = [ Vector2.ZERO ];
+
+    // true when this.paperNumberOrigin and this.playAreaBounds have been set
+    this.initialized = false;
 
     // The total sum of the current numbers
     this.sumProperty = new NumberProperty( currentNumberProperty.range!.min, {
@@ -122,12 +101,8 @@ class OnesPlayArea extends CountingCommonModel {
     // whether the view of this play area is controlling the current number
     this.isControllingCurrentNumber = false;
 
-    const objectBounds = options.isOnes ? new BaseNumber( 1, 0 ).bounds : CountingCommonConstants.PLAY_OBJECT_SIZE;
-
-    this.organizedObjectSpots = this.calculateOrganizedObjectSpots( objectBounds.width, objectBounds.height );
-
     // if the current number changes, add or remove paperNumbers from the play area
-    currentNumberProperty.link( ( currentNumber, previousNumber ) => {
+    currentNumberProperty.lazyLink( ( currentNumber, previousNumber ) => {
       if ( options.isResettingProperty && !options.isResettingProperty.value && !this.isControllingCurrentNumber ) {
         if ( !previousNumber ) { // TODO-TS: this is bad, fix this link
           previousNumber = 0;
@@ -137,7 +112,7 @@ class OnesPlayArea extends CountingCommonModel {
 
             // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
             if ( this.sumProperty.value > currentNumberProperty.range!.min ) {
-              this.returnPaperNumberToBucket( paperNumberOrigin );
+              this.returnPaperNumberToBucket();
             }
           } );
         }
@@ -146,21 +121,34 @@ class OnesPlayArea extends CountingCommonModel {
 
             // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
             if ( this.sumProperty.value < currentNumberProperty.range!.max ) {
-              this.createPaperNumberFromBucket( paperNumberOrigin, ANIMATE_INTO_PLAY_AREA_BOUNDS );
+              this.createPaperNumberFromBucket();
             }
           } );
         }
       }
       else if ( options.setAllObjects ) {
-        this.createAllObjects( currentNumber, options.animateIntoPlayAreaBounds, options.setAllObjectsAsGrouped );
+        this.createAllObjects( currentNumber, options.setAllObjectsAsGrouped );
       }
     } );
   }
 
   /**
+   * Setup the origin and bounds needed from the view
+   */
+  public initialize( paperNumberOrigin: Vector2, playAreaBounds: Bounds2 ): void {
+    assert && assert( this.initialized === false, 'OnesPlayArea already initialized' );
+
+    this.paperNumberOrigin = paperNumberOrigin;
+    this.playAreaBounds = playAreaBounds;
+    this.initialized = true;
+
+    this.organizedObjectSpots = this.calculateOrganizedObjectSpots();
+  }
+
+  /**
    * Create and randomly position a group of objects whose sum is the current number.
    */
-  private createAllObjects( currentNumber: number, animateIntoPlayAreaBounds: Bounds2, setAllObjectsAsGrouped: boolean ) {
+  private createAllObjects( currentNumber: number, setAllObjectsAsGrouped: boolean ) {
     this.removeAllPaperNumbers();
     const objectShouldAnimate = false;
 
@@ -170,14 +158,14 @@ class OnesPlayArea extends CountingCommonModel {
       const remainderCardValue = currentNumber % divisor;
 
       _.times( numberOfCards, () => {
-        this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, {
+        this.createPaperNumberFromBucket( {
           shouldAnimate: objectShouldAnimate,
           value: divisor
         } );
       } );
 
       if ( remainderCardValue ) {
-        this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, {
+        this.createPaperNumberFromBucket( {
           shouldAnimate: objectShouldAnimate,
           value: remainderCardValue,
           remainder: true
@@ -186,7 +174,7 @@ class OnesPlayArea extends CountingCommonModel {
     }
     else {
       _.times( currentNumber, () => {
-        this.createPaperNumberFromBucket( this.paperNumberOrigin, animateIntoPlayAreaBounds, {
+        this.createPaperNumberFromBucket( {
           shouldAnimate: objectShouldAnimate
         } );
       } );
@@ -196,7 +184,8 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Creates a paperNumber and animates it to a random open place in the play area.
    */
-  private createPaperNumberFromBucket( paperNumberOrigin: Vector2, animateIntoPlayAreaBounds: Bounds2, providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ) {
+  private createPaperNumberFromBucket( providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ) {
+    assert && assert( this.initialized === true, 'createPaperNumberFromBucket called before initialization' );
 
     const options = merge( {
       shouldAnimate: true,
@@ -204,29 +193,31 @@ class OnesPlayArea extends CountingCommonModel {
       remainder: false
     }, providedOptions ) as CreatePaperNumberFromBucketOptions;
 
-    let translateVector = null;
+    let destinationPosition;
     let findCount = 0;
 
-    const paperNumber = new PaperNumber( options.value, paperNumberOrigin );
+    const paperNumber = new PaperNumber( options.value, Vector2.ZERO );
+    const origin = this.paperNumberOrigin.minus( paperNumber.getDragTargetOffset() );
+    paperNumber.setDestination( origin, false );
+
+    const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds );
 
     // TODO: this algorithm does not take into account paper numbers that are on their way to a spot, and should
     // be rewritten to be better and accommodate that constraint
     // looks for positions that are not overlapping with other playObjects in the play area
-    while ( !translateVector ) {
-      const possibleTranslateX = dotRandom.nextDouble() *
-                                 ( animateIntoPlayAreaBounds.maxX - animateIntoPlayAreaBounds.minX ) +
-                                 animateIntoPlayAreaBounds.minX;
-      const possibleTranslateY = dotRandom.nextDouble() *
-                                 ( animateIntoPlayAreaBounds.maxY - animateIntoPlayAreaBounds.minY ) +
-                                 animateIntoPlayAreaBounds.minY;
+    while ( !destinationPosition ) {
+      const possibleDestinationX = dotRandom.nextDouble() * ( paperNumberOriginBounds.maxX - paperNumberOriginBounds.minX ) +
+                                   paperNumberOriginBounds.minX;
+      const possibleDestinationY = dotRandom.nextDouble() * ( paperNumberOriginBounds.maxY - paperNumberOriginBounds.minY ) +
+                                   paperNumberOriginBounds.minY;
+      const possibleDestinationPoint = new Vector2( possibleDestinationX, possibleDestinationY );
       let spotIsAvailable = true;
       const numberOfPaperNumbersInPlayArea = this.paperNumbers.lengthProperty.value;
 
       // compare the proposed destination to the position of every playObject in the play area. use c-style loop for
       // best performance, since this loop is nested
       for ( let i = 0; i < numberOfPaperNumbersInPlayArea; i++ ) {
-        if ( this.paperNumbers[ i ].positionProperty.value.distance(
-               paperNumber.positionProperty.value.plusXY( possibleTranslateX, possibleTranslateY ) )
+        if ( this.paperNumbers[ i ].positionProperty.value.distance( possibleDestinationPoint )
              < MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS ) {
           spotIsAvailable = false;
         }
@@ -236,10 +227,8 @@ class OnesPlayArea extends CountingCommonModel {
       if ( ++findCount > 1000 ) {
         spotIsAvailable = true;
       }
-      translateVector = spotIsAvailable ? new Vector2( possibleTranslateX, possibleTranslateY ) : null;
+      destinationPosition = spotIsAvailable ? possibleDestinationPoint : null;
     }
-
-    const destinationPosition = paperNumber.positionProperty.value.plus( translateVector );
 
     paperNumber.setDestination( destinationPosition, options.shouldAnimate );
     this.addPaperNumber( paperNumber );
@@ -249,8 +238,9 @@ class OnesPlayArea extends CountingCommonModel {
    * Finds the closest paperNumber to their origin and animates it back over the bucket. If only paperNumbers with
    * values greater than one exist, break them up and send their components with values of one back.
    */
-  private returnPaperNumberToBucket( paperNumberOrigin: Vector2 ) {
+  private returnPaperNumberToBucket() {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
+    assert && assert( this.initialized === true, 'returnPaperNumberToBucket called before initialization' );
 
     // sort by lowest value first, then by proximity to the bucket
     const sortedPaperNumbers = _.sortBy( this.paperNumbers, [
@@ -258,7 +248,7 @@ class OnesPlayArea extends CountingCommonModel {
         return paperNumber.numberValueProperty.value;
       },
       paperNumber => {
-        return paperNumber.positionProperty.value.distance( paperNumberOrigin );
+        return paperNumber.positionProperty.value.distance( this.paperNumberOrigin );
       }
     ] );
 
@@ -288,18 +278,21 @@ class OnesPlayArea extends CountingCommonModel {
       // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
       // time.
       paperNumberToReturn.numberValueProperty.value = 0;
-      paperNumberToReturn.setDestination( paperNumberOrigin, true );
+      const origin = this.paperNumberOrigin.minus( paperNumberToReturn.getDragTargetOffset() );
+      paperNumberToReturn.setDestination( origin, true );
     }
   }
 
   /**
    * Calculates the spots for organized objects
    */
-  private calculateOrganizedObjectSpots( objectWidth: number, objectHeight: number ): Vector2[] {
+  private calculateOrganizedObjectSpots(): Vector2[] {
+    assert && assert( this.initialized === true, 'calculateOrganizedObjectSpots called before initialization' );
+
+    const objectBounds = new BaseNumber( 1, 0 ).bounds;
     const gridWidth = 5; // empirically determined
     const gridHeight = this.currentNumberProperty.range!.max / gridWidth;
     const organizedObjectPadding = new Vector2( 5, 8 );
-    const yOffset = MAX_ANIMATE_INTO_PLAY_AREA_DISTANCE_Y - ( objectHeight * 2 / gridHeight );
 
     const spots = [];
 
@@ -307,8 +300,8 @@ class OnesPlayArea extends CountingCommonModel {
     for ( let i = 0; i < gridHeight; i++ ) {
       for ( let j = 0; j < gridWidth; j++ ) {
         spots.push( new Vector2(
-          this.paperNumberOrigin.x + MIN_ANIMATE_INTO_PLAY_AREA_DISTANCE_X + ( ( objectWidth + organizedObjectPadding.x ) * j ),
-          this.paperNumberOrigin.y + yOffset + ( ( objectHeight + organizedObjectPadding.y ) * i )
+          this.playAreaBounds.minX + ( ( objectBounds.width + organizedObjectPadding.x ) * j ),
+          this.playAreaBounds.minY + ( ( objectBounds.height + organizedObjectPadding.y ) * i )
         ) );
       }
     }

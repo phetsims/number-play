@@ -12,7 +12,6 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import CompareCountingType from './CompareCountingType.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 
@@ -25,7 +24,7 @@ class CompareModel {
   public readonly leftPlayArea: OnesPlayArea;
   public readonly rightPlayArea: OnesPlayArea;
 
-  constructor( highestCount: number, paperNumberOrigin: Vector2, tandem: Tandem ) {
+  constructor( highestCount: number, tandem: Tandem ) {
 
     this.leftCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
@@ -37,10 +36,10 @@ class CompareModel {
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
     this.isResettingProperty = new BooleanProperty( false );
 
-    this.leftPlayArea = new OnesPlayArea( this.leftCurrentNumberProperty, paperNumberOrigin, {
+    this.leftPlayArea = new OnesPlayArea( this.leftCurrentNumberProperty, {
       isResettingProperty: this.isResettingProperty
     } );
-    this.rightPlayArea = new OnesPlayArea( this.rightCurrentNumberProperty, paperNumberOrigin, {
+    this.rightPlayArea = new OnesPlayArea( this.rightCurrentNumberProperty, {
       isResettingProperty: this.isResettingProperty
     } );
   }

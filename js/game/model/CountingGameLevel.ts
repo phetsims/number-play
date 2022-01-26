@@ -7,7 +7,6 @@
  * @author Luisa Vargas
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
@@ -37,7 +36,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     // whether objects should be able to be grouped
     this.groupObjects = ( levelNumber === 2 );
 
-    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
+    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, {
       isOnes: false,
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true,

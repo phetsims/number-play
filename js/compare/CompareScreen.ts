@@ -6,7 +6,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
@@ -39,7 +38,6 @@ class CompareScreen extends Screen {
     super(
       () => new CompareModel(
         NumberPlayConstants.TWENTY,
-        new Vector2( 16, 262 ), // empirically determined
         tandem.createTandem( 'model' ) ),
       ( model: CompareModel ) => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
       options
