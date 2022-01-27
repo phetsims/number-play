@@ -52,6 +52,7 @@ class OnesPlayArea extends CountingCommonModel {
   public isControllingCurrentNumber: boolean;
   private organizedObjectSpots: Vector2[];
   private initialized: boolean;
+  private countingCreatorNodeTop: number;
 
   constructor( currentNumberProperty: NumberProperty, providedOptions: Partial<OnesPlayAreaOptions> ) {
     super();
@@ -74,6 +75,7 @@ class OnesPlayArea extends CountingCommonModel {
 
     // set later by the view
     this.paperNumberOrigin = Vector2.ZERO;
+    this.countingCreatorNodeTop = 0;
     this.playAreaBounds = new Bounds2( 0, 0, 0, 0 );
     this.organizedObjectSpots = [ Vector2.ZERO ];
 
@@ -135,10 +137,11 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Setup the origin and bounds needed from the view
    */
-  public initialize( paperNumberOrigin: Vector2, playAreaBounds: Bounds2 ): void {
+  public initialize( paperNumberOrigin: Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
     assert && assert( this.initialized === false, 'OnesPlayArea already initialized' );
 
     this.paperNumberOrigin = paperNumberOrigin;
+    this.countingCreatorNodeTop = countingCreatorNodeTop;
     this.playAreaBounds = playAreaBounds;
     this.initialized = true;
 
@@ -200,7 +203,7 @@ class OnesPlayArea extends CountingCommonModel {
     const origin = this.paperNumberOrigin.minus( paperNumber.getDragTargetOffset() );
     paperNumber.setDestination( origin, false );
 
-    const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds );
+    const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds.withMaxY( this.countingCreatorNodeTop ) );
 
     // TODO: this algorithm does not take into account paper numbers that are on their way to a spot, and should
     // be rewritten to be better and accommodate that constraint
