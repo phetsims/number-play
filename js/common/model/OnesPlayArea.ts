@@ -11,7 +11,6 @@
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import CountingCommonModel from '../../../../counting-common/js/common/model/CountingCommonModel.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -292,19 +291,23 @@ class OnesPlayArea extends CountingCommonModel {
   private calculateOrganizedObjectSpots(): Vector2[] {
     assert && assert( this.initialized === true, 'calculateOrganizedObjectSpots called before initialization' );
 
-    const objectBounds = new BaseNumber( 1, 0 ).bounds;
-    const gridWidth = 5; // empirically determined
-    const gridHeight = this.currentNumberProperty.range!.max / gridWidth;
-    const organizedObjectPadding = new Vector2( 5, 8 );
+    const objectWidth = CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.width;
+    const objectHeight = CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height;
+    const objectMargin = 3;
+
+    const numberOfColumns = 5; // rows
+    const numberOfRows = this.currentNumberProperty.range!.max / numberOfColumns;
+
+    const xMargin = 88; // empirically determined to center group TODO: figure out why math isn't working for this
+    const yMargin = CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
 
     const spots = [];
 
-    // iterate through and store the center point of every spot
-    for ( let i = 0; i < gridHeight; i++ ) {
-      for ( let j = 0; j < gridWidth; j++ ) {
+    for ( let i = 0; i < numberOfRows; i++ ) {
+      for ( let j = 0; j < numberOfColumns; j++ ) {
         spots.push( new Vector2(
-          this.playAreaBounds.minX + ( ( objectBounds.width + organizedObjectPadding.x ) * j ),
-          this.playAreaBounds.minY + ( ( objectBounds.height + organizedObjectPadding.y ) * i )
+          this.playAreaBounds.minX + xMargin + ( ( objectWidth + objectMargin ) * j ),
+          this.playAreaBounds.minY + yMargin + ( ( objectHeight + objectMargin ) * i )
         ) );
       }
     }
