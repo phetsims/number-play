@@ -78,13 +78,13 @@
     "value": "twenty"
   },
   "isLessThan": {
-    "value": "is less than"
+    "value": "{{smallerNumber}} is less than {{greaterNumber}}."
   },
   "isMoreThan": {
-    "value": "is greater than"
+    "value": "{{greaterNumber}} is greater than {{smallerNumber}}."
   },
   "isEqualTo": {
-    "value": "is equal to"
+    "value": "{{equalNumberLeft}} is equal to {{equalNumberRight}}."
   },
   "word": {
     "value": "Word"

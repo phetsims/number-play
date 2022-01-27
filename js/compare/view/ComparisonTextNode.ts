@@ -16,11 +16,7 @@ import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-
-// strings
-const isLessThanString = numberPlayStrings.isLessThan;
-const isMoreThanString = numberPlayStrings.isMoreThan;
-const isEqualToString = numberPlayStrings.isEqualTo;
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class ComparisonTextNode extends Node {
   public readonly comparisonStringProperty: IReadOnlyProperty<string>
@@ -55,15 +51,52 @@ class ComparisonTextNode extends Node {
   }
 
   /**
-   * Concatenates the string based on the current numbers. Example format: "Three is less than seven"
+   * Builds the string based on the current numbers. Example format: "Three is less than seven"
    */
   private static getComparisonString( leftCurrentNumber: number, rightCurrentNumber: number,
                                       isPrimaryLocale: boolean ): string {
-    const leftNumberString = _.capitalize( NumberPlayConstants.numberToString( leftCurrentNumber, isPrimaryLocale ) );
-    const comparisonString = leftCurrentNumber < rightCurrentNumber ? isLessThanString :
-                             leftCurrentNumber > rightCurrentNumber ? isMoreThanString : isEqualToString;
+
+    let isLessThanString = numberPlayStrings.isLessThan;
+    let isMoreThanString = numberPlayStrings.isMoreThan;
+    let isEqualToString = numberPlayStrings.isEqualTo;
+
+    const secondLocaleStrings = phet.numberPlay.secondLocaleStrings;
+    if ( secondLocaleStrings && !isPrimaryLocale ) {
+      const numberPlayPrefix = 'NUMBER_PLAY/';
+      isLessThanString = secondLocaleStrings[ `${numberPlayPrefix}isLessThan` ];
+      isMoreThanString = secondLocaleStrings[ `${numberPlayPrefix}isMoreThan` ];
+      isEqualToString = secondLocaleStrings[ `${numberPlayPrefix}isEqualTo` ];
+    }
+
+    const leftNumberString = NumberPlayConstants.numberToString( leftCurrentNumber, isPrimaryLocale );
     const rightNumberString = NumberPlayConstants.numberToString( rightCurrentNumber, isPrimaryLocale );
-    return `${leftNumberString} ${comparisonString} ${rightNumberString}.`;
+    let comparisonString;
+
+    if ( leftCurrentNumber < rightCurrentNumber ) {
+      comparisonString = StringUtils.fillIn( isLessThanString, {
+        smallerNumber: leftNumberString,
+        greaterNumber: rightNumberString
+      } );
+    }
+    else if ( leftCurrentNumber > rightCurrentNumber ) {
+      comparisonString = StringUtils.fillIn( isMoreThanString, {
+        greaterNumber: leftNumberString,
+        smallerNumber: rightNumberString
+      } );
+    }
+    else {
+      comparisonString = StringUtils.fillIn( isEqualToString, {
+        equalNumberLeft: leftNumberString,
+        equalNumberRight: rightNumberString
+      } );
+    }
+
+    // TODO: Fix hidden characters?!? See https://github.com/phetsims/number-play/issues/31
+    if ( !assert ) {
+      comparisonString = comparisonString.slice( 2 );
+    }
+
+    return StringUtils.capitalize( comparisonString );
   }
 }
 
