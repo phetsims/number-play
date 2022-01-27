@@ -97,7 +97,7 @@ class CountingAccordionBox extends AccordionBox {
         let iconNode = null;
         if ( playObjectType === ComparePlayObjectType.PAPER_NUMBER ) {
           iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
-          iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height / 4 );
+          iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height );
         }
         else {
           iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( playObjectType.name ), {
