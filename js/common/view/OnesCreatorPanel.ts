@@ -28,8 +28,8 @@ type OnesCreatorPanelOptions = {
 };
 
 // constants
-const UNGROUPED_CREATOR_NODE_SCALE = 0.8;
-const GROUPED_CREATOR_NODE_SCALE = 0.6;
+const UNGROUPED_CREATOR_NODE_SCALE = 0.9;
+const GROUPED_CREATOR_NODE_SCALE = 0.7;
 
 class OnesCreatorPanel extends Panel {
   public countingCreatorNode: CountingCreatorNode;
@@ -81,12 +81,12 @@ class OnesCreatorPanel extends Panel {
     // TODO: Figure out the correct way to fix the offset when the type changes
     screenView.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
       if ( groupingLinkingType === GroupingLinkingType.GROUPED ) {
-        countingCreatorNode.x = 16.2;
+        countingCreatorNode.x = 21.9;
         countingCreatorNode.y = 5;
       }
       else {
-        countingCreatorNode.x = 12.7;
-        countingCreatorNode.y = -5;
+        countingCreatorNode.x = 20.6;
+        countingCreatorNode.y = -3.8;
       }
     } );
 
