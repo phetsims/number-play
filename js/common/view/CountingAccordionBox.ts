@@ -138,6 +138,7 @@ class CountingAccordionBox extends AccordionBox {
       options.groupingLinkingTypeProperty.link( groupingLinkingType => {
         objectsPlayAreaNode.visible = !( groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED );
         linkedObjectsPlayAreaNode.visible = groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED;
+        radioButtonGroup && radioButtonGroup.moveToFront();
       } );
     }
 
