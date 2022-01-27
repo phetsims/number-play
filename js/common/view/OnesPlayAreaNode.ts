@@ -373,7 +373,7 @@ class OnesPlayAreaNode extends Node {
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
       const paperCenterOffset = paperNumber.localBounds.center;
       targetPosition = targetPosition.minus( paperCenterOffset );
-      paperNumber.setDestination( targetPosition, true );
+      paperNumber.setDestination( targetPosition, true, 0.8 );
 
       // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
       if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {

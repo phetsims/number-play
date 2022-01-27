@@ -165,6 +165,10 @@ const NumberPlayConstants = {
     return isPrimaryLocale ? numberPlayStrings[ stringKey ] : numberPlaySecondaryStrings[ `NUMBER_PLAY/${stringKey}` ];
   },
 
+  UNGROUPED_STORED_COUNTING_OBJECT_SCALE: 0.9,
+  GROUPED_STORED_COUNTING_OBJECT_SCALE: 0.7,
+  COUNTING_OBJECT_SCALE: 1,
+
   // game screen
 
   // subitizer game

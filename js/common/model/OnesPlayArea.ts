@@ -199,8 +199,8 @@ class OnesPlayArea extends CountingCommonModel {
     let findCount = 0;
 
     const paperNumber = new PaperNumber( options.value, Vector2.ZERO );
-    const origin = this.paperNumberOrigin.minus( paperNumber.getDragTargetOffset() );
-    paperNumber.setDestination( origin, false );
+    const origin = this.paperNumberOrigin.minus( paperNumber.localBounds.center );
+    paperNumber.setDestination( origin, false, 0.8 );
 
     const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds.withMaxY( this.countingCreatorNodeTop ) );
 
@@ -232,7 +232,7 @@ class OnesPlayArea extends CountingCommonModel {
       destinationPosition = spotIsAvailable ? possibleDestinationPoint : null;
     }
 
-    paperNumber.setDestination( destinationPosition, options.shouldAnimate );
+    paperNumber.setDestination( destinationPosition, options.shouldAnimate, NumberPlayConstants.COUNTING_OBJECT_SCALE );
     this.addPaperNumber( paperNumber );
   }
 
@@ -280,8 +280,8 @@ class OnesPlayArea extends CountingCommonModel {
       // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
       // time.
       paperNumberToReturn.numberValueProperty.value = 0;
-      const origin = this.paperNumberOrigin.minus( paperNumberToReturn.getDragTargetOffset() );
-      paperNumberToReturn.setDestination( origin, true );
+      const origin = this.paperNumberOrigin.minus( paperNumberToReturn.localBounds.center );
+      paperNumberToReturn.setDestination( origin, true, 0.8 );
     }
   }
 
@@ -381,7 +381,7 @@ class OnesPlayArea extends CountingCommonModel {
       } );
       const objectToOrganize = objectsToOrganize.shift();
 
-      objectToOrganize && objectToOrganize.setDestination( destination, true );
+      objectToOrganize && objectToOrganize.setDestination( destination, true, NumberPlayConstants.COUNTING_OBJECT_SCALE );
     }
   }
 

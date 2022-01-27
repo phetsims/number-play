@@ -19,6 +19,7 @@ import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesCreatorPanelOptions = {
@@ -27,9 +28,6 @@ type OnesCreatorPanelOptions = {
   yMargin: number
 };
 
-// constants
-const UNGROUPED_CREATOR_NODE_SCALE = 0.9;
-const GROUPED_CREATOR_NODE_SCALE = 0.7;
 
 class OnesCreatorPanel extends Panel {
   public countingCreatorNode: CountingCreatorNode;
@@ -62,8 +60,8 @@ class OnesCreatorPanel extends Panel {
     } );
 
     const creatorNodeBackground = new Rectangle( 0, 0,
-      CountingCommonConstants.PLAY_OBJECT_SIZE.width * UNGROUPED_CREATOR_NODE_SCALE + 8,
-      CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * GROUPED_CREATOR_NODE_SCALE + 5
+      CountingCommonConstants.PLAY_OBJECT_SIZE.width * NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE + 8,
+      CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
     );
 
     // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
@@ -72,8 +70,8 @@ class OnesCreatorPanel extends Panel {
       playObjectTypeProperty: screenView.playObjectTypeProperty,
       groupingLinkingTypeProperty: screenView.groupingLinkingTypeProperty,
       backTargetOffset: new Vector2( -5, -5 ),
-      ungroupedTargetScale: UNGROUPED_CREATOR_NODE_SCALE,
-      groupedTargetScale: GROUPED_CREATOR_NODE_SCALE
+      ungroupedTargetScale: NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE,
+      groupedTargetScale: NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE
     } );
     countingCreatorNode.center = creatorNodeBackground.center;
     creatorNodeBackground.addChild( countingCreatorNode );
