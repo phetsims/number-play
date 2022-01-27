@@ -133,17 +133,11 @@ class CountingAccordionBox extends AccordionBox {
           viewHasIndependentModel: false
         }
       );
+      contentNode.addChild( linkedObjectsPlayAreaNode );
 
-      options.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-        if ( groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED ) {
-          contentNode.removeChild( objectsPlayAreaNode );
-          contentNode.addChild( linkedObjectsPlayAreaNode );
-        }
-        else if ( contentNode.hasChild( linkedObjectsPlayAreaNode ) ) {
-          contentNode.removeChild( linkedObjectsPlayAreaNode );
-          contentNode.addChild( objectsPlayAreaNode );
-        }
-        radioButtonGroup && radioButtonGroup.moveToFront();
+      options.groupingLinkingTypeProperty.link( groupingLinkingType => {
+        objectsPlayAreaNode.visible = !( groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED );
+        linkedObjectsPlayAreaNode.visible = groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED;
       } );
     }
 

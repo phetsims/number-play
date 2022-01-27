@@ -144,7 +144,10 @@ class OnesPlayAreaNode extends Node {
       playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
         const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
         paperNumberNode.updateNumber();
-        this.constrainAllPositions();
+
+        if ( !paperNumber.isAnimating ) {
+          paperNumber.setConstrainedDestination( this.availableViewBoundsProperty.value, paperNumber.positionProperty.value );
+        }
       } );
     } );
 
@@ -313,7 +316,7 @@ class OnesPlayAreaNode extends Node {
     const parentBounds = this.findPaperNumberNode( paperNumber ).bounds;
 
     // And the bounds of our panel
-    const panelBounds = this.onesCreatorPanel.bounds.withMaxY( this.availableViewBoundsProperty.value.bottom );
+    const panelBounds = this.onesCreatorPanel.bounds;
 
     return panelBounds.intersectsBounds( parentBounds );
   }
