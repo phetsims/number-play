@@ -46,7 +46,7 @@ class OnesCreatorPanel extends Panel {
     const arrowButtonConfig = {
       arrowWidth: 14,  // empirically determined
       arrowHeight: 14, // empirically determined
-      spacing: 6       // empirically determined
+      spacing: 7       // empirically determined
     };
     const upArrowButton = new ArrowButton( 'up', () => {
       playArea.currentNumberProperty.value =
@@ -63,9 +63,7 @@ class OnesCreatorPanel extends Panel {
 
     const creatorNodeBackground = new Rectangle( 0, 0,
       CountingCommonConstants.PLAY_OBJECT_SIZE.width * UNGROUPED_CREATOR_NODE_SCALE + 8,
-      CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * GROUPED_CREATOR_NODE_SCALE + 5, {
-        fill: 'pink'
-      }
+      CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * GROUPED_CREATOR_NODE_SCALE + 5
     );
 
     // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
@@ -94,7 +92,7 @@ class OnesCreatorPanel extends Panel {
 
     const hBox = new HBox( {
       children: [ arrowButtons, creatorNodeBackground ],
-      spacing: 12,
+      spacing: 11,
       align: 'center'
     } );
 
