@@ -342,7 +342,12 @@ class OnesPlayAreaNode extends Node {
 
     // If it animated to the return zone, it's probably split and meant to be returned.
     if ( this.playArea.paperNumbers.includes( paperNumber ) && this.isNumberInReturnZone( paperNumber ) ) {
-      this.playArea.removePaperNumber( paperNumber );
+      if ( paperNumber.numberValueProperty.value > 0 ) {
+        this.onNumberDragFinished( paperNumber );
+      }
+      else {
+        this.playArea.removePaperNumber( paperNumber );
+      }
     }
   }
 
