@@ -11,13 +11,14 @@
 import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { HBox } from '../../../../scenery/js/imports.js';
-import { VBox } from '../../../../scenery/js/imports.js';
+import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import Panel from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 
 // types
 type OnesCreatorPanelOptions = {
@@ -26,8 +27,12 @@ type OnesCreatorPanelOptions = {
   yMargin: number
 };
 
+// constants
+const UNGROUPED_CREATOR_NODE_SCALE = 0.8;
+const GROUPED_CREATOR_NODE_SCALE = 0.6;
+
 class OnesCreatorPanel extends Panel {
-  public readonly countingCreatorNode: CountingCreatorNode;
+  public countingCreatorNode: CountingCreatorNode;
 
   constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode, providedOptions?: Partial<OnesCreatorPanelOptions> ) {
 
@@ -56,18 +61,40 @@ class OnesCreatorPanel extends Panel {
       spacing: arrowButtonConfig.spacing
     } );
 
+    const creatorNodeBackground = new Rectangle( 0, 0,
+      CountingCommonConstants.PLAY_OBJECT_SIZE.width * UNGROUPED_CREATOR_NODE_SCALE + 8,
+      CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * GROUPED_CREATOR_NODE_SCALE + 5, {
+        fill: 'pink'
+      }
+    );
+
     // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, {
       updateCurrentNumber: true,
       playObjectTypeProperty: screenView.playObjectTypeProperty,
       groupingLinkingTypeProperty: screenView.groupingLinkingTypeProperty,
-      targetScale: 0.6,
-      backTargetOffset: new Vector2( -5, -5 )
+      backTargetOffset: new Vector2( -5, -5 ),
+      ungroupedTargetScale: UNGROUPED_CREATOR_NODE_SCALE,
+      groupedTargetScale: GROUPED_CREATOR_NODE_SCALE
+    } );
+    countingCreatorNode.center = creatorNodeBackground.center;
+    creatorNodeBackground.addChild( countingCreatorNode );
+
+    // TODO: Figure out the correct way to fix the offset when the type changes
+    screenView.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
+      if ( groupingLinkingType === GroupingLinkingType.GROUPED ) {
+        countingCreatorNode.x = 16.2;
+        countingCreatorNode.y = 5;
+      }
+      else {
+        countingCreatorNode.x = 12.7;
+        countingCreatorNode.y = -5;
+      }
     } );
 
     const hBox = new HBox( {
-      children: [ arrowButtons, countingCreatorNode ],
-      spacing: 16,
+      children: [ arrowButtons, creatorNodeBackground ],
+      spacing: 12,
       align: 'center'
     } );
 
