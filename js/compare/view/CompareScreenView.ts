@@ -138,6 +138,7 @@ class CompareScreenView extends ScreenView {
     const comparisonTextNode = new ComparisonTextNode(
       model.leftCurrentNumberProperty,
       model.rightCurrentNumberProperty,
+      model.isPrimaryLocaleProperty,
       this.layoutBounds
     );
     comparisonTextNode.centerY = new Range( leftTotalAccordionBox.bottom, leftCountingAccordionBox.top ).getCenter();
@@ -172,7 +173,10 @@ class CompareScreenView extends ScreenView {
 
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
     if ( voicingManager.initialized ) {
-      const speechSynthesisButton = new SpeechSynthesisButton( comparisonTextNode.comparisonStringProperty );
+      const speechSynthesisButton = new SpeechSynthesisButton(
+        comparisonTextNode.comparisonStringProperty,
+        model.isPrimaryLocaleProperty
+      );
       speechSynthesisButton.centerX = resetAllButton.centerX;
       speechSynthesisButton.top = rightTotalAccordionBox.top;
       this.addChild( speechSynthesisButton );
@@ -190,9 +194,11 @@ class CompareScreenView extends ScreenView {
 
     // create and add the LocaleSwitch
     const localeSwitchXMargin = 10; // empirically determined
-    const localeSwitch = new LocaleSwitch( localeSwitchXRange.getLength() - localeSwitchXMargin * 2 );
+    const localeSwitchMaxWidth = localeSwitchXRange.getLength() - localeSwitchXMargin * 2;
+    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, localeSwitchMaxWidth );
     localeSwitch.centerX = localeSwitchXRange.getCenter();
     localeSwitch.centerY = localeSwitchCenterY;
+    localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
     this.addChild( localeSwitch );
 
     // update the comparison signs node's text and the BlockValuesNode when either current number changes

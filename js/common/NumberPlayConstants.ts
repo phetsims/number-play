@@ -59,6 +59,31 @@ export type AccordionBoxOptions = { // TODO-TS: these should be defined in Accor
   expandedProperty: BooleanProperty
 }
 
+// constants used for other constants
+const NUMBER_TO_STRING_VALUE = {
+    0: 'zero',
+    1: 'one',
+    2: 'two',
+    3: 'three',
+    4: 'four',
+    5: 'five',
+    6: 'six',
+    7: 'seven',
+    8: 'eight',
+    9: 'nine',
+    10: 'ten',
+    11: 'eleven',
+    12: 'twelve',
+    13: 'thirteen',
+    14: 'fourteen',
+    15: 'fifteen',
+    16: 'sixteen',
+    17: 'seventeen',
+    18: 'eighteen',
+    19: 'nineteen',
+    20: 'twenty'
+  } as NumberToString;
+
 const NumberPlayConstants = {
 
   // the two defining numbers of this sim
@@ -107,7 +132,6 @@ const NumberPlayConstants = {
   } as AccordionBoxOptions,
   ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
-  // map number values to their corresponding string
   NUMBER_TO_STRING: {
     0: zeroString,
     1: oneString,
@@ -131,6 +155,15 @@ const NumberPlayConstants = {
     19: nineteenString,
     20: twentyString
   } as NumberToString,
+
+  // map number values to their corresponding string
+  numberToString: ( number: number, isPrimaryLocale: boolean ) => {
+    const numberPlaySecondaryStrings = phet.numberPlay.secondLocaleStrings;
+    const stringKey = NUMBER_TO_STRING_VALUE[ number ];
+
+    // @ts-ignore
+    return isPrimaryLocale ? numberPlayStrings[ stringKey ] : numberPlaySecondaryStrings[ `NUMBER_PLAY/${stringKey}` ];
+  },
 
   // game screen
 

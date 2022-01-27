@@ -16,6 +16,8 @@ import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants
 import LocaleSwitch from './LocaleSwitch.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 // types
 export type WordAccordionBoxOptions = {
@@ -33,7 +35,8 @@ const wordString = numberPlayStrings.word;
 
 class WordAccordionBox extends AccordionBox {
 
-  constructor( currentNumberProperty: NumberProperty, height: number, providedOptions: WordAccordionBoxOptions ) {
+  constructor( currentNumberProperty: NumberProperty, isPrimaryLocaleProperty: BooleanProperty, height: number,
+               providedOptions: WordAccordionBoxOptions ) {
 
     const options = merge( {
       titleNode: new Text( wordString, {
@@ -61,16 +64,19 @@ class WordAccordionBox extends AccordionBox {
     const localeSwitchMaxWidth = CONTENT_MAX_WIDTH - Math.abs( options.localeSwitchOffset.x ) * 2;
 
     // create and add the LocaleSwitch
-    const localeSwitch = new LocaleSwitch( localeSwitchMaxWidth );
+    const localeSwitch = new LocaleSwitch( isPrimaryLocaleProperty, localeSwitchMaxWidth );
     localeSwitch.centerX = contentNode.centerX + options.localeSwitchOffset.x;
     localeSwitch.bottom = contentNode.bottom + options.localeSwitchOffset.y;
+    localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
     contentNode.addChild( localeSwitch );
 
     super( contentNode, options );
 
-    currentNumberProperty.lazyLink( currentNumber => {
-      wordText.text = NumberPlayConstants.NUMBER_TO_STRING[ currentNumber ];
-    } );
+    // update the word if the current number or locale changes
+    Property.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
+      ( currentNumber: number, isPrimaryLocale: boolean ) => {
+        wordText.text = NumberPlayConstants.numberToString( currentNumber, isPrimaryLocale );
+      } );
   }
 }
 

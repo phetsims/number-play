@@ -23,6 +23,7 @@ class CompareModel {
   private readonly isResettingProperty: BooleanProperty;
   public readonly leftPlayArea: OnesPlayArea;
   public readonly rightPlayArea: OnesPlayArea;
+  public readonly isPrimaryLocaleProperty: BooleanProperty;
 
   constructor( highestCount: number, tandem: Tandem ) {
 
@@ -35,6 +36,9 @@ class CompareModel {
     this.countingTypeProperty = new EnumerationProperty( CompareCountingType.BLOCKS );
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
     this.isResettingProperty = new BooleanProperty( false );
+
+    // whether the sim is using the locale it was loaded in or a second locale
+    this.isPrimaryLocaleProperty = new BooleanProperty( true );
 
     this.leftPlayArea = new OnesPlayArea( this.leftCurrentNumberProperty, {
       isResettingProperty: this.isResettingProperty

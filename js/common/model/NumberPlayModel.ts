@@ -22,6 +22,7 @@ class NumberPlayModel {
   public readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
+  public readonly isPrimaryLocaleProperty: BooleanProperty;
 
   constructor( highestCount: number, tandem: Tandem ) {
 
@@ -30,11 +31,14 @@ class NumberPlayModel {
       range: new Range( 0, highestCount )
     } );
 
+    // whether the sim is using the locale it was loaded in or a second locale
+    this.isPrimaryLocaleProperty = new BooleanProperty( true );
+
     // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
     // way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
-    // whether the ones and objects play areas are linked
+    // whether the ones and objects play areas are ungrouped, grouped, or linked
     this.groupingLinkingTypeProperty = new EnumerationProperty( GroupingLinkingType.UNGROUPED );
 
     // the model for managing the play area in the OnesAccordionBox
@@ -67,7 +71,7 @@ class NumberPlayModel {
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
     this.currentNumberProperty.reset();
-    this.isResettingProperty.reset();
+    this.isResettingProperty.value = false;
   }
 }
 

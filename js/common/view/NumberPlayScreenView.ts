@@ -70,6 +70,7 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
+      model.isPrimaryLocaleProperty,
       options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
@@ -138,7 +139,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
     if ( voicingManager.initialized ) {
-      const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, true );
+      const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, model.isPrimaryLocaleProperty, true );
       speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = tenFrameAccordionBox.top;
       this.addChild( speechSynthesisButton );

@@ -14,6 +14,21 @@ import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
 import numberPlayStrings from './numberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
+import NumberPlayQueryParameters from './common/NumberPlayQueryParameters.js';
+
+// get our
+if ( NumberPlayQueryParameters.secondLocale ) {
+  const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
+
+  if ( secondLocaleStrings ) {
+    phet.numberPlay.secondLocaleStrings = secondLocaleStrings;
+  }
+  else {
+    // @ts-ignore
+    QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
+      `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
+  }
+}
 
 const numberPlayTitleString = numberPlayStrings[ 'number-play' ].title;
 
