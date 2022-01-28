@@ -91,12 +91,7 @@ class ComparisonTextNode extends Node {
       } );
     }
 
-    // TODO: Fix hidden characters?!? See https://github.com/phetsims/number-play/issues/31
-    if ( !assert ) {
-      comparisonString = comparisonString.slice( 2 );
-    }
-
-    return StringUtils.capitalize( comparisonString );
+    return comparisonString;
   }
 }
 

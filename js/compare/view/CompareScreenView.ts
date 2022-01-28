@@ -93,7 +93,7 @@ class CompareScreenView extends ScreenView {
       contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       fill: NumberPlayColors.lightGreenBackgroundColorProperty
     } );
-    leftCountingAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
+    leftCountingAccordionBox.left = NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftCountingAccordionBox );
 
@@ -114,7 +114,7 @@ class CompareScreenView extends ScreenView {
 
     // create and add the CompareCountingTypeRadioButtonGroup
     const countingTypeRadioButtonGroup = new CompareCountingTypeRadioButtonGroup( model.countingTypeProperty );
-    countingTypeRadioButtonGroup.left = leftCountingAccordionBox.left;
+    countingTypeRadioButtonGroup.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     countingTypeRadioButtonGroup.top = leftTotalAccordionBox.top;
     this.addChild( countingTypeRadioButtonGroup );
 
