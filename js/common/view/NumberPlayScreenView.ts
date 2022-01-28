@@ -12,7 +12,6 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Image, voicingManager } from '../../../../scenery/js/imports.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import groupingScene1_png from '../../../images/groupingScene1_png.js';
 import groupingScene2_png from '../../../images/groupingScene2_png.js';
@@ -23,13 +22,13 @@ import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants
 import CountingAccordionBox from './CountingAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
 import TenFrameAccordionBox from './TenFrameAccordionBox.js';
-import TenFrameNode from './TenFrameNode.js';
 import TotalAccordionBox, { TotalAccordionBoxOptions } from './TotalAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import OrganizeButton from './OrganizeButton.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -173,49 +172,26 @@ class NumberPlayScreenView extends ScreenView {
     groupingLinkingRadioButtonGroup.centerY = this.objectsAccordionBox.centerY;
     this.addChild( groupingLinkingRadioButtonGroup );
 
-    // content for organizePlayObjectsButton
-    const xMargin = 4;
-    const yMargin = 10;
-    const tenFramePath = TenFrameNode.getTenFramePath( {
-      fill: null,
-      lineWidth: 3
-    } );
-    tenFramePath.setScaleMagnitude( ( resetAllButton.width - xMargin * 2 ) / tenFramePath.width );
-
     // create and add a button to organize the onesAccordionBox paper ones in a grid
-    const organizeOnesButton = new RectangularPushButton( {
-      content: tenFramePath,
-      listener: () => {
-        model.onesPlayArea.organizeObjects();
-      },
-      baseColor: NumberPlayColors.purpleBackgroundColorProperty,
-      xMargin: xMargin,
-      yMargin: yMargin
+    const organizeOnesButton = new OrganizeButton( NumberPlayColors.purpleBackgroundColorProperty, () => {
+      model.onesPlayArea.organizeObjects();
     } );
-    organizeOnesButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+    organizeOnesButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     organizeOnesButton.top = onesAccordionBox.top;
     this.addChild( organizeOnesButton );
 
     // create and add a button to organize the objectsAccordionBox play objects in a grid
-    const organizeObjectsButton = new RectangularPushButton( {
-      content: tenFramePath,
-      listener: () => {
+    const organizeObjectsButton = new OrganizeButton( NumberPlayColors.blueBackgroundColorProperty, () => {
+      if ( model.groupingLinkingTypeProperty.value === GroupingLinkingType.GROUPED_AND_LINKED ) {
+        model.onesPlayArea.organizeObjects();
+      }
+      else {
         model.objectsPlayArea.organizeObjects();
-      },
-      baseColor: NumberPlayColors.blueBackgroundColorProperty,
-      xMargin: xMargin,
-      yMargin: yMargin
+      }
     } );
     organizeObjectsButton.centerX = resetAllButton.centerX;
     organizeObjectsButton.top = this.objectsAccordionBox.top;
     this.addChild( organizeObjectsButton );
-
-    // set the visibility of the organize buttons based on the state of grouping/linking
-    model.groupingLinkingTypeProperty.link( groupingLinkingType => {
-      organizeOnesButton.visible = groupingLinkingType === GroupingLinkingType.UNGROUPED ||
-                                   groupingLinkingType === GroupingLinkingType.GROUPED;
-      organizeObjectsButton.visible = groupingLinkingType === GroupingLinkingType.UNGROUPED;
-    } );
   }
 
   /**
