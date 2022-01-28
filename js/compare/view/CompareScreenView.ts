@@ -30,6 +30,7 @@ import CompareNumberLineNode from './CompareNumberLineNode.js';
 import ComparisonTextNode from './ComparisonTextNode.js';
 import CountingAccordionBox from '../../common/view/CountingAccordionBox.js';
 import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
+import OrganizeButton from '../../common/view/OrganizeButton.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
@@ -200,6 +201,22 @@ class CompareScreenView extends ScreenView {
     localeSwitch.centerY = localeSwitchCenterY;
     localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
     this.addChild( localeSwitch );
+
+    // create and add a button to organize the onesAccordionBox paper ones in a grid
+    const leftOrganizeButton = new OrganizeButton( NumberPlayColors.lightGreenBackgroundColorProperty, () => {
+      model.leftPlayArea.organizeObjects();
+    } );
+    leftOrganizeButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+    leftOrganizeButton.top = leftCountingAccordionBox.top;
+    this.addChild( leftOrganizeButton );
+
+    // create and add a button to organize the objectsAccordionBox play objects in a grid
+    const rightOrganizeButton = new OrganizeButton( NumberPlayColors.lightOrangeBackgroundColorProperty, () => {
+      model.rightPlayArea.organizeObjects();
+    } );
+    rightOrganizeButton.centerX = resetAllButton.centerX;
+    rightOrganizeButton.top = rightCountingAccordionBox.top;
+    this.addChild( rightOrganizeButton );
 
     // update the comparison signs node's text and the BlockValuesNode when either current number changes
     Property.multilink( [ model.leftCurrentNumberProperty, model.rightCurrentNumberProperty ],
