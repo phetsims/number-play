@@ -13,28 +13,29 @@ import Range from '../../../../dot/js/Range.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import FractionsCommonConstants from '../../../../fractions-common/js/common/FractionsCommonConstants.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
+import TenFrame from './TenFrame.js';
 
+// constants
 const NUMBER_PIECE_RETURN_THRESHOLD = 92;
+const HIGHEST_COUNT = 100;
 
-/**
- * @constructor
- */
 class LabModel {
+  public readonly numberStacks: NumberStack[];
+  public readonly activeNumberPieces: ObservableArray<NumberPiece>;
+  public readonly activeTenFrames: ObservableArray<TenFrame>;
+  private readonly isResettingProperty: BooleanProperty;
+  private readonly onesPlayArea: OnesPlayArea;
+  private readonly leftObjectsPlayArea: OnesPlayArea;
+  private readonly rightObjectsPlayArea: OnesPlayArea;
 
-  /**
-   * @param {number} highestCount - the highest integer number that can be counted to
-   * @param {Vector2} paperNumberOrigin - see OnesPlayArea for doc
-   * @param {number} objectMaxScale - see PlayObject for doc
-   * @param {Tandem} tandem
-   */
-  constructor( highestCount, paperNumberOrigin, objectMaxScale, tandem ) {
+  constructor( tandem: Tandem ) {
 
-    // @public {Array.<NumberStack>}
     this.numberStacks = [];
 
-    // @public {ObservableArrayDef.<NumberPiece>} - Number pieces in the play area
+    // number pieces in the play area
     this.activeNumberPieces = createObservableArray();
 
     // @public {ObservableArrayDef.<TenFrame>} - ten frames in the play area
@@ -48,116 +49,100 @@ class LabModel {
       this.numberStacks.push( stack );
     } );
 
-    // @public (read-only) - the model for managing paper ones in the playArea
-    this.onesPlayArea = new OnesPlayArea(
-      new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      new BooleanProperty( false )
-    );
+    // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
+    // way (with animations), but instead with a different reset case (no animations).
+    this.isResettingProperty = new BooleanProperty( false );
 
-    // @public (read-only) - the model for managing dogs in the playArea
-    this.leftObjectsPlayArea = new OnesPlayArea(
-      new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      new BooleanProperty( false )
-    );
-
-    // @public (read-only) - the model for managing balls in the playArea
-    this.rightObjectsPlayArea = new OnesPlayArea(
-      new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      new BooleanProperty( false )
-    );
+    // create three different kinds of play areas
+    this.onesPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
+      isResettingProperty: this.isResettingProperty
+    } );
+    this.leftObjectsPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
+      isResettingProperty: this.isResettingProperty
+    } );
+    this.rightObjectsPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
+      isResettingProperty: this.isResettingProperty
+    } );
   }
 
   /**
    * Called when the user drags a number piece from a stack.
-   *
-   * @param {NumberPiece} numberPiece
-   * @public
    */
-  dragNumberPieceFromStack( numberPiece ) {
+  public dragNumberPieceFromStack( numberPiece: NumberPiece ) {
     this.activeNumberPieces.push( numberPiece );
   }
 
   /**
    * Returns a corresponding NumberStack that should be used as the "home" of a given NumberPiece (if it's returned from
    * the play area with an animation, etc.)
-   * @public
-   *
-   * @param {NumberPiece} numberPiece
-   * @returns {NumberStack|null}
    */
-  findMatchingNumberStack( numberPiece ) {
+  public findMatchingNumberStack( numberPiece: NumberPiece ): NumberStack | null {
     return _.find( this.numberStacks, stack => stack.number === numberPiece.number ) || null;
   }
 
   /**
    * Animates a piece back to its "home" stack.
-   * @public
-   *
-   * @param {NumberPiece} numberPiece
    */
-  returnActiveNumberPiece( numberPiece ) {
+  public returnActiveNumberPiece( numberPiece: NumberPiece ): void {
     const numberStack = this.findMatchingNumberStack( numberPiece );
-    const offset = NumberStack.getOffset( numberStack.numberPieces.length );
-    numberPiece.animator.animateTo( {
-      position: numberStack.positionProperty.value.plus( offset.timesScalar( FractionsCommonConstants.NUMBER_BUILD_SCALE ) ),
-      scale: 1,
-      animationInvalidationProperty: numberStack.positionProperty,
-      endAnimationCallback: () => {
-        this.activeNumberPieces.remove( numberPiece );
-        if ( numberStack.isMutable ) {
-          numberStack.numberPieces.push( numberPiece );
+    if ( numberStack ) {
+      const offset = NumberStack.getOffset( numberStack.numberPieces.length );
+      numberPiece.animator.animateTo( {
+        position: numberStack.positionProperty.value.plus( offset.timesScalar( FractionsCommonConstants.NUMBER_BUILD_SCALE ) ),
+        scale: 1,
+        animationInvalidationProperty: numberStack.positionProperty,
+        endAnimationCallback: () => {
+          this.activeNumberPieces.remove( numberPiece );
+          if ( numberStack.isMutable ) {
+            numberStack.numberPieces.push( numberPiece );
+          }
         }
-      }
-    } );
+      } );
+    }
   }
 
   /**
    * Called when a NumberPiece is dropped by the user.
-   * @public
    *
-   * @param {NumberPiece} numberPiece
-   * @param {number} threshold - How much distance to allow between the piece and a container/group for it to be
+   * @param numberPiece
+   * @param threshold - How much distance to allow between the piece and a container/group for it to be
    *                             dropped inside.
    */
-  numberPieceDropped( numberPiece, threshold ) {
+  public numberPieceDropped( numberPiece: NumberPiece, threshold: number ): void {
     const numberPiecePosition = numberPiece.positionProperty.value;
     const sortedNumberStacks = _.sortBy( this.numberStacks, numberStack => {
       return numberStack.positionProperty.value.distance( numberPiecePosition );
     } );
     const closestNumberStack = sortedNumberStacks.shift();
 
-    if ( numberPiecePosition.distance( closestNumberStack.positionProperty.value ) < NUMBER_PIECE_RETURN_THRESHOLD ) {
+    if ( closestNumberStack &&
+         numberPiecePosition.distance( closestNumberStack.positionProperty.value ) < NUMBER_PIECE_RETURN_THRESHOLD ) {
       this.returnActiveNumberPiece( numberPiece );
     }
   }
 
   /**
    * Called when the user drags a ten frame from a stack.
-   *
-   * @param {TenFrame} tenFrame
-   * @public
    */
-  dragTenFrameFromIcon( tenFrame ) {
+  public dragTenFrameFromIcon( tenFrame: TenFrame ): void {
     this.activeTenFrames.push( tenFrame );
   }
 
   /**
    * Resets the model.
-   * @public
    */
-  reset() {
+  public reset(): void {
     this.onesPlayArea.reset();
     this.leftObjectsPlayArea.reset();
     this.rightObjectsPlayArea.reset();
-    this.activeNumberPieces.reset();
+    this.activeNumberPieces.clear();
   }
 
   /**
    * Steps the model.
-   * @param {number} dt - time step, in seconds
-   * @public
+   * @param dt - time step, in seconds
    */
-  step( dt ) {
+  public step( dt: number ): void {
     this.onesPlayArea.step( dt );
     this.leftObjectsPlayArea.step( dt );
     this.rightObjectsPlayArea.step( dt );
