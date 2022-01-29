@@ -31,7 +31,6 @@ class LabScreenView extends ScreenView {
   private readonly pieceLayer: Node;
   private readonly numberPieceNodes: NumberPieceNode[];
   private readonly numberPanel: LabNumberCarousel;
-  private modelViewTransform: ModelViewTransform2;
   private readonly tenFrameNodes: DraggableTenFrameNode[];
 
   constructor( model: LabModel, tandem: Tandem ) {
@@ -63,7 +62,7 @@ class LabScreenView extends ScreenView {
       model.numberStacks,
       animationDuration,
       ( event: SceneryEvent, stack: NumberStack ) => {
-        const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point! ) );
+        const modelPoint = this.globalToLocalPoint( event.pointer.point! );
         const numberPiece = new NumberPiece( stack.number );
         numberPiece.positionProperty.value = modelPoint;
         model.dragNumberPieceFromStack( numberPiece );
@@ -71,8 +70,9 @@ class LabScreenView extends ScreenView {
         numberPieceNode && numberPieceNode.dragListener.press( event, numberPieceNode );
       } );
     this.numberPanel.centerX = this.layoutBounds.centerX;
-    this.numberPanel.top = playAreaViewBounds.top;
-    this.numberPanel.updateModelPositions( this.modelViewTransform );
+    this.numberPanel.top = NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    this.addChild( this.numberPanel );
+    this.numberPanel.updateModelPositions( new ModelViewTransform2() );
 
     model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
@@ -159,7 +159,7 @@ class LabScreenView extends ScreenView {
   private addNumberPiece( numberPiece: NumberPiece ): void {
     const numberPieceNode = new NumberPieceNode( numberPiece, {
       positioned: true,
-      modelViewTransform: this.modelViewTransform,
+      modelViewTransform: new ModelViewTransform2(),
       dropListener: ( wasTouch: boolean ) => {
         this.model.numberPieceDropped( numberPiece, wasTouch ? 50 : 20 );
       }
@@ -194,8 +194,8 @@ class LabScreenView extends ScreenView {
     const tenFrameIconNode = TenFrameNode.getTenFramePath();
     tenFrameIconNode.cursor = 'pointer';
     tenFrameIconNode.inputListeners = [ DragListener.createForwardingListener( ( event: SceneryEvent ) => {
-      const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point! ) );
-      const tenFrame = new TenFrame( 70, modelPoint );
+      const modelPosition = this.globalToLocalPoint( event.pointer.point! );
+      const tenFrame = new TenFrame( 70, modelPosition );
       this.model.dragTenFrameFromIcon( tenFrame );
       const tenFrameNode = this.getTenFrameNode( tenFrame );
       tenFrameNode.dragListener.press( event, tenFrameNode );
@@ -207,7 +207,7 @@ class LabScreenView extends ScreenView {
    * Called when a new Ten Frame is added to the model.
    */
   private addTenFrame( tenFrame: TenFrame ): void {
-    const tenFrameNode = new DraggableTenFrameNode( tenFrame, this.modelViewTransform, () => {
+    const tenFrameNode = new DraggableTenFrameNode( tenFrame, () => {
       // TODO: implement method below
       // this.model.tenFrameDropped( tenFrame );
     } );

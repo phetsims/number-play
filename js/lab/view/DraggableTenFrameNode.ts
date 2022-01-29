@@ -12,13 +12,12 @@ import { Node } from '../../../../scenery/js/imports.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
 class DraggableTenFrameNode extends Node {
   private readonly tenFrame: TenFrame;
   public readonly dragListener: DragListener;
 
-  constructor( tenFrame: TenFrame, modelViewTransform: ModelViewTransform2, dropListener: () => void ) {
+  constructor( tenFrame: TenFrame, dropListener: () => void ) {
     super();
 
     this.tenFrame = tenFrame;
@@ -31,7 +30,6 @@ class DraggableTenFrameNode extends Node {
 
     this.dragListener = new DragListener( {
       targetNode: this,
-      transform: modelViewTransform,
       positionProperty: tenFrame.positionProperty,
       end: () => {
         dropListener();
@@ -46,7 +44,7 @@ class DraggableTenFrameNode extends Node {
     } ) ];
 
     tenFrame.positionProperty.link( position => {
-      this.translation = modelViewTransform.modelToViewPosition( position );
+      this.translation = position;
     } );
   }
 }
