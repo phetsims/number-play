@@ -9,28 +9,10 @@
 import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
 import numberPlay from '../numberPlay.js';
 
-// constants used to define multiple colors
-const LIGHT_GREEN_BACKGROUND = new Color( 215, 255, 227 );
-const LIGHT_ORANGE_BACKGROUND = new Color( 255, 247, 235 );
-const WHITE_BACKGROUND = new Color( 255, 255, 255 );
-
 const NumberPlayColors = {
 
-  // screen backgrounds
-  tenScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'tenScreenBackgroundColor', {
-    default: LIGHT_GREEN_BACKGROUND
-  } ),
-  twentyScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'twentyScreenBackgroundColor', {
-    default: LIGHT_ORANGE_BACKGROUND
-  } ),
-  compareScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'compareScreenBackgroundColor', {
-    default: WHITE_BACKGROUND
-  } ),
-  gameScreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'gameScreenBackgroundColor', {
-    default: LIGHT_ORANGE_BACKGROUND
-  } ),
-
-  // backgrounds for accordion boxes and more
+  // backgrounds for screens, accordion boxes, and more. they are named by color instead of by what they are
+  // used for because so many are reused for multiple applications and should remain in sync.
   greenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'greenBackgroundColor', {
     default: new Color( 159, 237, 172 )
   } ),
@@ -38,7 +20,7 @@ const NumberPlayColors = {
     default: new Color( 150, 226, 168 )
   } ),
   lightGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightGreenBackgroundColor', {
-    default: LIGHT_GREEN_BACKGROUND
+    default: new Color( 215, 255, 227 )
   } ),
   orangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'orangeBackgroundColor', {
     default: new Color( 249, 210, 172 )
@@ -47,7 +29,7 @@ const NumberPlayColors = {
     default: new Color( 247, 209, 159 )
   } ),
   lightOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightOrangeBackgroundColor', {
-    default: LIGHT_ORANGE_BACKGROUND
+    default: new Color( 255, 247, 235 )
   } ),
   purpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'purpleBackgroundColor', {
     default: new Color( 252, 220, 255 )
@@ -56,7 +38,7 @@ const NumberPlayColors = {
     default: new Color( 204, 239, 255 )
   } ),
   whiteBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'whiteBackgroundColor', {
-    default: WHITE_BACKGROUND
+    default: new Color( 255, 255, 255 )
   } ),
 
   // game screen level colors

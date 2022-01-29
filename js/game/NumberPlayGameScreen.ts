@@ -24,7 +24,7 @@ class NumberPlayGameScreen extends Screen {
 
     const options = {
       name: numberPlayStrings.screen.game,
-      backgroundColorProperty: NumberPlayColors.gameScreenBackgroundColorProperty,
+      backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

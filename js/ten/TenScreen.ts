@@ -28,7 +28,7 @@ class TenScreen extends Screen {
 
     const screenOptions = {
       name: screenTenString,
-      backgroundColorProperty: NumberPlayColors.tenScreenBackgroundColorProperty,
+      backgroundColorProperty: NumberPlayColors.lightGreenBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( tenScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1

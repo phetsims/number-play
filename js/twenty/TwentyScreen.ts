@@ -29,7 +29,7 @@ class TwentyScreen extends Screen {
 
     const screenOptions = {
       name: screenTwentyString,
-      backgroundColorProperty: NumberPlayColors.twentyScreenBackgroundColorProperty,
+      backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( twentyScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
