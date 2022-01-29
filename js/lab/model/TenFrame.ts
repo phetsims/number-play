@@ -9,14 +9,14 @@
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import numberPlay from '../../numberPlay.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 
 class TenFrame {
+  public readonly squareSideLength: number;
+  public readonly spotCenters: Vector2[];
+  public positionProperty: Vector2Property;
 
-  /**
-   * @param {number} sideLength - see doc below
-   * @param {Vector2} initialPosition
-   */
-  constructor( squareSideLength, initialPosition ) {
+  constructor( squareSideLength: number, initialPosition: Vector2 ) {
 
     // @public {number} - the side length of the squares that make up the ten frame
     this.squareSideLength = squareSideLength;
