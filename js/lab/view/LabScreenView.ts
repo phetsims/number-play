@@ -15,9 +15,7 @@ import NumberPieceNode from '../../../../fractions-common/js/building/view/Numbe
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { DragListener } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
@@ -25,14 +23,19 @@ import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
 import DraggableTenFrameNode from './DraggableTenFrameNode.js';
 import LabNumberCarousel from './LabNumberCarousel.js';
+import LabModel from '../model/LabModel.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 
 class LabScreenView extends ScreenView {
+  private readonly model: LabModel;
+  private readonly pieceLayer: Node;
+  private readonly numberPieceNodes: NumberPieceNode[];
+  private readonly numberPanel: LabNumberCarousel;
+  private modelViewTransform: ModelViewTransform2;
+  private readonly tenFrameNodes: DraggableTenFrameNode[];
 
-  /**
-   * @param {LabModel} model
-   * @param {Tandem} tandem
-   */
-  constructor( model, tandem ) {
+  constructor( model: LabModel, tandem: Tandem ) {
 
     super( {
       tandem: tandem
@@ -53,7 +56,7 @@ class LabScreenView extends ScreenView {
       1
     );
 
-    // @private {Node} - Node for all pieces to share
+    // NNode for all pieces to share
     this.pieceLayer = new Node();
     const backgroundDragTargetNode = new Rectangle( playAreaViewBounds ); // see OnesPlayAreaNode for doc
     this.addChild( backgroundDragTargetNode );
@@ -62,15 +65,18 @@ class LabScreenView extends ScreenView {
     this.numberPieceNodes = [];
     const animationDuration = 0.4; // in seconds
 
-    // @private {Node}
-    this.numberPanel = new LabNumberCarousel( model.numberStacks, animationDuration, ( event, stack ) => {
-      const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point ) );
-      const numberPiece = new NumberPiece( stack.number );
-      numberPiece.positionProperty.value = modelPoint;
-      model.dragNumberPieceFromStack( numberPiece );
-      const numberPieceNode = this.getNumberPieceNode( numberPiece );
-      numberPieceNode.dragListener.press( event, numberPieceNode );
-    } );
+    // create the number panel
+    this.numberPanel = new LabNumberCarousel(
+      model.numberStacks,
+      animationDuration,
+      ( event: SceneryEvent, stack: NumberStack ) => {
+        const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point! ) );
+        const numberPiece = new NumberPiece( stack.number );
+        numberPiece.positionProperty.value = modelPoint;
+        model.dragNumberPieceFromStack( numberPiece );
+        const numberPieceNode = this.getNumberPieceNode( numberPiece );
+        numberPieceNode && numberPieceNode.dragListener.press( event, numberPieceNode );
+      } );
     this.numberPanel.centerX = this.layoutBounds.centerX;
     this.numberPanel.top = playAreaViewBounds.top;
     this.numberPanel.updateModelPositions( this.modelViewTransform );
@@ -82,8 +88,7 @@ class LabScreenView extends ScreenView {
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
       model.onesPlayArea,
-      playAreaViewBounds,
-      this.modelViewTransform, {
+      playAreaViewBounds, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode
       }
@@ -97,8 +102,7 @@ class LabScreenView extends ScreenView {
     const leftPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
     const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
-      playAreaViewBounds,
-      this.modelViewTransform, {
+      playAreaViewBounds, {
         paperNumberLayerNode: this.pieceLayer,
         playObjectTypeProperty: leftPlayObjectTypeProperty,
         backgroundDragTargetNode: backgroundDragTargetNode
@@ -110,8 +114,7 @@ class LabScreenView extends ScreenView {
     const rightPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.BALL );
     const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
-      playAreaViewBounds,
-      this.modelViewTransform, {
+      playAreaViewBounds, {
         paperNumberLayerNode: this.pieceLayer,
         playObjectTypeProperty: rightPlayObjectTypeProperty,
         backgroundDragTargetNode: backgroundDragTargetNode
@@ -122,11 +125,10 @@ class LabScreenView extends ScreenView {
     const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();
 
     // position empirically determined
-    tenFrameCreatorIconNode.centerX = this.modelViewTransform.modelToViewX( model.onesPlayArea.bucket.position.x ) - 180;
+    tenFrameCreatorIconNode.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     tenFrameCreatorIconNode.bottom = playAreaViewBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     this.addChild( tenFrameCreatorIconNode );
 
-    // @private {draggableTenFrameNode[]}
     this.tenFrameNodes = [];
 
     model.activeTenFrames.addItemAddedListener( this.addTenFrame.bind( this ) );
@@ -150,32 +152,26 @@ class LabScreenView extends ScreenView {
 
   /**
    * Returns the corresponding NumberPieceNode for a given NumberPiece.
-   *
-   * @param {NumberPiece} numberPiece
-   * @returns {NumberPieceNode}
-   * @private
    */
-  getNumberPieceNode( numberPiece ) {
-    return _.find( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
+  private getNumberPieceNode( numberPiece: NumberPiece ): NumberPieceNode {
+    // @ts-ignore
+    return _.find<NumberPieceNode>( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
   }
 
   /**
    * Called when a new NumberPiece is added to the model (we'll create the view).
-   *
-   * @param {NumberPiece} numberPiece
-   * @private
    */
-  addNumberPiece( numberPiece ) {
+  private addNumberPiece( numberPiece: NumberPiece ): void {
     const numberPieceNode = new NumberPieceNode( numberPiece, {
       positioned: true,
       modelViewTransform: this.modelViewTransform,
-      dropListener: wasTouch => {
+      dropListener: ( wasTouch: boolean ) => {
         this.model.numberPieceDropped( numberPiece, wasTouch ? 50 : 20 );
       }
     } );
 
     numberPieceNode.cursor = 'pointer';
-    numberPieceNode.inputListeners = [ DragListener.createForwardingListener( event => {
+    numberPieceNode.inputListeners = [ DragListener.createForwardingListener( ( event: SceneryEvent ) => {
       numberPieceNode.dragListener.press( event, numberPieceNode );
       numberPieceNode.moveToFront();
     } ) ];
@@ -186,11 +182,8 @@ class LabScreenView extends ScreenView {
 
   /**
    * Called when a NumberPiece is removed from the model (we'll remove the view).
-   *
-   * @param {NumberPiece} numberPiece
-   * @private
    */
-  removeNumberPiece( numberPiece ) {
+  private removeNumberPiece( numberPiece: NumberPiece ): void {
     const numberPieceNode = this.getNumberPieceNode( numberPiece );
 
     _.pull( this.numberPieceNodes, numberPieceNode );
@@ -200,16 +193,13 @@ class LabScreenView extends ScreenView {
 
   /**
    * Creates a TenFrame node that DraggableTenFrameNodes can be created from when clicked
-   *
-   * @returns {Node}
-   * @private
    */
-  getTenFrameCreatorIconNode() {
+  private getTenFrameCreatorIconNode(): Node {
     // TODO: add a plus sign as part of the icon
     const tenFrameIconNode = TenFrameNode.getTenFramePath();
     tenFrameIconNode.cursor = 'pointer';
-    tenFrameIconNode.inputListeners = [ DragListener.createForwardingListener( event => {
-      const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point ) );
+    tenFrameIconNode.inputListeners = [ DragListener.createForwardingListener( ( event: SceneryEvent ) => {
+      const modelPoint = this.modelViewTransform.viewToModelPosition( this.globalToLocalPoint( event.pointer.point! ) );
       const tenFrame = new TenFrame( 70, modelPoint );
       this.model.dragTenFrameFromIcon( tenFrame );
       const tenFrameNode = this.getTenFrameNode( tenFrame );
@@ -220,11 +210,8 @@ class LabScreenView extends ScreenView {
 
   /**
    * Called when a new Ten Frame is added to the model.
-   *
-   * @param {TenFrame} tenFrame
-   * @private
    */
-  addTenFrame( tenFrame ) {
+  private addTenFrame( tenFrame: TenFrame ): void {
     const tenFrameNode = new DraggableTenFrameNode( tenFrame, this.modelViewTransform, () => {
       // TODO: implement method below
       // this.model.tenFrameDropped( tenFrame );
@@ -236,11 +223,8 @@ class LabScreenView extends ScreenView {
 
   /**
    * Called when a TenFrame is removed from the model.
-   *
-   * @param {TenFrame} tenFrame
-   * @private
    */
-  removeTenFrame( tenFrame ) {
+  private removeTenFrame( tenFrame: TenFrame ): void {
     const tenFrameNode = this.getTenFrameNode( tenFrame );
 
     _.pull( this.tenFrameNodes, tenFrameNode );
@@ -250,12 +234,9 @@ class LabScreenView extends ScreenView {
 
   /**
    * Returns the corresponding DraggableTenFrameNode for a given TenFrame.
-   *
-   * @param {TenFrame} tenFrame
-   * @returns {DraggableTenFrameNode}
-   * @private
    */
-  getTenFrameNode( tenFrame ) {
+  private getTenFrameNode( tenFrame: TenFrame ): DraggableTenFrameNode {
+    // @ts-ignore
     return _.find( this.tenFrameNodes, tenFrameNode => tenFrameNode.tenFrame === tenFrame );
   }
 }

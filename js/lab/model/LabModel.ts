@@ -27,9 +27,9 @@ class LabModel {
   public readonly activeNumberPieces: ObservableArray<NumberPiece>;
   public readonly activeTenFrames: ObservableArray<TenFrame>;
   private readonly isResettingProperty: BooleanProperty;
-  private readonly onesPlayArea: OnesPlayArea;
-  private readonly leftObjectsPlayArea: OnesPlayArea;
-  private readonly rightObjectsPlayArea: OnesPlayArea;
+  public readonly onesPlayArea: OnesPlayArea;
+  public readonly leftObjectsPlayArea: OnesPlayArea;
+  public readonly rightObjectsPlayArea: OnesPlayArea;
 
   constructor( tandem: Tandem ) {
 

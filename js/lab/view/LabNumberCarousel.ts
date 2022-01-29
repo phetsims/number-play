@@ -6,18 +6,19 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import StackNodesBox from '../../../../fractions-common/js/building/view/StackNodesBox.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import Carousel from '../../../../sun/js/Carousel.js';
 import numberPlay from '../../numberPlay.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 
 class LabNumberCarousel extends Carousel {
-  /**
-   * @param {Array.<NumberStack>} numberStacks
-   * @param {number} animationDuration
-   * @param {function} pressCallback - function( {SceneryEvent}, {Stack} ) - Called when a press is started.
-   */
-  constructor( numberStacks, animationDuration, pressCallback ) {
+  private readonly box: StackNodesBox;
+
+  constructor( numberStacks: NumberStack[], animationDuration: number,
+               pressCallback: ( event: SceneryEvent, stack: NumberStack ) => void ) {
+
     const box = new StackNodesBox( [
       ...numberStacks
     ], pressCallback );
@@ -31,17 +32,13 @@ class LabNumberCarousel extends Carousel {
       animationDuration: animationDuration
     } );
 
-    // @private {StackNodesBox}
     this.box = box;
   }
 
   /**
    * Sets the model positions of our model objects corresponding to their displayed (view) positions.
-   * @public
-   *
-   * @param {ModelViewTransform2} modelViewTransform
    */
-  updateModelPositions( modelViewTransform ) {
+  public updateModelPositions( modelViewTransform: ModelViewTransform2 ): void {
     this.box.updateModelPositions( modelViewTransform, this );
   }
 }
