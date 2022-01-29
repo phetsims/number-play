@@ -14,13 +14,16 @@ const NumberPlayColors = {
   // backgrounds for screens, accordion boxes, and more. they are named by color instead of by what they are
   // used for because so many are reused for multiple applications and should remain in sync.
   greenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'greenBackgroundColor', {
-    default: new Color( 159, 237, 172 )
+    default: new Color( 214, 209, 255 )
   } ),
   mediumGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumGreenBackgroundColor', {
-    default: new Color( 150, 226, 168 )
+    default: new Color( 205, 199, 255 )
+  } ),
+  lighterGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lighterGreenBackgroundColor', {
+    default: new Color( 238, 238, 255 )
   } ),
   lightGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightGreenBackgroundColor', {
-    default: new Color( 215, 255, 227 )
+    default: new Color( 248, 248, 255 )
   } ),
   orangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'orangeBackgroundColor', {
     default: new Color( 249, 210, 172 )

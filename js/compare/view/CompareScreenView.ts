@@ -91,7 +91,7 @@ class CompareScreenView extends ScreenView {
       playObjectTypes: ComparePlayObjectType,
       expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
       contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      fill: NumberPlayColors.lightGreenBackgroundColorProperty
+      fill: NumberPlayColors.lighterGreenBackgroundColorProperty
     } );
     leftCountingAccordionBox.left = NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
