@@ -48,8 +48,7 @@ class NumberPlayModel {
 
     // the model for managing the play area in the ObjectsAccordionBox
     this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, {
-      isResettingProperty: this.isResettingProperty,
-      isOnes: false
+      isResettingProperty: this.isResettingProperty
     } );
   }
 
