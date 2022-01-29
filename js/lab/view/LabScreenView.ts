@@ -9,11 +9,9 @@
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { DragListener, Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -25,6 +23,7 @@ import DraggableTenFrameNode from './DraggableTenFrameNode.js';
 import LabNumberCarousel from './LabNumberCarousel.js';
 import LabModel from '../model/LabModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 
 class LabScreenView extends ScreenView {
@@ -46,20 +45,14 @@ class LabScreenView extends ScreenView {
 
     const playAreaViewBounds = new Bounds2(
       this.layoutBounds.left,
-      this.layoutBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
+      this.layoutBounds.top,
       this.layoutBounds.right,
-      this.layoutBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_Y
-    );
-    this.modelViewTransform = ModelViewTransform2.createSinglePointScaleInvertedYMapping(
-      Vector2.ZERO,
-      playAreaViewBounds.centerBottom,
-      1
+      this.layoutBounds.bottom
     );
 
     // NNode for all pieces to share
     this.pieceLayer = new Node();
     const backgroundDragTargetNode = new Rectangle( playAreaViewBounds ); // see OnesPlayAreaNode for doc
-    this.addChild( backgroundDragTargetNode );
 
     // @private {NumberPieceNode[]}
     this.numberPieceNodes = [];
@@ -84,7 +77,6 @@ class LabScreenView extends ScreenView {
     model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
-
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
       model.onesPlayArea,
@@ -93,10 +85,9 @@ class LabScreenView extends ScreenView {
         backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
+    onesPlayAreaNode.centerX = this.layoutBounds.centerX - 120;
+    onesPlayAreaNode.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesPlayAreaNode );
-
-    // the one's play area covers other nodes, so add the numberPanel after
-    this.addChild( this.numberPanel );
 
     // create and add the left ObjectsPlayAreaNode
     const leftPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
@@ -108,6 +99,8 @@ class LabScreenView extends ScreenView {
         backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
+    leftObjectsPlayAreaNode.centerX = this.layoutBounds.centerX;
+    leftObjectsPlayAreaNode.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftObjectsPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
@@ -120,6 +113,8 @@ class LabScreenView extends ScreenView {
         backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
+    rightObjectsPlayAreaNode.centerX = this.layoutBounds.centerX + 120;
+    rightObjectsPlayAreaNode.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( rightObjectsPlayAreaNode );
 
     const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();

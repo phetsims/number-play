@@ -166,7 +166,9 @@ class OnesPlayAreaNode extends Node {
     }
 
     // add the paperNumberLayerNode after the creator panel
-    this.addChild( this.paperNumberLayerNode );
+    if ( !options.paperNumberLayerNode ) {
+      this.addChild( this.paperNumberLayerNode );
+    }
 
     this.includeOnesCreatorPanel = options.includeOnesCreatorPanel;
   }
