@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * NumberPlayGameAnswerButtons are buttons that can be selected to input an answer to a game.
@@ -14,11 +14,11 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Color, ColorProperty, HBox, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
 import merge from '../../../../phet-core/js/merge.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 
 // types
 type AnswerButtonsOptions = {
@@ -45,7 +45,7 @@ class NumberPlayGameAnswerButtons extends Node {
   private readonly buttonListener: ( index: number ) => void;
   public static BUTTON_DIMENSION: Dimension2;
 
-  constructor( level: SubitizeGameLevel | CountingGameLevel,
+  constructor( level: NumberPlayGameLevel,
                pointAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,
@@ -60,6 +60,8 @@ class NumberPlayGameAnswerButtons extends Node {
 
     this.buttonObjects = [];
 
+    const gameAudioPlayer = new GameAudioPlayer();
+
     /**
      * Listener that is added to every answer button. It disabled selected buttons that are wrong, and turns correct
      * answer buttons green.
@@ -70,6 +72,10 @@ class NumberPlayGameAnswerButtons extends Node {
 
       // this button is the correct answer button
       if ( level.challengeNumberProperty.value === buttonObject.value ) {
+
+        // audio feedback
+        gameAudioPlayer.correctAnswer();
+
         level.isChallengeSolvedProperty.value = true;
         rightAnswerCallback();
 
@@ -82,6 +88,10 @@ class NumberPlayGameAnswerButtons extends Node {
         }
       }
       else {
+
+        // audio feedback
+        gameAudioPlayer.wrongAnswer();
+
         pointAwardedNodeVisibleProperty.value = false;
         wrongAnswerCallback();
 

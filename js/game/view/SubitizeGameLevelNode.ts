@@ -13,16 +13,16 @@ import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import SubitizerNode from './SubitizerNode.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
   constructor( level: SubitizeGameLevel,
-               levelProperty: Property<SubitizeGameLevel | CountingGameLevel | null>,
+               levelProperty: Property<NumberPlayGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
@@ -53,10 +53,6 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     subitizerNode.centerX = layoutBounds.centerX;
     subitizerNode.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
     this.addChild( subitizerNode );
-  }
-
-  public reset(): void {
-    super.reset();
   }
 }
 

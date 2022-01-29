@@ -16,6 +16,8 @@ import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
 import CountingGameLevelNode from './CountingGameLevelNode.js';
+import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -27,7 +29,7 @@ const TRANSITION_OPTIONS = {
 
 class NumberPlayGameScreenView extends ScreenView {
 
-  private readonly levelNodes: Array<SubitizeGameLevelNode | CountingGameLevelNode>;
+  private readonly levelNodes: Array<NumberPlayGameLevelNode<NumberPlayGameLevel>>;
 
   constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
@@ -64,6 +66,11 @@ class NumberPlayGameScreenView extends ScreenView {
       this.interruptSubtreeInput();
 
       if ( level ) {
+
+        // reset the challenge when going to a level if the current one is unsolved. only needed for the 'Counting' game
+        // (because the 'Subitize' game has a start sequence), but it is okay to call it for both.
+        !level.isChallengeSolvedProperty.value && level.newChallenge();
+
         // @ts-ignore TODO-TS See https://github.com/phetsims/number-play/issues/81.
         level.subitizer && level.subitizer.resetStartSequence();
 

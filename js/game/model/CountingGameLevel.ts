@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * CountingGameLevel is the class for a 'Counting' game level model.
@@ -7,18 +7,16 @@
  * @author Luisa Vargas
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Range from '../../../../dot/js/Range.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -26,19 +24,19 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
-  private readonly _playObjectTypeProperty: EnumerationProperty;
-  public readonly playObjectTypeProperty: IReadOnlyProperty<Enumeration>;
+  private readonly _playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
+  public readonly playObjectTypeProperty: IReadOnlyProperty<PlayObjectType>;
   private readonly _isObjectsRepresentationProperty: BooleanProperty;
   public readonly isObjectsRepresentationProperty: IReadOnlyProperty<boolean>;
   public readonly groupObjects: boolean;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, numberPlayStrings.counting, LEVEL_INPUT_RANGE );
+    super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );
 
     // whether objects should be able to be grouped
     this.groupObjects = ( levelNumber === 2 );
 
-    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, new Vector2( 0, 0 ), {
+    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, {
       isOnes: false,
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true,
@@ -46,8 +44,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     } );
 
     // the object type of the current challenge
-    // TODO-TS: Use updated enumeration pattern for Property when PlayObjectType is converted. See https://github.com/phetsims/number-play/issues/80
-    this._playObjectTypeProperty = new EnumerationProperty( PlayObjectType, CountingGameLevel.getRandomPlayObjectType() );
+    this._playObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomPlayObjectType() );
     this.playObjectTypeProperty = this._playObjectTypeProperty;
 
     // whether the current representation of the challengeNumber are objects. Always use objects as the first representation
@@ -57,24 +54,19 @@ class CountingGameLevel extends NumberPlayGameLevel {
   }
 
   /**
-   * Return a new object type for the current challenge.
-   * TODO-TS: Add return type when PlayObjectType is converted to a supported enumeration pattern. See https://github.com/phetsims/number-play/issues/80
+   * @param dt - in seconds
    */
-  private static getRandomPlayObjectType() {
-    // @ts-ignore
-    return PlayObjectType[ dotRandom.sample( PlayObjectType.KEYS ) ];
+  public step( dt: number ): void {
+    this.objectsPlayArea.step( dt );
   }
 
   public reset(): void {
     super.reset();
-    this._playObjectTypeProperty.reset();
     this._isObjectsRepresentationProperty.reset();
-  }
 
-  /**
-   * @param dt - in seconds
-   */
-  public step( dt: number ): void {
+    // the playObjectType should not necessarily be reset to the same initial value that the screen loaded with, so
+    // don't use traditional reset()
+    this._playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
   }
 
   /**
@@ -84,6 +76,13 @@ class CountingGameLevel extends NumberPlayGameLevel {
     super.newChallenge();
     this._playObjectTypeProperty.value = CountingGameLevel.getRandomPlayObjectType();
     this._isObjectsRepresentationProperty.value = !this._isObjectsRepresentationProperty.value;
+  }
+
+  /**
+   * Return a new object type for the current challenge.
+   */
+  private static getRandomPlayObjectType(): PlayObjectType {
+    return dotRandom.sample( PlayObjectType.enumeration.values.slice() );
   }
 }
 

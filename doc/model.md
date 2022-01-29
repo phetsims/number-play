@@ -10,8 +10,11 @@ This document is a high-level description of the model used in PhET's _Number Pl
 
 ## Game Screen
 
-The **Game** screen contains two games: the 'Counting' game and the 'Subitize' game. A challenge in each game displays a
-random number of objects to the user and a range of numbered buttons that can be pressed to indicate
+The **Game** screen contains two games: the 'Counting' game and the 'Subitize' game. On the level selection screen:
+* Counting games are the top row of buttons, Subitize games are the bottom row of buttons. 
+* Level 1 for each game type is the left column of buttons, Level 2 is the right column of buttons. 
+
+A challenge in each game displays a random number of objects to the user and a range of numbered buttons that can be pressed to indicate
 the user's choice of the number of objects. A challenge is incomplete until the user presses the button with 
 the number that matches the number of objects. When the correct answer button is pressed, the 'New Challenge' button
 (rectangular right arrow button) appears that loads a new challenge when pressed.

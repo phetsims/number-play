@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * NumberPlayGameLevel is the model for a game level which each type of game will extend.
@@ -12,6 +12,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 abstract class NumberPlayGameLevel {
 
@@ -23,18 +24,18 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberOne: number;
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
-  public readonly gameName: string;
+  public readonly gameType: NumberPlayGameType;
 
   /**
    * @param levelNumber
-   * @param gameName
+   * @param gameType
    * @param levelChallengeRange - the range of challenge numbers for a level, where 'range' is referring to a
    * mathematical range, where the min and max values are unknown, so it is just a number
    */
-  protected constructor( levelNumber: number, gameName: string, levelChallengeRange: number ) {
+  protected constructor( levelNumber: number, gameType: NumberPlayGameType, levelChallengeRange: number ) {
 
     this.levelNumber = levelNumber;
-    this.gameName = gameName;
+    this.gameType = gameType;
 
     // the range of numbers used for all challenges of this level
     this.challengeRange = NumberPlayGameLevel.getChallengeRange( levelNumber, levelChallengeRange );
@@ -67,10 +68,17 @@ abstract class NumberPlayGameLevel {
     } );
   }
 
-  protected reset(): void {
-    this.isChallengeSolvedProperty.reset();
+  public reset(): void {
     this.scoreProperty.reset();
+    this.isChallengeSolvedProperty.reset();
+    this.numberOfAnswerButtonPressesProperty.reset();
+
+    // the challengeNumber should not necessarily be reset to the same initial number that the screen loaded with,
+    // so don't use traditional reset()
+    this.challengeNumberProperty.value = this.getRandomChallengeNumber();
   }
+
+  abstract step( dt: number ): void
 
   /**
    * Sets up a new challenge for this level.

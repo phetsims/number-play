@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Auto-generated from modulify, DO NOT manually modify.
@@ -15,8 +15,7 @@ type StringsType = {
     'ten': string,
     'twenty': string,
     'compare': string,
-    'game': string,
-    'lab': string
+    'game': string
   },
   'zero': string,
   'one': string,
@@ -52,7 +51,10 @@ type StringsType = {
   'gameNameLevelNumberPattern': string,
   'chooseYourGame': string,
   'counting': string,
-  'subitize': string
+  'countFromPattern': string,
+  'subitizing': string,
+  'subitizeFromPattern': string,
+  'games': string
 };
 
 const numberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;

@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Model class for the 'Lab' screen.
@@ -51,21 +51,18 @@ class LabModel {
     // @public (read-only) - the model for managing paper ones in the playArea
     this.onesPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      paperNumberOrigin,
       new BooleanProperty( false )
     );
 
     // @public (read-only) - the model for managing dogs in the playArea
     this.leftObjectsPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      paperNumberOrigin,
       new BooleanProperty( false )
     );
 
     // @public (read-only) - the model for managing balls in the playArea
     this.rightObjectsPlayArea = new OnesPlayArea(
       new NumberProperty( 0, { range: new Range( 0, highestCount ) } ),
-      paperNumberOrigin,
       new BooleanProperty( false )
     );
   }

@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * SubitizeGameLevel is the class for a 'Subitize' game level model.
@@ -10,7 +10,7 @@
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 5;
@@ -20,7 +20,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   public readonly subitizer: Subitizer;
 
   constructor( levelNumber: number ) {
-    super( levelNumber, numberPlayStrings.subitize, LEVEL_INPUT_RANGE );
+    super( levelNumber, NumberPlayGameType.SUBITIZE, LEVEL_INPUT_RANGE );
 
     this.subitizer = new Subitizer(
       this.challengeNumberProperty,
@@ -36,13 +36,6 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   public newChallenge(): void {
     super.newChallenge();
     this.subitizer.newChallenge();
-  }
-
-  /**
-   * Calls reset on super type - no need to reset the subitizer because that happens everytime the user enters the level
-   */
-  public reset(): void {
-    super.reset();
   }
 
   /**

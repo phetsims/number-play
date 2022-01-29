@@ -1,4 +1,4 @@
-// Copyright 2019-2021, University of Colorado Boulder
+// Copyright 2019-2022, University of Colorado Boulder
 
 /**
  * Main entry point for the sim.
@@ -15,6 +15,21 @@ import LabScreen from './lab/LabScreen.js';
 import numberPlayStrings from './numberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
+import NumberPlayQueryParameters from './common/NumberPlayQueryParameters.js';
+
+// get our
+if ( NumberPlayQueryParameters.secondLocale ) {
+  const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
+
+  if ( secondLocaleStrings ) {
+    phet.numberPlay.secondLocaleStrings = secondLocaleStrings;
+  }
+  else {
+    // @ts-ignore
+    QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
+      `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
+  }
+}
 
 const numberPlayTitleString = numberPlayStrings[ 'number-play' ].title;
 
@@ -38,7 +53,6 @@ simLauncher.launch( () => {
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
     new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) ),
-    // TODO: add Game screen here, see https://github.com/phetsims/number-play/issues/62
     new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) ),
     new LabScreen( Tandem.ROOT.createTandem( 'numberPlayLabScreen' ) )
   ], simOptions );

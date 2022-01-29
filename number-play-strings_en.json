@@ -14,9 +14,6 @@
   "screen.game": {
     "value": "Game"
   },
-  "screen.lab": {
-    "value": "Lab"
-  },
   "zero": {
     "value": "zero"
   },
@@ -81,13 +78,13 @@
     "value": "twenty"
   },
   "isLessThan": {
-    "value": "is less than"
+    "value": "{{smallerNumber}} is less than {{greaterNumber}}"
   },
   "isMoreThan": {
-    "value": "is greater than"
+    "value": "{{greaterNumber}} is greater than {{smallerNumber}}"
   },
   "isEqualTo": {
-    "value": "is equal to"
+    "value": "{{equalNumberLeft}} is equal to {{equalNumberRight}}"
   },
   "word": {
     "value": "Word"
@@ -119,7 +116,16 @@
   "counting": {
     "value": "Counting"
   },
-  "subitize": {
-    "value": "Subitize"
+  "countFromPattern": {
+    "value": "Count from {{minimumChallengeNumber}}-{{maximumChallengeNumber}}"
+  },
+  "subitizing": {
+    "value": "Subitizing"
+  },
+  "subitizeFromPattern": {
+    "value": "Subitize from {{minimumChallengeNumber}}-{{maximumChallengeNumber}}"
+  },
+  "games": {
+    "value": "Games"
   }
 }

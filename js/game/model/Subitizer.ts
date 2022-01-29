@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * Subitizer generates the arranged and random points that make up a shape. It is also responsible for the sequence of
@@ -8,14 +8,14 @@
  * arranged (a grid-like arrangement generated with some randomness).
  *
  * An object is the representation that is rendered at each point of a shape. An object can take many forms, see
- * SubitizeObjectTypeEnum for available types.
+ * SubitizeObjectType for available types.
  *
  * @author Luisa Vargas
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StringEnumerationProperty from '../../../../axon/js/StringEnumerationProperty.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -28,7 +28,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeObjectTypeEnum, { SubitizeObjectTypeValues } from './SubitizeObjectTypeEnum.js';
+import SubitizeObjectType from './SubitizeObjectType.js';
 
 // types
 type PredeterminedShapes = {
@@ -133,8 +133,8 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  private readonly _objectTypeProperty: Property<SubitizeObjectTypeEnum>;
-  public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectTypeEnum>;
+  private readonly _objectTypeProperty: EnumerationProperty<SubitizeObjectType>;
+  public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectType>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
@@ -188,7 +188,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new StringEnumerationProperty( SubitizeObjectTypeValues, 'dog' );
+    this._objectTypeProperty = new EnumerationProperty( SubitizeObjectType.DOG );
     this.objectTypeProperty = this._objectTypeProperty;
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
@@ -319,7 +319,7 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   private setRandomPlayObjectType(): void {
-    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectTypeValues.slice() );
+    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectType.enumeration.values.slice() );
   }
 
   /**
