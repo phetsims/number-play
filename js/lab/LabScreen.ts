@@ -23,7 +23,7 @@ class LabScreen extends Screen {
 
     const options = {
       name: numberPlayStrings.screen.lab,
-      backgroundColorProperty: NumberPlayColors.whiteBackgroundColorProperty,
+      backgroundColorProperty: NumberPlayColors.lightestPurpleColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( labScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
