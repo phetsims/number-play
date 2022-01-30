@@ -8,7 +8,6 @@
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -25,6 +24,8 @@ import LabModel from '../model/LabModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
+import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -42,16 +43,9 @@ class LabScreenView extends ScreenView {
     // @private
     this.model = model;
 
-    const playAreaViewBounds = new Bounds2(
-      this.layoutBounds.left,
-      this.layoutBounds.top,
-      this.layoutBounds.right,
-      this.layoutBounds.bottom
-    );
-
     // NNode for all pieces to share
     this.pieceLayer = new Node();
-    const backgroundDragTargetNode = new Rectangle( playAreaViewBounds ); // see OnesPlayAreaNode for doc
+    const backgroundDragTargetNode = new Rectangle( this.layoutBounds ); // see OnesPlayAreaNode for doc
 
     // @private {NumberPieceNode[]}
     this.numberPieceNodes = [];
@@ -80,48 +74,48 @@ class LabScreenView extends ScreenView {
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
       model.onesPlayArea,
-      playAreaViewBounds, {
+      this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
-        backgroundDragTargetNode: backgroundDragTargetNode
+        backgroundDragTargetNode: backgroundDragTargetNode,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 120,
+          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    onesPlayAreaNode.centerX = this.layoutBounds.centerX - 120;
-    onesPlayAreaNode.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesPlayAreaNode );
 
     // create and add the left ObjectsPlayAreaNode
-    const leftPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
     const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
-      playAreaViewBounds, {
+      this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: leftPlayObjectTypeProperty,
-        backgroundDragTargetNode: backgroundDragTargetNode
+        playObjectTypeProperty: new EnumerationProperty( PlayObjectType.DOG ),
+        groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.UNGROUPED ),
+        backgroundDragTargetNode: backgroundDragTargetNode,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX,
+          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    leftObjectsPlayAreaNode.centerX = this.layoutBounds.centerX;
-    leftObjectsPlayAreaNode.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftObjectsPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const rightPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.BALL );
     const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
-      playAreaViewBounds, {
+      this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: rightPlayObjectTypeProperty,
-        backgroundDragTargetNode: backgroundDragTargetNode
+        playObjectTypeProperty: new EnumerationProperty( PlayObjectType.BALL ),
+        groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.UNGROUPED ),
+        backgroundDragTargetNode: backgroundDragTargetNode,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 120,
+          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    rightObjectsPlayAreaNode.centerX = this.layoutBounds.centerX + 120;
-    rightObjectsPlayAreaNode.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( rightObjectsPlayAreaNode );
 
     const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();
 
     // position empirically determined
     tenFrameCreatorIconNode.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
-    tenFrameCreatorIconNode.bottom = playAreaViewBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+    tenFrameCreatorIconNode.bottom = this.layoutBounds.copy().bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_X;
     this.addChild( tenFrameCreatorIconNode );
 
     this.tenFrameNodes = [];

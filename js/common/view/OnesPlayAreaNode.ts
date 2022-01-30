@@ -33,7 +33,8 @@ type OnesPlayAreaNodeOptions = {
   playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
   groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>,
   viewHasIndependentModel: boolean,
-  includeOnesCreatorPanel: boolean
+  includeOnesCreatorPanel: boolean,
+  creatorPanelCenterBottom: Vector2 | null
 };
 
 // constants
@@ -67,7 +68,9 @@ class OnesPlayAreaNode extends Node {
       playObjectTypeProperty: new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.GROUPED ),
       viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
-      includeOnesCreatorPanel: true
+
+      includeOnesCreatorPanel: true,
+      creatorPanelCenterBottom: null
     }, providedOptions ) as OnesPlayAreaNodeOptions;
 
     // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
@@ -153,8 +156,13 @@ class OnesPlayAreaNode extends Node {
 
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
-    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-    this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    if ( options.creatorPanelCenterBottom ) {
+      this.onesCreatorPanel.centerBottom = options.creatorPanelCenterBottom;
+    }
+    else {
+      this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    }
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
       this.paperNumberOrigin = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
