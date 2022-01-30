@@ -190,19 +190,19 @@ class LabScreenView extends ScreenView {
       sideLength: 16,
       lineWidth: 0.5
     } );
-    const plusIconNode = new Circle( ( tenFrameIconNode.height - 6 ) / 2, {
+    const plusNode = new PlusNode( { fill: Color.WHITE } );
+    const plusIconNode = new Circle( ( plusNode.height + 9 ) / 2, {
       fill: new Color( 0, 200, 0 ) // custom green
     } );
-    const plusNode = new PlusNode( { fill: Color.WHITE } );
-    plusNode.setScaleMagnitude( ( plusNode.height - 2 ) / plusNode.height );
     plusNode.center = plusIconNode.center;
     plusIconNode.addChild( plusNode );
+    plusIconNode.setScaleMagnitude( ( plusIconNode.height - 5 ) / plusIconNode.height );
 
     // align the icon nodes and add an input layer on top of them so the whole region so the space in between the icons
     // are part of the hit area too.
     const iconNode = new Node().addChild( new HBox( {
       children: [ plusIconNode, tenFrameIconNode ],
-      spacing: 8
+      spacing: 7
     } ) );
     const iconNodeInputLayer = new Rectangle( 0, 0, iconNode.width, iconNode.height );
     iconNode.addChild( iconNodeInputLayer );
