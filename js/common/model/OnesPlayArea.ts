@@ -25,7 +25,6 @@ import Range from '../../../../dot/js/Range.js';
 // types
 type OnesPlayAreaOptions = {
   isResettingProperty: null | BooleanProperty,
-  isOnes: boolean,
   sumPropertyRange: null | Range,
   setAllObjects: boolean,
   setAllObjectsAsGrouped: boolean
@@ -57,9 +56,10 @@ class OnesPlayArea extends CountingCommonModel {
     super();
 
     const options = merge( {
-      isResettingProperty: null,
-      isOnes: true,
-      // TODO: yikes! for the last 3 options, they are quick fixes that will likely change soon
+      isResettingProperty: null, // see NumberPlayModel.isResettingProperty for doc
+
+
+      // TODO: remaining options need doc/work
       sumPropertyRange: null,
       setAllObjects: false,
       setAllObjectsAsGrouped: false

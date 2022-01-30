@@ -37,7 +37,6 @@ class CountingGameLevel extends NumberPlayGameLevel {
     this.groupObjects = ( levelNumber === 2 );
 
     this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, {
-      isOnes: false,
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
       setAllObjects: true,
       setAllObjectsAsGrouped: this.groupObjects
