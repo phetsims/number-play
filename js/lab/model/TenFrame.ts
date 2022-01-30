@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 
 // constants
-const SQUARE_SIDE_LENGTH = 70;
+const SQUARE_SIDE_LENGTH = 60;
 const LINE_WIDTH = 1;
 
 class TenFrame {
