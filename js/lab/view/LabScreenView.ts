@@ -12,7 +12,7 @@ import NumberPiece from '../../../../fractions-common/js/building/model/NumberPi
 import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { DragListener, Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
+import { Circle, Color, DragListener, HBox, Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
@@ -26,6 +26,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
+import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -114,8 +115,7 @@ class LabScreenView extends ScreenView {
     const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();
 
     // position empirically determined
-    tenFrameCreatorIconNode.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
-    tenFrameCreatorIconNode.bottom = this.layoutBounds.copy().bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+    tenFrameCreatorIconNode.center = new Vector2( onesPlayAreaNode.left / 2, onesPlayAreaNode.centerY );
     this.addChild( tenFrameCreatorIconNode );
 
     this.tenFrameNodes = [];
@@ -181,20 +181,42 @@ class LabScreenView extends ScreenView {
   }
 
   /**
-   * Creates a TenFrame node that DraggableTenFrameNodes can be created from when clicked
+   * Creates a icon that DraggableTenFrameNodes can be created from.
    */
   private getTenFrameCreatorIconNode(): Node {
-    // TODO: add a plus sign as part of the icon
-    const tenFrameIconNode = TenFrameNode.getTenFramePath();
-    tenFrameIconNode.cursor = 'pointer';
-    tenFrameIconNode.inputListeners = [ DragListener.createForwardingListener( ( event: SceneryEvent ) => {
-      const modelPosition = this.globalToLocalPoint( event.pointer.point! );
-      const tenFrame = new TenFrame( 70, modelPosition );
+
+    // create the ten frame icon and the plus icon
+    const tenFrameIconNode = TenFrameNode.getTenFramePath( {
+      sideLength: 16,
+      lineWidth: 0.5
+    } );
+    const plusIconNode = new Circle( ( tenFrameIconNode.height - 6 ) / 2, {
+      fill: new Color( 0, 200, 0 ) // custom green
+    } );
+    const plusNode = new PlusNode( { fill: Color.WHITE } );
+    plusNode.setScaleMagnitude( ( plusNode.height - 2 ) / plusNode.height );
+    plusNode.center = plusIconNode.center;
+    plusIconNode.addChild( plusNode );
+
+    // align the icon nodes and add an input layer on top of them so the whole region so the space in between the icons
+    // are part of the hit area too.
+    const iconNode = new Node().addChild( new HBox( {
+      children: [ plusIconNode, tenFrameIconNode ],
+      spacing: 8
+    } ) );
+    const iconNodeInputLayer = new Rectangle( 0, 0, iconNode.width, iconNode.height );
+    iconNode.addChild( iconNodeInputLayer );
+
+    iconNodeInputLayer.cursor = 'pointer';
+    iconNodeInputLayer.inputListeners = [ DragListener.createForwardingListener( ( event: SceneryEvent ) => {
+      const tenFrame = new TenFrame( Vector2.ZERO );
+      tenFrame.positionProperty.value = this.globalToLocalPoint( event.pointer.point! ).minus( tenFrame.localBounds.centerBottom );
       this.model.dragTenFrameFromIcon( tenFrame );
       const tenFrameNode = this.getTenFrameNode( tenFrame );
       tenFrameNode.dragListener.press( event, tenFrameNode );
     } ) ];
-    return tenFrameIconNode;
+
+    return iconNode;
   }
 
   /**

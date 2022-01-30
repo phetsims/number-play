@@ -6,9 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Vector2 from '../../../../dot/js/Vector2.js';
-import { DragListener, SceneryEvent } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, SceneryEvent } from '../../../../scenery/js/imports.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
@@ -25,7 +23,6 @@ class DraggableTenFrameNode extends Node {
     const tenFrameNode = TenFrameNode.getTenFramePath( {
       sideLength: tenFrame.squareSideLength
     } );
-    tenFrameNode.center = new Vector2( 0, -tenFrameNode.height / 2 );
     this.addChild( tenFrameNode );
 
     this.dragListener = new DragListener( {
@@ -38,10 +35,10 @@ class DraggableTenFrameNode extends Node {
 
     this.cursor = 'pointer';
     // TODO: add a 'dragging' bar and make only that have a forwarding listener
-    this.inputListeners = [ DragListener.createForwardingListener( ( event: SceneryEvent ) => {
+    this.addInputListener( DragListener.createForwardingListener( ( event: SceneryEvent ) => {
       this.dragListener.press( event, this );
       this.moveToFront();
-    } ) ];
+    } ) );
 
     tenFrame.positionProperty.link( position => {
       this.translation = position;
