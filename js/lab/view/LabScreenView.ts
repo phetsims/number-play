@@ -69,8 +69,8 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberPanel );
     this.numberPanel.updateModelPositions( new ModelViewTransform2() );
 
-    model.activeNumberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
-    model.activeNumberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
+    model.numberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
+    model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
     // create and add the OnesPlayAreaNode
     const onesPlayAreaNode = new OnesPlayAreaNode(
@@ -120,8 +120,8 @@ class LabScreenView extends ScreenView {
 
     this.tenFrameNodes = [];
 
-    model.activeTenFrames.addItemAddedListener( this.addTenFrame.bind( this ) );
-    model.activeTenFrames.addItemRemovedListener( this.removeTenFrame.bind( this ) );
+    model.tenFrames.addItemAddedListener( this.addTenFrame.bind( this ) );
+    model.tenFrames.addItemRemovedListener( this.removeTenFrame.bind( this ) );
 
     // add the piece layer
     this.addChild( this.pieceLayer );
