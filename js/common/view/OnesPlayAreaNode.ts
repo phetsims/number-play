@@ -25,6 +25,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import DraggableTenFrameNode from '../../lab/view/DraggableTenFrameNode.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
@@ -267,6 +268,10 @@ class OnesPlayAreaNode extends Node {
    * When the user drops a paper number they were dragging, see if it can combine with any other nearby paper numbers.
    */
   public tryToCombineNumbers( draggedPaperNumber: PaperNumber ): void {
+    if ( this.tryToAddToTenFrame( draggedPaperNumber ) ) {
+      return;
+    }
+
     const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
     const allPaperNumberNodes = _.filter( this.paperNumberLayerNode!.children, child => child instanceof PaperNumberNode );
 
@@ -308,6 +313,45 @@ class OnesPlayAreaNode extends Node {
         return; // No need to re-layer or try combining with others
       }
     }
+  }
+
+  private tryToAddToTenFrame( droppedPaperNumber: PaperNumber ): boolean {
+    if ( !this.playArea.tenFrames ) {
+      return false;
+    }
+
+    const droppedNode = this.findPaperNumberNode( droppedPaperNumber );
+    const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children, child => child instanceof DraggableTenFrameNode );
+
+    if ( !allDraggableTenFrameNodes.length ) {
+      return false;
+    }
+
+    // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
+    const attachableDroppedTenFrameNodes = this.findAttachableTenFrameNodes( droppedNode, allDraggableTenFrameNodes );
+
+    if ( attachableDroppedTenFrameNodes ) {
+      const tenFrameToAddTo = attachableDroppedTenFrameNodes[ 0 ].tenFrame;
+      this.playArea.addObjectToTenFrame( tenFrameToAddTo, droppedPaperNumber );
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  private findAttachableTenFrameNodes( paperNumberNode: PaperNumberNode,
+                                       allDraggableTenFrameNodes: DraggableTenFrameNode[] ): DraggableTenFrameNode[] {
+    const tenFrameNodeCandidates = allDraggableTenFrameNodes.slice();
+
+    // find all other paper number nodes that are overlapping the dropped node
+    const unorderedAttachableTenFrameNodes = tenFrameNodeCandidates.filter( candidateNode => {
+      return candidateNode.localToParentBounds( candidateNode.localBounds ).containsPoint( paperNumberNode.localBounds.center );
+    } );
+
+    return _.sortBy( unorderedAttachableTenFrameNodes, attachableTenFrameNode => {
+      return attachableTenFrameNode.parent!.indexOfChild( attachableTenFrameNode );
+    } );
   }
 
   /**

@@ -21,10 +21,12 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import TenFrame from '../../lab/model/TenFrame.js';
 
 // types
 type OnesPlayAreaOptions = {
   isResettingProperty: null | BooleanProperty,
+  tenFrames: null | ObservableArray<TenFrame>,
   sumPropertyRange: null | Range,
   setAllObjects: boolean,
   setAllObjectsAsGrouped: boolean
@@ -51,13 +53,14 @@ class OnesPlayArea extends CountingCommonModel {
   private organizedObjectSpots: Vector2[];
   private initialized: boolean;
   private countingCreatorNodeTop: number;
+  public readonly tenFrames: ObservableArray<TenFrame> | null;
 
   constructor( currentNumberProperty: NumberProperty, providedOptions: Partial<OnesPlayAreaOptions> ) {
     super();
 
     const options = merge( {
       isResettingProperty: null, // see NumberPlayModel.isResettingProperty for doc
-
+      tenFrames: null,
 
       // TODO: remaining options need doc/work
       sumPropertyRange: null,
@@ -80,6 +83,9 @@ class OnesPlayArea extends CountingCommonModel {
 
     // true when this.paperNumberOrigin and this.playAreaBounds have been set
     this.initialized = false;
+
+    // contains any ten frames that are in the play area
+    this.tenFrames = options.tenFrames;
 
     // The total sum of the current numbers
     this.sumProperty = new NumberProperty( currentNumberProperty.range!.min, {
@@ -383,6 +389,10 @@ class OnesPlayArea extends CountingCommonModel {
 
       objectToOrganize && objectToOrganize.setDestination( destination, true, NumberPlayConstants.COUNTING_OBJECT_SCALE );
     }
+  }
+
+  public addObjectToTenFrame( tenFrame: TenFrame, paperNumber: PaperNumber ): void {
+
   }
 
   /**

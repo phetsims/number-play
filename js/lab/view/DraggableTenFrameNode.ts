@@ -12,7 +12,7 @@ import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
 
 class DraggableTenFrameNode extends Node {
-  private readonly tenFrame: TenFrame;
+  public readonly tenFrame: TenFrame;
   public readonly dragListener: DragListener;
 
   constructor( tenFrame: TenFrame, dropListener: () => void ) {

@@ -55,13 +55,16 @@ class LabModel {
 
     // create three different kinds of play areas
     this.onesPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
-      isResettingProperty: this.isResettingProperty
+      isResettingProperty: this.isResettingProperty,
+      tenFrames: this.tenFrames
     } );
     this.leftObjectsPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
-      isResettingProperty: this.isResettingProperty
+      isResettingProperty: this.isResettingProperty,
+      tenFrames: this.tenFrames
     } );
     this.rightObjectsPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
-      isResettingProperty: this.isResettingProperty
+      isResettingProperty: this.isResettingProperty,
+      tenFrames: this.tenFrames
     } );
   }
 
