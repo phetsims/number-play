@@ -368,7 +368,7 @@ class OnesPlayArea extends CountingCommonModel {
     this.breakApartCountingObject();
 
     // copy the current playObjectsInPlayArea so we can mutate it
-    let objectsToOrganize = [ ...this.paperNumbers ];
+    let objectsToOrganize = [ ...this.paperNumbers ].filter( paperNumber => paperNumber.numberValueProperty.value > 0 );
     const numberOfObjectsToOrganize = objectsToOrganize.length;
 
     for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
