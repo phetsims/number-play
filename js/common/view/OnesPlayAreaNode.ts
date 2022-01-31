@@ -18,20 +18,21 @@ import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import GroupAndLinkType from '../model/GroupAndLinkType.js';
+import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
   playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
-  groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>,
+  groupTypeProperty: IReadOnlyProperty<GroupAndLinkType>,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
 };
@@ -50,7 +51,7 @@ class OnesPlayAreaNode extends Node {
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   readonly playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
-  public readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>;
+  public readonly groupTypeProperty: IReadOnlyProperty<GroupType>;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;
@@ -65,7 +66,7 @@ class OnesPlayAreaNode extends Node {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
       playObjectTypeProperty: new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
-      groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.GROUPED ),
+      groupTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED ),
       viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
       includeOnesCreatorPanel: true
     }, providedOptions ) as OnesPlayAreaNodeOptions;
@@ -98,7 +99,7 @@ class OnesPlayAreaNode extends Node {
 
     this.playObjectTypeProperty = options.playObjectTypeProperty;
 
-    this.groupingLinkingTypeProperty = options.groupingLinkingTypeProperty;
+    this.groupTypeProperty = options.groupTypeProperty;
 
     this.viewHasIndependentModel = options.viewHasIndependentModel;
 
@@ -138,9 +139,9 @@ class OnesPlayAreaNode extends Node {
       this.constrainAllPositions();
     } );
 
-    // when the groupingLinkingType is switched to no grouping, break apart any object groups
-    this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      groupingLinkingType === GroupingLinkingType.UNGROUPED && playArea.breakApartCountingObject( true );
+    // when the GroupAndLinkType is switched to no grouping, break apart any object groups
+    this.groupTypeProperty && this.groupTypeProperty.lazyLink( groupType => {
+      groupType === GroupType.UNGROUPED && playArea.breakApartCountingObject( true );
       playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
         const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
         paperNumberNode.updateNumber();
@@ -192,7 +193,7 @@ class OnesPlayAreaNode extends Node {
 
     const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
       this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, {
-        groupingLinkingTypeProperty: this.groupingLinkingTypeProperty,
+        groupTypeProperty: this.groupTypeProperty,
         baseNumberNodeOptions: {
           handleOffsetY: COUNTING_OBJECT_HANDLE_OFFSET_Y
         }
@@ -281,7 +282,7 @@ class OnesPlayAreaNode extends Node {
       const droppedPaperNumber = droppedNode.paperNumber;
 
       // if grouping is turned off, repel away
-      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === GroupingLinkingType.UNGROUPED ) {
+      if ( this.groupTypeProperty && this.groupTypeProperty.value === GroupType.UNGROUPED ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
           this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {

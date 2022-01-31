@@ -15,11 +15,11 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -74,8 +74,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       level.objectsPlayArea,
       objectsPlayAreaViewBounds, {
         playObjectTypeProperty: level.playObjectTypeProperty,
-        groupingLinkingTypeProperty: new EnumerationProperty( level.groupObjects ? GroupingLinkingType.GROUPED :
-                                                              GroupingLinkingType.UNGROUPED ),
+        groupTypeProperty: new EnumerationProperty( level.groupObjects ? GroupType.GROUPED : GroupType.UNGROUPED ),
         includeOnesCreatorPanel: false
       }
     );

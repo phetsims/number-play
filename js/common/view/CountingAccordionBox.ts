@@ -9,7 +9,6 @@
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
@@ -26,6 +25,9 @@ import ComparePlayObjectType from '../../compare/model/ComparePlayObjectType.js'
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
+import GroupAndLinkType from '../model/GroupAndLinkType.js';
+import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type CountingAccordionBoxOptions = {
@@ -33,7 +35,8 @@ type CountingAccordionBoxOptions = {
   contentWidth: number,
   playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
-  groupingLinkingTypeProperty?: EnumerationProperty<GroupingLinkingType>
+  groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>,
+  groupTypeProperty?: IReadOnlyProperty<GroupType>
 } & AccordionBoxOptions;
 
 // constants
@@ -51,8 +54,9 @@ class CountingAccordionBox extends AccordionBox {
       contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       playObjectTypes: null,
       linkedPlayArea: null,
-      groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.GROUPED )
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
+      groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED ),
+      groupTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
+  }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
@@ -81,7 +85,7 @@ class CountingAccordionBox extends AccordionBox {
       objectsPlayArea,
       playAreaViewBounds, {
         playObjectTypeProperty: playObjectTypeProperty,
-        groupingLinkingTypeProperty: options.groupingLinkingTypeProperty
+        groupTypeProperty: options.groupTypeProperty
       }
     );
     contentNode.addChild( objectsPlayAreaNode );
@@ -125,7 +129,7 @@ class CountingAccordionBox extends AccordionBox {
     }
 
     // add the linked play area
-    if ( options.linkedPlayArea && options.groupingLinkingTypeProperty ) {
+    if ( options.linkedPlayArea && options.groupAndLinkTypeProperty ) {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         options.linkedPlayArea,
         playAreaViewBounds, {
@@ -135,9 +139,9 @@ class CountingAccordionBox extends AccordionBox {
       );
       contentNode.addChild( linkedObjectsPlayAreaNode );
 
-      options.groupingLinkingTypeProperty.link( groupingLinkingType => {
-        objectsPlayAreaNode.visible = !( groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED );
-        linkedObjectsPlayAreaNode.visible = groupingLinkingType === GroupingLinkingType.GROUPED_AND_LINKED;
+      options.groupAndLinkTypeProperty.link( groupAndLinkType => {
+        objectsPlayAreaNode.visible = !( groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
+        linkedObjectsPlayAreaNode.visible = groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
         radioButtonGroup && radioButtonGroup.moveToFront();
       } );
     }

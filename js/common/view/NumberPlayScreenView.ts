@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -29,6 +28,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
+import GroupAndLinkType from '../model/GroupAndLinkType.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -42,9 +42,9 @@ type NumberPlayScreenViewOptions = {
 
 // constants
 const GROUPING_LINKING_TYPE_TO_IMAGE = new Map();
-GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.UNGROUPED, groupingScene1_png );
-GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.GROUPED, groupingScene2_png );
-GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.GROUPED_AND_LINKED, groupingScene3_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.UNGROUPED, groupingScene1_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.GROUPED, groupingScene2_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.GROUPED_AND_LINKED, groupingScene3_png );
 
 class NumberPlayScreenView extends ScreenView {
 
@@ -115,7 +115,8 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         playObjectTypes: PlayObjectType,
         linkedPlayArea: model.onesPlayArea,
-        groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
+        groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
+        groupTypeProperty: model.groupTypeProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
       } );
@@ -148,20 +149,20 @@ class NumberPlayScreenView extends ScreenView {
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup
     const groupingLinkingButtons = [];
     const margin = 5;
-    GroupingLinkingType.enumeration.values.forEach( groupingLinkingType => {
-      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupingLinkingType ), {
+    GroupAndLinkType.enumeration.values.forEach( groupAndLinkType => {
+      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
         maxWidth: resetAllButton.width - 2 * margin
       } );
 
       groupingLinkingButtons.push( {
-        value: groupingLinkingType,
+        value: groupAndLinkType,
         node: iconNode
       } );
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup for groupingLinkingButtons, see above TODO
-    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupingLinkingTypeProperty, groupingLinkingButtons, {
+    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupAndLinkTypeProperty, groupingLinkingButtons, {
       baseColor: NumberPlayColors.blueBackgroundColorProperty,
       orientation: 'vertical',
       spacing: 10,
@@ -182,7 +183,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add a button to organize the objectsAccordionBox play objects in a grid
     const organizeObjectsButton = new OrganizeButton( NumberPlayColors.blueBackgroundColorProperty, () => {
-      if ( model.groupingLinkingTypeProperty.value === GroupingLinkingType.GROUPED_AND_LINKED ) {
+      if ( model.groupAndLinkTypeProperty.value === GroupAndLinkType.GROUPED_AND_LINKED ) {
         model.onesPlayArea.organizeObjects();
       }
       else {

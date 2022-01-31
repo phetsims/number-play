@@ -18,8 +18,8 @@ import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
 
 // types
 type OnesCreatorPanelOptions = {
@@ -68,7 +68,7 @@ class OnesCreatorPanel extends Panel {
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, {
       updateCurrentNumber: true,
       playObjectTypeProperty: screenView.playObjectTypeProperty,
-      groupingLinkingTypeProperty: screenView.groupingLinkingTypeProperty,
+      groupTypeProperty: screenView.groupTypeProperty,
       backTargetOffset: new Vector2( -5, -5 ),
       ungroupedTargetScale: NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE,
       groupedTargetScale: NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE
@@ -77,8 +77,8 @@ class OnesCreatorPanel extends Panel {
     creatorNodeBackground.addChild( countingCreatorNode );
 
     // TODO: Figure out the correct way to fix the offset when the type changes
-    screenView.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( groupingLinkingType === GroupingLinkingType.GROUPED ) {
+    screenView.groupTypeProperty.lazyLink( groupType => {
+      if ( groupType === GroupType.GROUPED ) {
         countingCreatorNode.x = 21.9;
         countingCreatorNode.y = 5;
       }
