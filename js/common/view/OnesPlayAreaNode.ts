@@ -356,8 +356,7 @@ class OnesPlayAreaNode extends Node {
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
-      const paperCenterOffset = paperNumber.localBounds.center;
-      targetPosition = targetPosition.minus( paperCenterOffset );
+      targetPosition = targetPosition.minus( paperNumber.localBounds.center );
       const targetScale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                           NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
       paperNumber.setDestination( targetPosition, true, targetScale );

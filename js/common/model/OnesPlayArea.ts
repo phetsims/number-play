@@ -268,7 +268,7 @@ class OnesPlayArea extends CountingCommonModel {
     } );
 
     let paperNumberToReturn = sortedPaperNumbers.shift();
-    if ( paperNumberToReturn ) { // TODO-TS: guaranteed to be true based on the assert above, but TS doesn't know that...
+    if ( paperNumberToReturn ) {
 
       // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
       // 1 to return instead
