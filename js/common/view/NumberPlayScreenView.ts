@@ -29,6 +29,8 @@ import PlayObjectType from '../../../../counting-common/js/common/model/PlayObje
 import numberPlayStrings from '../../numberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -48,11 +50,11 @@ GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.GROUPED_AND_LINKED, groupin
 
 class NumberPlayScreenView extends ScreenView {
 
-  public readonly wordAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly totalAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly onesAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly wordAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly totalAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly onesAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
   private readonly objectsAccordionBox: CountingAccordionBox;
 
   constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
@@ -100,6 +102,7 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the CountingAccordionBox for paper ones
     const onesAccordionBox = new CountingAccordionBox(
       model.onesPlayArea,
+      new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
@@ -112,11 +115,11 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
+      model.playObjectTypeProperty,
       options.lowerAccordionBoxHeight, {
         playObjectTypes: PlayObjectType,
-        linkedPlayArea: model.onesPlayArea,
         groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
-        groupTypeProperty: model.groupTypeProperty,
+        linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
       } );
@@ -205,7 +208,6 @@ class NumberPlayScreenView extends ScreenView {
     this.tenFrameAccordionBoxExpandedProperty.reset();
     this.onesAccordionBoxExpandedProperty.reset();
     this.objectsAccordionBoxExpandedProperty.reset();
-    this.objectsAccordionBox.reset();
   }
 }
 

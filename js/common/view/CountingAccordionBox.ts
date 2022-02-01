@@ -26,8 +26,6 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
-import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type CountingAccordionBoxOptions = {
@@ -35,8 +33,7 @@ type CountingAccordionBoxOptions = {
   contentWidth: number,
   playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
-  groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>,
-  groupTypeProperty?: IReadOnlyProperty<GroupType>
+  groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>
 } & AccordionBoxOptions;
 
 // constants
@@ -45,18 +42,19 @@ const CONTENT_OVERFLOW_LEFT = 30; // amount of "inaccessible" space in an Accord
 const CONTENT_OVERFLOW_RIGHT = 10; // amount of "inaccessible" space in an AccordionBox, in screen coordinates
 
 class CountingAccordionBox extends AccordionBox {
-  private readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
 
-  constructor( objectsPlayArea: OnesPlayArea, height: number, providedOptions: Partial<CountingAccordionBoxOptions> ) {
+  constructor( playArea: OnesPlayArea,
+               countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
+               height: number,
+               providedOptions: Partial<CountingAccordionBoxOptions> ) {
 
     const options = merge( {
       titleString: numberPlayStrings.objects,
       contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       playObjectTypes: null,
       linkedPlayArea: null,
-      groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED ),
-      groupTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
-  }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
+      groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
+    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
 
     const contentNode = new Rectangle( {
       rectHeight: height,
@@ -76,18 +74,7 @@ class CountingAccordionBox extends AccordionBox {
     // compensate for AccordionBox not giving access to all horizontal space
     const playAreaViewBounds = playAreaContentBounds.withOffsets( CONTENT_OVERFLOW_LEFT, 0, CONTENT_OVERFLOW_RIGHT, 0 );
 
-    // if types were provided, use the first one the default. otherwise default to paper numbers
-    const initialPlayObjectType = options.playObjectTypes ? options.playObjectTypes.enumeration!.values[ 0 ] :
-                                  CountingObjectType.PAPER_NUMBER;
-    const playObjectTypeProperty = new EnumerationProperty( initialPlayObjectType );
-
-    const objectsPlayAreaNode = new OnesPlayAreaNode(
-      objectsPlayArea,
-      playAreaViewBounds, {
-        playObjectTypeProperty: playObjectTypeProperty,
-        groupTypeProperty: options.groupTypeProperty
-      }
-    );
+    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty, playAreaViewBounds );
     contentNode.addChild( objectsPlayAreaNode );
 
     // TODO-TS: use specific RadioButtonGroup type
@@ -118,7 +105,7 @@ class CountingAccordionBox extends AccordionBox {
 
       // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
       // @ts-ignore
-      radioButtonGroup = new RectangularRadioButtonGroup( playObjectTypeProperty, buttons, {
+      radioButtonGroup = new RectangularRadioButtonGroup( countingObjectTypeProperty, buttons, {
         baseColor: Color.WHITE,
         orientation: 'horizontal',
         spacing: 10
@@ -132,8 +119,8 @@ class CountingAccordionBox extends AccordionBox {
     if ( options.linkedPlayArea && options.groupAndLinkTypeProperty ) {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         options.linkedPlayArea,
+        countingObjectTypeProperty,
         playAreaViewBounds, {
-          playObjectTypeProperty: playObjectTypeProperty,
           viewHasIndependentModel: false
         }
       );
@@ -152,15 +139,6 @@ class CountingAccordionBox extends AccordionBox {
         maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
       } )
     }, options ) );
-
-    this.playObjectTypeProperty = playObjectTypeProperty;
-  }
-
-  /**
-   * @public
-   */
-  reset() {
-    this.playObjectTypeProperty.reset();
   }
 }
 

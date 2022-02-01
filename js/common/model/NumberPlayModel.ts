@@ -16,17 +16,18 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupAndLinkType from './GroupAndLinkType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
+import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 
 class NumberPlayModel {
 
   public readonly currentNumberProperty: NumberProperty;
+  public readonly isPrimaryLocaleProperty: BooleanProperty;
   public readonly isResettingProperty: BooleanProperty;
-  public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
-  public readonly isPrimaryLocaleProperty: BooleanProperty;
-  public readonly groupTypeProperty: IReadOnlyProperty<GroupType>;
+  public readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
+  public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
+  private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
   constructor( highestCount: number, tandem: Tandem ) {
 
@@ -42,24 +43,31 @@ class NumberPlayModel {
     // way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
-    // whether the ones and objects play areas are ungrouped, grouped, or linked. set by the view controls and used to
+    // the type of objects in the objects play area. primarily used in the view.
+    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
+
+    // whether the objects play area is ungrouped, grouped, or linked. set by the view controls and used to
     // link/unlink play areas in the view and drive the grouped/ungrouped state in the model
     this.groupAndLinkTypeProperty = new EnumerationProperty( GroupAndLinkType.UNGROUPED );
 
     // whether counting objects should be grouped or ungrouped
-    this.groupTypeProperty = new DerivedProperty( [ this.groupAndLinkTypeProperty ], groupAndLinkType => {
-      return groupAndLinkType === GroupType.UNGROUPED ? GroupType.UNGROUPED : GroupType.GROUPED;
+    this.groupingEnabledProperty = new DerivedProperty( [ this.groupAndLinkTypeProperty ], groupAndLinkType => {
+      return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
     } );
 
     // the model for managing the play area in the OnesAccordionBox
-    this.onesPlayArea = new OnesPlayArea( this.currentNumberProperty, {
-      isResettingProperty: this.isResettingProperty
-    } );
+    this.onesPlayArea = new OnesPlayArea(
+      this.currentNumberProperty,
+      new BooleanProperty( true ), {
+        isResettingProperty: this.isResettingProperty
+      } );
 
     // the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea( this.currentNumberProperty, {
-      isResettingProperty: this.isResettingProperty
-    } );
+    this.objectsPlayArea = new OnesPlayArea(
+      this.currentNumberProperty,
+      this.groupingEnabledProperty, {
+        isResettingProperty: this.isResettingProperty
+      } );
   }
 
   /**
@@ -76,6 +84,7 @@ class NumberPlayModel {
    */
   public reset(): void {
     this.isResettingProperty.value = true;
+    this.playObjectTypeProperty.reset();
     this.groupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();

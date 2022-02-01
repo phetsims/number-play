@@ -43,10 +43,10 @@ const equalString = '=';
 const greaterThanString = '>';
 
 class CompareScreenView extends ScreenView {
-  public readonly leftTotalAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly rightTotalAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly rightCountingAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly leftCountingAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly leftTotalAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly rightTotalAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly rightCountingAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly leftCountingAccordionBoxExpandedProperty: BooleanProperty;
 
   constructor( model: CompareModel, tandem: Tandem ) {
 
@@ -87,23 +87,29 @@ class CompareScreenView extends ScreenView {
     this.addChild( rightTotalAccordionBox );
 
     // create and add the left CountingAccordionBox
-    const leftCountingAccordionBox = new CountingAccordionBox( model.leftPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
-      playObjectTypes: ComparePlayObjectType,
-      expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
-      contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      fill: NumberPlayColors.lighterGreenBackgroundColorProperty
-    } );
+    const leftCountingAccordionBox = new CountingAccordionBox(
+      model.leftPlayArea,
+      model.leftCountingObjectTypeProperty,
+      LOWER_ACCORDION_BOX_HEIGHT, {
+        playObjectTypes: ComparePlayObjectType,
+        expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
+        contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
+        fill: NumberPlayColors.lighterGreenBackgroundColorProperty
+      } );
     leftCountingAccordionBox.left = NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftCountingAccordionBox );
 
     // create and add the right CountingAccordionBox
-    const rightCountingAccordionBox = new CountingAccordionBox( model.rightPlayArea, LOWER_ACCORDION_BOX_HEIGHT, {
-      playObjectTypes: ComparePlayObjectType,
-      expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
-      contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      fill: NumberPlayColors.lightOrangeBackgroundColorProperty
-    } );
+    const rightCountingAccordionBox = new CountingAccordionBox(
+      model.rightPlayArea,
+      model.rightCountingObjectTypeProperty,
+      LOWER_ACCORDION_BOX_HEIGHT, {
+        playObjectTypes: ComparePlayObjectType,
+        expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
+        contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
+        fill: NumberPlayColors.lightOrangeBackgroundColorProperty
+      } );
     rightCountingAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     rightCountingAccordionBox.bottom = leftCountingAccordionBox.bottom;
     this.addChild( rightCountingAccordionBox );

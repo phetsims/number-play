@@ -7,15 +7,15 @@
  */
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
 import numberPlay from '../../numberPlay.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
-class GroupAndLinkType extends GroupType {
+class GroupAndLinkType extends EnumerationValue {
+  static UNGROUPED = new GroupAndLinkType();
+  static GROUPED = new GroupAndLinkType();
   static GROUPED_AND_LINKED = new GroupAndLinkType();
 
-  static enumeration = new Enumeration( GroupAndLinkType, {
-    instanceType: GroupType
-  } );
+  static enumeration = new Enumeration( GroupAndLinkType );
 }
 
 numberPlay.register( 'GroupAndLinkType', GroupAndLinkType );

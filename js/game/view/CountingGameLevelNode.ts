@@ -18,8 +18,6 @@ import Panel from '../../../../sun/js/Panel.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -72,9 +70,8 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     // create and add the objectsPlayAreaNode
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       level.objectsPlayArea,
+      level.playObjectTypeProperty,
       objectsPlayAreaViewBounds, {
-        playObjectTypeProperty: level.playObjectTypeProperty,
-        groupTypeProperty: new EnumerationProperty( level.groupObjects ? GroupType.GROUPED : GroupType.UNGROUPED ),
         includeOnesCreatorPanel: false
       }
     );

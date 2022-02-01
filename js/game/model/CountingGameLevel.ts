@@ -36,10 +36,11 @@ class CountingGameLevel extends NumberPlayGameLevel {
     // whether objects should be able to be grouped
     this.groupObjects = ( levelNumber === 2 );
 
-    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty, {
+    this.objectsPlayArea = new OnesPlayArea(
+      this.challengeNumberProperty,
+      new BooleanProperty( this.groupObjects ), {
       sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
-      setAllObjects: true,
-      setAllObjectsAsGrouped: this.groupObjects
+      setAllObjects: true
     } );
 
     // the object type of the current challenge

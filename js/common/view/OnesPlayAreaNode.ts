@@ -18,21 +18,16 @@ import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import GroupAndLinkType from '../model/GroupAndLinkType.js';
-import GroupType from '../../../../counting-common/js/common/model/GroupType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
-  playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
-  groupTypeProperty: IReadOnlyProperty<GroupAndLinkType>,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean
 };
@@ -45,13 +40,12 @@ class OnesPlayAreaNode extends Node {
   private readonly numberInteractionListener: Function;
   private readonly numberAnimationFinishedListener: Function;
   private readonly numberDragFinishedListener: Function;
-  private playArea: OnesPlayArea;
+  public readonly playArea: OnesPlayArea;
   private readonly tryToCombineNumbersCallback: Function;
   private readonly addAndDragNumberCallback: Function;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
-  readonly playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
-  public readonly groupTypeProperty: IReadOnlyProperty<GroupType>;
+  public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;
@@ -59,14 +53,15 @@ class OnesPlayAreaNode extends Node {
   private readonly includeOnesCreatorPanel: boolean;
   private readonly paperNumberOrigin: Vector2 = Vector2.ZERO;
 
-  constructor( playArea: OnesPlayArea, playAreaViewBounds: Bounds2, providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
+  constructor( playArea: OnesPlayArea,
+               countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
+               playAreaViewBounds: Bounds2,
+               providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
     super();
 
     const options = merge( {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
-      playObjectTypeProperty: new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
-      groupTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED ),
       viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
       includeOnesCreatorPanel: true
     }, providedOptions ) as OnesPlayAreaNodeOptions;
@@ -96,11 +91,9 @@ class OnesPlayAreaNode extends Node {
 
     // The view coordinates where numbers can be dragged. Can update when the sim is resized.
     this.availableViewBoundsProperty = new Property( playAreaViewBounds );
+    this.countingObjectTypeProperty = countingObjectTypeProperty;
 
-    this.playObjectTypeProperty = options.playObjectTypeProperty;
-
-    this.groupTypeProperty = options.groupTypeProperty;
-
+    // see options.viewHasIndependentModel for doc
     this.viewHasIndependentModel = options.viewHasIndependentModel;
 
     // Handle touches nearby to the numbers, and interpret those as the proper drag.
@@ -137,19 +130,6 @@ class OnesPlayAreaNode extends Node {
     // Persistent, no need to unlink
     this.availableViewBoundsProperty.lazyLink( () => {
       this.constrainAllPositions();
-    } );
-
-    // when the GroupAndLinkType is switched to no grouping, break apart any object groups
-    this.groupTypeProperty && this.groupTypeProperty.lazyLink( groupType => {
-      groupType === GroupType.UNGROUPED && playArea.breakApartCountingObject( true );
-      playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
-        const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
-        paperNumberNode.updateNumber();
-
-        if ( !paperNumber.isAnimating ) {
-          paperNumber.setConstrainedDestination( this.availableViewBoundsProperty.value, paperNumber.positionProperty.value );
-        }
-      } );
     } );
 
     // create and add the OnesCreatorPanel
@@ -191,9 +171,12 @@ class OnesPlayAreaNode extends Node {
    */
   public onPaperNumberAdded( paperNumber: PaperNumber ): void {
 
-    const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
-      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, {
-        groupTypeProperty: this.groupTypeProperty,
+    const paperNumberNode = new PaperNumberNode(
+      paperNumber,
+      this.availableViewBoundsProperty,
+      this.addAndDragNumberCallback,
+      this.tryToCombineNumbersCallback, {
+        countingObjectTypeProperty: this.countingObjectTypeProperty,
         baseNumberNodeOptions: {
           handleOffsetY: COUNTING_OBJECT_HANDLE_OFFSET_Y
         }
@@ -282,7 +265,7 @@ class OnesPlayAreaNode extends Node {
       const droppedPaperNumber = droppedNode.paperNumber;
 
       // if grouping is turned off, repel away
-      if ( this.groupTypeProperty && this.groupTypeProperty.value === GroupType.UNGROUPED ) {
+      if ( !this.playArea.groupingEnabledProperty.value || !droppedPaperNumber.groupingEnabledProperty.value ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
           this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {
