@@ -23,6 +23,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
@@ -357,7 +358,9 @@ class OnesPlayAreaNode extends Node {
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
       const paperCenterOffset = paperNumber.localBounds.center;
       targetPosition = targetPosition.minus( paperCenterOffset );
-      paperNumber.setDestination( targetPosition, true, 0.8 );
+      const targetScale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                          NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
+      paperNumber.setDestination( targetPosition, true, targetScale );
 
       // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
       if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {

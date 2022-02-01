@@ -206,7 +206,9 @@ class OnesPlayArea extends CountingCommonModel {
       groupingEnabledProperty: this.groupingEnabledProperty
     } );
     const origin = this.paperNumberOrigin.minus( paperNumber.localBounds.center );
-    paperNumber.setDestination( origin, false, 0.8 );
+    const scale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                  NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
+    paperNumber.setDestination( origin, false, scale );
 
     const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds.withMaxY( this.countingCreatorNodeTop ) );
 
@@ -288,7 +290,9 @@ class OnesPlayArea extends CountingCommonModel {
       // time.
       paperNumberToReturn.numberValueProperty.value = 0;
       const origin = this.paperNumberOrigin.minus( paperNumberToReturn.localBounds.center );
-      paperNumberToReturn.setDestination( origin, true, 0.8 );
+      const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                    NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
+      paperNumberToReturn.setDestination( origin, true, scale );
     }
   }
 
