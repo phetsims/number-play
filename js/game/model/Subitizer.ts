@@ -198,7 +198,7 @@ class Subitizer {
         if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
           return this.timeToShowShapeProperty.value + NumberPlayConstants.SHAPE_VISIBLE_TIME_INCREASE_AMOUNT;
         }
-        return NumberPlayQueryParameters.subitizerTimeVisible;
+        return NumberPlayQueryParameters.subitizeTimeShown;
       } );
 
     Subitizer.assertValidPredeterminedShapes();
