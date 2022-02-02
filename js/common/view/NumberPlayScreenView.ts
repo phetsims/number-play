@@ -106,7 +106,7 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
-        fill: NumberPlayColors.purpleBackgroundColorProperty
+        fill: NumberPlayColors.pinkBackgroundColorProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
@@ -177,7 +177,7 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( groupingLinkingRadioButtonGroup );
 
     // create and add a button to organize the onesAccordionBox paper ones in a grid
-    const organizeOnesButton = new OrganizeButton( NumberPlayColors.purpleBackgroundColorProperty, () => {
+    const organizeOnesButton = new OrganizeButton( NumberPlayColors.pinkBackgroundColorProperty, () => {
       model.onesPlayArea.organizeObjects();
     } );
     organizeOnesButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;

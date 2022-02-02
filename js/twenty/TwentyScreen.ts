@@ -46,7 +46,7 @@ class TwentyScreen extends Screen {
         localeSwitchOffset: new Vector2( -10, -7 )
       },
       totalAccordionBoxOptions: {
-        fill: NumberPlayColors.lightGreenBackgroundColorProperty,
+        fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
         font: new PhetFont( 76 ),
         arrowButtonOptions: {
           arrowWidth: 15, // empirically determined

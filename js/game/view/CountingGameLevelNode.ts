@@ -91,7 +91,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFrameBackgroundNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH - TEN_FRAME_MARGIN * 2,
       rectHeight: RECTANGLE_HEIGHT - TEN_FRAME_MARGIN * 2,
-      fill: NumberPlayColors.lightGreenBackgroundColorProperty
+      fill: NumberPlayColors.lightPurpleBackgroundColorProperty
     } );
 
     // create and add the tenFrameNode
@@ -104,7 +104,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
       xMargin: TEN_FRAME_MARGIN,
       yMargin: TEN_FRAME_MARGIN,
-      fill: NumberPlayColors.lightGreenBackgroundColorProperty,
+      fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
       lineWidth: PANEL_LINE_WIDTH
     } );
     tenFramePanel.centerX = layoutBounds.centerX;

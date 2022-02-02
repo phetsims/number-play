@@ -94,7 +94,7 @@ class CompareScreenView extends ScreenView {
         playObjectTypes: ComparePlayObjectType,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-        fill: NumberPlayColors.lighterGreenBackgroundColorProperty
+        fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
       } );
     leftCountingAccordionBox.left = NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
@@ -209,7 +209,7 @@ class CompareScreenView extends ScreenView {
     this.addChild( localeSwitch );
 
     // create and add a button to organize the onesAccordionBox paper ones in a grid
-    const leftOrganizeButton = new OrganizeButton( NumberPlayColors.lightGreenBackgroundColorProperty, () => {
+    const leftOrganizeButton = new OrganizeButton( NumberPlayColors.mediumPurpleBackgroundColorProperty, () => {
       model.leftPlayArea.organizeObjects();
     } );
     leftOrganizeButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
