@@ -72,19 +72,10 @@ class OnesCreatorPanel extends Panel {
       ungroupedTargetScale: NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE,
       groupedTargetScale: NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE
     } );
-    countingCreatorNode.center = creatorNodeBackground.center;
     creatorNodeBackground.addChild( countingCreatorNode );
 
-    // TODO: Figure out the correct way to fix the offset when the type changes
-    screenView.playArea.groupingEnabledProperty.lazyLink( groupingEnabled => {
-      if ( groupingEnabled ) {
-        countingCreatorNode.x = 21.9;
-        countingCreatorNode.y = 5;
-      }
-      else {
-        countingCreatorNode.x = 20.6;
-        countingCreatorNode.y = -3.8;
-      }
+    screenView.playArea.groupingEnabledProperty.link( groupingEnabled => {
+      countingCreatorNode.center = creatorNodeBackground.selfBounds.center;
     } );
 
     const hBox = new HBox( {
