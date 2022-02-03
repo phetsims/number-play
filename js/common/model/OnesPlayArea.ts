@@ -44,7 +44,7 @@ const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
 class OnesPlayArea extends CountingCommonModel {
   public currentNumberProperty: NumberProperty;
-  private paperNumberOrigin: Vector2;
+  private getPaperNumberOrigin: () => Vector2;
   private playAreaBounds: Bounds2;
   public sumProperty: NumberProperty;
   public isControllingCurrentNumber: boolean;
@@ -72,12 +72,12 @@ class OnesPlayArea extends CountingCommonModel {
     this.groupingEnabledProperty = groupingEnabledProperty;
 
     // set later by the view
-    this.paperNumberOrigin = Vector2.ZERO;
+    this.getPaperNumberOrigin = () => Vector2.ZERO;
     this.countingCreatorNodeTop = 0;
     this.playAreaBounds = new Bounds2( 0, 0, 0, 0 );
     this.organizedObjectSpots = [ Vector2.ZERO ];
 
-    // true when this.paperNumberOrigin and this.playAreaBounds have been set
+    // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
     this.initialized = false;
 
     // The total sum of the current numbers
@@ -140,10 +140,11 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Setup the origin and bounds needed from the view
    */
-  public initialize( paperNumberOrigin: Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
+  public initialize( getPaperNumberOrigin: () => Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
     assert && assert( this.initialized === false, 'OnesPlayArea already initialized' );
 
-    this.paperNumberOrigin = paperNumberOrigin;
+    // use a function for getting the paper number origin because its position changes in the view
+    this.getPaperNumberOrigin = getPaperNumberOrigin;
     this.countingCreatorNodeTop = countingCreatorNodeTop;
     this.playAreaBounds = playAreaBounds;
     this.initialized = true;
@@ -205,7 +206,7 @@ class OnesPlayArea extends CountingCommonModel {
     const paperNumber = new PaperNumber( options.value, Vector2.ZERO, {
       groupingEnabledProperty: this.groupingEnabledProperty
     } );
-    const origin = this.paperNumberOrigin.minus( paperNumber.localBounds.center );
+    const origin = this.getPaperNumberOrigin().minus( paperNumber.localBounds.center );
     const scale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                   NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
     paperNumber.setDestination( origin, false, scale );
@@ -258,7 +259,7 @@ class OnesPlayArea extends CountingCommonModel {
         return paperNumber.numberValueProperty.value;
       },
       paperNumber => {
-        return paperNumber.positionProperty.value.distance( this.paperNumberOrigin );
+        return paperNumber.positionProperty.value.distance( this.getPaperNumberOrigin() );
       }
     ] );
 
@@ -289,7 +290,7 @@ class OnesPlayArea extends CountingCommonModel {
       // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
       // time.
       paperNumberToReturn.numberValueProperty.value = 0;
-      const origin = this.paperNumberOrigin.minus( paperNumberToReturn.localBounds.center );
+      const origin = this.getPaperNumberOrigin().minus( paperNumberToReturn.localBounds.center );
       const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                     NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
       paperNumberToReturn.setDestination( origin, true, scale );

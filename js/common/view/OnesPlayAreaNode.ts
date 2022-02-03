@@ -52,7 +52,7 @@ class OnesPlayAreaNode extends Node {
   private readonly paperNumberLayerNode: Node | null;
   private readonly onesCreatorPanel: OnesCreatorPanel;
   private readonly includeOnesCreatorPanel: boolean;
-  private readonly paperNumberOrigin: Vector2 = Vector2.ZERO;
+  private readonly getPaperNumberOrigin: () => Vector2 = () => Vector2.ZERO;
 
   constructor( playArea: OnesPlayArea,
                countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
@@ -139,12 +139,12 @@ class OnesPlayAreaNode extends Node {
     this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
-      this.paperNumberOrigin = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
+      this.getPaperNumberOrigin = () => this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
     }
 
     // initialize the model with positioning information
     if ( this.viewHasIndependentModel ) {
-      this.playArea.initialize( this.paperNumberOrigin, this.onesCreatorPanel.top, playAreaViewBounds );
+      this.playArea.initialize( this.getPaperNumberOrigin, this.onesCreatorPanel.top, playAreaViewBounds );
     }
 
     // add the paperNumberLayerNode after the creator panel
