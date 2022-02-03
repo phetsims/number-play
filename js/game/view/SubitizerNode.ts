@@ -19,7 +19,7 @@ import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import SubitizeObjectType from '../model/SubitizeObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // constants
 const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;
@@ -93,7 +93,8 @@ class SubitizerNode extends Node {
       // create and add each object to the drawingNode
       points.forEach( point => {
         let object;
-        if ( subitizer.objectTypeProperty.value === SubitizeObjectType.CIRCLE ) {
+        // TODO: This should be SubitizeObjectType.CIRCLE, but there is a bug
+        if ( subitizer.objectTypeProperty.value === CountingObjectType.PAPER_NUMBER ) {
           object = new Circle( scaleMVT.modelToViewDeltaX( subitizer.objectSize / 2 ), { fill: Color.BLACK } );
         }
         else {

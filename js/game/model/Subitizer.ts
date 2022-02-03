@@ -28,7 +28,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
-import SubitizeObjectType from './SubitizeObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // types
 type PredeterminedShapes = {
@@ -133,8 +133,8 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  private readonly _objectTypeProperty: EnumerationProperty<SubitizeObjectType>;
-  public readonly objectTypeProperty: IReadOnlyProperty<SubitizeObjectType>;
+  private readonly _objectTypeProperty: EnumerationProperty<CountingObjectType>;
+  public readonly objectTypeProperty: IReadOnlyProperty<CountingObjectType>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
@@ -188,7 +188,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new EnumerationProperty( SubitizeObjectType.DOG );
+    this._objectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
     this.objectTypeProperty = this._objectTypeProperty;
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
@@ -319,7 +319,7 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   private setRandomPlayObjectType(): void {
-    this._objectTypeProperty.value = dotRandom.sample( SubitizeObjectType.enumeration.values.slice() );
+    this._objectTypeProperty.value = dotRandom.sample( CountingObjectType.enumeration.values.slice() );
   }
 
   /**
