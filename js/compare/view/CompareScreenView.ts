@@ -29,8 +29,8 @@ import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButto
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 import ComparisonTextNode from './ComparisonTextNode.js';
 import CountingAccordionBox from '../../common/view/CountingAccordionBox.js';
-import ComparePlayObjectType from '../model/ComparePlayObjectType.js';
 import OrganizeButton from '../../common/view/OrganizeButton.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
@@ -91,7 +91,7 @@ class CompareScreenView extends ScreenView {
       model.leftPlayArea,
       model.leftCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_HEIGHT, {
-        playObjectTypes: ComparePlayObjectType,
+        countingObjectTypes: CountingObjectType,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
@@ -105,7 +105,7 @@ class CompareScreenView extends ScreenView {
       model.rightPlayArea,
       model.rightCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_HEIGHT, {
-        playObjectTypes: ComparePlayObjectType,
+        countingObjectTypes: CountingObjectType,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
         contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty

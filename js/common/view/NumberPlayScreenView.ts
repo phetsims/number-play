@@ -117,7 +117,7 @@ class NumberPlayScreenView extends ScreenView {
       model.objectsPlayArea,
       model.playObjectTypeProperty,
       options.lowerAccordionBoxHeight, {
-        playObjectTypes: PlayObjectType,
+        countingObjectTypes: PlayObjectType,
         groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,

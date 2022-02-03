@@ -21,7 +21,6 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
-import ComparePlayObjectType from '../../compare/model/ComparePlayObjectType.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
@@ -31,7 +30,7 @@ import GroupAndLinkType from '../model/GroupAndLinkType.js';
 type CountingAccordionBoxOptions = {
   titleString: string,
   contentWidth: number,
-  playObjectTypes: typeof PlayObjectType | typeof ComparePlayObjectType | null,
+  countingObjectTypes: typeof PlayObjectType | typeof CountingObjectType | null,
   linkedPlayArea?: OnesPlayArea | null,
   groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>
 } & AccordionBoxOptions;
@@ -51,7 +50,7 @@ class CountingAccordionBox extends AccordionBox {
     const options = merge( {
       titleString: numberPlayStrings.objects,
       contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      playObjectTypes: null,
+      countingObjectTypes: null,
       linkedPlayArea: null,
       groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
     }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
@@ -79,26 +78,26 @@ class CountingAccordionBox extends AccordionBox {
 
     // TODO-TS: use specific RadioButtonGroup type
     let radioButtonGroup: Node | null = null;
-    if ( options.playObjectTypes ) {
+    if ( options.countingObjectTypes ) {
 
       // create the icons for the RectangularRadioButtonGroup
       // @ts-ignore
       const buttons = [];
-      options.playObjectTypes.enumeration!.values.forEach( playObjectType => {
+      options.countingObjectTypes.enumeration!.values.forEach( countingObjectType => {
         let iconNode = null;
-        if ( playObjectType === ComparePlayObjectType.PAPER_NUMBER ) {
+        if ( countingObjectType === CountingObjectType.PAPER_NUMBER ) {
           iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
           iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height );
         }
         else {
-          iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( playObjectType.name ), {
+          iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( countingObjectType.name ), {
             maxWidth: RADIO_BUTTON_SIZE.width,
             maxHeight: RADIO_BUTTON_SIZE.height
           } );
         }
 
         buttons.push( {
-          value: playObjectType,
+          value: countingObjectType,
           node: iconNode
         } );
       } );

@@ -14,7 +14,7 @@ import numberPlay from '../../numberPlay.js';
 import CompareCountingType from './CompareCountingType.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
-import ComparePlayObjectType from './ComparePlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 class CompareModel {
   public readonly leftCurrentNumberProperty: NumberProperty;
@@ -25,20 +25,20 @@ class CompareModel {
   public readonly leftPlayArea: OnesPlayArea;
   public readonly rightPlayArea: OnesPlayArea;
   public readonly isPrimaryLocaleProperty: BooleanProperty;
-  public readonly leftCountingObjectTypeProperty: EnumerationProperty<ComparePlayObjectType>;
-  public readonly rightCountingObjectTypeProperty: EnumerationProperty<ComparePlayObjectType>;
+  public readonly leftCountingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
+  public readonly rightCountingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
 
   constructor( highestCount: number, tandem: Tandem ) {
 
     this.leftCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
     } );
-    this.leftCountingObjectTypeProperty = new EnumerationProperty( ComparePlayObjectType.DOG );
+    this.leftCountingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
     this.rightCurrentNumberProperty = new NumberProperty( 0, {
       range: new Range( 0, highestCount )
     } );
-    this.rightCountingObjectTypeProperty = new EnumerationProperty( ComparePlayObjectType.DOG );
+    this.rightCountingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
     this.countingTypeProperty = new EnumerationProperty( CompareCountingType.BLOCKS );
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
