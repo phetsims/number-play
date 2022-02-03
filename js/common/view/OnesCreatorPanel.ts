@@ -18,7 +18,6 @@ import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
@@ -67,25 +66,16 @@ class OnesCreatorPanel extends Panel {
     // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, {
       updateCurrentNumber: true,
-      playObjectTypeProperty: screenView.playObjectTypeProperty,
-      groupingLinkingTypeProperty: screenView.groupingLinkingTypeProperty,
+      countingObjectTypeProperty: screenView.countingObjectTypeProperty,
+      groupingEnabledProperty: screenView.playArea.groupingEnabledProperty,
       backTargetOffset: new Vector2( -5, -5 ),
       ungroupedTargetScale: NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE,
       groupedTargetScale: NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE
     } );
-    countingCreatorNode.center = creatorNodeBackground.center;
     creatorNodeBackground.addChild( countingCreatorNode );
 
-    // TODO: Figure out the correct way to fix the offset when the type changes
-    screenView.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      if ( groupingLinkingType === GroupingLinkingType.GROUPED ) {
-        countingCreatorNode.x = 21.9;
-        countingCreatorNode.y = 5;
-      }
-      else {
-        countingCreatorNode.x = 20.6;
-        countingCreatorNode.y = -3.8;
-      }
+    screenView.playArea.groupingEnabledProperty.link( groupingEnabled => {
+      countingCreatorNode.center = creatorNodeBackground.selfBounds.center;
     } );
 
     const hBox = new HBox( {

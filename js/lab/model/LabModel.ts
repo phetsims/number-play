@@ -21,15 +21,19 @@ import TenFrame from './TenFrame.js';
 // constants
 const NUMBER_PIECE_RETURN_THRESHOLD = 92;
 const HIGHEST_COUNT = 100;
+const NUMBER_OF_PLAY_AREAS = 5;
 
 class LabModel {
   public readonly numberStacks: NumberStack[];
   public readonly numberPieces: ObservableArray<NumberPiece>;
   public readonly tenFrames: ObservableArray<TenFrame>;
   private readonly isResettingProperty: BooleanProperty;
-  public readonly onesPlayArea: OnesPlayArea;
-  public readonly leftObjectsPlayArea: OnesPlayArea;
-  public readonly rightObjectsPlayArea: OnesPlayArea;
+  public readonly paperNumberPlayArea: OnesPlayArea;
+  public readonly dogPlayArea: OnesPlayArea;
+  public readonly applePlayArea: OnesPlayArea;
+  public readonly butterflyPlayArea: OnesPlayArea;
+  public readonly ballPlayArea: OnesPlayArea;
+  private readonly numberProperties: NumberProperty[];
 
   constructor( tandem: Tandem ) {
 
@@ -53,19 +57,43 @@ class LabModel {
     // way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
+    // TODO: Create play areas with loop instead and do the same in ScreenView
+    this.numberProperties = [];
+    _.times( NUMBER_OF_PLAY_AREAS, () => {
+      this.numberProperties.push( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ) );
+    } );
+
     // create three different kinds of play areas
-    this.onesPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
-      isResettingProperty: this.isResettingProperty,
-      tenFrames: this.tenFrames
-    } );
-    this.leftObjectsPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
-      isResettingProperty: this.isResettingProperty,
-      tenFrames: this.tenFrames
-    } );
-    this.rightObjectsPlayArea = new OnesPlayArea( new NumberProperty( 0, { range: new Range( 0, HIGHEST_COUNT ) } ), {
-      isResettingProperty: this.isResettingProperty,
-      tenFrames: this.tenFrames
-    } );
+    this.paperNumberPlayArea = new OnesPlayArea(
+      this.numberProperties[ 0 ],
+      new BooleanProperty( true ), {
+        isResettingProperty: this.isResettingProperty,
+        tenFrames: this.tenFrames
+      } );
+    this.dogPlayArea = new OnesPlayArea(
+      this.numberProperties[ 1 ],
+      new BooleanProperty( false ), {
+        isResettingProperty: this.isResettingProperty,
+        tenFrames: this.tenFrames
+      } );
+    this.applePlayArea = new OnesPlayArea(
+      this.numberProperties[ 2 ],
+      new BooleanProperty( false ), {
+        isResettingProperty: this.isResettingProperty,
+        tenFrames: this.tenFrames
+      } );
+    this.butterflyPlayArea = new OnesPlayArea(
+      this.numberProperties[ 3 ],
+      new BooleanProperty( false ), {
+        isResettingProperty: this.isResettingProperty,
+        tenFrames: this.tenFrames
+      } );
+    this.ballPlayArea = new OnesPlayArea(
+      this.numberProperties[ 4 ],
+      new BooleanProperty( false ), {
+        isResettingProperty: this.isResettingProperty,
+        tenFrames: this.tenFrames
+      } );
   }
 
   /**
@@ -135,10 +163,16 @@ class LabModel {
    * Resets the model.
    */
   public reset(): void {
-    this.onesPlayArea.reset();
-    this.leftObjectsPlayArea.reset();
-    this.rightObjectsPlayArea.reset();
+    this.isResettingProperty.value = true;
+    this.paperNumberPlayArea.reset();
+    this.dogPlayArea.reset();
+    this.applePlayArea.reset();
+    this.butterflyPlayArea.reset();
+    this.ballPlayArea.reset();
     this.numberPieces.clear();
+    this.tenFrames.clear();
+    this.numberProperties.forEach( numberProperty => numberProperty.reset() );
+    this.isResettingProperty.value = false;
   }
 
   /**
@@ -146,9 +180,11 @@ class LabModel {
    * @param dt - time step, in seconds
    */
   public step( dt: number ): void {
-    this.onesPlayArea.step( dt );
-    this.leftObjectsPlayArea.step( dt );
-    this.rightObjectsPlayArea.step( dt );
+    this.paperNumberPlayArea.step( dt );
+    this.dogPlayArea.step( dt );
+    this.applePlayArea.step( dt );
+    this.butterflyPlayArea.step( dt );
+    this.ballPlayArea.step( dt );
     this.numberPieces.forEach( numberPiece => numberPiece.step( dt ) );
   }
 }

@@ -18,21 +18,18 @@ import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesCreatorPanel from './OnesCreatorPanel.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import DraggableTenFrameNode from '../../lab/view/DraggableTenFrameNode.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
   paperNumberLayerNode: null | Node,
   backgroundDragTargetNode: null | Node,
-  playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
-  groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>,
   viewHasIndependentModel: boolean,
   includeOnesCreatorPanel: boolean,
   creatorPanelCenterBottom: Vector2 | null
@@ -46,28 +43,28 @@ class OnesPlayAreaNode extends Node {
   private readonly numberInteractionListener: Function;
   private readonly numberAnimationFinishedListener: Function;
   private readonly numberDragFinishedListener: Function;
-  private playArea: OnesPlayArea;
+  public readonly playArea: OnesPlayArea;
   private readonly tryToCombineNumbersCallback: Function;
   private readonly addAndDragNumberCallback: Function;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
-  readonly playObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
-  public readonly groupingLinkingTypeProperty: EnumerationProperty<GroupingLinkingType>;
+  public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;
   private readonly onesCreatorPanel: OnesCreatorPanel;
   private readonly includeOnesCreatorPanel: boolean;
-  private readonly paperNumberOrigin: Vector2 = Vector2.ZERO;
+  private readonly getPaperNumberOrigin: () => Vector2 = () => Vector2.ZERO;
 
-  constructor( playArea: OnesPlayArea, playAreaViewBounds: Bounds2, providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
+  constructor( playArea: OnesPlayArea,
+               countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
+               playAreaViewBounds: Bounds2,
+               providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
     super();
 
     const options = merge( {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
-      playObjectTypeProperty: new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
-      groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.GROUPED ),
       viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
 
       includeOnesCreatorPanel: true,
@@ -99,11 +96,9 @@ class OnesPlayAreaNode extends Node {
 
     // The view coordinates where numbers can be dragged. Can update when the sim is resized.
     this.availableViewBoundsProperty = new Property( playAreaViewBounds );
+    this.countingObjectTypeProperty = countingObjectTypeProperty;
 
-    this.playObjectTypeProperty = options.playObjectTypeProperty;
-
-    this.groupingLinkingTypeProperty = options.groupingLinkingTypeProperty;
-
+    // see options.viewHasIndependentModel for doc
     this.viewHasIndependentModel = options.viewHasIndependentModel;
 
     // Handle touches nearby to the numbers, and interpret those as the proper drag.
@@ -142,19 +137,6 @@ class OnesPlayAreaNode extends Node {
       this.constrainAllPositions();
     } );
 
-    // when the groupingLinkingType is switched to no grouping, break apart any object groups
-    this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.lazyLink( groupingLinkingType => {
-      groupingLinkingType === GroupingLinkingType.UNGROUPED && playArea.breakApartCountingObject( true );
-      playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
-        const paperNumberNode = this.paperNumberNodeMap[ paperNumber.id ];
-        paperNumberNode.updateNumber();
-
-        if ( !paperNumber.isAnimating ) {
-          paperNumber.setConstrainedDestination( this.availableViewBoundsProperty.value, paperNumber.positionProperty.value );
-        }
-      } );
-    } );
-
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
     if ( options.creatorPanelCenterBottom ) {
@@ -166,12 +148,12 @@ class OnesPlayAreaNode extends Node {
     }
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
-      this.paperNumberOrigin = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
+      this.getPaperNumberOrigin = () => this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
     }
 
     // initialize the model with positioning information
     if ( this.viewHasIndependentModel ) {
-      this.playArea.initialize( this.paperNumberOrigin, this.onesCreatorPanel.top, playAreaViewBounds );
+      this.playArea.initialize( this.getPaperNumberOrigin, this.onesCreatorPanel.top, playAreaViewBounds );
     }
 
     // add the paperNumberLayerNode after the creator panel
@@ -201,9 +183,12 @@ class OnesPlayAreaNode extends Node {
    */
   public onPaperNumberAdded( paperNumber: PaperNumber ): void {
 
-    const paperNumberNode = new PaperNumberNode( paperNumber, this.availableViewBoundsProperty,
-      this.addAndDragNumberCallback, this.tryToCombineNumbersCallback, this.playObjectTypeProperty, {
-        groupingLinkingTypeProperty: this.groupingLinkingTypeProperty,
+    const paperNumberNode = new PaperNumberNode(
+      paperNumber,
+      this.availableViewBoundsProperty,
+      this.addAndDragNumberCallback,
+      this.tryToCombineNumbersCallback, {
+        countingObjectTypeProperty: this.countingObjectTypeProperty,
         baseNumberNodeOptions: {
           handleOffsetY: COUNTING_OBJECT_HANDLE_OFFSET_Y
         }
@@ -296,7 +281,7 @@ class OnesPlayAreaNode extends Node {
       const droppedPaperNumber = droppedNode.paperNumber;
 
       // if grouping is turned off, repel away
-      if ( this.groupingLinkingTypeProperty && this.groupingLinkingTypeProperty.value === GroupingLinkingType.UNGROUPED ) {
+      if ( !this.playArea.groupingEnabledProperty.value || !droppedPaperNumber.groupingEnabledProperty.value ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
           this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {
@@ -330,7 +315,7 @@ class OnesPlayAreaNode extends Node {
     // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
     const attachableDroppedTenFrameNodes = this.findAttachableTenFrameNodes( droppedNode, allDraggableTenFrameNodes );
 
-    if ( attachableDroppedTenFrameNodes ) {
+    if ( attachableDroppedTenFrameNodes.length ) {
       const tenFrameToAddTo = attachableDroppedTenFrameNodes[ 0 ].tenFrame;
       this.playArea.addObjectToTenFrame( tenFrameToAddTo, droppedPaperNumber );
       return true;
@@ -425,9 +410,10 @@ class OnesPlayAreaNode extends Node {
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
-      const paperCenterOffset = paperNumber.localBounds.center;
-      targetPosition = targetPosition.minus( paperCenterOffset );
-      paperNumber.setDestination( targetPosition, true, 0.8 );
+      targetPosition = targetPosition.minus( paperNumber.localBounds.center );
+      const targetScale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                          NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
+      paperNumber.setDestination( targetPosition, true, targetScale );
 
       // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
       if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {

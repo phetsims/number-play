@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
@@ -29,6 +28,9 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
+import GroupAndLinkType from '../model/GroupAndLinkType.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -42,17 +44,17 @@ type NumberPlayScreenViewOptions = {
 
 // constants
 const GROUPING_LINKING_TYPE_TO_IMAGE = new Map();
-GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.UNGROUPED, groupingScene1_png );
-GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.GROUPED, groupingScene2_png );
-GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupingLinkingType.GROUPED_AND_LINKED, groupingScene3_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.UNGROUPED, groupingScene1_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.GROUPED, groupingScene2_png );
+GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.GROUPED_AND_LINKED, groupingScene3_png );
 
 class NumberPlayScreenView extends ScreenView {
 
-  public readonly wordAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly totalAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly onesAccordionBoxExpandedProperty: BooleanProperty;
-  public readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly wordAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly totalAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly onesAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
   private readonly objectsAccordionBox: CountingAccordionBox;
 
   constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
@@ -100,10 +102,11 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the CountingAccordionBox for paper ones
     const onesAccordionBox = new CountingAccordionBox(
       model.onesPlayArea,
+      new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
-        fill: NumberPlayColors.purpleBackgroundColorProperty
+        fill: NumberPlayColors.pinkBackgroundColorProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
@@ -112,10 +115,11 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
+      model.playObjectTypeProperty,
       options.lowerAccordionBoxHeight, {
-        playObjectTypes: PlayObjectType,
+        countingObjectTypes: PlayObjectType,
+        groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
         linkedPlayArea: model.onesPlayArea,
-        groupingLinkingTypeProperty: model.groupingLinkingTypeProperty,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
       } );
@@ -148,20 +152,20 @@ class NumberPlayScreenView extends ScreenView {
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup
     const groupingLinkingButtons = [];
     const margin = 5;
-    GroupingLinkingType.enumeration.values.forEach( groupingLinkingType => {
-      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupingLinkingType ), {
+    GroupAndLinkType.enumeration.values.forEach( groupAndLinkType => {
+      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
         maxWidth: resetAllButton.width - 2 * margin
       } );
 
       groupingLinkingButtons.push( {
-        value: groupingLinkingType,
+        value: groupAndLinkType,
         node: iconNode
       } );
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup for groupingLinkingButtons, see above TODO
-    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupingLinkingTypeProperty, groupingLinkingButtons, {
+    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupAndLinkTypeProperty, groupingLinkingButtons, {
       baseColor: NumberPlayColors.blueBackgroundColorProperty,
       orientation: 'vertical',
       spacing: 10,
@@ -173,7 +177,7 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( groupingLinkingRadioButtonGroup );
 
     // create and add a button to organize the onesAccordionBox paper ones in a grid
-    const organizeOnesButton = new OrganizeButton( NumberPlayColors.purpleBackgroundColorProperty, () => {
+    const organizeOnesButton = new OrganizeButton( NumberPlayColors.pinkBackgroundColorProperty, () => {
       model.onesPlayArea.organizeObjects();
     } );
     organizeOnesButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
@@ -182,7 +186,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add a button to organize the objectsAccordionBox play objects in a grid
     const organizeObjectsButton = new OrganizeButton( NumberPlayColors.blueBackgroundColorProperty, () => {
-      if ( model.groupingLinkingTypeProperty.value === GroupingLinkingType.GROUPED_AND_LINKED ) {
+      if ( model.groupAndLinkTypeProperty.value === GroupAndLinkType.GROUPED_AND_LINKED ) {
         model.onesPlayArea.organizeObjects();
       }
       else {
@@ -204,7 +208,6 @@ class NumberPlayScreenView extends ScreenView {
     this.tenFrameAccordionBoxExpandedProperty.reset();
     this.onesAccordionBoxExpandedProperty.reset();
     this.objectsAccordionBoxExpandedProperty.reset();
-    this.objectsAccordionBox.reset();
   }
 }
 

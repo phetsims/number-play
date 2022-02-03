@@ -15,11 +15,9 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -72,10 +70,8 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     // create and add the objectsPlayAreaNode
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       level.objectsPlayArea,
+      level.playObjectTypeProperty,
       objectsPlayAreaViewBounds, {
-        playObjectTypeProperty: level.playObjectTypeProperty,
-        groupingLinkingTypeProperty: new EnumerationProperty( level.groupObjects ? GroupingLinkingType.GROUPED :
-                                                              GroupingLinkingType.UNGROUPED ),
         includeOnesCreatorPanel: false
       }
     );
@@ -95,7 +91,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFrameBackgroundNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH - TEN_FRAME_MARGIN * 2,
       rectHeight: RECTANGLE_HEIGHT - TEN_FRAME_MARGIN * 2,
-      fill: NumberPlayColors.lightGreenBackgroundColorProperty
+      fill: NumberPlayColors.lightPurpleBackgroundColorProperty
     } );
 
     // create and add the tenFrameNode
@@ -108,7 +104,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
       xMargin: TEN_FRAME_MARGIN,
       yMargin: TEN_FRAME_MARGIN,
-      fill: NumberPlayColors.lightGreenBackgroundColorProperty,
+      fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
       lineWidth: PANEL_LINE_WIDTH
     } );
     tenFramePanel.centerX = layoutBounds.centerX;

@@ -15,7 +15,7 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
   // time that the objects are shown when they “flash” in the ‘Subitize’ game, in seconds. If the user gets the answer
   // incorrect 3 times on a single challenge, the time is increased for that challenge until it's answered correctly.
-  subitizerTimeVisible: {
+  subitizeTimeShown: {
     public: true,
     type: 'number',
     defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME

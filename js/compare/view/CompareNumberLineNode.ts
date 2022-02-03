@@ -44,14 +44,14 @@ class CompareNumberLineNode extends Node {
     // create and add an indicator for the leftCurrentNumberProperty
     const leftCurrentNumberIndicatorNode = CompareNumberLineNode.getCurrentNumberIndicatorNode(
       LeftRightDirection.LEFT,
-      NumberPlayColors.mediumGreenBackgroundColorProperty
+      NumberPlayColors.purpleHighlightColorProperty
     );
     numberLineNode.addChild( leftCurrentNumberIndicatorNode );
 
     // create and add an indicator for the rightCurrentNumberProperty
     const rightCurrentNumberIndicatorNode = CompareNumberLineNode.getCurrentNumberIndicatorNode(
       LeftRightDirection.RIGHT,
-      NumberPlayColors.mediumOrangeBackgroundColorProperty
+      NumberPlayColors.orangeHighlightColorProperty
     );
     numberLineNode.addChild( rightCurrentNumberIndicatorNode );
 

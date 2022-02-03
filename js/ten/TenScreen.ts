@@ -28,7 +28,7 @@ class TenScreen extends Screen {
 
     const screenOptions = {
       name: screenTenString,
-      backgroundColorProperty: NumberPlayColors.lightGreenBackgroundColorProperty,
+      backgroundColorProperty: NumberPlayColors.lightPurpleBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( tenScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
@@ -38,7 +38,7 @@ class TenScreen extends Screen {
 
     const screenViewOptions = {
       wordAccordionBoxOptions: {
-        fill: NumberPlayColors.greenBackgroundColorProperty,
+        fill: NumberPlayColors.purpleBackgroundColorProperty,
         font: new PhetFont( 62 ),
         textOffset: new Vector2( 0, -1 ),
         localeSwitchOffset: new Vector2( 0, -12 )
@@ -54,7 +54,7 @@ class TenScreen extends Screen {
         arrowButtonSpacing: 10 // empirically determined
       },
       tenFrameAccordionBoxOptions: {
-        fill: NumberPlayColors.greenBackgroundColorProperty,
+        fill: NumberPlayColors.purpleBackgroundColorProperty,
         contentAlign: 'center'
       } as AccordionBoxOptions,
       upperAccordionBoxHeight: NumberPlayConstants.TEN_UPPER_ACCORDION_BOX_HEIGHT,

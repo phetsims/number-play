@@ -22,14 +22,14 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import TenFrame from '../../lab/model/TenFrame.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type OnesPlayAreaOptions = {
   isResettingProperty: null | BooleanProperty,
   tenFrames: null | ObservableArray<TenFrame>,
   sumPropertyRange: null | Range,
-  setAllObjects: boolean,
-  setAllObjectsAsGrouped: boolean
+  setAllObjects: boolean
 };
 type CreatePaperNumberFromBucketOptions = {
   shouldAnimate: boolean,
@@ -46,7 +46,7 @@ const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
 class OnesPlayArea extends CountingCommonModel {
   public currentNumberProperty: NumberProperty;
-  private paperNumberOrigin: Vector2;
+  private getPaperNumberOrigin: () => Vector2;
   private playAreaBounds: Bounds2;
   public sumProperty: NumberProperty;
   public isControllingCurrentNumber: boolean;
@@ -54,8 +54,11 @@ class OnesPlayArea extends CountingCommonModel {
   private initialized: boolean;
   private countingCreatorNodeTop: number;
   public readonly tenFrames: ObservableArray<TenFrame> | null;
+  public readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
-  constructor( currentNumberProperty: NumberProperty, providedOptions: Partial<OnesPlayAreaOptions> ) {
+  constructor( currentNumberProperty: NumberProperty,
+               groupingEnabledProperty: IReadOnlyProperty<boolean>,
+               providedOptions: Partial<OnesPlayAreaOptions> ) {
     super();
 
     const options = merge( {
@@ -64,24 +67,21 @@ class OnesPlayArea extends CountingCommonModel {
 
       // TODO: remaining options need doc/work
       sumPropertyRange: null,
-      setAllObjects: false,
-      setAllObjectsAsGrouped: false
+      setAllObjects: false
     }, providedOptions ) as OnesPlayAreaOptions;
 
     assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
 
-    assert && options.setAllObjectsAsGrouped && assert( options.setAllObjects,
-      'options.setAllObjectsAsGrouped: true cannot be used without options.setAllOptions: true' );
-
     this.currentNumberProperty = currentNumberProperty;
+    this.groupingEnabledProperty = groupingEnabledProperty;
 
     // set later by the view
-    this.paperNumberOrigin = Vector2.ZERO;
+    this.getPaperNumberOrigin = () => Vector2.ZERO;
     this.countingCreatorNodeTop = 0;
     this.playAreaBounds = new Bounds2( 0, 0, 0, 0 );
     this.organizedObjectSpots = [ Vector2.ZERO ];
 
-    // true when this.paperNumberOrigin and this.playAreaBounds have been set
+    // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
     this.initialized = false;
 
     // contains any ten frames that are in the play area
@@ -134,18 +134,24 @@ class OnesPlayArea extends CountingCommonModel {
         }
       }
       else if ( options.setAllObjects ) {
-        this.createAllObjects( currentNumber, options.setAllObjectsAsGrouped );
+        this.createAllObjects( currentNumber, groupingEnabledProperty.value );
       }
+    } );
+
+    // when the GroupLinkType is switched to no grouping, break apart any object groups
+    this.groupingEnabledProperty.lazyLink( groupingEnabled => {
+      !groupingEnabled && this.breakApartCountingObjects( true );
     } );
   }
 
   /**
    * Setup the origin and bounds needed from the view
    */
-  public initialize( paperNumberOrigin: Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
+  public initialize( getPaperNumberOrigin: () => Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
     assert && assert( this.initialized === false, 'OnesPlayArea already initialized' );
 
-    this.paperNumberOrigin = paperNumberOrigin;
+    // use a function for getting the paper number origin because its position changes in the view
+    this.getPaperNumberOrigin = getPaperNumberOrigin;
     this.countingCreatorNodeTop = countingCreatorNodeTop;
     this.playAreaBounds = playAreaBounds;
     this.initialized = true;
@@ -204,9 +210,13 @@ class OnesPlayArea extends CountingCommonModel {
     let destinationPosition;
     let findCount = 0;
 
-    const paperNumber = new PaperNumber( options.value, Vector2.ZERO );
-    const origin = this.paperNumberOrigin.minus( paperNumber.localBounds.center );
-    paperNumber.setDestination( origin, false, 0.8 );
+    const paperNumber = new PaperNumber( options.value, Vector2.ZERO, {
+      groupingEnabledProperty: this.groupingEnabledProperty
+    } );
+    const origin = this.getPaperNumberOrigin().minus( paperNumber.localBounds.center );
+    const scale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                  NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
+    paperNumber.setDestination( origin, false, scale );
 
     const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds.withMaxY( this.countingCreatorNodeTop ) );
 
@@ -256,7 +266,7 @@ class OnesPlayArea extends CountingCommonModel {
         return paperNumber.numberValueProperty.value;
       },
       paperNumber => {
-        return paperNumber.positionProperty.value.distance( this.paperNumberOrigin );
+        return paperNumber.positionProperty.value.distance( this.getPaperNumberOrigin() );
       }
     ] );
 
@@ -266,7 +276,7 @@ class OnesPlayArea extends CountingCommonModel {
     } );
 
     let paperNumberToReturn = sortedPaperNumbers.shift();
-    if ( paperNumberToReturn ) { // TODO-TS: guaranteed to be true based on the assert above, but TS doesn't know that...
+    if ( paperNumberToReturn ) {
 
       // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
       // 1 to return instead
@@ -276,8 +286,9 @@ class OnesPlayArea extends CountingCommonModel {
 
         paperNumberToReturn = new PaperNumber(
           NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
-          paperNumberToReturn.positionProperty.value
-        );
+          paperNumberToReturn.positionProperty.value, {
+            groupingEnabledProperty: this.groupingEnabledProperty
+          } );
         this.addPaperNumber( paperNumberToReturn );
       }
 
@@ -286,8 +297,10 @@ class OnesPlayArea extends CountingCommonModel {
       // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
       // time.
       paperNumberToReturn.numberValueProperty.value = 0;
-      const origin = this.paperNumberOrigin.minus( paperNumberToReturn.localBounds.center );
-      paperNumberToReturn.setDestination( origin, true, 0.8 );
+      const origin = this.getPaperNumberOrigin().minus( paperNumberToReturn.localBounds.center );
+      const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                    NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
+      paperNumberToReturn.setDestination( origin, true, scale );
     }
   }
 
@@ -321,13 +334,11 @@ class OnesPlayArea extends CountingCommonModel {
   }
 
   /**
-   * Breaks apart a counting object into counting objects all with a value of 1. By default, it creates all new counting
+   * Breaks apart all counting objects into counting objects with a value of 1. By default, it creates all new counting
    * objects in the position of the original counting object. If stack=true, it arranges them according to the
    * background shape of the original counting object.
-   *
-   * @param stack
    */
-  public breakApartCountingObject( stack: boolean = false ) {
+  public breakApartCountingObjects( stack: boolean = false ) {
 
     // TODO: cleanup and doc
 
@@ -353,7 +364,9 @@ class OnesPlayArea extends CountingCommonModel {
         for ( let i = numberOfSets - 1; i >= 0; i-- ) {
           for ( let j = 0; j < numberOfRows; j++ ) {
             if ( reAddedPaperNumbers < paperNumberValue ) {
-              const newPaperNumber = new PaperNumber( 1, origin.plusXY( i * xShift, offsetY ) );
+              const newPaperNumber = new PaperNumber( 1, origin.plusXY( i * xShift, offsetY ), {
+                groupingEnabledProperty: this.groupingEnabledProperty
+              } );
               this.addPaperNumber( newPaperNumber );
               offsetY += offsetYSegment;
               reAddedPaperNumbers++;
@@ -372,10 +385,10 @@ class OnesPlayArea extends CountingCommonModel {
 
     assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
 
-    this.breakApartCountingObject();
+    this.breakApartCountingObjects();
 
     // copy the current playObjectsInPlayArea so we can mutate it
-    let objectsToOrganize = [ ...this.paperNumbers ];
+    let objectsToOrganize = [ ...this.paperNumbers ].filter( paperNumber => paperNumber.numberValueProperty.value > 0 );
     const numberOfObjectsToOrganize = objectsToOrganize.length;
 
     for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
@@ -391,6 +404,7 @@ class OnesPlayArea extends CountingCommonModel {
     }
   }
 
+  // TODO
   public addObjectToTenFrame( tenFrame: TenFrame, paperNumber: PaperNumber ): void {
 
   }

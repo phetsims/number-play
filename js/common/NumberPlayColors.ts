@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2021-2022, University of Colorado Boulder
 
 /**
  * NumberPlayColors defines the colors for this simulation.
@@ -13,31 +13,28 @@ const NumberPlayColors = {
 
   // backgrounds for screens, accordion boxes, and more. they are named by color instead of by what they are
   // used for because so many are reused for multiple applications and should remain in sync.
-  lightestPurpleColorProperty: new ProfileColorProperty( numberPlay, 'lightestPurpleBackgroundColor', {
-    default: new Color( 240, 244, 255 )
+  purpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'purpleBackgroundColor', {
+    default: new Color( 214, 209, 255 )
   } ),
-  greenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'greenBackgroundColor', {
-    default: new Color( 159, 237, 172 )
+  purpleHighlightColorProperty: new ProfileColorProperty( numberPlay, 'purpleHighlightColor', {
+    default: new Color( 200, 194, 255 )
   } ),
-  mediumGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumGreenBackgroundColor', {
-    default: new Color( 150, 226, 168 )
+  mediumPurpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumPurpleBackgroundColor', {
+    default: new Color( 238, 238, 255 )
   } ),
-  lighterGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lighterGreenBackgroundColor', {
-    default: new Color( 215, 255, 227 )
-  } ),
-  lightGreenBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightGreenBackgroundColor', {
-    default: new Color( 215, 255, 227 )
+  lightPurpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightPurpleBackground', {
+    default: new Color( 248, 248, 255 )
   } ),
   orangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'orangeBackgroundColor', {
     default: new Color( 249, 210, 172 )
   } ),
-  mediumOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumOrangeBackgroundColor', {
+  orangeHighlightColorProperty: new ProfileColorProperty( numberPlay, 'orangeHighlightColor', {
     default: new Color( 247, 209, 159 )
   } ),
   lightOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightOrangeBackgroundColor', {
     default: new Color( 255, 247, 235 )
   } ),
-  purpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'purpleBackgroundColor', {
+  pinkBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'pinkBackgroundColor', {
     default: new Color( 252, 220, 255 )
   } ),
   blueBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'blueBackgroundColor', {

@@ -7,7 +7,6 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
@@ -25,8 +24,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import GroupingLinkingType from '../../../../counting-common/js/common/model/GroupingLinkingType.js';
 import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -73,8 +72,22 @@ class LabScreenView extends ScreenView {
     model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
     // create and add the OnesPlayAreaNode
-    const onesPlayAreaNode = new OnesPlayAreaNode(
-      model.onesPlayArea,
+    const paperNumberPlayAreaNode = new OnesPlayAreaNode(
+      model.paperNumberPlayArea,
+      new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
+      this.layoutBounds.copy(), {
+        paperNumberLayerNode: this.pieceLayer,
+        backgroundDragTargetNode: backgroundDragTargetNode,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 240,
+          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+      }
+    );
+    this.addChild( paperNumberPlayAreaNode );
+
+    // create and add the left ObjectsPlayAreaNode
+    const dogPlayAreaNode = new OnesPlayAreaNode(
+      model.dogPlayArea,
+      new EnumerationProperty( CountingObjectType.DOG ),
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
@@ -82,40 +95,51 @@ class LabScreenView extends ScreenView {
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( onesPlayAreaNode );
+    this.addChild( dogPlayAreaNode );
 
-    // create and add the left ObjectsPlayAreaNode
-    const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
-      model.leftObjectsPlayArea,
+    // create and add the right ObjectsPlayAreaNode
+    const applePlayAreaNode = new OnesPlayAreaNode(
+      model.applePlayArea,
+      new EnumerationProperty( CountingObjectType.APPLE ),
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: new EnumerationProperty( PlayObjectType.DOG ),
-        groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.UNGROUPED ),
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX,
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( leftObjectsPlayAreaNode );
+    this.addChild( applePlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
-      model.rightObjectsPlayArea,
+    const butterflyPlayAreaNode = new OnesPlayAreaNode(
+      model.butterflyPlayArea,
+      new EnumerationProperty( CountingObjectType.BUTTERFLY ),
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: new EnumerationProperty( PlayObjectType.BALL ),
-        groupingLinkingTypeProperty: new EnumerationProperty( GroupingLinkingType.UNGROUPED ),
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 120,
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( rightObjectsPlayAreaNode );
+    this.addChild( butterflyPlayAreaNode );
+
+    // create and add the right ObjectsPlayAreaNode
+    const ballPlayAreaNode = new OnesPlayAreaNode(
+      model.ballPlayArea,
+      new EnumerationProperty( CountingObjectType.BALL ),
+      this.layoutBounds.copy(), {
+        paperNumberLayerNode: this.pieceLayer,
+        backgroundDragTargetNode: backgroundDragTargetNode,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 240,
+          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+      }
+    );
+    this.addChild( ballPlayAreaNode );
 
     const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();
 
     // position empirically determined
-    tenFrameCreatorIconNode.center = new Vector2( onesPlayAreaNode.left / 2, onesPlayAreaNode.centerY );
+    tenFrameCreatorIconNode.center = new Vector2( paperNumberPlayAreaNode.left / 2, paperNumberPlayAreaNode.centerY );
     this.addChild( tenFrameCreatorIconNode );
 
     this.tenFrameNodes = [];
