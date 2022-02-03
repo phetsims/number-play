@@ -12,11 +12,11 @@ import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import compareScreenIcon_png from '../../images/compareScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
-import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
 import CompareModel from './model/CompareModel.js';
 import CompareScreenView from './view/CompareScreenView.js';
+import NumberPlayQueryParameters from '../common/NumberPlayQueryParameters.js';
 
 const screenCompareString = numberPlayStrings.screen.compare;
 
@@ -37,7 +37,7 @@ class CompareScreen extends Screen {
 
     super(
       () => new CompareModel(
-        NumberPlayConstants.TWENTY,
+        NumberPlayQueryParameters.limitCompare,
         tandem.createTandem( 'model' ) ),
       ( model: CompareModel ) => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
       options

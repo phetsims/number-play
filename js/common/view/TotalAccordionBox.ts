@@ -16,6 +16,7 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 // types
 export type TotalAccordionBoxOptions = {
@@ -46,8 +47,9 @@ class TotalAccordionBox extends AccordionBox {
       rectHeight: height
     } );
 
-    // create the NumberDisplay, which is a numerical representation of the current number
-    const numberDisplay = new NumberDisplay( currentNumberProperty, currentNumberProperty.range, {
+    // create the NumberDisplay, which is a numerical representation of the current number. always format for numbers
+    // up to twenty so the display looks consistent across screens.
+    const numberDisplay = new NumberDisplay( currentNumberProperty, new Range( 0, NumberPlayConstants.TWENTY ), {
       decimalPlaces: 0,
       align: 'right',
       noValueAlign: 'left',
