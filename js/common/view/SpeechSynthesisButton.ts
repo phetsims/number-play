@@ -20,6 +20,7 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import audioManager from '../../../../joist/js/audioManager.js';
+import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
@@ -81,11 +82,9 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
       voicingManager.cancelUtterance( speechUtterance );
 
-      // TODO: We should use a different function for this. This is used because we want to use speech synthesis
-      // TODO: outside of the Voicing framework, but we should have something better. A setup for
-      //  outside-of-voicing-use could also do the voicesChangedListener above as well.
+      // TODO: should the voicingManager be observing audioEnabledProperty in this case too?
       // See https://github.com/phetsims/scenery/issues/1336
-      audioManager.audioEnabledProperty.value && voicingManager.speakIgnoringEnabled( speechUtterance );
+      audioManager.audioEnabledProperty.value && numberPlayUtteranceQueue.addToBack( speechUtterance );
     };
 
     // read numeric numbers aloud if the current number changes
