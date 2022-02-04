@@ -46,15 +46,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
           return voice.lang.includes( locale );
         } );
         if ( translatedVoices.length ) {
-          let translatedVoice = translatedVoices[ 0 ];
-
-          // TODO: This language should be the priority from getPrioritizedVoices(), see https://github.com/phetsims/scenery/issues/1282
-          if ( locale === 'en' ) {
-            const englishUSGoogleVoiceIndex = _.findIndex( translatedVoices, translatedVoice => {
-              return translatedVoice.name.includes( 'Google US' );
-            } );
-            translatedVoice = englishUSGoogleVoiceIndex ? translatedVoices[ englishUSGoogleVoiceIndex ] : translatedVoice;
-          }
+          const translatedVoice = translatedVoices[ 0 ];
 
           // @ts-ignore
           voicingManager.voiceProperty.set( translatedVoice );
