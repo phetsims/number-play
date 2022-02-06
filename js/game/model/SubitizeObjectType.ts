@@ -9,13 +9,13 @@
 
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import numberPlay from '../../numberPlay.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
-class SubitizeObjectType extends PlayObjectType {
+class SubitizeObjectType extends CountingObjectType {
   static CIRCLE = new SubitizeObjectType();
 
   static enumeration = new Enumeration( SubitizeObjectType, {
-    instanceType: PlayObjectType
+    instanceType: CountingObjectType
   } );
 }
 

@@ -99,7 +99,7 @@ class SubitizerNode extends Node {
         }
         else {
           object = new Image(
-            CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( subitizer.objectTypeProperty.value.name ), {
+            CountingCommonConstants.COUNTING_OBJECT_TYPE_TO_IMAGE.get( subitizer.objectTypeProperty.value ), {
               maxHeight: scaleMVT.modelToViewDeltaX( subitizer.objectSize )
             } );
         }

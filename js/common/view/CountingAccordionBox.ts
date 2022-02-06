@@ -9,7 +9,7 @@
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -21,7 +21,6 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
-import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
@@ -30,7 +29,7 @@ import GroupAndLinkType from '../model/GroupAndLinkType.js';
 type CountingAccordionBoxOptions = {
   titleString: string,
   contentWidth: number,
-  countingObjectTypes: typeof PlayObjectType | typeof CountingObjectType | null,
+  countingObjectTypes: CountingObjectType[] | null,
   linkedPlayArea?: OnesPlayArea | null,
   groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>
 } & AccordionBoxOptions;
@@ -83,14 +82,14 @@ class CountingAccordionBox extends AccordionBox {
       // create the icons for the RectangularRadioButtonGroup
       // @ts-ignore
       const buttons = [];
-      options.countingObjectTypes.enumeration!.values.forEach( countingObjectType => {
+      options.countingObjectTypes.forEach( countingObjectType => {
         let iconNode = null;
         if ( countingObjectType === CountingObjectType.PAPER_NUMBER ) {
           iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
           iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height );
         }
         else {
-          iconNode = new Image( CountingCommonConstants.PLAY_OBJECT_TYPE_TO_IMAGE.get( countingObjectType.name ), {
+          iconNode = new Image( CountingCommonConstants.COUNTING_OBJECT_TYPE_TO_IMAGE.get( countingObjectType ), {
             maxWidth: RADIO_BUTTON_SIZE.width,
             maxHeight: RADIO_BUTTON_SIZE.height
           } );
@@ -102,7 +101,7 @@ class CountingAccordionBox extends AccordionBox {
         } );
       } );
 
-      // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+      // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
       // @ts-ignore
       radioButtonGroup = new RectangularRadioButtonGroup( countingObjectTypeProperty, buttons, {
         baseColor: Color.WHITE,

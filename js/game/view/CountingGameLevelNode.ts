@@ -70,7 +70,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     // create and add the objectsPlayAreaNode
     const objectsPlayAreaNode = new OnesPlayAreaNode(
       level.objectsPlayArea,
-      level.playObjectTypeProperty,
+      level.countingObjectTypeProperty,
       objectsPlayAreaViewBounds, {
         includeOnesCreatorPanel: false
       }

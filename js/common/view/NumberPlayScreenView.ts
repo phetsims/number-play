@@ -25,12 +25,11 @@ import TotalAccordionBox, { TotalAccordionBoxOptions } from './TotalAccordionBox
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -115,9 +114,10 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
-      model.playObjectTypeProperty,
+      model.countingObjectTypeProperty,
       options.lowerAccordionBoxHeight, {
-        countingObjectTypes: PlayObjectType,
+        countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
+          CountingObjectType.BALL ],
         groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
@@ -163,7 +163,7 @@ class NumberPlayScreenView extends ScreenView {
       } );
     } );
 
-    // create and add the RectangularRadioButtonGroup, which is a control for changing the PlayObjectType of the playObjects
+    // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup for groupingLinkingButtons, see above TODO
     const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupAndLinkTypeProperty, groupingLinkingButtons, {
       baseColor: NumberPlayColors.blueBackgroundColorProperty,

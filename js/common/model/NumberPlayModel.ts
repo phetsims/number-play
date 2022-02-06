@@ -16,7 +16,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupAndLinkType from './GroupAndLinkType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 class NumberPlayModel {
 
@@ -25,7 +25,7 @@ class NumberPlayModel {
   public readonly isResettingProperty: BooleanProperty;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
-  public readonly playObjectTypeProperty: EnumerationProperty<PlayObjectType>;
+  public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
   private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
@@ -44,7 +44,7 @@ class NumberPlayModel {
     this.isResettingProperty = new BooleanProperty( false );
 
     // the type of objects in the objects play area. primarily used in the view.
-    this.playObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
+    this.countingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
     // whether the objects play area is ungrouped, grouped, or linked. set by the view controls and used to
     // link/unlink play areas in the view and drive the grouped/ungrouped state in the model
@@ -84,7 +84,7 @@ class NumberPlayModel {
    */
   public reset(): void {
     this.isResettingProperty.value = true;
-    this.playObjectTypeProperty.reset();
+    this.countingObjectTypeProperty.reset();
     this.groupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();

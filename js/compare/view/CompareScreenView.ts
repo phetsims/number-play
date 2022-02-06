@@ -91,7 +91,7 @@ class CompareScreenView extends ScreenView {
       model.leftPlayArea,
       model.leftCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_HEIGHT, {
-        countingObjectTypes: CountingObjectType,
+        countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
@@ -105,7 +105,7 @@ class CompareScreenView extends ScreenView {
       model.rightPlayArea,
       model.rightCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_HEIGHT, {
-        countingObjectTypes: CountingObjectType,
+        countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
         contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty

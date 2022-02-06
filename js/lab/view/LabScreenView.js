@@ -7,7 +7,7 @@
  */
 
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import PlayObjectType from '../../../../counting-common/js/common/model/PlayObjectType.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
@@ -94,26 +94,26 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberPanel );
 
     // create and add the left ObjectsPlayAreaNode
-    const leftPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.DOG );
+    const leftCountingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
     const leftObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.leftObjectsPlayArea,
       playAreaViewBounds,
       this.modelViewTransform, {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: leftPlayObjectTypeProperty,
+        countingObjectTypeProperty: leftCountingObjectTypeProperty,
         backgroundDragTargetNode: backgroundDragTargetNode
       }
     );
     this.addChild( leftObjectsPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const rightPlayObjectTypeProperty = new EnumerationProperty( PlayObjectType.BALL );
+    const rightCountingObjectTypeProperty = new EnumerationProperty( CountingObjectType.BALL );
     const rightObjectsPlayAreaNode = new OnesPlayAreaNode(
       model.rightObjectsPlayArea,
       playAreaViewBounds,
       this.modelViewTransform, {
         paperNumberLayerNode: this.pieceLayer,
-        playObjectTypeProperty: rightPlayObjectTypeProperty,
+        countingObjectTypeProperty: rightCountingObjectTypeProperty,
         backgroundDragTargetNode: backgroundDragTargetNode
       }
     );

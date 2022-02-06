@@ -245,7 +245,7 @@ class Subitizer {
     this.isShapeVisibleProperty.value = false;
 
     // set play object type and shape
-    this.setRandomPlayObjectType();
+    this.setRandomCountingObjectType();
     this.setNewPoints();
 
     // skip the challenge started sequence in the step function
@@ -318,7 +318,7 @@ class Subitizer {
   /**
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
-  private setRandomPlayObjectType(): void {
+  private setRandomCountingObjectType(): void {
     this._objectTypeProperty.value = dotRandom.sample( CountingObjectType.enumeration.values.slice() );
   }
 
