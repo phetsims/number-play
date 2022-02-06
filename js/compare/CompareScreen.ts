@@ -37,7 +37,7 @@ class CompareScreen extends Screen {
 
     super(
       () => new CompareModel(
-        NumberPlayQueryParameters.limitCompare,
+        NumberPlayQueryParameters.compareMax,
         tandem.createTandem( 'model' ) ),
       ( model: CompareModel ) => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
       options

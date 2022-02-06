@@ -14,7 +14,7 @@ import NumberPlayConstants from './NumberPlayConstants.js';
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
   // the highest number that the 'Compare' screen can count to. Must be an integer between 1 and 20.
-  limitCompare: {
+  compareMax: {
     public: true,
     type: 'number',
     defaultValue: NumberPlayConstants.TWENTY,
