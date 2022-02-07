@@ -19,7 +19,6 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import audioManager from '../../../../joist/js/audioManager.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 
@@ -83,9 +82,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
       numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
 
-      // TODO: should the voicingManager be observing audioEnabledProperty in this case too?
-      // See https://github.com/phetsims/scenery/issues/1336
-      audioManager.audioEnabledProperty.value && numberPlayUtteranceQueue.addToBack( speechUtterance );
+      numberPlayUtteranceQueue.addToBack( speechUtterance );
     };
 
     // read numeric numbers aloud if the current number changes
