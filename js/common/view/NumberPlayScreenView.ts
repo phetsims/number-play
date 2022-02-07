@@ -10,7 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Image, voicingManager } from '../../../../scenery/js/imports.js';
+import { Image } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import groupingScene1_png from '../../../images/groupingScene1_png.js';
 import groupingScene2_png from '../../../images/groupingScene2_png.js';
@@ -30,6 +30,7 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -141,7 +142,7 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( resetAllButton );
 
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
-    if ( voicingManager.initialized ) {
+    if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
       const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, model.isPrimaryLocaleProperty, true );
       speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = tenFrameAccordionBox.top;

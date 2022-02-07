@@ -13,7 +13,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Text, voicingManager } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
@@ -31,6 +31,7 @@ import ComparisonTextNode from './ComparisonTextNode.js';
 import CountingAccordionBox from '../../common/view/CountingAccordionBox.js';
 import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 
 // constants
 const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
@@ -179,7 +180,7 @@ class CompareScreenView extends ScreenView {
     let localeSwitchCenterY;
 
     // create and add the SpeechSynthesisButton if the voiceManager is initialized
-    if ( voicingManager.initialized ) {
+    if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
       const speechSynthesisButton = new SpeechSynthesisButton(
         comparisonTextNode.comparisonStringProperty,
         model.isPrimaryLocaleProperty

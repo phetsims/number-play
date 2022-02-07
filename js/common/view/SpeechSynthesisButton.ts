@@ -10,7 +10,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
-import { Color, Path, voicingManager } from '../../../../scenery/js/imports.js';
+import { Color, Path } from '../../../../scenery/js/imports.js';
 import bullhornSolidShape from '../../../../sherpa/js/fontawesome-5/bullhornSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
@@ -21,6 +21,7 @@ import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import audioManager from '../../../../joist/js/audioManager.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
+import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
@@ -41,30 +42,30 @@ class SpeechSynthesisButton extends RectangularPushButton {
       assert && assert( locale, `locale does not exist: ${locale}` );
 
       // in case we don't have any voices yet, wait until the voicesChangedEmitter sends an event
-      if ( voicingManager.voices.length > 0 ) {
+      if ( numberPlaySpeechSynthesisAnnouncer.voices.length > 0 ) {
 
-        const translatedVoices = _.filter( voicingManager.getPrioritizedVoices(), voice => {
+        const translatedVoices = _.filter( numberPlaySpeechSynthesisAnnouncer.getPrioritizedVoices(), voice => {
           return voice.lang.includes( locale );
         } );
         if ( translatedVoices.length ) {
           const translatedVoice = translatedVoices[ 0 ];
 
           // @ts-ignore
-          voicingManager.voiceProperty.set( translatedVoice );
+          numberPlaySpeechSynthesisAnnouncer.voiceProperty.set( translatedVoice );
         }
         else {
           console.log( `No voices found for locale: ${locale}` );
         }
 
-        if ( voicingManager.voicesChangedEmitter.hasListener( voicesChangedListener ) ) {
-          voicingManager.voicesChangedEmitter.removeListener( voicesChangedListener );
+        if ( numberPlaySpeechSynthesisAnnouncer.voicesChangedEmitter.hasListener( voicesChangedListener ) ) {
+          numberPlaySpeechSynthesisAnnouncer.voicesChangedEmitter.removeListener( voicesChangedListener );
         }
       }
     };
 
     // Voices may not be available on load or the list of voices may change - update if we get an indication that
     // the list of available voices has changed
-    voicingManager.voicesChangedEmitter.addListener( voicesChangedListener );
+    numberPlaySpeechSynthesisAnnouncer.voicesChangedEmitter.addListener( voicesChangedListener );
 
     // However, some browsers DO give the voices eagerly and will never emit an event that the list changed so try to
     // set the voice eagerly. Also set up a link so that the voice is changed when the locale changes.
@@ -80,7 +81,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
       speechUtterance.alert = readNumber ? NumberPlayConstants.numberToString( textProperty.value, isPrimaryLocaleProperty.value ) :
                               textProperty.value;
 
-      voicingManager.cancelUtterance( speechUtterance );
+      numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
 
       // TODO: should the voicingManager be observing audioEnabledProperty in this case too?
       // See https://github.com/phetsims/scenery/issues/1336

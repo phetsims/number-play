@@ -15,6 +15,11 @@ import numberPlayStrings from './numberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
 import NumberPlayQueryParameters from './common/NumberPlayQueryParameters.js';
+import numberPlaySpeechSynthesisAnnouncer from './common/view/numberPlaySpeechSynthesisAnnouncer.js';
+import { Display } from '../../scenery/js/imports.js';
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import audioManager from '../../joist/js/audioManager.js';
+import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 
 // get our
 if ( NumberPlayQueryParameters.secondLocale ) {
@@ -55,4 +60,23 @@ simLauncher.launch( () => {
     new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) )
   ], simOptions );
   sim.start();
+
+  // initialize the SpeechSynthesisAnnouncer that will use speech synthesis to speak numbers
+  if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
+    numberPlaySpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, {
+
+      // specify the Properties that control whether or not output is allowed with speech synthesis
+      speechAllowedProperty: new DerivedProperty( [
+        sim.isConstructionCompleteProperty,
+        sim.browserTabVisibleProperty,
+        sim.activeProperty,
+        sim.isSettingPhetioStateProperty,
+        audioManager.audioEnabledProperty
+      ], ( simConstructionComplete, simVisible, simActive, simSettingPhetioState, audioEnabled ) => {
+        return simConstructionComplete && simVisible && simActive && !simSettingPhetioState && audioEnabled;
+      } )
+    } );
+
+    numberPlaySpeechSynthesisAnnouncer.enabledProperty.value = true;
+  }
 } );

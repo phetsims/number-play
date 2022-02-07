@@ -9,12 +9,10 @@
  */
 
 import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
-import { voicingManager } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
+import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 
-const numberPlayUtteranceQueue = new UtteranceQueue( voicingManager );
-// TODO: Use a manager just specific to speech synthesis, not the whole voicingManager, see https://github.com/phetsims/utterance-queue/issues/34
-voicingManager.enabledProperty.value = true;
+const numberPlayUtteranceQueue = new UtteranceQueue( numberPlaySpeechSynthesisAnnouncer );
 
 numberPlay.register( 'numberPlayUtteranceQueue', numberPlayUtteranceQueue );
 export default numberPlayUtteranceQueue;
