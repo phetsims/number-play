@@ -59,7 +59,6 @@ class CompareScreenView extends ScreenView {
 
     // config for the left and right TotalAccordionBox
     const totalAccordionBoxOptions = {
-      fill: NumberPlayColors.whiteBackgroundColorProperty,
       font: new PhetFont( 78 ),
       arrowButtonOptions: {
         arrowWidth: 15, // empirically determined
@@ -72,7 +71,8 @@ class CompareScreenView extends ScreenView {
     const leftTotalAccordionBox = new TotalAccordionBox(
       model.leftCurrentNumberProperty,
       UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
-        expandedProperty: this.leftTotalAccordionBoxExpandedProperty
+        expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
+        fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
       }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftTotalAccordionBox );
@@ -81,7 +81,8 @@ class CompareScreenView extends ScreenView {
     const rightTotalAccordionBox = new TotalAccordionBox(
       model.rightCurrentNumberProperty,
       UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
-        expandedProperty: this.rightTotalAccordionBoxExpandedProperty
+        expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
+        fill: NumberPlayColors.lightOrangeBackgroundColorProperty
       }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
