@@ -31,6 +31,7 @@ class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<Co
     countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2, false );
     // @ts-ignore
     countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode(
+      100,
       new Range( 0, 5 ), {
         includeLabels: false,
         minorLineWidth: 2, // empirically determined
