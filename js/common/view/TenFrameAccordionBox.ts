@@ -7,40 +7,36 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
-import { Rectangle, Text } from '../../../../scenery/js/imports.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
-import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 import TenFrameNode from './TenFrameNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
-// strings
-const tenFrameString = numberPlayStrings.tenFrame;
+// types
+type TenFrameAccordionBoxSelfOptions = {
+  tenFrameOffsetX: number
+};
+export type TenFrameAccordionBoxOptions = TenFrameAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 
-class TenFrameAccordionBox extends AccordionBox {
+class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( currentNumberProperty: NumberProperty, height: number, provideOptions: Partial<AccordionBoxOptions> ) {
+  constructor( currentNumberProperty: NumberProperty, height: number, options: TenFrameAccordionBoxOptions ) {
 
-    const options = merge( {
-      titleNode: new Text( tenFrameString, {
-        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
-        maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
-      } ),
-      minWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, provideOptions ) as AccordionBoxOptions;
-
-    const contentNode = new Rectangle( { rectHeight: height } );
+    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
+      optionize<TenFrameAccordionBoxOptions, TenFrameAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
+        titleString: numberPlayStrings.tenFrame,
+        titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+      }, options ) );
 
     // create, scale, and add the TenFrameNode
     const tenFrameNode = new TenFrameNode( currentNumberProperty );
     tenFrameNode.scale( height / tenFrameNode.height / 2 );
-    tenFrameNode.centerY = contentNode.centerY;
-    contentNode.addChild( tenFrameNode );
-
-    super( contentNode, options );
+    tenFrameNode.centerX = this.contentBounds.centerX + options.tenFrameOffsetX;
+    tenFrameNode.centerY = this.contentBounds.centerY;
+    this.contentNode.addChild( tenFrameNode );
   }
 }
 

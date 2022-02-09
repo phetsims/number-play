@@ -7,45 +7,34 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import merge from '../../../../phet-core/js/merge.js';
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { Font, HBox, Rectangle, Text, VBox } from '../../../../scenery/js/imports.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import { Font, HBox, VBox } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
-import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
-export type TotalAccordionBoxOptions = {
+type TotalAccordionBoxSelfOptions = {
   font: Font,
-  contentXMargin?: number,
   arrowButtonOptions: Object, // TODO-TS: should be ArrowButtonOptions
   arrowButtonSpacing: number
 };
-type TotalAccordionBoxImplementationOptions = AccordionBoxOptions & TotalAccordionBoxOptions;
+export type TotalAccordionBoxOptions = TotalAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 
-// strings
-const totalString = numberPlayStrings.total;
+class TotalAccordionBox extends NumberPlayAccordionBox {
 
-class TotalAccordionBox extends AccordionBox {
+  constructor( currentNumberProperty: NumberProperty, height: number, options: TotalAccordionBoxOptions ) {
 
-  constructor( currentNumberProperty: NumberProperty, height: number, providedOptions: TotalAccordionBoxOptions ) {
-
-    const options = merge( {
-      titleNode: new Text( totalString, {
-        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
-        maxWidth: 142 // empirically determined to not shrink accordion box content
-      } ),
-      minWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH,
-      maxWidth: NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as TotalAccordionBoxImplementationOptions;
-
-    const contentNode = new Rectangle( {
-      rectHeight: height
-    } );
+    super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, height,
+      optionize<TotalAccordionBoxOptions, TotalAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
+        titleString: numberPlayStrings.total,
+        titleMaxWidth: 142
+      }, options ) );
 
     // create the NumberDisplay, which is a numerical representation of the current number. always format for numbers
     // up to twenty so the display looks consistent across screens.
@@ -81,10 +70,8 @@ class TotalAccordionBox extends AccordionBox {
 
     // arrange and add the number display and arrow buttons
     const numberControl = new HBox( { children: [ numberDisplay, arrowButtons ] } );
-    numberControl.center = contentNode.center;
-    contentNode.addChild( numberControl );
-
-    super( contentNode, options );
+    numberControl.center = this.contentBounds.center;
+    this.contentNode.addChild( numberControl );
   }
 }
 

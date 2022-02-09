@@ -15,7 +15,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import twentyScreenIcon_png from '../../images/twentyScreenIcon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
-import NumberPlayConstants, { AccordionBoxOptions } from '../common/NumberPlayConstants.js';
+import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
@@ -41,23 +41,22 @@ class TwentyScreen extends Screen {
       wordAccordionBoxOptions: {
         fill: NumberPlayColors.orangeBackgroundColorProperty,
         font: new PhetFont( 54 ),
-        contentXMargin: 10, // zero out to manage x margins in subclass TODO: unsure why 10 is needed to act like 0
-        textOffset: new Vector2( 10, -10 ),
-        localeSwitchOffset: new Vector2( -10, -7 )
+        textOffset: new Vector2( 40, -10 ),
+        localeSwitchOffsetY: -7
       },
       totalAccordionBoxOptions: {
         fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
-        font: new PhetFont( 76 ),
+        font: new PhetFont( 80 ),
         arrowButtonOptions: {
-          arrowWidth: 15, // empirically determined
-          arrowHeight: 15 // empirically determined
+          arrowWidth: 16, // empirically determined
+          arrowHeight: 16 // empirically determined
         },
         arrowButtonSpacing: 5 // empirically determined
       },
       tenFrameAccordionBoxOptions: {
         fill: NumberPlayColors.orangeBackgroundColorProperty,
-        contentAlign: 'right'
-      } as AccordionBoxOptions,
+        tenFrameOffsetX: 13
+      },
       upperAccordionBoxHeight: NumberPlayConstants.TWENTY_UPPER_ACCORDION_BOX_HEIGHT,
       lowerAccordionBoxHeight: NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,
       tandem: tandem.createTandem( 'view' )

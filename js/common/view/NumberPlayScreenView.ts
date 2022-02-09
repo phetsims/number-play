@@ -17,10 +17,10 @@ import groupingScene2_png from '../../../images/groupingScene2_png.js';
 import groupingScene3_png from '../../../images/groupingScene3_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
-import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 import CountingAccordionBox from './CountingAccordionBox.js';
 import SpeechSynthesisButton from './SpeechSynthesisButton.js';
-import TenFrameAccordionBox from './TenFrameAccordionBox.js';
+import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
 import TotalAccordionBox, { TotalAccordionBoxOptions } from './TotalAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
@@ -36,7 +36,7 @@ import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynth
 type NumberPlayScreenViewOptions = {
   wordAccordionBoxOptions: WordAccordionBoxOptions,
   totalAccordionBoxOptions: TotalAccordionBoxOptions,
-  tenFrameAccordionBoxOptions: Partial<AccordionBoxOptions>,
+  tenFrameAccordionBoxOptions: TenFrameAccordionBoxOptions,
   upperAccordionBoxHeight: number,
   lowerAccordionBoxHeight: number,
   tandem: Tandem
@@ -94,7 +94,7 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
-      }, options.tenFrameAccordionBoxOptions ) );
+      }, options.tenFrameAccordionBoxOptions ) as TenFrameAccordionBoxOptions );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );

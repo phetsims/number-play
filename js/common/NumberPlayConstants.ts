@@ -95,11 +95,11 @@ const NumberPlayConstants = {
   // accordion box sizing for the 'Ten', 'Twenty', and 'Compare' screens
 
   // sizing for the 'upper' accordion boxes, which include the 'Number', 'Total', and 'Ten Frame' accordion boxes
-  TOTAL_ACCORDION_BOX_WIDTH: 200,           // width of the 'Total' accordion box on all three screens
-  UPPER_OUTER_ACCORDION_BOX_WIDTH: 310,     // width of the accordion boxes in the upper left and upper right of the
+  TOTAL_ACCORDION_BOX_WIDTH: 199,           // width of the 'Total' accordion box on all three screens
+  UPPER_OUTER_ACCORDION_BOX_WIDTH: 308,     // width of the accordion boxes in the upper left and upper right of the
                                             // 'Ten' and 'Twenty' screens
   UPPER_OUTER_AB_TITLE_MAX_WIDTH: 254,      // max width of the title of the upper outer accordion boxes
-  TEN_UPPER_ACCORDION_BOX_HEIGHT: 146,      // height of the upper accordion boxes on the 'Ten' screen
+  TEN_UPPER_ACCORDION_BOX_HEIGHT: 145,      // height of the upper accordion boxes on the 'Ten' screen
   TWENTY_UPPER_ACCORDION_BOX_HEIGHT: 98,    // height of the upper accordion boxes on the 'Twenty' screen
 
   // sizing for the 'lower' accordion boxes, which include the 'Ones' and 'Objects' accordion boxes
