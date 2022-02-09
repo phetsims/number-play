@@ -13,7 +13,7 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
-const SIDE_LENGTH = 19; // the side length of one block
+const SIDE_LENGTH = 20.8; // the side length of one block
 const PADDING = 2; // padding between blocks
 
 class BlockValuesNode extends Node {
