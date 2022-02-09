@@ -42,18 +42,18 @@ type NumberPlayAccordionBoxSelfOptions = {
 export type NumberPlayAccordionBoxOptions = NumberPlayAccordionBoxSelfOptions & AccordionBoxOptions;
 
 // constants
-const ACCORDION_BOX_MARGIN = 10;
+const PADDING = 10;
 const EXPAND_COLLAPSE_BUTTON_SIZE = 20;
 
 class NumberPlayAccordionBox extends AccordionBox {
   protected readonly contentNode: Rectangle;
   protected readonly contentBounds: Bounds2;
 
-  constructor( width: number, height: number, options: NumberPlayAccordionBoxOptions ) {
+  constructor( contentWidth: number, contentHeight: number, options: NumberPlayAccordionBoxOptions ) {
 
     const contentNode = new Rectangle( {
-      rectWidth: width,
-      rectHeight: height
+      rectWidth: contentWidth - EXPAND_COLLAPSE_BUTTON_SIZE - ( PADDING * 2 ),
+      rectHeight: contentHeight
     } );
 
     const innerContentBounds = new Bounds2( contentNode.left, contentNode.top, contentNode.right, contentNode.bottom );
@@ -71,10 +71,10 @@ class NumberPlayAccordionBox extends AccordionBox {
       titleXSpacing: 8,
       showTitleWhenExpanded: false,
       cornerRadius: 6,
-      titleYMargin: ACCORDION_BOX_MARGIN,
-      buttonXMargin: ACCORDION_BOX_MARGIN,
-      buttonYMargin: ACCORDION_BOX_MARGIN,
-      contentXMargin: ACCORDION_BOX_MARGIN,
+      titleYMargin: PADDING,
+      buttonXMargin: PADDING,
+      buttonYMargin: PADDING,
+      contentXMargin: PADDING,
       contentYMargin: 0,
       contentXSpacing: 0,
       contentAlign: 'left',
@@ -87,8 +87,12 @@ class NumberPlayAccordionBox extends AccordionBox {
     this.contentNode = contentNode;
 
     // expose the full bounds of the visible area inside the accordion box
-    this.contentBounds = innerContentBounds.withOffsets( ACCORDION_BOX_MARGIN + EXPAND_COLLAPSE_BUTTON_SIZE, 0,
-      ACCORDION_BOX_MARGIN, 0 );
+    this.contentBounds = innerContentBounds.withOffsets( PADDING + EXPAND_COLLAPSE_BUTTON_SIZE, 0, PADDING, 0 );
+
+    assert && assert( this.contentBounds.width === contentWidth,
+      'available content bounds width should match provided contentWidth' );
+    assert && assert( this.contentBounds.height === contentHeight,
+      'available content bounds height should match provided height' );
   }
 }
 

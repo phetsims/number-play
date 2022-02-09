@@ -34,9 +34,9 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 
 // constants
-const UPPER_ACCORDION_BOX_HEIGHT = 90; // empirically determined, in screen coordinates
-const LOWER_ACCORDION_BOX_HEIGHT = 437; // empirically determined, in screen coordinates
-const LOWER_ACCORDION_BOX_CONTENT_WIDTH = 350; // in screen coordinates
+const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 90; // in screen coordinates
+const LOWER_ACCORDION_BOX_CONTENT_WIDTH = 390; // in screen coordinates
+const LOWER_ACCORDION_BOX_CONTENT_HEIGHT = 437; // in screen coordinates
 
 // strings
 const lessThanString = '<';
@@ -72,7 +72,7 @@ class CompareScreenView extends ScreenView {
     // create and add the left TotalAccordionBox
     const leftTotalAccordionBox = new TotalAccordionBox(
       model.leftCurrentNumberProperty,
-      UPPER_ACCORDION_BOX_HEIGHT, merge( {
+      UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
         expandedProperty: this.leftTotalAccordionBoxExpandedProperty
       }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
@@ -81,7 +81,7 @@ class CompareScreenView extends ScreenView {
     // create and add the right TotalAccordionBox
     const rightTotalAccordionBox = new TotalAccordionBox(
       model.rightCurrentNumberProperty,
-      UPPER_ACCORDION_BOX_HEIGHT, merge( {
+      UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
         expandedProperty: this.rightTotalAccordionBoxExpandedProperty
       }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
@@ -92,7 +92,7 @@ class CompareScreenView extends ScreenView {
       model.leftPlayArea,
       model.leftCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      LOWER_ACCORDION_BOX_HEIGHT, {
+      LOWER_ACCORDION_BOX_CONTENT_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
@@ -106,7 +106,7 @@ class CompareScreenView extends ScreenView {
       model.rightPlayArea,
       model.rightCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      LOWER_ACCORDION_BOX_HEIGHT, {
+      LOWER_ACCORDION_BOX_CONTENT_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
