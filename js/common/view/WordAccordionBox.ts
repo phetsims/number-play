@@ -30,7 +30,6 @@ export type WordAccordionBoxOptions = WordAccordionBoxSelfOptions & NumberPlayAc
 // constants
 const TEXT_MARGIN = 5;
 
-
 class WordAccordionBox extends NumberPlayAccordionBox {
 
   constructor( currentNumberProperty: NumberProperty, isPrimaryLocaleProperty: BooleanProperty, height: number,

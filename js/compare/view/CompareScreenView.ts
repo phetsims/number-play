@@ -34,9 +34,8 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 
 // constants
-const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 90; // in screen coordinates
+const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates
 const LOWER_ACCORDION_BOX_CONTENT_WIDTH = 390; // in screen coordinates
-const LOWER_ACCORDION_BOX_CONTENT_HEIGHT = 437; // in screen coordinates
 
 // strings
 const lessThanString = '<';
@@ -61,12 +60,12 @@ class CompareScreenView extends ScreenView {
     // config for the left and right TotalAccordionBox
     const totalAccordionBoxOptions = {
       fill: NumberPlayColors.whiteBackgroundColorProperty,
-      font: new PhetFont( 90 ),
+      font: new PhetFont( 78 ),
       arrowButtonOptions: {
-        arrowWidth: 18, // empirically determined
-        arrowHeight: 18 // empirically determined
+        arrowWidth: 15, // empirically determined
+        arrowHeight: 15 // empirically determined
       },
-      arrowButtonSpacing: 7 // empirically determined
+      arrowButtonSpacing: 5 // empirically determined
     };
 
     // create and add the left TotalAccordionBox
@@ -92,7 +91,7 @@ class CompareScreenView extends ScreenView {
       model.leftPlayArea,
       model.leftCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      LOWER_ACCORDION_BOX_CONTENT_HEIGHT, {
+      NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
@@ -106,7 +105,7 @@ class CompareScreenView extends ScreenView {
       model.rightPlayArea,
       model.rightCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      LOWER_ACCORDION_BOX_CONTENT_HEIGHT, {
+      NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
