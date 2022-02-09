@@ -10,70 +10,49 @@
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import merge from '../../../../phet-core/js/merge.js';
-import { Color, Image, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import { Color, Image, Node } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import NumberPlayConstants, { AccordionBoxOptions } from '../NumberPlayConstants.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
+import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
-type CountingAccordionBoxOptions = {
-  titleString: string,
-  contentWidth: number,
-  countingObjectTypes: CountingObjectType[] | null,
+type CountingAccordionBoxSelfOptions = {
+  countingObjectTypes?: CountingObjectType[] | null,
   linkedPlayArea?: OnesPlayArea | null,
   groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>
-} & AccordionBoxOptions;
+};
+type CountingAccordionBoxOptions = CountingAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
-const CONTENT_OVERFLOW_LEFT = 30; // amount of "inaccessible" space in an AccordionBox, in screen coordinates
-const CONTENT_OVERFLOW_RIGHT = 10; // amount of "inaccessible" space in an AccordionBox, in screen coordinates
 
-class CountingAccordionBox extends AccordionBox {
+class CountingAccordionBox extends NumberPlayAccordionBox {
 
   constructor( playArea: OnesPlayArea,
                countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
+               width: number,
                height: number,
-               providedOptions: Partial<CountingAccordionBoxOptions> ) {
+               options: CountingAccordionBoxOptions ) {
 
-    const options = merge( {
+    super( width, height, optionize<CountingAccordionBoxOptions, CountingAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
       titleString: numberPlayStrings.objects,
-      contentWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
+      titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH,
       countingObjectTypes: null,
       linkedPlayArea: null,
       groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
-    }, NumberPlayConstants.ACCORDION_BOX_OPTIONS, providedOptions ) as CountingAccordionBoxOptions;
+    }, options ) );
 
-    const contentNode = new Rectangle( {
-      rectHeight: height,
-      rectWidth: options.contentWidth
-    } );
-
-    const playAreaContentBounds = new Bounds2(
-      contentNode.left,
-      contentNode.top,
-      contentNode.right,
-      contentNode.bottom
-    );
-
-    // set the local bounds so they don't change
-    contentNode.localBounds = playAreaContentBounds;
-
-    // compensate for AccordionBox not giving access to all horizontal space
-    const playAreaViewBounds = playAreaContentBounds.withOffsets( CONTENT_OVERFLOW_LEFT, 0, CONTENT_OVERFLOW_RIGHT, 0 );
-
-    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty, playAreaViewBounds );
-    contentNode.addChild( objectsPlayAreaNode );
+    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty, this.contentBounds );
+    this.contentNode.addChild( objectsPlayAreaNode );
 
     // TODO-TS: use specific RadioButtonGroup type
     let radioButtonGroup: Node | null = null;
@@ -108,9 +87,9 @@ class CountingAccordionBox extends AccordionBox {
         orientation: 'horizontal',
         spacing: 10
       } );
-      radioButtonGroup.right = playAreaViewBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      radioButtonGroup.bottom = playAreaViewBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      contentNode.addChild( radioButtonGroup );
+      radioButtonGroup.right = this.contentBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      radioButtonGroup.bottom = this.contentBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      this.contentNode.addChild( radioButtonGroup );
     }
 
     // add the linked play area
@@ -118,11 +97,11 @@ class CountingAccordionBox extends AccordionBox {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         options.linkedPlayArea,
         countingObjectTypeProperty,
-        playAreaViewBounds, {
+        this.contentBounds, {
           viewHasIndependentModel: false
         }
       );
-      contentNode.addChild( linkedObjectsPlayAreaNode );
+      this.contentNode.addChild( linkedObjectsPlayAreaNode );
 
       options.groupAndLinkTypeProperty.link( groupAndLinkType => {
         objectsPlayAreaNode.visible = !( groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
@@ -130,13 +109,6 @@ class CountingAccordionBox extends AccordionBox {
         radioButtonGroup && radioButtonGroup.moveToFront();
       } );
     }
-
-    super( contentNode, merge( {
-      titleNode: new Text( options.titleString, {
-        font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
-        maxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH
-      } )
-    }, options ) );
   }
 }
 

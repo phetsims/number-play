@@ -91,10 +91,10 @@ class CompareScreenView extends ScreenView {
     const leftCountingAccordionBox = new CountingAccordionBox(
       model.leftPlayArea,
       model.leftCountingObjectTypeProperty,
+      LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       LOWER_ACCORDION_BOX_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
-        contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
       } );
     leftCountingAccordionBox.left = NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
@@ -105,10 +105,10 @@ class CompareScreenView extends ScreenView {
     const rightCountingAccordionBox = new CountingAccordionBox(
       model.rightPlayArea,
       model.rightCountingObjectTypeProperty,
+      LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       LOWER_ACCORDION_BOX_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
-        contentWidth: LOWER_ACCORDION_BOX_CONTENT_WIDTH,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
       } );
     rightCountingAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;

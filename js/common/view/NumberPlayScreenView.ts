@@ -103,6 +103,7 @@ class NumberPlayScreenView extends ScreenView {
     const onesAccordionBox = new CountingAccordionBox(
       model.onesPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
+      NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
@@ -116,6 +117,7 @@ class NumberPlayScreenView extends ScreenView {
     this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
       model.countingObjectTypeProperty,
+      NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       options.lowerAccordionBoxHeight, {
         countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
           CountingObjectType.BALL ],
