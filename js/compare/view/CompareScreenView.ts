@@ -119,29 +119,6 @@ class CompareScreenView extends ScreenView {
     leftTotalAccordionBox.right = leftCountingAccordionBox.right;
     rightTotalAccordionBox.left = rightCountingAccordionBox.left;
 
-    // create and add the CompareCountingTypeRadioButtonGroup
-    const countingTypeRadioButtonGroup = new CompareCountingTypeRadioButtonGroup( model.countingTypeProperty );
-    countingTypeRadioButtonGroup.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
-    countingTypeRadioButtonGroup.top = leftTotalAccordionBox.top;
-    this.addChild( countingTypeRadioButtonGroup );
-
-    // create and add the show comparison checkbox
-    const boxWidth = 30;
-    const showComparisonCheckbox = new Checkbox(
-      new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
-      model.comparisonSignsAndTextVisibleProperty, {
-        boxWidth: boxWidth
-      } );
-    showComparisonCheckbox.left = countingTypeRadioButtonGroup.left;
-    showComparisonCheckbox.top = countingTypeRadioButtonGroup.bottom + 13; // empirically determined
-    this.addChild( showComparisonCheckbox );
-
-    // create and add the comparison signs node
-    const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
-    this.addChild( comparisonSignsNode );
-    comparisonSignsNode.centerX = this.layoutBounds.centerX;
-    comparisonSignsNode.centerY = leftTotalAccordionBox.centerY;
-
     // create and add the ComparisonTextNode
     const comparisonTextNode = new ComparisonTextNode(
       model.leftCurrentNumberProperty,
@@ -151,6 +128,60 @@ class CompareScreenView extends ScreenView {
     );
     comparisonTextNode.centerY = new Range( leftTotalAccordionBox.bottom, leftCountingAccordionBox.top ).getCenter();
     this.addChild( comparisonTextNode );
+
+    // positioning variables for the LocaleSwitch that depend on whether the SpeechSynthesisButton is created below
+    let localeSwitchXRange;
+    let localeSwitchCenterY;
+
+    // create and add the SpeechSynthesisButton if the voiceManager is initialized
+    if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
+      const speechSynthesisButton = new SpeechSynthesisButton(
+        comparisonTextNode.comparisonStringProperty,
+        model.isPrimaryLocaleProperty
+      );
+      speechSynthesisButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+      speechSynthesisButton.top = rightTotalAccordionBox.top;
+      this.addChild( speechSynthesisButton );
+
+      // position the localeSwitch relative to the speechSynthesisButton
+      localeSwitchXRange = new Range( speechSynthesisButton.right, leftTotalAccordionBox.left );
+      localeSwitchCenterY = speechSynthesisButton.centerY;
+    }
+    else {
+
+      // position the localeSwitch relative to the rightTotalAccordionBox if the speechSynthesisButton doesn't exist
+      localeSwitchXRange = new Range( this.layoutBounds.minX, leftTotalAccordionBox.left );
+      localeSwitchCenterY = leftTotalAccordionBox.top + 20;
+    }
+
+    // create and add the LocaleSwitch
+    const localeSwitchXMargin = 15; // empirically determined
+      const localeSwitchMaxWidth = localeSwitchXRange.getLength() - localeSwitchXMargin * 2;
+    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, localeSwitchMaxWidth );
+    localeSwitch.centerX = localeSwitchXRange.getCenter();
+    localeSwitch.centerY = localeSwitchCenterY;
+    localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
+    this.addChild( localeSwitch );
+
+    // create and add the comparison signs node
+    const comparisonSignsNode = new Text( equalString, { font: new PhetFont( 90 ) } );
+    this.addChild( comparisonSignsNode );
+    comparisonSignsNode.centerX = this.layoutBounds.centerX;
+    comparisonSignsNode.centerY = leftTotalAccordionBox.centerY;
+
+    // create and add the CompareCountingTypeRadioButtonGroup
+    const countingTypeRadioButtonGroup = new CompareCountingTypeRadioButtonGroup( model.countingTypeProperty );
+    countingTypeRadioButtonGroup.right = this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+    countingTypeRadioButtonGroup.top = leftTotalAccordionBox.top;
+    this.addChild( countingTypeRadioButtonGroup );
+
+    // create and add the show comparison checkbox
+    const showComparisonCheckbox = new Checkbox(
+      new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
+      model.comparisonSignsAndTextVisibleProperty );
+    showComparisonCheckbox.right = countingTypeRadioButtonGroup.right;
+    showComparisonCheckbox.top = countingTypeRadioButtonGroup.bottom + 14; // empirically determined
+    this.addChild( showComparisonCheckbox );
 
     // create and add the BlockValuesNode
     const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
@@ -176,40 +207,6 @@ class CompareScreenView extends ScreenView {
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
-
-    // positioning variables for the LocaleSwitch that depend on whether the SpeechSynthesisButton is created below
-    let localeSwitchXRange;
-    let localeSwitchCenterY;
-
-    // create and add the SpeechSynthesisButton if the voiceManager is initialized
-    if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
-      const speechSynthesisButton = new SpeechSynthesisButton(
-        comparisonTextNode.comparisonStringProperty,
-        model.isPrimaryLocaleProperty
-      );
-      speechSynthesisButton.centerX = resetAllButton.centerX;
-      speechSynthesisButton.top = rightTotalAccordionBox.top;
-      this.addChild( speechSynthesisButton );
-
-      // position the localeSwitch relative to the speechSynthesisButton
-      localeSwitchXRange = new Range( rightTotalAccordionBox.right, speechSynthesisButton.left );
-      localeSwitchCenterY = speechSynthesisButton.centerY;
-    }
-    else {
-
-      // position the localeSwitch relative to the rightTotalAccordionBox if the speechSynthesisButton doesn't exist
-      localeSwitchXRange = new Range( rightTotalAccordionBox.right, this.layoutBounds.maxX );
-      localeSwitchCenterY = rightTotalAccordionBox.top + 20; // empirically determined
-    }
-
-    // create and add the LocaleSwitch
-    const localeSwitchXMargin = 10; // empirically determined
-    const localeSwitchMaxWidth = localeSwitchXRange.getLength() - localeSwitchXMargin * 2;
-    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, localeSwitchMaxWidth );
-    localeSwitch.centerX = localeSwitchXRange.getCenter();
-    localeSwitch.centerY = localeSwitchCenterY;
-    localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
-    this.addChild( localeSwitch );
 
     // create and add a button to organize the onesAccordionBox paper ones in a grid
     const leftOrganizeButton = new OrganizeButton( NumberPlayColors.mediumPurpleBackgroundColorProperty, () => {
