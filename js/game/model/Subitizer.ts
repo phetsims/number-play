@@ -256,18 +256,16 @@ class Subitizer {
   }
 
   /**
-   * Reset start sequence if the current challenge is unsolved. Because the start sequence proceeds normally if a user
-   * chooses to leave a challenge after kicking off the start sequence (by clicking play), we need to reset all aspects
-   * of the start sequence (including all parts that happen during the step function).
+   * Resets the start sequence. Because the start sequence proceeds normally if a user chooses to leave a challenge
+   * after kicking off the start sequence (by clicking play), we need to reset all aspects of the start sequence
+   * (including all parts that happen during the step function).
    */
   public resetStartSequence(): void {
-    if ( !this.isChallengeSolvedProperty.value ) {
-      this.isLoadingBarAnimatingProperty.reset();
-      this.resetDelay();
-      this.resetShapeVisible();
-      this._isPlayButtonVisibleProperty.reset();
-      this.isInputEnabledProperty.reset();
-    }
+    this.isLoadingBarAnimatingProperty.reset();
+    this.resetDelay();
+    this.resetShapeVisible();
+    this._isPlayButtonVisibleProperty.reset();
+    this.isInputEnabledProperty.reset();
   }
 
   /**
