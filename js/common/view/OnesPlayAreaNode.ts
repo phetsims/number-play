@@ -335,6 +335,9 @@ class OnesPlayAreaNode extends Node {
       }
       else {
         this.playArea.removePaperNumber( paperNumber );
+
+        // see if the creator node should show any hidden targets since a counting object was just returned
+        this.onesCreatorPanel.countingCreatorNode.checkTargetVisibility();
       }
     }
   }
