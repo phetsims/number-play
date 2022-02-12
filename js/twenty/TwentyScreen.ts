@@ -23,7 +23,7 @@ import numberPlayStrings from '../numberPlayStrings.js';
 const screenTwentyString = numberPlayStrings.screen.twenty;
 
 
-class TwentyScreen extends Screen {
+class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
   constructor( tandem: Tandem ) {
 
@@ -67,7 +67,7 @@ class TwentyScreen extends Screen {
         NumberPlayConstants.TWENTY,
         tandem.createTandem( 'model' )
       ),
-      ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewConfig ),
+      model => new NumberPlayScreenView( model, screenViewConfig ),
       screenOptions
     );
   }

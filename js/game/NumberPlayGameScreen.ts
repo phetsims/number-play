@@ -18,7 +18,7 @@ import numberPlayStrings from '../numberPlayStrings.js';
 import NumberPlayGameModel from './model/NumberPlayGameModel.js';
 import NumberPlayGameScreenView from './view/NumberPlayGameScreenView.js';
 
-class NumberPlayGameScreen extends Screen {
+class NumberPlayGameScreen extends Screen<NumberPlayGameModel, NumberPlayGameScreenView> {
 
   constructor( tandem: Tandem ) {
 
@@ -34,7 +34,7 @@ class NumberPlayGameScreen extends Screen {
 
     super(
       () => new NumberPlayGameModel( tandem.createTandem( 'model' ) ),
-      ( model: NumberPlayGameModel ) => new NumberPlayGameScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new NumberPlayGameScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

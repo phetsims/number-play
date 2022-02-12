@@ -21,7 +21,7 @@ import NumberPlayQueryParameters from '../common/NumberPlayQueryParameters.js';
 const screenCompareString = numberPlayStrings.screen.compare;
 
 
-class CompareScreen extends Screen {
+class CompareScreen extends Screen<CompareModel, CompareScreenView> {
 
   constructor( tandem: Tandem ) {
 
@@ -39,7 +39,7 @@ class CompareScreen extends Screen {
       () => new CompareModel(
         NumberPlayQueryParameters.compareMax,
         tandem.createTandem( 'model' ) ),
-      ( model: CompareModel ) => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
+      model => new CompareScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

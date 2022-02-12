@@ -22,7 +22,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 
 const screenTenString = numberPlayStrings.screen.ten;
 
-class TenScreen extends Screen {
+class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
   constructor( tandem: Tandem ) {
 
@@ -66,7 +66,7 @@ class TenScreen extends Screen {
         NumberPlayConstants.TEN,
         tandem.createTandem( 'model' )
       ),
-      ( model: NumberPlayModel ) => new NumberPlayScreenView( model, screenViewOptions ),
+      model => new NumberPlayScreenView( model, screenViewOptions ),
       screenOptions
     );
   }
