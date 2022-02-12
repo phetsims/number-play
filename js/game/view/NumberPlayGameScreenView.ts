@@ -18,6 +18,7 @@ import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
 import CountingGameLevelNode from './CountingGameLevelNode.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -60,28 +61,34 @@ class NumberPlayGameScreenView extends ScreenView {
       cachedNodes: [ levelSelectionNode, ...this.levelNodes ]
     } );
 
-    // Transition between the levelSelectionNode and the selected level when the model changes.
-    // if levelProperty has a null value, then no level is selected and levelSelectionNode will be displayed.
+    // transition between the levelSelectionNode and the selected level when the model changes. if levelProperty has a
+    // null value, then no level is selected and levelSelectionNode will be displayed.
     model.levelProperty.lazyLink( level => {
       this.interruptSubtreeInput();
 
       if ( level ) {
+        const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) )!;
 
-        // reset the challenge when going to a level if the current one is unsolved. only needed for the 'Counting' game
-        // (because the 'Subitize' game has a start sequence), but it is okay to call it for both.
-        !level.isChallengeSolvedProperty.value && level.newChallenge();
+        // if navigating to a level that's in an unsolved state, load a new challenge
+        if ( !level.isChallengeSolvedProperty.value ) {
 
-        // @ts-ignore TODO-TS See https://github.com/phetsims/number-play/issues/81.
-        level.subitizer && level.subitizer.resetStartSequence();
+          // if the selected level is for the subitize game, load a new challenge by resetting the start sequence
+          if ( level instanceof SubitizeGameLevel ) {
+            level.subitizer.resetStartSequence();
+          }
+          else {
 
-        // Transition to the selected level.
-        const selectedLevelNode = _.find( this.levelNodes, levelNode => ( levelNode.level === level ) );
-        // @ts-ignore
+            // otherwise load a new challenge the standard way (new challenge directly, with no start sequence)
+            selectedLevelNode.newChallenge();
+          }
+        }
+
+        // transition to the selected level
         transitionNode.slideLeftTo( selectedLevelNode, TRANSITION_OPTIONS );
       }
       else {
 
-        // Selected level was null, so transition to levelSelectionNode.
+        // selected level was null, so transition to levelSelectionNode
         transitionNode.slideRightTo( levelSelectionNode, TRANSITION_OPTIONS );
       }
     } );
