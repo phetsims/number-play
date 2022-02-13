@@ -61,7 +61,7 @@ class NumberPlayAccordionBox extends AccordionBox {
     // override the local bounds so they don't change
     contentNode.localBounds = innerContentBounds;
 
-    super( contentNode, optionize<AccordionBoxOptions>( {
+    super( contentNode, optionize<AccordionBoxOptions, NumberPlayAccordionBoxSelfOptions, AccordionBoxOptions>( {
       // @ts-ignore TODO-TS: titleString should be required
       titleNode: new Text( options.titleString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
