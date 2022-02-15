@@ -26,7 +26,7 @@ import InfoDialog from './InfoDialog.js';
 
 // constants
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
-const INFO_BUTTON_SIZE = 30;
+const INFO_BUTTON_SIZE = 35;
 const INFO_BUTTON_MARGIN = 20;
 
 class NumberPlayGameLevelSelectionNode extends Node {
