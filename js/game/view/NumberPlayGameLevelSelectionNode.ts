@@ -26,20 +26,39 @@ import InfoDialog from './InfoDialog.js';
 
 // constants
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
+const INFO_BUTTON_SIZE = 30;
+const INFO_BUTTON_MARGIN = 20;
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
   constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
     super();
 
+    // leave room for the info button
+    const titleMaxWidth = layoutBounds.width - NumberPlayConstants.SCREEN_VIEW_PADDING_X * 2 - INFO_BUTTON_SIZE * 2 -
+                          INFO_BUTTON_MARGIN * 2;
+
     // create and add the title text
     const titleText = new Text( numberPlayStrings.chooseYourGame, {
       font: new PhetFont( 40 ),
-      maxWidth: layoutBounds.width - NumberPlayConstants.SCREEN_VIEW_PADDING_X * 2
+      maxWidth: titleMaxWidth
     } );
     titleText.centerX = layoutBounds.centerX;
     titleText.top = layoutBounds.top + 42;
     this.addChild( titleText );
+
+    // create the info dialog, which displays info about each game
+    const infoDialog = new InfoDialog( model.countingLevels, model.subitizeLevels );
+
+    // Info button, to right of 'Choose Your Game!', opens the Info dialog. 
+    const infoButton = new InfoButton( {
+      iconFill: 'rgb( 41, 106, 163 )',
+      maxHeight: INFO_BUTTON_SIZE,
+      listener: () => infoDialog.show()
+    } );
+    infoButton.left = titleText.right + INFO_BUTTON_MARGIN;
+    infoButton.centerY = titleText.centerY;
+    this.addChild( infoButton );
 
     // creates a level selection button for each level
     const createLevelSelectionButton = ( level: NumberPlayGameLevel, baseColor: ColorProperty ): LevelSelectionButton => {
@@ -93,22 +112,6 @@ class NumberPlayGameLevelSelectionNode extends Node {
     } );
     levelSelectionButtonsBox.center = layoutBounds.center;
     this.addChild( levelSelectionButtonsBox );
-
-    // Info dialog is created on demand, then reused so we don't have to deal with buggy Dialog.dispose.
-    let infoDialog: InfoDialog | null = null;
-
-    // Info button, to right of 'Choose Your Game!', opens the Info dialog.
-    const infoButton = new InfoButton( {
-      iconFill: 'rgb( 41, 106, 163 )',
-      maxHeight: 0.75 * titleText.height,
-      listener: () => {
-        infoDialog = infoDialog || new InfoDialog( model.countingLevels, model.subitizeLevels );
-        infoDialog.show();
-      },
-      left: titleText.right + 20,
-      centerY: titleText.centerY
-    } );
-    this.addChild( infoButton );
 
     // create and add reset all button
     const resetAllButton = new ResetAllButton( {
