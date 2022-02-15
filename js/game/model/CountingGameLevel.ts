@@ -14,7 +14,6 @@ import Range from '../../../../dot/js/Range.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 
@@ -24,10 +23,8 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: OnesPlayArea;
-  private readonly _countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
-  public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
-  private readonly _isObjectsRepresentationProperty: BooleanProperty;
-  public readonly isObjectsRepresentationProperty: IReadOnlyProperty<boolean>;
+  public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
+  public readonly isObjectsRepresentationProperty: BooleanProperty;
   public readonly groupObjects: boolean;
 
   constructor( levelNumber: number ) {
@@ -44,13 +41,11 @@ class CountingGameLevel extends NumberPlayGameLevel {
       } );
 
     // the object type of the current challenge
-    this._countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );
-    this.countingObjectTypeProperty = this._countingObjectTypeProperty;
+    this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );
 
     // whether the current representation of the challengeNumber are objects. Always use objects as the first representation
     // of the current challenge
-    this._isObjectsRepresentationProperty = new BooleanProperty( true );
-    this.isObjectsRepresentationProperty = this._isObjectsRepresentationProperty;
+    this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
   /**
@@ -62,11 +57,11 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
   public reset(): void {
     super.reset();
-    this._isObjectsRepresentationProperty.reset();
+    this.isObjectsRepresentationProperty.reset();
 
     // the CountingObjectType should not necessarily be reset to the same initial value that the screen loaded with, so
     // don't use traditional reset()
-    this._countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
+    this.countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
   }
 
   /**
@@ -74,8 +69,8 @@ class CountingGameLevel extends NumberPlayGameLevel {
    */
   public newChallenge(): void {
     super.newChallenge();
-    this._countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
-    this._isObjectsRepresentationProperty.value = !this._isObjectsRepresentationProperty.value;
+    this.countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
+    this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
   }
 
   /**

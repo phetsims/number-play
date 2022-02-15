@@ -126,15 +126,13 @@ class Subitizer {
   private readonly challengeNumberProperty: NumberProperty;
   private readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly isShapeVisibleProperty: BooleanProperty;
-  private readonly _pointsProperty: Property<Vector2[]>;
-  public readonly pointsProperty: IReadOnlyProperty<Vector2[]>;
+  public readonly pointsProperty: Property<Vector2[]>;
   private readonly randomOrPredetermined: boolean;
   private timeSinceShapeVisible: number;
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  private readonly _objectTypeProperty: EnumerationProperty<CountingObjectType>;
-  public readonly objectTypeProperty: IReadOnlyProperty<CountingObjectType>;
+  public readonly objectTypeProperty: EnumerationProperty<CountingObjectType>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
@@ -161,11 +159,10 @@ class Subitizer {
     this.isShapeVisibleProperty = new BooleanProperty( false );
 
     // the points of the current shape
-    this._pointsProperty = new Property( [ Vector2.ZERO ], {
+    this.pointsProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
       arrayElementType: Vector2
     } );
-    this.pointsProperty = this._pointsProperty;
 
     // if true, make random or predetermined shapes. if false, only make arranged shapes.
     this.randomOrPredetermined = randomOrPredetermined;
@@ -188,8 +185,7 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this._objectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
-    this.objectTypeProperty = this._objectTypeProperty;
+    this.objectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
     // the time that the shape is shown is increased if the user gets the answer wrong multiple times.
@@ -305,8 +301,8 @@ class Subitizer {
                                                          `${challengeNumber}: ${points.length}` );
 
     // two of the same shapes in a row are not allowed
-    if ( !_.isEqual( this._pointsProperty.value, points ) ) {
-      this._pointsProperty.value = points;
+    if ( !_.isEqual( this.pointsProperty.value, points ) ) {
+      this.pointsProperty.value = points;
     }
     else {
       this.setNewPoints();
@@ -317,7 +313,7 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   private setRandomCountingObjectType(): void {
-    this._objectTypeProperty.value = dotRandom.sample( CountingObjectType.enumeration.values.slice() );
+    this.objectTypeProperty.value = dotRandom.sample( CountingObjectType.enumeration.values.slice() );
   }
 
   /**
