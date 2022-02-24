@@ -13,7 +13,7 @@ import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { Node, Rectangle, SceneryEvent } from '../../../../scenery/js/imports.js';
+import { Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
@@ -159,7 +159,7 @@ class OnesPlayAreaNode extends Node {
    * @param event - The Scenery event that triggered this.
    * @param paperNumber - The paper number to add and then drag
    */
-  public addAndDragNumber( event: SceneryEvent, paperNumber: PaperNumber ): void {
+  public addAndDragNumber( event: PressListenerEvent, paperNumber: PaperNumber ): void {
 
     // Add it and lookup the related node.
     this.playArea.addPaperNumber( paperNumber );
