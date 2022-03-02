@@ -7,39 +7,18 @@
  */
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import { ProfileColorProperty, Rectangle, Text } from '../../../../scenery/js/imports.js';
-import AccordionBox from '../../../../sun/js/AccordionBox.js';
+import { Rectangle, Text } from '../../../../scenery/js/imports.js';
+import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionBox.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-// TODO-TS: these should be defined in AccordionBox
-type AccordionBoxOptions = {
-  resize?: boolean,
-  titleAlignX?: 'left' | 'center' | 'right',
-  titleXSpacing?: number,
-  showTitleWhenExpanded?: boolean,
-  cornerRadius?: number,
-  titleYMargin?: number,
-  buttonXMargin?: number,
-  buttonYMargin?: number,
-  contentXMargin?: number,
-  contentYMargin?: number,
-  contentXSpacing?: number,
-  contentAlign?: 'left' | 'center' | 'right',
-  fill?: ProfileColorProperty,
-  expandCollapseButtonOptions?: {
-    sideLength: number
-  },
-  expandedProperty?: BooleanProperty
-};
 // TODO-TS: These should be required
-type NumberPlayAccordionBoxSelfOptions = {
-  titleString?: string,
-  titleMaxWidth?: number
+type SelfOptions = {
+  titleString: string,
+  titleMaxWidth: number
 };
-export type NumberPlayAccordionBoxOptions = NumberPlayAccordionBoxSelfOptions & AccordionBoxOptions;
+export type NumberPlayAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
 
 // constants
 const PADDING = 10;
@@ -61,7 +40,7 @@ class NumberPlayAccordionBox extends AccordionBox {
     // override the local bounds so they don't change
     contentNode.localBounds = innerContentBounds;
 
-    super( contentNode, optionize<AccordionBoxOptions, NumberPlayAccordionBoxSelfOptions, AccordionBoxOptions>( {
+    super( contentNode, optionize<NumberPlayAccordionBoxOptions, SelfOptions, AccordionBoxOptions>( {
       // @ts-ignore TODO-TS: titleString should be required
       titleNode: new Text( options.titleString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,

@@ -34,9 +34,9 @@ import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynth
 
 // types
 type NumberPlayScreenViewOptions = {
-  wordAccordionBoxOptions: WordAccordionBoxOptions,
-  totalAccordionBoxOptions: TotalAccordionBoxOptions,
-  tenFrameAccordionBoxOptions: TenFrameAccordionBoxOptions,
+  wordAccordionBoxOptions: Partial<WordAccordionBoxOptions>, // TODO-TS: MK: Is this alright as a partial?
+  totalAccordionBoxOptions: Partial<TotalAccordionBoxOptions>,
+  tenFrameAccordionBoxOptions: Partial<TenFrameAccordionBoxOptions>,
   upperAccordionBoxHeight: number,
   lowerAccordionBoxHeight: number,
   tandem: Tandem
@@ -107,7 +107,8 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
-        fill: NumberPlayColors.pinkBackgroundColorProperty
+        fill: NumberPlayColors.pinkBackgroundColorProperty,
+        titleMaxWidth: 1000 // TODO-TS: MK: this should be a real number
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
@@ -124,7 +125,9 @@ class NumberPlayScreenView extends ScreenView {
         groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
-        fill: NumberPlayColors.blueBackgroundColorProperty
+        fill: NumberPlayColors.blueBackgroundColorProperty,
+        titleString: 'TEST FOR NOW', // TODO-TS: MK: this should be a real string
+        titleMaxWidth: 1000 // TODO-TS: MK: this should be a real number
       } );
     this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     this.objectsAccordionBox.bottom = onesAccordionBox.bottom;

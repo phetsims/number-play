@@ -28,7 +28,7 @@ import BlockValuesNode from './BlockValuesNode.js';
 import CompareCountingTypeRadioButtonGroup from './CompareCountingTypeRadioButtonGroup.js';
 import CompareNumberLineNode from './CompareNumberLineNode.js';
 import ComparisonTextNode from './ComparisonTextNode.js';
-import CountingAccordionBox from '../../common/view/CountingAccordionBox.js';
+import CountingAccordionBox, { CountingAccordionBoxOptions } from '../../common/view/CountingAccordionBox.js';
 import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
@@ -73,7 +73,7 @@ class CompareScreenView extends ScreenView {
       UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
         expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
-      }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
+      }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
     leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftTotalAccordionBox );
 
@@ -83,7 +83,7 @@ class CompareScreenView extends ScreenView {
       UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
         expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
-      }, totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
+      }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
 
@@ -96,7 +96,7 @@ class CompareScreenView extends ScreenView {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
-      } );
+      } as unknown as CountingAccordionBoxOptions );
     leftCountingAccordionBox.left = NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     leftCountingAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftCountingAccordionBox );
@@ -110,7 +110,7 @@ class CompareScreenView extends ScreenView {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
-      } );
+      } as unknown as CountingAccordionBoxOptions );
     rightCountingAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     rightCountingAccordionBox.bottom = leftCountingAccordionBox.bottom;
     this.addChild( rightCountingAccordionBox );
@@ -156,7 +156,7 @@ class CompareScreenView extends ScreenView {
 
     // create and add the LocaleSwitch
     const localeSwitchXMargin = 15; // empirically determined
-      const localeSwitchMaxWidth = localeSwitchXRange.getLength() - localeSwitchXMargin * 2;
+    const localeSwitchMaxWidth = localeSwitchXRange.getLength() - localeSwitchXMargin * 2;
     const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, localeSwitchMaxWidth );
     localeSwitch.centerX = localeSwitchXRange.getCenter();
     localeSwitch.centerY = localeSwitchCenterY;
