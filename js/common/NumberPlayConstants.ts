@@ -9,8 +9,7 @@
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
-import { ProfileColorProperty } from '../../../scenery/js/imports.js';
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import { AccordionBoxOptions } from '../../../sun/js/AccordionBox.js';
 
 // strings
 const zeroString = numberPlayStrings.zero;
@@ -39,50 +38,49 @@ const twentyString = numberPlayStrings.twenty;
 type NumberToString = {
   [ key: number ]: string
 }
-export type AccordionBoxOptions = { // TODO-TS: these should be defined in AccordionBox
-  resize: boolean,
-  titleAlignX: 'left' | 'center' | 'right',
-  titleXSpacing: number,
-  showTitleWhenExpanded: boolean,
-  cornerRadius: number,
-  titleYMargin: number,
-  buttonXMargin: number,
-  buttonYMargin: number,
-  contentXMargin: number,
-  contentYMargin: number,
-  contentXSpacing: number,
-  contentAlign: 'left' | 'center' | 'right',
-  fill: ProfileColorProperty,
+
+const ACCORDION_BOX_OPTIONS: AccordionBoxOptions = {
+  resize: true,
+  titleAlignX: 'left',
+  titleXSpacing: 8,
+  showTitleWhenExpanded: false,
+  cornerRadius: 6,
+  titleYMargin: 10,
+  buttonXMargin: 10,
+  buttonYMargin: 10,
+  contentXMargin: 10,
+  contentYMargin: 0,
+  contentXSpacing: 0,
+  contentAlign: 'left',
   expandCollapseButtonOptions: {
-    sideLength: number
-  },
-  expandedProperty: BooleanProperty
-}
+    sideLength: 20
+  }
+};
 
 // constants used for other constants
 const NUMBER_TO_STRING_VALUE = {
-    0: 'zero',
-    1: 'one',
-    2: 'two',
-    3: 'three',
-    4: 'four',
-    5: 'five',
-    6: 'six',
-    7: 'seven',
-    8: 'eight',
-    9: 'nine',
-    10: 'ten',
-    11: 'eleven',
-    12: 'twelve',
-    13: 'thirteen',
-    14: 'fourteen',
-    15: 'fifteen',
-    16: 'sixteen',
-    17: 'seventeen',
-    18: 'eighteen',
-    19: 'nineteen',
-    20: 'twenty'
-  } as NumberToString;
+  0: 'zero',
+  1: 'one',
+  2: 'two',
+  3: 'three',
+  4: 'four',
+  5: 'five',
+  6: 'six',
+  7: 'seven',
+  8: 'eight',
+  9: 'nine',
+  10: 'ten',
+  11: 'eleven',
+  12: 'twelve',
+  13: 'thirteen',
+  14: 'fourteen',
+  15: 'fifteen',
+  16: 'sixteen',
+  17: 'seventeen',
+  18: 'eighteen',
+  19: 'nineteen',
+  20: 'twenty'
+} as NumberToString;
 
 const NumberPlayConstants = {
 
@@ -114,23 +112,7 @@ const NumberPlayConstants = {
   ACCORDION_BOX_MARGIN_X: 72,               // distance between the sides of the sim and all adjacent accordion boxes
 
   // options for all AccordionBox instances
-  ACCORDION_BOX_OPTIONS: {
-    resize: true,
-    titleAlignX: 'left',
-    titleXSpacing: 8,
-    showTitleWhenExpanded: false,
-    cornerRadius: 6,
-    titleYMargin: 10,
-    buttonXMargin: 10,
-    buttonYMargin: 10,
-    contentXMargin: 10,
-    contentYMargin: 0,
-    contentXSpacing: 0,
-    contentAlign: 'left',
-    expandCollapseButtonOptions: {
-      sideLength: 20
-    }
-  } as AccordionBoxOptions,
+  ACCORDION_BOX_OPTIONS: ACCORDION_BOX_OPTIONS,
   ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
   NUMBER_TO_STRING: {

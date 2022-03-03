@@ -30,7 +30,7 @@ type CountingAccordionBoxSelfOptions = {
   linkedPlayArea?: OnesPlayArea | null,
   groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>
 };
-type CountingAccordionBoxOptions = CountingAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
+export type CountingAccordionBoxOptions = CountingAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
