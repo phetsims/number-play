@@ -63,7 +63,7 @@ class SubitizerNode extends Node {
       touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
       visibleProperty: subitizer.isPlayButtonVisibleProperty,
       listener: () => {
-        playButton.visibleProperty.value = false;
+        subitizer.isPlayButtonVisibleProperty.value = false;
         subitizeLoadingBarNode.start();
       }
     } );

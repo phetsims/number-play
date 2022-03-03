@@ -137,8 +137,7 @@ class Subitizer {
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
   public static SUBITIZER_BOUNDS: Bounds2;
-  private readonly _isPlayButtonVisibleProperty: BooleanProperty;
-  public readonly isPlayButtonVisibleProperty: IReadOnlyProperty<boolean>;
+  public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
   constructor( challengeNumberProperty: NumberProperty,
                isChallengeSolvedProperty: BooleanProperty,
@@ -149,8 +148,7 @@ class Subitizer {
     this.isChallengeSolvedProperty = isChallengeSolvedProperty;
 
     // whether the play button is visible
-    this._isPlayButtonVisibleProperty = new BooleanProperty( true );
-    this.isPlayButtonVisibleProperty = this._isPlayButtonVisibleProperty;
+    this.isPlayButtonVisibleProperty = new BooleanProperty( true );
 
     // whether the loading bar is animating. This can also be used to stop an existing animation.
     this.isLoadingBarAnimatingProperty = new BooleanProperty( false );
@@ -260,7 +258,7 @@ class Subitizer {
     this.isLoadingBarAnimatingProperty.reset();
     this.resetDelay();
     this.resetShapeVisible();
-    this._isPlayButtonVisibleProperty.reset();
+    this.isPlayButtonVisibleProperty.reset();
     this.isInputEnabledProperty.reset();
   }
 
