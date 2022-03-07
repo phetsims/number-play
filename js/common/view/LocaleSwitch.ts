@@ -13,6 +13,7 @@ import { Text } from '../../../../scenery/js/imports.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // constants
 const AB_SWITCH_OPTIONS = {
@@ -22,10 +23,6 @@ const AB_SWITCH_OPTIONS = {
     size: new Dimension2( 40, 20 )
   }
 };
-
-// strings
-const englishString = numberPlayStrings.english;
-const spanishString = numberPlayStrings.spanish;
 
 class LocaleSwitch extends ABSwitch {
 
@@ -38,9 +35,13 @@ class LocaleSwitch extends ABSwitch {
       maxWidth: ( maxWidth - AB_SWITCH_OPTIONS.toggleSwitchOptions.size.width - AB_SWITCH_OPTIONS.xSpacing * 2 ) * 0.5
     };
 
+    const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
+    const secondLanguageString = phet.numberPlay.secondLocaleStrings ?
+                                 phet.numberPlay.secondLocaleStrings[ secondLanguageStringKey ] : '';
+
     super( isPrimaryLocaleProperty,
-      true, new Text( englishString, switchTextOptions ),
-      false, new Text( spanishString, switchTextOptions ),
+      true, new Text( numberPlayStrings.language, switchTextOptions ),
+      false, new Text( secondLanguageString, switchTextOptions ),
       AB_SWITCH_OPTIONS
     );
   }

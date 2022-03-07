@@ -46,15 +46,14 @@ type StringsType = {
   'tenFrame': string,
   'ones': string,
   'objects': string,
-  'english': string,
-  'spanish': string,
   'gameNameLevelNumberPattern': string,
   'chooseYourGame': string,
   'counting': string,
   'countFromPattern': string,
   'subitizing': string,
   'subitizeFromPattern': string,
-  'games': string
+  'games': string,
+  'language': string
 };
 
 const numberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;

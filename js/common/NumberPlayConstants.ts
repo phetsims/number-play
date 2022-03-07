@@ -56,6 +56,7 @@ const ACCORDION_BOX_OPTIONS: AccordionBoxOptions = {
     sideLength: 20
   }
 };
+const NUMBER_PLAY_STRING_KEY_PREFIX = 'NUMBER_PLAY/';
 
 // constants used for other constants
 const NUMBER_TO_STRING_VALUE = {
@@ -145,8 +146,10 @@ const NumberPlayConstants = {
     const stringKey = NUMBER_TO_STRING_VALUE[ number ];
 
     // @ts-ignore
-    return isPrimaryLocale ? numberPlayStrings[ stringKey ] : numberPlaySecondaryStrings[ `NUMBER_PLAY/${stringKey}` ];
+    return isPrimaryLocale ? numberPlayStrings[ stringKey ] :
+           numberPlaySecondaryStrings[ `${NUMBER_PLAY_STRING_KEY_PREFIX}${stringKey}` ];
   },
+  NUMBER_PLAY_STRING_KEY_PREFIX: NUMBER_PLAY_STRING_KEY_PREFIX,
 
   UNGROUPED_STORED_COUNTING_OBJECT_SCALE: 0.9,
   GROUPED_STORED_COUNTING_OBJECT_SCALE: 0.7,

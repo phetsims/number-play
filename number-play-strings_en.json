@@ -101,12 +101,6 @@
   "objects": {
     "value": "Objects"
   },
-  "english": {
-    "value": "English"
-  },
-  "spanish": {
-    "value": "Español"
-  },
   "gameNameLevelNumberPattern": {
     "value": "{{gameName}}: Level {{levelNumber}}"
   },
@@ -127,5 +121,8 @@
   },
   "games": {
     "value": "Games"
+  },
+  "language": {
+    "value": "English"
   }
 }
