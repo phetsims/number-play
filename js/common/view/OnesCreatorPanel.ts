@@ -11,7 +11,7 @@
 import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
-import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, IPaint, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
 import Panel from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
@@ -22,7 +22,7 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesCreatorPanelOptions = {
-  stroke: PaintDef,
+  stroke: IPaint,
   xMargin: number,
   yMargin: number
 };

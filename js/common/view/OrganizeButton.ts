@@ -11,13 +11,14 @@ import numberPlay from '../../numberPlay.js';
 import TenFrameNode from './TenFrameNode.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import { IColor } from '../../../../scenery/js/imports.js';
 
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
 
 class OrganizeButton extends RectangularPushButton {
 
-  constructor( color: PaintDef, listener: () => void ) {
+  constructor( color: IColor, listener: () => void ) {
 
     const tenFramePath = TenFrameNode.getTenFramePath( {
       fill: null,
