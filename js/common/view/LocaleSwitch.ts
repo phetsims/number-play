@@ -24,7 +24,7 @@ const AB_SWITCH_OPTIONS = {
   }
 };
 
-class LocaleSwitch extends ABSwitch {
+class LocaleSwitch extends ABSwitch<boolean> {
 
   constructor( isPrimaryLocaleProperty: BooleanProperty, maxWidth: number ) {
 
