@@ -38,8 +38,9 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
   // 4: Subitize, Level 2
   gameLevels: getGameLevelsSchema( 4 ),
 
-  // whether the current number should be read out loud whenever it changes
-  countAloud: {
+  // whether the current number on the 'Ten' and 'Twenty' screens or the compare statement on the 'Compare' screen
+  // should be read out loud whenever their value changes
+  readAloud: {
     public: true,
     type: 'flag'
   },

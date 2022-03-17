@@ -50,8 +50,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
     };
 
     // read numeric numbers aloud if the current number changes
-    // TODO: Consider moving this elsewhere by factoring out the voicing parts of this file.
-    if ( NumberPlayQueryParameters.countAloud && readNumber ) {
+    if ( NumberPlayQueryParameters.readAloud ) {
       textProperty.lazyLink( () => {
         listener();
       } );

@@ -3,7 +3,7 @@
 /**
  * An Announcer for speech synthesis that can be used with an UtteranceQueue. Used in number-play
  * to support speaking numbers either when a "speak" button is pressed or when a value changes
- * with the ?countAloud query parameter.
+ * with the ?readAloud query parameter.
  *
  * Not usable until initialized after the sim is created. See number-play-main.ts.
  *
