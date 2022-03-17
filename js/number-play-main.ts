@@ -20,8 +20,9 @@ import { Display } from '../../scenery/js/imports.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import audioManager from '../../joist/js/audioManager.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import Screen from '../../joist/js/Screen.js';
 
-// get our
+// get our second locale strings
 if ( NumberPlayQueryParameters.secondLocale ) {
   const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
 
@@ -78,5 +79,18 @@ simLauncher.launch( () => {
     } );
 
     numberPlaySpeechSynthesisAnnouncer.enabledProperty.value = true;
+  }
+
+  // Update the speech synthesis voice to match the locale toggle value of the new screen. This is needed because each
+  // screen has its own control for the speech synthesis locale, so the locale for the browser tab needs to be updated
+  // to match whenever the screen changes.
+  if ( NumberPlayQueryParameters.secondLocale ) {
+    // @ts-ignore TODO-TS: Likely needs a common base type for parameterization
+    sim.screenProperty.lazyLink( ( screen: Screen ) => {
+
+      if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
+        numberPlaySpeechSynthesisAnnouncer.updateVoice( screen.model.isPrimaryLocaleProperty.value );
+      }
+    } );
   }
 } );

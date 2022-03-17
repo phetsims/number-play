@@ -31,45 +31,10 @@ class SpeechSynthesisButton extends RectangularPushButton {
                isPrimaryLocaleProperty: BooleanProperty,
                readNumber: boolean = false ) {
 
-    // get the locale the sim is running in
-    const primaryLocale = phet.joist.sim.locale;
-    const secondaryLocale = NumberPlayQueryParameters.secondLocale;
-
-    // set the first voice for the desired locale, if available
-    const voicesChangedListener = ( isPrimaryLocale: boolean = true ) => {
-      const locale = isPrimaryLocale ? primaryLocale : secondaryLocale;
-      assert && assert( locale, `locale does not exist: ${locale}` );
-
-      // in case we don't have any voices yet, wait until the voicesChangedEmitter sends an event
-      if ( numberPlaySpeechSynthesisAnnouncer.voices.length > 0 ) {
-
-        const translatedVoices = _.filter( numberPlaySpeechSynthesisAnnouncer.getPrioritizedVoices(), voice => {
-          return voice.lang.includes( locale );
-        } );
-        if ( translatedVoices.length ) {
-          const translatedVoice = translatedVoices[ 0 ];
-
-          // @ts-ignore
-          numberPlaySpeechSynthesisAnnouncer.voiceProperty.set( translatedVoice );
-        }
-        else {
-          console.log( `No voices found for locale: ${locale}` );
-        }
-
-        if ( numberPlaySpeechSynthesisAnnouncer.voicesChangedEmitter.hasListener( voicesChangedListener ) ) {
-          numberPlaySpeechSynthesisAnnouncer.voicesChangedEmitter.removeListener( voicesChangedListener );
-        }
-      }
-    };
-
-    // Voices may not be available on load or the list of voices may change - update if we get an indication that
-    // the list of available voices has changed
-    numberPlaySpeechSynthesisAnnouncer.voicesChangedEmitter.addListener( voicesChangedListener );
-
     // However, some browsers DO give the voices eagerly and will never emit an event that the list changed so try to
     // set the voice eagerly. Also set up a link so that the voice is changed when the locale changes.
     isPrimaryLocaleProperty.link( isPrimaryLocale => {
-      voicesChangedListener( isPrimaryLocale );
+      numberPlaySpeechSynthesisAnnouncer.updateVoice( isPrimaryLocale );
     } );
 
     const speechUtterance = new Utterance();
@@ -81,7 +46,6 @@ class SpeechSynthesisButton extends RectangularPushButton {
                               textProperty.value;
 
       numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
-
       numberPlayUtteranceQueue.addToBack( speechUtterance );
     };
 
