@@ -13,7 +13,6 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-// TODO-TS: These should be required
 type SelfOptions = {
   titleString: string,
   titleMaxWidth: number
@@ -41,7 +40,6 @@ class NumberPlayAccordionBox extends AccordionBox {
     contentNode.localBounds = innerContentBounds;
 
     super( contentNode, optionize<NumberPlayAccordionBoxOptions, SelfOptions, AccordionBoxOptions>( {
-      // @ts-ignore TODO-TS: titleString should be required
       titleNode: new Text( options.titleString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: options.titleMaxWidth

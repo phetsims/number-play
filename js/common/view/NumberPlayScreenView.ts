@@ -34,7 +34,7 @@ import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynth
 
 // types
 type NumberPlayScreenViewOptions = {
-  wordAccordionBoxOptions: Partial<WordAccordionBoxOptions>, // TODO-TS: MK: Is this alright as a partial?
+  wordAccordionBoxOptions: Partial<WordAccordionBoxOptions>, // TODO-TS: These should not be partial
   totalAccordionBoxOptions: Partial<TotalAccordionBoxOptions>,
   tenFrameAccordionBoxOptions: Partial<TenFrameAccordionBoxOptions>,
   upperAccordionBoxHeight: number,
@@ -108,7 +108,7 @@ class NumberPlayScreenView extends ScreenView {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
         fill: NumberPlayColors.pinkBackgroundColorProperty,
-        titleMaxWidth: 1000 // TODO-TS: MK: this should be a real number
+        titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
@@ -126,8 +126,8 @@ class NumberPlayScreenView extends ScreenView {
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty,
-        titleString: 'TEST FOR NOW', // TODO-TS: MK: this should be a real string
-        titleMaxWidth: 1000 // TODO-TS: MK: this should be a real number
+        titleString: numberPlayStrings.objects, // TODO-TS: this should use the default in CountingAccordionBox
+        titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
       } );
     this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     this.objectsAccordionBox.bottom = onesAccordionBox.bottom;
