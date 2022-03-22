@@ -28,7 +28,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
-import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import SubitizeObjectType from './SubitizeObjectType.js';
 
 // types
 type PredeterminedShapes = {
@@ -121,6 +121,13 @@ const MAX_NUMBER_OF_COLUMNS = 5;
 const MIN_NUMBER_OF_ROWS = 2;
 const MAX_NUMBER_OF_ROWS = 3;
 
+// list of valid object types. SubitizeObjectType extends from a another enumeration, so a subset must be selected to
+// get the desired values.
+const SUBITIZER_OBJECT_TYPES = [
+  SubitizeObjectType.DOG, SubitizeObjectType.APPLE, SubitizeObjectType.BUTTERFLY, SubitizeObjectType.BALL,
+  SubitizeObjectType.CIRCLE
+];
+
 class Subitizer {
 
   private readonly challengeNumberProperty: NumberProperty;
@@ -132,7 +139,7 @@ class Subitizer {
   public readonly objectSize: number;
   public readonly isInputEnabledProperty: BooleanProperty;
   private timeToShowShapeProperty: IReadOnlyProperty<number>;
-  public readonly objectTypeProperty: EnumerationProperty<CountingObjectType>;
+  public readonly objectTypeProperty: EnumerationProperty<SubitizeObjectType>;
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
@@ -183,7 +190,10 @@ class Subitizer {
     this.isInputEnabledProperty = new BooleanProperty( false );
 
     // the object type of the current shape
-    this.objectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
+    this.objectTypeProperty = new EnumerationProperty( SubitizeObjectType.DOG, {
+      enumeration: SubitizeObjectType.enumeration,
+      validValues: SUBITIZER_OBJECT_TYPES
+    } );
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
     // the time that the shape is shown is increased if the user gets the answer wrong multiple times.
@@ -311,7 +321,7 @@ class Subitizer {
    * Sets this.objectTypeProperty with a new object type for the current challenge.
    */
   private setRandomCountingObjectType(): void {
-    this.objectTypeProperty.value = dotRandom.sample( CountingObjectType.enumeration.values.slice() );
+    this.objectTypeProperty.value = dotRandom.sample( SUBITIZER_OBJECT_TYPES );
   }
 
   /**
