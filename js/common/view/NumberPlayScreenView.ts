@@ -30,7 +30,7 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -146,8 +146,8 @@ class NumberPlayScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
-    // create and add the SpeechSynthesisButton if the voiceManager is initialized
-    if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
+    // create and add the SpeechSynthesisButton if the announcer is initialized
+    if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton( model.currentNumberProperty, model.isPrimaryLocaleProperty, true );
       speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = tenFrameAccordionBox.top;

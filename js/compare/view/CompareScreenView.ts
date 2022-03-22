@@ -31,7 +31,7 @@ import ComparisonTextNode from './ComparisonTextNode.js';
 import CountingAccordionBox, { CountingAccordionBoxOptions } from '../../common/view/CountingAccordionBox.js';
 import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import numberPlaySpeechSynthesisAnnouncer from '../../common/view/numberPlaySpeechSynthesisAnnouncer.js';
 
 // constants
 const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates
@@ -133,8 +133,8 @@ class CompareScreenView extends ScreenView {
     let localeSwitchXRange;
     let localeSwitchCenterY;
 
-    // create and add the SpeechSynthesisButton if the voiceManager is initialized
-    if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
+    // create and add the SpeechSynthesisButton if the announcer is initialized
+    if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton(
         comparisonTextNode.comparisonStringProperty,
         model.isPrimaryLocaleProperty
