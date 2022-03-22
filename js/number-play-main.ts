@@ -21,6 +21,7 @@ import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import audioManager from '../../joist/js/audioManager.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Screen from '../../joist/js/Screen.js';
+import soundManager from '../../tambo/js/soundManager.js';
 
 // get our second locale strings
 if ( NumberPlayQueryParameters.secondLocale ) {
@@ -61,6 +62,8 @@ simLauncher.launch( () => {
     new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) )
   ], simOptions );
   sim.start();
+
+  soundManager.setOutputLevelForCategory( 'user-interface', 0 );
 
   // initialize the SpeechSynthesisAnnouncer that will use speech synthesis to speak numbers
   if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
