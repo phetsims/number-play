@@ -25,17 +25,21 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly objectsPlayArea: OnesPlayArea;
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly isObjectsRepresentationProperty: BooleanProperty;
-  public readonly groupObjects: boolean;
+  public readonly groupObjectsAllowed: boolean;
+  public readonly groupObjectsEnabledProperty: BooleanProperty;
 
   constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );
 
     // whether objects should be able to be grouped
-    this.groupObjects = ( levelNumber === 2 );
+    this.groupObjectsAllowed = ( levelNumber === 2 );
+
+    // whether grouping is enabled for a set of objects
+    this.groupObjectsEnabledProperty = new BooleanProperty( this.groupObjectsAllowed );
 
     this.objectsPlayArea = new OnesPlayArea(
       this.challengeNumberProperty,
-      new BooleanProperty( this.groupObjects ), {
+      this.groupObjectsEnabledProperty, {
         sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
         setAllObjects: true
       } );
@@ -43,8 +47,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     // the object type of the current challenge
     this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );
 
-    // whether the current representation of the challengeNumber are objects. Always use objects as the first representation
-    // of the current challenge
+    // whether the current representation of the challengeNumber are objects or ten frames
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
@@ -58,6 +61,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public reset(): void {
     super.reset();
     this.isObjectsRepresentationProperty.reset();
+    this.groupObjectsEnabledProperty.reset();
 
     // the CountingObjectType should not necessarily be reset to the same initial value that the screen loaded with, so
     // don't use traditional reset()
@@ -68,9 +72,17 @@ class CountingGameLevel extends NumberPlayGameLevel {
    * Sets up a new challenge for this level.
    */
   public newChallenge(): void {
+    this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
+
+    // every time objects become the representation, if grouping objects is allowed, flip whether the object should
+    // group or not. also do this before super.newChallenge() is called since the object positions are set when the
+    // challenge number is set.
+    if ( this.isObjectsRepresentationProperty.value && this.groupObjectsAllowed ) {
+      this.groupObjectsEnabledProperty.value = !this.groupObjectsEnabledProperty.value;
+    }
+
     super.newChallenge();
     this.countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
-    this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
   }
 
   /**
