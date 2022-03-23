@@ -19,12 +19,12 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 // types
 type GetSpotCentersOptions = {
-  numberOfTenFrames: number
-  sideLength: number
-  lineWidth: number
+  numberOfTenFrames: number;
+  sideLength: number;
+  lineWidth: number;
 };
 type GetTenFramePathOptions = {
-  sideLength: number
+  sideLength: number;
 } & Pick<PaintableOptions, 'fill'> & Pick<PaintableOptions, 'lineWidth'>;
 
 // constants - all are used for both drawing the ten frame shape and positioning the dots within the ten frame shape

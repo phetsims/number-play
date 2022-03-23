@@ -34,12 +34,12 @@ import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnou
 
 // types
 type NumberPlayScreenViewOptions = {
-  wordAccordionBoxOptions: Partial<WordAccordionBoxOptions>, // TODO-TS: These should not be partial
-  totalAccordionBoxOptions: Partial<TotalAccordionBoxOptions>,
-  tenFrameAccordionBoxOptions: Partial<TenFrameAccordionBoxOptions>,
-  upperAccordionBoxHeight: number,
-  lowerAccordionBoxHeight: number,
-  tandem: Tandem
+  wordAccordionBoxOptions: Partial<WordAccordionBoxOptions>; // TODO-TS: These should not be partial
+  totalAccordionBoxOptions: Partial<TotalAccordionBoxOptions>;
+  tenFrameAccordionBoxOptions: Partial<TenFrameAccordionBoxOptions>;
+  upperAccordionBoxHeight: number;
+  lowerAccordionBoxHeight: number;
+  tandem: Tandem;
 };
 
 // constants

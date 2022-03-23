@@ -26,9 +26,9 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type CountingAccordionBoxSelfOptions = {
-  countingObjectTypes?: CountingObjectType[] | null,
-  linkedPlayArea?: OnesPlayArea | null,
-  groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>
+  countingObjectTypes?: CountingObjectType[] | null;
+  linkedPlayArea?: OnesPlayArea | null;
+  groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>;
 };
 export type CountingAccordionBoxOptions = CountingAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 

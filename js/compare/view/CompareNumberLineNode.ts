@@ -21,11 +21,11 @@ import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 // types
 type GetNumberLineNodeOptions = {
-  includeLabels: boolean,
-  minorLineWidth: number,
-  majorLineWidth: number,
-  minorTickMarkHalfLineLength: number,
-  majorTickMarkHalfLineLength: number
+  includeLabels: boolean;
+  minorLineWidth: number;
+  majorLineWidth: number;
+  minorTickMarkHalfLineLength: number;
+  majorTickMarkHalfLineLength: number;
 };
 
 // constants

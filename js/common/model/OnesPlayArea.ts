@@ -25,14 +25,14 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type OnesPlayAreaOptions = {
-  isResettingProperty: null | BooleanProperty,
-  sumPropertyRange: null | Range,
-  setAllObjects: boolean
+  isResettingProperty: null | BooleanProperty;
+  sumPropertyRange: null | Range;
+  setAllObjects: boolean;
 };
 type CreatePaperNumberFromBucketOptions = {
-  shouldAnimate: boolean,
-  value: number,
-  remainder: boolean
+  shouldAnimate: boolean;
+  value: number;
+  remainder: boolean;
 };
 
 // constants

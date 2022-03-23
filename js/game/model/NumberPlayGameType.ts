@@ -17,7 +17,7 @@ import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
  */
 
 type LevelImages = {
-  [ key: number ]: HTMLImageElement
+  [ key: number ]: HTMLImageElement;
 }
 
 class NumberPlayGameType extends EnumerationValue {

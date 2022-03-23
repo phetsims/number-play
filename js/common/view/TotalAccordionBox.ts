@@ -20,9 +20,9 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type TotalAccordionBoxSelfOptions = {
-  font: Font,
-  arrowButtonOptions: Object, // TODO-TS: should be ArrowButtonOptions
-  arrowButtonSpacing: number
+  font: Font;
+  arrowButtonOptions: Object; // TODO-TS: should be ArrowButtonOptions
+  arrowButtonSpacing: number;
 };
 export type TotalAccordionBoxOptions = TotalAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 

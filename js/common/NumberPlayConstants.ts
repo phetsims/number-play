@@ -36,7 +36,7 @@ const twentyString = numberPlayStrings.twenty;
 
 // types
 type NumberToString = {
-  [ key: number ]: string
+  [ key: number ]: string;
 }
 
 const ACCORDION_BOX_OPTIONS: AccordionBoxOptions = {

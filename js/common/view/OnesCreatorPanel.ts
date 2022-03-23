@@ -22,9 +22,9 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesCreatorPanelOptions = {
-  stroke: IPaint,
-  xMargin: number,
-  yMargin: number
+  stroke: IPaint;
+  xMargin: number;
+  yMargin: number;
 };
 
 

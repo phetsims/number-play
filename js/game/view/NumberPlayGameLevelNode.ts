@@ -29,7 +29,7 @@ import merge from '../../../../phet-core/js/merge.js';
 
 // types
 type StatusBarOptions = {
-  statusBarFill: ColorProperty
+  statusBarFill: ColorProperty;
 }
 
 // constants

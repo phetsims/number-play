@@ -21,9 +21,9 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type WordAccordionBoxSelfOptions = {
-  textOffset: Vector2,
-  localeSwitchOffsetY: number,
-  font: Font
+  textOffset: Vector2;
+  localeSwitchOffsetY: number;
+  font: Font;
 };
 export type WordAccordionBoxOptions = WordAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 

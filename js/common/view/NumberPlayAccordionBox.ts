@@ -14,8 +14,8 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 type SelfOptions = {
-  titleString: string,
-  titleMaxWidth: number
+  titleString: string;
+  titleMaxWidth: number;
 };
 export type NumberPlayAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
 

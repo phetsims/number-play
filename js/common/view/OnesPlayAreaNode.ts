@@ -27,10 +27,10 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type OnesPlayAreaNodeOptions = {
-  paperNumberLayerNode: null | Node,
-  backgroundDragTargetNode: null | Node,
-  viewHasIndependentModel: boolean,
-  includeOnesCreatorPanel: boolean
+  paperNumberLayerNode: null | Node;
+  backgroundDragTargetNode: null | Node;
+  viewHasIndependentModel: boolean;
+  includeOnesCreatorPanel: boolean;
 };
 
 // constants

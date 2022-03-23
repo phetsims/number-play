@@ -23,14 +23,14 @@ import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 // types
 type AnswerButtonsOptions = {
   buttonColor: ColorProperty;
-  buttonSpacing: number,
-  dependencyEnabledProperty: BooleanProperty
+  buttonSpacing: number;
+  dependencyEnabledProperty: BooleanProperty;
 }
 type ButtonObject = {
-  value: number,
-  button: RectangularPushButton,
-  rectangle: Rectangle,
-  enabledProperty: BooleanProperty
+  value: number;
+  button: RectangularPushButton;
+  rectangle: Rectangle;
+  enabledProperty: BooleanProperty;
 };
 
 // constants

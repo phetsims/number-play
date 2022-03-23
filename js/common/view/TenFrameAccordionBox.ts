@@ -17,7 +17,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type TenFrameAccordionBoxSelfOptions = {
-  tenFrameOffsetX: number
+  tenFrameOffsetX: number;
 };
 export type TenFrameAccordionBoxOptions = TenFrameAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
 
