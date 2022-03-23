@@ -246,7 +246,7 @@ class Subitizer {
     // set values for the step function to handle sequence of showing and hiding game parts for a new challenge
     this.isDelayStarted = true;
     this.isInputEnabledProperty.value = false;
-    this.isShapeVisibleProperty.value = false;
+    this.resetShapeVisible();
 
     // set play object type and shape
     this.setRandomCountingObjectType();
@@ -284,7 +284,7 @@ class Subitizer {
    * Hides the shape and resets the time counter for how long the shape has been visible.
    */
   private resetShapeVisible(): void {
-    this.isShapeVisibleProperty.reset();
+    this.isShapeVisibleProperty.value = false;
     this.timeSinceShapeVisible = 0;
   }
 
