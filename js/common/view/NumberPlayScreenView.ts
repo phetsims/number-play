@@ -31,7 +31,6 @@ import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
-import LocaleSwitch from './LocaleSwitch.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -73,7 +72,7 @@ class NumberPlayScreenView extends ScreenView {
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       model.isPrimaryLocaleProperty,
-      options.upperAccordionBoxHeight - 24, merge( {
+      options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
@@ -114,22 +113,6 @@ class NumberPlayScreenView extends ScreenView {
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesAccordionBox );
-
-    // create and add the LocaleSwitch
-    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, wordAccordionBox.width );
-    localeSwitch.centerX = wordAccordionBox.centerX;
-    localeSwitch.bottom = totalAccordionBox.bottom + 9;
-    localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
-    this.addChild( localeSwitch );
-
-    wordAccordionBox.expandedProperty.link( isE => {
-      if ( isE ) {
-        localeSwitch.top = wordAccordionBox.expandedBoxOutline.bottom + 27.5;
-      }
-      else {
-        localeSwitch.top = wordAccordionBox.collapsedBoxOutline.bottom + 27.5;
-      }
-    } );
 
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(

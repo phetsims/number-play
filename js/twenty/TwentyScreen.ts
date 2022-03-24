@@ -41,7 +41,7 @@ class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
       wordAccordionBoxOptions: {
         fill: NumberPlayColors.orangeBackgroundColorProperty,
         font: new PhetFont( 54 ),
-        textOffset: new Vector2( 40, -2 ),
+        textOffset: new Vector2( 40, -10 ),
         localeSwitchOffsetY: -7
       },
       totalAccordionBoxOptions: {
