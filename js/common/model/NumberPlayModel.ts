@@ -71,15 +71,6 @@ class NumberPlayModel {
   }
 
   /**
-   * Steps the model.
-   * @param dt - in seconds
-   */
-  public step( dt: number ): void {
-    this.onesPlayArea.step( dt );
-    this.objectsPlayArea.step( dt );
-  }
-
-  /**
    * Resets the model.
    */
   public reset(): void {

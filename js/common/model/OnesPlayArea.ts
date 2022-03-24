@@ -398,16 +398,6 @@ class OnesPlayArea extends CountingCommonModel {
   }
 
   /**
-   * @param dt - in seconds
-   */
-  public step( dt: number ) {
-    super.step( dt );
-
-    // Animate fading if necessary
-    // this.splitCue.step( dt );
-  }
-
-  /**
    * Updates the total sum of the paper numbers.
    */
   private calculateTotal() {

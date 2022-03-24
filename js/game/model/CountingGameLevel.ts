@@ -51,13 +51,6 @@ class CountingGameLevel extends NumberPlayGameLevel {
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
-  /**
-   * @param dt - in seconds
-   */
-  public step( dt: number ): void {
-    this.objectsPlayArea.step( dt );
-  }
-
   public reset(): void {
     super.reset();
     this.isObjectsRepresentationProperty.reset();

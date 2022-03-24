@@ -61,15 +61,6 @@ class CompareModel {
   }
 
   /**
-   * Steps the model.
-   * @param dt - time step, in seconds
-   */
-  public step( dt: number ): void {
-    this.leftPlayArea.step( dt );
-    this.rightPlayArea.step( dt );
-  }
-
-  /**
    * Resets the model.
    */
   public reset(): void {

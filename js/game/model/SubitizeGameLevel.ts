@@ -42,6 +42,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
    * @param dt - in seconds
    */
   public step( dt: number ): void {
+    super.step( dt );
     this.subitizer.step( dt );
   }
 }
