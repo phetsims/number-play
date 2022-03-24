@@ -360,10 +360,13 @@ class OnesPlayAreaNode extends Node {
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
-      targetPosition = targetPosition.minus( paperNumber.localBounds.center );
+      targetPosition = targetPosition.minus( paperNumber.returnAnimationBounds.center );
       const targetScale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                           NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
-      paperNumber.setDestination( targetPosition, true, targetScale );
+      paperNumber.setDestination( targetPosition, true, {
+        targetScale: targetScale,
+        targetHandleOpacity: 0
+      } );
 
       // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
       if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {

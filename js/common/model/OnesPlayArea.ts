@@ -207,7 +207,9 @@ class OnesPlayArea extends CountingCommonModel {
     const origin = this.getPaperNumberOrigin().minus( paperNumber.localBounds.center );
     const scale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                   NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
-    paperNumber.setDestination( origin, false, scale );
+    paperNumber.setDestination( origin, false, {
+      targetScale: scale
+    } );
 
     // TODO: This is kind of a band-aid to keep the grouped objects' handles from sticking out of the top of the play
     // area since they are not yet included in paperNumber.localBounds above without a view created
@@ -243,7 +245,9 @@ class OnesPlayArea extends CountingCommonModel {
       destinationPosition = spotIsAvailable ? possibleDestinationPoint : null;
     }
 
-    paperNumber.setDestination( destinationPosition, options.shouldAnimate, NumberPlayConstants.COUNTING_OBJECT_SCALE );
+    paperNumber.setDestination( destinationPosition, options.shouldAnimate, {
+      targetScale: NumberPlayConstants.COUNTING_OBJECT_SCALE
+    } );
     this.addPaperNumber( paperNumber );
   }
 
@@ -295,7 +299,9 @@ class OnesPlayArea extends CountingCommonModel {
       const origin = this.getPaperNumberOrigin().minus( paperNumberToReturn.localBounds.center );
       const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                     NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
-      paperNumberToReturn.setDestination( origin, true, scale );
+      paperNumberToReturn.setDestination( origin, true, {
+        targetScale: scale
+      } );
     }
   }
 
@@ -395,7 +401,9 @@ class OnesPlayArea extends CountingCommonModel {
       } );
       const objectToOrganize = objectsToOrganize.shift();
 
-      objectToOrganize && objectToOrganize.setDestination( destination, true, NumberPlayConstants.COUNTING_OBJECT_SCALE );
+      objectToOrganize && objectToOrganize.setDestination( destination, true, {
+        targetScale: NumberPlayConstants.COUNTING_OBJECT_SCALE
+      } );
     }
   }
 
