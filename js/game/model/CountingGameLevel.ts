@@ -65,17 +65,18 @@ class CountingGameLevel extends NumberPlayGameLevel {
    * Sets up a new challenge for this level.
    */
   public newChallenge(): void {
+    super.newChallenge();
+
     this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;
 
     // every time objects become the representation, if grouping objects is allowed, flip whether the object should
-    // group or not. also do this before super.newChallenge() is called since the object positions are set when the
-    // challenge number is set.
+    // group or not.
     if ( this.isObjectsRepresentationProperty.value && this.groupObjectsAllowed ) {
       this.groupObjectsEnabledProperty.value = !this.groupObjectsEnabledProperty.value;
     }
 
-    super.newChallenge();
     this.countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
+    this.objectsPlayArea.createAllObjects( this.challengeNumberProperty.value, this.groupObjectsEnabledProperty.value );
   }
 
   /**

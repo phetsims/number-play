@@ -103,7 +103,8 @@ class OnesPlayArea extends CountingCommonModel {
 
     // if the current number changes, add or remove paperNumbers from the play area
     currentNumberProperty.lazyLink( ( currentNumber, previousNumber ) => {
-      if ( options.isResettingProperty && !options.isResettingProperty.value && !this.isControllingCurrentNumber ) {
+      if ( options.isResettingProperty && !options.isResettingProperty.value &&
+           !this.isControllingCurrentNumber && !options.setAllObjects ) {
         if ( !previousNumber ) { // TODO-TS: this is bad, fix this link
           previousNumber = 0;
         }
@@ -125,9 +126,6 @@ class OnesPlayArea extends CountingCommonModel {
             }
           } );
         }
-      }
-      else if ( options.setAllObjects ) {
-        this.createAllObjects( currentNumber, groupingEnabledProperty.value );
       }
     } );
 
@@ -155,7 +153,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Create and randomly position a group of objects whose sum is the current number.
    */
-  private createAllObjects( currentNumber: number, setAllObjectsAsGrouped: boolean ) {
+  public createAllObjects( currentNumber: number, setAllObjectsAsGrouped: boolean ) {
     this.removeAllPaperNumbers();
     const objectShouldAnimate = false;
 
