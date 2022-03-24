@@ -31,6 +31,7 @@ import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
+import LocaleSwitch from './LocaleSwitch.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -113,6 +114,13 @@ class NumberPlayScreenView extends ScreenView {
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesAccordionBox );
+
+    // create and add the LocaleSwitch
+    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, wordAccordionBox.width );
+    localeSwitch.centerX = wordAccordionBox.centerX;
+    localeSwitch.bottom = onesAccordionBox.top - 33;
+    localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
+    this.addChild( localeSwitch );
 
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(
