@@ -122,6 +122,15 @@ class NumberPlayScreenView extends ScreenView {
     localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
     this.addChild( localeSwitch );
 
+    wordAccordionBox.expandedProperty.link( isE => {
+      if ( isE ) {
+        localeSwitch.top = wordAccordionBox.expandedBoxOutline.bottom + 27.5;
+      }
+      else {
+        localeSwitch.top = wordAccordionBox.collapsedBoxOutline.bottom + 27.5;
+      }
+    } );
+
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
