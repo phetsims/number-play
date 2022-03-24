@@ -73,7 +73,7 @@ class NumberPlayScreenView extends ScreenView {
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       model.isPrimaryLocaleProperty,
-      options.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight - 24, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
@@ -118,7 +118,7 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the LocaleSwitch
     const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, wordAccordionBox.width );
     localeSwitch.centerX = wordAccordionBox.centerX;
-    localeSwitch.bottom = onesAccordionBox.top - 33;
+    localeSwitch.bottom = totalAccordionBox.bottom + 9;
     localeSwitch.visible = !!phet.numberPlay.secondLocaleStrings;
     this.addChild( localeSwitch );
 

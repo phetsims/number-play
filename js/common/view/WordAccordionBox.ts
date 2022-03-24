@@ -59,7 +59,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
     const localeSwitch = new LocaleSwitch( isPrimaryLocaleProperty, localeSwitchMaxWidth );
     localeSwitch.centerX = this.contentBounds.centerX;
     localeSwitch.bottom = this.contentNode.bottom + options.localeSwitchOffsetY;
-    localeSwitch.visible = false;
+    localeSwitch.visible = false; // showLocaleSwitch
     this.contentNode.addChild( localeSwitch );
 
     // update the word if the current number or locale changes
