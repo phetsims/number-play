@@ -209,7 +209,11 @@ class OnesPlayArea extends CountingCommonModel {
                   NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
     paperNumber.setDestination( origin, false, scale );
 
-    const paperNumberOriginBounds = paperNumber.getOriginBounds( this.playAreaBounds.withMaxY( this.countingCreatorNodeTop ) );
+    // TODO: This is kind of a band-aid to keep the grouped objects' handles from sticking out of the top of the play
+    // area since they are not yet included in paperNumber.localBounds above without a view created
+    const playAreaBoundsMinY = this.groupingEnabledProperty.value ? 30 : 0;
+    const playAreaBounds = this.playAreaBounds.withMinY( playAreaBoundsMinY ).withMaxY( this.countingCreatorNodeTop );
+    const paperNumberOriginBounds = paperNumber.getOriginBounds( playAreaBounds );
 
     // TODO: this algorithm does not take into account paper numbers that are on their way to a spot, and should
     // be rewritten to be better and accommodate that constraint

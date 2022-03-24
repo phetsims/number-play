@@ -144,7 +144,8 @@ class OnesPlayAreaNode extends Node {
 
     // initialize the model with positioning information
     if ( this.viewHasIndependentModel ) {
-      this.playArea.initialize( this.getPaperNumberOrigin, this.onesCreatorPanel.top, playAreaViewBounds );
+      const countingCreatorNodeTop = options.includeOnesCreatorPanel ? this.onesCreatorPanel.top : playAreaViewBounds.bottom;
+      this.playArea.initialize( this.getPaperNumberOrigin, countingCreatorNodeTop, playAreaViewBounds );
     }
 
     // add the paperNumberLayerNode after the creator panel
