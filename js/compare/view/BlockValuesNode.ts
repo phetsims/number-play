@@ -8,7 +8,7 @@
  */
 
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { HBox, Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import { Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 
@@ -30,24 +30,16 @@ class BlockValuesNode extends Node {
    *
    * @param leftCurrentNumber
    * @param rightCurrentNumber
-   * @param includeInvisibleBlocks - use true if expecting any values of 0
    */
-  public static getBlockValuesNode( leftCurrentNumber: number,
-                                    rightCurrentNumber: number,
-                                    includeInvisibleBlocks: boolean ): Node {
-    const leftBlocks = [];
-    const rightBlocks = [];
+  public static getBlockValuesNode( leftCurrentNumber: number, rightCurrentNumber: number ): Node {
 
-    if ( includeInvisibleBlocks ) {
+    // create the base, which sits below the block stacks
+    const baseNode = new Rectangle( 0, 0, SIDE_LENGTH * 2 + PADDING, 2, {
+      fill: 'black'
+    } );
 
-      // add invisible blocks to each stack so that the node can still be positioned correctly when values are 0
-      leftBlocks.push( new Rectangle( 0, 0, SIDE_LENGTH, SIDE_LENGTH, {
-        visible: false
-      } ) );
-      rightBlocks.push( new Rectangle( 0, 0, SIDE_LENGTH, SIDE_LENGTH, {
-        visible: false
-      } ) );
-    }
+    const leftBlocks: Node[] = [];
+    const rightBlocks: Node[] = [];
 
     // create and add the left blocks
     _.times( leftCurrentNumber, () => {
@@ -58,7 +50,9 @@ class BlockValuesNode extends Node {
     const leftStack = new VBox( {
       children: leftBlocks,
       spacing: PADDING,
-      excludeInvisibleChildrenFromBounds: false
+      excludeInvisibleChildrenFromBounds: false,
+      left: baseNode.left,
+      bottom: baseNode.top - PADDING
     } );
 
     // create and add the right blocks
@@ -70,14 +64,13 @@ class BlockValuesNode extends Node {
     const rightStack = new VBox( {
       children: rightBlocks,
       spacing: PADDING,
-      excludeInvisibleChildrenFromBounds: false
+      excludeInvisibleChildrenFromBounds: false,
+      right: baseNode.right,
+      bottom: baseNode.top - PADDING
     } );
 
-    // align and return
-    return new HBox( {
-      children: [ leftStack, rightStack ],
-      spacing: PADDING,
-      align: 'bottom'
+    return new Node( {
+      children: [ leftStack, rightStack, baseNode ]
     } );
   }
 }

@@ -28,7 +28,7 @@ class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<Co
     // create a map from each CompareCountingType to a corresponding icon
     const countingTypeToNode = {};
     // @ts-ignore TODO-TS: How to index objects with new enum patter?
-    countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2, false );
+    countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2 );
     // @ts-ignore
     countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode(
       20,

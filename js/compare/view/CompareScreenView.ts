@@ -192,7 +192,7 @@ class CompareScreenView extends ScreenView {
       NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT - 22,
       model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
     compareNumberLineNode.x = comparisonSignsNode.centerX;
-    compareNumberLineNode.bottom = leftCountingAccordionBox.bottom;
+    compareNumberLineNode.bottom = leftCountingAccordionBox.bottom + 3;
     this.addChild( compareNumberLineNode );
 
     // create and add the ResetAllButton
@@ -231,9 +231,9 @@ class CompareScreenView extends ScreenView {
                                    leftCurrentNumber > rightCurrentNumber ? greaterThanString : equalString;
 
         blockValuesNode.removeAllChildren();
-        blockValuesNode.addChild( BlockValuesNode.getBlockValuesNode( leftCurrentNumber, rightCurrentNumber, true ) );
+        blockValuesNode.addChild( BlockValuesNode.getBlockValuesNode( leftCurrentNumber, rightCurrentNumber ) );
         blockValuesNode.centerX = comparisonSignsNode.centerX;
-        blockValuesNode.bottom = leftCountingAccordionBox.bottom - 2; // empirically determined tweak
+        blockValuesNode.bottom = leftCountingAccordionBox.bottom - 4; // empirically determined tweak
       } );
 
     // update the visibility of the comparison signs node
