@@ -33,7 +33,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   /**
    * Sets up a new challenge for this level.
    */
-  public newChallenge(): void {
+  public override newChallenge(): void {
     super.newChallenge();
     this.subitizer.newChallenge();
   }
@@ -41,7 +41,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   /**
    * @param dt - in seconds
    */
-  public step( dt: number ): void {
+  public override step( dt: number ): void {
     super.step( dt );
     this.subitizer.step( dt );
   }

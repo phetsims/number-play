@@ -51,7 +51,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 
-  public reset(): void {
+  public override reset(): void {
     super.reset();
     this.isObjectsRepresentationProperty.reset();
     this.groupObjectsEnabledProperty.reset();
@@ -64,7 +64,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   /**
    * Sets up a new challenge for this level.
    */
-  public newChallenge(): void {
+  public override newChallenge(): void {
     super.newChallenge();
 
     this.isObjectsRepresentationProperty.value = !this.isObjectsRepresentationProperty.value;

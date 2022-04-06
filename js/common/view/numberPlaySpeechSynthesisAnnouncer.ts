@@ -30,7 +30,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
     this.updateVoiceListener = null;
   }
 
-  initialize( userGestureEmitter: Emitter, options: Object ): void {
+  override initialize( userGestureEmitter: Emitter, options: Object ): void {
     super.initialize( userGestureEmitter, options );
 
     // get the locale the sim is running in

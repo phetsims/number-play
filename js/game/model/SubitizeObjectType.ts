@@ -14,7 +14,7 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 class SubitizeObjectType extends CountingObjectType {
   static CIRCLE = new SubitizeObjectType();
 
-  static enumeration = new Enumeration( SubitizeObjectType, {
+  static override enumeration = new Enumeration( SubitizeObjectType, {
     instanceType: CountingObjectType
   } );
 }
