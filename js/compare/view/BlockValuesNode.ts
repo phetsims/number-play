@@ -34,7 +34,7 @@ class BlockValuesNode extends Node {
   public static getBlockValuesNode( leftCurrentNumber: number, rightCurrentNumber: number ): Node {
 
     // create the base, which sits below the block stacks
-    const baseNode = new Rectangle( 0, 0, SIDE_LENGTH * 2 + PADDING, 2, {
+    const baseNode = new Rectangle( 0, 0, SIDE_LENGTH * 2 + PADDING, 1.25, {
       fill: 'black'
     } );
 
