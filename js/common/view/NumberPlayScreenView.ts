@@ -31,6 +31,7 @@ import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
+import LocaleSwitch from './LocaleSwitch.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -68,11 +69,15 @@ class NumberPlayScreenView extends ScreenView {
     this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
 
+    // whether the locale switch will be visible
+    const showLocaleSwitch = !!phet.numberPlay.secondLocaleStrings;
+    const wordAccordionBoxHeightAdjustment = showLocaleSwitch ? -24 : 0;
+
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       model.isPrimaryLocaleProperty,
-      options.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight + wordAccordionBoxHeightAdjustment, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
@@ -113,6 +118,19 @@ class NumberPlayScreenView extends ScreenView {
     onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesAccordionBox );
+
+    // create and add the LocaleSwitch
+    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, wordAccordionBox.width );
+    localeSwitch.centerX = wordAccordionBox.centerX;
+    localeSwitch.visible = showLocaleSwitch;
+    this.addChild( localeSwitch );
+
+    // update the position of the localeSwitch
+    wordAccordionBox.expandedProperty.link( isExpanded => {
+      // @ts-ignore // TODO-TS: Okay to make these public readonly?
+      const topReferenceY = isExpanded ? wordAccordionBox.expandedBox.bottom : wordAccordionBox.collapsedBox.bottom;
+      localeSwitch.top = topReferenceY + 27.5;
+    } );
 
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(

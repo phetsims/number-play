@@ -6,7 +6,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -41,8 +40,7 @@ class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
       wordAccordionBoxOptions: {
         fill: NumberPlayColors.orangeBackgroundColorProperty,
         font: new PhetFont( 54 ),
-        textOffset: new Vector2( 40, -10 ),
-        localeSwitchOffsetY: -7
+        textOffsetX: 40
       },
       totalAccordionBoxOptions: {
         fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
