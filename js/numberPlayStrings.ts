@@ -42,6 +42,7 @@ type StringsType = {
   'isMoreThan': string,
   'isEqualTo': string,
   'word': string,
+  'wordLanguage': string,
   'total': string,
   'tenFrame': string,
   'ones': string,

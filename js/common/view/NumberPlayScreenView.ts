@@ -76,6 +76,7 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
+      showLocaleSwitch,
       model.isPrimaryLocaleProperty,
       options.upperAccordionBoxHeight + wordAccordionBoxHeightAdjustment, merge( {
         expandedProperty: this.wordAccordionBoxExpandedProperty

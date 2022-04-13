@@ -16,6 +16,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 // types
 type WordAccordionBoxSelfOptions = {
@@ -29,12 +30,40 @@ const TEXT_MARGIN = 5;
 
 class WordAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( currentNumberProperty: NumberProperty, isPrimaryLocaleProperty: BooleanProperty, height: number,
-               options: WordAccordionBoxOptions ) {
+  constructor( currentNumberProperty: NumberProperty, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
+               height: number, options: WordAccordionBoxOptions ) {
+
+    const titleNode = new Text( numberPlayStrings.word, {
+      font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+      maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+    } );
+
+    // if the locale switch is included, specify the current language in the title of the accordion box so that users
+    // can see the content is changing when the accordion box is closed
+    if ( showLocaleSwitch ) {
+      // TODO: Duplicated from LocaleSwitch
+      const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
+      const secondLanguageString = phet.numberPlay.secondLocaleStrings[ secondLanguageStringKey ];
+
+      const primaryLocaleTitleString = StringUtils.fillIn( numberPlayStrings.wordLanguage, {
+        language: numberPlayStrings.language
+      } );
+      const secondaryLocaleTitleString = StringUtils.fillIn( numberPlayStrings.wordLanguage, {
+        language: secondLanguageString
+      } );
+
+      isPrimaryLocaleProperty.link( isPrimaryLocale => {
+        titleNode.text = isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
+      } );
+    }
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
       optionize<WordAccordionBoxOptions, WordAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
-        titleString: numberPlayStrings.word,
+        titleNode: titleNode,
+
+        // TODO: The following options are not used because of the titleNode above, but are needed because of an
+        // order dependency in NumberPlayAccordionBox, and should be fixed
+        titleString: '',
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
 

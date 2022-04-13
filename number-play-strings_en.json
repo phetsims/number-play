@@ -89,6 +89,9 @@
   "word": {
     "value": "Word"
   },
+  "wordLanguage": {
+    "value": "Word ({{language}})"
+  },
   "total": {
     "value": "Total"
   },
