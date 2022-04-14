@@ -328,10 +328,11 @@ class OnesPlayAreaNode extends Node {
         this.onNumberDragFinished( paperNumber );
       }
       else {
+        const paperNumberValue = paperNumber.numberValueProperty.value;
         this.playArea.removePaperNumber( paperNumber );
 
         // see if the creator node should show any hidden targets since a counting object was just returned
-        this.onesCreatorPanel.countingCreatorNode.checkTargetVisibility();
+        this.onesCreatorPanel.countingCreatorNode.checkTargetVisibility( paperNumberValue );
       }
     }
   }
@@ -348,6 +349,7 @@ class OnesPlayAreaNode extends Node {
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {
 
+      const amountToSubtract = paperNumber.includeInSumProperty.value ? paperNumber.numberValueProperty.value : 0;
       paperNumber.includeInSumProperty.value = false;
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
@@ -366,7 +368,7 @@ class OnesPlayAreaNode extends Node {
         // a user returned a number, so update the sim's currentNumberProperty
         this.playArea.isControllingCurrentNumber = true;
         this.playArea.currentNumberProperty.value =
-          Math.max( this.playArea.currentNumberProperty.value - paperNumber.numberValueProperty.value,
+          Math.max( this.playArea.currentNumberProperty.value - amountToSubtract,
             this.playArea.currentNumberProperty.range!.min );
         this.playArea.isControllingCurrentNumber = false;
       }

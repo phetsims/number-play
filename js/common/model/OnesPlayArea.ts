@@ -93,8 +93,10 @@ class OnesPlayArea extends CountingCommonModel {
     // Listen to number changes of paper numbers
     this.paperNumbers.addItemAddedListener( ( paperNumber: PaperNumber ) => {
       paperNumber.numberValueProperty.link( calculateTotalListener );
+      paperNumber.includeInSumProperty.link( calculateTotalListener );
     } );
     this.paperNumbers.addItemRemovedListener( ( paperNumber: PaperNumber ) => {
+      paperNumber.includeInSumProperty.unlink( calculateTotalListener );
       paperNumber.numberValueProperty.unlink( calculateTotalListener );
     } );
 
@@ -411,7 +413,7 @@ class OnesPlayArea extends CountingCommonModel {
    */
   private calculateTotal() {
     let total = 0;
-    this.paperNumbers.filter( paperNumber => paperNumber.includeInSumProperty.value ).forEach( ( paperNumber: PaperNumber ) => {
+    this.paperNumbers.filter( paperNumber => paperNumber.includeInSumProperty.value ).forEach( paperNumber => {
       total += paperNumber.numberValueProperty.value;
     } );
     this.sumProperty.value = total;
