@@ -104,7 +104,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       this.contentNode.addChild( linkedObjectsPlayAreaNode );
 
       options.groupAndLinkTypeProperty.link( groupAndLinkType => {
-        objectsPlayAreaNode.visible = !( groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
+        objectsPlayAreaNode.visible = groupAndLinkType !== GroupAndLinkType.GROUPED_AND_LINKED;
         linkedObjectsPlayAreaNode.visible = groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
         radioButtonGroup && radioButtonGroup.moveToFront();
       } );

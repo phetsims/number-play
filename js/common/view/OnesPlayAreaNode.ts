@@ -335,6 +335,12 @@ class OnesPlayAreaNode extends Node {
         this.onesCreatorPanel.countingCreatorNode.checkTargetVisibility( paperNumberValue );
       }
     }
+    // if this view is running off of a shared model, then if a paper number has already been removed from the model,
+    // check if creator node should be updated
+    else if ( !this.viewHasIndependentModel ) {
+      const paperNumberValue = paperNumber.numberValueProperty.value;
+      this.onesCreatorPanel.countingCreatorNode.checkTargetVisibility( paperNumberValue );
+    }
   }
 
   /**
