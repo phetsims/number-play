@@ -91,7 +91,7 @@ simLauncher.launch( () => {
     // @ts-ignore TODO-TS: Likely needs a common base type for parameterization
     sim.screenProperty.lazyLink( ( screen: Screen ) => {
 
-      if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
+      if ( numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
         numberPlaySpeechSynthesisAnnouncer.updateVoice( screen.model.isPrimaryLocaleProperty.value );
       }
     } );
