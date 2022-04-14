@@ -48,11 +48,11 @@ class OnesCreatorPanel extends Panel {
     const upArrowButton = new ArrowButton( 'up', () => {
       playArea.currentNumberProperty.value =
         Math.min( playArea.currentNumberProperty.range!.max, playArea.currentNumberProperty.value + 1 );
-    }, arrowButtonConfig );
+    }, merge( { touchAreaYShift: -3 }, arrowButtonConfig ) );
     const downArrowButton = new ArrowButton( 'down', () => {
       playArea.currentNumberProperty.value =
         Math.max( playArea.currentNumberProperty.range!.min, playArea.currentNumberProperty.value - 1 );
-    }, arrowButtonConfig );
+    }, merge( { touchAreaYShift: 3 }, arrowButtonConfig ) );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],
       spacing: arrowButtonConfig.spacing
@@ -70,7 +70,10 @@ class OnesCreatorPanel extends Panel {
       groupingEnabledProperty: screenView.playArea.groupingEnabledProperty,
       backTargetOffset: new Vector2( -5, -5 ),
       ungroupedTargetScale: NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE,
-      groupedTargetScale: NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE
+      groupedTargetScale: NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE,
+      touchAreaXDilation: 6.5,
+      touchAreaYDilation: 5,
+      touchAreaXShift: 3
     } );
     creatorNodeBackground.addChild( countingCreatorNode );
 
