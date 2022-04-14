@@ -269,9 +269,9 @@ class OnesPlayArea extends CountingCommonModel {
       }
     ] );
 
-    // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket
+    // remove any paperNumbers that aren't included in the sum - these are already on their way back to the bucket
     _.remove( sortedPaperNumbers, paperNumber => {
-      return paperNumber.numberValueProperty.value === 0;
+      return !paperNumber.includeInSumProperty.value;
     } );
 
     let paperNumberToReturn = sortedPaperNumbers.shift();
@@ -291,11 +291,10 @@ class OnesPlayArea extends CountingCommonModel {
         this.addPaperNumber( paperNumberToReturn );
       }
 
-      // set its value to 0 and send it back to its origin. paperNumbers aren't removed from the playArea until they get
-      // back to the bucket, but we don't want them to count towards the sum while they're on their way to the bucket.
-      // this allows for multiple paperNumbers to be returning to the bucket at the same time instead of only one at a
-      // time.
-      paperNumberToReturn.numberValueProperty.value = 0;
+      // remove it from counting towards the sum and send it back to its origin. paperNumbers aren't removed from the
+      // playArea until they get back to the bucket, but we don't want them to count towards the sum while they're on
+      // their way to the bucket.
+      paperNumberToReturn.includeInSumProperty.value = false;
       const origin = this.getPaperNumberOrigin().minus( paperNumberToReturn.localBounds.center );
       const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                     NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
@@ -389,7 +388,7 @@ class OnesPlayArea extends CountingCommonModel {
     this.breakApartCountingObjects();
 
     // copy the current playObjectsInPlayArea so we can mutate it
-    let objectsToOrganize = [ ...this.paperNumbers ].filter( paperNumber => paperNumber.numberValueProperty.value > 0 );
+    let objectsToOrganize = [ ...this.paperNumbers ].filter( paperNumber => paperNumber.includeInSumProperty.value );
     const numberOfObjectsToOrganize = objectsToOrganize.length;
 
     for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
@@ -412,7 +411,7 @@ class OnesPlayArea extends CountingCommonModel {
    */
   private calculateTotal() {
     let total = 0;
-    this.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
+    this.paperNumbers.filter( paperNumber => paperNumber.includeInSumProperty.value ).forEach( ( paperNumber: PaperNumber ) => {
       total += paperNumber.numberValueProperty.value;
     } );
     this.sumProperty.value = total;

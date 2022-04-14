@@ -184,14 +184,6 @@ class OnesPlayAreaNode extends Node {
         }
       } );
 
-    // if a number's value is set to 0, make it's corresponding node not pickable (since it's on its way to the bucket)
-    paperNumber.numberValueProperty.link( numberValue => {
-      if ( numberValue < 1 ) {
-        paperNumberNode.interruptSubtreeInput();
-        paperNumberNode.pickable = false;
-      }
-    } );
-
     this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ] = paperNumberNode;
     this.paperNumberLayerNode!.addChild( paperNumberNode );
     paperNumberNode.attachListeners();
@@ -244,15 +236,16 @@ class OnesPlayAreaNode extends Node {
    */
   public tryToCombineNumbers( draggedPaperNumber: PaperNumber ): void {
     const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
-    const allPaperNumberNodes = _.filter( this.paperNumberLayerNode!.children, child => child instanceof PaperNumberNode );
+    // @ts-ignore TS-TODO: How to make TS .children is of type PaperNumberNode[]?
+    const allPaperNumberNodes: PaperNumberNode[] = _.filter( this.paperNumberLayerNode!.children, child => child instanceof PaperNumberNode );
 
-    // remove any paperNumbers with a value of 0 - these are already on their way back to the bucket and should not
-    // be tried to combined with. return if no paperNumbers are left or if the draggedPaperNumber's value is 0
+    // remove any paperNumbers that aren't included in the sum - these are already on their way back to the bucket and
+    // should not be tried to combined with. return if no paperNumbers are left or if the draggedPaperNumber is not
+    // included in the sum
     _.remove( allPaperNumberNodes, paperNumberNode => {
-      // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
-      return paperNumberNode.paperNumber.numberValueProperty.value === 0;
+      return !paperNumberNode.paperNumber.includeInSumProperty.value;
     } );
-    if ( allPaperNumberNodes.length === 0 || draggedPaperNumber.numberValueProperty.value === 0 ) {
+    if ( allPaperNumberNodes.length === 0 || !draggedPaperNumber.includeInSumProperty.value ) {
       return;
     }
 
@@ -331,7 +324,7 @@ class OnesPlayAreaNode extends Node {
 
     // If it animated to the return zone, it's probably split and meant to be returned.
     if ( this.playArea.paperNumbers.includes( paperNumber ) && this.isNumberInReturnZone( paperNumber ) ) {
-      if ( paperNumber.numberValueProperty.value > 0 ) {
+      if ( paperNumber.includeInSumProperty.value ) {
         this.onNumberDragFinished( paperNumber );
       }
       else {
@@ -355,8 +348,7 @@ class OnesPlayAreaNode extends Node {
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {
 
-      const paperNumberValue = paperNumber.numberValueProperty.value;
-      paperNumber.numberValueProperty.value = 0;
+      paperNumber.includeInSumProperty.value = false;
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
@@ -373,7 +365,9 @@ class OnesPlayAreaNode extends Node {
 
         // a user returned a number, so update the sim's currentNumberProperty
         this.playArea.isControllingCurrentNumber = true;
-        this.playArea.currentNumberProperty.value = this.playArea.currentNumberProperty.value - paperNumberValue;
+        this.playArea.currentNumberProperty.value =
+          Math.max( this.playArea.currentNumberProperty.value - paperNumber.numberValueProperty.value,
+            this.playArea.currentNumberProperty.range!.min );
         this.playArea.isControllingCurrentNumber = false;
       }
     }
