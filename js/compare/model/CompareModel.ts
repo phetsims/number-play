@@ -65,6 +65,7 @@ class CompareModel {
    */
   public reset(): void {
     this.isResettingProperty.value = true;
+    this.isPrimaryLocaleProperty.reset();
     this.leftPlayArea.reset();
     this.rightPlayArea.reset();
     this.leftCurrentNumberProperty.reset();
