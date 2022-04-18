@@ -137,7 +137,10 @@ class CompareScreenView extends ScreenView {
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton(
         comparisonTextNode.comparisonStringProperty,
-        model.isPrimaryLocaleProperty
+        model.isPrimaryLocaleProperty, {
+          numberProperty1: model.leftCurrentNumberProperty,
+          numberProperty2: model.rightCurrentNumberProperty
+        }
       );
       speechSynthesisButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = rightTotalAccordionBox.top;
