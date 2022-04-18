@@ -75,6 +75,7 @@ class NumberPlayModel {
    */
   public reset(): void {
     this.isResettingProperty.value = true;
+    this.isPrimaryLocaleProperty.reset();
     this.countingObjectTypeProperty.reset();
     this.groupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
