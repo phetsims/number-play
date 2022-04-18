@@ -44,7 +44,7 @@ const simOptions = {
     //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
     leadDesign: 'Amanda McGarry',
     softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
-    team: 'Ariel Paul, Kathy Perkins, Ian Whitacre',
+    team: 'Sylvia Celedón-Pattichis, Ariel Paul, Kathy Perkins, Ian Whitacre',
     qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
     graphicArts: 'Mariah Hermsmeyer',
     thanks: ''
