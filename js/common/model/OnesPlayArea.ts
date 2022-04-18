@@ -340,7 +340,7 @@ class OnesPlayArea extends CountingCommonModel {
    * objects in the position of the original counting object. If stack=true, it arranges them according to the
    * background shape of the original counting object.
    */
-  public breakApartCountingObjects( stack: boolean = false ) {
+  public breakApartCountingObjects( stack = false ) {
 
     // TODO: cleanup and doc
 

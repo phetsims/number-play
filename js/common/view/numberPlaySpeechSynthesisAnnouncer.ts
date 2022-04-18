@@ -43,7 +43,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
     this.voicesChangedEmitter.addListener( this.updateVoiceListener );
   }
 
-  updateVoice( isPrimaryLocale: boolean = true ): void {
+  updateVoice( isPrimaryLocale = true ): void {
     assert && assert( this.initialized, 'must be initialized before updating voice' );
 
     const locale = isPrimaryLocale ? this.primaryLocale : this.secondaryLocale;
