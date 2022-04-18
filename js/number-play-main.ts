@@ -45,7 +45,7 @@ const simOptions = {
     leadDesign: 'Amanda McGarry',
     softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
     team: 'Ariel Paul, Kathy Perkins, Ian Whitacre',
-    qualityAssurance: 'Emily Miller, Nancy Salpepi, Kathryn Woessner',
+    qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
     graphicArts: 'Mariah Hermsmeyer',
     thanks: ''
   }
