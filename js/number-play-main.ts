@@ -42,12 +42,11 @@ const numberPlayTitleString = numberPlayStrings[ 'number-play' ].title;
 const simOptions = {
   credits: {
     //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
-    leadDesign: '',
-    softwareDevelopment: '',
-    team: '',
-    qualityAssurance: '',
-    graphicArts: '',
-    soundDesign: '',
+    leadDesign: 'Amanda McGarry',
+    softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
+    team: 'Ariel Paul, Kathy Perkins, Ian Whitacre',
+    qualityAssurance: 'Emily Miller, Nancy Salpepi, Kathryn Woessner',
+    graphicArts: 'Mariah Hermsmeyer',
     thanks: ''
   }
 };
