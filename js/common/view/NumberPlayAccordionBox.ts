@@ -39,7 +39,7 @@ class NumberPlayAccordionBox extends AccordionBox {
     // override the local bounds so they don't change
     contentNode.localBounds = innerContentBounds;
 
-    super( contentNode, optionize<NumberPlayAccordionBoxOptions, SelfOptions, AccordionBoxOptions>( {
+    super( contentNode, optionize<NumberPlayAccordionBoxOptions, SelfOptions, AccordionBoxOptions>()( {
       titleNode: new Text( options.titleString, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: options.titleMaxWidth

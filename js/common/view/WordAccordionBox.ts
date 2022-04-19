@@ -58,7 +58,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
     }
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
-      optionize<WordAccordionBoxOptions, WordAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
+      optionize<WordAccordionBoxOptions, WordAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleNode: titleNode,
 
         // TODO: The following options are not used because of the titleNode above, but are needed because of an

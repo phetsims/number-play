@@ -31,7 +31,7 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
   constructor( currentNumberProperty: NumberProperty, height: number, options: TotalAccordionBoxOptions ) {
 
     super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, height,
-      optionize<TotalAccordionBoxOptions, TotalAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
+      optionize<TotalAccordionBoxOptions, TotalAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleString: numberPlayStrings.total,
         titleMaxWidth: 142
       }, options ) );

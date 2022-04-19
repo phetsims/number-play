@@ -43,7 +43,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
                height: number,
                options: CountingAccordionBoxOptions ) {
 
-    super( width, height, optionize<CountingAccordionBoxOptions, CountingAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
+    super( width, height, optionize<CountingAccordionBoxOptions, CountingAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
       titleString: numberPlayStrings.objects,
       titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH,
       countingObjectTypes: null,

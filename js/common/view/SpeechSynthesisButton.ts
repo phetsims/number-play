@@ -44,7 +44,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
                isPrimaryLocaleProperty: BooleanProperty,
                providedOptions?: SpeechSynthesisButtonOptions ) {
 
-    const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>( {
+    const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>()( {
       readNumber: false,
       numberProperty1: new NumberProperty( 0 ),
       numberProperty2: new NumberProperty( 0 )

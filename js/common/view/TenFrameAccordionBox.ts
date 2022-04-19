@@ -26,7 +26,7 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
   constructor( currentNumberProperty: NumberProperty, height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
-      optionize<TenFrameAccordionBoxOptions, TenFrameAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>( {
+      optionize<TenFrameAccordionBoxOptions, TenFrameAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleString: numberPlayStrings.tenFrame,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
