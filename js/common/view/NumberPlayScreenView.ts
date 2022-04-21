@@ -228,7 +228,6 @@ class NumberPlayScreenView extends ScreenView {
 
   /**
    * Resets the view.
-   * @public
    */
   reset() {
     this.wordAccordionBoxExpandedProperty.reset();

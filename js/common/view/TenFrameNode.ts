@@ -127,7 +127,6 @@ class TenFrameNode extends Node {
    * @param {ColorDef} fill
    * @param {number} lineWidth
    * @returns {Path}
-   * @public
    */
   static getTenFramePath( providedOptions?: Partial<GetTenFramePathOptions> ) {
 
