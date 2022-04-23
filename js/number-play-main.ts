@@ -6,7 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Sim from '../../joist/js/Sim.js';
+import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CompareScreen from './compare/CompareScreen.js';
@@ -39,7 +39,7 @@ if ( NumberPlayQueryParameters.secondLocale ) {
 
 const numberPlayTitleString = numberPlayStrings[ 'number-play' ].title;
 
-const simOptions = {
+const simOptions: SimOptions = {
   credits: {
     //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
     leadDesign: 'Amanda McGarry',
