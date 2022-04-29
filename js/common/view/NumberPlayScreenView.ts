@@ -229,7 +229,7 @@ class NumberPlayScreenView extends ScreenView {
   /**
    * Resets the view.
    */
-  reset() {
+  reset(): void {
     this.wordAccordionBoxExpandedProperty.reset();
     this.totalAccordionBoxExpandedProperty.reset();
     this.tenFrameAccordionBoxExpandedProperty.reset();

@@ -128,7 +128,7 @@ class TenFrameNode extends Node {
    * @param {number} lineWidth
    * @returns {Path}
    */
-  static getTenFramePath( providedOptions?: Partial<GetTenFramePathOptions> ) {
+  static getTenFramePath( providedOptions?: Partial<GetTenFramePathOptions> ): Path {
 
     // TS-TODO: Is this Required needed? AKA does Pick preserve the 'optionalness' of a property or not?
     const options = merge( {

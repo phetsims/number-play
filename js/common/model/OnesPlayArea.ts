@@ -155,7 +155,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Create and randomly position a group of objects whose sum is the current number.
    */
-  public createAllObjects( currentNumber: number, setAllObjectsAsGrouped: boolean ) {
+  public createAllObjects( currentNumber: number, setAllObjectsAsGrouped: boolean ): void {
     this.removeAllPaperNumbers();
     const objectShouldAnimate = false;
 
@@ -191,7 +191,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Creates a paperNumber and animates it to a random open place in the play area.
    */
-  private createPaperNumberFromBucket( providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ) {
+  private createPaperNumberFromBucket( providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ): void {
     assert && assert( this.initialized === true, 'createPaperNumberFromBucket called before initialization' );
 
     const options = merge( {
@@ -257,7 +257,7 @@ class OnesPlayArea extends CountingCommonModel {
    * Finds the closest paperNumber to their origin and animates it back over the bucket. If only paperNumbers with
    * values greater than one exist, break them up and send their components with values of one back.
    */
-  private returnPaperNumberToBucket() {
+  private returnPaperNumberToBucket(): void {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
     assert && assert( this.initialized === true, 'returnPaperNumberToBucket called before initialization' );
 
@@ -340,7 +340,7 @@ class OnesPlayArea extends CountingCommonModel {
    * objects in the position of the original counting object. If stack=true, it arranges them according to the
    * background shape of the original counting object.
    */
-  public breakApartCountingObjects( stack = false ) {
+  public breakApartCountingObjects( stack = false ): void {
 
     // TODO: cleanup and doc
 
@@ -383,7 +383,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
    */
-  public organizeObjects() {
+  public organizeObjects(): void {
 
     assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
 
@@ -411,7 +411,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Updates the total sum of the paper numbers.
    */
-  private calculateTotal() {
+  private calculateTotal(): void {
     let total = 0;
     this.paperNumbers.filter( paperNumber => paperNumber.includeInSumProperty.value ).forEach( paperNumber => {
       total += paperNumber.numberValueProperty.value;
