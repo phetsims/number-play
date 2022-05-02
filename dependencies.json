@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.1-rc.1 Mon May 02 2022 16:22:17 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# number-play 1.0.1 Mon May 02 2022 16:33:03 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "3ad42f9bde9affb6350a7c73ac4622f7754266a8",
+    "sha": "c2e237a1df0a3b27e7a7e366f51d732af7149055",
     "branch": "1.0"
   },
   "perennial-alias": {
