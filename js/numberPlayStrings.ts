@@ -9,52 +9,52 @@ import numberPlay from './numberPlay.js';
 
 type StringsType = {
   'number-play': {
-    'title': string
-  },
+    'title': string;
+  };
   'screen': {
-    'ten': string,
-    'twenty': string,
-    'compare': string,
-    'game': string
-  },
-  'zero': string,
-  'one': string,
-  'two': string,
-  'three': string,
-  'four': string,
-  'five': string,
-  'six': string,
-  'seven': string,
-  'eight': string,
-  'nine': string,
-  'ten': string,
-  'eleven': string,
-  'twelve': string,
-  'thirteen': string,
-  'fourteen': string,
-  'fifteen': string,
-  'sixteen': string,
-  'seventeen': string,
-  'eighteen': string,
-  'nineteen': string,
-  'twenty': string,
-  'isLessThan': string,
-  'isMoreThan': string,
-  'isEqualTo': string,
-  'word': string,
-  'wordLanguage': string,
-  'total': string,
-  'tenFrame': string,
-  'ones': string,
-  'objects': string,
-  'gameNameLevelNumberPattern': string,
-  'chooseYourGame': string,
-  'counting': string,
-  'countFromPattern': string,
-  'subitizing': string,
-  'subitizeFromPattern': string,
-  'games': string,
-  'language': string
+    'ten': string;
+    'twenty': string;
+    'compare': string;
+    'game': string;
+  };
+  'zero': string;
+  'one': string;
+  'two': string;
+  'three': string;
+  'four': string;
+  'five': string;
+  'six': string;
+  'seven': string;
+  'eight': string;
+  'nine': string;
+  'ten': string;
+  'eleven': string;
+  'twelve': string;
+  'thirteen': string;
+  'fourteen': string;
+  'fifteen': string;
+  'sixteen': string;
+  'seventeen': string;
+  'eighteen': string;
+  'nineteen': string;
+  'twenty': string;
+  'isLessThan': string;
+  'isMoreThan': string;
+  'isEqualTo': string;
+  'word': string;
+  'wordLanguage': string;
+  'total': string;
+  'tenFrame': string;
+  'ones': string;
+  'objects': string;
+  'gameNameLevelNumberPattern': string;
+  'chooseYourGame': string;
+  'counting': string;
+  'countFromPattern': string;
+  'subitizing': string;
+  'subitizeFromPattern': string;
+  'games': string;
+  'language': string;
 };
 
 const numberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;
