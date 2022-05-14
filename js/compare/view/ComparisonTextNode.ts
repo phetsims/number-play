@@ -32,7 +32,7 @@ class ComparisonTextNode extends Node {
     // elsewhere in the screen view.
     this.comparisonStringProperty = new DerivedProperty(
       [ leftCurrentNumberProperty, rightCurrentNumberProperty, isPrimaryLocaleProperty ],
-      ( leftCurrentNumber: number, rightCurrentNumber: number, isPrimaryLocale: boolean ) =>
+      ( leftCurrentNumber, rightCurrentNumber, isPrimaryLocale ) =>
         ComparisonTextNode.getComparisonString( leftCurrentNumber, rightCurrentNumber, isPrimaryLocale ) );
 
     // create and add the comparison text
