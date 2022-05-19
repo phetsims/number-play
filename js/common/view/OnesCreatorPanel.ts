@@ -64,7 +64,7 @@ class OnesCreatorPanel extends Panel {
     );
 
     // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
-    const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, {
+    const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, playArea.resetEmitter, {
       updateCurrentNumber: true,
       countingObjectTypeProperty: screenView.countingObjectTypeProperty,
       groupingEnabledProperty: screenView.playArea.groupingEnabledProperty,
