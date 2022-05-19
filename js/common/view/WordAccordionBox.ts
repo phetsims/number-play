@@ -77,7 +77,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
 
     // update the word if the current number or locale changes
     Property.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
-      ( currentNumber: number, isPrimaryLocale: boolean ) => {
+      ( currentNumber, isPrimaryLocale ) => {
         wordText.text = NumberPlayConstants.numberToString( currentNumber, isPrimaryLocale );
       } );
   }
