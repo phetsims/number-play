@@ -23,7 +23,6 @@ import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.j
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 
 // types
 type CountingAccordionBoxSelfOptions = {
@@ -42,7 +41,6 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
                countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
                width: number,
                height: number,
-               resetEmitter: Emitter,
                options: CountingAccordionBoxOptions ) {
 
     super( width, height, optionize<CountingAccordionBoxOptions, CountingAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
@@ -53,13 +51,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
     }, options ) );
 
-    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty, this.contentBounds, {
-      onesCreatorPanelOptions: {
-        countingCreatorNodeOptions: {
-          resetEmitter: resetEmitter
-        }
-      }
-    } );
+    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty, this.contentBounds );
     this.contentNode.addChild( objectsPlayAreaNode );
 
     // TODO-TS: use specific RadioButtonGroup type
@@ -106,12 +98,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
         options.linkedPlayArea,
         countingObjectTypeProperty,
         this.contentBounds, {
-          viewHasIndependentModel: false,
-          onesCreatorPanelOptions: {
-            countingCreatorNodeOptions: {
-              resetEmitter: resetEmitter
-            }
-          }
+          viewHasIndependentModel: false
         }
       );
       this.contentNode.addChild( linkedObjectsPlayAreaNode );

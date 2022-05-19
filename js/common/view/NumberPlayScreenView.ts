@@ -32,7 +32,6 @@ import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import LocaleSwitch from './LocaleSwitch.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 
 // types
 type NumberPlayScreenViewOptions = {
@@ -58,7 +57,6 @@ class NumberPlayScreenView extends ScreenView {
   private readonly onesAccordionBoxExpandedProperty: BooleanProperty;
   private readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
   private readonly objectsAccordionBox: CountingAccordionBox;
-  private readonly resetEmitter: Emitter;
 
   constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
 
@@ -107,16 +105,12 @@ class NumberPlayScreenView extends ScreenView {
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
 
-    // used to notify view sub-components that reset is being called
-    this.resetEmitter = new Emitter();
-
     // create and add the CountingAccordionBox for paper ones
     const onesAccordionBox = new CountingAccordionBox(
       model.onesPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      options.lowerAccordionBoxHeight,
-      this.resetEmitter, {
+      options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleString: numberPlayStrings.ones,
         fill: NumberPlayColors.pinkBackgroundColorProperty,
@@ -144,8 +138,7 @@ class NumberPlayScreenView extends ScreenView {
       model.objectsPlayArea,
       model.countingObjectTypeProperty,
       NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      options.lowerAccordionBoxHeight,
-      this.resetEmitter, {
+      options.lowerAccordionBoxHeight, {
         countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
           CountingObjectType.BALL ],
         groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
@@ -242,7 +235,6 @@ class NumberPlayScreenView extends ScreenView {
     this.tenFrameAccordionBoxExpandedProperty.reset();
     this.onesAccordionBoxExpandedProperty.reset();
     this.objectsAccordionBoxExpandedProperty.reset();
-    this.resetEmitter.emit();
   }
 }
 

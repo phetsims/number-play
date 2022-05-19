@@ -16,7 +16,7 @@ import { Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/impo
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
-import OnesCreatorPanel, { OnesCreatorPanelOptions } from './OnesCreatorPanel.js';
+import OnesCreatorPanel from './OnesCreatorPanel.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
@@ -31,7 +31,6 @@ type SelfOptions = {
   backgroundDragTargetNode?: null | Node;
   viewHasIndependentModel?: boolean; // whether this view is hooked up to its own model or a shared model
   includeOnesCreatorPanel?: boolean;
-  onesCreatorPanelOptions?: Pick<OnesCreatorPanelOptions, 'countingCreatorNodeOptions'>;
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
@@ -136,7 +135,7 @@ class OnesPlayAreaNode extends Node {
     } );
 
     // create and add the OnesCreatorPanel
-    this.onesCreatorPanel = new OnesCreatorPanel( playArea, this, options.onesCreatorPanelOptions );
+    this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
     this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     if ( options.includeOnesCreatorPanel ) {
@@ -337,7 +336,7 @@ class OnesPlayAreaNode extends Node {
         this.onesCreatorPanel.countingCreatorNode.checkTargetVisibility( paperNumberValue );
       }
     }
-    // if this view is running off of a shared model, then if a paper number has already been removed from the model,
+      // if this view is running off of a shared model, then if a paper number has already been removed from the model,
     // check if creator node should be updated
     else if ( !this.viewHasIndependentModel ) {
       const paperNumberValue = paperNumber.numberValueProperty.value;

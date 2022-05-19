@@ -32,7 +32,6 @@ import CountingAccordionBox, { CountingAccordionBoxOptions } from '../../common/
 import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import numberPlaySpeechSynthesisAnnouncer from '../../common/view/numberPlaySpeechSynthesisAnnouncer.js';
-import Emitter from '../../../../axon/js/Emitter.js';
 
 // constants
 const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates
@@ -48,7 +47,6 @@ class CompareScreenView extends ScreenView {
   private readonly rightTotalAccordionBoxExpandedProperty: BooleanProperty;
   private readonly rightCountingAccordionBoxExpandedProperty: BooleanProperty;
   private readonly leftCountingAccordionBoxExpandedProperty: BooleanProperty;
-  private readonly resetEmitter: Emitter;
 
   constructor( model: CompareModel, tandem: Tandem ) {
 
@@ -89,17 +87,12 @@ class CompareScreenView extends ScreenView {
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
 
-    // TODO: Factor out parent ScreenView type with NumberPlayScreenView to avoid this duplication
-    // used to notify view sub-components that reset is being called
-    this.resetEmitter = new Emitter();
-
     // create and add the left CountingAccordionBox
     const leftCountingAccordionBox = new CountingAccordionBox(
       model.leftPlayArea,
       model.leftCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,
-      this.resetEmitter, {
+      NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.leftCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
@@ -113,8 +106,7 @@ class CompareScreenView extends ScreenView {
       model.rightPlayArea,
       model.rightCountingObjectTypeProperty,
       LOWER_ACCORDION_BOX_CONTENT_WIDTH,
-      NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,
-      this.resetEmitter, {
+      NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT, {
         countingObjectTypes: CountingObjectType.enumeration.values,
         expandedProperty: this.rightCountingAccordionBoxExpandedProperty,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
@@ -268,7 +260,6 @@ class CompareScreenView extends ScreenView {
     this.rightTotalAccordionBoxExpandedProperty.reset();
     this.leftCountingAccordionBoxExpandedProperty.reset();
     this.rightCountingAccordionBoxExpandedProperty.reset();
-    this.resetEmitter.emit();
   }
 }
 

@@ -8,7 +8,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import CountingCreatorNode, { CountingCreatorNodeOptions } from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
+import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
@@ -19,12 +19,10 @@ import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
-type SelfOptions = {
-  countingCreatorNodeOptions?: Pick<CountingCreatorNodeOptions, 'resetEmitter'>;
-};
+type SelfOptions = {};
 export type OnesCreatorPanelOptions = SelfOptions & PanelOptions;
 
 class OnesCreatorPanel extends Panel {
@@ -32,7 +30,7 @@ class OnesCreatorPanel extends Panel {
 
   constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode, providedOptions?: OnesCreatorPanelOptions ) {
 
-    const options = optionize<OnesCreatorPanelOptions, Omit<SelfOptions, 'countingCreatorNodeOptions'>, PanelOptions>()( {
+    const options = optionize<OnesCreatorPanelOptions, SelfOptions, PanelOptions>()( {
       stroke: 'rgb(201,203,203)',
       xMargin: 8,
       yMargin: 8
@@ -62,7 +60,8 @@ class OnesCreatorPanel extends Panel {
       CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
     );
 
-    const countingCreatorNodeOptions = combineOptions<CountingCreatorNodeOptions>( {
+    // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
+    const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, playArea.resetEmitter, {
       updateCurrentNumber: true,
       countingObjectTypeProperty: screenView.countingObjectTypeProperty,
       groupingEnabledProperty: screenView.playArea.groupingEnabledProperty,
@@ -72,10 +71,7 @@ class OnesCreatorPanel extends Panel {
       touchAreaXDilation: 6.5,
       touchAreaYDilation: 5,
       touchAreaXShift: 3
-    }, options.countingCreatorNodeOptions );
-
-    // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
-    const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, countingCreatorNodeOptions );
+    } );
     creatorNodeBackground.addChild( countingCreatorNode );
 
     screenView.playArea.groupingEnabledProperty.link( groupingEnabled => {
