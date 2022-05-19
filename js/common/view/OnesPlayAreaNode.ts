@@ -12,26 +12,28 @@ import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import merge from '../../../../phet-core/js/merge.js';
 import { Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import ClosestDragListener from '../../../../sun/js/ClosestDragListener.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
-import OnesCreatorPanel from './OnesCreatorPanel.js';
+import OnesCreatorPanel, { OnesCreatorPanelOptions } from './OnesCreatorPanel.js';
 import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/CountingCommonView.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
-type OnesPlayAreaNodeOptions = {
-  paperNumberLayerNode: null | Node;
-  backgroundDragTargetNode: null | Node;
-  viewHasIndependentModel: boolean;
-  includeOnesCreatorPanel: boolean;
+type SelfOptions = {
+  paperNumberLayerNode?: null | Node;
+  backgroundDragTargetNode?: null | Node;
+  viewHasIndependentModel?: boolean; // whether this view is hooked up to its own model or a shared model
+  includeOnesCreatorPanel?: boolean;
+  onesCreatorPanelOptions?: Pick<OnesCreatorPanelOptions, 'countingCreatorNodeOptions'>;
 };
+type OnesPlayAreaNodeOptions = SelfOptions;
 
 // constants
 const COUNTING_OBJECT_HANDLE_OFFSET_Y = -9.5;  // empirically determined to be an appropriate length for just 10s and 1s
@@ -57,15 +59,15 @@ class OnesPlayAreaNode extends Node {
   constructor( playArea: OnesPlayArea,
                countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
                playAreaViewBounds: Bounds2,
-               providedOptions?: Partial<OnesPlayAreaNodeOptions> ) {
+               providedOptions?: OnesPlayAreaNodeOptions ) {
     super();
 
-    const options = merge( {
+    const options = optionize<OnesPlayAreaNodeOptions, Omit<SelfOptions, 'onesCreatorPanelOptions'>>()( {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
-      viewHasIndependentModel: true, // whether this view is hooked up to its own model or a shared model
+      viewHasIndependentModel: true,
       includeOnesCreatorPanel: true
-    }, providedOptions ) as OnesPlayAreaNodeOptions;
+    }, providedOptions );
 
     // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
 
@@ -134,7 +136,7 @@ class OnesPlayAreaNode extends Node {
     } );
 
     // create and add the OnesCreatorPanel
-    this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
+    this.onesCreatorPanel = new OnesCreatorPanel( playArea, this, options.onesCreatorPanelOptions );
     this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     if ( options.includeOnesCreatorPanel ) {
