@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.1 Tue May 03 2022 11:53:35 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# number-play 1.0.1 Wed May 18 2022 20:37:43 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -17,8 +17,8 @@
     "branch": "HEAD"
   },
   "counting-common": {
-    "sha": "f1c626c807e64e7df659e981e45e539896894fb9",
-    "branch": "HEAD"
+    "sha": "f1ac6a7411fbd40ebb5a06ec1d7218006039eded",
+    "branch": "number-play-1.0"
   },
   "dot": {
     "sha": "4da44560e1e2df9ace3e8cc74f926a7f173044d2",
@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "8f4aa6d16c7399230f9b20329b58b5743dca1dde",
+    "sha": "d6d856240f543fba254fed133d7c2c7fea4f7524",
     "branch": "1.0"
   },
   "perennial-alias": {
