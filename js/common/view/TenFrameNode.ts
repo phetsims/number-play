@@ -123,10 +123,6 @@ class TenFrameNode extends Node {
 
   /**
    * Draws a ten frame shape, which is a 5 by 2 grid of squares.
-   *
-   * @param {ColorDef} fill
-   * @param {number} lineWidth
-   * @returns {Path}
    */
   static getTenFramePath( providedOptions?: Partial<GetTenFramePathOptions> ): Path {
 
