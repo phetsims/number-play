@@ -7,7 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -32,6 +31,7 @@ import CountingAccordionBox, { CountingAccordionBoxOptions } from '../../common/
 import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import numberPlaySpeechSynthesisAnnouncer from '../../common/view/numberPlaySpeechSynthesisAnnouncer.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // constants
 const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates
@@ -228,7 +228,7 @@ class CompareScreenView extends ScreenView {
     this.addChild( rightOrganizeButton );
 
     // update the comparison signs node's text and the BlockValuesNode when either current number changes
-    Property.multilink( [ model.leftCurrentNumberProperty, model.rightCurrentNumberProperty ],
+    Multilink.multilink( [ model.leftCurrentNumberProperty, model.rightCurrentNumberProperty ],
       ( leftCurrentNumber, rightCurrentNumber ) => {
         comparisonSignsNode.text = leftCurrentNumber < rightCurrentNumber ? lessThanString :
                                    leftCurrentNumber > rightCurrentNumber ? greaterThanString : equalString;

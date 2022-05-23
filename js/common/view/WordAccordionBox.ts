@@ -13,10 +13,10 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // types
 type WordAccordionBoxSelfOptions = {
@@ -76,7 +76,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
     this.contentNode.addChild( wordText );
 
     // update the word if the current number or locale changes
-    Property.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
+    Multilink.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
       ( currentNumber, isPrimaryLocale ) => {
         wordText.text = NumberPlayConstants.numberToString( currentNumber, isPrimaryLocale );
       } );

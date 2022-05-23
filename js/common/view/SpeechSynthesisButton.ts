@@ -23,6 +23,7 @@ import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
   readNumber?: boolean;
@@ -70,7 +71,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
     // read numeric numbers aloud if the current number changes (or the second number, on the 'Compare' screen)
     if ( NumberPlayQueryParameters.readAloud ) {
-      Property.lazyMultilink( [ options.numberProperty1, options.numberProperty2 ], ( firstNumber, secondNumber ) => {
+      Multilink.lazyMultilink( [ options.numberProperty1, options.numberProperty2 ], ( firstNumber, secondNumber ) => {
         listener();
       } );
     }
