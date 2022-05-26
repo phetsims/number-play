@@ -45,6 +45,7 @@ class OnesPlayAreaNode extends Node {
   public readonly playArea: OnesPlayArea;
   private readonly tryToCombineNumbersCallback: Function;
   private readonly addAndDragNumberCallback: Function;
+  private readonly setSumPropertyDeferredCallback: ( isDeferred: boolean ) => void;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
@@ -85,8 +86,8 @@ class OnesPlayAreaNode extends Node {
     this.playArea = playArea;
 
     this.tryToCombineNumbersCallback = this.tryToCombineNumbers.bind( this );
-
     this.addAndDragNumberCallback = this.addAndDragNumber.bind( this );
+    this.setSumPropertyDeferredCallback = this.setSumPropertyDeferred.bind( this );
 
     // PaperNumber.id => {PaperNumberNode} - lookup map for efficiency
     this.paperNumberNodeMap = {};
@@ -170,6 +171,13 @@ class OnesPlayAreaNode extends Node {
   }
 
   /**
+   * Sets the deferred state of the sumProperty in the model
+   */
+  private setSumPropertyDeferred( isDeferred: boolean ): void {
+    this.playArea.sumProperty.setDeferred( isDeferred );
+  }
+
+  /**
    * Creates and adds a PaperNumberNode.
    */
   public onPaperNumberAdded( paperNumber: PaperNumber ): void {
@@ -178,7 +186,8 @@ class OnesPlayAreaNode extends Node {
       paperNumber,
       this.availableViewBoundsProperty,
       this.addAndDragNumberCallback,
-      this.tryToCombineNumbersCallback, {
+      this.tryToCombineNumbersCallback,
+      this.setSumPropertyDeferredCallback, {
         countingObjectTypeProperty: this.countingObjectTypeProperty,
         baseNumberNodeOptions: {
           handleOffsetY: COUNTING_OBJECT_HANDLE_OFFSET_Y
@@ -355,8 +364,6 @@ class OnesPlayAreaNode extends Node {
 
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {
-
-      const amountToSubtract = paperNumber.includeInSumProperty.value ? paperNumber.numberValueProperty.value : 0;
       paperNumber.includeInSumProperty.value = false;
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
@@ -368,17 +375,6 @@ class OnesPlayAreaNode extends Node {
         targetScale: targetScale,
         targetHandleOpacity: 0
       } );
-
-      // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-      if ( this.playArea.currentNumberProperty.value > this.playArea.currentNumberProperty.range!.min ) {
-
-        // a user returned a number, so update the sim's currentNumberProperty
-        this.playArea.isControllingCurrentNumber = true;
-        this.playArea.currentNumberProperty.value =
-          Math.max( this.playArea.currentNumberProperty.value - amountToSubtract,
-            this.playArea.currentNumberProperty.range!.min );
-        this.playArea.isControllingCurrentNumber = false;
-      }
     }
   }
 }

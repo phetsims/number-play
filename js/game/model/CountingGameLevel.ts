@@ -10,7 +10,6 @@
 import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
-import Range from '../../../../dot/js/Range.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -37,12 +36,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     // whether grouping is enabled for a set of objects
     this.groupObjectsEnabledProperty = new BooleanProperty( this.groupObjectsAllowed );
 
-    this.objectsPlayArea = new OnesPlayArea(
-      this.challengeNumberProperty,
-      this.groupObjectsEnabledProperty, {
-        sumPropertyRange: new Range( 0, this.challengeNumberProperty.range!.max ),
-        setAllObjects: true
-      } );
+    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty.range!.max, this.groupObjectsEnabledProperty );
 
     // the object type of the current challenge
     this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );

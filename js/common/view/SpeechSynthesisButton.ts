@@ -7,7 +7,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import { Color, Path } from '../../../../scenery/js/imports.js';
@@ -31,8 +30,8 @@ type SelfOptions = {
   // Properties to listen to for when to read aloud. We can't just listen to the textProperty, because when the
   // language changes, the textProperty updates, but shouldn't be read aloud, see https://github.com/phetsims/number-play/issues/157
   // TODO: This pattern requires passing in the same Property twice for Ten/Twenty screens, consider changing API for textProperty
-  numberProperty1?: NumberProperty;
-  numberProperty2?: NumberProperty;
+  numberProperty1?: IReadOnlyProperty<number>;
+  numberProperty2?: IReadOnlyProperty<number>;
 }
 type SpeechSynthesisButtonOptions = SelfOptions;
 
@@ -41,7 +40,7 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class SpeechSynthesisButton extends RectangularPushButton {
 
-  constructor( textProperty: Property<number> | IReadOnlyProperty<string>,
+  constructor( textProperty: IReadOnlyProperty<number> | IReadOnlyProperty<string>,
                isPrimaryLocaleProperty: BooleanProperty,
                providedOptions?: SpeechSynthesisButtonOptions ) {
 

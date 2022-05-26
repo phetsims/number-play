@@ -68,22 +68,18 @@ class CompareScreenView extends ScreenView {
     };
 
     // create and add the left TotalAccordionBox
-    const leftTotalAccordionBox = new TotalAccordionBox(
-      model.leftCurrentNumberProperty,
-      UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
-        expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
-        fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
-      }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
+    const leftTotalAccordionBox = new TotalAccordionBox( model.leftPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
+      expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
+      fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
+    }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
     leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftTotalAccordionBox );
 
     // create and add the right TotalAccordionBox
-    const rightTotalAccordionBox = new TotalAccordionBox(
-      model.rightCurrentNumberProperty,
-      UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
-        expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
-        fill: NumberPlayColors.lightOrangeBackgroundColorProperty
-      }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
+    const rightTotalAccordionBox = new TotalAccordionBox( model.rightPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
+      expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
+      fill: NumberPlayColors.lightOrangeBackgroundColorProperty
+    }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
 
@@ -121,8 +117,8 @@ class CompareScreenView extends ScreenView {
 
     // create and add the ComparisonTextNode
     const comparisonTextNode = new ComparisonTextNode(
-      model.leftCurrentNumberProperty,
-      model.rightCurrentNumberProperty,
+      model.leftPlayArea.sumProperty,
+      model.rightPlayArea.sumProperty,
       model.isPrimaryLocaleProperty,
       this.layoutBounds
     );
@@ -138,8 +134,8 @@ class CompareScreenView extends ScreenView {
       const speechSynthesisButton = new SpeechSynthesisButton(
         comparisonTextNode.comparisonStringProperty,
         model.isPrimaryLocaleProperty, {
-          numberProperty1: model.leftCurrentNumberProperty,
-          numberProperty2: model.rightCurrentNumberProperty
+          numberProperty1: model.leftPlayArea.sumProperty,
+          numberProperty2: model.rightPlayArea.sumProperty
         }
       );
       speechSynthesisButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
@@ -187,13 +183,16 @@ class CompareScreenView extends ScreenView {
     this.addChild( showComparisonCheckbox );
 
     // create and add the BlockValuesNode
-    const blockValuesNode = new BlockValuesNode( model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
+    const blockValuesNode = new BlockValuesNode( model.leftPlayArea.sumProperty, model.rightPlayArea.sumProperty );
     this.addChild( blockValuesNode );
 
     // create and add the CompareNumberLineNode
     const compareNumberLineNode = new CompareNumberLineNode(
       NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT - 22,
-      model.leftCurrentNumberProperty, model.rightCurrentNumberProperty );
+      model.leftPlayArea.sumProperty,
+      model.rightPlayArea.sumProperty,
+      model.sumRange
+      );
     compareNumberLineNode.x = comparisonSignsNode.centerX;
     compareNumberLineNode.bottom = leftCountingAccordionBox.bottom + 3;
     this.addChild( compareNumberLineNode );
@@ -228,7 +227,7 @@ class CompareScreenView extends ScreenView {
     this.addChild( rightOrganizeButton );
 
     // update the comparison signs node's text and the BlockValuesNode when either current number changes
-    Multilink.multilink( [ model.leftCurrentNumberProperty, model.rightCurrentNumberProperty ],
+    Multilink.multilink( [ model.leftPlayArea.sumProperty, model.rightPlayArea.sumProperty ],
       ( leftCurrentNumber, rightCurrentNumber ) => {
         comparisonSignsNode.text = leftCurrentNumber < rightCurrentNumber ? lessThanString :
                                    leftCurrentNumber > rightCurrentNumber ? greaterThanString : equalString;

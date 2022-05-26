@@ -95,7 +95,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     } );
 
     // create and add the tenFrameNode
-    const tenFrameNode = new TenFrameNode( level.challengeNumberProperty );
+    const tenFrameNode = new TenFrameNode( level.challengeNumberProperty, level.challengeRange );
     tenFrameNode.scale( RECTANGLE_HEIGHT / tenFrameNode.height / 3.5 );
     tenFrameNode.center = tenFrameBackgroundNode.center;
     tenFrameBackgroundNode.addChild( tenFrameNode );

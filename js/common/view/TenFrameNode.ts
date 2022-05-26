@@ -15,7 +15,8 @@ import merge from '../../../../phet-core/js/merge.js';
 import { Circle, HBox, Node, PaintableOptions, Path } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 // types
 type GetSpotCentersOptions = {
@@ -38,15 +39,14 @@ class TenFrameNode extends Node {
   private readonly dotsLayer: Node;
   private readonly dotSpots: Vector2[];
 
-  constructor( currentNumberProperty: NumberProperty ) {
+  constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
-    assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
-    assert && assert( currentNumberProperty.range!.max % NumberPlayConstants.TEN === 0,
-      `Provided range.max should be a multiple of ten, but was: ${currentNumberProperty.range!.max}`
+    assert && assert( sumRange!.max % NumberPlayConstants.TEN === 0,
+      `Provided sumRange.max should be a multiple of ten, but was: ${sumRange!.max}`
     );
 
-    const numberOfTenFrames = currentNumberProperty.range!.max / NumberPlayConstants.TEN;
+    const numberOfTenFrames = sumRange!.max / NumberPlayConstants.TEN;
     const tenFramePaths: Node[] = [];
 
     // create the calculated number of ten frames needed

@@ -11,12 +11,12 @@ import { Font, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type WordAccordionBoxSelfOptions = {
@@ -30,7 +30,7 @@ const TEXT_MARGIN = 5;
 
 class WordAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( currentNumberProperty: NumberProperty, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
+  constructor( currentNumberProperty: IReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
                height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( numberPlayStrings.word, {

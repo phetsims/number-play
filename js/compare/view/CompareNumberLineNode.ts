@@ -7,7 +7,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
@@ -18,6 +17,7 @@ import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type GetNumberLineNodeOptions = {
@@ -33,16 +33,14 @@ const INTEGERS_PER_MAJOR_TICK_MARK = 5; // the number of integers between two ma
 
 class CompareNumberLineNode extends Node {
 
-  constructor( height: number, leftCurrentNumberProperty: NumberProperty, rightCurrentNumberProperty: NumberProperty ) {
+  constructor( height: number, leftCurrentNumberProperty: IReadOnlyProperty<number>,
+               rightCurrentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
-    assert && assert( leftCurrentNumberProperty.range!.max === rightCurrentNumberProperty.range!.max,
-      'the max number for the left and right numberProperty should be the same' );
-
-    const pixelsPerTickMark = height / leftCurrentNumberProperty.range!.max;
+    const pixelsPerTickMark = height / sumRange!.max;
 
     // create and add the number line
-    const numberLineNode = CompareNumberLineNode.getNumberLineNode( pixelsPerTickMark, leftCurrentNumberProperty.range! );
+    const numberLineNode = CompareNumberLineNode.getNumberLineNode( pixelsPerTickMark, sumRange );
     this.addChild( numberLineNode );
 
     // create and add an indicator for the leftCurrentNumberProperty

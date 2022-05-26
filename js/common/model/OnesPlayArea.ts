@@ -9,7 +9,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import CountingCommonModel from '../../../../counting-common/js/common/model/CountingCommonModel.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
@@ -19,16 +18,8 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
-// types
-type OnesPlayAreaOptions = {
-  isResettingProperty: null | BooleanProperty;
-  sumPropertyRange: null | Range;
-  setAllObjects: boolean;
-};
 type CreatePaperNumberFromBucketOptions = {
   shouldAnimate: boolean;
   value: number;
@@ -43,32 +34,16 @@ const GROUP_DIVISORS = [ 2, 5, 10 ]; // specified by designer
 const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
 class OnesPlayArea extends CountingCommonModel {
-  public currentNumberProperty: NumberProperty;
   private getPaperNumberOrigin: () => Vector2;
   private playAreaBounds: Bounds2;
-  public sumProperty: NumberProperty;
-  public isControllingCurrentNumber: boolean;
   private organizedObjectSpots: Vector2[];
   private initialized: boolean;
   private countingCreatorNodeTop: number;
   public readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
-  constructor( currentNumberProperty: NumberProperty,
-               groupingEnabledProperty: IReadOnlyProperty<boolean>,
-               providedOptions: Partial<OnesPlayAreaOptions> ) {
-    super();
+  constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean> ) {
+    super( highestCount );
 
-    const options = merge( {
-      isResettingProperty: null,
-
-      // TODO: remaining options need doc/work
-      sumPropertyRange: null,
-      setAllObjects: false
-    }, providedOptions ) as OnesPlayAreaOptions;
-
-    assert && assert( currentNumberProperty.range, `Range is required: ${currentNumberProperty.range}` );
-
-    this.currentNumberProperty = currentNumberProperty;
     this.groupingEnabledProperty = groupingEnabledProperty;
 
     // set later by the view
@@ -79,11 +54,6 @@ class OnesPlayArea extends CountingCommonModel {
 
     // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
     this.initialized = false;
-
-    // The total sum of the current numbers
-    this.sumProperty = new NumberProperty( currentNumberProperty.range!.min, {
-      range: options.sumPropertyRange || currentNumberProperty.range
-    } );
 
     // @private {Function} - To be called when we need to recalculate the total
     const calculateTotalListener = this.calculateTotal.bind( this );
@@ -98,37 +68,6 @@ class OnesPlayArea extends CountingCommonModel {
     this.paperNumbers.addItemRemovedListener( ( paperNumber: PaperNumber ) => {
       paperNumber.includeInSumProperty.unlink( calculateTotalListener );
       paperNumber.numberValueProperty.unlink( calculateTotalListener );
-    } );
-
-    // whether the view of this play area is controlling the current number
-    this.isControllingCurrentNumber = false;
-
-    // if the current number changes, add or remove paperNumbers from the play area
-    currentNumberProperty.lazyLink( ( currentNumber, previousNumber ) => {
-      if ( options.isResettingProperty && !options.isResettingProperty.value &&
-           !this.isControllingCurrentNumber && !options.setAllObjects ) {
-        if ( !previousNumber ) { // TODO-TS: this is bad, fix this link
-          previousNumber = 0;
-        }
-        if ( currentNumber < previousNumber ) {
-          _.times( previousNumber - currentNumber, () => {
-
-            // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-            if ( this.sumProperty.value > currentNumberProperty.range!.min ) {
-              this.returnPaperNumberToBucket();
-            }
-          } );
-        }
-        else if ( currentNumber > previousNumber ) {
-          _.times( currentNumber - previousNumber, () => {
-
-            // TODO: the need for this guard means that the play areas are not in sync, and should be eliminated when https://github.com/phetsims/number-play/issues/6 is fixed.
-            if ( this.sumProperty.value < currentNumberProperty.range!.max ) {
-              this.createPaperNumberFromBucket();
-            }
-          } );
-        }
-      }
     } );
 
     // when the GroupLinkType is switched to no grouping, break apart any object groups
@@ -191,7 +130,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Creates a paperNumber and animates it to a random open place in the play area.
    */
-  private createPaperNumberFromBucket( providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ): void {
+  public createPaperNumberFromBucket( providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ): void {
     assert && assert( this.initialized === true, 'createPaperNumberFromBucket called before initialization' );
 
     const options = merge( {
@@ -257,7 +196,7 @@ class OnesPlayArea extends CountingCommonModel {
    * Finds the closest paperNumber to their origin and animates it back over the bucket. If only paperNumbers with
    * values greater than one exist, break them up and send their components with values of one back.
    */
-  private returnPaperNumberToBucket(): void {
+  public returnPaperNumberToBucket(): void {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
     assert && assert( this.initialized === true, 'returnPaperNumberToBucket called before initialization' );
 
@@ -282,6 +221,8 @@ class OnesPlayArea extends CountingCommonModel {
       // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
       // 1 to return instead
       if ( paperNumberToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
+        this.sumProperty.setDeferred( true );
+
         const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
         paperNumberToReturn.changeNumber( amountRemaining );
 
@@ -291,6 +232,8 @@ class OnesPlayArea extends CountingCommonModel {
             groupingEnabledProperty: this.groupingEnabledProperty
           } );
         this.addPaperNumber( paperNumberToReturn );
+
+        this.sumProperty.setDeferred( false );
       }
 
       // remove it from counting towards the sum and send it back to its origin. paperNumbers aren't removed from the
@@ -317,7 +260,7 @@ class OnesPlayArea extends CountingCommonModel {
     const objectMargin = 3;
 
     const numberOfColumns = 5; // rows
-    const numberOfRows = this.currentNumberProperty.range!.max / numberOfColumns;
+    const numberOfRows = this.sumProperty.range!.max / numberOfColumns;
 
     const xMargin = 88; // empirically determined to center group TODO: figure out why math isn't working for this
     const yMargin = CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
@@ -345,6 +288,9 @@ class OnesPlayArea extends CountingCommonModel {
     // TODO: cleanup and doc
 
     const objectsToBreakDown = [ ...this.paperNumbers ];
+
+    this.sumProperty.setDeferred( true );
+
     objectsToBreakDown.forEach( paperNumber => {
       if ( paperNumber.numberValueProperty.value > 1 ) {
         const paperNumberPosition = paperNumber.positionProperty.value;
@@ -378,6 +324,8 @@ class OnesPlayArea extends CountingCommonModel {
         }
       }
     } );
+
+    this.sumProperty.setDeferred( false );
   }
 
   /**

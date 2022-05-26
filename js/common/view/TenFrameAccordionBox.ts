@@ -11,9 +11,10 @@ import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import TenFrameNode from './TenFrameNode.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import Range from '../../../../dot/js/Range.js';
 
 // types
 type TenFrameAccordionBoxSelfOptions = {
@@ -23,7 +24,8 @@ export type TenFrameAccordionBoxOptions = TenFrameAccordionBoxSelfOptions & Numb
 
 class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( currentNumberProperty: NumberProperty, height: number, options: TenFrameAccordionBoxOptions ) {
+  constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range,
+               height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
       optionize<TenFrameAccordionBoxOptions, TenFrameAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
@@ -32,7 +34,7 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
       }, options ) );
 
     // create, scale, and add the TenFrameNode
-    const tenFrameNode = new TenFrameNode( currentNumberProperty );
+    const tenFrameNode = new TenFrameNode( currentNumberProperty, sumRange );
     tenFrameNode.scale( height / tenFrameNode.height / 2 );
     tenFrameNode.centerX = this.contentBounds.centerX + options.tenFrameOffsetX;
     tenFrameNode.centerY = this.contentBounds.centerY;

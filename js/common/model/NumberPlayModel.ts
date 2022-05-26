@@ -7,8 +7,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Range from '../../../../dot/js/Range.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from './OnesPlayArea.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -17,24 +15,23 @@ import GroupAndLinkType from './GroupAndLinkType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import Range from '../../../../dot/js/Range.js';
 
 class NumberPlayModel {
 
-  public readonly currentNumberProperty: NumberProperty;
+  public readonly sumRange: Range;
+  public readonly currentNumberProperty: IReadOnlyProperty<number>;
   public readonly isPrimaryLocaleProperty: BooleanProperty;
-  public readonly isResettingProperty: BooleanProperty;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
+  private readonly isResettingProperty: BooleanProperty;
   private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
   constructor( highestCount: number, tandem: Tandem ) {
 
-    // the current "counted to" number, which is the central aspect of this whole sim
-    this.currentNumberProperty = new NumberProperty( 0, {
-      range: new Range( 0, highestCount )
-    } );
+    this.sumRange = new Range( 0, highestCount );
 
     // whether the sim is using the locale it was loaded in or a second locale
     this.isPrimaryLocaleProperty = new BooleanProperty( true );
@@ -56,17 +53,62 @@ class NumberPlayModel {
     } );
 
     // the model for managing the play area in the OnesAccordionBox
-    this.onesPlayArea = new OnesPlayArea(
-      this.currentNumberProperty,
-      new BooleanProperty( true ), {
-        isResettingProperty: this.isResettingProperty
-      } );
+    this.onesPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ) );
 
     // the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea(
-      this.currentNumberProperty,
-      this.groupingEnabledProperty, {
-        isResettingProperty: this.isResettingProperty
+    this.objectsPlayArea = new OnesPlayArea( highestCount, this.groupingEnabledProperty );
+
+    // the current "counted to" number, which is the central aspect of this whole sim
+    this.currentNumberProperty = new DerivedProperty( [ this.onesPlayArea.sumProperty, this.objectsPlayArea.sumProperty ],
+      ( onesPlayAreaSum, objectsPlayAreaSum ) => {
+        assert && assert( this.sumRange.contains( onesPlayAreaSum ), `Ones play area sum is out of range: ${onesPlayAreaSum}` );
+        assert && assert( this.sumRange.contains( objectsPlayAreaSum ), `Objects play area sum is out of range: ${objectsPlayAreaSum}` );
+
+        const oldValue = this.currentNumberProperty ? this.currentNumberProperty.value : 0;
+        let newValue = oldValue;
+
+        if ( onesPlayAreaSum !== objectsPlayAreaSum && !this.isResettingProperty.value ) {
+
+          // TODO: Factor out function for contents of if/else
+          if ( oldValue === onesPlayAreaSum ) {
+            newValue = objectsPlayAreaSum;
+
+            const difference = newValue - oldValue;
+            if ( difference > 0 ) {
+              assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
+                                                  'at a time to match the opposite play area: ' + difference );
+              this.onesPlayArea.createPaperNumberFromBucket( {
+                shouldAnimate: true,
+                value: 1
+              } );
+            }
+            else {
+              _.times( Math.abs( difference ), () => {
+                this.onesPlayArea.returnPaperNumberToBucket();
+              } );
+            }
+          }
+          else if ( oldValue === objectsPlayAreaSum ) {
+            newValue = onesPlayAreaSum;
+
+            const difference = newValue - oldValue;
+            if ( difference > 0 ) {
+              assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
+                                                  'at a time to match the opposite play area: ' + difference );
+              this.objectsPlayArea.createPaperNumberFromBucket( {
+                shouldAnimate: true,
+                value: 1
+              } );
+            }
+            else {
+              _.times( Math.abs( difference ), () => {
+                this.objectsPlayArea.returnPaperNumberToBucket();
+              } );
+            }
+          }
+        }
+
+        return newValue;
       } );
   }
 
@@ -80,7 +122,6 @@ class NumberPlayModel {
     this.groupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
-    this.currentNumberProperty.reset();
     this.isResettingProperty.value = false;
   }
 }

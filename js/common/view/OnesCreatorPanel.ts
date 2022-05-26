@@ -43,12 +43,17 @@ class OnesCreatorPanel extends Panel {
       spacing: 7       // empirically determined
     };
     const upArrowButton = new ArrowButton( 'up', () => {
-      playArea.currentNumberProperty.value =
-        Math.min( playArea.currentNumberProperty.range!.max, playArea.currentNumberProperty.value + 1 );
+      if ( playArea.sumProperty.value < playArea.sumProperty.range!.max ) {
+        playArea.createPaperNumberFromBucket( {
+          shouldAnimate: true,
+          value: 1
+        } );
+      }
     }, merge( { touchAreaYShift: -3 }, arrowButtonConfig ) );
     const downArrowButton = new ArrowButton( 'down', () => {
-      playArea.currentNumberProperty.value =
-        Math.max( playArea.currentNumberProperty.range!.min, playArea.currentNumberProperty.value - 1 );
+      if ( playArea.sumProperty.value > playArea.sumProperty.range!.min ) {
+        playArea.returnPaperNumberToBucket();
+      }
     }, merge( { touchAreaYShift: 3 }, arrowButtonConfig ) );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],
@@ -90,10 +95,10 @@ class OnesCreatorPanel extends Panel {
 
     // disable the arrow buttons when the currentNumberProperty value is at its min or max range
     const currentNumberPropertyObserver = ( currentNumber: number ) => {
-      upArrowButton.enabled = currentNumber !== playArea.currentNumberProperty.range!.max;
-      downArrowButton.enabled = currentNumber !== playArea.currentNumberProperty.range!.min;
+      upArrowButton.enabled = currentNumber !== playArea.sumProperty.range!.max;
+      downArrowButton.enabled = currentNumber !== playArea.sumProperty.range!.min;
     };
-    playArea.currentNumberProperty.link( currentNumberPropertyObserver );
+    playArea.sumProperty.link( currentNumberPropertyObserver );
   }
 }
 

@@ -87,7 +87,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the TotalAccordionBox
     const totalAccordionBox = new TotalAccordionBox(
-      model.currentNumberProperty,
+      model.onesPlayArea,
       options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
       }, options.totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
@@ -98,6 +98,7 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the TenFrameAccordionBox
     const tenFrameAccordionBox = new TenFrameAccordionBox(
       model.currentNumberProperty,
+      model.sumRange,
       options.upperAccordionBoxHeight, merge( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
       }, options.tenFrameAccordionBoxOptions ) as TenFrameAccordionBoxOptions );
