@@ -11,10 +11,12 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import SpeechSynthesisAnnouncer, { SpeechSynthesisInitializeOptions } from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+
+type NumberPlaySpeechSynthesisInitializeOptions = SpeechSynthesisInitializeOptions;
 
 class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
 
@@ -30,7 +32,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
     this.updateVoiceListener = null;
   }
 
-  override initialize( userGestureEmitter: Emitter, options: Object ): void {
+  override initialize( userGestureEmitter: Emitter, options: NumberPlaySpeechSynthesisInitializeOptions ): void {
     super.initialize( userGestureEmitter, options );
 
     // get the locale the sim is running in

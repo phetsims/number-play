@@ -21,7 +21,7 @@ import OnesPlayArea from '../model/OnesPlayArea.js';
 // types
 type SelfOptions = {
   font: Font;
-  arrowButtonOptions: Object; // TODO-TS: should be ArrowButtonOptions
+  arrowButtonOptions: Record<string, unknown>; // TODO-TS: should be ArrowButtonOptions
   arrowButtonSpacing: number;
 };
 export type TotalAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;

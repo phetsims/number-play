@@ -34,17 +34,19 @@ type SelfOptions = {
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
+type TODO_Function = ( ...x: any ) => void; // TODO: Temporary hack while this issue is taken care of (With MK) https://github.com/phetsims/chipper/issues/1252
+
 // constants
 const COUNTING_OBJECT_HANDLE_OFFSET_Y = -9.5;  // empirically determined to be an appropriate length for just 10s and 1s
 
 class OnesPlayAreaNode extends Node {
-  private readonly numberSplitListener: Function;
-  private readonly numberInteractionListener: Function;
-  private readonly numberAnimationFinishedListener: Function;
-  private readonly numberDragFinishedListener: Function;
+  private readonly numberSplitListener: TODO_Function;
+  private readonly numberInteractionListener: TODO_Function;
+  private readonly numberAnimationFinishedListener: TODO_Function;
+  private readonly numberDragFinishedListener: TODO_Function;
   public readonly playArea: OnesPlayArea;
-  private readonly tryToCombineNumbersCallback: Function;
-  private readonly addAndDragNumberCallback: Function;
+  private readonly tryToCombineNumbersCallback: TODO_Function;
+  private readonly addAndDragNumberCallback: TODO_Function;
   private readonly setSumPropertyDeferredCallback: ( isDeferred: boolean ) => void;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
