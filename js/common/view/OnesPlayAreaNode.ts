@@ -64,7 +64,7 @@ class OnesPlayAreaNode extends Node {
                providedOptions?: OnesPlayAreaNodeOptions ) {
     super();
 
-    const options = optionize<OnesPlayAreaNodeOptions, Omit<SelfOptions, 'onesCreatorPanelOptions'>>()( {
+    const options = optionize<OnesPlayAreaNodeOptions, SelfOptions>()( {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
       viewHasIndependentModel: true,
