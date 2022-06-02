@@ -55,7 +55,7 @@ class OnesPlayArea extends CountingCommonModel {
     // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
     this.initialized = false;
 
-    // @private {Function} - To be called when we need to recalculate the total
+    // To be called when we need to recalculate the total
     const calculateTotalListener = this.calculateTotal.bind( this );
 
     this.paperNumbers.lengthProperty.link( calculateTotalListener );
