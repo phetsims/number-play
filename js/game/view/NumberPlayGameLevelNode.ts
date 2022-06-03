@@ -22,8 +22,6 @@ import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import merge from '../../../../phet-core/js/merge.js';
 
@@ -58,10 +56,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     }, providedOptions ) as StatusBarOptions;
 
     // text displayed in the statusBar
-    const levelDescriptionText = new RichText( StringUtils.fillIn( numberPlayStrings.gameNameLevelNumberPattern, {
-      gameName: level.gameType.gameName,
-      levelNumber: level.levelNumber
-    } ), {
+    const levelDescriptionText = new RichText( level.gameType.levelDescriptions[ level.levelNumber ], {
       font: new PhetFont( 21 ),
       maxWidth: 650
     } );

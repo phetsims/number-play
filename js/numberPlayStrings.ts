@@ -49,10 +49,10 @@ type StringsType = {
   'objects': string;
   'gameNameLevelNumberPattern': string;
   'chooseYourGame': string;
-  'counting': string;
-  'countFromPattern': string;
-  'subitizing': string;
-  'subitizeFromPattern': string;
+  'countingLevel1Description': string;
+  'countingLevel2Description': string;
+  'subitizingLevel1Description': string;
+  'subitizingLevel2Description': string;
   'games': string;
   'language': string;
 };

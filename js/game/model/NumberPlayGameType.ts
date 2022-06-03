@@ -16,30 +16,39 @@ import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+type LevelDescriptions = {
+  [ key: number ]: string;
+}
 type LevelImages = {
   [ key: number ]: HTMLImageElement;
 }
 
 class NumberPlayGameType extends EnumerationValue {
-  static COUNTING = new NumberPlayGameType( numberPlayStrings.counting, {
+  static COUNTING = new NumberPlayGameType( {
+    1: numberPlayStrings.countingLevel1Description,
+    2: numberPlayStrings.countingLevel2Description
+  }, {
     1: countingGameIcon1_png,
     2: countingGameIcon2_png
   } );
 
-  static SUBITIZE = new NumberPlayGameType( numberPlayStrings.subitizing, {
+  static SUBITIZE = new NumberPlayGameType( {
+    1: numberPlayStrings.subitizingLevel1Description,
+    2: numberPlayStrings.subitizingLevel2Description
+  }, {
     1: subitizeGameIcon1_png,
     2: subitizeGameIcon2_png
   } );
 
   static enumeration = new Enumeration( NumberPlayGameType );
 
-  public readonly gameName: string;
+  public readonly levelDescriptions: LevelDescriptions;
   public readonly levelImages: LevelImages;
 
-  constructor( gameName: string, levelImages: LevelImages ) {
+  constructor( levelDescriptions: LevelDescriptions, levelImages: LevelImages ) {
     super();
 
-    this.gameName = gameName;
+    this.levelDescriptions = levelDescriptions;
     this.levelImages = levelImages;
   }
 }

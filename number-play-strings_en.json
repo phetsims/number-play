@@ -110,17 +110,17 @@
   "chooseYourGame": {
     "value": "Choose Your Game!"
   },
-  "counting": {
-    "value": "Counting"
+  "countingLevel1Description": {
+    "value": "<b>Counting: Level 1</b>  Count from 1-10"
   },
-  "countFromPattern": {
-    "value": "Count from {{minimumChallengeNumber}}-{{maximumChallengeNumber}}"
+  "countingLevel2Description": {
+    "value": "<b>Counting: Level 2</b>  Count from 11-20"
   },
-  "subitizing": {
-    "value": "Subitizing"
+  "subitizingLevel1Description": {
+    "value": "<b>Subitizing: Level 1</b>  Subitize from 1-5"
   },
-  "subitizeFromPattern": {
-    "value": "Subitize from {{minimumChallengeNumber}}-{{maximumChallengeNumber}}"
+  "subitizingLevel2Description": {
+    "value": "<b>Subitizing: Level 2</b>  Subitize from 6-10"
   },
   "games": {
     "value": "Games"
