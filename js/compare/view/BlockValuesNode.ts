@@ -27,9 +27,6 @@ class BlockValuesNode extends Node {
   /**
    * Draws a blockValuesNode, which is two 'towers' of blocks, where the height of each tower corresponds to the
    * values of the provided numbers.
-   *
-   * @param leftCurrentNumber
-   * @param rightCurrentNumber
    */
   public static getBlockValuesNode( leftCurrentNumber: number, rightCurrentNumber: number ): Node {
 
