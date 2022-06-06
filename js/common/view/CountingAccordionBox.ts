@@ -25,12 +25,12 @@ import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberP
 import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
-type CountingAccordionBoxSelfOptions = {
+type SelfOptions = {
   countingObjectTypes?: CountingObjectType[] | null;
   linkedPlayArea?: OnesPlayArea | null;
   groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>;
 };
-export type CountingAccordionBoxOptions = CountingAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
+export type CountingAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
 
 // constants
 const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
@@ -43,7 +43,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
                height: number,
                options: CountingAccordionBoxOptions ) {
 
-    super( width, height, optionize<CountingAccordionBoxOptions, CountingAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
+    super( width, height, optionize<CountingAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
       titleString: numberPlayStrings.objects,
       titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH,
       countingObjectTypes: null,

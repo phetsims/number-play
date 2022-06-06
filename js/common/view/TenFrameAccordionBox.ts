@@ -17,10 +17,10 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 
 // types
-type TenFrameAccordionBoxSelfOptions = {
+type SelfOptions = {
   tenFrameOffsetX: number;
 };
-export type TenFrameAccordionBoxOptions = TenFrameAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
+export type TenFrameAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
 
 class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
@@ -28,7 +28,7 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
                height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
-      optionize<TenFrameAccordionBoxOptions, TenFrameAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleString: numberPlayStrings.tenFrame,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );

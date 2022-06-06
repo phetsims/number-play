@@ -19,11 +19,11 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 
 // types
-type WordAccordionBoxSelfOptions = {
+type SelfOptions = {
   textOffsetX: number;
   font: Font;
 };
-export type WordAccordionBoxOptions = WordAccordionBoxSelfOptions & NumberPlayAccordionBoxOptions;
+export type WordAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
 
 // constants
 const TEXT_MARGIN = 5;
@@ -58,7 +58,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
     }
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
-      optionize<WordAccordionBoxOptions, WordAccordionBoxSelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<WordAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleNode: titleNode,
 
         // TODO: The following options are not used because of the titleNode above, but are needed because of an
