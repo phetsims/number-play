@@ -25,7 +25,6 @@ import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
-// types
 type SelfOptions = {
   paperNumberLayerNode?: null | Node;
   backgroundDragTargetNode?: null | Node;
@@ -34,19 +33,17 @@ type SelfOptions = {
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
-type TODO_Function = ( ...x: any ) => void; // TODO: Temporary hack while this issue is taken care of (With MK) https://github.com/phetsims/chipper/issues/1252
-
 // constants
 const COUNTING_OBJECT_HANDLE_OFFSET_Y = -9.5;  // empirically determined to be an appropriate length for just 10s and 1s
 
 class OnesPlayAreaNode extends Node {
-  private readonly numberSplitListener: TODO_Function;
-  private readonly numberInteractionListener: TODO_Function;
-  private readonly numberAnimationFinishedListener: TODO_Function;
-  private readonly numberDragFinishedListener: TODO_Function;
+  private readonly numberSplitListener: ( paperNumberNode: PaperNumberNode ) => void;
+  private readonly numberInteractionListener: ( paperNumberNode: PaperNumberNode ) => void;
+  private readonly numberAnimationFinishedListener: ( paperNumber: PaperNumber ) => void;
+  private readonly numberDragFinishedListener: ( paperNumber: PaperNumber ) => void;;
   public readonly playArea: OnesPlayArea;
-  private readonly tryToCombineNumbersCallback: TODO_Function;
-  private readonly addAndDragNumberCallback: TODO_Function;
+  private readonly tryToCombineNumbersCallback: ( draggedPaperNumber: PaperNumber ) => void;
+  private readonly addAndDragNumberCallback: ( event: PressListenerEvent, paperNumber: PaperNumber ) => void;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
