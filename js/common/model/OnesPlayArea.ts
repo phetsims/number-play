@@ -41,8 +41,8 @@ class OnesPlayArea extends CountingCommonModel {
   private countingCreatorNodeTop: number;
   public readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
-  constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean> ) {
-    super( highestCount );
+  constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean>, name: string ) {
+    super( highestCount, name );
 
     this.groupingEnabledProperty = groupingEnabledProperty;
 
@@ -54,21 +54,6 @@ class OnesPlayArea extends CountingCommonModel {
 
     // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
     this.initialized = false;
-
-    // To be called when we need to recalculate the total
-    const calculateTotalListener = this.calculateTotal.bind( this );
-
-    this.paperNumbers.lengthProperty.link( calculateTotalListener );
-
-    // Listen to number changes of paper numbers
-    this.paperNumbers.addItemAddedListener( ( paperNumber: PaperNumber ) => {
-      paperNumber.numberValueProperty.link( calculateTotalListener );
-      paperNumber.includeInSumProperty.link( calculateTotalListener );
-    } );
-    this.paperNumbers.addItemRemovedListener( ( paperNumber: PaperNumber ) => {
-      paperNumber.includeInSumProperty.unlink( calculateTotalListener );
-      paperNumber.numberValueProperty.unlink( calculateTotalListener );
-    } );
 
     // when the GroupLinkType is switched to no grouping, break apart any object groups
     this.groupingEnabledProperty.lazyLink( groupingEnabled => {
@@ -125,6 +110,8 @@ class OnesPlayArea extends CountingCommonModel {
         } );
       } );
     }
+
+    this.calculateTotal();
   }
 
   /**
@@ -190,6 +177,8 @@ class OnesPlayArea extends CountingCommonModel {
       targetScale: NumberPlayConstants.COUNTING_OBJECT_SCALE
     } );
     this.addPaperNumber( paperNumber );
+
+    this.calculateTotal();
   }
 
   /**
@@ -221,8 +210,6 @@ class OnesPlayArea extends CountingCommonModel {
       // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
       // 1 to return instead
       if ( paperNumberToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
-        this.sumProperty.setDeferred( true );
-
         const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
         paperNumberToReturn.changeNumber( amountRemaining );
 
@@ -232,14 +219,14 @@ class OnesPlayArea extends CountingCommonModel {
             groupingEnabledProperty: this.groupingEnabledProperty
           } );
         this.addPaperNumber( paperNumberToReturn );
-
-        this.sumProperty.setDeferred( false );
       }
 
       // remove it from counting towards the sum and send it back to its origin. paperNumbers aren't removed from the
       // playArea until they get back to the bucket, but we don't want them to count towards the sum while they're on
       // their way to the bucket.
       paperNumberToReturn.includeInSumProperty.value = false;
+      this.calculateTotal();
+
       const origin = this.getPaperNumberOrigin().minus( paperNumberToReturn.localBounds.center );
       const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                     NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
@@ -289,8 +276,6 @@ class OnesPlayArea extends CountingCommonModel {
 
     const objectsToBreakDown = [ ...this.paperNumbers ];
 
-    this.sumProperty.setDeferred( true );
-
     objectsToBreakDown.forEach( paperNumber => {
       if ( paperNumber.numberValueProperty.value > 1 ) {
         const paperNumberPosition = paperNumber.positionProperty.value;
@@ -324,8 +309,6 @@ class OnesPlayArea extends CountingCommonModel {
         }
       }
     } );
-
-    this.sumProperty.setDeferred( false );
   }
 
   /**
@@ -354,17 +337,6 @@ class OnesPlayArea extends CountingCommonModel {
         targetScale: NumberPlayConstants.COUNTING_OBJECT_SCALE
       } );
     }
-  }
-
-  /**
-   * Updates the total sum of the paper numbers.
-   */
-  private calculateTotal(): void {
-    let total = 0;
-    this.paperNumbers.filter( paperNumber => paperNumber.includeInSumProperty.value ).forEach( paperNumber => {
-      total += paperNumber.numberValueProperty.value;
-    } );
-    this.sumProperty.value = total;
   }
 }
 

@@ -28,6 +28,7 @@ class NumberPlayModel {
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
   private readonly isResettingProperty: BooleanProperty;
   private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
+  private previousCurrentNumber: number;
 
   constructor( highestCount: number, tandem: Tandem ) {
 
@@ -53,10 +54,12 @@ class NumberPlayModel {
     } );
 
     // the model for managing the play area in the OnesAccordionBox
-    this.onesPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ) );
+    this.onesPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ), 'onesPlayArea' );
 
     // the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea( highestCount, this.groupingEnabledProperty );
+    this.objectsPlayArea = new OnesPlayArea( highestCount, this.groupingEnabledProperty, 'objectsPlayArea' );
+
+    this.previousCurrentNumber = 0;
 
     // the current "counted to" number, which is the central aspect of this whole sim
     this.currentNumberProperty = new DerivedProperty( [ this.onesPlayArea.sumProperty, this.objectsPlayArea.sumProperty ],
@@ -64,52 +67,50 @@ class NumberPlayModel {
         assert && assert( this.sumRange.contains( onesPlayAreaSum ), `Ones play area sum is out of range: ${onesPlayAreaSum}` );
         assert && assert( this.sumRange.contains( objectsPlayAreaSum ), `Objects play area sum is out of range: ${objectsPlayAreaSum}` );
 
-        const oldValue = this.currentNumberProperty ? this.currentNumberProperty.value : 0;
+        const oldValue = this.previousCurrentNumber;
         let newValue = oldValue;
 
         if ( onesPlayAreaSum !== objectsPlayAreaSum && !this.isResettingProperty.value ) {
 
-          // TODO: Factor out function for contents of if/else
           if ( oldValue === onesPlayAreaSum ) {
             newValue = objectsPlayAreaSum;
-
-            const difference = newValue - oldValue;
-            if ( difference > 0 ) {
-              assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
-                                                  'at a time to match the opposite play area: ' + difference );
-              this.onesPlayArea.createPaperNumberFromBucket( {
-                shouldAnimate: true,
-                value: 1
-              } );
-            }
-            else {
-              _.times( Math.abs( difference ), () => {
-                this.onesPlayArea.returnPaperNumberToBucket();
-              } );
-            }
+            this.previousCurrentNumber = newValue;
+            console.log( 'objectsPlayArea changed to: ' + newValue + ', catching up onesPlayArea' );
+            this.matchPlayAreaToNewValue( newValue, oldValue, this.onesPlayArea );
           }
           else if ( oldValue === objectsPlayAreaSum ) {
             newValue = onesPlayAreaSum;
-
-            const difference = newValue - oldValue;
-            if ( difference > 0 ) {
-              assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
-                                                  'at a time to match the opposite play area: ' + difference );
-              this.objectsPlayArea.createPaperNumberFromBucket( {
-                shouldAnimate: true,
-                value: 1
-              } );
-            }
-            else {
-              _.times( Math.abs( difference ), () => {
-                this.objectsPlayArea.returnPaperNumberToBucket();
-              } );
-            }
+            this.previousCurrentNumber = newValue;
+            console.log( 'onesPlayArea changed to: ' + newValue + ', catching up objectsPlayArea' );
+            this.matchPlayAreaToNewValue( newValue, oldValue, this.objectsPlayArea );
           }
+          else {
+            assert && assert( false, 'oldValue should match one of the previous sums: ' + oldValue );
+          }
+        }
+        else {
+          console.log( 'sum properties matched, caught up at: ' + newValue );
         }
 
         return newValue;
       } );
+  }
+
+  private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: OnesPlayArea ): void {
+    const difference = newValue - oldValue;
+    if ( difference > 0 ) {
+      assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
+                                          'at a time to match the opposite play area: ' + difference );
+      playArea.createPaperNumberFromBucket( {
+        shouldAnimate: true,
+        value: 1
+      } );
+    }
+    else {
+      _.times( Math.abs( difference ), () => {
+        playArea.returnPaperNumberToBucket();
+      } );
+    }
   }
 
   /**
@@ -122,6 +123,7 @@ class NumberPlayModel {
     this.groupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
+    this.previousCurrentNumber = 0;
     this.isResettingProperty.value = false;
   }
 }

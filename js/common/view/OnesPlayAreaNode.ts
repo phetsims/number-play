@@ -47,7 +47,6 @@ class OnesPlayAreaNode extends Node {
   public readonly playArea: OnesPlayArea;
   private readonly tryToCombineNumbersCallback: TODO_Function;
   private readonly addAndDragNumberCallback: TODO_Function;
-  private readonly setSumPropertyDeferredCallback: ( isDeferred: boolean ) => void;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
   public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
@@ -89,7 +88,6 @@ class OnesPlayAreaNode extends Node {
 
     this.tryToCombineNumbersCallback = this.tryToCombineNumbers.bind( this );
     this.addAndDragNumberCallback = this.addAndDragNumber.bind( this );
-    this.setSumPropertyDeferredCallback = this.setSumPropertyDeferred.bind( this );
 
     // PaperNumber.id => {PaperNumberNode} - lookup map for efficiency
     this.paperNumberNodeMap = {};
@@ -168,15 +166,10 @@ class OnesPlayAreaNode extends Node {
 
     // Add it and lookup the related node.
     this.playArea.addPaperNumber( paperNumber );
+    this.playArea.calculateTotal();
+
     const paperNumberNode = this.findPaperNumberNode( paperNumber );
     paperNumberNode.startSyntheticDrag( event );
-  }
-
-  /**
-   * Sets the deferred state of the sumProperty in the model
-   */
-  private setSumPropertyDeferred( isDeferred: boolean ): void {
-    this.playArea.sumProperty.setDeferred( isDeferred );
   }
 
   /**
@@ -188,8 +181,7 @@ class OnesPlayAreaNode extends Node {
       paperNumber,
       this.availableViewBoundsProperty,
       this.addAndDragNumberCallback,
-      this.tryToCombineNumbersCallback,
-      this.setSumPropertyDeferredCallback, {
+      this.tryToCombineNumbersCallback, {
         countingObjectTypeProperty: this.countingObjectTypeProperty,
         baseNumberNodeOptions: {
           handleOffsetY: COUNTING_OBJECT_HANDLE_OFFSET_Y
@@ -367,6 +359,7 @@ class OnesPlayAreaNode extends Node {
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {
       paperNumber.includeInSumProperty.value = false;
+      this.playArea.calculateTotal();
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
       let targetPosition = this.onesCreatorPanel.countingCreatorNode.getOriginPosition();

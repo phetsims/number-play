@@ -39,8 +39,8 @@ class CompareModel {
     this.isPrimaryLocaleProperty = new BooleanProperty( true );
 
     // create the left and right play areas
-    this.leftPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ) );
-    this.rightPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ) );
+    this.leftPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ), 'leftPlayArea' );
+    this.rightPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ), 'rightPlayArea' );
   }
 
   /**
