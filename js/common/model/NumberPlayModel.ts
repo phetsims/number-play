@@ -32,7 +32,7 @@ class NumberPlayModel {
 
   constructor( highestCount: number, tandem: Tandem ) {
 
-    this.sumRange = new Range( 0, highestCount );
+    this.sumRange = new Range( 0, highestCount )
 
     // whether the sim is using the locale it was loaded in or a second locale
     this.isPrimaryLocaleProperty = new BooleanProperty( true );
