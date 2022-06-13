@@ -26,7 +26,7 @@ class NumberPlayGameModel {
     // create the levels for each game
     this.countingLevels = [ new CountingGameLevel( 1 ), new CountingGameLevel( 2 ) ];
     this.subitizeLevels = [ new SubitizeGameLevel( 1 ), new SubitizeGameLevel( 2 ) ];
-    this.levels = [ ...this.countingLevels, ...this.subitizeLevels ];
+    this.levels = [ ...this.countingLevels, ...this.subitizeLevels];
 
     // the selected game level - null means 'no selection' so that the view returns to the level-selection UI
     this.levelProperty = new Property<NumberPlayGameLevel | null>( null, {

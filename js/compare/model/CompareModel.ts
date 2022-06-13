@@ -36,10 +36,10 @@ class CompareModel {
     this.comparisonSignsAndTextVisibleProperty = new BooleanProperty( true );
 
     // whether the sim is using the locale it was loaded in or a second locale
-    this.isPrimaryLocaleProperty = new BooleanProperty( true );
+    this.isPrimaryLocaleProperty = new BooleanProperty( 'hello!' );
 
     // create the left and right play areas
-    this.leftPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ), 'leftPlayArea' );
+    this.leftPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( 'hi!' ), 'leftPlayArea' );
     this.rightPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ), 'rightPlayArea' );
   }
 
