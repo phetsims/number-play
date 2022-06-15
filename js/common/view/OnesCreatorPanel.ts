@@ -20,9 +20,10 @@ import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // types
-type SelfOptions = {};
+type SelfOptions = EmptyObjectType;
 export type OnesCreatorPanelOptions = SelfOptions & PanelOptions;
 
 class OnesCreatorPanel extends Panel {
