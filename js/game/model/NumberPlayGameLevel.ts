@@ -81,7 +81,9 @@ abstract class NumberPlayGameLevel {
   /**
    * @param dt - in seconds
    */
-  public step( dt: number ): void {}
+  public step( dt: number ): void {
+    // See subclass for implementation
+  }
 
   /**
    * Sets up a new challenge for this level.
