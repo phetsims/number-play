@@ -24,12 +24,14 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import DraggableTenFrameNode from '../../lab/view/DraggableTenFrameNode.js';
 
 type SelfOptions = {
   paperNumberLayerNode?: null | Node;
   backgroundDragTargetNode?: null | Node;
   viewHasIndependentModel?: boolean; // whether this view is hooked up to its own model or a shared model
   includeOnesCreatorPanel?: boolean;
+  creatorPanelCenterBottom?: null | Vector2;
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
@@ -40,7 +42,7 @@ class OnesPlayAreaNode extends Node {
   private readonly numberSplitListener: ( paperNumberNode: PaperNumberNode ) => void;
   private readonly numberInteractionListener: ( paperNumberNode: PaperNumberNode ) => void;
   private readonly numberAnimationFinishedListener: ( paperNumber: PaperNumber ) => void;
-  private readonly numberDragFinishedListener: ( paperNumber: PaperNumber ) => void;;
+  private readonly numberDragFinishedListener: ( paperNumber: PaperNumber ) => void;
   public readonly playArea: OnesPlayArea;
   private readonly tryToCombineNumbersCallback: ( draggedPaperNumber: PaperNumber ) => void;
   private readonly addAndDragNumberCallback: ( event: PressListenerEvent, paperNumber: PaperNumber ) => void;
@@ -64,7 +66,8 @@ class OnesPlayAreaNode extends Node {
       paperNumberLayerNode: null,
       backgroundDragTargetNode: null,
       viewHasIndependentModel: true,
-      includeOnesCreatorPanel: true
+      includeOnesCreatorPanel: true,
+      creatorPanelCenterBottom: null
     }, providedOptions );
 
     // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
@@ -111,15 +114,6 @@ class OnesPlayAreaNode extends Node {
     const paperNumberAddedListener = this.onPaperNumberAdded.bind( this );
     const paperNumberRemovedListener = this.onPaperNumberRemoved.bind( this );
 
-    // Where all of the paper numbers are. Created if not provided.
-    this.paperNumberLayerNode = null;
-    if ( options.paperNumberLayerNode ) {
-      this.paperNumberLayerNode = options.paperNumberLayerNode;
-    }
-    else {
-      this.paperNumberLayerNode = new Node();
-    }
-
     // Add nodes for every already-existing paper number
     playArea.paperNumbers.forEach( paperNumberAddedListener );
 
@@ -134,8 +128,13 @@ class OnesPlayAreaNode extends Node {
 
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
-    this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-    this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    if ( options.creatorPanelCenterBottom ) {
+      this.onesCreatorPanel.centerBottom = options.creatorPanelCenterBottom;
+    }
+    else {
+      this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    }
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
       this.getPaperNumberOrigin = () => this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
@@ -147,8 +146,17 @@ class OnesPlayAreaNode extends Node {
       this.playArea.initialize( this.getPaperNumberOrigin, countingCreatorNodeTop, playAreaViewBounds );
     }
 
-    // add the paperNumberLayerNode after the creator panel
-    this.addChild( this.paperNumberLayerNode );
+    // Where all of the paper numbers are. Created if not provided.
+    this.paperNumberLayerNode = null;
+    if ( options.paperNumberLayerNode ) {
+      this.paperNumberLayerNode = options.paperNumberLayerNode;
+    }
+    else {
+      this.paperNumberLayerNode = new Node();
+
+      // add the paperNumberLayerNode after the creator panel
+      this.addChild( this.paperNumberLayerNode );
+    }
 
     this.includeOnesCreatorPanel = options.includeOnesCreatorPanel;
   }
@@ -236,6 +244,10 @@ class OnesPlayAreaNode extends Node {
    * When the user drops a paper number they were dragging, see if it can combine with any other nearby paper numbers.
    */
   public tryToCombineNumbers( draggedPaperNumber: PaperNumber ): void {
+    if ( this.tryToAddToTenFrame( draggedPaperNumber ) ) {
+      return;
+    }
+
     const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
     // @ts-ignore TS-TODO: How to make TS .children is of type PaperNumberNode[]?
     const allPaperNumberNodes: PaperNumberNode[] = _.filter( this.paperNumberLayerNode!.children, child => child instanceof PaperNumberNode );
@@ -278,6 +290,45 @@ class OnesPlayAreaNode extends Node {
         return; // No need to re-layer or try combining with others
       }
     }
+  }
+
+  private tryToAddToTenFrame( droppedPaperNumber: PaperNumber ): boolean {
+    if ( !this.playArea.tenFrames ) {
+      return false;
+    }
+
+    const droppedNode = this.findPaperNumberNode( droppedPaperNumber );
+    const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children, child => child instanceof DraggableTenFrameNode );
+
+    if ( !allDraggableTenFrameNodes.length ) {
+      return false;
+    }
+
+    // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
+    const attachableDroppedTenFrameNodes = this.findAttachableTenFrameNodes( droppedNode, allDraggableTenFrameNodes );
+
+    if ( attachableDroppedTenFrameNodes.length ) {
+      const tenFrameToAddTo = attachableDroppedTenFrameNodes[ 0 ].tenFrame;
+      this.playArea.addObjectToTenFrame( tenFrameToAddTo, droppedPaperNumber );
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  private findAttachableTenFrameNodes( paperNumberNode: PaperNumberNode,
+                                       allDraggableTenFrameNodes: DraggableTenFrameNode[] ): DraggableTenFrameNode[] {
+    const tenFrameNodeCandidates = allDraggableTenFrameNodes.slice();
+
+    // find all other paper number nodes that are overlapping the dropped node
+    const unorderedAttachableTenFrameNodes = tenFrameNodeCandidates.filter( candidateNode => {
+      return candidateNode.localToParentBounds( candidateNode.localBounds ).containsPoint( paperNumberNode.localBounds.center );
+    } );
+
+    return _.sortBy( unorderedAttachableTenFrameNodes, attachableTenFrameNode => {
+      return attachableTenFrameNode.parent!.indexOfChild( attachableTenFrameNode );
+    } );
   }
 
   /**

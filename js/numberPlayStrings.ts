@@ -16,6 +16,7 @@ type StringsType = {
     'twenty': string;
     'compare': string;
     'game': string;
+    'lab': string;
   };
   'zero': string;
   'one': string;

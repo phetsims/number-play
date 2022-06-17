@@ -6,30 +6,24 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Property from '../../../axon/js/Property.js';
-import Vector2 from '../../../dot/js/Vector2.js';
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import labScreenIcon_png from '../../images/labScreenIcon_png.js';
+import NumberPlayColors from '../common/NumberPlayColors.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
 
-const screenLabString = numberPlayStrings.screen.lab;
+class LabScreen extends Screen<LabModel, LabScreenView> {
 
-
-class LabScreen extends Screen {
-
-  /**
-   * @param {Tandem} tandem
-   */
-  constructor( tandem ) {
+  constructor( tandem: Tandem ) {
 
     const options = {
-      name: screenLabString,
-      backgroundColorProperty: new Property( 'white' ),
+      name: numberPlayStrings.screen.lab,
+      backgroundColorProperty: NumberPlayColors.lightPurpleBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( labScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
@@ -39,11 +33,8 @@ class LabScreen extends Screen {
 
     super(
       () => new LabModel(
-        100,
-        new Vector2( 16, 262 ), // empirically determined
-        1.6,                    // empirically determined
         tandem.createTandem( 'model' ) ),
-      model => new LabScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: LabModel ) => new LabScreenView( model, tandem.createTandem( 'view' ) ),
       options
     );
   }

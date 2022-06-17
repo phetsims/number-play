@@ -18,8 +18,15 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import merge from '../../../../phet-core/js/merge.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import TenFrame from '../../lab/model/TenFrame.js';
 
+type SelfOptions = {
+  tenFrames?: null | ObservableArray<TenFrame>;
+};
+export type OnesPlayAreaOptions = SelfOptions;
 type CreatePaperNumberFromBucketOptions = {
   shouldAnimate: boolean;
   value: number;
@@ -39,10 +46,16 @@ class OnesPlayArea extends CountingCommonModel {
   private organizedObjectSpots: Vector2[];
   private initialized: boolean;
   private countingCreatorNodeTop: number;
+  public readonly tenFrames: ObservableArray<TenFrame> | null;
   public readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
-  constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean>, name: string ) {
+  constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean>, name: string,
+               providedOptions?: OnesPlayAreaOptions ) {
     super( highestCount, name );
+
+    const options = optionize<OnesPlayAreaOptions, SelfOptions>()( {
+      tenFrames: null
+    }, providedOptions );
 
     this.groupingEnabledProperty = groupingEnabledProperty;
 
@@ -54,6 +67,9 @@ class OnesPlayArea extends CountingCommonModel {
 
     // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
     this.initialized = false;
+
+    // contains any ten frames that are in the play area
+    this.tenFrames = options.tenFrames;
 
     // when the GroupLinkType is switched to no grouping, break apart any object groups
     this.groupingEnabledProperty.lazyLink( groupingEnabled => {
@@ -266,6 +282,39 @@ class OnesPlayArea extends CountingCommonModel {
   }
 
   /**
+   * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
+   */
+  public organizeObjects(): void {
+
+    assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
+
+    this.breakApartCountingObjects();
+
+    // copy the current playObjectsInPlayArea so we can mutate it
+    let objectsToOrganize = [ ...this.paperNumbers ].filter( paperNumber => paperNumber.includeInSumProperty.value );
+    const numberOfObjectsToOrganize = objectsToOrganize.length;
+
+    for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
+      const destination = this.organizedObjectSpots[ i ];
+
+      // sort the  playObjectToOrganize by closest to the destination
+      objectsToOrganize = _.sortBy( objectsToOrganize, object => {
+        return object.positionProperty.value.distance( destination );
+      } );
+      const objectToOrganize = objectsToOrganize.shift();
+
+      objectToOrganize && objectToOrganize.setDestination( destination, true, {
+        targetScale: NumberPlayConstants.COUNTING_OBJECT_SCALE
+      } );
+    }
+  }
+
+  // TODO
+  public addObjectToTenFrame( tenFrame: TenFrame, paperNumber: PaperNumber ): void {
+
+  }
+
+  /**
    * Breaks apart all counting objects into counting objects with a value of 1. By default, it creates all new counting
    * objects in the position of the original counting object. If stack=true, it arranges them according to the
    * background shape of the original counting object.
@@ -309,34 +358,6 @@ class OnesPlayArea extends CountingCommonModel {
         }
       }
     } );
-  }
-
-  /**
-   * Organizes the playObjectsInPlayArea in a grid pattern. Can only be called if this.organizedObjectSpots exist.
-   */
-  public organizeObjects(): void {
-
-    assert && assert( this.organizedObjectSpots, 'this.organizedObjectSpots must exist to call this function' );
-
-    this.breakApartCountingObjects();
-
-    // copy the current playObjectsInPlayArea so we can mutate it
-    let objectsToOrganize = [ ...this.paperNumbers ].filter( paperNumber => paperNumber.includeInSumProperty.value );
-    const numberOfObjectsToOrganize = objectsToOrganize.length;
-
-    for ( let i = 0; i < numberOfObjectsToOrganize; i++ ) {
-      const destination = this.organizedObjectSpots[ i ];
-
-      // sort the  playObjectToOrganize by closest to the destination
-      objectsToOrganize = _.sortBy( objectsToOrganize, object => {
-        return object.positionProperty.value.distance( destination );
-      } );
-      const objectToOrganize = objectsToOrganize.shift();
-
-      objectToOrganize && objectToOrganize.setDestination( destination, true, {
-        targetScale: NumberPlayConstants.COUNTING_OBJECT_SCALE
-      } );
-    }
   }
 }
 

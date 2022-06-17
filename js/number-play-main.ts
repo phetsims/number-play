@@ -11,6 +11,7 @@ import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import CompareScreen from './compare/CompareScreen.js';
 import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
+import LabScreen from './lab/LabScreen.js';
 import numberPlayStrings from './numberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
@@ -58,7 +59,8 @@ simLauncher.launch( () => {
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
     new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) ),
-    new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) )
+    new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) ),
+    new LabScreen( Tandem.ROOT.createTandem( 'numberPlayLabScreen' ) )
   ], simOptions );
   sim.start();
 
