@@ -311,7 +311,7 @@ class OnesPlayArea extends CountingCommonModel {
 
   // TODO
   public addObjectToTenFrame( tenFrame: TenFrame, paperNumber: PaperNumber ): void {
-
+    // TODO
   }
 
   /**
