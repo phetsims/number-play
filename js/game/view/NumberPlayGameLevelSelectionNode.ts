@@ -65,7 +65,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
       return new LevelSelectionButton( new Image( level.gameType.levelImages[ level.levelNumber ] ),
         level.scoreProperty, {
           iconToScoreDisplayYSpace: 0,
-          scoreDisplayConstructor: ScoreDisplayNumberAndStar,
+          createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
           listener: () => {
             model.levelProperty.value = level;
           },
