@@ -17,8 +17,8 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // constants
 const AB_SWITCH_OPTIONS = {
-  centerOnButton: true,
-  xSpacing: 8,
+  centerOnSwitch: true,
+  spacing: 8,
   toggleSwitchOptions: {
     size: new Dimension2( 40, 20 )
   }
@@ -32,7 +32,7 @@ class LocaleSwitch extends ABSwitch<boolean> {
     // without the ToggleSwitch or spacing.
     const switchTextOptions = {
       font: new PhetFont( 14 ),
-      maxWidth: ( maxWidth - AB_SWITCH_OPTIONS.toggleSwitchOptions.size.width - AB_SWITCH_OPTIONS.xSpacing * 2 ) * 0.5
+      maxWidth: ( maxWidth - AB_SWITCH_OPTIONS.toggleSwitchOptions.size.width - AB_SWITCH_OPTIONS.spacing * 2 ) * 0.5
     };
 
     const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
