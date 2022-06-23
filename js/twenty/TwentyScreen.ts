@@ -65,6 +65,7 @@ class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
         NumberPlayConstants.TWENTY,
         tandem.createTandem( 'model' )
       ),
+      // @ts-ignore TODO-TS: see https://github.com/phetsims/number-play/issues/177
       model => new NumberPlayScreenView( model, screenViewConfig ),
       screenOptions
     );

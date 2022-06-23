@@ -15,7 +15,6 @@ import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
@@ -28,9 +27,9 @@ type SelfOptions = {
 };
 export type OnesPlayAreaOptions = SelfOptions;
 type CreatePaperNumberFromBucketOptions = {
-  shouldAnimate: boolean;
-  value: number;
-  remainder: boolean;
+  shouldAnimate?: boolean;
+  value?: number;
+  remainder?: boolean;
 };
 
 // constants
@@ -133,14 +132,14 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Creates a paperNumber and animates it to a random open place in the play area.
    */
-  public createPaperNumberFromBucket( providedOptions?: Partial<CreatePaperNumberFromBucketOptions> ): void {
+  public createPaperNumberFromBucket( providedOptions?: CreatePaperNumberFromBucketOptions ): void {
     assert && assert( this.initialized === true, 'createPaperNumberFromBucket called before initialization' );
 
-    const options = merge( {
+    const options = optionize<CreatePaperNumberFromBucketOptions>()( {
       shouldAnimate: true,
       value: NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
       remainder: false
-    }, providedOptions ) as CreatePaperNumberFromBucketOptions;
+    }, providedOptions );
 
     let destinationPosition;
     let findCount = 0;

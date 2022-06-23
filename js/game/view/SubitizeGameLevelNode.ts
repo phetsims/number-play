@@ -27,7 +27,9 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
                visibleBoundsProperty: Property<Bounds2> ) {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty, {
-      statusBarFill: NumberPlayColors.subitizeGameColorProperty
+      statusBarOptions: {
+        barFill: NumberPlayColors.subitizeGameColorProperty
+      }
     } );
 
     // create and add the answerButtons

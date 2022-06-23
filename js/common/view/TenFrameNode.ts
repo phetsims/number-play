@@ -11,21 +11,21 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
 import { Circle, HBox, Node, PaintableOptions, Path } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type GetSpotCentersOptions = {
-  numberOfTenFrames: number;
-  sideLength: number;
-  lineWidth: number;
+  numberOfTenFrames?: number;
+  sideLength?: number;
+  lineWidth?: number;
 };
 type GetTenFramePathOptions = {
-  sideLength: number;
+  sideLength?: number;
 } & Pick<PaintableOptions, 'fill'> & Pick<PaintableOptions, 'lineWidth'>;
 
 // constants - all are used for both drawing the ten frame shape and positioning the dots within the ten frame shape
@@ -92,13 +92,13 @@ class TenFrameNode extends Node {
   /**
    * Calculates the center position of all the squares in a ten frame shape(s).
    */
-  public static getSpotCenters( provideOptions?: Partial<GetSpotCentersOptions> ): Vector2[] {
+  public static getSpotCenters( provideOptions?: GetSpotCentersOptions ): Vector2[] {
 
-    const options = merge( {
+    const options = optionize<GetSpotCentersOptions>()( {
       numberOfTenFrames: 1,
       sideLength: SIDE_LENGTH,
       lineWidth: LINE_WIDTH
-    }, provideOptions ) as GetSpotCentersOptions;
+    }, provideOptions );
 
     const spots = [];
     const squareCenterOffset = options.sideLength / 2 + options.lineWidth / 2; // offset from the edge to the first square's center
@@ -124,14 +124,13 @@ class TenFrameNode extends Node {
   /**
    * Draws a ten frame shape, which is a 5 by 2 grid of squares.
    */
-  static getTenFramePath( providedOptions?: Partial<GetTenFramePathOptions> ): Path {
+  static getTenFramePath( providedOptions?: GetTenFramePathOptions ): Path {
 
-    // TS-TODO: Is this Required needed? AKA does Pick preserve the 'optionalness' of a property or not?
-    const options = merge( {
+    const options = optionize<GetTenFramePathOptions>()( {
       fill: 'white',
       lineWidth: LINE_WIDTH,
       sideLength: SIDE_LENGTH
-    }, providedOptions ) as Required<GetTenFramePathOptions>;
+    }, providedOptions );
 
     const tenFrameShape = new Shape()
       .moveTo( 0, 0 )

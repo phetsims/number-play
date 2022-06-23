@@ -11,21 +11,22 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, ColorProperty, HBox, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, HBox, IColor, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import merge from '../../../../phet-core/js/merge.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
-type AnswerButtonsOptions = {
-  buttonColor: ColorProperty;
-  buttonSpacing: number;
-  dependencyEnabledProperty: BooleanProperty;
+type SelfOptions = {
+  buttonColor?: IColor;
+  buttonSpacing?: number;
+  dependencyEnabledProperty?: BooleanProperty;
 }
+type NumberPlayGameAnswerButtonsOptions = SelfOptions;
 type ButtonObject = {
   value: number;
   button: RectangularPushButton;
@@ -49,14 +50,14 @@ class NumberPlayGameAnswerButtons extends Node {
                pointAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,
-               providedOptions?: Partial<AnswerButtonsOptions> ) {
+               providedOptions?: NumberPlayGameAnswerButtonsOptions ) {
     super();
 
-    const options = merge( {
+    const options = optionize<NumberPlayGameAnswerButtonsOptions>()( {
       buttonColor: Color.WHITE,
       buttonSpacing: 18,
       dependencyEnabledProperty: new BooleanProperty( true )
-    }, providedOptions ) as AnswerButtonsOptions;
+    }, providedOptions );
 
     this.buttonObjects = [];
 

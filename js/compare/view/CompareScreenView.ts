@@ -9,7 +9,6 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
-import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../scenery/js/imports.js';
@@ -32,6 +31,7 @@ import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import numberPlaySpeechSynthesisAnnouncer from '../../common/view/numberPlaySpeechSynthesisAnnouncer.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // constants
 const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates
@@ -68,18 +68,22 @@ class CompareScreenView extends ScreenView {
     };
 
     // create and add the left TotalAccordionBox
-    const leftTotalAccordionBox = new TotalAccordionBox( model.leftPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
-      expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
-      fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
-    }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
+    const leftTotalAccordionBox = new TotalAccordionBox( model.leftPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT,
+      // @ts-ignore TODO-TS, see https://github.com/phetsims/number-play/issues/177
+      optionize<TotalAccordionBoxOptions>()( {
+        expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
+        fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
+      }, totalAccordionBoxOptions ) );
     leftTotalAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( leftTotalAccordionBox );
 
     // create and add the right TotalAccordionBox
-    const rightTotalAccordionBox = new TotalAccordionBox( model.rightPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT, merge( {
-      expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
-      fill: NumberPlayColors.lightOrangeBackgroundColorProperty
-    }, totalAccordionBoxOptions ) as unknown as TotalAccordionBoxOptions ); // TODO-TS: MK: likely need to supply required AccordionBoxOptions
+    const rightTotalAccordionBox = new TotalAccordionBox( model.rightPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT,
+      // @ts-ignore TODO-TS, see https://github.com/phetsims/number-play/issues/177
+      optionize<TotalAccordionBoxOptions>()( {
+        expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
+        fill: NumberPlayColors.lightOrangeBackgroundColorProperty
+      }, totalAccordionBoxOptions ) );
     rightTotalAccordionBox.top = leftTotalAccordionBox.top;
     this.addChild( rightTotalAccordionBox );
 
@@ -192,7 +196,7 @@ class CompareScreenView extends ScreenView {
       model.leftPlayArea.sumProperty,
       model.rightPlayArea.sumProperty,
       model.sumRange
-      );
+    );
     compareNumberLineNode.x = comparisonSignsNode.centerX;
     compareNumberLineNode.bottom = leftCountingAccordionBox.bottom + 3;
     this.addChild( compareNumberLineNode );

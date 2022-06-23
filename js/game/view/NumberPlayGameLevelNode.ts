@@ -10,8 +10,8 @@
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, ColorProperty, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
-import InfiniteStatusBar from '../../../../vegas/js/InfiniteStatusBar.js';
+import { Color, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
+import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
 import numberPlay from '../../numberPlay.js';
 import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
@@ -23,12 +23,14 @@ import Easing from '../../../../twixt/js/Easing.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import merge from '../../../../phet-core/js/merge.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // types
-type StatusBarOptions = {
-  statusBarFill: ColorProperty;
-}
+type SelfOptions = {
+  statusBarOptions?: Pick<InfiniteStatusBarOptions, 'barFill'>;
+};
+type NumberPlayGameLevelNodeOptions = SelfOptions;
 
 // constants
 const FACE_DIAMETER = 150;
@@ -48,12 +50,10 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
                          levelProperty: Property<NumberPlayGameLevel | null>,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: Property<Bounds2>,
-                         providedOptions?: StatusBarOptions ) {
+                         providedOptions?: NumberPlayGameLevelNodeOptions ) {
     super();
 
-    const options = merge( {
-      statusBarFill: Color.WHITE
-    }, providedOptions ) as StatusBarOptions;
+    const options = optionize<NumberPlayGameLevelNodeOptions, StrictOmit<SelfOptions, 'statusBarOptions'>>()( {}, providedOptions );
 
     // text displayed in the statusBar
     const levelDescriptionText = new RichText( level.gameType.levelDescriptions[ level.levelNumber ], {
@@ -63,15 +63,16 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     // bar across the top of the screen
     // @ts-ignore
-    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty, {
-      floatToTop: true,
-      spacing: 20,
-      barFill: options.statusBarFill,
-      backButtonListener: () => {
-        this.interruptSubtreeInput();
-        levelProperty.value = null; // back to the level-selection UI
-      }
-    } );
+    const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty,
+      combineOptions<InfiniteStatusBarOptions>( {
+        floatToTop: true,
+        spacing: 20,
+        backButtonListener: () => {
+          this.interruptSubtreeInput();
+          levelProperty.value = null; // back to the level-selection UI
+        }
+      }, options.statusBarOptions ) );
+
     // color the backButton in the statusBar yellow and increase its touch area
     const backButton = statusBar.children[ 1 ].children[ 0 ];
     // @ts-ignore

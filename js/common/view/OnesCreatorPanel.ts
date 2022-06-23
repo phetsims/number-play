@@ -10,9 +10,8 @@
 
 import CountingCreatorNode from '../../../../counting-common/js/common/view/CountingCreatorNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import merge from '../../../../phet-core/js/merge.js';
 import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
-import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import ArrowButton, { ArrowButtonOptions } from '../../../../sun/js/buttons/ArrowButton.js';
 import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
@@ -38,10 +37,9 @@ class OnesCreatorPanel extends Panel {
     }, providedOptions );
 
     // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
-    const arrowButtonConfig = {
-      arrowWidth: 14,  // empirically determined
-      arrowHeight: 14, // empirically determined
-      spacing: 7       // empirically determined
+    const arrowButtonOptions = {
+      arrowWidth: 14,
+      arrowHeight: 14
     };
     const upArrowButton = new ArrowButton( 'up', () => {
       if ( playArea.sumProperty.value < playArea.sumProperty.range!.max ) {
@@ -50,15 +48,15 @@ class OnesCreatorPanel extends Panel {
           value: 1
         } );
       }
-    }, merge( { touchAreaYShift: -3 }, arrowButtonConfig ) );
+    }, optionize<ArrowButtonOptions, EmptyObjectType>()( { touchAreaYShift: -3 }, arrowButtonOptions ) );
     const downArrowButton = new ArrowButton( 'down', () => {
       if ( playArea.sumProperty.value > playArea.sumProperty.range!.min ) {
         playArea.returnPaperNumberToBucket();
       }
-    }, merge( { touchAreaYShift: 3 }, arrowButtonConfig ) );
+    }, optionize<ArrowButtonOptions, EmptyObjectType>()( { touchAreaYShift: 3 }, arrowButtonOptions ) );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],
-      spacing: arrowButtonConfig.spacing
+      spacing: 7
     } );
 
     const creatorNodeBackground = new Rectangle( 0, 0,

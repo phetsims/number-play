@@ -35,7 +35,9 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
                visibleBoundsProperty: Property<Bounds2> ) {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty, {
-      statusBarFill: NumberPlayColors.countingGameColorProperty
+      statusBarOptions: {
+        barFill: NumberPlayColors.countingGameColorProperty
+      }
     } );
 
     // create and add the answerButtons

@@ -64,6 +64,7 @@ class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
         NumberPlayConstants.TEN,
         tandem.createTandem( 'model' )
       ),
+      // @ts-ignore TODO-TS: see https://github.com/phetsims/number-play/issues/177
       model => new NumberPlayScreenView( model, screenViewOptions ),
       screenOptions
     );

@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
-import merge from '../../../../phet-core/js/merge.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
@@ -32,12 +31,15 @@ import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import LocaleSwitch from './LocaleSwitch.js';
+import optionize from '../../../../phet-core/js/optionize.js';
+import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // types
 type NumberPlayScreenViewOptions = {
-  wordAccordionBoxOptions: Partial<WordAccordionBoxOptions>; // TODO-TS: These should not be partial
-  totalAccordionBoxOptions: Partial<TotalAccordionBoxOptions>;
-  tenFrameAccordionBoxOptions: Partial<TenFrameAccordionBoxOptions>;
+  wordAccordionBoxOptions: WordAccordionBoxOptions;
+  totalAccordionBoxOptions: TotalAccordionBoxOptions;
+  tenFrameAccordionBoxOptions: TenFrameAccordionBoxOptions;
   upperAccordionBoxHeight: number;
   lowerAccordionBoxHeight: number;
   tandem: Tandem;
@@ -78,9 +80,10 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       showLocaleSwitch,
       model.isPrimaryLocaleProperty,
-      options.upperAccordionBoxHeight + wordAccordionBoxHeightAdjustment, merge( {
+      options.upperAccordionBoxHeight + wordAccordionBoxHeightAdjustment,
+      optionize<WordAccordionBoxOptions, EmptyObjectType, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
-      }, options.wordAccordionBoxOptions ) as WordAccordionBoxOptions );
+      }, options.wordAccordionBoxOptions ) );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( wordAccordionBox );
@@ -88,9 +91,10 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the TotalAccordionBox
     const totalAccordionBox = new TotalAccordionBox(
       model.onesPlayArea,
-      options.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight,
+      optionize<TotalAccordionBoxOptions, EmptyObjectType, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
-      }, options.totalAccordionBoxOptions ) as TotalAccordionBoxOptions );
+      }, options.totalAccordionBoxOptions ) );
     totalAccordionBox.centerX = this.layoutBounds.centerX;
     totalAccordionBox.top = wordAccordionBox.top;
     this.addChild( totalAccordionBox );
@@ -99,9 +103,10 @@ class NumberPlayScreenView extends ScreenView {
     const tenFrameAccordionBox = new TenFrameAccordionBox(
       model.currentNumberProperty,
       model.sumRange,
-      options.upperAccordionBoxHeight, merge( {
+      options.upperAccordionBoxHeight,
+      optionize<TenFrameAccordionBoxOptions, EmptyObjectType, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
-      }, options.tenFrameAccordionBoxOptions ) as TenFrameAccordionBoxOptions );
+      }, options.tenFrameAccordionBoxOptions ) );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );

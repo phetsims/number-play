@@ -8,8 +8,8 @@
  */
 
 import NumberDisplay from '../../../../scenery-phet/js/NumberDisplay.js';
-import { Font, HBox, VBox } from '../../../../scenery/js/imports.js';
-import ArrowButton from '../../../../sun/js/buttons/ArrowButton.js';
+import { HBox, TextOptions, VBox } from '../../../../scenery/js/imports.js';
+import ArrowButton, { ArrowButtonOptions } from '../../../../sun/js/buttons/ArrowButton.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
@@ -17,13 +17,13 @@ import Range from '../../../../dot/js/Range.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // types
 type SelfOptions = {
-  font: Font;
-  arrowButtonOptions: Record<string, unknown>; // TODO-TS: should be ArrowButtonOptions
+  arrowButtonOptions: ArrowButtonOptions;
   arrowButtonSpacing: number;
-};
+} & PickRequired<TextOptions, 'font'>;
 export type TotalAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
 
 class TotalAccordionBox extends NumberPlayAccordionBox {

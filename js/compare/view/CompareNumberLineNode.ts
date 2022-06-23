@@ -9,7 +9,6 @@
 
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
-import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Circle, Color, IPaint, Node, Path, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
@@ -18,14 +17,15 @@ import Range from '../../../../dot/js/Range.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type GetNumberLineNodeOptions = {
-  includeLabels: boolean;
-  minorLineWidth: number;
-  majorLineWidth: number;
-  minorTickMarkHalfLineLength: number;
-  majorTickMarkHalfLineLength: number;
+  includeLabels?: boolean;
+  minorLineWidth?: number;
+  majorLineWidth?: number;
+  minorTickMarkHalfLineLength?: number;
+  majorTickMarkHalfLineLength?: number;
 };
 
 // constants
@@ -77,15 +77,15 @@ class CompareNumberLineNode extends Node {
    * @param [providedOptions]
    */
   public static getNumberLineNode( pixelsPerTickMark: number, range: Range,
-                                   providedOptions?: Partial<GetNumberLineNodeOptions> ): Node {
+                                   providedOptions?: GetNumberLineNodeOptions ): Node {
 
-    const options = merge( {
+    const options = optionize<GetNumberLineNodeOptions>()( {
       includeLabels: true,
       minorLineWidth: 1,
       majorLineWidth: 2,
       minorTickMarkHalfLineLength: 9,
       majorTickMarkHalfLineLength: 16
-    }, providedOptions ) as GetNumberLineNodeOptions;
+    }, providedOptions );
     const numberLineDistance = range.getLength();
 
     // create the base vertical line
