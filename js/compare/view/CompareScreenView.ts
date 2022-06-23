@@ -179,9 +179,7 @@ class CompareScreenView extends ScreenView {
     this.addChild( countingTypeRadioButtonGroup );
 
     // create and add the show comparison checkbox
-    const showComparisonCheckbox = new Checkbox(
-      new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ),
-      model.comparisonSignsAndTextVisibleProperty );
+    const showComparisonCheckbox = new Checkbox( model.comparisonSignsAndTextVisibleProperty, new Text( `${lessThanString} ${equalString} ${greaterThanString}`, { font: new PhetFont( 20 ) } ) );
     showComparisonCheckbox.right = countingTypeRadioButtonGroup.right;
     showComparisonCheckbox.top = countingTypeRadioButtonGroup.bottom + 14; // empirically determined
     this.addChild( showComparisonCheckbox );
