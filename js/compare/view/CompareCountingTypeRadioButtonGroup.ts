@@ -19,7 +19,7 @@ import CompareNumberLineNode from './CompareNumberLineNode.js';
 
 // constants
 const ICON_SIZE = 32; // the width and height of the icons used for the buttons, in screen coordinates
-const BUTTON_X_MARGIN = 7; // in screen coordinates
+const BUTTON_MARGIN = 7; // in screen coordinates
 
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<CompareCountingType> {
 
@@ -57,9 +57,11 @@ class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<Co
 
     super( countingTypeProperty, countingTypeRadioButtons, {
       orientation: 'horizontal',
-      baseColor: Color.WHITE,
-      buttonContentXMargin: BUTTON_X_MARGIN,
-      buttonContentYMargin: BUTTON_X_MARGIN
+      radioButtonOptions: {
+        baseColor: Color.WHITE,
+        xMargin: BUTTON_MARGIN,
+        yMargin: BUTTON_MARGIN
+      }
     } );
   }
 }

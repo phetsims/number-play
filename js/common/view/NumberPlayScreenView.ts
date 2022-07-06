@@ -200,11 +200,13 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
     // @ts-ignore TODO-TS: need type defined by RectangularRadioButtonGroup for groupingLinkingButtons, see above TODO
     const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupAndLinkTypeProperty, groupingLinkingButtons, {
-      baseColor: NumberPlayColors.blueBackgroundColorProperty,
       orientation: 'vertical',
       spacing: 10,
-      buttonContentXMargin: margin,
-      buttonContentYMargin: margin
+      radioButtonOptions: {
+        baseColor: NumberPlayColors.blueBackgroundColorProperty,
+        xMargin: margin,
+        yMargin: margin
+      }
     } );
     groupingLinkingRadioButtonGroup.centerX = resetAllButton.centerX;
     groupingLinkingRadioButtonGroup.centerY = this.objectsAccordionBox.centerY;

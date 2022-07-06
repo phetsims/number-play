@@ -83,9 +83,11 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
       // @ts-ignore
       radioButtonGroup = new RectangularRadioButtonGroup( countingObjectTypeProperty, buttons, {
-        baseColor: Color.WHITE,
         orientation: 'horizontal',
-        spacing: 10
+        spacing: 10,
+        radioButtonOptions: {
+          baseColor: Color.WHITE
+        }
       } );
       radioButtonGroup.right = this.contentBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       radioButtonGroup.bottom = this.contentBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
