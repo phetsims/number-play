@@ -19,7 +19,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class ComparisonTextNode extends Node {
-  public readonly comparisonStringProperty: IReadOnlyProperty<string>
+  public readonly comparisonStringProperty: IReadOnlyProperty<string>;
 
   constructor( leftCurrentNumberProperty: NumberProperty,
                rightCurrentNumberProperty: NumberProperty,
