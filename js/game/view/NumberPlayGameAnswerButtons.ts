@@ -25,7 +25,7 @@ type SelfOptions = {
   buttonColor?: IColor;
   buttonSpacing?: number;
   dependencyEnabledProperty?: BooleanProperty;
-}
+};
 type NumberPlayGameAnswerButtonsOptions = SelfOptions;
 type ButtonObject = {
   value: number;

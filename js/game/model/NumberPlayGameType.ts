@@ -18,10 +18,10 @@ import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
 
 type LevelDescriptions = {
   [ key: number ]: string;
-}
+};
 type LevelImages = {
   [ key: number ]: HTMLImageElement;
-}
+};
 
 class NumberPlayGameType extends EnumerationValue {
   static COUNTING = new NumberPlayGameType( {

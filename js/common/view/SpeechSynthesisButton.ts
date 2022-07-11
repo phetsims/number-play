@@ -32,7 +32,7 @@ type SelfOptions = {
   // TODO: This pattern requires passing in the same Property twice for Ten/Twenty screens, consider changing API for textProperty
   numberProperty1?: IReadOnlyProperty<number>;
   numberProperty2?: IReadOnlyProperty<number>;
-}
+};
 type SpeechSynthesisButtonOptions = SelfOptions;
 
 // constants
