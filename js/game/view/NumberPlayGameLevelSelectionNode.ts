@@ -48,7 +48,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     this.addChild( titleText );
 
     // create the info dialog, which displays info about each game
-    const numberPlayGameInfoDialog = new NumberPlayGameInfoDialog( model.countingLevels, model.subitizeLevels );
+    const numberPlayGameInfoDialog = new NumberPlayGameInfoDialog( model.levels );
 
     // Info button, to right of 'Choose Your Game!', opens the Info dialog. 
     const infoButton = new InfoButton( {

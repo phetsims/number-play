@@ -9,29 +9,39 @@
  */
 
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import Dialog from '../../../../sun/js/Dialog.js';
 import numberPlay from '../../numberPlay.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import GameInfoDialog from '../../../../vegas/js/GameInfoDialog.js';
+import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 
 // constants
 const TITLE_FONT = new PhetFont( 32 );
 const MAX_CONTENT_WIDTH = 600;
 
-class NumberPlayGameInfoDialog extends Dialog {
+class NumberPlayGameInfoDialog extends GameInfoDialog {
 
-  // TODO: This dislog should use common code, see https://github.com/phetsims/vegas/issues/107
-  constructor( countingLevels: CountingGameLevel[], subitizeLevels: SubitizeGameLevel[] ) {
+  constructor( levels: NumberPlayGameLevel[] ) {
+
+    const descriptions = levels.map( level => level.gameType.levelDescriptions[ level.levelNumber ] );
 
     const titleNode = new Text( numberPlayStrings.games, {
       font: TITLE_FONT,
       maxWidth: 0.75 * MAX_CONTENT_WIDTH
     } );
 
-    super( new Node(), {
+    super( descriptions, {
       title: titleNode,
+      gameLevels: NumberPlayQueryParameters.gameLevels,
+      descriptionTextOptions: {
+        font: new PhetFont( 24 )
+      },
+      vBoxOptions: {
+        align: 'left',
+        spacing: 20,
+        maxWidth: MAX_CONTENT_WIDTH // scale all descriptions uniformly
+      },
       ySpacing: 30,
       bottomMargin: 30
     } );
