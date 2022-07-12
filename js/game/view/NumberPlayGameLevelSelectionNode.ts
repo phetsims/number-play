@@ -22,7 +22,7 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
-import InfoDialog from './InfoDialog.js';
+import NumberPlayGameInfoDialog from './NumberPlayGameInfoDialog.js';
 
 // constants
 const LEVEL_SELECTION_BUTTON_SPACING = 30;
@@ -48,13 +48,13 @@ class NumberPlayGameLevelSelectionNode extends Node {
     this.addChild( titleText );
 
     // create the info dialog, which displays info about each game
-    const infoDialog = new InfoDialog( model.countingLevels, model.subitizeLevels );
+    const numberPlayGameInfoDialog = new NumberPlayGameInfoDialog( model.countingLevels, model.subitizeLevels );
 
     // Info button, to right of 'Choose Your Game!', opens the Info dialog. 
     const infoButton = new InfoButton( {
       iconFill: 'rgb( 41, 106, 163 )',
       maxHeight: INFO_BUTTON_SIZE,
-      listener: () => infoDialog.show()
+      listener: () => numberPlayGameInfoDialog.show()
     } );
     infoButton.left = titleText.right + INFO_BUTTON_MARGIN;
     infoButton.centerY = titleText.centerY;

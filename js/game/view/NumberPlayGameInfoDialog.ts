@@ -20,7 +20,7 @@ import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 const TITLE_FONT = new PhetFont( 32 );
 const MAX_CONTENT_WIDTH = 600;
 
-class InfoDialog extends Dialog {
+class NumberPlayGameInfoDialog extends Dialog {
 
   // TODO: This dislog should use common code, see https://github.com/phetsims/vegas/issues/107
   constructor( countingLevels: CountingGameLevel[], subitizeLevels: SubitizeGameLevel[] ) {
@@ -38,5 +38,5 @@ class InfoDialog extends Dialog {
   }
 }
 
-numberPlay.register( 'InfoDialog', InfoDialog );
-export default InfoDialog;
+numberPlay.register( 'NumberPlayGameInfoDialog', NumberPlayGameInfoDialog );
+export default NumberPlayGameInfoDialog;
