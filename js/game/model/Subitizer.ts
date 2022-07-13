@@ -31,12 +31,10 @@ import numberPlay from '../../numberPlay.js';
 import SubitizeObjectType from './SubitizeObjectType.js';
 
 // types
-type PredeterminedShapes = {
-  [ key: number ]: {
-    points: Vector2[];
-    rotations: number[];
-  }[];
-};
+type PredeterminedShapes = Record<number, {
+  points: Vector2[];
+  rotations: number[];
+}[]>;
 
 // constants
 

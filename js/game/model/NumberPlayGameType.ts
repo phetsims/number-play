@@ -16,12 +16,8 @@ import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-type LevelDescriptions = {
-  [ key: number ]: string;
-};
-type LevelImages = {
-  [ key: number ]: HTMLImageElement;
-};
+type LevelDescriptions = Record<number, string>;
+type LevelImages = Record<number, HTMLImageElement>;
 
 class NumberPlayGameType extends EnumerationValue {
   static COUNTING = new NumberPlayGameType( {
