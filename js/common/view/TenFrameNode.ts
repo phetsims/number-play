@@ -42,11 +42,11 @@ class TenFrameNode extends Node {
   public constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
-    assert && assert( sumRange!.max % NumberPlayConstants.TEN === 0,
-      `Provided sumRange.max should be a multiple of ten, but was: ${sumRange!.max}`
+    assert && assert( sumRange.max % NumberPlayConstants.TEN === 0,
+      `Provided sumRange.max should be a multiple of ten, but was: ${sumRange.max}`
     );
 
-    const numberOfTenFrames = sumRange!.max / NumberPlayConstants.TEN;
+    const numberOfTenFrames = sumRange.max / NumberPlayConstants.TEN;
     const tenFramePaths: Node[] = [];
 
     // create the calculated number of ten frames needed

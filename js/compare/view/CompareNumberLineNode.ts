@@ -37,7 +37,7 @@ class CompareNumberLineNode extends Node {
                rightCurrentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
-    const pixelsPerTickMark = height / sumRange!.max;
+    const pixelsPerTickMark = height / sumRange.max;
 
     // create and add the number line
     const numberLineNode = CompareNumberLineNode.getNumberLineNode( pixelsPerTickMark, sumRange );
