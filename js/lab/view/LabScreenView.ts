@@ -54,7 +54,7 @@ class LabScreenView extends ScreenView {
       model.numberStacks,
       animationDuration,
       ( event: PressListenerEvent, stack: NumberStack ) => {
-        const modelPoint = this.globalToLocalPoint( event.pointer.point! );
+        const modelPoint = this.globalToLocalPoint( event.pointer.point );
         const numberPiece = new NumberPiece( stack.number );
         numberPiece.positionProperty.value = modelPoint;
         model.dragNumberPieceFromStack( numberPiece );
@@ -232,7 +232,7 @@ class LabScreenView extends ScreenView {
     iconNodeInputLayer.cursor = 'pointer';
     iconNodeInputLayer.inputListeners = [ DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
       const tenFrame = new TenFrame( Vector2.ZERO );
-      tenFrame.positionProperty.value = this.globalToLocalPoint( event.pointer.point! ).minus( tenFrame.localBounds.centerBottom );
+      tenFrame.positionProperty.value = this.globalToLocalPoint( event.pointer.point ).minus( tenFrame.localBounds.centerBottom );
       this.model.dragTenFrameFromIcon( tenFrame );
       const tenFrameNode = this.getTenFrameNode( tenFrame );
       tenFrameNode.dragListener.press( event, tenFrameNode );
