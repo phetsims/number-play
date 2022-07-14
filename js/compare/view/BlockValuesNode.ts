@@ -18,7 +18,7 @@ const PADDING = 2; // padding between blocks
 
 class BlockValuesNode extends Node {
 
-  constructor( leftCurrentNumberProperty: IReadOnlyProperty<number>, rightCurrentNumberProperty: IReadOnlyProperty<number> ) {
+  public constructor( leftCurrentNumberProperty: IReadOnlyProperty<number>, rightCurrentNumberProperty: IReadOnlyProperty<number> ) {
     super();
 
     // TODO: Fix drawing so initial state can be setup and updated here

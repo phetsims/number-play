@@ -24,7 +24,7 @@ class TenFrame {
   public positionProperty: Vector2Property;
   public readonly localBounds: Bounds2;
 
-  constructor( initialPosition: Vector2 ) {
+  public constructor( initialPosition: Vector2 ) {
 
     this.squareSideLength = SQUARE_SIDE_LENGTH;
 

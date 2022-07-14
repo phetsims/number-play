@@ -30,7 +30,7 @@ class NumberPlayModel {
   private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
   private previousCurrentNumber: number;
 
-  constructor( highestCount: number, tandem: Tandem ) {
+  public constructor( highestCount: number, tandem: Tandem ) {
 
     this.sumRange = new Range( 0, highestCount );
 

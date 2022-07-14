@@ -27,7 +27,7 @@ const REVEAL_BUTTON_MARGIN = 12;
 
 class SubitizerNode extends Node {
 
-  constructor( subitizer: Subitizer, isChallengeSolvedProperty: BooleanProperty, newChallengeCallback: () => void ) {
+  public constructor( subitizer: Subitizer, isChallengeSolvedProperty: BooleanProperty, newChallengeCallback: () => void ) {
     super();
 
     // for scaling the objects

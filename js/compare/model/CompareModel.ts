@@ -25,7 +25,7 @@ class CompareModel {
   public readonly leftCountingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly rightCountingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
 
-  constructor( highestCount: number, tandem: Tandem ) {
+  public constructor( highestCount: number, tandem: Tandem ) {
 
     this.sumRange = new Range( 0, highestCount );
 

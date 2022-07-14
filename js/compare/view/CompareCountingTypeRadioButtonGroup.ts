@@ -23,7 +23,7 @@ const BUTTON_MARGIN = 7; // in screen coordinates
 
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<CompareCountingType> {
 
-  constructor( countingTypeProperty: EnumerationProperty<CompareCountingType> ) {
+  public constructor( countingTypeProperty: EnumerationProperty<CompareCountingType> ) {
 
     // create a map from each CompareCountingType to a corresponding icon
     const countingTypeToNode = {};

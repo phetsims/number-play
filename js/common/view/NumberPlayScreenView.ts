@@ -60,7 +60,7 @@ class NumberPlayScreenView extends ScreenView {
   private readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
   private readonly objectsAccordionBox: CountingAccordionBox;
 
-  constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
+  public constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
 
     super( options );
 
@@ -237,7 +237,7 @@ class NumberPlayScreenView extends ScreenView {
   /**
    * Resets the view.
    */
-  reset(): void {
+  private reset(): void {
     this.wordAccordionBoxExpandedProperty.reset();
     this.totalAccordionBoxExpandedProperty.reset();
     this.tenFrameAccordionBoxExpandedProperty.reset();

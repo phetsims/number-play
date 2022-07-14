@@ -18,7 +18,7 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class OrganizeButton extends RectangularPushButton {
 
-  constructor( color: IColor, listener: () => void ) {
+  public constructor( color: IColor, listener: () => void ) {
 
     const tenFramePath = TenFrameNode.getTenFramePath( {
       fill: null,

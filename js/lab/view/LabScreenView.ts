@@ -36,7 +36,7 @@ class LabScreenView extends ScreenView {
   private readonly numberPanel: LabNumberCarousel;
   private readonly tenFrameNodes: DraggableTenFrameNode[];
 
-  constructor( model: LabModel, tandem: Tandem ) {
+  public constructor( model: LabModel, tandem: Tandem ) {
 
     super( {
       tandem: tandem

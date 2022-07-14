@@ -30,7 +30,7 @@ const TEXT_MARGIN = 5;
 
 class WordAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( currentNumberProperty: IReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
+  public constructor( currentNumberProperty: IReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
                height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( numberPlayStrings.word, {

@@ -48,7 +48,7 @@ class OnesPlayArea extends CountingCommonModel {
   public readonly tenFrames: ObservableArray<TenFrame> | null;
   public readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
 
-  constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean>, name: string,
+  public constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean>, name: string,
                providedOptions?: OnesPlayAreaOptions ) {
     super( highestCount, name );
 

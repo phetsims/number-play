@@ -19,7 +19,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
 
   public readonly subitizer: Subitizer;
 
-  constructor( levelNumber: number ) {
+  public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.SUBITIZE, LEVEL_INPUT_RANGE );
 
     this.subitizer = new Subitizer(

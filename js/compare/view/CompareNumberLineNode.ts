@@ -33,7 +33,7 @@ const INTEGERS_PER_MAJOR_TICK_MARK = 5; // the number of integers between two ma
 
 class CompareNumberLineNode extends Node {
 
-  constructor( height: number, leftCurrentNumberProperty: IReadOnlyProperty<number>,
+  public constructor( height: number, leftCurrentNumberProperty: IReadOnlyProperty<number>,
                rightCurrentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
@@ -154,10 +154,10 @@ class CompareNumberLineNode extends Node {
  * Enumeration for specifying which side the triangle should go on for the indicator node above.
  */
 class LeftRightDirection extends EnumerationValue {
-  static LEFT = new LeftRightDirection();
-  static RIGHT = new LeftRightDirection();
+  public static LEFT = new LeftRightDirection();
+  public static RIGHT = new LeftRightDirection();
 
-  static enumeration = new Enumeration( LeftRightDirection );
+  public static enumeration = new Enumeration( LeftRightDirection );
 }
 
 numberPlay.register( 'CompareNumberLineNode', CompareNumberLineNode );

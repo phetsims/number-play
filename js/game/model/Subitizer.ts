@@ -144,7 +144,7 @@ class Subitizer {
   public static SUBITIZER_BOUNDS: Bounds2;
   public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
-  constructor( challengeNumberProperty: NumberProperty,
+  public constructor( challengeNumberProperty: NumberProperty,
                isChallengeSolvedProperty: BooleanProperty,
                numberOfAnswerButtonPressesProperty: NumberProperty,
                randomOrPredetermined: boolean

@@ -27,7 +27,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly groupObjectsAllowed: boolean;
   public readonly groupObjectsEnabledProperty: BooleanProperty;
 
-  constructor( levelNumber: number ) {
+  public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );
 
     // whether objects should be able to be grouped

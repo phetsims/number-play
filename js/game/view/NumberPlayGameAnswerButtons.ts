@@ -46,7 +46,7 @@ class NumberPlayGameAnswerButtons extends Node {
   private readonly buttonListener: ( index: number ) => void;
   public static BUTTON_DIMENSION: Dimension2;
 
-  constructor( level: NumberPlayGameLevel,
+  public constructor( level: NumberPlayGameLevel,
                pointAwardedNodeVisibleProperty: BooleanProperty,
                rightAnswerCallback: () => void,
                wrongAnswerCallback: () => void,

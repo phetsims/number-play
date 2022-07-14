@@ -20,7 +20,7 @@ type LevelDescriptions = Record<number, string>;
 type LevelImages = Record<number, HTMLImageElement>;
 
 class NumberPlayGameType extends EnumerationValue {
-  static COUNTING = new NumberPlayGameType( {
+  public static COUNTING = new NumberPlayGameType( {
     1: numberPlayStrings.countingLevel1Description,
     2: numberPlayStrings.countingLevel2Description
   }, {
@@ -28,7 +28,7 @@ class NumberPlayGameType extends EnumerationValue {
     2: countingGameIcon2_png
   } );
 
-  static SUBITIZE = new NumberPlayGameType( {
+  public static SUBITIZE = new NumberPlayGameType( {
     1: numberPlayStrings.subitizingLevel1Description,
     2: numberPlayStrings.subitizingLevel2Description
   }, {
@@ -36,12 +36,12 @@ class NumberPlayGameType extends EnumerationValue {
     2: subitizeGameIcon2_png
   } );
 
-  static enumeration = new Enumeration( NumberPlayGameType );
+  public static enumeration = new Enumeration( NumberPlayGameType );
 
   public readonly levelDescriptions: LevelDescriptions;
   public readonly levelImages: LevelImages;
 
-  constructor( levelDescriptions: LevelDescriptions, levelImages: LevelImages ) {
+  public constructor( levelDescriptions: LevelDescriptions, levelImages: LevelImages ) {
     super();
 
     this.levelDescriptions = levelDescriptions;

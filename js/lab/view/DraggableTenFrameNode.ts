@@ -15,7 +15,7 @@ class DraggableTenFrameNode extends Node {
   public readonly tenFrame: TenFrame;
   public readonly dragListener: DragListener;
 
-  constructor( tenFrame: TenFrame, dropListener: () => void ) {
+  public constructor( tenFrame: TenFrame, dropListener: () => void ) {
     super();
 
     this.tenFrame = tenFrame;

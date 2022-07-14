@@ -39,7 +39,7 @@ class TenFrameNode extends Node {
   private readonly dotsLayer: Node;
   private readonly dotSpots: Vector2[];
 
-  constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
+  public constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
     assert && assert( sumRange!.max % NumberPlayConstants.TEN === 0,
@@ -124,7 +124,7 @@ class TenFrameNode extends Node {
   /**
    * Draws a ten frame shape, which is a 5 by 2 grid of squares.
    */
-  static getTenFramePath( providedOptions?: GetTenFramePathOptions ): Path {
+  public static getTenFramePath( providedOptions?: GetTenFramePathOptions ): Path {
 
     const options = optionize<GetTenFramePathOptions>()( {
       fill: 'white',

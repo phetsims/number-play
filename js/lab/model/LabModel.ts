@@ -37,7 +37,7 @@ class LabModel {
   public readonly ballPlayArea: OnesPlayArea;
   private readonly numberProperties: NumberProperty[];
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     this.numberStacks = [];
     this.numberPieces = createObservableArray();

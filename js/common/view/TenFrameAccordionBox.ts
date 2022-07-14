@@ -24,7 +24,7 @@ export type TenFrameAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOp
 
 class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range,
+  public constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range,
                height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,

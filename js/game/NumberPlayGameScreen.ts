@@ -20,7 +20,7 @@ import NumberPlayGameScreenView from './view/NumberPlayGameScreenView.js';
 
 class NumberPlayGameScreen extends Screen<NumberPlayGameModel, NumberPlayGameScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       name: numberPlayStrings.screen.game,

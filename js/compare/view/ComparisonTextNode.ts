@@ -21,7 +21,7 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 class ComparisonTextNode extends Node {
   public readonly comparisonStringProperty: IReadOnlyProperty<string>;
 
-  constructor( leftCurrentNumberProperty: NumberProperty,
+  public constructor( leftCurrentNumberProperty: NumberProperty,
                rightCurrentNumberProperty: NumberProperty,
                isPrimaryLocaleProperty: BooleanProperty,
                layoutBounds: Bounds2 ) {

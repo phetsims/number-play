@@ -19,7 +19,7 @@ import LabScreenView from './view/LabScreenView.js';
 
 class LabScreen extends Screen<LabModel, LabScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       name: numberPlayStrings.screen.lab,

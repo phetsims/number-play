@@ -31,7 +31,7 @@ class SubitizeLoadingBarNode extends Node {
   private loadingBarAnimation: Animation | null;
   private readonly loadingBarWidthProperty: NumberProperty;
 
-  constructor( newChallengeCallback: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
+  public constructor( newChallengeCallback: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
     super();
 
     this.newChallengeCallback = newChallengeCallback;

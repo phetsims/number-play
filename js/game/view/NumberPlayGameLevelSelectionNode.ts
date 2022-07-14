@@ -31,7 +31,7 @@ const INFO_BUTTON_MARGIN = 20;
 
 class NumberPlayGameLevelSelectionNode extends Node {
 
-  constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
+  public constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
     super();
 
     // leave room for the info button

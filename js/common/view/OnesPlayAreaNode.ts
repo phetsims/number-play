@@ -56,7 +56,7 @@ class OnesPlayAreaNode extends Node {
   private readonly includeOnesCreatorPanel: boolean;
   private readonly getPaperNumberOrigin: () => Vector2 = () => Vector2.ZERO;
 
-  constructor( playArea: OnesPlayArea,
+  public constructor( playArea: OnesPlayArea,
                countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
                playAreaViewBounds: Bounds2,
                providedOptions?: OnesPlayAreaNodeOptions ) {

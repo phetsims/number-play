@@ -22,7 +22,7 @@ const MAX_CONTENT_WIDTH = 600;
 
 class NumberPlayGameInfoDialog extends GameInfoDialog {
 
-  constructor( levels: NumberPlayGameLevel[] ) {
+  public constructor( levels: NumberPlayGameLevel[] ) {
 
     const descriptions = levels.map( level => level.gameType.levelDescriptions[ level.levelNumber ] );
 

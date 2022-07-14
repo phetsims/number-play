@@ -24,7 +24,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
   private secondaryLocale: string | null;
   private updateVoiceListener: ( () => void ) | null;
 
-  constructor() {
+  public constructor() {
     super();
 
     this.primaryLocale = null;
@@ -32,7 +32,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
     this.updateVoiceListener = null;
   }
 
-  override initialize( userGestureEmitter: Emitter, options: NumberPlaySpeechSynthesisInitializeOptions ): void {
+  public override initialize( userGestureEmitter: Emitter, options: NumberPlaySpeechSynthesisInitializeOptions ): void {
     super.initialize( userGestureEmitter, options );
 
     // get the locale the sim is running in
@@ -45,7 +45,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
     this.voicesChangedEmitter.addListener( this.updateVoiceListener );
   }
 
-  updateVoice( isPrimaryLocale = true ): void {
+  public updateVoice( isPrimaryLocale = true ): void {
     assert && assert( this.initialized, 'must be initialized before updating voice' );
 
     const locale = isPrimaryLocale ? this.primaryLocale : this.secondaryLocale;

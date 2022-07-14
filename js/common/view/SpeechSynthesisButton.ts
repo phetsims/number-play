@@ -40,7 +40,7 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class SpeechSynthesisButton extends RectangularPushButton {
 
-  constructor( textProperty: IReadOnlyProperty<number> | IReadOnlyProperty<string>,
+  public constructor( textProperty: IReadOnlyProperty<number> | IReadOnlyProperty<string>,
                isPrimaryLocaleProperty: BooleanProperty,
                providedOptions?: SpeechSynthesisButtonOptions ) {
 

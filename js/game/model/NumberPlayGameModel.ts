@@ -21,7 +21,7 @@ class NumberPlayGameModel {
   public readonly levels: Array<NumberPlayGameLevel>;
   public readonly levelProperty: Property<NumberPlayGameLevel | null>;
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     // create the levels for each game
     this.countingLevels = [ new CountingGameLevel( 1 ), new CountingGameLevel( 2 ) ];

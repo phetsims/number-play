@@ -26,7 +26,7 @@ const AB_SWITCH_OPTIONS = {
 
 class LocaleSwitch extends ABSwitch<boolean> {
 
-  constructor( isPrimaryLocaleProperty: BooleanProperty, maxWidth: number ) {
+  public constructor( isPrimaryLocaleProperty: BooleanProperty, maxWidth: number ) {
 
     // options for the switch text. calculate the maxWidth for each string as half of the available horizontal space
     // without the ToggleSwitch or spacing.

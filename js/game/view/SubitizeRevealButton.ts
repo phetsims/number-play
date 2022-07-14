@@ -24,7 +24,7 @@ const BUTTON_TOUCH_AREA_DILATION = 10;
 
 class SubitizeRevealButton extends RectangularPushButton {
 
-  constructor( isChallengeSolvedProperty: BooleanProperty, subitizerIsInputEnabledProperty: BooleanProperty,
+  public constructor( isChallengeSolvedProperty: BooleanProperty, subitizerIsInputEnabledProperty: BooleanProperty,
                isShapeVisibleProperty: BooleanProperty ) {
 
     const eyeNode = new Path( eyeSolidShape, {

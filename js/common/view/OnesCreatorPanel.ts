@@ -28,7 +28,7 @@ export type OnesCreatorPanelOptions = SelfOptions & PanelOptions;
 class OnesCreatorPanel extends Panel {
   public countingCreatorNode: CountingCreatorNode;
 
-  constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode, providedOptions?: OnesCreatorPanelOptions ) {
+  public constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode, providedOptions?: OnesCreatorPanelOptions ) {
 
     const options = optionize<OnesCreatorPanelOptions, SelfOptions, PanelOptions>()( {
       stroke: 'rgb(201,203,203)',

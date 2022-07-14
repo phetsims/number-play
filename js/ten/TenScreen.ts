@@ -23,7 +23,7 @@ const screenTenString = numberPlayStrings.screen.ten;
 
 class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const screenOptions = {
       name: screenTenString,

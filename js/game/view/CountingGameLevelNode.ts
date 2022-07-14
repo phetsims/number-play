@@ -29,7 +29,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
-  constructor( level: CountingGameLevel,
+  public constructor( level: CountingGameLevel,
                levelProperty: Property<NumberPlayGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {

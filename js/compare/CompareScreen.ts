@@ -23,7 +23,7 @@ const screenCompareString = numberPlayStrings.screen.compare;
 
 class CompareScreen extends Screen<CompareModel, CompareScreenView> {
 
-  constructor( tandem: Tandem ) {
+  public constructor( tandem: Tandem ) {
 
     const options = {
       name: screenCompareString,

@@ -12,9 +12,9 @@ import numberPlay from '../../numberPlay.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 
 class SubitizeObjectType extends CountingObjectType {
-  static CIRCLE = new SubitizeObjectType();
+  public static CIRCLE = new SubitizeObjectType();
 
-  static override enumeration = new Enumeration( SubitizeObjectType, {
+  public static override enumeration = new Enumeration( SubitizeObjectType, {
     instanceType: CountingObjectType
   } );
 }

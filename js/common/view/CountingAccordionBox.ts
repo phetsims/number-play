@@ -37,7 +37,7 @@ const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
 
 class CountingAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( playArea: OnesPlayArea,
+  public constructor( playArea: OnesPlayArea,
                countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
                width: number,
                height: number,

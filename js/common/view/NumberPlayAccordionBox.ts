@@ -27,7 +27,7 @@ class NumberPlayAccordionBox extends AccordionBox {
   protected readonly contentNode: Rectangle;
   protected readonly contentBounds: Bounds2;
 
-  constructor( contentWidth: number, contentHeight: number, options: NumberPlayAccordionBoxOptions ) {
+  protected constructor( contentWidth: number, contentHeight: number, options: NumberPlayAccordionBoxOptions ) {
 
     const contentNode = new Rectangle( {
       rectWidth: contentWidth - EXPAND_COLLAPSE_BUTTON_SIZE - ( PADDING * 2 ),

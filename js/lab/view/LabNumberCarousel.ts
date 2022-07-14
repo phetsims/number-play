@@ -16,7 +16,7 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 class LabNumberCarousel extends Carousel {
   private readonly box: StackNodesBox;
 
-  constructor( numberStacks: NumberStack[], animationDuration: number,
+  public constructor( numberStacks: NumberStack[], animationDuration: number,
                pressCallback: ( event: PressListenerEvent, stack: NumberStack ) => void ) {
 
     const box = new StackNodesBox( [

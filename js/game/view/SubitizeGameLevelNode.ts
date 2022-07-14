@@ -21,7 +21,7 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
-  constructor( level: SubitizeGameLevel,
+  public constructor( level: SubitizeGameLevel,
                levelProperty: Property<NumberPlayGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {

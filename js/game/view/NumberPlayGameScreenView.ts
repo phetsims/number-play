@@ -32,7 +32,7 @@ class NumberPlayGameScreenView extends ScreenView {
 
   private readonly levelNodes: Array<NumberPlayGameLevelNode<NumberPlayGameLevel>>;
 
-  constructor( model: NumberPlayGameModel, tandem: Tandem ) {
+  public constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
     super( {
       tandem: tandem

@@ -28,7 +28,7 @@ export type TotalAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptio
 
 class TotalAccordionBox extends NumberPlayAccordionBox {
 
-  constructor( playArea: OnesPlayArea, height: number, options: TotalAccordionBoxOptions ) {
+  public constructor( playArea: OnesPlayArea, height: number, options: TotalAccordionBoxOptions ) {
 
     super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, height,
       optionize<TotalAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {

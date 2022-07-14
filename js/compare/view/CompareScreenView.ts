@@ -48,7 +48,7 @@ class CompareScreenView extends ScreenView {
   private readonly rightCountingAccordionBoxExpandedProperty: BooleanProperty;
   private readonly leftCountingAccordionBoxExpandedProperty: BooleanProperty;
 
-  constructor( model: CompareModel, tandem: Tandem ) {
+  public constructor( model: CompareModel, tandem: Tandem ) {
 
     super( { tandem: tandem } );
 

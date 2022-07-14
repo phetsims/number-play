@@ -11,11 +11,11 @@ import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 
 class CompareCountingType extends EnumerationValue {
-  static BLOCKS = new CompareCountingType();
-  static NUMBER_LINE = new CompareCountingType();
-  static NONE = new CompareCountingType();
+  public static BLOCKS = new CompareCountingType();
+  public static NUMBER_LINE = new CompareCountingType();
+  public static NONE = new CompareCountingType();
 
-  static enumeration = new Enumeration( CompareCountingType );
+  public static enumeration = new Enumeration( CompareCountingType );
 }
 
 numberPlay.register( 'CompareCountingType', CompareCountingType );
