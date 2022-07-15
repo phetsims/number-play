@@ -32,7 +32,6 @@ if ( NumberPlayQueryParameters.secondLocale ) {
     phet.numberPlay.secondLocaleStrings = secondLocaleStrings;
   }
   else {
-    // @ts-ignore
     QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
       `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
   }

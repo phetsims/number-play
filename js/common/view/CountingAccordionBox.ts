@@ -12,7 +12,7 @@ import CountingCommonConstants from '../../../../counting-common/js/common/Count
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { Color, Image, Node } from '../../../../scenery/js/imports.js';
-import RectangularRadioButtonGroup from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
@@ -59,8 +59,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
     if ( options.countingObjectTypes ) {
 
       // create the icons for the RectangularRadioButtonGroup
-      // @ts-ignore
-      const buttons = [];
+      const buttons: RectangularRadioButtonItem<CountingObjectType>[] = [];
       options.countingObjectTypes.forEach( countingObjectType => {
         let iconNode = null;
         if ( countingObjectType === CountingObjectType.PAPER_NUMBER ) {
@@ -81,7 +80,6 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       } );
 
       // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
-      // @ts-ignore
       radioButtonGroup = new RectangularRadioButtonGroup( countingObjectTypeProperty, buttons, {
         orientation: 'horizontal',
         spacing: 10,
