@@ -21,31 +21,27 @@ import CompareNumberLineNode from './CompareNumberLineNode.js';
 const ICON_SIZE = 32; // the width and height of the icons used for the buttons, in screen coordinates
 const BUTTON_MARGIN = 7; // in screen coordinates
 
+// create a map from each CompareCountingType to a corresponding icon
+const COUNTING_TYPE_TO_ICON = new Map();
+COUNTING_TYPE_TO_ICON.set( CompareCountingType.BLOCKS, BlockValuesNode.getBlockValuesNode( 1, 2 ) );
+COUNTING_TYPE_TO_ICON.set( CompareCountingType.NUMBER_LINE, CompareNumberLineNode.getNumberLineNode(
+  20,
+  new Range( 0, 5 ), {
+    includeLabels: false,
+    minorLineWidth: 2, // empirically determined
+    majorLineWidth: 4, // empirically determined
+    minorTickMarkHalfLineLength: 11, // empirically determined
+    majorTickMarkHalfLineLength: 32 // empirically determined
+  } ) );
+COUNTING_TYPE_TO_ICON.set( CompareCountingType.NONE, new Path( eyeSlashSolidShape, { fill: Color.BLACK } ) );
+
 class CompareCountingTypeRadioButtonGroup extends RectangularRadioButtonGroup<CompareCountingType> {
 
   public constructor( countingTypeProperty: EnumerationProperty<CompareCountingType> ) {
 
-    // create a map from each CompareCountingType to a corresponding icon
-    const countingTypeToNode = {};
-    // @ts-ignore TODO-TS: How to index objects with new enum patter?
-    countingTypeToNode[ CompareCountingType.BLOCKS ] = BlockValuesNode.getBlockValuesNode( 1, 2 );
-    // @ts-ignore
-    countingTypeToNode[ CompareCountingType.NUMBER_LINE ] = CompareNumberLineNode.getNumberLineNode(
-      20,
-      new Range( 0, 5 ), {
-        includeLabels: false,
-        minorLineWidth: 2, // empirically determined
-        majorLineWidth: 4, // empirically determined
-        minorTickMarkHalfLineLength: 11, // empirically determined
-        majorTickMarkHalfLineLength: 32 // empirically determined
-      } );
-    // @ts-ignore
-    countingTypeToNode[ CompareCountingType.NONE ] = new Path( eyeSlashSolidShape, { fill: Color.BLACK } );
-
     // create an icon for each value of CompareCountingType
     const countingTypeRadioButtons = CompareCountingType.enumeration.values.map( countingType => {
-      // @ts-ignore
-      const iconNode = countingTypeToNode[ countingType ];
+      const iconNode = COUNTING_TYPE_TO_ICON.get( countingType );
       iconNode.maxWidth = ICON_SIZE;
       iconNode.maxHeight = ICON_SIZE;
 
