@@ -62,7 +62,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     } );
 
     // bar across the top of the screen
-    // @ts-ignore
     const statusBar = new InfiniteStatusBar( layoutBounds, visibleBoundsProperty, levelDescriptionText, level.scoreProperty,
       combineOptions<InfiniteStatusBarOptions>( {
         floatToTop: true,
