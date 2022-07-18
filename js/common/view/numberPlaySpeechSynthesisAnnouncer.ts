@@ -59,8 +59,6 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
       } );
       if ( translatedVoices.length ) {
         const translatedVoice = translatedVoices[ 0 ];
-
-        // @ts-ignore TODO-TS
         this.voiceProperty.set( translatedVoice );
       }
       else {

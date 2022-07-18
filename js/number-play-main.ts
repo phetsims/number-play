@@ -23,6 +23,8 @@ import audioManager from '../../joist/js/audioManager.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Screen from '../../joist/js/Screen.js';
 import soundManager from '../../tambo/js/soundManager.js';
+import IModel from '../../joist/js/IModel.js';
+import ScreenView from '../../joist/js/ScreenView.js';
 
 // get our second locale strings
 if ( NumberPlayQueryParameters.secondLocale ) {
@@ -88,8 +90,7 @@ simLauncher.launch( () => {
   // screen has its own control for the speech synthesis locale, so the locale for the browser tab needs to be updated
   // to match whenever the screen changes.
   if ( NumberPlayQueryParameters.secondLocale ) {
-    // @ts-ignore TODO-TS: Likely needs a common base type for parameterization
-    sim.screenProperty.lazyLink( ( screen: Screen ) => {
+    sim.screenProperty.lazyLink( ( screen: Screen<IModel, ScreenView> ) => {
 
       if ( numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
         numberPlaySpeechSynthesisAnnouncer.updateVoice( screen.model.isPrimaryLocaleProperty.value );
