@@ -32,6 +32,7 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import numberPlaySpeechSynthesisAnnouncer from '../../common/view/numberPlaySpeechSynthesisAnnouncer.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // constants
 const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates
@@ -69,8 +70,7 @@ class CompareScreenView extends ScreenView {
 
     // create and add the left TotalAccordionBox
     const leftTotalAccordionBox = new TotalAccordionBox( model.leftPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT,
-      // @ts-ignore TODO-TS, see https://github.com/phetsims/number-play/issues/177
-      optionize<TotalAccordionBoxOptions>()( {
+      optionize<TotalAccordionBoxOptions, EmptyObjectType>()( {
         expandedProperty: this.leftTotalAccordionBoxExpandedProperty,
         fill: NumberPlayColors.mediumPurpleBackgroundColorProperty
       }, totalAccordionBoxOptions ) );
@@ -79,8 +79,7 @@ class CompareScreenView extends ScreenView {
 
     // create and add the right TotalAccordionBox
     const rightTotalAccordionBox = new TotalAccordionBox( model.rightPlayArea, UPPER_ACCORDION_BOX_CONTENT_HEIGHT,
-      // @ts-ignore TODO-TS, see https://github.com/phetsims/number-play/issues/177
-      optionize<TotalAccordionBoxOptions>()( {
+      optionize<TotalAccordionBoxOptions, EmptyObjectType>()( {
         expandedProperty: this.rightTotalAccordionBoxExpandedProperty,
         fill: NumberPlayColors.lightOrangeBackgroundColorProperty
       }, totalAccordionBoxOptions ) );

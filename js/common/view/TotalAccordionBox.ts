@@ -18,13 +18,16 @@ import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberP
 import optionize from '../../../../phet-core/js/optionize.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // types
 type SelfOptions = {
   arrowButtonOptions: ArrowButtonOptions;
   arrowButtonSpacing: number;
 } & PickRequired<TextOptions, 'font'>;
-export type TotalAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
+export type TotalAccordionBoxOptions =
+  SelfOptions
+  & StrictOmit<NumberPlayAccordionBoxOptions, 'titleString' | 'titleMaxWidth'>;
 
 class TotalAccordionBox extends NumberPlayAccordionBox {
 
