@@ -36,7 +36,7 @@ import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
 
 // types
-type NumberPlayScreenViewOptions = {
+type SelfOptions = {
   wordAccordionBoxOptions: WordAccordionBoxOptions;
   totalAccordionBoxOptions: TotalAccordionBoxOptions;
   tenFrameAccordionBoxOptions: TenFrameAccordionBoxOptions;
@@ -44,6 +44,7 @@ type NumberPlayScreenViewOptions = {
   lowerAccordionBoxHeight: number;
   tandem: Tandem;
 };
+export type NumberPlayScreenViewOptions = SelfOptions;
 
 // constants
 const GROUPING_LINKING_TYPE_TO_IMAGE = new Map();

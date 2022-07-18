@@ -17,13 +17,15 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // types
 type SelfOptions = {
   textOffsetX: number;
   font: Font;
 };
-export type WordAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
+export type WordAccordionBoxOptions = SelfOptions &
+  StrictOmit<NumberPlayAccordionBoxOptions, 'titleString' | 'titleMaxWidth'>;
 
 // constants
 const TEXT_MARGIN = 5;
@@ -31,7 +33,7 @@ const TEXT_MARGIN = 5;
 class WordAccordionBox extends NumberPlayAccordionBox {
 
   public constructor( currentNumberProperty: IReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
-               height: number, options: WordAccordionBoxOptions ) {
+                      height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( numberPlayStrings.word, {
       font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,

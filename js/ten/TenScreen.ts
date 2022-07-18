@@ -14,7 +14,7 @@ import tenScreenIcon_png from '../../images/tenScreenIcon_png.js';
 import NumberPlayModel from '../common/model/NumberPlayModel.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
-import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
+import NumberPlayScreenView, { NumberPlayScreenViewOptions } from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
 import numberPlayStrings from '../numberPlayStrings.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -35,7 +35,7 @@ class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
       tandem: tandem
     };
 
-    const screenViewOptions = {
+    const screenViewOptions: NumberPlayScreenViewOptions = {
       wordAccordionBoxOptions: {
         fill: NumberPlayColors.purpleBackgroundColorProperty,
         font: new PhetFont( 62 ),
@@ -64,7 +64,6 @@ class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
         NumberPlayConstants.TEN,
         tandem.createTandem( 'model' )
       ),
-      // @ts-ignore TODO-TS: see https://github.com/phetsims/number-play/issues/177
       model => new NumberPlayScreenView( model, screenViewOptions ),
       screenOptions
     );

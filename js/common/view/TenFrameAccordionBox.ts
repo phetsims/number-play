@@ -15,17 +15,19 @@ import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberP
 import optionize from '../../../../phet-core/js/optionize.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // types
 type SelfOptions = {
   tenFrameOffsetX: number;
 };
-export type TenFrameAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
+export type TenFrameAccordionBoxOptions = SelfOptions &
+  StrictOmit<NumberPlayAccordionBoxOptions, 'titleString' | 'titleMaxWidth'>;
 
 class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
   public constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range,
-               height: number, options: TenFrameAccordionBoxOptions ) {
+                      height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
       optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
