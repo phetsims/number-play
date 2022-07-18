@@ -165,8 +165,9 @@ class LabScreenView extends ScreenView {
    * Returns the corresponding NumberPieceNode for a given NumberPiece.
    */
   private getNumberPieceNode( numberPiece: NumberPiece ): NumberPieceNode {
-    // @ts-ignore
-    return _.find<NumberPieceNode>( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
+    const numberPieceNode = _.find( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
+    assert && assert( numberPieceNode, 'matching numberPieceNode not found!' );
+    return numberPieceNode!;
   }
 
   /**
@@ -269,8 +270,9 @@ class LabScreenView extends ScreenView {
    * Returns the corresponding DraggableTenFrameNode for a given TenFrame.
    */
   private getTenFrameNode( tenFrame: TenFrame ): DraggableTenFrameNode {
-    // @ts-ignore
-    return _.find( this.tenFrameNodes, tenFrameNode => tenFrameNode.tenFrame === tenFrame );
+    const tenFrameNode = _.find( this.tenFrameNodes, tenFrameNode => tenFrameNode.tenFrame === tenFrame );
+    assert && assert( tenFrameNode, 'matching tenFrameNode not found!' );
+    return tenFrameNode!;
   }
 }
 
