@@ -25,12 +25,12 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
-  readNumber?: boolean;
+  stringProperty?: IReadOnlyProperty<string> | null;
 
-  // Properties to listen to for when to read aloud. We can't just listen to the textProperty, because when the
-  // language changes, the textProperty updates, but shouldn't be read aloud, see https://github.com/phetsims/number-play/issues/157
-  // TODO: This pattern requires passing in the same Property twice for Ten/Twenty screens, consider changing API for textProperty
-  numberProperty1?: IReadOnlyProperty<number>;
+  // Properties to listen to for when to read aloud. On the 'Compare' screen, we can't just listen to the
+  // stringProperty, because when the language changes, the textProperty updates, but shouldn't be read aloud,
+  // see https://github.com/phetsims/number-play/issues/157
+  numberProperty: IReadOnlyProperty<number>;
   numberProperty2?: IReadOnlyProperty<number>;
 };
 type SpeechSynthesisButtonOptions = SelfOptions;
@@ -40,13 +40,10 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class SpeechSynthesisButton extends RectangularPushButton {
 
-  public constructor( textProperty: IReadOnlyProperty<number> | IReadOnlyProperty<string>,
-               isPrimaryLocaleProperty: BooleanProperty,
-               providedOptions?: SpeechSynthesisButtonOptions ) {
+  public constructor( isPrimaryLocaleProperty: BooleanProperty, providedOptions?: SpeechSynthesisButtonOptions ) {
 
     const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>()( {
-      readNumber: false,
-      numberProperty1: new NumberProperty( 0 ),
+      stringProperty: null,
       numberProperty2: new NumberProperty( 0 )
     }, providedOptions );
 
@@ -60,9 +57,8 @@ class SpeechSynthesisButton extends RectangularPushButton {
     const listener = () => {
 
       // read out a number by integer => word or just read out a string
-      // @ts-ignore
-      speechUtterance.alert = options.readNumber ? NumberPlayConstants.numberToString( textProperty.value, isPrimaryLocaleProperty.value ) :
-                              textProperty.value;
+      speechUtterance.alert = options.stringProperty ? options.stringProperty.value :
+                              NumberPlayConstants.numberToString( options.numberProperty.value, isPrimaryLocaleProperty.value );
 
       numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
       numberPlayUtteranceQueue.addToBack( speechUtterance );
@@ -70,7 +66,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
     // read numeric numbers aloud if the current number changes (or the second number, on the 'Compare' screen)
     if ( NumberPlayQueryParameters.readAloud ) {
-      Multilink.lazyMultilink( [ options.numberProperty1, options.numberProperty2 ], ( firstNumber, secondNumber ) => {
+      Multilink.lazyMultilink( [ options.numberProperty, options.numberProperty2 ], ( firstNumber, secondNumber ) => {
         listener();
       } );
     }

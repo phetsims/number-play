@@ -135,10 +135,9 @@ class CompareScreenView extends ScreenView {
 
     // create and add the SpeechSynthesisButton if the announcer is initialized
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
-      const speechSynthesisButton = new SpeechSynthesisButton(
-        comparisonTextNode.comparisonStringProperty,
-        model.isPrimaryLocaleProperty, {
-          numberProperty1: model.leftPlayArea.sumProperty,
+      const speechSynthesisButton = new SpeechSynthesisButton( model.isPrimaryLocaleProperty, {
+          stringProperty: comparisonTextNode.comparisonStringProperty,
+          numberProperty: model.leftPlayArea.sumProperty,
           numberProperty2: model.rightPlayArea.sumProperty
         }
       );
