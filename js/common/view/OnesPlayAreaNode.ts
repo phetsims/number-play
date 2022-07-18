@@ -57,9 +57,9 @@ class OnesPlayAreaNode extends Node {
   private readonly getPaperNumberOrigin: () => Vector2 = () => Vector2.ZERO;
 
   public constructor( playArea: OnesPlayArea,
-               countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
-               playAreaViewBounds: Bounds2,
-               providedOptions?: OnesPlayAreaNodeOptions ) {
+                      countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
+                      playAreaViewBounds: Bounds2,
+                      providedOptions?: OnesPlayAreaNodeOptions ) {
     super();
 
     const options = optionize<OnesPlayAreaNodeOptions, SelfOptions>()( {
@@ -199,14 +199,10 @@ class OnesPlayAreaNode extends Node {
 
     this.closestDragListener.addDraggableItem( paperNumberNode );
 
-    // Add listeners
-    // @ts-ignore TODO: See TODO in the constructor
+    // add listeners
     paperNumberNode.splitEmitter.addListener( this.numberSplitListener );
-    // @ts-ignore
     paperNumberNode.interactionStartedEmitter.addListener( this.numberInteractionListener );
-    // @ts-ignore
     paperNumber.endAnimationEmitter.addListener( this.numberAnimationFinishedListener );
-    // @ts-ignore
     paperNumber.endDragEmitter.addListener( this.numberDragFinishedListener );
   }
 
@@ -217,13 +213,9 @@ class OnesPlayAreaNode extends Node {
     const paperNumberNode = this.findPaperNumberNode( paperNumber );
 
     // Remove listeners
-    // @ts-ignore TODO: See TODO in the constructor
     paperNumber.endDragEmitter.removeListener( this.numberDragFinishedListener );
-    // @ts-ignore
     paperNumber.endAnimationEmitter.removeListener( this.numberAnimationFinishedListener );
-    // @ts-ignore
     paperNumberNode.interactionStartedEmitter.removeListener( this.numberInteractionListener );
-    // @ts-ignore
     paperNumberNode.splitEmitter.removeListener( this.numberSplitListener );
 
     delete this.paperNumberNodeMap[ paperNumberNode.paperNumber.id ];
@@ -249,8 +241,9 @@ class OnesPlayAreaNode extends Node {
     }
 
     const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
-    // @ts-ignore TS-TODO: How to make TS .children is of type PaperNumberNode[]?
-    const allPaperNumberNodes: PaperNumberNode[] = _.filter( this.paperNumberLayerNode!.children, child => child instanceof PaperNumberNode );
+
+    const allPaperNumberNodes = _.filter( this.paperNumberLayerNode!.children,
+      child => child instanceof PaperNumberNode ) as PaperNumberNode[];
 
     // remove any paperNumbers that aren't included in the sum - these are already on their way back to the bucket and
     // should not be tried to combined with. return if no paperNumbers are left or if the draggedPaperNumber is not
@@ -262,7 +255,6 @@ class OnesPlayAreaNode extends Node {
       return;
     }
 
-    // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
     const droppedNodes = draggedNode.findAttachableNodes( allPaperNumberNodes );
 
     // Check them in reverse order (the one on the top should get more priority)
@@ -298,13 +290,13 @@ class OnesPlayAreaNode extends Node {
     }
 
     const droppedNode = this.findPaperNumberNode( droppedPaperNumber );
-    const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children, child => child instanceof DraggableTenFrameNode );
+    const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children,
+        child => child instanceof DraggableTenFrameNode ) as DraggableTenFrameNode[];
 
     if ( !allDraggableTenFrameNodes.length ) {
       return false;
     }
 
-    // @ts-ignore TODO-TS: Remove when PaperNumber is converted to TypeScript
     const attachableDroppedTenFrameNodes = this.findAttachableTenFrameNodes( droppedNode, allDraggableTenFrameNodes );
 
     if ( attachableDroppedTenFrameNodes.length ) {
