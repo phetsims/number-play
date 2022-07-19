@@ -34,9 +34,6 @@ class NumberPlayGameInfoDialog extends GameInfoDialog {
     super( descriptions, {
       title: titleNode,
       gameLevels: NumberPlayQueryParameters.gameLevels,
-      descriptionTextOptions: {
-        font: new PhetFont( 24 )
-      },
       vBoxOptions: {
         align: 'left',
         spacing: 20,
