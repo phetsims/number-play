@@ -18,7 +18,6 @@ import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js
 
 // constants
 const TITLE_FONT = new PhetFont( 32 );
-const MAX_CONTENT_WIDTH = 600;
 
 class NumberPlayGameInfoDialog extends GameInfoDialog {
 
@@ -27,8 +26,7 @@ class NumberPlayGameInfoDialog extends GameInfoDialog {
     const descriptions = levels.map( level => level.gameType.levelDescriptions[ level.levelNumber ] );
 
     const titleNode = new Text( numberPlayStrings.games, {
-      font: TITLE_FONT,
-      maxWidth: 0.75 * MAX_CONTENT_WIDTH
+      font: TITLE_FONT
     } );
 
     super( descriptions, {
@@ -36,8 +34,7 @@ class NumberPlayGameInfoDialog extends GameInfoDialog {
       gameLevels: NumberPlayQueryParameters.gameLevels,
       vBoxOptions: {
         align: 'left',
-        spacing: 20,
-        maxWidth: MAX_CONTENT_WIDTH // scale all descriptions uniformly
+        spacing: 20
       },
       ySpacing: 30,
       bottomMargin: 30
