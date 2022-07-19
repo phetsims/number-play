@@ -126,6 +126,8 @@ class NumberPlayModel {
     this.previousCurrentNumber = 0;
     this.isResettingProperty.value = false;
   }
+
+  public step(): void { /* no stepping here */ }
 }
 
 numberPlay.register( 'NumberPlayModel', NumberPlayModel );

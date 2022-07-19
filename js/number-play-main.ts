@@ -23,9 +23,9 @@ import audioManager from '../../joist/js/audioManager.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import Screen from '../../joist/js/Screen.js';
 import soundManager from '../../tambo/js/soundManager.js';
-import IModel from '../../joist/js/IModel.js';
 import ScreenView from '../../joist/js/ScreenView.js';
-
+import IModel from '../../joist/js/IModel.js';
+import NumberPlayModel from './common/model/NumberPlayModel.js';
 // get our second locale strings
 if ( NumberPlayQueryParameters.secondLocale ) {
   const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
@@ -92,7 +92,8 @@ simLauncher.launch( () => {
   if ( NumberPlayQueryParameters.secondLocale ) {
     sim.screenProperty.lazyLink( ( screen: Screen<IModel, ScreenView> ) => {
 
-      if ( numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
+      if ( screen.model instanceof NumberPlayModel &&
+           numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
         numberPlaySpeechSynthesisAnnouncer.updateVoice( screen.model.isPrimaryLocaleProperty.value );
       }
     } );

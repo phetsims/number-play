@@ -55,6 +55,8 @@ class CompareModel {
     this.comparisonSignsAndTextVisibleProperty.reset();
     this.countingTypeProperty.reset();
   }
+
+  public step(): void { /* no stepping here */ }
 }
 
 numberPlay.register( 'CompareModel', CompareModel );
