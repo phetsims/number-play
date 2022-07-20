@@ -19,10 +19,10 @@ import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // types
-type SelfOptions = EmptyObjectType;
+type SelfOptions = EmptySelfOptions;
 export type OnesCreatorPanelOptions = SelfOptions & PanelOptions;
 
 class OnesCreatorPanel extends Panel {
@@ -48,12 +48,12 @@ class OnesCreatorPanel extends Panel {
           value: 1
         } );
       }
-    }, optionize<ArrowButtonOptions, EmptyObjectType>()( { touchAreaYShift: -3 }, arrowButtonOptions ) );
+    }, optionize<ArrowButtonOptions, EmptySelfOptions>()( { touchAreaYShift: -3 }, arrowButtonOptions ) );
     const downArrowButton = new ArrowButton( 'down', () => {
       if ( playArea.sumProperty.value > playArea.sumProperty.range!.min ) {
         playArea.returnPaperNumberToBucket();
       }
-    }, optionize<ArrowButtonOptions, EmptyObjectType>()( { touchAreaYShift: 3 }, arrowButtonOptions ) );
+    }, optionize<ArrowButtonOptions, EmptySelfOptions>()( { touchAreaYShift: 3 }, arrowButtonOptions ) );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],
       spacing: 7

@@ -33,7 +33,7 @@ import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnou
 import LocaleSwitch from './LocaleSwitch.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
-import EmptyObjectType from '../../../../phet-core/js/types/EmptyObjectType.js';
+import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // types
 type SelfOptions = {
@@ -82,7 +82,7 @@ class NumberPlayScreenView extends ScreenView {
       showLocaleSwitch,
       model.isPrimaryLocaleProperty,
       options.upperAccordionBoxHeight + wordAccordionBoxHeightAdjustment,
-      optionize<WordAccordionBoxOptions, EmptyObjectType, NumberPlayAccordionBoxOptions>()( {
+      optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
@@ -93,7 +93,7 @@ class NumberPlayScreenView extends ScreenView {
     const totalAccordionBox = new TotalAccordionBox(
       model.onesPlayArea,
       options.upperAccordionBoxHeight,
-      optionize<TotalAccordionBoxOptions, EmptyObjectType, NumberPlayAccordionBoxOptions>()( {
+      optionize<TotalAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
       }, options.totalAccordionBoxOptions ) );
     totalAccordionBox.centerX = this.layoutBounds.centerX;
@@ -105,7 +105,7 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       model.sumRange,
       options.upperAccordionBoxHeight,
-      optionize<TenFrameAccordionBoxOptions, EmptyObjectType, NumberPlayAccordionBoxOptions>()( {
+      optionize<TenFrameAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
       }, options.tenFrameAccordionBoxOptions ) );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
