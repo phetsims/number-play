@@ -31,8 +31,7 @@ import OrganizeButton from '../../common/view/OrganizeButton.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import numberPlaySpeechSynthesisAnnouncer from '../../common/view/numberPlaySpeechSynthesisAnnouncer.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // constants
 const UPPER_ACCORDION_BOX_CONTENT_HEIGHT = 80; // in screen coordinates

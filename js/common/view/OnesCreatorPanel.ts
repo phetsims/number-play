@@ -18,8 +18,7 @@ import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import optionize from '../../../../phet-core/js/optionize.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // types
 type SelfOptions = EmptySelfOptions;

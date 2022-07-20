@@ -31,9 +31,8 @@ import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import LocaleSwitch from './LocaleSwitch.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
-import { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 
 // types
 type SelfOptions = {
