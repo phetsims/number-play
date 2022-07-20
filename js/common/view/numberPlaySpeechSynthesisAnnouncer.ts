@@ -14,7 +14,7 @@
 import SpeechSynthesisAnnouncer, { SpeechSynthesisInitializeOptions } from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
-import Emitter from '../../../../axon/js/Emitter.js';
+import IEmitter from '../../../../axon/js/IEmitter.js';
 
 type NumberPlaySpeechSynthesisInitializeOptions = SpeechSynthesisInitializeOptions;
 
@@ -32,7 +32,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
     this.updateVoiceListener = null;
   }
 
-  public override initialize( userGestureEmitter: Emitter, options: NumberPlaySpeechSynthesisInitializeOptions ): void {
+  public override initialize( userGestureEmitter: IEmitter, options: NumberPlaySpeechSynthesisInitializeOptions ): void {
     super.initialize( userGestureEmitter, options );
 
     // get the locale the sim is running in
