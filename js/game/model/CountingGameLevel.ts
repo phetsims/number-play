@@ -15,6 +15,7 @@ import dotRandom from '../../../../dot/js/dotRandom.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -26,6 +27,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly isObjectsRepresentationProperty: BooleanProperty;
   public readonly groupObjectsAllowed: boolean;
   public readonly groupObjectsEnabledProperty: BooleanProperty;
+  public readonly baseColor = NumberPlayColors.countingGameColorProperty;
 
   public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );

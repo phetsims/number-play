@@ -13,13 +13,14 @@ import numberPlay from '../../numberPlay.js';
 import SubitizeGameLevel from './SubitizeGameLevel.js';
 import CountingGameLevel from './CountingGameLevel.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
+import IProperty from '../../../../axon/js/IProperty.js';
 
 class NumberPlayGameModel {
 
   public readonly subitizeLevels: SubitizeGameLevel[];
   public readonly countingLevels: CountingGameLevel[];
   public readonly levels: Array<NumberPlayGameLevel>;
-  public readonly levelProperty: Property<NumberPlayGameLevel | null>;
+  public readonly levelProperty: IProperty<NumberPlayGameLevel | null>;
 
   public constructor( tandem: Tandem ) {
 

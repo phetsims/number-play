@@ -11,6 +11,7 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 5;
@@ -18,6 +19,7 @@ const LEVEL_INPUT_RANGE = 5;
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
   public readonly subitizer: Subitizer;
+  public readonly baseColor = NumberPlayColors.subitizeGameColorProperty;
 
   public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.SUBITIZE, LEVEL_INPUT_RANGE );

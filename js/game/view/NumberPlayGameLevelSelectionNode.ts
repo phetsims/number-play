@@ -10,22 +10,17 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { ColorProperty, HBox, Image, Node, ProfileColorProperty, Text, VBox } from '../../../../scenery/js/imports.js';
-import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
-import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
+import { Node, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import NumberPlayColors from '../../common/NumberPlayColors.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import NumberPlayGameInfoDialog from './NumberPlayGameInfoDialog.js';
+import NumberPlayGameLevelSelectionButtonGroup from './NumberPlayGameLevelSelectionButtonGroup.js';
 
 // constants
-const LEVEL_SELECTION_BUTTON_SPACING = 30;
 const INFO_BUTTON_SIZE = 35;
 const INFO_BUTTON_MARGIN = 20;
 
@@ -60,58 +55,9 @@ class NumberPlayGameLevelSelectionNode extends Node {
     infoButton.centerY = titleText.centerY;
     this.addChild( infoButton );
 
-    // creates a level selection button for each level
-    const createLevelSelectionButton = ( level: NumberPlayGameLevel, baseColor: ColorProperty ): LevelSelectionButton => {
-      return new LevelSelectionButton( new Image( level.gameType.levelImages[ level.levelNumber ] ),
-        level.scoreProperty, {
-          iconToScoreDisplayYSpace: 0,
-          createScoreDisplay: scoreProperty => new ScoreDisplayNumberAndStar( scoreProperty ),
-          listener: () => {
-            model.levelProperty.value = level;
-          },
-          baseColor: baseColor,
-          touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
-          touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION
-        } );
-    };
-
-    // creates all level selection buttons for a level and returns only the levels specified by the gameLevels query parameter
-    const getLevelSelectionButtons = ( levels: NumberPlayGameLevel[], gameColorProperty: ProfileColorProperty ) =>
-      levels.map( level => createLevelSelectionButton( level, gameColorProperty ) );
-
-    // create the level selection buttons for the each game
-    const countingGameLevelSelectionButtons = getLevelSelectionButtons( model.countingLevels,
-      NumberPlayColors.countingGameColorProperty );
-    const subitizeGameLevelSelectionButtons = getLevelSelectionButtons( model.subitizeLevels,
-      NumberPlayColors.subitizeGameColorProperty );
-
-    const levelSelectionButtons = [ ...countingGameLevelSelectionButtons, ...subitizeGameLevelSelectionButtons ];
-
-    // Hide buttons for levels that are not included in gameLevels query parameter. We must still create these buttons
-    // so that we don't change the PhET-iO API. This assumes levelSelectionButtons are ordered correctly for their
-    // desired layout so that the query parameter values match what is specified in the gameLevels documentation.
-    if ( NumberPlayQueryParameters.gameLevels ) {
-      levelSelectionButtons.forEach( ( button, index ) => {
-        button.visible = NumberPlayQueryParameters.gameLevels.includes( index + 1 );
-      } );
-    }
-
-    // arrange and add the level selection buttons
-    const levelSelectionButtonsBox = new VBox( {
-      children: [
-        new HBox( {
-          children: countingGameLevelSelectionButtons,
-          spacing: LEVEL_SELECTION_BUTTON_SPACING
-        } ),
-        new HBox( {
-          children: subitizeGameLevelSelectionButtons,
-          spacing: LEVEL_SELECTION_BUTTON_SPACING
-        } )
-      ],
-      spacing: LEVEL_SELECTION_BUTTON_SPACING
-    } );
-    levelSelectionButtonsBox.center = layoutBounds.center;
-    this.addChild( levelSelectionButtonsBox );
+    const levelSelectionButtonGroup = new NumberPlayGameLevelSelectionButtonGroup( model.levelProperty, model.levels );
+    levelSelectionButtonGroup.center = layoutBounds.center;
+    this.addChild( levelSelectionButtonGroup );
 
     // create and add reset all button
     const resetAllButton = new ResetAllButton( {

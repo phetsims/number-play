@@ -16,13 +16,14 @@ import SubitizerNode from './SubitizerNode.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import IProperty from '../../../../axon/js/IProperty.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
   public constructor( level: SubitizeGameLevel,
-               levelProperty: Property<NumberPlayGameLevel | null>,
+               levelProperty: IProperty<NumberPlayGameLevel | null>,
                layoutBounds: Bounds2,
                visibleBoundsProperty: Property<Bounds2> ) {
 
