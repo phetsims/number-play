@@ -44,8 +44,8 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   private frownyFaceAnimation: Animation | null;
   protected readonly pointAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
-  public static ANSWER_BUTTONS_BOTTOM_MARGIN_Y: number;
-  public static GAME_AREA_NODE_BOTTOM_MARGIN_Y: number;
+  public static readonly ANSWER_BUTTONS_BOTTOM_MARGIN_Y = 50;
+  public static readonly GAME_AREA_NODE_BOTTOM_MARGIN_Y = 40; // distance above answer buttons
 
   protected constructor( level: T,
                          levelProperty: IProperty<NumberPlayGameLevel | null>,
@@ -190,9 +190,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     }
   }
 }
-
-NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y = 50;
-NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y = 40; // distance above answer buttons
 
 numberPlay.register( 'NumberPlayGameLevelNode', NumberPlayGameLevelNode );
 export default NumberPlayGameLevelNode;
