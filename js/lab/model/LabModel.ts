@@ -20,7 +20,7 @@ import TenFrame from './TenFrame.js';
 
 // constants
 const NUMBER_PIECE_RETURN_THRESHOLD = 92;
-const HIGHEST_COUNT = 100;
+const HIGHEST_COUNT = 20;
 const NUMBER_OF_PLAY_AREAS = 5;
 
 class LabModel {
