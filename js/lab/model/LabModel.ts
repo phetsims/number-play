@@ -29,7 +29,6 @@ class LabModel {
   // number pieces in the play area
   public readonly numberPieces: ObservableArray<NumberPiece>;
   public readonly tenFrames: ObservableArray<TenFrame>;
-  private readonly isResettingProperty: BooleanProperty;
   public readonly paperNumberPlayArea: OnesPlayArea;
   public readonly dogPlayArea: OnesPlayArea;
   public readonly applePlayArea: OnesPlayArea;
@@ -50,10 +49,6 @@ class LabModel {
       stack.numberPieces.push( new NumberPiece( number ) );
       this.numberStacks.push( stack );
     } );
-
-    // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
-    // way (with animations), but instead with a different reset case (no animations).
-    this.isResettingProperty = new BooleanProperty( false );
 
     // TODO: Create play areas with loop instead and do the same in ScreenView
     this.numberProperties = [];
