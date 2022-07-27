@@ -12,28 +12,18 @@ import CountingCreatorNode from '../../../../counting-common/js/common/view/Coun
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../../../sun/js/buttons/ArrowButton.js';
-import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import OnesPlayAreaNode from './OnesPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
+import NumberPlayCreatorPanel from './NumberPlayCreatorPanel.js';
 
-// types
-type SelfOptions = EmptySelfOptions;
-export type OnesCreatorPanelOptions = SelfOptions & PanelOptions;
-
-class OnesCreatorPanel extends Panel {
+class OnesCreatorPanel extends NumberPlayCreatorPanel {
   public countingCreatorNode: CountingCreatorNode;
 
-  public constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode, providedOptions?: OnesCreatorPanelOptions ) {
-
-    const options = optionize<OnesCreatorPanelOptions, SelfOptions, PanelOptions>()( {
-      stroke: 'rgb(201,203,203)',
-      xMargin: 8,
-      yMargin: 8
-    }, providedOptions );
+  public constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode ) {
 
     // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
     const arrowButtonOptions = {
@@ -87,7 +77,7 @@ class OnesCreatorPanel extends Panel {
       align: 'center'
     } );
 
-    super( hBox, options );
+    super( hBox );
 
     this.countingCreatorNode = countingCreatorNode;
 

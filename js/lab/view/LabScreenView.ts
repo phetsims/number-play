@@ -11,10 +11,9 @@ import NumberPiece from '../../../../fractions-common/js/building/model/NumberPi
 import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Circle, Color, DragListener, HBox, Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
-import TenFrameNode from '../../common/view/TenFrameNode.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
 import DraggableTenFrameNode from './DraggableTenFrameNode.js';
@@ -24,8 +23,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
-import PlusNode from '../../../../scenery-phet/js/PlusNode.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
+import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -134,11 +133,11 @@ class LabScreenView extends ScreenView {
     );
     this.addChild( ballPlayAreaNode );
 
-    const tenFrameCreatorIconNode = this.getTenFrameCreatorIconNode();
+    const tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
 
     // position empirically determined
-    tenFrameCreatorIconNode.center = new Vector2( paperNumberPlayAreaNode.left / 2, paperNumberPlayAreaNode.centerY );
-    this.addChild( tenFrameCreatorIconNode );
+    tenFrameCreatorPanel.center = new Vector2( paperNumberPlayAreaNode.left / 2, paperNumberPlayAreaNode.centerY );
+    this.addChild( tenFrameCreatorPanel );
 
     this.tenFrameNodes = [];
 
@@ -204,45 +203,6 @@ class LabScreenView extends ScreenView {
   }
 
   /**
-   * Creates a icon that DraggableTenFrameNodes can be created from.
-   */
-  private getTenFrameCreatorIconNode(): Node {
-
-    // create the ten frame icon and the plus icon
-    const tenFrameIconNode = TenFrameNode.getTenFramePath( {
-      sideLength: 16,
-      lineWidth: 0.5
-    } );
-    const plusNode = new PlusNode( { fill: Color.WHITE } );
-    const plusIconNode = new Circle( ( plusNode.height + 9 ) / 2, {
-      fill: new Color( 0, 200, 0 ) // custom green
-    } );
-    plusNode.center = plusIconNode.center;
-    plusIconNode.addChild( plusNode );
-    plusIconNode.setScaleMagnitude( ( plusIconNode.height - 5 ) / plusIconNode.height );
-
-    // align the icon nodes and add an input layer on top of them so the whole region so the space in between the icons
-    // are part of the hit area too.
-    const iconNode = new Node().addChild( new HBox( {
-      children: [ plusIconNode, tenFrameIconNode ],
-      spacing: 7
-    } ) );
-    const iconNodeInputLayer = new Rectangle( 0, 0, iconNode.width, iconNode.height );
-    iconNode.addChild( iconNodeInputLayer );
-
-    iconNodeInputLayer.cursor = 'pointer';
-    iconNodeInputLayer.inputListeners = [ DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
-      const tenFrame = new TenFrame( Vector2.ZERO );
-      tenFrame.positionProperty.value = this.globalToLocalPoint( event.pointer.point ).minus( tenFrame.localBounds.centerBottom );
-      this.model.dragTenFrameFromIcon( tenFrame );
-      const tenFrameNode = this.getTenFrameNode( tenFrame );
-      tenFrameNode.dragListener.press( event, tenFrameNode );
-    } ) ];
-
-    return iconNode;
-  }
-
-  /**
    * Called when a new Ten Frame is added to the model.
    */
   private addTenFrame( tenFrame: TenFrame ): void {
@@ -269,7 +229,7 @@ class LabScreenView extends ScreenView {
   /**
    * Returns the corresponding DraggableTenFrameNode for a given TenFrame.
    */
-  private getTenFrameNode( tenFrame: TenFrame ): DraggableTenFrameNode {
+  public getTenFrameNode( tenFrame: TenFrame ): DraggableTenFrameNode {
     const tenFrameNode = _.find( this.tenFrameNodes, tenFrameNode => tenFrameNode.tenFrame === tenFrame );
     assert && assert( tenFrameNode, 'matching tenFrameNode not found!' );
     return tenFrameNode!;
