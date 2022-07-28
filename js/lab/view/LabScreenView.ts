@@ -25,15 +25,17 @@ import NumberStack from '../../../../fractions-common/js/building/model/NumberSt
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
+import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
 
   // node for all pieces to share
-  private readonly pieceLayer: Node;
+  public readonly pieceLayer: Node;
   private readonly numberPieceNodes: NumberPieceNode[];
   private readonly numberPanel: LabNumberCarousel;
   private readonly tenFrameNodes: DraggableTenFrameNode[];
+  public readonly inequalitySymbolsCreatorPanel: InequalitySymbolsCreatorPanel;
 
   public constructor( model: LabModel, tandem: Tandem ) {
 
@@ -68,6 +70,11 @@ class LabScreenView extends ScreenView {
     model.numberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
+    const tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
+    tenFrameCreatorPanel.left = 20;
+    tenFrameCreatorPanel.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    this.addChild( tenFrameCreatorPanel );
+
     // create and add the OnesPlayAreaNode
     const paperNumberPlayAreaNode = new OnesPlayAreaNode(
       model.paperNumberPlayArea,
@@ -75,7 +82,7 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 240,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 303, // TODO: calculate creator node positions
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
@@ -88,7 +95,7 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 120,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 183,
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
@@ -101,7 +108,7 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 63,
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
@@ -114,7 +121,7 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 120,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 57,
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
@@ -127,17 +134,18 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 240,
+        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 177,
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
     this.addChild( ballPlayAreaNode );
 
-    const tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
+    this.inequalitySymbolsCreatorPanel = new InequalitySymbolsCreatorPanel( model, this );
 
     // position empirically determined
-    tenFrameCreatorPanel.center = new Vector2( paperNumberPlayAreaNode.left / 2, paperNumberPlayAreaNode.centerY );
-    this.addChild( tenFrameCreatorPanel );
+    this.inequalitySymbolsCreatorPanel.left = ballPlayAreaNode.right + 15;
+    this.inequalitySymbolsCreatorPanel.centerY = ballPlayAreaNode.centerY;
+    this.addChild( this.inequalitySymbolsCreatorPanel );
 
     this.tenFrameNodes = [];
 
@@ -152,6 +160,7 @@ class LabScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
+        this.inequalitySymbolsCreatorPanel.reset();
       },
       right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
       bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y,

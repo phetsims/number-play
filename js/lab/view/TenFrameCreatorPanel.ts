@@ -46,7 +46,9 @@ class TenFrameCreatorPanel extends NumberPlayCreatorPanel {
       tenFrameNode.dragListener.press( event, tenFrameNode );
     } ) ];
 
-    super( creatorNodeBackground );
+    super( creatorNodeBackground, {
+      xMargin: 10
+    } );
   }
 }
 
