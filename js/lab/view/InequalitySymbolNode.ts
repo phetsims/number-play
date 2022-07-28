@@ -54,7 +54,7 @@ class InequalitySymbolNode extends Node {
     this.addChild( backgroundShape );
 
     const inequalitySymbol = new Text( options.symbolType, {
-      font: new PhetFont( 40 )
+      font: new PhetFont( 46 )
     } );
     inequalitySymbol.center = backgroundShape.center;
     backgroundShape.addChild( inequalitySymbol );

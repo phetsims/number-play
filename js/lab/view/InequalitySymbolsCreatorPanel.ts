@@ -55,7 +55,7 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
               const globalOrigin = trail.localToGlobalPoint( iconNode.localBounds.center );
 
               const removeAnimation = new Animation( {
-                duration: 0.4,
+                duration: 0.3,
                 targets: [ {
                   property: inequalitySymbolNode.positionProperty,
                   easing: Easing.CUBIC_IN_OUT,
