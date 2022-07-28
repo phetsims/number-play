@@ -31,14 +31,14 @@ class OnesCreatorPanel extends NumberPlayCreatorPanel {
       arrowHeight: 14
     };
     const upArrowButton = new ArrowButton( 'up', () => {
-      console.log( `about to add 1 with up arrow in in ${playArea.name}` );
+      // console.log( `about to add 1 with up arrow in in ${playArea.name}` );
       playArea.createPaperNumberFromBucket( {
         shouldAnimate: true,
         value: 1
       } );
     }, optionize<ArrowButtonOptions, EmptySelfOptions>()( { touchAreaYShift: -3 }, arrowButtonOptions ) );
     const downArrowButton = new ArrowButton( 'down', () => {
-      console.log( `about to remove 1 with up arrow in in ${playArea.name}` );
+      // console.log( `about to remove 1 with up arrow in in ${playArea.name}` );
       playArea.returnPaperNumberToBucket();
     }, optionize<ArrowButtonOptions, EmptySelfOptions>()( { touchAreaYShift: 3 }, arrowButtonOptions ) );
     const arrowButtons = new VBox( {

@@ -62,7 +62,7 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
         this.voiceProperty.set( translatedVoice );
       }
       else {
-        console.log( `No voices found for locale: ${locale}` );
+        // console.log( `No voices found for locale: ${locale}` );
       }
 
       if ( this.voicesChangedEmitter.hasListener( this.updateVoiceListener! ) ) {

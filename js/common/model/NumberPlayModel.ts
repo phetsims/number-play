@@ -72,7 +72,7 @@ class NumberPlayModel {
         onesLeading = true;
 
         this.currentNumberProperty.value = sum;
-        console.log( 'onesPlayArea set to ' + sum + ', matching objectsPlayArea' );
+        // console.log( 'onesPlayArea set to ' + sum + ', matching objectsPlayArea' );
         this.matchPlayAreaToNewValue( sum, oldSum, this.objectsPlayArea );
 
         onesLeading = false;
@@ -85,7 +85,7 @@ class NumberPlayModel {
         objectsLeading = true;
 
         this.currentNumberProperty.value = sum;
-        console.log( 'objectsPlayArea set to ' + sum + ', matching onesPlayArea' );
+        // console.log( 'objectsPlayArea set to ' + sum + ', matching onesPlayArea' );
         this.matchPlayAreaToNewValue( sum, oldSum, this.onesPlayArea );
 
         objectsLeading = false;
@@ -95,7 +95,7 @@ class NumberPlayModel {
 
   private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: OnesPlayArea ): void {
     const difference = newValue - oldValue;
-    console.log( `matching ${playArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
+    // console.log( `matching ${playArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
     if ( difference > 0 ) {
       assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
                                           'at a time to match the opposite play area: ' + difference );

@@ -400,7 +400,7 @@ class OnesPlayAreaNode extends Node {
 
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {
-      console.log( `about to drop ${paperNumber.numberValueProperty.value} in ${this.playArea.name} return zone` );
+      // console.log( `about to drop ${paperNumber.numberValueProperty.value} in ${this.playArea.name} return zone` );
       assert && assert( paperNumber.includeInSumProperty.value, 'paperNumber already removed from sum' );
       paperNumber.includeInSumProperty.value = false;
       this.playArea.calculateTotal();

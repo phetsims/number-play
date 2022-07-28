@@ -54,14 +54,14 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
 
     // create the arrow buttons, which add or remove paper numbers
     const upArrowButton = new ArrowButton( 'up', () => {
-      console.log( 'about to add 1 with up arrow in in total accordion box' );
+      // console.log( 'about to add 1 with up arrow in in total accordion box' );
       playArea.createPaperNumberFromBucket( {
         shouldAnimate: true,
         value: 1
       } );
     }, options.arrowButtonOptions );
     const downArrowButton = new ArrowButton( 'down', () => {
-      console.log( 'about to remove 1 with up arrow in in total accordion box' );
+      // console.log( 'about to remove 1 with up arrow in in total accordion box' );
       playArea.returnPaperNumberToBucket();
     }, options.arrowButtonOptions );
     const arrowButtons = new VBox( {
