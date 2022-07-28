@@ -16,11 +16,13 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Range from '../../../../dot/js/Range.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import IProperty from '../../../../axon/js/IProperty.js';
 
 class NumberPlayModel {
 
   public readonly sumRange: Range;
-  public readonly currentNumberProperty: IReadOnlyProperty<number>;
+  public readonly currentNumberProperty: IProperty<number>;
   public readonly isPrimaryLocaleProperty: BooleanProperty;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;
@@ -28,7 +30,6 @@ class NumberPlayModel {
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
   private readonly isResettingProperty: BooleanProperty;
   private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
-  private previousCurrentNumber: number;
 
   public constructor( highestCount: number, tandem: Tandem ) {
 
@@ -59,45 +60,42 @@ class NumberPlayModel {
     // the model for managing the play area in the ObjectsAccordionBox
     this.objectsPlayArea = new OnesPlayArea( highestCount, this.groupingEnabledProperty, 'objectsPlayArea' );
 
-    this.previousCurrentNumber = 0;
+    let onesLeading = false;
+    let objectsLeading = false;
 
     // the current "counted to" number, which is the central aspect of this whole sim
-    this.currentNumberProperty = new DerivedProperty( [ this.onesPlayArea.sumProperty, this.objectsPlayArea.sumProperty ],
-      ( onesPlayAreaSum, objectsPlayAreaSum ) => {
-        assert && assert( this.sumRange.contains( onesPlayAreaSum ), `Ones play area sum is out of range: ${onesPlayAreaSum}` );
-        assert && assert( this.sumRange.contains( objectsPlayAreaSum ), `Objects play area sum is out of range: ${objectsPlayAreaSum}` );
+    this.currentNumberProperty = new NumberProperty( 0 );
 
-        const oldValue = this.previousCurrentNumber;
-        let newValue = oldValue;
+    this.onesPlayArea.sumProperty.lazyLink( ( sum, oldSum ) => {
+      if ( !objectsLeading ) {
+        assert && assert( !onesLeading, 'onesLeading already true, reentrant detected' );
+        onesLeading = true;
 
-        if ( onesPlayAreaSum !== objectsPlayAreaSum && !this.isResettingProperty.value ) {
+        this.currentNumberProperty.value = sum;
+        console.log( 'onesPlayArea set to ' + sum + ', matching objectsPlayArea' );
+        this.matchPlayAreaToNewValue( sum, oldSum, this.objectsPlayArea );
 
-          if ( oldValue === onesPlayAreaSum ) {
-            newValue = objectsPlayAreaSum;
-            this.previousCurrentNumber = newValue;
-            console.log( 'objectsPlayArea changed to: ' + newValue + ', catching up onesPlayArea' );
-            this.matchPlayAreaToNewValue( newValue, oldValue, this.onesPlayArea );
-          }
-          else if ( oldValue === objectsPlayAreaSum ) {
-            newValue = onesPlayAreaSum;
-            this.previousCurrentNumber = newValue;
-            console.log( 'onesPlayArea changed to: ' + newValue + ', catching up objectsPlayArea' );
-            this.matchPlayAreaToNewValue( newValue, oldValue, this.objectsPlayArea );
-          }
-          else {
-            assert && assert( false, 'oldValue should match one of the previous sums: ' + oldValue );
-          }
-        }
-        else {
-          console.log( 'sum properties matched, caught up at: ' + newValue );
-        }
+        onesLeading = false;
+      }
+    } );
 
-        return newValue;
-      } );
+    this.objectsPlayArea.sumProperty.lazyLink( ( sum, oldSum ) => {
+      if ( !onesLeading ) {
+        assert && assert( !objectsLeading, 'objectsLeading already true, reentrant detected' );
+        objectsLeading = true;
+
+        this.currentNumberProperty.value = sum;
+        console.log( 'objectsPlayArea set to ' + sum + ', matching onesPlayArea' );
+        this.matchPlayAreaToNewValue( sum, oldSum, this.onesPlayArea );
+
+        objectsLeading = false;
+      }
+    } );
   }
 
   private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: OnesPlayArea ): void {
     const difference = newValue - oldValue;
+    console.log( `matching ${playArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
     if ( difference > 0 ) {
       assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
                                           'at a time to match the opposite play area: ' + difference );
@@ -123,7 +121,6 @@ class NumberPlayModel {
     this.groupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
-    this.previousCurrentNumber = 0;
     this.isResettingProperty.value = false;
   }
 

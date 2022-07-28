@@ -291,7 +291,7 @@ class OnesPlayAreaNode extends Node {
 
     const droppedNode = this.findPaperNumberNode( droppedPaperNumber );
     const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children,
-        child => child instanceof DraggableTenFrameNode ) as DraggableTenFrameNode[];
+      child => child instanceof DraggableTenFrameNode ) as DraggableTenFrameNode[];
 
     if ( !allDraggableTenFrameNodes.length ) {
       return false;
@@ -398,6 +398,8 @@ class OnesPlayAreaNode extends Node {
 
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( paperNumber ) ) {
+      console.log( `about to drop ${paperNumber.numberValueProperty.value} in ${this.playArea.name} return zone` );
+      assert && assert( paperNumber.includeInSumProperty.value, 'paperNumber already removed from sum' );
       paperNumber.includeInSumProperty.value = false;
       this.playArea.calculateTotal();
 

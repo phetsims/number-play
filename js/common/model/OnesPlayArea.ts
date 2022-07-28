@@ -239,6 +239,7 @@ class OnesPlayArea extends CountingCommonModel {
       // remove it from counting towards the sum and send it back to its origin. paperNumbers aren't removed from the
       // playArea until they get back to the bucket, but we don't want them to count towards the sum while they're on
       // their way to the bucket.
+      assert && assert( paperNumberToReturn.includeInSumProperty.value, 'paperNumber already removed from sum' );
       paperNumberToReturn.includeInSumProperty.value = false;
       this.calculateTotal();
 
