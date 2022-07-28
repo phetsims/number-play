@@ -42,7 +42,7 @@ class OnesPlayAreaNode extends Node {
   private readonly numberSplitListener: ( paperNumberNode: PaperNumberNode ) => void;
   private readonly numberInteractionListener: ( paperNumberNode: PaperNumberNode ) => void;
   private readonly numberAnimationFinishedListener: ( paperNumber: PaperNumber ) => void;
-  private readonly numberDragFinishedListener: ( paperNumber: PaperNumber ) => void;
+  private readonly numberDragFinishedListener: ( paperNumberNode: PaperNumberNode ) => void;
   public readonly playArea: OnesPlayArea;
   private readonly tryToCombineNumbersCallback: ( draggedPaperNumber: PaperNumber ) => void;
   private readonly addAndDragNumberCallback: ( event: PressListenerEvent, paperNumber: PaperNumber ) => void;
@@ -82,7 +82,9 @@ class OnesPlayAreaNode extends Node {
     this.numberAnimationFinishedListener = this.onNumberAnimationFinished.bind( this );
 
     // Called with function( paperNumber ) when a number finishes being dragged
-    this.numberDragFinishedListener = this.onNumberDragFinished.bind( this );
+    this.numberDragFinishedListener = ( paperNumberNode: PaperNumberNode ) => {
+      this.onNumberDragFinished( paperNumberNode.paperNumber );
+    };
 
     this.playArea = playArea;
 
@@ -203,7 +205,7 @@ class OnesPlayAreaNode extends Node {
     paperNumberNode.splitEmitter.addListener( this.numberSplitListener );
     paperNumberNode.interactionStartedEmitter.addListener( this.numberInteractionListener );
     paperNumber.endAnimationEmitter.addListener( this.numberAnimationFinishedListener );
-    paperNumber.endDragEmitter.addListener( this.numberDragFinishedListener );
+    paperNumberNode.endDragEmitter.addListener( this.numberDragFinishedListener );
   }
 
   /**
@@ -213,7 +215,7 @@ class OnesPlayAreaNode extends Node {
     const paperNumberNode = this.findPaperNumberNode( paperNumber );
 
     // Remove listeners
-    paperNumber.endDragEmitter.removeListener( this.numberDragFinishedListener );
+    paperNumberNode.endDragEmitter.removeListener( this.numberDragFinishedListener );
     paperNumber.endAnimationEmitter.removeListener( this.numberAnimationFinishedListener );
     paperNumberNode.interactionStartedEmitter.removeListener( this.numberInteractionListener );
     paperNumberNode.splitEmitter.removeListener( this.numberSplitListener );
