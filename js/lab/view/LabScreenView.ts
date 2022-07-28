@@ -24,7 +24,6 @@ import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransfo
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 
 class LabScreenView extends ScreenView {
@@ -70,10 +69,10 @@ class LabScreenView extends ScreenView {
     model.numberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
-    const tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
-    tenFrameCreatorPanel.left = 20;
-    tenFrameCreatorPanel.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
-    this.addChild( tenFrameCreatorPanel );
+    // const tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
+    // tenFrameCreatorPanel.left = 20;
+    // tenFrameCreatorPanel.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    // this.addChild( tenFrameCreatorPanel );
 
     // create and add the OnesPlayAreaNode
     const paperNumberPlayAreaNode = new OnesPlayAreaNode(
