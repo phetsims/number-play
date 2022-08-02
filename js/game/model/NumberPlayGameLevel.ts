@@ -13,7 +13,7 @@ import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
-import { IColor } from '../../../../scenery/js/imports.js';
+import { TColor } from '../../../../scenery/js/imports.js';
 
 abstract class NumberPlayGameLevel {
 
@@ -26,7 +26,7 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
   public readonly gameType: NumberPlayGameType;
-  public abstract readonly baseColor: IColor;
+  public abstract readonly baseColor: TColor;
 
   /**
    * @param levelNumber

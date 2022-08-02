@@ -11,7 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, IColor, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, HBox, TColor, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -22,7 +22,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
 type SelfOptions = {
-  buttonColor?: IColor;
+  buttonColor?: TColor;
   buttonSpacing?: number;
   dependencyEnabledProperty?: BooleanProperty;
 };
