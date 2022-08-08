@@ -80,7 +80,7 @@ class OnesPlayArea extends CountingCommonModel {
    * Setup the origin and bounds needed from the view
    */
   public initialize( getPaperNumberOrigin: () => Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
-    assert && assert( this.initialized === false, 'OnesPlayArea already initialized' );
+    assert && assert( !this.initialized, 'OnesPlayArea already initialized' );
 
     // use a function for getting the paper number origin because its position changes in the view
     this.getPaperNumberOrigin = getPaperNumberOrigin;
@@ -133,7 +133,7 @@ class OnesPlayArea extends CountingCommonModel {
    * Creates a paperNumber and animates it to a random open place in the play area.
    */
   public createPaperNumberFromBucket( providedOptions?: CreatePaperNumberFromBucketOptions ): void {
-    assert && assert( this.initialized === true, 'createPaperNumberFromBucket called before initialization' );
+    assert && assert( this.initialized, 'createPaperNumberFromBucket called before initialization' );
 
     const options = optionize<CreatePaperNumberFromBucketOptions>()( {
       shouldAnimate: true,
@@ -202,7 +202,7 @@ class OnesPlayArea extends CountingCommonModel {
    */
   public returnPaperNumberToBucket(): void {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
-    assert && assert( this.initialized === true, 'returnPaperNumberToBucket called before initialization' );
+    assert && assert( this.initialized, 'returnPaperNumberToBucket called before initialization' );
 
     // sort by lowest value first, then by proximity to the bucket
     const sortedPaperNumbers = _.sortBy( this.paperNumbers, [
@@ -256,7 +256,7 @@ class OnesPlayArea extends CountingCommonModel {
    * Calculates the spots for organized objects
    */
   private calculateOrganizedObjectSpots(): Vector2[] {
-    assert && assert( this.initialized === true, 'calculateOrganizedObjectSpots called before initialization' );
+    assert && assert( this.initialized, 'calculateOrganizedObjectSpots called before initialization' );
 
     const objectWidth = CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.width;
     const objectHeight = CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height;
