@@ -139,7 +139,7 @@ const NumberPlayConstants = {
   } as NumberToString,
 
   // map number values to their corresponding string
-  numberToString: ( number: number, isPrimaryLocale: boolean ) => {
+  numberToString: ( number: number, isPrimaryLocale: boolean ): string => {
     const numberPlaySecondaryStrings = phet.numberPlay.secondLocaleStrings;
     const stringKey = NUMBER_TO_STRING_VALUE[ number ];
 
