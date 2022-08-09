@@ -21,7 +21,7 @@ import { PaperNumberNodeMap } from '../../../../counting-common/js/common/view/C
 import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import DraggableTenFrameNode from '../../lab/view/DraggableTenFrameNode.js';
@@ -48,7 +48,7 @@ class OnesPlayAreaNode extends Node {
   private readonly addAndDragNumberCallback: ( event: PressListenerEvent, paperNumber: PaperNumber ) => void;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
   public readonly availableViewBoundsProperty: Property<Bounds2>;
-  public readonly countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>;
+  public readonly countingObjectTypeProperty: TReadOnlyProperty<CountingObjectType>;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly paperNumberLayerNode: Node | null;
@@ -57,7 +57,7 @@ class OnesPlayAreaNode extends Node {
   private readonly getPaperNumberOrigin: () => Vector2 = () => Vector2.ZERO;
 
   public constructor( playArea: OnesPlayArea,
-                      countingObjectTypeProperty: IReadOnlyProperty<CountingObjectType>,
+                      countingObjectTypeProperty: TReadOnlyProperty<CountingObjectType>,
                       playAreaViewBounds: Bounds2,
                       providedOptions?: OnesPlayAreaNodeOptions ) {
     super();

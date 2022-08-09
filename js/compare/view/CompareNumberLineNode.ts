@@ -16,7 +16,7 @@ import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
 // types
@@ -33,8 +33,8 @@ const INTEGERS_PER_MAJOR_TICK_MARK = 5; // the number of integers between two ma
 
 class CompareNumberLineNode extends Node {
 
-  public constructor( height: number, leftCurrentNumberProperty: IReadOnlyProperty<number>,
-               rightCurrentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
+  public constructor( height: number, leftCurrentNumberProperty: TReadOnlyProperty<number>,
+               rightCurrentNumberProperty: TReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
     const pixelsPerTickMark = height / sumRange.max;

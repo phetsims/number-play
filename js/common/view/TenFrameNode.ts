@@ -14,7 +14,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import { Circle, HBox, Node, PaintableOptions, Path } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 
@@ -39,7 +39,7 @@ class TenFrameNode extends Node {
   private readonly dotsLayer: Node;
   private readonly dotSpots: Vector2[];
 
-  public constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range ) {
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, sumRange: Range ) {
     super();
 
     assert && assert( sumRange.max % NumberPlayConstants.TEN === 0,

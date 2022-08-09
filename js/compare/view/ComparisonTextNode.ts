@@ -14,12 +14,12 @@ import { Node, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayStrings from '../../numberPlayStrings.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 
 class ComparisonTextNode extends Node {
-  public readonly comparisonStringProperty: IReadOnlyProperty<string>;
+  public readonly comparisonStringProperty: TReadOnlyProperty<string>;
 
   public constructor( leftCurrentNumberProperty: NumberProperty,
                rightCurrentNumberProperty: NumberProperty,

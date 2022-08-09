@@ -13,7 +13,7 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 import TenFrameNode from './TenFrameNode.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
@@ -26,7 +26,7 @@ export type TenFrameAccordionBoxOptions = SelfOptions &
 
 class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
-  public constructor( currentNumberProperty: IReadOnlyProperty<number>, sumRange: Range,
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, sumRange: Range,
                       height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,

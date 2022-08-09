@@ -15,7 +15,7 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
@@ -25,13 +25,13 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 
 type SelfOptions = {
-  stringProperty?: IReadOnlyProperty<string> | null;
+  stringProperty?: TReadOnlyProperty<string> | null;
 
   // Properties to listen to for when to read aloud. On the 'Compare' screen, we can't just listen to the
   // stringProperty, because when the language changes, the textProperty updates, but shouldn't be read aloud,
   // see https://github.com/phetsims/number-play/issues/157
-  numberProperty: IReadOnlyProperty<number>;
-  numberProperty2?: IReadOnlyProperty<number>;
+  numberProperty: TReadOnlyProperty<number>;
+  numberProperty2?: TReadOnlyProperty<number>;
 };
 type SpeechSynthesisButtonOptions = SelfOptions;
 

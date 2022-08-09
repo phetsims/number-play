@@ -16,7 +16,7 @@ import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberP
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 
 // types
@@ -32,7 +32,7 @@ const TEXT_MARGIN = 5;
 
 class WordAccordionBox extends NumberPlayAccordionBox {
 
-  public constructor( currentNumberProperty: IReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
                       height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( numberPlayStrings.word, {

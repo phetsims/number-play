@@ -10,7 +10,7 @@
 import { Node, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const SIDE_LENGTH = 20.8; // the side length of one block
@@ -18,7 +18,7 @@ const PADDING = 2; // padding between blocks
 
 class BlockValuesNode extends Node {
 
-  public constructor( leftCurrentNumberProperty: IReadOnlyProperty<number>, rightCurrentNumberProperty: IReadOnlyProperty<number> ) {
+  public constructor( leftCurrentNumberProperty: TReadOnlyProperty<number>, rightCurrentNumberProperty: TReadOnlyProperty<number> ) {
     super();
 
     // TODO: Fix drawing so initial state can be setup and updated here

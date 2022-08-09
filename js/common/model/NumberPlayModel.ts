@@ -13,7 +13,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupAndLinkType from './GroupAndLinkType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -29,7 +29,7 @@ class NumberPlayModel {
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
   private readonly isResettingProperty: BooleanProperty;
-  private readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
+  private readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
   public constructor( highestCount: number, tandem: Tandem ) {
 

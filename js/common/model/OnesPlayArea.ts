@@ -18,7 +18,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import IReadOnlyProperty from '../../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TenFrame from '../../lab/model/TenFrame.js';
 
@@ -46,9 +46,9 @@ class OnesPlayArea extends CountingCommonModel {
   private initialized: boolean;
   private countingCreatorNodeTop: number;
   public readonly tenFrames: ObservableArray<TenFrame> | null;
-  public readonly groupingEnabledProperty: IReadOnlyProperty<boolean>;
+  public readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
-  public constructor( highestCount: number, groupingEnabledProperty: IReadOnlyProperty<boolean>, name: string,
+  public constructor( highestCount: number, groupingEnabledProperty: TReadOnlyProperty<boolean>, name: string,
                providedOptions?: OnesPlayAreaOptions ) {
     super( highestCount, name );
 
