@@ -10,7 +10,7 @@
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Circle, Color, IPaint, Node, Path, Text } from '../../../../scenery/js/imports.js';
+import { Circle, Color, TPaint, Node, Path, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 import Range from '../../../../dot/js/Range.js';
@@ -125,7 +125,7 @@ class CompareNumberLineNode extends Node {
    * Creates an indicator for the number line, which consists of a point with a triangle attached to it on the left or
    * right side.
    */
-  private static getCurrentNumberIndicatorNode( triangleSide: LeftRightDirection, triangleColor: IPaint ): Circle {
+  private static getCurrentNumberIndicatorNode( triangleSide: LeftRightDirection, triangleColor: TPaint ): Circle {
 
     // create the center point
     const pointRadius = 5;
