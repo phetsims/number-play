@@ -89,7 +89,7 @@ simLauncher.launch( () => {
   // screen has its own control for the speech synthesis locale, so the locale for the browser tab needs to be updated
   // to match whenever the screen changes.
   if ( NumberPlayQueryParameters.secondLocale ) {
-    sim.screenProperty.lazyLink( ( screen: Screen ) => {
+    sim.selectedScreenProperty.lazyLink( ( screen: Screen ) => {
 
       if ( screen.model instanceof NumberPlayModel &&
            numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
