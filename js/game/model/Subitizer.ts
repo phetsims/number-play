@@ -145,9 +145,9 @@ class Subitizer {
   public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
   public constructor( challengeNumberProperty: NumberProperty,
-               isChallengeSolvedProperty: BooleanProperty,
-               numberOfAnswerButtonPressesProperty: NumberProperty,
-               randomOrPredetermined: boolean
+                      isChallengeSolvedProperty: BooleanProperty,
+                      numberOfAnswerButtonPressesProperty: NumberProperty,
+                      randomOrPredetermined: boolean
   ) {
     this.challengeNumberProperty = challengeNumberProperty;
     this.isChallengeSolvedProperty = isChallengeSolvedProperty;
@@ -164,7 +164,7 @@ class Subitizer {
     // the points of the current shape
     this.pointsProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
-      arrayElementType: Vector2
+      isValidValue: value => Array.isArray( value ) && value.every( element => element instanceof Vector2 )
     } );
 
     // if true, make random or predetermined shapes. if false, only make arranged shapes.
