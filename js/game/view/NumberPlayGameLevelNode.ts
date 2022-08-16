@@ -25,7 +25,7 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // types
 type SelfOptions = {
@@ -48,7 +48,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   public static readonly GAME_AREA_NODE_BOTTOM_MARGIN_Y = 40; // distance above answer buttons
 
   protected constructor( level: T,
-                         levelProperty: IProperty<NumberPlayGameLevel | null>,
+                         levelProperty: TProperty<NumberPlayGameLevel | null>,
                          layoutBounds: Bounds2,
                          visibleBoundsProperty: Property<Bounds2>,
                          providedOptions?: NumberPlayGameLevelNodeOptions ) {

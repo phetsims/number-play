@@ -18,7 +18,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -31,7 +31,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
   public constructor( level: CountingGameLevel,
-                      levelProperty: IProperty<NumberPlayGameLevel | null>,
+                      levelProperty: TProperty<NumberPlayGameLevel | null>,
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: Property<Bounds2> ) {
 

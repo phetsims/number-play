@@ -8,7 +8,7 @@
 
 import { Image } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
@@ -23,7 +23,7 @@ const BUTTONS_PER_ROW = 2;
 
 class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup {
 
-  public constructor( levelProperty: IProperty<NumberPlayGameLevel | null>, levels: NumberPlayGameLevel[] ) {
+  public constructor( levelProperty: TProperty<NumberPlayGameLevel | null>, levels: NumberPlayGameLevel[] ) {
 
     const options: LevelSelectionButtonGroupOptions = {
       levelSelectionButtonOptions: {
@@ -49,7 +49,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
         icon: new Image( level.gameType.levelImages[ level.levelNumber ] ),
         scoreProperty: level.scoreProperty,
         options: {
-          createScoreDisplay: ( scoreProperty: IProperty<number> ) => new ScoreDisplayNumberAndStar( scoreProperty ),
+          createScoreDisplay: ( scoreProperty: TProperty<number> ) => new ScoreDisplayNumberAndStar( scoreProperty ),
           listener: () => {
             levelProperty.value = level;
           },

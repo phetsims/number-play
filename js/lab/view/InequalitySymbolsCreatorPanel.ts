@@ -17,7 +17,7 @@ import InequalitySymbolNode, { SymbolType } from './InequalitySymbolNode.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // constants
 const MAX_SYMBOL_PIECE_COUNT = 10;
@@ -119,7 +119,7 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
     this.greaterThanNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
 
     // create a map from SymbolType to countProperty
-    const symbolToCountPropertyMap = new Map<SymbolType, IProperty<number>>();
+    const symbolToCountPropertyMap = new Map<SymbolType, TProperty<number>>();
     symbolToCountPropertyMap.set( '<', this.lessThanNodeCountProperty );
     symbolToCountPropertyMap.set( '=', this.equalNodeCountProperty );
     symbolToCountPropertyMap.set( '>', this.greaterThanNodeCountProperty );

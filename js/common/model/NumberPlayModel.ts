@@ -17,12 +17,12 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 class NumberPlayModel {
 
   public readonly sumRange: Range;
-  public readonly currentNumberProperty: IProperty<number>;
+  public readonly currentNumberProperty: TProperty<number>;
   public readonly isPrimaryLocaleProperty: BooleanProperty;
   public readonly onesPlayArea: OnesPlayArea;
   public readonly objectsPlayArea: OnesPlayArea;

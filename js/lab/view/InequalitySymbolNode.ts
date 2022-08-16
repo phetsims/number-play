@@ -6,7 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import IProperty from '../../../../axon/js/IProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -30,7 +30,7 @@ export type InequalitySymbolNodeOptions = SelfOptions;
 
 class InequalitySymbolNode extends Node {
   public readonly dragListener: DragListener | null;
-  public readonly positionProperty: IProperty<Vector2>;
+  public readonly positionProperty: TProperty<Vector2>;
   public static readonly SIDE_LENGTH = SIDE_LENGTH;
 
   public constructor( providedOptions: InequalitySymbolNodeOptions ) {
