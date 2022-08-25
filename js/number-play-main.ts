@@ -48,7 +48,7 @@ const simOptions: SimOptions = {
     team: 'Sylvia Celedón-Pattichis, Ariel Paul, Kathy Perkins, Ian Whitacre',
     qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
     graphicArts: 'Mariah Hermsmeyer',
-    thanks: ''
+    thanks: 'Andrea Barraugh (Math Transformations), Kristin Donley, Bertha Orona'
   }
 };
 
