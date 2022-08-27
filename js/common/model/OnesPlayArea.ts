@@ -309,11 +309,6 @@ class OnesPlayArea extends CountingCommonModel {
     }
   }
 
-  // TODO
-  public addObjectToTenFrame( tenFrame: TenFrame, paperNumber: PaperNumber ): void {
-    // TODO
-  }
-
   /**
    * Breaks apart all counting objects into counting objects with a value of 1. By default, it creates all new counting
    * objects in the position of the original counting object. If stack=true, it arranges them according to the

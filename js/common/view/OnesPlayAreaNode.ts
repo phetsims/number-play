@@ -238,6 +238,7 @@ class OnesPlayAreaNode extends Node {
    * When the user drops a paper number they were dragging, see if it can combine with any other nearby paper numbers.
    */
   public tryToCombineNumbers( draggedPaperNumber: PaperNumber ): void {
+    // TODO: This seems like a weird sidestep to try tenframes first and maybe be moved
     if ( this.tryToAddToTenFrame( draggedPaperNumber ) ) {
       return;
     }
@@ -302,8 +303,11 @@ class OnesPlayAreaNode extends Node {
     const attachableDroppedTenFrameNodes = this.findAttachableTenFrameNodes( droppedNode, allDraggableTenFrameNodes );
 
     if ( attachableDroppedTenFrameNodes.length ) {
-      const tenFrameToAddTo = attachableDroppedTenFrameNodes[ 0 ].tenFrame;
-      this.playArea.addObjectToTenFrame( tenFrameToAddTo, droppedPaperNumber );
+      attachableDroppedTenFrameNodes.forEach( droppedTenFrameNode => {
+        if ( !this.isPaperNumberContainedByTenFrame( droppedPaperNumber ) ) {
+          droppedTenFrameNode.tenFrame.tryToAddPaperNumber( droppedPaperNumber );
+        }
+      } );
       return true;
     }
     else {
@@ -311,13 +315,25 @@ class OnesPlayAreaNode extends Node {
     }
   }
 
+  private isPaperNumberContainedByTenFrame( paperNumber: PaperNumber ): boolean {
+    let isContained = false;
+    this.playArea.tenFrames?.forEach( tenFrame => {
+      if ( tenFrame.containsPaperNumber( paperNumber ) ) {
+        isContained = true;
+      }
+    } );
+
+    return isContained;
+  }
+
   private findAttachableTenFrameNodes( paperNumberNode: PaperNumberNode,
                                        allDraggableTenFrameNodes: DraggableTenFrameNode[] ): DraggableTenFrameNode[] {
     const tenFrameNodeCandidates = allDraggableTenFrameNodes.slice();
 
     // find all other paper number nodes that are overlapping the dropped node
-    const unorderedAttachableTenFrameNodes = tenFrameNodeCandidates.filter( candidateNode => {
-      return candidateNode.localToParentBounds( candidateNode.localBounds ).containsPoint( paperNumberNode.localBounds.center );
+    const unorderedAttachableTenFrameNodes = tenFrameNodeCandidates.filter( tenFrameNode => {
+      return tenFrameNode.localToParentBounds( tenFrameNode.localBounds )
+        .containsPoint( paperNumberNode.localToParentPoint( paperNumberNode.localBounds.center ) );
     } );
 
     return _.sortBy( unorderedAttachableTenFrameNodes, attachableTenFrameNode => {
