@@ -32,10 +32,6 @@ class NumberPlayGameInfoDialog extends GameInfoDialog {
     super( descriptions, {
       title: titleNode,
       gameLevels: NumberPlayQueryParameters.gameLevels,
-      vBoxOptions: {
-        align: 'left',
-        spacing: 20
-      },
       ySpacing: 30,
       bottomMargin: 30
     } );
