@@ -38,7 +38,7 @@ if ( NumberPlayQueryParameters.secondLocale ) {
   }
 }
 
-const numberPlayTitleString = numberPlayStrings[ 'number-play' ].title;
+const numberPlayTitleStringProperty = numberPlayStrings[ 'number-play' ].titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {
@@ -55,7 +55,7 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-  const sim = new Sim( numberPlayTitleString, [
+  const sim = new Sim( numberPlayTitleStringProperty, [
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
     new CompareScreen( Tandem.ROOT.createTandem( 'compareScreen' ) ),
