@@ -17,9 +17,9 @@ import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView, { NumberPlayScreenViewOptions } from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
-import numberPlayStrings from '../numberPlayStrings.js';
+import NumberPlayStrings from '../NumberPlayStrings.js';
 
-const screenTwentyString = numberPlayStrings.screen.twenty;
+const screenTwentyString = NumberPlayStrings.screen.twenty;
 
 
 class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {

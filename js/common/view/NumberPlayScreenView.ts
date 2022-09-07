@@ -25,7 +25,7 @@ import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import OrganizeButton from './OrganizeButton.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
@@ -118,7 +118,7 @@ class NumberPlayScreenView extends ScreenView {
       NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
-        titleString: numberPlayStrings.ones,
+        titleString: NumberPlayStrings.ones,
         fill: NumberPlayColors.pinkBackgroundColorProperty,
         titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
       } );
@@ -151,7 +151,7 @@ class NumberPlayScreenView extends ScreenView {
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty,
-        titleString: numberPlayStrings.objects, // TODO-TS: this should use the default in CountingAccordionBox
+        titleString: NumberPlayStrings.objects, // TODO-TS: this should use the default in CountingAccordionBox
         titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
       } );
     this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;

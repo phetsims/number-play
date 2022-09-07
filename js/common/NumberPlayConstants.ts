@@ -8,31 +8,31 @@
 
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
-import numberPlayStrings from '../numberPlayStrings.js';
+import NumberPlayStrings from '../NumberPlayStrings.js';
 import { AccordionBoxOptions } from '../../../sun/js/AccordionBox.js';
 
 // strings
-const zeroString = numberPlayStrings.zero;
-const oneString = numberPlayStrings.one;
-const twoString = numberPlayStrings.two;
-const threeString = numberPlayStrings.three;
-const fourString = numberPlayStrings.four;
-const fiveString = numberPlayStrings.five;
-const sixString = numberPlayStrings.six;
-const sevenString = numberPlayStrings.seven;
-const eightString = numberPlayStrings.eight;
-const nineString = numberPlayStrings.nine;
-const tenString = numberPlayStrings.ten;
-const elevenString = numberPlayStrings.eleven;
-const twelveString = numberPlayStrings.twelve;
-const thirteenString = numberPlayStrings.thirteen;
-const fourteenString = numberPlayStrings.fourteen;
-const fifteenString = numberPlayStrings.fifteen;
-const sixteenString = numberPlayStrings.sixteen;
-const seventeenString = numberPlayStrings.seventeen;
-const eighteenString = numberPlayStrings.eighteen;
-const nineteenString = numberPlayStrings.nineteen;
-const twentyString = numberPlayStrings.twenty;
+const zeroString = NumberPlayStrings.zero;
+const oneString = NumberPlayStrings.one;
+const twoString = NumberPlayStrings.two;
+const threeString = NumberPlayStrings.three;
+const fourString = NumberPlayStrings.four;
+const fiveString = NumberPlayStrings.five;
+const sixString = NumberPlayStrings.six;
+const sevenString = NumberPlayStrings.seven;
+const eightString = NumberPlayStrings.eight;
+const nineString = NumberPlayStrings.nine;
+const tenString = NumberPlayStrings.ten;
+const elevenString = NumberPlayStrings.eleven;
+const twelveString = NumberPlayStrings.twelve;
+const thirteenString = NumberPlayStrings.thirteen;
+const fourteenString = NumberPlayStrings.fourteen;
+const fifteenString = NumberPlayStrings.fifteen;
+const sixteenString = NumberPlayStrings.sixteen;
+const seventeenString = NumberPlayStrings.seventeen;
+const eighteenString = NumberPlayStrings.eighteen;
+const nineteenString = NumberPlayStrings.nineteen;
+const twentyString = NumberPlayStrings.twenty;
 
 // types
 type NumberToString = Record<number, string>;
@@ -144,7 +144,7 @@ const NumberPlayConstants = {
     const stringKey = NUMBER_TO_STRING_VALUE[ number ];
 
     // @ts-ignore
-    return isPrimaryLocale ? numberPlayStrings[ stringKey ] :
+    return isPrimaryLocale ? NumberPlayStrings[ stringKey ] :
            numberPlaySecondaryStrings[ `${NUMBER_PLAY_STRING_KEY_PREFIX}${stringKey}` ];
   },
   NUMBER_PLAY_STRING_KEY_PREFIX: NUMBER_PLAY_STRING_KEY_PREFIX,

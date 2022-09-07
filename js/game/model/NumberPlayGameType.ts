@@ -3,7 +3,7 @@
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import numberPlay from '../../numberPlay.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
 import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
 import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
@@ -21,16 +21,16 @@ type LevelImages = Record<number, HTMLImageElement>;
 
 class NumberPlayGameType extends EnumerationValue {
   public static COUNTING = new NumberPlayGameType( {
-    1: numberPlayStrings.countingLevel1Description,
-    2: numberPlayStrings.countingLevel2Description
+    1: NumberPlayStrings.countingLevel1Description,
+    2: NumberPlayStrings.countingLevel2Description
   }, {
     1: countingGameIcon1_png,
     2: countingGameIcon2_png
   } );
 
   public static SUBITIZE = new NumberPlayGameType( {
-    1: numberPlayStrings.subitizingLevel1Description,
-    2: numberPlayStrings.subitizingLevel2Description
+    1: NumberPlayStrings.subitizingLevel1Description,
+    2: NumberPlayStrings.subitizingLevel2Description
   }, {
     1: subitizeGameIcon1_png,
     2: subitizeGameIcon2_png

@@ -13,7 +13,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import labScreenIcon_png from '../../images/labScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import numberPlay from '../numberPlay.js';
-import numberPlayStrings from '../numberPlayStrings.js';
+import NumberPlayStrings from '../NumberPlayStrings.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
 
@@ -22,7 +22,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
   public constructor( tandem: Tandem ) {
 
     const options = {
-      name: numberPlayStrings.screen.lab,
+      name: NumberPlayStrings.screen.lab,
       backgroundColorProperty: NumberPlayColors.lightPurpleBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( labScreenIcon_png ), {
         maxIconWidthProportion: 1,

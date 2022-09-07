@@ -16,10 +16,10 @@ import NumberPlayColors from '../common/NumberPlayColors.js';
 import NumberPlayConstants from '../common/NumberPlayConstants.js';
 import NumberPlayScreenView, { NumberPlayScreenViewOptions } from '../common/view/NumberPlayScreenView.js';
 import numberPlay from '../numberPlay.js';
-import numberPlayStrings from '../numberPlayStrings.js';
+import NumberPlayStrings from '../NumberPlayStrings.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-const screenTenString = numberPlayStrings.screen.ten;
+const screenTenString = NumberPlayStrings.screen.ten;
 
 class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 

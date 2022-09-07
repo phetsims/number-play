@@ -11,7 +11,7 @@
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../../numberPlay.js';
 import { Text } from '../../../../scenery/js/imports.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import GameInfoDialog from '../../../../vegas/js/GameInfoDialog.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
@@ -25,7 +25,7 @@ class NumberPlayGameInfoDialog extends GameInfoDialog {
 
     const descriptions = levels.map( level => level.gameType.levelDescriptions[ level.levelNumber ] );
 
-    const titleNode = new Text( numberPlayStrings.games, {
+    const titleNode = new Text( NumberPlayStrings.games, {
       font: TITLE_FONT
     } );
 

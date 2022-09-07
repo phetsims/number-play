@@ -13,12 +13,12 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import compareScreenIcon_png from '../../images/compareScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import numberPlay from '../numberPlay.js';
-import numberPlayStrings from '../numberPlayStrings.js';
+import NumberPlayStrings from '../NumberPlayStrings.js';
 import CompareModel from './model/CompareModel.js';
 import CompareScreenView from './view/CompareScreenView.js';
 import NumberPlayQueryParameters from '../common/NumberPlayQueryParameters.js';
 
-const screenCompareString = numberPlayStrings.screen.compare;
+const screenCompareString = NumberPlayStrings.screen.compare;
 
 
 class CompareScreen extends Screen<CompareModel, CompareScreenView> {

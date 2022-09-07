@@ -7,7 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import TenFrameNode from './TenFrameNode.js';
@@ -31,7 +31,7 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
       optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
-        titleString: numberPlayStrings.tenFrame,
+        titleString: NumberPlayStrings.tenFrame,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
 

@@ -14,7 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import gameScreenIcon_png from '../../images/gameScreenIcon_png.js';
 import NumberPlayColors from '../common/NumberPlayColors.js';
 import numberPlay from '../numberPlay.js';
-import numberPlayStrings from '../numberPlayStrings.js';
+import NumberPlayStrings from '../NumberPlayStrings.js';
 import NumberPlayGameModel from './model/NumberPlayGameModel.js';
 import NumberPlayGameScreenView from './view/NumberPlayGameScreenView.js';
 
@@ -23,7 +23,7 @@ class NumberPlayGameScreen extends Screen<NumberPlayGameModel, NumberPlayGameScr
   public constructor( tandem: Tandem ) {
 
     const options = {
-      name: numberPlayStrings.screen.game,
+      name: NumberPlayStrings.screen.game,
       backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIcon_png ), {
         maxIconWidthProportion: 1,

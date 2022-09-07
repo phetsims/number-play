@@ -103,8 +103,8 @@ type StringsType = {
   'languageStringProperty': TReadOnlyProperty<string>;
 };
 
-const numberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;
+const NumberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;
 
-numberPlay.register( 'numberPlayStrings', numberPlayStrings );
+numberPlay.register( 'NumberPlayStrings', NumberPlayStrings );
 
-export default numberPlayStrings;
+export default NumberPlayStrings;

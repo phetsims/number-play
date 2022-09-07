@@ -9,7 +9,7 @@
 
 import { Font, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
@@ -35,7 +35,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
                       height: number, options: WordAccordionBoxOptions ) {
 
-    const titleNode = new Text( numberPlayStrings.word, {
+    const titleNode = new Text( NumberPlayStrings.word, {
       font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
       maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
     } );
@@ -47,10 +47,10 @@ class WordAccordionBox extends NumberPlayAccordionBox {
       const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
       const secondLanguageString = phet.numberPlay.secondLocaleStrings[ secondLanguageStringKey ];
 
-      const primaryLocaleTitleString = StringUtils.fillIn( numberPlayStrings.wordLanguage, {
-        language: numberPlayStrings.language
+      const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguage, {
+        language: NumberPlayStrings.language
       } );
-      const secondaryLocaleTitleString = StringUtils.fillIn( numberPlayStrings.wordLanguage, {
+      const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguage, {
         language: secondLanguageString
       } );
 

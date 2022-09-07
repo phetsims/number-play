@@ -12,7 +12,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import CompareScreen from './compare/CompareScreen.js';
 import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
 import LabScreen from './lab/LabScreen.js';
-import numberPlayStrings from './numberPlayStrings.js';
+import NumberPlayStrings from './NumberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
 import NumberPlayQueryParameters from './common/NumberPlayQueryParameters.js';
@@ -38,7 +38,7 @@ if ( NumberPlayQueryParameters.secondLocale ) {
   }
 }
 
-const numberPlayTitleStringProperty = numberPlayStrings[ 'number-play' ].titleStringProperty;
+const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
 const simOptions: SimOptions = {
   credits: {

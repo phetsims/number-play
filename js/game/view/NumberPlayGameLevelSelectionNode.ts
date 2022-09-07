@@ -13,7 +13,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import { Node, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
@@ -34,7 +34,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
                           INFO_BUTTON_MARGIN * 2;
 
     // create and add the title text
-    const titleText = new Text( numberPlayStrings.chooseYourGame, {
+    const titleText = new Text( NumberPlayStrings.chooseYourGame, {
       font: new PhetFont( 40 ),
       maxWidth: titleMaxWidth
     } );

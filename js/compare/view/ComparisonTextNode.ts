@@ -13,7 +13,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Node, Text } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -56,9 +56,9 @@ class ComparisonTextNode extends Node {
   private static getComparisonString( leftCurrentNumber: number, rightCurrentNumber: number,
                                       isPrimaryLocale: boolean ): string {
 
-    let isLessThanString = numberPlayStrings.isLessThan;
-    let isMoreThanString = numberPlayStrings.isMoreThan;
-    let isEqualToString = numberPlayStrings.isEqualTo;
+    let isLessThanString = NumberPlayStrings.isLessThan;
+    let isMoreThanString = NumberPlayStrings.isMoreThan;
+    let isEqualToString = NumberPlayStrings.isEqualTo;
 
     const secondLocaleStrings = phet.numberPlay.secondLocaleStrings;
     if ( secondLocaleStrings && !isPrimaryLocale ) {

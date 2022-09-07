@@ -12,7 +12,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import numberPlay from '../../numberPlay.js';
-import numberPlayStrings from '../../numberPlayStrings.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // constants
@@ -40,7 +40,7 @@ class LocaleSwitch extends ABSwitch<boolean> {
                                  phet.numberPlay.secondLocaleStrings[ secondLanguageStringKey ] : '';
 
     super( isPrimaryLocaleProperty,
-      true, new Text( numberPlayStrings.language, switchTextOptions ),
+      true, new Text( NumberPlayStrings.language, switchTextOptions ),
       false, new Text( secondLanguageString, switchTextOptions ),
       AB_SWITCH_OPTIONS
     );
