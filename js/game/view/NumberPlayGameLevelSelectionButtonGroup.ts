@@ -6,7 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import { Image } from '../../../../scenery/js/imports.js';
+import { HBox, Image, VBox } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
@@ -15,11 +15,10 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
+import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
 
 // constants
-const BUTTON_WIDTH = 150;
 const BUTTON_SPACING = 30;
-const BUTTONS_PER_ROW = 2;
 
 class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup {
 
@@ -32,13 +31,16 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
         touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION
       },
 
-      // A maximum number of buttons per row, wrapping to a new row
-      flowBoxOptions: {
-        spacing: BUTTON_SPACING, // horizontal spacing
-        lineSpacing: BUTTON_SPACING, // vertical spacing
-        preferredWidth: BUTTONS_PER_ROW * ( BUTTON_WIDTH + BUTTON_SPACING ),
-        wrap: true, // start a new row when preferredWidth is reached
-        justify: 'center' // horizontal justification
+      // always put the counting levels on the top row, subitize levels always on the bottoms row
+      createLayoutNode: ( levelSelectionButtons: LevelSelectionButton[] ) => {
+        assert && assert( levelSelectionButtons.length === 4, 'layout hardcoded for 4 buttons' );
+        return new VBox( {
+          children: [
+            new HBox( { children: [ levelSelectionButtons[ 0 ], levelSelectionButtons[ 1 ] ], spacing: BUTTON_SPACING } ),
+            new HBox( { children: [ levelSelectionButtons[ 2 ], levelSelectionButtons[ 3 ] ], spacing: BUTTON_SPACING } )
+          ],
+          spacing: BUTTON_SPACING
+        } );
       },
       gameLevels: NumberPlayQueryParameters.gameLevels,
       tandem: Tandem.REQUIRED
