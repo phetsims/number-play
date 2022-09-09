@@ -9,7 +9,7 @@
  */
 
 import Vector2 from '../../../../dot/js/Vector2.js';
-import { DragListener, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import TenFrame from '../model/TenFrame.js';
@@ -19,26 +19,32 @@ import NumberPlayCreatorPanel from '../../common/view/NumberPlayCreatorPanel.js'
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 
+const ICON_SIE_LENGTH = 20;
+
 class TenFrameCreatorPanel extends NumberPlayCreatorPanel {
+  public readonly iconNode: Node;
+
+  // the scale of the icon relative to the standard ten frame size, which is the size of the ten frames in the play area
+  public static readonly ICON_SCALE = ICON_SIE_LENGTH / TenFrame.SQUARE_SIDE_LENGTH;
 
   public constructor( model: LabModel, screenView: LabScreenView ) {
 
     // create the ten frame icon and the plus icon
-    const tenFrameIconNode = TenFrameNode.getTenFramePath( {
-      sideLength: 20,
+    const iconNode = TenFrameNode.getTenFramePath( {
+      sideLength: ICON_SIE_LENGTH,
       lineWidth: 0.8
     } );
 
     const creatorNodeBackground = new Rectangle( 0, 0,
-      tenFrameIconNode.width,
+      iconNode.width,
       // TODO: Factor out with OnesCreatorPanel
       CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
     );
-    tenFrameIconNode.center = creatorNodeBackground.center;
-    creatorNodeBackground.addChild( tenFrameIconNode );
+    iconNode.center = creatorNodeBackground.center;
+    creatorNodeBackground.addChild( iconNode );
 
-    tenFrameIconNode.cursor = 'pointer';
-    tenFrameIconNode.inputListeners = [ DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
+    iconNode.cursor = 'pointer';
+    iconNode.inputListeners = [ DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
       const tenFrame = new TenFrame( Vector2.ZERO );
       tenFrame.positionProperty.value = screenView.globalToLocalPoint( event.pointer.point ).minus( tenFrame.localBounds.centerBottom );
       model.dragTenFrameFromIcon( tenFrame );
@@ -49,6 +55,8 @@ class TenFrameCreatorPanel extends NumberPlayCreatorPanel {
     super( creatorNodeBackground, {
       xMargin: 10
     } );
+
+    this.iconNode = iconNode;
   }
 }
 

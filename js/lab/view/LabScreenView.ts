@@ -6,6 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Animation from '../../../../twixt/js/Animation.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
@@ -26,6 +27,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
+import Easing from '../../../../twixt/js/Easing.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -36,6 +38,7 @@ class LabScreenView extends ScreenView {
   private readonly numberPanel: LabNumberCarousel;
   private readonly tenFrameNodes: DraggableTenFrameNode[];
   public readonly inequalitySymbolsCreatorPanel: InequalitySymbolsCreatorPanel;
+  private readonly tenFrameCreatorPanel: TenFrameCreatorPanel;
 
   public constructor( model: LabModel, tandem: Tandem ) {
 
@@ -70,10 +73,10 @@ class LabScreenView extends ScreenView {
     model.numberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
 
-    const tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
-    tenFrameCreatorPanel.left = 20;
-    tenFrameCreatorPanel.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
-    this.addChild( tenFrameCreatorPanel );
+    this.tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
+    this.tenFrameCreatorPanel.left = 20;
+    this.tenFrameCreatorPanel.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    this.addChild( this.tenFrameCreatorPanel );
 
     // create and add the OnesPlayAreaNode
     const paperNumberPlayAreaNode = new OnesPlayAreaNode(
@@ -216,8 +219,33 @@ class LabScreenView extends ScreenView {
    */
   private addTenFrame( tenFrame: TenFrame ): void {
     const tenFrameNode = new DraggableTenFrameNode( tenFrame, () => {
-      // TODO: implement method below
-      // this.model.tenFrameDropped( tenFrame );
+      const tenFrameNode = this.getTenFrameNode( tenFrame );
+      if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
+        tenFrameNode.inputEnabled = false;
+
+        // calculate icon's origin
+        let trail = this.getUniqueLeafTrailTo( this.tenFrameCreatorPanel.iconNode );
+        trail = trail.slice( 1, trail.length );
+        const globalOrigin = trail.localToGlobalPoint( this.tenFrameCreatorPanel.iconNode.localBounds.leftTop );
+
+        const removeAnimation = new Animation( {
+          duration: 0.3,
+          targets: [ {
+            property: tenFrame.positionProperty,
+            easing: Easing.CUBIC_IN_OUT,
+            to: globalOrigin
+          }, {
+            property: tenFrame.scaleProperty,
+            easing: Easing.CUBIC_IN_OUT,
+            to: TenFrameCreatorPanel.ICON_SCALE
+          } ]
+        } );
+
+        removeAnimation.finishEmitter.addListener( () => {
+          this.model.tenFrames.remove( tenFrame );
+        } );
+        removeAnimation.start();
+      }
     } );
 
     this.tenFrameNodes.push( tenFrameNode );

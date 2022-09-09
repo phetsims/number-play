@@ -53,6 +53,10 @@ class DraggableTenFrameNode extends Node {
       this.translation = position;
     } );
 
+    tenFrame.scaleProperty.link( scale => {
+      this.setScaleMagnitude( scale );
+    } );
+
     tenFrame.paperNumbers.addItemAddedListener( paperNumber => {
       // TODO: make paper number inputEnabled = false, or something that passes drags through to the ten frame
       paperNumber.setDestination( this.getPaperNumberSpot( paperNumber ), true );
