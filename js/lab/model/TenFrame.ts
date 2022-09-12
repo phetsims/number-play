@@ -53,13 +53,15 @@ class TenFrame {
   }
 
   public tryToAddPaperNumber( paperNumber: PaperNumber ): void {
-    if ( !this.containsPaperNumber( paperNumber ) && this.paperNumbers.length < NUMBER_OF_SPOTS ) {
+    assert && assert( !this.containsPaperNumber( paperNumber ) );
+
+    if ( this.paperNumbers.length < NUMBER_OF_SPOTS ) {
       this.paperNumbers.add( paperNumber );
     }
   }
 
   public removePaperNumber( paperNumber: PaperNumber ): void {
-    assert && assert( this.paperNumbers.includes( paperNumber ), `paper number to remove not found: ${paperNumber}` );
+    assert && assert( this.containsPaperNumber( paperNumber ), `paper number to remove not found: ${paperNumber}` );
 
     this.paperNumbers.remove( paperNumber );
   }

@@ -296,16 +296,34 @@ class OnesPlayAreaNode extends Node {
     const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children,
       child => child instanceof DraggableTenFrameNode ) as DraggableTenFrameNode[];
 
+    const droppedNodeCountingType = droppedNode.countingObjectTypeProperty.value;
+
     if ( !allDraggableTenFrameNodes.length ) {
       return false;
     }
 
     const attachableDroppedTenFrameNodes = this.findAttachableTenFrameNodes( droppedNode, allDraggableTenFrameNodes );
 
+    // TODO: Docs and cleanup
     if ( attachableDroppedTenFrameNodes.length ) {
       attachableDroppedTenFrameNodes.forEach( droppedTenFrameNode => {
         if ( !this.isPaperNumberContainedByTenFrame( droppedPaperNumber ) ) {
-          droppedTenFrameNode.tenFrame.tryToAddPaperNumber( droppedPaperNumber );
+
+          const droppedTenFrame = droppedTenFrameNode.tenFrame;
+          let matchingCountingObjectType = false;
+
+          if ( droppedTenFrame.paperNumbers.lengthProperty.value ) {
+            matchingCountingObjectType = this.playArea.paperNumbers.includes( droppedTenFrame.paperNumbers[ 0 ] );
+          }
+
+          if ( matchingCountingObjectType ||
+               ( !droppedTenFrame.paperNumbers.lengthProperty.value && droppedNodeCountingType !== CountingObjectType.PAPER_NUMBER )
+          ) {
+            droppedTenFrame.tryToAddPaperNumber( droppedPaperNumber );
+          }
+          else {
+            // TODO: move away
+          }
         }
       } );
       return true;
@@ -315,6 +333,9 @@ class OnesPlayAreaNode extends Node {
     }
   }
 
+  /**
+   * TODO
+   */
   private isPaperNumberContainedByTenFrame( paperNumber: PaperNumber ): boolean {
     let isContained = false;
     this.playArea.tenFrames?.forEach( tenFrame => {
@@ -326,6 +347,9 @@ class OnesPlayAreaNode extends Node {
     return isContained;
   }
 
+  /**
+   * TODO
+   */
   private findAttachableTenFrameNodes( paperNumberNode: PaperNumberNode,
                                        allDraggableTenFrameNodes: DraggableTenFrameNode[] ): DraggableTenFrameNode[] {
     const tenFrameNodeCandidates = allDraggableTenFrameNodes.slice();
