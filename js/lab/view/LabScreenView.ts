@@ -28,6 +28,7 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -39,6 +40,13 @@ class LabScreenView extends ScreenView {
   private readonly tenFrameNodes: DraggableTenFrameNode[];
   public readonly inequalitySymbolsCreatorPanel: InequalitySymbolsCreatorPanel;
   private readonly tenFrameCreatorPanel: TenFrameCreatorPanel;
+  private readonly paperNumberPlayAreaNode: OnesPlayAreaNode;
+  private readonly dogPlayAreaNode: OnesPlayAreaNode;
+  private readonly applePlayAreaNode: OnesPlayAreaNode;
+  private readonly butterflyPlayAreaNode: OnesPlayAreaNode;
+  private readonly ballPlayAreaNode: OnesPlayAreaNode;
+  private readonly countingObjectTypeToPlayAreaNode: Map<CountingObjectType, OnesPlayAreaNode>;
+  private readonly playAreaNodes: OnesPlayAreaNode[];
 
   public constructor( model: LabModel, tandem: Tandem ) {
 
@@ -79,7 +87,7 @@ class LabScreenView extends ScreenView {
     this.addChild( this.tenFrameCreatorPanel );
 
     // create and add the OnesPlayAreaNode
-    const paperNumberPlayAreaNode = new OnesPlayAreaNode(
+    this.paperNumberPlayAreaNode = new OnesPlayAreaNode(
       model.paperNumberPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       this.layoutBounds.copy(), {
@@ -89,10 +97,10 @@ class LabScreenView extends ScreenView {
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( paperNumberPlayAreaNode );
+    this.addChild( this.paperNumberPlayAreaNode );
 
     // create and add the left ObjectsPlayAreaNode
-    const dogPlayAreaNode = new OnesPlayAreaNode(
+    this.dogPlayAreaNode = new OnesPlayAreaNode(
       model.dogPlayArea,
       new EnumerationProperty( CountingObjectType.DOG ),
       this.layoutBounds.copy(), {
@@ -102,10 +110,10 @@ class LabScreenView extends ScreenView {
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( dogPlayAreaNode );
+    this.addChild( this.dogPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const applePlayAreaNode = new OnesPlayAreaNode(
+    this.applePlayAreaNode = new OnesPlayAreaNode(
       model.applePlayArea,
       new EnumerationProperty( CountingObjectType.APPLE ),
       this.layoutBounds.copy(), {
@@ -115,10 +123,10 @@ class LabScreenView extends ScreenView {
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( applePlayAreaNode );
+    this.addChild( this.applePlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const butterflyPlayAreaNode = new OnesPlayAreaNode(
+    this.butterflyPlayAreaNode = new OnesPlayAreaNode(
       model.butterflyPlayArea,
       new EnumerationProperty( CountingObjectType.BUTTERFLY ),
       this.layoutBounds.copy(), {
@@ -128,10 +136,10 @@ class LabScreenView extends ScreenView {
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( butterflyPlayAreaNode );
+    this.addChild( this.butterflyPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    const ballPlayAreaNode = new OnesPlayAreaNode(
+    this.ballPlayAreaNode = new OnesPlayAreaNode(
       model.ballPlayArea,
       new EnumerationProperty( CountingObjectType.BALL ),
       this.layoutBounds.copy(), {
@@ -141,13 +149,28 @@ class LabScreenView extends ScreenView {
           this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
       }
     );
-    this.addChild( ballPlayAreaNode );
+    this.addChild( this.ballPlayAreaNode );
+
+    this.countingObjectTypeToPlayAreaNode = new Map();
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.PAPER_NUMBER, this.paperNumberPlayAreaNode );
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.DOG, this.dogPlayAreaNode );
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.APPLE, this.applePlayAreaNode );
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.BUTTERFLY, this.butterflyPlayAreaNode );
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.BALL, this.ballPlayAreaNode );
+
+    this.playAreaNodes = [
+      this.paperNumberPlayAreaNode,
+      this.dogPlayAreaNode,
+      this.applePlayAreaNode,
+      this.butterflyPlayAreaNode,
+      this.ballPlayAreaNode
+    ];
 
     this.inequalitySymbolsCreatorPanel = new InequalitySymbolsCreatorPanel( model, this );
 
     // position empirically determined
-    this.inequalitySymbolsCreatorPanel.left = ballPlayAreaNode.right + 15;
-    this.inequalitySymbolsCreatorPanel.centerY = ballPlayAreaNode.centerY;
+    this.inequalitySymbolsCreatorPanel.left = this.ballPlayAreaNode.right + 15;
+    this.inequalitySymbolsCreatorPanel.centerY = this.ballPlayAreaNode.centerY;
     this.addChild( this.inequalitySymbolsCreatorPanel );
 
     this.tenFrameNodes = [];
@@ -215,6 +238,28 @@ class LabScreenView extends ScreenView {
   }
 
   /**
+   * Returns the counting object type of the PaperNumberNode for the given PaperNumber
+   */
+  private getCountingObjectType( countingObject: PaperNumber ): CountingObjectType {
+    let countingObjectType = CountingObjectType.DOG;
+    let countingObjectTypeFound = false;
+
+    for ( let i = 0; i < this.playAreaNodes.length; i++ ) {
+      const playAreaNode = this.playAreaNodes[ i ];
+
+      if ( playAreaNode.playArea.paperNumbers.includes( countingObject ) ) {
+        const countingObjectNode = playAreaNode.findPaperNumberNode( countingObject );
+        countingObjectType = countingObjectNode.countingObjectTypeProperty.value;
+        countingObjectTypeFound = true;
+        break;
+      }
+    }
+
+    assert && assert( countingObjectTypeFound, 'countingObjectType not found!' );
+    return countingObjectType;
+  }
+
+  /**
    * Called when a new Ten Frame is added to the model.
    */
   private addTenFrame( tenFrame: TenFrame ): void {
@@ -222,6 +267,16 @@ class LabScreenView extends ScreenView {
       const tenFrameNode = this.getTenFrameNode( tenFrame );
       if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
         tenFrameNode.inputEnabled = false;
+
+        if ( tenFrame.paperNumbers.lengthProperty.value ) {
+          const countingObjectType = this.getCountingObjectType( tenFrame.paperNumbers[ 0 ] );
+          const playAreaNode = this.countingObjectTypeToPlayAreaNode.get( countingObjectType );
+          assert && assert( playAreaNode, 'playAreaNode not found for counting object type: ' + countingObjectType.name );
+
+          tenFrame.paperNumbers.forEach( paperNumber => {
+            playAreaNode!.playArea.sendPaperNumberToCreatorNode( paperNumber );
+          } );
+        }
 
         // calculate icon's origin
         let trail = this.getUniqueLeafTrailTo( this.tenFrameCreatorPanel.iconNode );

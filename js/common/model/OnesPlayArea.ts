@@ -49,7 +49,7 @@ class OnesPlayArea extends CountingCommonModel {
   public readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
   public constructor( highestCount: number, groupingEnabledProperty: TReadOnlyProperty<boolean>, name: string,
-               providedOptions?: OnesPlayAreaOptions ) {
+                      providedOptions?: OnesPlayAreaOptions ) {
     super( highestCount, name );
 
     const options = optionize<OnesPlayAreaOptions, SelfOptions>()( {
@@ -199,6 +199,7 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Finds the closest paperNumber to their origin and animates it back over the bucket. If only paperNumbers with
    * values greater than one exist, break them up and send their components with values of one back.
+   * TODO: Rename to something that indicates finding closest paper number to return
    */
   public returnPaperNumberToBucket(): void {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
@@ -219,37 +220,31 @@ class OnesPlayArea extends CountingCommonModel {
       return !paperNumber.includeInSumProperty.value;
     } );
 
-    let paperNumberToReturn = sortedPaperNumbers.shift();
-    if ( paperNumberToReturn ) {
+    const paperNumberToReturn = sortedPaperNumbers.shift();
+    paperNumberToReturn && this.sendPaperNumberToCreatorNode( paperNumberToReturn );
+  }
 
-      // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
-      // 1 to return instead
-      if ( paperNumberToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
-        const amountRemaining = paperNumberToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
-        paperNumberToReturn.changeNumber( amountRemaining );
+  /**
+   * Animates the given paperNumber back to its creator node.
+   */
+  public sendPaperNumberToCreatorNode( paperNumber: PaperNumber ): void {
+    assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
+    assert && assert( this.initialized, 'returnPaperNumberToBucket called before initialization' );
 
-        paperNumberToReturn = new PaperNumber(
-          NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
-          paperNumberToReturn.positionProperty.value, {
-            groupingEnabledProperty: this.groupingEnabledProperty
-          } );
-        this.addPaperNumber( paperNumberToReturn );
-      }
+    // remove it from counting towards the sum and send it back to its origin. paperNumbers aren't removed from the
+    // playArea until they get back to the bucket, but we don't want them to count towards the sum while they're on
+    // their way to the bucket.
+    assert && assert( paperNumber.includeInSumProperty.value, 'paperNumber already removed from sum' );
+    paperNumber.includeInSumProperty.value = false;
+    this.calculateTotal();
 
-      // remove it from counting towards the sum and send it back to its origin. paperNumbers aren't removed from the
-      // playArea until they get back to the bucket, but we don't want them to count towards the sum while they're on
-      // their way to the bucket.
-      assert && assert( paperNumberToReturn.includeInSumProperty.value, 'paperNumber already removed from sum' );
-      paperNumberToReturn.includeInSumProperty.value = false;
-      this.calculateTotal();
+    const origin = this.getPaperNumberOrigin().minus( paperNumber.localBounds.center );
+    const scale = paperNumber.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
+                  NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
 
-      const origin = this.getPaperNumberOrigin().minus( paperNumberToReturn.localBounds.center );
-      const scale = paperNumberToReturn.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
-                    NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
-      paperNumberToReturn.setDestination( origin, true, {
-        targetScale: scale
-      } );
-    }
+    paperNumber.setDestination( origin, true, {
+      targetScale: scale
+    } );
   }
 
   /**
