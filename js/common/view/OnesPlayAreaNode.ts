@@ -189,7 +189,7 @@ class OnesPlayAreaNode extends Node {
     this.playArea.addPaperNumber( paperNumber );
     this.playArea.calculateTotal();
 
-    const paperNumberNode = this.findPaperNumberNode( paperNumber );
+    const paperNumberNode = this.getPaperNumberNode( paperNumber );
     paperNumberNode.startSyntheticDrag( event );
   }
 
@@ -226,7 +226,7 @@ class OnesPlayAreaNode extends Node {
    * Handles removing the relevant PaperNumberNode
    */
   public onPaperNumberRemoved( paperNumber: PaperNumber ): void {
-    const paperNumberNode = this.findPaperNumberNode( paperNumber );
+    const paperNumberNode = this.getPaperNumberNode( paperNumber );
 
     // Remove listeners
     paperNumberNode.endDragEmitter.removeListener( this.numberDragFinishedListener );
@@ -240,9 +240,9 @@ class OnesPlayAreaNode extends Node {
   }
 
   /**
-   * Given a {PaperNumber}, find our current display ({PaperNumberNode}) of it.
+   * Given a PaperNumber, get the current view (PaperNumberNode) of it.
    */
-  public findPaperNumberNode( paperNumber: PaperNumber ): PaperNumberNode {
+  public getPaperNumberNode( paperNumber: PaperNumber ): PaperNumberNode {
     const result = this.paperNumberNodeMap[ paperNumber.id ];
     assert && assert( result, 'Did not find matching Node' );
     return result;
@@ -257,7 +257,7 @@ class OnesPlayAreaNode extends Node {
       return;
     }
 
-    const draggedNode = this.findPaperNumberNode( draggedPaperNumber );
+    const draggedNode = this.getPaperNumberNode( draggedPaperNumber );
 
     const allPaperNumberNodes = _.filter( this.paperNumberLayerNode!.children,
       child => child instanceof PaperNumberNode ) as PaperNumberNode[];
@@ -306,7 +306,7 @@ class OnesPlayAreaNode extends Node {
       return false;
     }
 
-    const droppedNode = this.findPaperNumberNode( droppedPaperNumber );
+    const droppedNode = this.getPaperNumberNode( droppedPaperNumber );
     const allDraggableTenFrameNodes = _.filter( this.paperNumberLayerNode!.children,
       child => child instanceof DraggableTenFrameNode ) as DraggableTenFrameNode[];
 
@@ -392,7 +392,7 @@ class OnesPlayAreaNode extends Node {
    * Whether the paper number is predominantly over the explore panel (should be collected).
    */
   private isNumberInReturnZone( paperNumber: PaperNumber ): boolean {
-    const parentBounds = this.findPaperNumberNode( paperNumber ).bounds;
+    const parentBounds = this.getPaperNumberNode( paperNumber ).bounds;
 
     // And the bounds of our panel
     const panelBounds = this.onesCreatorPanel.bounds;

@@ -9,6 +9,7 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ReturnButton from '../../../../scenery-phet/js/buttons/ReturnButton.js';
 import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
@@ -19,6 +20,7 @@ import TenFrame from '../model/TenFrame.js';
 type SelfOptions = {
   dropListener: () => void;
   removeCountingObjectListener: ( countingObject: PaperNumber ) => void;
+  getCountingObjectNode: ( countingObject: PaperNumber ) => PaperNumberNode;
 };
 type DraggableTenFrameNodeOptions = SelfOptions;
 
@@ -77,7 +79,13 @@ class DraggableTenFrameNode extends Node {
     } );
 
     tenFrame.countingObjects.addItemAddedListener( countingObject => {
-      // TODO: make paper number inputEnabled = false, or something that passes drags through to the ten frame
+      const countingObjectNode = options.getCountingObjectNode( countingObject );
+
+      // make the countingObjectNode pickable:false instead of inputEnabled:false because we still want to be able to
+      // drag this tenFrameNode that the countingObjectNode is on top of
+      countingObjectNode.pickable = false;
+
+      // animate the countingObject to the next available space in the ten frame
       countingObject.setDestination( this.getCountingObjectSpot( countingObject ), true );
     } );
 

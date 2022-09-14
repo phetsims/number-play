@@ -28,7 +28,6 @@ import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
-import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -272,7 +271,7 @@ class LabScreenView extends ScreenView {
       const playAreaNode = this.playAreaNodes[ i ];
 
       if ( playAreaNode.playArea.paperNumbers.includes( countingObject ) ) {
-        const countingObjectNode = playAreaNode.findPaperNumberNode( countingObject );
+        const countingObjectNode = playAreaNode.getPaperNumberNode( countingObject );
         countingObjectType = countingObjectNode.countingObjectTypeProperty.value;
         countingObjectTypeFound = true;
         break;
@@ -319,8 +318,11 @@ class LabScreenView extends ScreenView {
           removeAnimation.start();
         }
       }, removeCountingObjectListener: countingObject => {
-        const playArea = this.getCorrespondingPlayArea( countingObject );
-        playArea.sendPaperNumberToCreatorNode( countingObject );
+        const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
+        playAreaNode.playArea.sendPaperNumberToCreatorNode( countingObject );
+      }, getCountingObjectNode: countingObject => {
+        const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
+        return playAreaNode.getPaperNumberNode( countingObject );
       }
     } );
 
@@ -352,11 +354,11 @@ class LabScreenView extends ScreenView {
    * Each type of counting object has its own play area, so when working with a counting object, we need to look up
    * its corresponding play area in order to do an operation on it (like sending the counting object back to its origin).
    */
-  private getCorrespondingPlayArea( countingObject: PaperNumber ): OnesPlayArea {
+  private getCorrespondingPlayAreaNode( countingObject: PaperNumber ): OnesPlayAreaNode {
     const countingObjectType = this.getCountingObjectType( countingObject );
     const playAreaNode = this.countingObjectTypeToPlayAreaNode.get( countingObjectType );
     assert && assert( playAreaNode, 'playAreaNode not found for counting object type: ' + countingObjectType.name );
-    return playAreaNode!.playArea;
+    return playAreaNode!;
   }
 }
 
