@@ -18,15 +18,13 @@ import CompareModel from './model/CompareModel.js';
 import CompareScreenView from './view/CompareScreenView.js';
 import NumberPlayQueryParameters from '../common/NumberPlayQueryParameters.js';
 
-const screenCompareString = NumberPlayStrings.screen.compare;
-
 
 class CompareScreen extends Screen<CompareModel, CompareScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const options = {
-      name: screenCompareString,
+      name: NumberPlayStrings.screen.compareStringProperty,
       backgroundColorProperty: NumberPlayColors.whiteBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( compareScreenIcon_png ), {
         maxIconWidthProportion: 1,

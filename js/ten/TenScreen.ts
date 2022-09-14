@@ -19,14 +19,12 @@ import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 
-const screenTenString = NumberPlayStrings.screen.ten;
-
 class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const screenOptions = {
-      name: screenTenString,
+      name: NumberPlayStrings.screen.tenStringProperty,
       backgroundColorProperty: NumberPlayColors.lightPurpleBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( tenScreenIcon_png ), {
         maxIconWidthProportion: 1,
