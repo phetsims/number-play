@@ -312,14 +312,14 @@ class OnesPlayAreaNode extends Node {
           const droppedTenFrame = droppedTenFrameNode.tenFrame;
           let matchingCountingObjectType = false;
 
-          if ( droppedTenFrame.paperNumbers.lengthProperty.value ) {
-            matchingCountingObjectType = this.playArea.paperNumbers.includes( droppedTenFrame.paperNumbers[ 0 ] );
+          if ( droppedTenFrame.countingObjects.lengthProperty.value ) {
+            matchingCountingObjectType = this.playArea.paperNumbers.includes( droppedTenFrame.countingObjects[ 0 ] );
           }
 
           if ( matchingCountingObjectType ||
-               ( !droppedTenFrame.paperNumbers.lengthProperty.value && droppedNodeCountingType !== CountingObjectType.PAPER_NUMBER )
+               ( !droppedTenFrame.countingObjects.lengthProperty.value && droppedNodeCountingType !== CountingObjectType.PAPER_NUMBER )
           ) {
-            droppedTenFrame.tryToAddPaperNumber( droppedPaperNumber );
+            droppedTenFrame.tryToAddCountingObject( droppedPaperNumber );
           }
           else {
             // TODO: move away
@@ -339,7 +339,7 @@ class OnesPlayAreaNode extends Node {
   private isPaperNumberContainedByTenFrame( paperNumber: PaperNumber ): boolean {
     let isContained = false;
     this.playArea.tenFrames?.forEach( tenFrame => {
-      if ( tenFrame.containsPaperNumber( paperNumber ) ) {
+      if ( tenFrame.containsCountingObject( paperNumber ) ) {
         isContained = true;
       }
     } );

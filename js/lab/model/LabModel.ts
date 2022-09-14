@@ -9,6 +9,8 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
@@ -35,12 +37,15 @@ class LabModel {
   public readonly butterflyPlayArea: OnesPlayArea;
   public readonly ballPlayArea: OnesPlayArea;
   private readonly numberProperties: NumberProperty[];
+  public readonly selectedTenFrameProperty: TProperty<TenFrame | null>;
 
   public constructor( tandem: Tandem ) {
 
     this.numberStacks = [];
     this.numberPieces = createObservableArray();
     this.tenFrames = createObservableArray();
+
+    this.selectedTenFrameProperty = new Property<TenFrame | null>( null );
 
     // Number stacks
     _.range( 1, 21 ).forEach( number => {

@@ -23,7 +23,7 @@ const NUMBER_OF_SPOTS = 10;
 
 class TenFrame {
 
-  public readonly paperNumbers: ObservableArray<PaperNumber>;
+  public readonly countingObjects: ObservableArray<PaperNumber>;
   public readonly spotCenters: Vector2[];
   public positionProperty: Vector2Property;
   public readonly scaleProperty: NumberProperty;
@@ -34,7 +34,7 @@ class TenFrame {
 
   public constructor( initialPosition: Vector2 ) {
 
-    this.paperNumbers = createObservableArray();
+    this.countingObjects = createObservableArray();
 
     this.spotCenters = TenFrameNode.getSpotCenters( {
       sideLength: SQUARE_SIDE_LENGTH,
@@ -52,22 +52,20 @@ class TenFrame {
     } );
   }
 
-  public tryToAddPaperNumber( paperNumber: PaperNumber ): void {
-    assert && assert( !this.containsPaperNumber( paperNumber ) );
+  public tryToAddCountingObject( countingObject: PaperNumber ): void {
+    assert && assert( !this.containsCountingObject( countingObject ) );
 
-    if ( this.paperNumbers.length < NUMBER_OF_SPOTS ) {
-      this.paperNumbers.add( paperNumber );
+    if ( this.countingObjects.length < NUMBER_OF_SPOTS ) {
+      this.countingObjects.add( countingObject );
     }
   }
 
-  public removePaperNumber( paperNumber: PaperNumber ): void {
-    assert && assert( this.containsPaperNumber( paperNumber ), `paper number to remove not found: ${paperNumber}` );
-
-    this.paperNumbers.remove( paperNumber );
+  public removeCountingObject(): void {
+    this.countingObjects.pop();
   }
 
-  public containsPaperNumber( paperNumber: PaperNumber ): boolean {
-    return this.paperNumbers.includes( paperNumber );
+  public containsCountingObject( countingObject: PaperNumber ): boolean {
+    return this.countingObjects.includes( countingObject );
   }
 }
 

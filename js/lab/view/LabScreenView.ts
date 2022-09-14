@@ -29,6 +29,7 @@ import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import OnesPlayArea from '../../common/model/OnesPlayArea.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -181,6 +182,25 @@ class LabScreenView extends ScreenView {
     // add the piece layer
     this.addChild( this.pieceLayer );
 
+    phet.joist.display.addInputListener( {
+      down: ( event: PressListenerEvent ) => {
+        const screen = phet.joist.sim.selectedScreenProperty.value;
+        if ( screen && screen.view === this ) {
+
+          let tenFrameNodeFound = false;
+          event.trail.nodes.forEach( node => {
+            if ( node instanceof DraggableTenFrameNode ) {
+              tenFrameNodeFound = true;
+            }
+          } );
+
+          if ( !tenFrameNodeFound ) {
+            model.selectedTenFrameProperty.value = null;
+          }
+        }
+      }
+    } );
+
     // create and add the ResetAllButton
     const resetAllButton = new ResetAllButton( {
       listener: () => {
@@ -263,43 +283,40 @@ class LabScreenView extends ScreenView {
    * Called when a new Ten Frame is added to the model.
    */
   private addTenFrame( tenFrame: TenFrame ): void {
-    const tenFrameNode = new DraggableTenFrameNode( tenFrame, () => {
-      const tenFrameNode = this.getTenFrameNode( tenFrame );
-      if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
-        tenFrameNode.inputEnabled = false;
+    const tenFrameNode = new DraggableTenFrameNode( tenFrame, this.model.selectedTenFrameProperty, {
+      dropListener: () => {
 
-        if ( tenFrame.paperNumbers.lengthProperty.value ) {
-          const countingObjectType = this.getCountingObjectType( tenFrame.paperNumbers[ 0 ] );
-          const playAreaNode = this.countingObjectTypeToPlayAreaNode.get( countingObjectType );
-          assert && assert( playAreaNode, 'playAreaNode not found for counting object type: ' + countingObjectType.name );
+        const tenFrameNode = this.getTenFrameNode( tenFrame );
+        if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
+          tenFrameNode.inputEnabled = false;
+          tenFrame.countingObjects.clear();
 
-          tenFrame.paperNumbers.forEach( paperNumber => {
-            playAreaNode!.playArea.sendPaperNumberToCreatorNode( paperNumber );
+          // calculate icon's origin
+          let trail = this.getUniqueLeafTrailTo( this.tenFrameCreatorPanel.iconNode );
+          trail = trail.slice( 1, trail.length );
+          const globalOrigin = trail.localToGlobalPoint( this.tenFrameCreatorPanel.iconNode.localBounds.leftTop );
+
+          const removeAnimation = new Animation( {
+            duration: 0.3,
+            targets: [ {
+              property: tenFrame.positionProperty,
+              easing: Easing.CUBIC_IN_OUT,
+              to: globalOrigin
+            }, {
+              property: tenFrame.scaleProperty,
+              easing: Easing.CUBIC_IN_OUT,
+              to: TenFrameCreatorPanel.ICON_SCALE
+            } ]
           } );
+
+          removeAnimation.finishEmitter.addListener( () => {
+            this.model.tenFrames.remove( tenFrame );
+          } );
+          removeAnimation.start();
         }
-
-        // calculate icon's origin
-        let trail = this.getUniqueLeafTrailTo( this.tenFrameCreatorPanel.iconNode );
-        trail = trail.slice( 1, trail.length );
-        const globalOrigin = trail.localToGlobalPoint( this.tenFrameCreatorPanel.iconNode.localBounds.leftTop );
-
-        const removeAnimation = new Animation( {
-          duration: 0.3,
-          targets: [ {
-            property: tenFrame.positionProperty,
-            easing: Easing.CUBIC_IN_OUT,
-            to: globalOrigin
-          }, {
-            property: tenFrame.scaleProperty,
-            easing: Easing.CUBIC_IN_OUT,
-            to: TenFrameCreatorPanel.ICON_SCALE
-          } ]
-        } );
-
-        removeAnimation.finishEmitter.addListener( () => {
-          this.model.tenFrames.remove( tenFrame );
-        } );
-        removeAnimation.start();
+      }, removeCountingObjectListener: countingObject => {
+        const playArea = this.getCorrespondingPlayArea( countingObject );
+        playArea.sendPaperNumberToCreatorNode( countingObject );
       }
     } );
 
@@ -325,6 +342,17 @@ class LabScreenView extends ScreenView {
     const tenFrameNode = _.find( this.tenFrameNodes, tenFrameNode => tenFrameNode.tenFrame === tenFrame );
     assert && assert( tenFrameNode, 'matching tenFrameNode not found!' );
     return tenFrameNode!;
+  }
+
+  /**
+   * Each type of counting object has its own play area, so when working with a counting object, we need to look up
+   * its corresponding play area in order to do an operation on it (like sending the counting object back to its origin).
+   */
+  private getCorrespondingPlayArea( countingObject: PaperNumber ): OnesPlayArea {
+    const countingObjectType = this.getCountingObjectType( countingObject );
+    const playAreaNode = this.countingObjectTypeToPlayAreaNode.get( countingObjectType );
+    assert && assert( playAreaNode, 'playAreaNode not found for counting object type: ' + countingObjectType.name );
+    return playAreaNode!.playArea;
   }
 }
 

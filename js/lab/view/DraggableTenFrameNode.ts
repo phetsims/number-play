@@ -6,18 +6,28 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Multilink from '../../../../axon/js/Multilink.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import ReturnButton from '../../../../scenery-phet/js/buttons/ReturnButton.js';
 import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
 
+type SelfOptions = {
+  dropListener: () => void;
+  removeCountingObjectListener: ( countingObject: PaperNumber ) => void;
+};
+type DraggableTenFrameNodeOptions = SelfOptions;
+
 class DraggableTenFrameNode extends Node {
   public readonly tenFrame: TenFrame;
   public readonly dragListener: DragListener;
 
-  public constructor( tenFrame: TenFrame, dropListener: () => void ) {
+  public constructor( tenFrame: TenFrame, selectedTenFrameProperty: TProperty<TenFrame | null>,
+                      options: DraggableTenFrameNodeOptions ) {
     super();
 
     this.tenFrame = tenFrame;
@@ -27,20 +37,29 @@ class DraggableTenFrameNode extends Node {
     } );
     this.addChild( tenFrameNode );
 
+    const returnButton = new ReturnButton( () => {
+      tenFrame.removeCountingObject();
+    }, {
+      visible: false
+    } );
+    returnButton.x = tenFrameNode.left - returnButton.width - 5;
+    this.addChild( returnButton );
+
     this.dragListener = new DragListener( {
       targetNode: this,
       positionProperty: tenFrame.positionProperty,
       start: () => {
+        selectedTenFrameProperty.value = tenFrame;
         // this.moveToFront(); TODO: uncomment
         // TODO: move all paper numbers to front too
       },
       drag: () => {
-        tenFrame.paperNumbers.forEach( paperNumber => {
-          paperNumber.setDestination( this.getPaperNumberSpot( paperNumber ), false );
+        tenFrame.countingObjects.forEach( countingObject => {
+          countingObject.setDestination( this.getCountingObjectSpot( countingObject ), false );
         } );
       },
       end: () => {
-        dropListener();
+        options.dropListener();
       }
     } );
 
@@ -57,21 +76,32 @@ class DraggableTenFrameNode extends Node {
       this.setScaleMagnitude( scale );
     } );
 
-    tenFrame.paperNumbers.addItemAddedListener( paperNumber => {
+    tenFrame.countingObjects.addItemAddedListener( countingObject => {
       // TODO: make paper number inputEnabled = false, or something that passes drags through to the ten frame
-      paperNumber.setDestination( this.getPaperNumberSpot( paperNumber ), true );
+      countingObject.setDestination( this.getCountingObjectSpot( countingObject ), true );
     } );
+
+    tenFrame.countingObjects.addItemRemovedListener( countingObject => {
+      options.removeCountingObjectListener( countingObject );
+    } );
+
+    // show the return button if we this is the selected ten frame and if there's at least one counting object contained
+    // in the ten frame
+    Multilink.lazyMultilink( [ selectedTenFrameProperty, tenFrame.countingObjects.lengthProperty ],
+      ( selectedTenFrame, numberOfCountingObjects ) => {
+        returnButton.visible = selectedTenFrame === tenFrame && numberOfCountingObjects > 0;
+      } );
   }
 
   /**
    * Calculates the position of the given paper number in the ten frame based on its index in the ar
    */
-  private getPaperNumberSpot( paperNumber: PaperNumber ): Vector2 {
-    const paperNumberSpotLocalPosition = this.tenFrame.spotCenters[ this.tenFrame.paperNumbers.indexOf( paperNumber ) ];
-    const paperNumberSpotCenter = this.tenFrame.positionProperty.value.plus( paperNumberSpotLocalPosition );
+  private getCountingObjectSpot( countingObject: PaperNumber ): Vector2 {
+    const countingObjectSpotLocalPosition = this.tenFrame.spotCenters[ this.tenFrame.countingObjects.indexOf( countingObject ) ];
+    const countingObjectSpotCenter = this.tenFrame.positionProperty.value.plus( countingObjectSpotLocalPosition );
 
-    const paperNumberOffset = paperNumber.localBounds.center;
-    return paperNumberSpotCenter.minus( paperNumberOffset );
+    const countingObjectOffset = countingObject.localBounds.center;
+    return countingObjectSpotCenter.minus( countingObjectOffset );
   }
 }
 
