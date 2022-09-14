@@ -52,8 +52,11 @@ class DraggableTenFrameNode extends Node {
       positionProperty: tenFrame.positionProperty,
       start: () => {
         selectedTenFrameProperty.value = tenFrame;
-        // this.moveToFront(); TODO: uncomment
-        // TODO: move all paper numbers to front too
+        this.moveToFront();
+        tenFrame.countingObjects.forEach( countingObject => {
+          const countingObjectNode = options.getCountingObjectNode( countingObject );
+          countingObjectNode.moveToFront();
+        } );
       },
       drag: () => {
         tenFrame.countingObjects.forEach( countingObject => {
