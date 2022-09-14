@@ -22,7 +22,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
   public constructor( tandem: Tandem ) {
 
     const options = {
-      name: NumberPlayStrings.screen.lab,
+      name: NumberPlayStrings.screen.labStringProperty,
       backgroundColorProperty: NumberPlayColors.lightPurpleBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( labScreenIcon_png ), {
         maxIconWidthProportion: 1,

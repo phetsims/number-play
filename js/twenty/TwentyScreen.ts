@@ -19,15 +19,13 @@ import NumberPlayScreenView, { NumberPlayScreenViewOptions } from '../common/vie
 import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 
-const screenTwentyString = NumberPlayStrings.screen.twenty;
-
 
 class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const screenOptions = {
-      name: screenTwentyString,
+      name: NumberPlayStrings.screen.twentyStringProperty,
       backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( twentyScreenIcon_png ), {
         maxIconWidthProportion: 1,

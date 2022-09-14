@@ -23,7 +23,7 @@ class NumberPlayGameScreen extends Screen<NumberPlayGameModel, NumberPlayGameScr
   public constructor( tandem: Tandem ) {
 
     const options = {
-      name: NumberPlayStrings.screen.game,
+      name: NumberPlayStrings.screen.gameStringProperty,
       backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIcon_png ), {
         maxIconWidthProportion: 1,
