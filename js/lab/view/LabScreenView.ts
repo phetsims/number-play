@@ -23,7 +23,6 @@ import LabModel from '../model/LabModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
 import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
@@ -75,7 +74,6 @@ class LabScreenView extends ScreenView {
         numberPieceNode && numberPieceNode.dragListener.press( event, numberPieceNode );
       } );
     this.numberPanel.centerX = this.layoutBounds.centerX;
-    this.numberPanel.top = NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( this.numberPanel );
     this.numberPanel.updateModelPositions( new ModelViewTransform2() );
 
@@ -84,7 +82,6 @@ class LabScreenView extends ScreenView {
 
     this.tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
     this.tenFrameCreatorPanel.left = 20;
-    this.tenFrameCreatorPanel.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( this.tenFrameCreatorPanel );
 
     // create and add the OnesPlayAreaNode
@@ -94,8 +91,8 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 303, // TODO: calculate creator node positions
-          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+        creatorPanelX: this.layoutBounds.centerX - 303, // TODO: calculate creator node positions
+        visibleBoundsProperty: this.visibleBoundsProperty
       }
     );
     this.addChild( this.paperNumberPlayAreaNode );
@@ -107,8 +104,8 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 183,
-          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+        creatorPanelX: this.layoutBounds.centerX - 183, // TODO: calculate creator node positions
+        visibleBoundsProperty: this.visibleBoundsProperty
       }
     );
     this.addChild( this.dogPlayAreaNode );
@@ -120,8 +117,8 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX - 63,
-          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+        creatorPanelX: this.layoutBounds.centerX - 63, // TODO: calculate creator node positions
+        visibleBoundsProperty: this.visibleBoundsProperty
       }
     );
     this.addChild( this.applePlayAreaNode );
@@ -133,8 +130,8 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 57,
-          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+        creatorPanelX: this.layoutBounds.centerX + 57, // TODO: calculate creator node positions
+        visibleBoundsProperty: this.visibleBoundsProperty
       }
     );
     this.addChild( this.butterflyPlayAreaNode );
@@ -146,8 +143,8 @@ class LabScreenView extends ScreenView {
       this.layoutBounds.copy(), {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelCenterBottom: new Vector2( this.layoutBounds.centerX + 177,
-          this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y )
+        creatorPanelX: this.layoutBounds.centerX + 177, // TODO: calculate creator node positions
+        visibleBoundsProperty: this.visibleBoundsProperty
       }
     );
     this.addChild( this.ballPlayAreaNode );
@@ -171,7 +168,6 @@ class LabScreenView extends ScreenView {
 
     // position empirically determined
     this.inequalitySymbolsCreatorPanel.left = this.ballPlayAreaNode.right + 15;
-    this.inequalitySymbolsCreatorPanel.centerY = this.ballPlayAreaNode.centerY;
     this.addChild( this.inequalitySymbolsCreatorPanel );
 
     this.tenFrameNodes = [];
@@ -209,10 +205,18 @@ class LabScreenView extends ScreenView {
         this.inequalitySymbolsCreatorPanel.reset();
       },
       right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
-      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
       tandem: tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
+
+    // update the y-position of panels when the visible bounds change so everything floats to the top or bottom
+    this.visibleBoundsProperty.link( visibleBounds => {
+      this.numberPanel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+      const bottomY = visibleBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+      this.tenFrameCreatorPanel.bottom = bottomY;
+      this.inequalitySymbolsCreatorPanel.bottom = bottomY;
+      resetAllButton.bottom = bottomY;
+    } );
   }
 
   /**

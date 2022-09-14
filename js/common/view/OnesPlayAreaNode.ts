@@ -31,7 +31,10 @@ type SelfOptions = {
   backgroundDragTargetNode?: null | Node;
   viewHasIndependentModel?: boolean; // whether this view is hooked up to its own model or a shared model
   includeOnesCreatorPanel?: boolean;
-  creatorPanelCenterBottom?: null | Vector2;
+  creatorPanelX?: null | number;
+
+  // if passed in, the OnesCreatorNode will be kept at the bottom of the visibleBoundsProperty
+  visibleBoundsProperty?: null | TReadOnlyProperty<Bounds2>;
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
@@ -67,7 +70,8 @@ class OnesPlayAreaNode extends Node {
       backgroundDragTargetNode: null,
       viewHasIndependentModel: true,
       includeOnesCreatorPanel: true,
-      creatorPanelCenterBottom: null
+      creatorPanelX: null,
+      visibleBoundsProperty: null
     }, providedOptions );
 
     // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
@@ -130,12 +134,22 @@ class OnesPlayAreaNode extends Node {
 
     // create and add the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
-    if ( options.creatorPanelCenterBottom ) {
-      this.onesCreatorPanel.centerBottom = options.creatorPanelCenterBottom;
+    if ( options.creatorPanelX ) {
+      this.onesCreatorPanel.centerX = options.creatorPanelX;
+    }
+    else {
+      this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    }
+    if ( options.visibleBoundsProperty ) {
+      const updateOnesCreatorPanelPosition = () => {
+        this.onesCreatorPanel.bottom = this.parentToLocalBounds( options.visibleBoundsProperty!.value ).bottom -
+                                       CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      };
+      options.visibleBoundsProperty.link( updateOnesCreatorPanelPosition );
+      this.transformEmitter.addListener( updateOnesCreatorPanelPosition );
     }
     else {
       this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     }
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
