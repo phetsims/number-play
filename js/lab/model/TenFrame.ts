@@ -22,10 +22,9 @@ const LINE_WIDTH = 1;
 const NUMBER_OF_SPOTS = 10;
 
 class TenFrame {
-
   public readonly countingObjects: ObservableArray<PaperNumber>;
   public readonly spotCenters: Vector2[];
-  public positionProperty: Vector2Property;
+  public readonly positionProperty: Vector2Property;
   public readonly scaleProperty: NumberProperty;
   public readonly localBounds: Bounds2;
 
@@ -60,12 +59,65 @@ class TenFrame {
     }
   }
 
+  /**
+   * Sends the provided countingObject outside the nearest border of this ten frame
+   */
+  public pushAwayCountingObject( countingObject: PaperNumber, playAreaBounds: Bounds2 ): void {
+
+    // bounds of this tenFrame with respect to the center of the provided countingObject
+    const globalBounds = this.localBounds.shifted( this.positionProperty.value )
+      .shiftedXY( -countingObject.localBounds.center.x, -countingObject.localBounds.center.y );
+    const countingObjectPosition = countingObject.positionProperty.value;
+
+    assert && assert( globalBounds.containsPoint( countingObjectPosition ),
+      'attempted to push away countingObject that was not over ten frame' );
+
+    // find the distance to the potential destination spot for every side of the tenFrame
+    const margin = 10;
+    const leftDistanceVector = new Vector2( globalBounds.left - countingObjectPosition.x - countingObject.localBounds.width / 2 - margin, 0 );
+    const topDistanceVector = new Vector2( 0, globalBounds.top - countingObjectPosition.y - countingObject.localBounds.height / 2 - margin );
+    const rightDistanceVector = new Vector2( globalBounds.right - countingObjectPosition.x + countingObject.localBounds.width / 2 + margin, 0 );
+    const bottomDistanceVector = new Vector2( 0, globalBounds.bottom - countingObjectPosition.y + countingObject.localBounds.height / 2 + margin );
+
+    // find which distance is the shortest
+    let minimumDistance = Math.abs( leftDistanceVector.x );
+    let minimumVector = leftDistanceVector;
+    const topDistance = Math.abs( topDistanceVector.y );
+    if ( topDistance < minimumDistance ) {
+      minimumDistance = topDistance;
+      minimumVector = topDistanceVector;
+    }
+    if ( rightDistanceVector.x < minimumDistance ) {
+      minimumDistance = rightDistanceVector.x;
+      minimumVector = rightDistanceVector;
+    }
+    if ( bottomDistanceVector.y < minimumDistance ) {
+      minimumDistance = bottomDistanceVector.y;
+      minimumVector = bottomDistanceVector;
+    }
+
+    // send the countingObject to the closest destination
+    const destination = countingObjectPosition.plus( minimumVector );
+    countingObject.setConstrainedDestination( playAreaBounds, destination, true );
+  }
+
   public removeCountingObject(): void {
     this.countingObjects.pop();
   }
 
   public containsCountingObject( countingObject: PaperNumber ): boolean {
     return this.countingObjects.includes( countingObject );
+  }
+
+  /**
+   * Calculates the position of the given paper number in the ten frame based on its index in the array
+   */
+  public getCountingObjectSpot( countingObject: PaperNumber ): Vector2 {
+    const countingObjectSpotLocalPosition = this.spotCenters[ this.countingObjects.indexOf( countingObject ) ];
+    const countingObjectSpotCenter = this.positionProperty.value.plus( countingObjectSpotLocalPosition );
+
+    const countingObjectOffset = countingObject.localBounds.center;
+    return countingObjectSpotCenter.minus( countingObjectOffset );
   }
 }
 

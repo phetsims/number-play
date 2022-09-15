@@ -10,7 +10,6 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import ReturnButton from '../../../../scenery-phet/js/buttons/ReturnButton.js';
 import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
@@ -60,7 +59,7 @@ class DraggableTenFrameNode extends Node {
       },
       drag: () => {
         tenFrame.countingObjects.forEach( countingObject => {
-          countingObject.setDestination( this.getCountingObjectSpot( countingObject ), false );
+          countingObject.setDestination( tenFrame.getCountingObjectSpot( countingObject ), false );
         } );
       },
       end: () => {
@@ -89,7 +88,7 @@ class DraggableTenFrameNode extends Node {
       countingObjectNode.pickable = false;
 
       // animate the countingObject to the next available space in the ten frame
-      countingObject.setDestination( this.getCountingObjectSpot( countingObject ), true );
+      countingObject.setDestination( tenFrame.getCountingObjectSpot( countingObject ), true );
     } );
 
     tenFrame.countingObjects.addItemRemovedListener( countingObject => {
@@ -102,17 +101,6 @@ class DraggableTenFrameNode extends Node {
       ( selectedTenFrame, numberOfCountingObjects ) => {
         returnButton.visible = selectedTenFrame === tenFrame && numberOfCountingObjects > 0;
       } );
-  }
-
-  /**
-   * Calculates the position of the given paper number in the ten frame based on its index in the ar
-   */
-  private getCountingObjectSpot( countingObject: PaperNumber ): Vector2 {
-    const countingObjectSpotLocalPosition = this.tenFrame.spotCenters[ this.tenFrame.countingObjects.indexOf( countingObject ) ];
-    const countingObjectSpotCenter = this.tenFrame.positionProperty.value.plus( countingObjectSpotLocalPosition );
-
-    const countingObjectOffset = countingObject.localBounds.center;
-    return countingObjectSpotCenter.minus( countingObjectOffset );
   }
 }
 

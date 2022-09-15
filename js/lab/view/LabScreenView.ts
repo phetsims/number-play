@@ -28,6 +28,7 @@ import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -211,7 +212,7 @@ class LabScreenView extends ScreenView {
     // update the y-position of panels when the visible bounds change so everything floats to the top or bottom
     this.visibleBoundsProperty.link( visibleBounds => {
       this.numberPanel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
-      const bottomY = visibleBounds.bottom - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+      const bottomY = visibleBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       this.tenFrameCreatorPanel.bottom = bottomY;
       this.inequalitySymbolsCreatorPanel.bottom = bottomY;
       resetAllButton.bottom = bottomY;

@@ -336,7 +336,7 @@ class OnesPlayAreaNode extends Node {
             droppedTenFrame.tryToAddCountingObject( droppedPaperNumber );
           }
           else {
-            // TODO: move away
+            droppedTenFrame.pushAwayCountingObject( droppedPaperNumber, this.availableViewBoundsProperty.value );
           }
         }
       } );
