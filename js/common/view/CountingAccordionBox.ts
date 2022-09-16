@@ -23,6 +23,7 @@ import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.j
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
 
 // types
 type SelfOptions = {
@@ -38,10 +39,10 @@ const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
 class CountingAccordionBox extends NumberPlayAccordionBox {
 
   public constructor( playArea: OnesPlayArea,
-               countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
-               width: number,
-               height: number,
-               options: CountingAccordionBoxOptions ) {
+                      countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
+                      width: number,
+                      height: number,
+                      options: CountingAccordionBoxOptions ) {
 
     super( width, height, optionize<CountingAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
       titleString: NumberPlayStrings.objects,
@@ -51,7 +52,8 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
     }, options ) );
 
-    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty, this.contentBounds );
+    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty,
+      new Property( this.contentBounds ) );
     this.contentNode.addChild( objectsPlayAreaNode );
 
     // TODO-TS: use specific RadioButtonGroup type
@@ -97,7 +99,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
         options.linkedPlayArea,
         countingObjectTypeProperty,
-        this.contentBounds, {
+        new Property( this.contentBounds ), {
           viewHasIndependentModel: false
         }
       );

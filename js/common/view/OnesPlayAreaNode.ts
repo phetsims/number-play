@@ -8,7 +8,6 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Property from '../../../../axon/js/Property.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -32,9 +31,6 @@ type SelfOptions = {
   viewHasIndependentModel?: boolean; // whether this view is hooked up to its own model or a shared model
   includeOnesCreatorPanel?: boolean;
   creatorPanelX?: null | number;
-
-  // if passed in, the OnesCreatorNode will be kept at the bottom of the visibleBoundsProperty
-  visibleBoundsProperty?: null | TReadOnlyProperty<Bounds2>;
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
@@ -50,7 +46,9 @@ class OnesPlayAreaNode extends Node {
   private readonly tryToCombineNumbersCallback: ( draggedPaperNumber: PaperNumber ) => void;
   private readonly addAndDragNumberCallback: ( event: PressListenerEvent, paperNumber: PaperNumber ) => void;
   private readonly paperNumberNodeMap: PaperNumberNodeMap;
-  public readonly availableViewBoundsProperty: Property<Bounds2>;
+
+  // the bounds of the play area where counting objects can be dragged
+  public readonly playAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly countingObjectTypeProperty: TReadOnlyProperty<CountingObjectType>;
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
@@ -61,7 +59,7 @@ class OnesPlayAreaNode extends Node {
 
   public constructor( playArea: OnesPlayArea,
                       countingObjectTypeProperty: TReadOnlyProperty<CountingObjectType>,
-                      playAreaViewBounds: Bounds2,
+                      playAreaBoundsProperty: TReadOnlyProperty<Bounds2>,
                       providedOptions?: OnesPlayAreaNodeOptions ) {
     super();
 
@@ -70,8 +68,7 @@ class OnesPlayAreaNode extends Node {
       backgroundDragTargetNode: null,
       viewHasIndependentModel: true,
       includeOnesCreatorPanel: true,
-      creatorPanelX: null,
-      visibleBoundsProperty: null
+      creatorPanelX: null
     }, providedOptions );
 
     // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
@@ -98,8 +95,7 @@ class OnesPlayAreaNode extends Node {
     // PaperNumber.id => {PaperNumberNode} - lookup map for efficiency
     this.paperNumberNodeMap = {};
 
-    // The view coordinates where numbers can be dragged. Can update when the sim is resized.
-    this.availableViewBoundsProperty = new Property( playAreaViewBounds );
+    this.playAreaBoundsProperty = playAreaBoundsProperty;
     this.countingObjectTypeProperty = countingObjectTypeProperty;
 
     // see options.viewHasIndependentModel for doc
@@ -112,7 +108,7 @@ class OnesPlayAreaNode extends Node {
       backgroundDragTargetNode = options.backgroundDragTargetNode;
     }
     else {
-      backgroundDragTargetNode = new Rectangle( playAreaViewBounds );
+      backgroundDragTargetNode = new Rectangle( playAreaBoundsProperty.value );
       this.addChild( backgroundDragTargetNode );
     }
     backgroundDragTargetNode.addInputListener( this.closestDragListener );
@@ -128,29 +124,28 @@ class OnesPlayAreaNode extends Node {
     playArea.paperNumbers.addItemRemovedListener( paperNumberRemovedListener );
 
     // Persistent, no need to unlink
-    this.availableViewBoundsProperty.lazyLink( () => {
+    this.playAreaBoundsProperty.lazyLink( () => {
       this.constrainAllPositions();
     } );
 
-    // create and add the OnesCreatorPanel
+    // create the OnesCreatorPanel
     this.onesCreatorPanel = new OnesCreatorPanel( playArea, this );
     if ( options.creatorPanelX ) {
       this.onesCreatorPanel.centerX = options.creatorPanelX;
     }
     else {
-      this.onesCreatorPanel.left = playAreaViewBounds.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      this.onesCreatorPanel.left = playAreaBoundsProperty.value.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     }
-    if ( options.visibleBoundsProperty ) {
-      const updateOnesCreatorPanelPosition = () => {
-        this.onesCreatorPanel.bottom = this.parentToLocalBounds( options.visibleBoundsProperty!.value ).bottom -
-                                       CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      };
-      options.visibleBoundsProperty.link( updateOnesCreatorPanelPosition );
-      this.transformEmitter.addListener( updateOnesCreatorPanelPosition );
-    }
-    else {
-      this.onesCreatorPanel.bottom = playAreaViewBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-    }
+
+    // set the y position of the onesCreatorPanel. NOTE: It is assumed below during initialization that the
+    // onesCreatorPanel is positioned along the bottom of the playArea bounds
+    const updateOnesCreatorPanelPosition = () => {
+      this.onesCreatorPanel.bottom = playAreaBoundsProperty.value.bottom -
+                                     CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+    };
+    playAreaBoundsProperty.link( updateOnesCreatorPanelPosition );
+    this.transformEmitter.addListener( updateOnesCreatorPanelPosition );
+
     if ( options.includeOnesCreatorPanel ) {
       this.addChild( this.onesCreatorPanel );
       this.getPaperNumberOrigin = () => this.onesCreatorPanel.countingCreatorNode.getOriginPosition();
@@ -158,8 +153,8 @@ class OnesPlayAreaNode extends Node {
 
     // initialize the model with positioning information
     if ( this.viewHasIndependentModel ) {
-      const countingCreatorNodeTop = options.includeOnesCreatorPanel ? this.onesCreatorPanel.top : playAreaViewBounds.bottom;
-      this.playArea.initialize( this.getPaperNumberOrigin, countingCreatorNodeTop, playAreaViewBounds );
+      const onesCreatorNodeHeight = options.includeOnesCreatorPanel ? this.onesCreatorPanel.height : 0;
+      this.playArea.initialize( this.getPaperNumberOrigin, onesCreatorNodeHeight, playAreaBoundsProperty );
     }
 
     // Where all of the paper numbers are. Created if not provided.
@@ -200,7 +195,7 @@ class OnesPlayAreaNode extends Node {
 
     const paperNumberNode = new PaperNumberNode(
       paperNumber,
-      this.availableViewBoundsProperty,
+      this.playAreaBoundsProperty,
       this.addAndDragNumberCallback,
       this.tryToCombineNumbersCallback, {
         countingObjectTypeProperty: this.countingObjectTypeProperty,
@@ -284,7 +279,7 @@ class OnesPlayAreaNode extends Node {
       // if grouping is turned off, repel away
       if ( !this.playArea.groupingEnabledProperty.value || !droppedPaperNumber.groupingEnabledProperty.value ) {
         if ( draggedPaperNumber.positionProperty.value.distance( droppedPaperNumber.positionProperty.value ) < 7 ) { // TODO: https://github.com/phetsims/number-play/issues/19 match this with the card object spacing
-          this.playArea.repelAway( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
+          this.playArea.repelAway( this.playAreaBoundsProperty.value, draggedPaperNumber, droppedPaperNumber, () => {
             return {
               left: -10,
               right: 10
@@ -295,7 +290,7 @@ class OnesPlayAreaNode extends Node {
       else {
 
         // allow any two numbers to be combined
-        this.playArea.collapseNumberModels( this.availableViewBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
+        this.playArea.collapseNumberModels( this.playAreaBoundsProperty.value, draggedPaperNumber, droppedPaperNumber );
         return; // No need to re-layer or try combining with others
       }
     }
@@ -336,7 +331,7 @@ class OnesPlayAreaNode extends Node {
             droppedTenFrame.tryToAddCountingObject( droppedPaperNumber );
           }
           else {
-            droppedTenFrame.pushAwayCountingObject( droppedPaperNumber, this.availableViewBoundsProperty.value );
+            droppedTenFrame.pushAwayCountingObject( droppedPaperNumber, this.playAreaBoundsProperty.value );
           }
         }
       } );
@@ -384,7 +379,7 @@ class OnesPlayAreaNode extends Node {
    */
   private constrainAllPositions(): void {
     this.playArea.paperNumbers.forEach( ( paperNumber: PaperNumber ) => {
-      paperNumber.setConstrainedDestination( this.availableViewBoundsProperty.value, paperNumber.positionProperty.value );
+      paperNumber.setConstrainedDestination( this.playAreaBoundsProperty.value, paperNumber.positionProperty.value );
     } );
   }
 

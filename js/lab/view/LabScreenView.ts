@@ -29,6 +29,7 @@ import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -84,15 +85,18 @@ class LabScreenView extends ScreenView {
     this.tenFrameCreatorPanel.left = 20;
     this.addChild( this.tenFrameCreatorPanel );
 
+    const objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+      return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y + this.numberPanel.height );
+    } );
+
     // create and add the OnesPlayAreaNode
     this.paperNumberPlayAreaNode = new OnesPlayAreaNode(
       model.paperNumberPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
-      this.layoutBounds.copy(), {
+      objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 303, // TODO: calculate creator node positions
-        visibleBoundsProperty: this.visibleBoundsProperty
+        creatorPanelX: this.layoutBounds.centerX - 303 // TODO: calculate creator node positions
       }
     );
     this.addChild( this.paperNumberPlayAreaNode );
@@ -101,11 +105,10 @@ class LabScreenView extends ScreenView {
     this.dogPlayAreaNode = new OnesPlayAreaNode(
       model.dogPlayArea,
       new EnumerationProperty( CountingObjectType.DOG ),
-      this.layoutBounds.copy(), {
+      objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 183, // TODO: calculate creator node positions
-        visibleBoundsProperty: this.visibleBoundsProperty
+        creatorPanelX: this.layoutBounds.centerX - 183 // TODO: calculate creator node positions
       }
     );
     this.addChild( this.dogPlayAreaNode );
@@ -114,11 +117,10 @@ class LabScreenView extends ScreenView {
     this.applePlayAreaNode = new OnesPlayAreaNode(
       model.applePlayArea,
       new EnumerationProperty( CountingObjectType.APPLE ),
-      this.layoutBounds.copy(), {
+      objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 63, // TODO: calculate creator node positions
-        visibleBoundsProperty: this.visibleBoundsProperty
+        creatorPanelX: this.layoutBounds.centerX - 63 // TODO: calculate creator node positions
       }
     );
     this.addChild( this.applePlayAreaNode );
@@ -127,11 +129,10 @@ class LabScreenView extends ScreenView {
     this.butterflyPlayAreaNode = new OnesPlayAreaNode(
       model.butterflyPlayArea,
       new EnumerationProperty( CountingObjectType.BUTTERFLY ),
-      this.layoutBounds.copy(), {
+      objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 57, // TODO: calculate creator node positions
-        visibleBoundsProperty: this.visibleBoundsProperty
+        creatorPanelX: this.layoutBounds.centerX + 57 // TODO: calculate creator node positions
       }
     );
     this.addChild( this.butterflyPlayAreaNode );
@@ -140,11 +141,10 @@ class LabScreenView extends ScreenView {
     this.ballPlayAreaNode = new OnesPlayAreaNode(
       model.ballPlayArea,
       new EnumerationProperty( CountingObjectType.BALL ),
-      this.layoutBounds.copy(), {
+      objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 177, // TODO: calculate creator node positions
-        visibleBoundsProperty: this.visibleBoundsProperty
+        creatorPanelX: this.layoutBounds.centerX + 177 // TODO: calculate creator node positions
       }
     );
     this.addChild( this.ballPlayAreaNode );

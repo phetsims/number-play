@@ -21,6 +21,7 @@ import { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TenFrame from '../../lab/model/TenFrame.js';
+import Property from '../../../../axon/js/Property.js';
 
 type SelfOptions = {
   tenFrames?: null | ObservableArray<TenFrame>;
@@ -41,10 +42,10 @@ const MIN_DISTANCE_BETWEEN_ADDED_PLAY_OBJECTS = 60;
 
 class OnesPlayArea extends CountingCommonModel {
   private getPaperNumberOrigin: () => Vector2;
-  private playAreaBounds: Bounds2;
+  private playAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
   private organizedObjectSpots: Vector2[];
   private initialized: boolean;
-  private countingCreatorNodeTop: number;
+  private onesCreatorNodeHeight: number;
   public readonly tenFrames: ObservableArray<TenFrame> | null;
   public readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
@@ -60,11 +61,11 @@ class OnesPlayArea extends CountingCommonModel {
 
     // set later by the view
     this.getPaperNumberOrigin = () => Vector2.ZERO;
-    this.countingCreatorNodeTop = 0;
-    this.playAreaBounds = new Bounds2( 0, 0, 0, 0 );
+    this.onesCreatorNodeHeight = 0;
+    this.playAreaBoundsProperty = new Property( new Bounds2( 0, 0, 0, 0 ) );
     this.organizedObjectSpots = [ Vector2.ZERO ];
 
-    // true when this.getPaperNumberOrigin() and this.playAreaBounds have been set
+    // true when this.getPaperNumberOrigin() and this.playAreaBoundsProperty have been set
     this.initialized = false;
 
     // contains any ten frames that are in the play area
@@ -79,13 +80,14 @@ class OnesPlayArea extends CountingCommonModel {
   /**
    * Setup the origin and bounds needed from the view
    */
-  public initialize( getPaperNumberOrigin: () => Vector2, countingCreatorNodeTop: number, playAreaBounds: Bounds2 ): void {
+  public initialize( getPaperNumberOrigin: () => Vector2, onesCreatorNodeHeight: number,
+                     playAreaBoundsProperty: TReadOnlyProperty<Bounds2> ): void {
     assert && assert( !this.initialized, 'OnesPlayArea already initialized' );
 
     // use a function for getting the paper number origin because its position changes in the view
     this.getPaperNumberOrigin = getPaperNumberOrigin;
-    this.countingCreatorNodeTop = countingCreatorNodeTop;
-    this.playAreaBounds = playAreaBounds;
+    this.onesCreatorNodeHeight = onesCreatorNodeHeight;
+    this.playAreaBoundsProperty = playAreaBoundsProperty;
     this.initialized = true;
 
     this.organizedObjectSpots = this.calculateOrganizedObjectSpots();
@@ -157,7 +159,12 @@ class OnesPlayArea extends CountingCommonModel {
     // TODO: This is kind of a band-aid to keep the grouped objects' handles from sticking out of the top of the play
     // area since they are not yet included in paperNumber.localBounds above without a view created
     const playAreaBoundsMinY = this.groupingEnabledProperty.value ? 30 : 0;
-    const playAreaBounds = this.playAreaBounds.withMinY( playAreaBoundsMinY ).withMaxY( this.countingCreatorNodeTop );
+
+    // NOTE: The calculation below assumes that the onesCreatorNode is positioned along the bottom of the playArea
+    // bounds, see positioning in OnesPlayAreaNode
+    const playAreaBounds = this.playAreaBoundsProperty.value
+      .withMinY( this.playAreaBoundsProperty.value.minY + playAreaBoundsMinY )
+      .withMaxY( this.playAreaBoundsProperty.value.maxY - this.onesCreatorNodeHeight );
     const paperNumberOriginBounds = paperNumber.getOriginBounds( playAreaBounds );
 
     // TODO: this algorithm does not take into account paper numbers that are on their way to a spot, and should
@@ -268,8 +275,8 @@ class OnesPlayArea extends CountingCommonModel {
     for ( let i = 0; i < numberOfRows; i++ ) {
       for ( let j = 0; j < numberOfColumns; j++ ) {
         spots.push( new Vector2(
-          this.playAreaBounds.minX + xMargin + ( ( objectWidth + objectMargin ) * j ),
-          this.playAreaBounds.minY + yMargin + ( ( objectHeight + objectMargin ) * i )
+          this.playAreaBoundsProperty.value.minX + xMargin + ( ( objectWidth + objectMargin ) * j ),
+          this.playAreaBoundsProperty.value.minY + yMargin + ( ( objectHeight + objectMargin ) * i )
         ) );
       }
     }
