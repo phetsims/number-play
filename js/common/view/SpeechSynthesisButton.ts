@@ -28,7 +28,7 @@ type SelfOptions = {
   stringProperty?: TReadOnlyProperty<string> | null;
 
   // Properties to listen to for when to read aloud. On the 'Compare' screen, we can't just listen to the
-  // stringProperty, because when the language changes, the textProperty updates, but shouldn't be read aloud,
+  // stringProperty, because when the language changes, the stringProperty updates, but shouldn't be read aloud,
   // see https://github.com/phetsims/number-play/issues/157
   numberProperty: TReadOnlyProperty<number>;
   numberProperty2?: TReadOnlyProperty<number>;
