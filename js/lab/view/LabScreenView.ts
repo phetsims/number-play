@@ -76,7 +76,7 @@ class LabScreenView extends ScreenView {
       } );
     this.numberPanel.centerX = this.layoutBounds.centerX;
     this.addChild( this.numberPanel );
-    this.numberPanel.updateModelPositions( new ModelViewTransform2() );
+    const numberPanelTransform = new ModelViewTransform2();
 
     model.numberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
     model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
@@ -212,6 +212,8 @@ class LabScreenView extends ScreenView {
     // update the y-position of panels when the visible bounds change so everything floats to the top or bottom
     this.visibleBoundsProperty.link( visibleBounds => {
       this.numberPanel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+      this.numberPanel.updateModelPositions( numberPanelTransform );
+
       const bottomY = visibleBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       this.tenFrameCreatorPanel.bottom = bottomY;
       this.inequalitySymbolsCreatorPanel.bottom = bottomY;
