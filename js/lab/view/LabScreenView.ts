@@ -222,6 +222,15 @@ class LabScreenView extends ScreenView {
       this.inequalitySymbolsCreatorPanel.bottom = bottomY;
       resetAllButton.bottom = bottomY;
     } );
+
+    this.objectPlayAreaBoundsProperty.link( objectPlayAreaBounds => {
+      model.tenFrames.forEach( tenFrame => {
+        tenFrame.setConstrainedDestination( objectPlayAreaBounds, tenFrame.positionProperty.value );
+      } );
+      this.inequalitySymbolsCreatorPanel.getAllSymbolNodes().forEach( inequalitySymbolNode => {
+        inequalitySymbolNode.setConstrainedDestination( objectPlayAreaBounds, inequalitySymbolNode.positionProperty.value );
+      } );
+    } );
   }
 
   /**

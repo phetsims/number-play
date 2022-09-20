@@ -28,6 +28,7 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
   private readonly equalNodeCountProperty: NumberProperty;
   private readonly greaterThanNodeCountProperty: NumberProperty;
   private readonly clearSymbolNodes: () => void;
+  private readonly screenView: LabScreenView;
 
   public constructor( model: LabModel, screenView: LabScreenView ) {
 
@@ -110,6 +111,8 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
       xMargin: 10
     } );
 
+    this.screenView = screenView;
+
     // Properties to count the number of each type of symbol node
     this.lessThanNodeCountProperty = new NumberProperty( 0 );
     this.equalNodeCountProperty = new NumberProperty( 0 );
@@ -128,8 +131,7 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
 
     // removes and disposes all types of symbol nodes
     this.clearSymbolNodes = () => {
-      const allSymbolNodes = _.filter( screenView.pieceLayer.children,
-          child => child instanceof InequalitySymbolNode ) as InequalitySymbolNode[];
+      const allSymbolNodes = this.getAllSymbolNodes();
       allSymbolNodes.forEach( symbolNode => {
         screenView.pieceLayer.removeChild( symbolNode );
         symbolNode.dispose();
@@ -142,6 +144,12 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
     this.lessThanNodeCountProperty.reset();
     this.equalNodeCountProperty.reset();
     this.greaterThanNodeCountProperty.reset();
+  }
+
+  public getAllSymbolNodes(): InequalitySymbolNode[] {
+    const allSymbolNodes = _.filter( this.screenView.pieceLayer.children,
+      child => child instanceof InequalitySymbolNode ) as InequalitySymbolNode[];
+    return allSymbolNodes;
   }
 }
 
