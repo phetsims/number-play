@@ -8,8 +8,10 @@
 
 import Multilink from '../../../../axon/js/Multilink.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ReturnButton from '../../../../scenery-phet/js/buttons/ReturnButton.js';
 import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
@@ -28,7 +30,7 @@ class DraggableTenFrameNode extends Node {
   public readonly dragListener: DragListener;
 
   public constructor( tenFrame: TenFrame, selectedTenFrameProperty: TProperty<TenFrame | null>,
-                      options: DraggableTenFrameNodeOptions ) {
+                      dragBoundsProperty: TReadOnlyProperty<Bounds2>, options: DraggableTenFrameNodeOptions ) {
     super();
 
     this.tenFrame = tenFrame;
@@ -48,7 +50,6 @@ class DraggableTenFrameNode extends Node {
 
     this.dragListener = new DragListener( {
       targetNode: this,
-      positionProperty: tenFrame.positionProperty,
       start: () => {
         selectedTenFrameProperty.value = tenFrame;
         this.moveToFront();
@@ -57,7 +58,8 @@ class DraggableTenFrameNode extends Node {
           countingObjectNode.moveToFront();
         } );
       },
-      drag: () => {
+      drag: ( event: PressListenerEvent, listener: DragListener ) => {
+        tenFrame.setConstrainedDestination( dragBoundsProperty.value, listener.parentPoint );
         tenFrame.countingObjects.forEach( countingObject => {
           countingObject.setDestination( tenFrame.getCountingObjectSpot( countingObject ), false );
         } );

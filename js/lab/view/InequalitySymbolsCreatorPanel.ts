@@ -35,7 +35,8 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
     const createCreatorIcon = ( symbol: SymbolType ) => {
       const iconNode = new InequalitySymbolNode( {
         symbolType: symbol,
-        includeDragListener: false
+        includeDragListener: false,
+        dragBoundsProperty: screenView.objectPlayAreaBoundsProperty
       } );
 
       iconNode.addInputListener( DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
@@ -45,6 +46,7 @@ class InequalitySymbolsCreatorPanel extends NumberPlayCreatorPanel {
 
         const inequalitySymbolNode = new InequalitySymbolNode( {
           symbolType: symbol,
+          dragBoundsProperty: screenView.objectPlayAreaBoundsProperty,
           dropListener: () => {
             if ( inequalitySymbolNode.bounds.intersectsBounds( screenView.inequalitySymbolsCreatorPanel.bounds ) ) {
               inequalitySymbolNode.inputEnabled = false;

@@ -30,6 +30,8 @@ import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -48,6 +50,7 @@ class LabScreenView extends ScreenView {
   private readonly ballPlayAreaNode: OnesPlayAreaNode;
   private readonly countingObjectTypeToPlayAreaNode: Map<CountingObjectType, OnesPlayAreaNode>;
   private readonly playAreaNodes: OnesPlayAreaNode[];
+  public readonly objectPlayAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
 
   public constructor( model: LabModel, tandem: Tandem ) {
 
@@ -85,7 +88,7 @@ class LabScreenView extends ScreenView {
     this.tenFrameCreatorPanel.left = 20;
     this.addChild( this.tenFrameCreatorPanel );
 
-    const objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+    this.objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
       return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y + this.numberPanel.height );
     } );
 
@@ -93,7 +96,7 @@ class LabScreenView extends ScreenView {
     this.paperNumberPlayAreaNode = new OnesPlayAreaNode(
       model.paperNumberPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
-      objectPlayAreaBoundsProperty, {
+      this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: this.layoutBounds.centerX - 303 // TODO: calculate creator node positions
@@ -105,7 +108,7 @@ class LabScreenView extends ScreenView {
     this.dogPlayAreaNode = new OnesPlayAreaNode(
       model.dogPlayArea,
       new EnumerationProperty( CountingObjectType.DOG ),
-      objectPlayAreaBoundsProperty, {
+      this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: this.layoutBounds.centerX - 183 // TODO: calculate creator node positions
@@ -117,7 +120,7 @@ class LabScreenView extends ScreenView {
     this.applePlayAreaNode = new OnesPlayAreaNode(
       model.applePlayArea,
       new EnumerationProperty( CountingObjectType.APPLE ),
-      objectPlayAreaBoundsProperty, {
+      this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: this.layoutBounds.centerX - 63 // TODO: calculate creator node positions
@@ -129,7 +132,7 @@ class LabScreenView extends ScreenView {
     this.butterflyPlayAreaNode = new OnesPlayAreaNode(
       model.butterflyPlayArea,
       new EnumerationProperty( CountingObjectType.BUTTERFLY ),
-      objectPlayAreaBoundsProperty, {
+      this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: this.layoutBounds.centerX + 57 // TODO: calculate creator node positions
@@ -141,7 +144,7 @@ class LabScreenView extends ScreenView {
     this.ballPlayAreaNode = new OnesPlayAreaNode(
       model.ballPlayArea,
       new EnumerationProperty( CountingObjectType.BALL ),
-      objectPlayAreaBoundsProperty, {
+      this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: this.layoutBounds.centerX + 177 // TODO: calculate creator node positions
@@ -289,45 +292,46 @@ class LabScreenView extends ScreenView {
    * Called when a new Ten Frame is added to the model.
    */
   private addTenFrame( tenFrame: TenFrame ): void {
-    const tenFrameNode = new DraggableTenFrameNode( tenFrame, this.model.selectedTenFrameProperty, {
-      dropListener: () => {
+    const tenFrameNode = new DraggableTenFrameNode( tenFrame, this.model.selectedTenFrameProperty,
+      this.objectPlayAreaBoundsProperty, {
+        dropListener: () => {
 
-        const tenFrameNode = this.getTenFrameNode( tenFrame );
-        if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
-          tenFrameNode.inputEnabled = false;
-          tenFrame.countingObjects.clear();
+          const tenFrameNode = this.getTenFrameNode( tenFrame );
+          if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
+            tenFrameNode.inputEnabled = false;
+            tenFrame.countingObjects.clear();
 
-          // calculate icon's origin
-          let trail = this.getUniqueLeafTrailTo( this.tenFrameCreatorPanel.iconNode );
-          trail = trail.slice( 1, trail.length );
-          const globalOrigin = trail.localToGlobalPoint( this.tenFrameCreatorPanel.iconNode.localBounds.leftTop );
+            // calculate icon's origin
+            let trail = this.getUniqueLeafTrailTo( this.tenFrameCreatorPanel.iconNode );
+            trail = trail.slice( 1, trail.length );
+            const globalOrigin = trail.localToGlobalPoint( this.tenFrameCreatorPanel.iconNode.localBounds.leftTop );
 
-          const removeAnimation = new Animation( {
-            duration: 0.3,
-            targets: [ {
-              property: tenFrame.positionProperty,
-              easing: Easing.CUBIC_IN_OUT,
-              to: globalOrigin
-            }, {
-              property: tenFrame.scaleProperty,
-              easing: Easing.CUBIC_IN_OUT,
-              to: TenFrameCreatorPanel.ICON_SCALE
-            } ]
-          } );
+            const removeAnimation = new Animation( {
+              duration: 0.3,
+              targets: [ {
+                property: tenFrame.positionProperty,
+                easing: Easing.CUBIC_IN_OUT,
+                to: globalOrigin
+              }, {
+                property: tenFrame.scaleProperty,
+                easing: Easing.CUBIC_IN_OUT,
+                to: TenFrameCreatorPanel.ICON_SCALE
+              } ]
+            } );
 
-          removeAnimation.finishEmitter.addListener( () => {
-            this.model.tenFrames.remove( tenFrame );
-          } );
-          removeAnimation.start();
+            removeAnimation.finishEmitter.addListener( () => {
+              this.model.tenFrames.remove( tenFrame );
+            } );
+            removeAnimation.start();
+          }
+        }, removeCountingObjectListener: countingObject => {
+          const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
+          playAreaNode.playArea.sendPaperNumberToCreatorNode( countingObject );
+        }, getCountingObjectNode: countingObject => {
+          const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
+          return playAreaNode.getPaperNumberNode( countingObject );
         }
-      }, removeCountingObjectListener: countingObject => {
-        const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
-        playAreaNode.playArea.sendPaperNumberToCreatorNode( countingObject );
-      }, getCountingObjectNode: countingObject => {
-        const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
-        return playAreaNode.getPaperNumberNode( countingObject );
-      }
-    } );
+      } );
 
     this.tenFrameNodes.push( tenFrameNode );
     this.pieceLayer.addChild( tenFrameNode );

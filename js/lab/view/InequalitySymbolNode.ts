@@ -7,6 +7,8 @@
  */
 
 import TProperty from '../../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
@@ -23,6 +25,7 @@ const CORNER_RADIUS = 10;
 export type SymbolType = '<' | '=' | '>';
 type SelfOptions = {
   symbolType: SymbolType;
+  dragBoundsProperty: TReadOnlyProperty<Bounds2>;
   includeDragListener?: boolean;
   dropListener?: () => void;
 };
@@ -64,7 +67,9 @@ class InequalitySymbolNode extends Node {
     if ( options.includeDragListener ) {
       this.dragListener = new DragListener( {
         targetNode: this,
-        positionProperty: this.positionProperty,
+        drag: ( event: PressListenerEvent, listener: DragListener ) => {
+          this.setConstrainedDestination( options.dragBoundsProperty.value, listener.parentPoint );
+        },
         end: () => {
           options.dropListener();
         }
@@ -82,6 +87,26 @@ class InequalitySymbolNode extends Node {
     this.positionProperty.link( position => {
       this.translation = position;
     } );
+  }
+
+  /**
+   * Determine how this symbol's origin can be placed in the provided bounds.
+   */
+  public getOriginBounds( viewBounds: Bounds2 ): Bounds2 {
+    return new Bounds2(
+      viewBounds.left - this.localBounds.left,
+      viewBounds.top - this.localBounds.top,
+      viewBounds.right - this.localBounds.right,
+      viewBounds.bottom - this.localBounds.bottom
+    ).eroded( CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN );
+  }
+
+  /**
+   * If this symbol's outside the available view bounds, move in inside those bounds.
+   */
+  public setConstrainedDestination( viewBounds: Bounds2, newDestination: Vector2 ): void {
+    const originBounds = this.getOriginBounds( viewBounds );
+    this.positionProperty.value = originBounds.closestPointTo( newDestination );
   }
 }
 

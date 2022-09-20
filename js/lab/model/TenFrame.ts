@@ -15,6 +15,7 @@ import Range from '../../../../dot/js/Range.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 
 // constants
 const SQUARE_SIDE_LENGTH = 60;
@@ -107,6 +108,26 @@ class TenFrame {
 
   public containsCountingObject( countingObject: PaperNumber ): boolean {
     return this.countingObjects.includes( countingObject );
+  }
+
+  /**
+   * Determine how this ten frame's origin can be placed in the provided bounds.
+   */
+  public getOriginBounds( viewBounds: Bounds2 ): Bounds2 {
+    return new Bounds2(
+      viewBounds.left - this.localBounds.left,
+      viewBounds.top - this.localBounds.top,
+      viewBounds.right - this.localBounds.right,
+      viewBounds.bottom - this.localBounds.bottom
+    ).eroded( CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN );
+  }
+
+  /**
+   * If this ten frame outside the available view bounds, move in inside those bounds.
+   */
+  public setConstrainedDestination( viewBounds: Bounds2, newDestination: Vector2 ): void {
+    const originBounds = this.getOriginBounds( viewBounds );
+    this.positionProperty.value = originBounds.closestPointTo( newDestination );
   }
 
   /**
