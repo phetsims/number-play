@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * A card with an inequality symbol on it that can be dragged.
+ * A card with content that can be dragged.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -13,42 +13,41 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import Vector2Property from '../../../../dot/js/Vector2Property.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, DragListener, Node, PressListenerEvent, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, DragListener, Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants
-const SIDE_LENGTH = 50;
+const WIDTH = 50;
 const CORNER_RADIUS = 10;
 
-// TODO: This should be in its own file, not exported as a type here.
-export type SymbolType = '<' | '=' | '>';
 type SelfOptions = {
-  symbolType: SymbolType;
+  height: number;
+  width: number;
   dragBoundsProperty: TReadOnlyProperty<Bounds2>;
   includeDragListener?: boolean;
   dropListener?: () => void;
 };
-export type InequalitySymbolNodeOptions = SelfOptions;
+export type CardNodeOptions = SelfOptions;
 
-class InequalitySymbolNode extends Node {
+class CardNode extends Node {
   public readonly dragListener: DragListener | null;
   public readonly positionProperty: TProperty<Vector2>;
-  public static readonly SIDE_LENGTH = SIDE_LENGTH;
+  public static readonly WIDTH = WIDTH;
 
-  public constructor( providedOptions: InequalitySymbolNodeOptions ) {
+  public constructor( content: Node, providedOptions: CardNodeOptions ) {
     super();
 
-    const options = optionize<InequalitySymbolNodeOptions, SelfOptions>()( {
+    const options = optionize<CardNodeOptions, SelfOptions>()( {
       includeDragListener: true,
       dropListener: _.noop
     }, providedOptions );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO );
 
-    const halfSideLength = SIDE_LENGTH / 2;
+    const halfWidth = options.width / 2;
+    const halfHeight = options.height / 2;
     const backgroundShape = new Rectangle( {
-      rectBounds: new Bounds2( -halfSideLength, -halfSideLength, halfSideLength, halfSideLength ),
+      rectBounds: new Bounds2( -halfWidth, -halfHeight, halfWidth, halfHeight ),
       cornerRadius: CORNER_RADIUS,
       stroke: Color.BLACK,
       fill: Color.WHITE,
@@ -56,11 +55,8 @@ class InequalitySymbolNode extends Node {
     } );
     this.addChild( backgroundShape );
 
-    const inequalitySymbol = new Text( options.symbolType, {
-      font: new PhetFont( 46 )
-    } );
-    inequalitySymbol.center = backgroundShape.center;
-    backgroundShape.addChild( inequalitySymbol );
+    content.center = backgroundShape.center;
+    backgroundShape.addChild( content );
 
     this.cursor = 'pointer';
 
@@ -110,5 +106,5 @@ class InequalitySymbolNode extends Node {
   }
 }
 
-numberPlay.register( 'InequalitySymbolNode', InequalitySymbolNode );
-export default InequalitySymbolNode;
+numberPlay.register( 'CardNode', CardNode );
+export default CardNode;

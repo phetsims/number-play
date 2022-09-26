@@ -8,23 +8,19 @@
 
 import Animation from '../../../../twixt/js/Animation.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import NumberPiece from '../../../../fractions-common/js/building/model/NumberPiece.js';
-import NumberPieceNode from '../../../../fractions-common/js/building/view/NumberPieceNode.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { DragListener, Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
+import { Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
 import DraggableTenFrameNode from './DraggableTenFrameNode.js';
-import LabNumberCarousel from './LabNumberCarousel.js';
+import NumberCardCreatorCarousel from './NumberCardCreatorCarousel.js';
 import LabModel from '../model/LabModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import NumberStack from '../../../../fractions-common/js/building/model/NumberStack.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import InequalitySymbolsCreatorPanel from './InequalitySymbolsCreatorPanel.js';
+import InequalitySymbolCardCreatorPanel from './InequalitySymbolCardCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
@@ -38,10 +34,9 @@ class LabScreenView extends ScreenView {
 
   // node for all pieces to share
   public readonly pieceLayer: Node;
-  private readonly numberPieceNodes: NumberPieceNode[];
-  private readonly numberPanel: LabNumberCarousel;
+  public readonly numberCardCreatorCarousel: NumberCardCreatorCarousel;
   private readonly tenFrameNodes: DraggableTenFrameNode[];
-  public readonly inequalitySymbolsCreatorPanel: InequalitySymbolsCreatorPanel;
+  public readonly inequalitySymbolCardCreatorPanel: InequalitySymbolCardCreatorPanel;
   private readonly tenFrameCreatorPanel: TenFrameCreatorPanel;
   private readonly paperNumberPlayAreaNode: OnesPlayAreaNode;
   private readonly dogPlayAreaNode: OnesPlayAreaNode;
@@ -51,6 +46,7 @@ class LabScreenView extends ScreenView {
   private readonly countingObjectTypeToPlayAreaNode: Map<CountingObjectType, OnesPlayAreaNode>;
   private readonly playAreaNodes: OnesPlayAreaNode[];
   public readonly objectPlayAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
+  public readonly numberCardBoundsProperty: TReadOnlyProperty<Bounds2>;
 
   public constructor( model: LabModel, tandem: Tandem ) {
 
@@ -62,34 +58,19 @@ class LabScreenView extends ScreenView {
     this.pieceLayer = new Node();
     const backgroundDragTargetNode = new Rectangle( this.layoutBounds ); // see OnesPlayAreaNode for doc
 
-    this.numberPieceNodes = [];
-    const animationDuration = 0.4; // in seconds
-
-    // create the number panel
-    this.numberPanel = new LabNumberCarousel(
-      model.numberStacks,
-      animationDuration,
-      ( event: PressListenerEvent, stack: NumberStack ) => {
-        const modelPoint = this.globalToLocalPoint( event.pointer.point );
-        const numberPiece = new NumberPiece( stack.number );
-        numberPiece.positionProperty.value = modelPoint;
-        model.dragNumberPieceFromStack( numberPiece );
-        const numberPieceNode = this.getNumberPieceNode( numberPiece );
-        numberPieceNode && numberPieceNode.dragListener.press( event, numberPieceNode );
-      } );
-    this.numberPanel.centerX = this.layoutBounds.centerX;
-    this.addChild( this.numberPanel );
-    const numberPanelTransform = new ModelViewTransform2();
-
-    model.numberPieces.addItemAddedListener( this.addNumberPiece.bind( this ) );
-    model.numberPieces.addItemRemovedListener( this.removeNumberPiece.bind( this ) );
+    this.numberCardCreatorCarousel = new NumberCardCreatorCarousel( this );
+    this.numberCardCreatorCarousel.centerX = this.layoutBounds.centerX;
+    this.addChild( this.numberCardCreatorCarousel );
 
     this.tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
     this.tenFrameCreatorPanel.left = 20;
     this.addChild( this.tenFrameCreatorPanel );
 
     this.objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
-      return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y + this.numberPanel.height );
+      return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y + this.numberCardCreatorCarousel.height );
+    } );
+    this.numberCardBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+      return visibleBounds.withMaxY( visibleBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y - this.tenFrameCreatorPanel.height );
     } );
 
     // create and add the OnesPlayAreaNode
@@ -167,11 +148,11 @@ class LabScreenView extends ScreenView {
       this.ballPlayAreaNode
     ];
 
-    this.inequalitySymbolsCreatorPanel = new InequalitySymbolsCreatorPanel( model, this );
+    this.inequalitySymbolCardCreatorPanel = new InequalitySymbolCardCreatorPanel( model, this );
 
     // position empirically determined
-    this.inequalitySymbolsCreatorPanel.left = this.ballPlayAreaNode.right + 15;
-    this.addChild( this.inequalitySymbolsCreatorPanel );
+    this.inequalitySymbolCardCreatorPanel.left = this.ballPlayAreaNode.right + 15;
+    this.addChild( this.inequalitySymbolCardCreatorPanel );
 
     this.tenFrameNodes = [];
 
@@ -205,7 +186,8 @@ class LabScreenView extends ScreenView {
       listener: () => {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
-        this.inequalitySymbolsCreatorPanel.reset();
+        this.numberCardCreatorCarousel.reset();
+        this.inequalitySymbolCardCreatorPanel.reset();
       },
       right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
       tandem: tandem.createTandem( 'resetAllButton' )
@@ -214,12 +196,11 @@ class LabScreenView extends ScreenView {
 
     // update the y-position of panels when the visible bounds change so everything floats to the top or bottom
     this.visibleBoundsProperty.link( visibleBounds => {
-      this.numberPanel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
-      this.numberPanel.updateModelPositions( numberPanelTransform );
+      this.numberCardCreatorCarousel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
 
       const bottomY = visibleBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       this.tenFrameCreatorPanel.bottom = bottomY;
-      this.inequalitySymbolsCreatorPanel.bottom = bottomY;
+      this.inequalitySymbolCardCreatorPanel.bottom = bottomY;
       resetAllButton.bottom = bottomY;
     } );
 
@@ -227,52 +208,10 @@ class LabScreenView extends ScreenView {
       model.tenFrames.forEach( tenFrame => {
         tenFrame.setConstrainedDestination( objectPlayAreaBounds, tenFrame.positionProperty.value );
       } );
-      this.inequalitySymbolsCreatorPanel.getAllSymbolNodes().forEach( inequalitySymbolNode => {
-        inequalitySymbolNode.setConstrainedDestination( objectPlayAreaBounds, inequalitySymbolNode.positionProperty.value );
+      this.inequalitySymbolCardCreatorPanel.getAllSymbolNodes().forEach( inequalitySymbolCardNode => {
+        inequalitySymbolCardNode.setConstrainedDestination( objectPlayAreaBounds, inequalitySymbolCardNode.positionProperty.value );
       } );
     } );
-  }
-
-  /**
-   * Returns the corresponding NumberPieceNode for a given NumberPiece.
-   */
-  private getNumberPieceNode( numberPiece: NumberPiece ): NumberPieceNode {
-    const numberPieceNode = _.find( this.numberPieceNodes, numberPieceNode => numberPieceNode.numberPiece === numberPiece );
-    assert && assert( numberPieceNode, 'matching numberPieceNode not found!' );
-    return numberPieceNode!;
-  }
-
-  /**
-   * Called when a new NumberPiece is added to the model (we'll create the view).
-   */
-  private addNumberPiece( numberPiece: NumberPiece ): void {
-    const numberPieceNode = new NumberPieceNode( numberPiece, {
-      positioned: true,
-      modelViewTransform: new ModelViewTransform2(),
-      dropListener: ( wasTouch: boolean ) => {
-        this.model.numberPieceDropped( numberPiece, wasTouch ? 50 : 20 );
-      }
-    } );
-
-    numberPieceNode.cursor = 'pointer';
-    numberPieceNode.inputListeners = [ DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
-      numberPieceNode.dragListener.press( event, numberPieceNode );
-      numberPieceNode.moveToFront();
-    } ) ];
-
-    this.numberPieceNodes.push( numberPieceNode );
-    this.pieceLayer.addChild( numberPieceNode );
-  }
-
-  /**
-   * Called when a NumberPiece is removed from the model (we'll remove the view).
-   */
-  private removeNumberPiece( numberPiece: NumberPiece ): void {
-    const numberPieceNode = this.getNumberPieceNode( numberPiece );
-
-    _.pull( this.numberPieceNodes, numberPieceNode );
-    this.pieceLayer.removeChild( numberPieceNode );
-    numberPieceNode.dispose();
   }
 
   /**
