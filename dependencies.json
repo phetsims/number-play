@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.3 Tue Sep 27 2022 10:11:43 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# number-play 1.0.4-rc.1 Tue Sep 27 2022 10:21:53 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -14,7 +14,7 @@
   },
   "chipper": {
     "sha": "aba3625094264e5ac5a1704ae80b9db787f6f359",
-    "branch": "number-play-1.0"
+    "branch": "HEAD"
   },
   "counting-common": {
     "sha": "dc45357ece083f10dbc499d4b5061ee4cf071d8c",
@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "fcf9629ac2c8ac6cf4a2174619794fecd8149581",
+    "sha": "37eded2b0690dfee3266f318ee0c26b1e0865247",
     "branch": "1.0"
   },
   "perennial-alias": {
