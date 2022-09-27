@@ -28,6 +28,8 @@ import CountingCommonConstants from '../../../../counting-common/js/common/Count
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -47,6 +49,7 @@ class LabScreenView extends ScreenView {
   private readonly playAreaNodes: OnesPlayAreaNode[];
   public readonly objectPlayAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly numberCardBoundsProperty: TReadOnlyProperty<Bounds2>;
+  public readonly bottomReturnZoneProperty: TProperty<Bounds2>;
 
   public constructor( model: LabModel, tandem: Tandem ) {
 
@@ -73,6 +76,9 @@ class LabScreenView extends ScreenView {
       return visibleBounds.withMaxY( visibleBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y - this.tenFrameCreatorPanel.height );
     } );
 
+    // return zone where any pieces from the bottom row will return to their home if they intersect when dropped
+    this.bottomReturnZoneProperty = new Property( new Bounds2( 0, 0, 0, 0 ) );
+
     // create and add the OnesPlayAreaNode
     this.paperNumberPlayAreaNode = new OnesPlayAreaNode(
       model.paperNumberPlayArea,
@@ -80,7 +86,8 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 303 // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX - 303, // TODO: calculate creator node positions
+        returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
     this.addChild( this.paperNumberPlayAreaNode );
@@ -92,7 +99,8 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 183 // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX - 183, // TODO: calculate creator node positions
+        returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
     this.addChild( this.dogPlayAreaNode );
@@ -104,7 +112,8 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 63 // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX - 63, // TODO: calculate creator node positions
+        returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
     this.addChild( this.applePlayAreaNode );
@@ -116,7 +125,8 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 57 // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 57, // TODO: calculate creator node positions
+        returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
     this.addChild( this.butterflyPlayAreaNode );
@@ -128,7 +138,8 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 177 // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 177, // TODO: calculate creator node positions
+        returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
     this.addChild( this.ballPlayAreaNode );
@@ -202,6 +213,9 @@ class LabScreenView extends ScreenView {
       this.tenFrameCreatorPanel.bottom = bottomY;
       this.inequalitySymbolCardCreatorPanel.bottom = bottomY;
       resetAllButton.bottom = bottomY;
+
+      this.bottomReturnZoneProperty.value = new Bounds2( this.tenFrameCreatorPanel.left, this.tenFrameCreatorPanel.top,
+        this.inequalitySymbolCardCreatorPanel.right, bottomY );
     } );
 
     this.objectPlayAreaBoundsProperty.link( objectPlayAreaBounds => {
@@ -245,7 +259,7 @@ class LabScreenView extends ScreenView {
         dropListener: () => {
 
           const tenFrameNode = this.getTenFrameNode( tenFrame );
-          if ( tenFrameNode.bounds.intersectsBounds( this.tenFrameCreatorPanel.bounds ) ) {
+          if ( tenFrameNode.bounds.intersectsBounds( this.bottomReturnZoneProperty.value ) ) {
             tenFrameNode.inputEnabled = false;
             tenFrame.countingObjects.clear();
 

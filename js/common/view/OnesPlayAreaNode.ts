@@ -31,6 +31,7 @@ type SelfOptions = {
   viewHasIndependentModel?: boolean; // whether this view is hooked up to its own model or a shared model
   includeOnesCreatorPanel?: boolean;
   creatorPanelX?: null | number;
+  returnZoneProperty?: null | TReadOnlyProperty<Bounds2>;
 };
 type OnesPlayAreaNodeOptions = SelfOptions;
 
@@ -56,6 +57,7 @@ class OnesPlayAreaNode extends Node {
   private readonly onesCreatorPanel: OnesCreatorPanel;
   private readonly includeOnesCreatorPanel: boolean;
   private readonly getPaperNumberOrigin: () => Vector2 = () => Vector2.ZERO;
+  private readonly returnZoneProperty: TReadOnlyProperty<Bounds2> | null;
 
   public constructor( playArea: OnesPlayArea,
                       countingObjectTypeProperty: TReadOnlyProperty<CountingObjectType>,
@@ -68,7 +70,8 @@ class OnesPlayAreaNode extends Node {
       backgroundDragTargetNode: null,
       viewHasIndependentModel: true,
       includeOnesCreatorPanel: true,
-      creatorPanelX: null
+      creatorPanelX: null,
+      returnZoneProperty: null
     }, providedOptions );
 
     // TODO-TS: Get rid of this binding pattern. Update function signatures in the attributes.
@@ -170,6 +173,7 @@ class OnesPlayAreaNode extends Node {
     }
 
     this.includeOnesCreatorPanel = options.includeOnesCreatorPanel;
+    this.returnZoneProperty = options.returnZoneProperty;
   }
 
   /**
@@ -390,7 +394,7 @@ class OnesPlayAreaNode extends Node {
     const parentBounds = this.getPaperNumberNode( paperNumber ).bounds;
 
     // And the bounds of our panel
-    const panelBounds = this.onesCreatorPanel.bounds;
+    const panelBounds = this.returnZoneProperty ? this.returnZoneProperty.value : this.onesCreatorPanel.bounds;
 
     return panelBounds.intersectsBounds( parentBounds );
   }

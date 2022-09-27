@@ -51,9 +51,9 @@ class CardCreatorNode extends Node {
 
     iconNode.addInputListener( DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
       const dropListener = () => {
-        const homeNode = options.symbolType ? screenView.inequalitySymbolCardCreatorPanel : screenView.numberCardCreatorCarousel;
+        const homeNodeBounds = options.symbolType ? screenView.bottomReturnZoneProperty.value : screenView.numberCardCreatorCarousel.bounds;
 
-        if ( cardNode.bounds.intersectsBounds( homeNode.bounds ) ) {
+        if ( cardNode.bounds.intersectsBounds( homeNodeBounds ) ) {
           cardNode.inputEnabled = false;
 
           // calculate icon's origin
