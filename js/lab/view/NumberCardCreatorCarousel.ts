@@ -1,4 +1,4 @@
-// Copyright 2019-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * The top carousel with number pieces for the Lab screen.
