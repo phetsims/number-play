@@ -28,7 +28,6 @@ git clone https://github.com/phetsims/brand.git
 git clone https://github.com/phetsims/chipper.git
 git clone https://github.com/phetsims/counting-common.git
 git clone https://github.com/phetsims/dot.git
-git clone https://github.com/phetsims/fractions-common.git
 git clone https://github.com/phetsims/joist.git
 git clone https://github.com/phetsims/kite.git
 git clone https://github.com/phetsims/number-play.git
