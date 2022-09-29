@@ -212,8 +212,11 @@ class OnesPlayArea extends CountingCommonModel {
     assert && assert( this.paperNumbers.lengthProperty.value > 0, 'paperNumbers should exist in play area' );
     assert && assert( this.initialized, 'returnPaperNumberToBucket called before initialization' );
 
-    // sort by lowest value first, then by proximity to the bucket
+    // sort by not in a ten frame, then by lowest value, then by proximity to the bucket
     const sortedPaperNumbers = _.sortBy( this.paperNumbers, [
+      paperNumber => {
+        return this.paperNumberContainedByTenFrame( paperNumber ) ? 1 : 0;
+      },
       paperNumber => {
         return paperNumber.numberValueProperty.value;
       },
@@ -252,6 +255,25 @@ class OnesPlayArea extends CountingCommonModel {
     paperNumber.setDestination( origin, true, {
       targetScale: scale
     } );
+  }
+
+  /**
+   * Returns true if the provided paperNumber is contained by a tenFrame
+   */
+  private paperNumberContainedByTenFrame( paperNumber: PaperNumber ): boolean {
+    if ( this.tenFrames ) {
+      let foundInTenFrame = false;
+
+      this.tenFrames.forEach( tenFrame => {
+        if ( tenFrame.countingObjects.includes( paperNumber ) ) {
+          foundInTenFrame = true;
+        }
+      } );
+      return foundInTenFrame;
+    }
+    else {
+      return false;
+    }
   }
 
   /**
