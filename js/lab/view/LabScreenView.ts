@@ -282,7 +282,7 @@ class LabScreenView extends ScreenView {
             } );
 
             removeAnimation.finishEmitter.addListener( () => {
-              this.model.tenFrames.remove( tenFrame );
+              this.model.tenFrames.includes( tenFrame ) && this.model.tenFrames.remove( tenFrame );
             } );
             removeAnimation.start();
           }

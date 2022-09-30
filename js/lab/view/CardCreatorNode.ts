@@ -61,7 +61,7 @@ class CardCreatorNode extends Node {
           trail = trail.slice( 1, trail.length );
           const globalOrigin = trail.localToGlobalPoint( iconNode.localBounds.center );
 
-          const removeAnimation = new Animation( {
+          cardNode.animation = new Animation( {
             duration: 0.3,
             targets: [ {
               property: cardNode.positionProperty,
@@ -70,12 +70,12 @@ class CardCreatorNode extends Node {
             } ]
           } );
 
-          removeAnimation.finishEmitter.addListener( () => {
+          cardNode.animation.finishEmitter.addListener( () => {
             screenView.pieceLayer.removeChild( cardNode );
             cardNode.dispose();
             countProperty!.value--;
           } );
-          removeAnimation.start();
+          cardNode.animation.start();
         }
       };
 

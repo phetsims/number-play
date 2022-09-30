@@ -6,6 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Animation from '../../../../twixt/js/Animation.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
@@ -32,6 +33,7 @@ export type CardNodeOptions = SelfOptions;
 class CardNode extends Node {
   public readonly dragListener: DragListener | null;
   public readonly positionProperty: TProperty<Vector2>;
+  public animation: Animation | null;
   public static readonly WIDTH = WIDTH;
 
   public constructor( content: Node, providedOptions: CardNodeOptions ) {
@@ -43,6 +45,7 @@ class CardNode extends Node {
     }, providedOptions );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO );
+    this.animation = null;
 
     const halfWidth = options.width / 2;
     const halfHeight = options.height / 2;
@@ -103,6 +106,12 @@ class CardNode extends Node {
   public setConstrainedDestination( viewBounds: Bounds2, newDestination: Vector2 ): void {
     const originBounds = this.getOriginBounds( viewBounds );
     this.positionProperty.value = originBounds.closestPointTo( newDestination );
+  }
+
+  public override dispose(): void {
+    super.dispose();
+    this.animation && this.animation.stop();
+    this.animation = null;
   }
 }
 
