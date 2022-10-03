@@ -231,7 +231,16 @@ class OnesPlayArea extends CountingCommonModel {
     } );
 
     const paperNumberToReturn = sortedPaperNumbers.shift();
-    paperNumberToReturn && this.sendPaperNumberToCreatorNode( paperNumberToReturn );
+    if ( paperNumberToReturn ) {
+
+      if ( this.paperNumberContainedByTenFrame( paperNumberToReturn ) ) {
+        const tenFrame = this.getContainingTenFrame( paperNumberToReturn );
+        tenFrame.removeCountingObject();
+      }
+      else {
+        this.sendPaperNumberToCreatorNode( paperNumberToReturn );
+      }
+    }
   }
 
   /**
@@ -274,6 +283,26 @@ class OnesPlayArea extends CountingCommonModel {
     else {
       return false;
     }
+  }
+
+  /**
+   * Returns the tenFrame that the paperNumber is contained by. Should only be called if the paperNumber is known to be
+   * contained by a tenFrame.
+   */
+  private getContainingTenFrame( paperNumber: PaperNumber ): TenFrame {
+    assert && assert( this.tenFrames, 'should not be called if there are no ten frames' );
+
+    let containingTenFrame: TenFrame;
+
+    this.tenFrames!.forEach( tenFrame => {
+      if ( tenFrame.countingObjects.includes( paperNumber ) ) {
+        containingTenFrame = tenFrame;
+      }
+    } );
+
+    assert && assert( containingTenFrame!, 'no containing tenFrame found for paperNumber' );
+
+    return containingTenFrame!;
   }
 
   /**
