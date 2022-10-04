@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * TODO
+ * Panel for creating inequality symbol cards.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
