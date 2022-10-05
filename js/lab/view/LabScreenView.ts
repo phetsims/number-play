@@ -20,7 +20,7 @@ import NumberCardCreatorCarousel from './NumberCardCreatorCarousel.js';
 import LabModel from '../model/LabModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import InequalitySymbolCardCreatorPanel from './InequalitySymbolCardCreatorPanel.js';
+import SymbolCardCreatorPanel from './SymbolCardCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
@@ -38,7 +38,7 @@ class LabScreenView extends ScreenView {
   public readonly pieceLayer: Node;
   public readonly numberCardCreatorCarousel: NumberCardCreatorCarousel;
   private readonly tenFrameNodes: DraggableTenFrameNode[];
-  public readonly inequalitySymbolCardCreatorPanel: InequalitySymbolCardCreatorPanel;
+  public readonly symbolCardCreatorPanel: SymbolCardCreatorPanel;
   private readonly tenFrameCreatorPanel: TenFrameCreatorPanel;
   private readonly paperNumberPlayAreaNode: OnesPlayAreaNode;
   private readonly dogPlayAreaNode: OnesPlayAreaNode;
@@ -49,6 +49,7 @@ class LabScreenView extends ScreenView {
   private readonly playAreaNodes: OnesPlayAreaNode[];
   public readonly objectPlayAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly numberCardBoundsProperty: TReadOnlyProperty<Bounds2>;
+  public readonly symbolCardBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly bottomReturnZoneProperty: TProperty<Bounds2>;
 
   public constructor( model: LabModel, tandem: Tandem ) {
@@ -66,14 +67,21 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberCardCreatorCarousel );
 
     this.tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
-    this.tenFrameCreatorPanel.left = 20;
+    this.tenFrameCreatorPanel.left = 130;
     this.addChild( this.tenFrameCreatorPanel );
 
-    this.objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
-      return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y + this.numberCardCreatorCarousel.height );
-    } );
     this.numberCardBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
-      return visibleBounds.withMaxY( visibleBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y - this.tenFrameCreatorPanel.height );
+      return visibleBounds.withMaxY( visibleBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y -
+                                     this.tenFrameCreatorPanel.height );
+    } );
+    this.symbolCardBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+      return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y +
+                                     this.numberCardCreatorCarousel.height ).withMaxY(
+        visibleBounds.maxY - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN - this.tenFrameCreatorPanel.height );
+    } );
+    this.objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
+      return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y +
+                                     this.numberCardCreatorCarousel.height );
     } );
 
     // return zone where any pieces from the bottom row will return to their home if they intersect when dropped
@@ -86,7 +94,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 303, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX - 193, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -99,7 +107,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 183, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX - 73, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -112,7 +120,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 63, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 47, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -125,7 +133,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 57, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 167, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -138,7 +146,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 177, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 287, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -159,11 +167,9 @@ class LabScreenView extends ScreenView {
       this.ballPlayAreaNode
     ];
 
-    this.inequalitySymbolCardCreatorPanel = new InequalitySymbolCardCreatorPanel( model, this );
-
-    // position empirically determined
-    this.inequalitySymbolCardCreatorPanel.left = this.ballPlayAreaNode.right + 15;
-    this.addChild( this.inequalitySymbolCardCreatorPanel );
+    this.symbolCardCreatorPanel = new SymbolCardCreatorPanel( model, this );
+    this.symbolCardCreatorPanel.centerY = this.visibleBoundsProperty.value.centerY;
+    this.addChild( this.symbolCardCreatorPanel );
 
     this.tenFrameNodes = [];
 
@@ -198,7 +204,7 @@ class LabScreenView extends ScreenView {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         model.reset();
         this.numberCardCreatorCarousel.reset();
-        this.inequalitySymbolCardCreatorPanel.reset();
+        this.symbolCardCreatorPanel.reset();
       },
       right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
       tandem: tandem.createTandem( 'resetAllButton' )
@@ -209,21 +215,22 @@ class LabScreenView extends ScreenView {
     this.visibleBoundsProperty.link( visibleBounds => {
       this.numberCardCreatorCarousel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
 
+      this.symbolCardCreatorPanel.right = visibleBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      resetAllButton.right = visibleBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       const bottomY = visibleBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       this.tenFrameCreatorPanel.bottom = bottomY;
-      this.inequalitySymbolCardCreatorPanel.bottom = bottomY;
       resetAllButton.bottom = bottomY;
 
       this.bottomReturnZoneProperty.value = new Bounds2( this.tenFrameCreatorPanel.left, this.tenFrameCreatorPanel.top,
-        this.inequalitySymbolCardCreatorPanel.right, bottomY );
+        this.ballPlayAreaNode.right, bottomY );
     } );
 
     this.objectPlayAreaBoundsProperty.link( objectPlayAreaBounds => {
       model.tenFrames.forEach( tenFrame => {
         tenFrame.setConstrainedDestination( objectPlayAreaBounds, tenFrame.positionProperty.value );
       } );
-      this.inequalitySymbolCardCreatorPanel.getAllSymbolNodes().forEach( inequalitySymbolCardNode => {
-        inequalitySymbolCardNode.setConstrainedDestination( objectPlayAreaBounds, inequalitySymbolCardNode.positionProperty.value );
+      this.symbolCardCreatorPanel.getAllSymbolNodes().forEach( symbolCardNode => {
+        symbolCardNode.setConstrainedDestination( objectPlayAreaBounds, symbolCardNode.positionProperty.value );
       } );
     } );
   }

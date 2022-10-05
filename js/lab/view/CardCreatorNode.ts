@@ -8,7 +8,7 @@
 
 import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import InequalitySymbolCardNode, { SymbolType } from './InequalitySymbolCardNode.js';
+import SymbolCardNode, { SymbolType } from './SymbolCardNode.js';
 import LabScreenView from './LabScreenView.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import Animation from '../../../../twixt/js/Animation.js';
@@ -33,10 +33,10 @@ class CardCreatorNode extends Node {
     if ( options.symbolType ) {
       assert && assert( !options.number, 'symbolType and number cannot both be provided' );
 
-      iconNode = new InequalitySymbolCardNode( {
+      iconNode = new SymbolCardNode( {
         symbolType: options.symbolType,
         includeDragListener: false,
-        dragBoundsProperty: screenView.objectPlayAreaBoundsProperty
+        dragBoundsProperty: screenView.symbolCardBoundsProperty
       } );
     }
     else {
@@ -51,7 +51,7 @@ class CardCreatorNode extends Node {
 
     iconNode.addInputListener( DragListener.createForwardingListener( ( event: PressListenerEvent ) => {
       const dropListener = () => {
-        const homeNodeBounds = options.symbolType ? screenView.bottomReturnZoneProperty.value : screenView.numberCardCreatorCarousel.bounds;
+        const homeNodeBounds = options.symbolType ? screenView.symbolCardCreatorPanel.bounds : screenView.numberCardCreatorCarousel.bounds;
 
         if ( cardNode.bounds.intersectsBounds( homeNodeBounds ) ) {
           cardNode.inputEnabled = false;
@@ -87,9 +87,9 @@ class CardCreatorNode extends Node {
         countProperty = contentToCountPropertyMap.get( options.symbolType )!;
         assert && assert( countProperty, 'countProperty for inequality symbol not found: ' + options.symbolType );
 
-        cardNode = new InequalitySymbolCardNode( {
+        cardNode = new SymbolCardNode( {
           symbolType: options.symbolType,
-          dragBoundsProperty: screenView.objectPlayAreaBoundsProperty,
+          dragBoundsProperty: screenView.symbolCardBoundsProperty,
           dropListener: dropListener
         } );
       }

@@ -6,14 +6,12 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import { HBox, Rectangle } from '../../../../scenery/js/imports.js';
+import { Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import LabModel from '../model/LabModel.js';
 import LabScreenView from './LabScreenView.js';
 import NumberPlayCreatorPanel from '../../common/view/NumberPlayCreatorPanel.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
-import InequalitySymbolCardNode, { SymbolType } from './InequalitySymbolCardNode.js';
+import SymbolCardNode, { SymbolType } from './SymbolCardNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import CardCreatorNode from './CardCreatorNode.js';
@@ -23,31 +21,36 @@ import Property from '../../../../axon/js/Property.js';
 const MAX_SYMBOL_PIECE_COUNT = 10;
 const SPACING = 10;
 
-class InequalitySymbolCardCreatorPanel extends NumberPlayCreatorPanel {
+class SymbolCardCreatorPanel extends NumberPlayCreatorPanel {
   private readonly lessThanNodeCountProperty: Property<number>;
-  private readonly equalNodeCountProperty: NumberProperty;
-  private readonly greaterThanNodeCountProperty: NumberProperty;
+  private readonly equalNodeCountProperty: Property<number>;
+  private readonly greaterThanNodeCountProperty: Property<number>;
+  private readonly plusNodeCountProperty: Property<number>;
+  private readonly minusNodeCountProperty: Property<number>;
   private readonly clearSymbolNodes: () => void;
   private readonly screenView: LabScreenView;
 
   public constructor( model: LabModel, screenView: LabScreenView ) {
 
     const creatorNodeBackground = new Rectangle( 0, 0,
-      InequalitySymbolCardNode.WIDTH * 3 + SPACING * 2,
-      // TODO: Factor out with OnesCreatorPanel
-      CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
+      SymbolCardNode.WIDTH,
+      ( SymbolCardNode.WIDTH + SPACING ) * 5 + SPACING * 2
     );
 
     // Properties to count the number of each type of symbol node
     const lessThanNodeCountProperty = new NumberProperty( 0 );
     const equalNodeCountProperty = new NumberProperty( 0 );
     const greaterThanNodeCountProperty = new NumberProperty( 0 );
+    const plusNodeCountProperty = new NumberProperty( 0 );
+    const minusNodeCountProperty = new NumberProperty( 0 );
 
     // create a map from SymbolType to countProperty
     const symbolToCountPropertyMap = new Map<SymbolType, TProperty<number>>();
     symbolToCountPropertyMap.set( '<', lessThanNodeCountProperty );
     symbolToCountPropertyMap.set( '=', equalNodeCountProperty );
     symbolToCountPropertyMap.set( '>', greaterThanNodeCountProperty );
+    symbolToCountPropertyMap.set( '+', plusNodeCountProperty );
+    symbolToCountPropertyMap.set( '-', minusNodeCountProperty );
 
     // make a creator node for each SymbolNode type
     const lessThanCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
@@ -59,12 +62,20 @@ class InequalitySymbolCardCreatorPanel extends NumberPlayCreatorPanel {
     const greaterThanCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
       symbolType: '>'
     } );
+    const plusCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
+      symbolType: '+'
+    } );
+    const minusCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
+      symbolType: '-'
+    } );
 
-    const iconNodes = new HBox( {
+    const iconNodes = new VBox( {
       children: [
         lessThanCreatorNode,
         equalCreatorNode,
-        greaterThanCreatorNode
+        greaterThanCreatorNode,
+        plusCreatorNode,
+        minusCreatorNode
       ],
       spacing: SPACING,
       resize: false // don't shift contents when one of the creator nodes is hidden
@@ -82,11 +93,15 @@ class InequalitySymbolCardCreatorPanel extends NumberPlayCreatorPanel {
     this.lessThanNodeCountProperty = lessThanNodeCountProperty;
     this.equalNodeCountProperty = equalNodeCountProperty;
     this.greaterThanNodeCountProperty = greaterThanNodeCountProperty;
+    this.plusNodeCountProperty = plusNodeCountProperty;
+    this.minusNodeCountProperty = minusNodeCountProperty;
 
     // make a creator node invisible if the max number for its type has been created
     this.lessThanNodeCountProperty.link( count => { lessThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
     this.equalNodeCountProperty.link( count => { equalCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
     this.greaterThanNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
+    this.plusNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
+    this.minusNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
 
     // removes and disposes all types of symbol nodes
     this.clearSymbolNodes = () => {
@@ -103,14 +118,16 @@ class InequalitySymbolCardCreatorPanel extends NumberPlayCreatorPanel {
     this.lessThanNodeCountProperty.reset();
     this.equalNodeCountProperty.reset();
     this.greaterThanNodeCountProperty.reset();
+    this.plusNodeCountProperty.reset();
+    this.minusNodeCountProperty.reset();
   }
 
-  public getAllSymbolNodes(): InequalitySymbolCardNode[] {
+  public getAllSymbolNodes(): SymbolCardNode[] {
     const allSymbolNodes = _.filter( this.screenView.pieceLayer.children,
-      child => child instanceof InequalitySymbolCardNode ) as InequalitySymbolCardNode[];
+      child => child instanceof SymbolCardNode ) as SymbolCardNode[];
     return allSymbolNodes;
   }
 }
 
-numberPlay.register( 'InequalitySymbolCardCreatorPanel', InequalitySymbolCardCreatorPanel );
-export default InequalitySymbolCardCreatorPanel;
+numberPlay.register( 'SymbolCardCreatorPanel', SymbolCardCreatorPanel );
+export default SymbolCardCreatorPanel;

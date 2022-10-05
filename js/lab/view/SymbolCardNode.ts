@@ -14,16 +14,16 @@ import numberPlay from '../../numberPlay.js';
 import CardNode, { CardNodeOptions } from './CardNode.js';
 
 // TODO: This should be in its own file, not exported as a type here.
-export type SymbolType = '<' | '=' | '>';
+export type SymbolType = '<' | '=' | '>' | '+' | '-';
 type SelfOptions = {
   symbolType: SymbolType;
 };
-export type InequalitySymbolCardNodeOptions = SelfOptions & StrictOmit<CardNodeOptions, 'height' | 'width'>;
+export type SymbolCardNodeOptions = SelfOptions & StrictOmit<CardNodeOptions, 'height' | 'width'>;
 
-class InequalitySymbolCardNode extends CardNode {
+class SymbolCardNode extends CardNode {
 
-  public constructor( providedOptions: InequalitySymbolCardNodeOptions ) {
-    const options = optionize<InequalitySymbolCardNodeOptions, SelfOptions, CardNodeOptions>()( {
+  public constructor( providedOptions: SymbolCardNodeOptions ) {
+    const options = optionize<SymbolCardNodeOptions, SelfOptions, CardNodeOptions>()( {
       height: CardNode.WIDTH,
       width: CardNode.WIDTH
     }, providedOptions );
@@ -36,5 +36,5 @@ class InequalitySymbolCardNode extends CardNode {
   }
 }
 
-numberPlay.register( 'InequalitySymbolCardNode', InequalitySymbolCardNode );
-export default InequalitySymbolCardNode;
+numberPlay.register( 'SymbolCardNode', SymbolCardNode );
+export default SymbolCardNode;
