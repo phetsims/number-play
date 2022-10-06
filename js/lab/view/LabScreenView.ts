@@ -67,7 +67,7 @@ class LabScreenView extends ScreenView {
     this.addChild( this.numberCardCreatorCarousel );
 
     this.tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
-    this.tenFrameCreatorPanel.left = 130;
+    this.tenFrameCreatorPanel.left = 210;
     this.addChild( this.tenFrameCreatorPanel );
 
     this.numberCardBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
@@ -99,6 +99,7 @@ class LabScreenView extends ScreenView {
       }
     );
     this.addChild( this.paperNumberPlayAreaNode );
+    this.paperNumberPlayAreaNode.visible = false;
 
     // create and add the left ObjectsPlayAreaNode
     this.dogPlayAreaNode = new OnesPlayAreaNode(
@@ -107,7 +108,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX - 73, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX - 113, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -120,7 +121,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 47, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 7, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -133,7 +134,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 167, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 127, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -146,7 +147,7 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         paperNumberLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: this.layoutBounds.centerX + 287, // TODO: calculate creator node positions
+        creatorPanelX: this.layoutBounds.centerX + 247, // TODO: calculate creator node positions
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
