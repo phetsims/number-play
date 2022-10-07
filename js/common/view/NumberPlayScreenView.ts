@@ -185,13 +185,12 @@ class NumberPlayScreenView extends ScreenView {
     const groupingLinkingButtons: RectangularRadioButtonItem<GroupAndLinkType>[] = [];
     const margin = 4.5;
     GroupAndLinkType.enumeration.values.forEach( groupAndLinkType => {
-      const iconNode = new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
-        maxWidth: resetAllButton.width - 2 * margin
-      } );
 
       groupingLinkingButtons.push( {
         value: groupAndLinkType,
-        node: iconNode
+        createNode: tandem => new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
+          maxWidth: resetAllButton.width - 2 * margin
+        } )
       } );
     } );
 

@@ -63,7 +63,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       // create the icons for the RectangularRadioButtonGroup
       const buttons: RectangularRadioButtonItem<CountingObjectType>[] = [];
       options.countingObjectTypes.forEach( countingObjectType => {
-        let iconNode = null;
+        let iconNode: Node | null = null;
         if ( countingObjectType === CountingObjectType.PAPER_NUMBER ) {
           iconNode = new BaseNumberNode( new BaseNumber( 1, 0 ), 1 );
           iconNode.setScaleMagnitude( RADIO_BUTTON_SIZE.height / iconNode.height );
@@ -77,7 +77,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
 
         buttons.push( {
           value: countingObjectType,
-          node: iconNode
+          createNode: tandem => iconNode!
         } );
       } );
 
