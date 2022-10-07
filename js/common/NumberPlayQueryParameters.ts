@@ -51,6 +51,12 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
     public: true,
     type: 'string',
     defaultValue: null
+  },
+
+  // whether the paper ones are visible on the 'Lab' screen
+  showLabOnes: {
+    public: true,
+    type: 'flag'
   }
 } );
 
