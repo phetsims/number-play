@@ -83,8 +83,6 @@ class LabModel {
     this.ballPlayArea.reset();
     this.tenFrames.clear();
   }
-
-  public step(): void { /* no stepping here */ }
 }
 
 numberPlay.register( 'LabModel', LabModel );
