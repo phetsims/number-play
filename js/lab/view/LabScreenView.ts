@@ -30,6 +30,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import { SymbolType } from './SymbolCardNode.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -52,7 +53,7 @@ class LabScreenView extends ScreenView {
   public readonly symbolCardBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly bottomReturnZoneProperty: TProperty<Bounds2>;
 
-  public constructor( model: LabModel, tandem: Tandem ) {
+  public constructor( model: LabModel, symbolTypes: SymbolType[], tandem: Tandem ) {
 
     super( {
       tandem: tandem
@@ -168,8 +169,8 @@ class LabScreenView extends ScreenView {
       this.ballPlayAreaNode
     ];
 
-    this.symbolCardCreatorPanel = new SymbolCardCreatorPanel( model, this );
-    this.symbolCardCreatorPanel.centerY = this.visibleBoundsProperty.value.centerY;
+    this.symbolCardCreatorPanel = new SymbolCardCreatorPanel( model, this, symbolTypes );
+    this.symbolCardCreatorPanel.centerY = this.symbolCardBoundsProperty.value.centerY;
     this.addChild( this.symbolCardCreatorPanel );
 
     this.tenFrameNodes = [];

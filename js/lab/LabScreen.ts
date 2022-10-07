@@ -34,7 +34,7 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
     super(
       () => new LabModel(
         tandem.createTandem( 'model' ) ),
-      ( model: LabModel ) => new LabScreenView( model, tandem.createTandem( 'view' ) ),
+      ( model: LabModel ) => new LabScreenView( model, [ '=', '+', '-' ], tandem.createTandem( 'view' ) ),
       options
     );
   }

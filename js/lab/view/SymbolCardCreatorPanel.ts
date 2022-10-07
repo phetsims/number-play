@@ -1,19 +1,18 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * Panel for creating inequality symbol cards.
+ * Panel for creating symbol cards.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import { Rectangle, VBox } from '../../../../scenery/js/imports.js';
+import { Rectangle, VBox, Node } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import LabModel from '../model/LabModel.js';
 import LabScreenView from './LabScreenView.js';
 import NumberPlayCreatorPanel from '../../common/view/NumberPlayCreatorPanel.js';
 import SymbolCardNode, { SymbolType } from './SymbolCardNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import TProperty from '../../../../axon/js/TProperty.js';
 import CardCreatorNode from './CardCreatorNode.js';
 import Property from '../../../../axon/js/Property.js';
 
@@ -22,61 +21,35 @@ const MAX_SYMBOL_PIECE_COUNT = 10;
 const SPACING = 10;
 
 class SymbolCardCreatorPanel extends NumberPlayCreatorPanel {
-  private readonly lessThanNodeCountProperty: Property<number>;
-  private readonly equalNodeCountProperty: Property<number>;
-  private readonly greaterThanNodeCountProperty: Property<number>;
-  private readonly plusNodeCountProperty: Property<number>;
-  private readonly minusNodeCountProperty: Property<number>;
+  private readonly symbolTypeToCountPropertyMap: Map<SymbolType, Property<number>>;
   private readonly clearSymbolNodes: () => void;
   private readonly screenView: LabScreenView;
 
-  public constructor( model: LabModel, screenView: LabScreenView ) {
+  public constructor( model: LabModel, screenView: LabScreenView, symbolTypes: SymbolType[] ) {
 
-    const creatorNodeBackground = new Rectangle( 0, 0,
-      SymbolCardNode.WIDTH,
-      ( SymbolCardNode.WIDTH + SPACING ) * 5 + SPACING * 2
-    );
-
-    // Properties to count the number of each type of symbol node
-    const lessThanNodeCountProperty = new NumberProperty( 0 );
-    const equalNodeCountProperty = new NumberProperty( 0 );
-    const greaterThanNodeCountProperty = new NumberProperty( 0 );
-    const plusNodeCountProperty = new NumberProperty( 0 );
-    const minusNodeCountProperty = new NumberProperty( 0 );
+    const cardsHeight = ( SymbolCardNode.WIDTH + SPACING ) * symbolTypes.length;
+    const yMargin = symbolTypes.length > 3 ? SPACING * 2 : SPACING;
+    const creatorNodeBackground = new Rectangle( 0, 0, SymbolCardNode.WIDTH, cardsHeight + yMargin );
 
     // create a map from SymbolType to countProperty
-    const symbolToCountPropertyMap = new Map<SymbolType, TProperty<number>>();
-    symbolToCountPropertyMap.set( '<', lessThanNodeCountProperty );
-    symbolToCountPropertyMap.set( '=', equalNodeCountProperty );
-    symbolToCountPropertyMap.set( '>', greaterThanNodeCountProperty );
-    symbolToCountPropertyMap.set( '+', plusNodeCountProperty );
-    symbolToCountPropertyMap.set( '-', minusNodeCountProperty );
+    const symbolTypeToCountPropertyMap = new Map<SymbolType, Property<number>>();
+    const symbolTypeToCreatorNodeMap = new Map<SymbolType, Node>();
 
-    // make a creator node for each SymbolNode type
-    const lessThanCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
-      symbolType: '<'
-    } );
-    const equalCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
-      symbolType: '='
-    } );
-    const greaterThanCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
-      symbolType: '>'
-    } );
-    const plusCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
-      symbolType: '+'
-    } );
-    const minusCreatorNode = new CardCreatorNode( screenView, symbolToCountPropertyMap, {
-      symbolType: '-'
+    symbolTypes.forEach( symbolType => {
+
+      // Property to count the number of each type of symbol node
+      const countProperty = new NumberProperty( 0 );
+      symbolTypeToCountPropertyMap.set( symbolType, countProperty );
+
+      // make a creator node for the SymbolNode type
+      const creatorNode = new CardCreatorNode( screenView, symbolTypeToCountPropertyMap, {
+        symbolType: symbolType
+      } );
+      symbolTypeToCreatorNodeMap.set( symbolType, creatorNode );
     } );
 
     const iconNodes = new VBox( {
-      children: [
-        lessThanCreatorNode,
-        equalCreatorNode,
-        greaterThanCreatorNode,
-        plusCreatorNode,
-        minusCreatorNode
-      ],
+      children: [ ...Array.from( symbolTypeToCreatorNodeMap.values() ) ],
       spacing: SPACING,
       resize: false // don't shift contents when one of the creator nodes is hidden
     } );
@@ -89,19 +62,15 @@ class SymbolCardCreatorPanel extends NumberPlayCreatorPanel {
     } );
 
     this.screenView = screenView;
-
-    this.lessThanNodeCountProperty = lessThanNodeCountProperty;
-    this.equalNodeCountProperty = equalNodeCountProperty;
-    this.greaterThanNodeCountProperty = greaterThanNodeCountProperty;
-    this.plusNodeCountProperty = plusNodeCountProperty;
-    this.minusNodeCountProperty = minusNodeCountProperty;
+    this.symbolTypeToCountPropertyMap = symbolTypeToCountPropertyMap;
 
     // make a creator node invisible if the max number for its type has been created
-    this.lessThanNodeCountProperty.link( count => { lessThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
-    this.equalNodeCountProperty.link( count => { equalCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
-    this.greaterThanNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
-    this.plusNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
-    this.minusNodeCountProperty.link( count => { greaterThanCreatorNode.visible = count < MAX_SYMBOL_PIECE_COUNT; } );
+    symbolTypeToCountPropertyMap.forEach( ( countProperty, symbolType ) => {
+      assert && assert( symbolTypeToCreatorNodeMap.has( symbolType ), `Node not found for symbolType: ${symbolType}` );
+      countProperty.link( count => {
+        symbolTypeToCreatorNodeMap.get( symbolType )!.visible = count < MAX_SYMBOL_PIECE_COUNT;
+      } );
+    } );
 
     // removes and disposes all types of symbol nodes
     this.clearSymbolNodes = () => {
@@ -113,15 +82,19 @@ class SymbolCardCreatorPanel extends NumberPlayCreatorPanel {
     };
   }
 
+  /**
+   * Clears all cards and resets their counts.
+   */
   public reset(): void {
     this.clearSymbolNodes();
-    this.lessThanNodeCountProperty.reset();
-    this.equalNodeCountProperty.reset();
-    this.greaterThanNodeCountProperty.reset();
-    this.plusNodeCountProperty.reset();
-    this.minusNodeCountProperty.reset();
+    this.symbolTypeToCountPropertyMap.forEach( countProperty => {
+      countProperty.reset();
+    } );
   }
 
+  /**
+   * Returns all existing cards in the play area.
+   */
   public getAllSymbolNodes(): SymbolCardNode[] {
     const allSymbolNodes = _.filter( this.screenView.pieceLayer.children,
       child => child instanceof SymbolCardNode ) as SymbolCardNode[];
