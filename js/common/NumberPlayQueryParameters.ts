@@ -26,7 +26,9 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
   subitizeTimeShown: {
     public: true,
     type: 'number',
-    defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME
+    defaultValue: NumberPlayConstants.SHAPE_VISIBLE_TIME,
+    isValidValue: ( number: number ) => number >= NumberPlayConstants.MIN_SHAPE_VISIBLE_TIME &&
+                                        number < NumberPlayConstants.MAX_SHAPE_VISIBLE_TIME
   },
 
   // Chooses the game levels that you want to appear on the 'Game' screen.
@@ -50,7 +52,7 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
   secondLocale: {
     public: true,
     type: 'string',
-    defaultValue: null
+    defaultValue: phet.chipper.locale
   },
 
   // whether the paper ones are visible on the 'Lab' screen

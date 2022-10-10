@@ -23,19 +23,7 @@ import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAn
 import Screen from '../../joist/js/Screen.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import NumberPlayModel from './common/model/NumberPlayModel.js';
-
-// get our second locale strings
-if ( NumberPlayQueryParameters.secondLocale ) {
-  const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
-
-  if ( secondLocaleStrings ) {
-    phet.numberPlay.secondLocaleStrings = secondLocaleStrings;
-  }
-  else {
-    QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
-      `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
-  }
-}
+import NumberPlayPreferences from './common/model/NumberPlayPreferences.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
@@ -54,6 +42,23 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
+
+  // get our second locale strings
+  if ( QueryStringMachine.containsKey( 'secondLocale' ) && NumberPlayQueryParameters.secondLocale ) {
+    const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
+
+    if ( secondLocaleStrings ) {
+      phet.numberPlay.secondLocaleStrings = secondLocaleStrings;
+
+      // if a valid second locale was provided, display the second locale on sim startup
+      NumberPlayPreferences.showSecondLocaleProperty.value = true;
+    }
+    else {
+      QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
+        `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
+    }
+  }
+
   const sim = new Sim( numberPlayTitleStringProperty, [
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
