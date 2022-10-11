@@ -19,7 +19,7 @@ const LEVEL_INPUT_RANGE = 5;
 class SubitizeGameLevel extends NumberPlayGameLevel {
 
   public readonly subitizer: Subitizer;
-  public readonly baseColor = NumberPlayColors.subitizeGameColorProperty;
+  public readonly baseColorProperty = NumberPlayColors.subitizeGameColorProperty;
 
   public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.SUBITIZE, LEVEL_INPUT_RANGE );

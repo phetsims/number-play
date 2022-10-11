@@ -55,7 +55,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
           listener: () => {
             levelProperty.value = level;
           },
-          baseColor: level.baseColor
+          baseColor: level.baseColorProperty
         }
       };
     } );

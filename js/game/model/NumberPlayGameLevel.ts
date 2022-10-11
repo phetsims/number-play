@@ -26,7 +26,7 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
   public readonly gameType: NumberPlayGameType;
-  public abstract readonly baseColor: TColor;
+  public abstract readonly baseColorProperty: TColor;
 
   /**
    * @param levelNumber

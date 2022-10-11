@@ -27,7 +27,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly isObjectsRepresentationProperty: BooleanProperty;
   public readonly groupObjectsAllowed: boolean;
   public readonly groupObjectsEnabledProperty: BooleanProperty;
-  public readonly baseColor = NumberPlayColors.countingGameColorProperty;
+  public readonly baseColorProperty = NumberPlayColors.countingGameColorProperty;
 
   public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );
