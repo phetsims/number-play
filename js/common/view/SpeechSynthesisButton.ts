@@ -31,7 +31,7 @@ type SelfOptions = {
   // stringProperty, because when the language changes, the stringProperty updates, but shouldn't be read aloud,
   // see https://github.com/phetsims/number-play/issues/157
   numberProperty: TReadOnlyProperty<number>;
-  numberProperty2?: TReadOnlyProperty<number>;
+  secondNumberProperty?: TReadOnlyProperty<number>;
 };
 type SpeechSynthesisButtonOptions = SelfOptions;
 
@@ -44,7 +44,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
     const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>()( {
       stringProperty: null,
-      numberProperty2: new NumberProperty( 0 )
+      secondNumberProperty: new NumberProperty( 0 )
     }, providedOptions );
 
     // However, some browsers DO give the voices eagerly and will never emit an event that the list changed so try to
@@ -66,7 +66,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
     // read numeric numbers aloud if the current number changes (or the second number, on the 'Compare' screen)
     if ( NumberPlayQueryParameters.readAloud ) {
-      Multilink.lazyMultilink( [ options.numberProperty, options.numberProperty2 ], ( firstNumber, secondNumber ) => {
+      Multilink.lazyMultilink( [ options.numberProperty, options.secondNumberProperty ], ( firstNumber, secondNumber ) => {
         listener();
       } );
     }
