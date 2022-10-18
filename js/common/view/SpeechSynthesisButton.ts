@@ -16,13 +16,13 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 type SelfOptions = {
   stringProperty?: TReadOnlyProperty<string> | null;
@@ -58,18 +58,19 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
       // read out a number by integer => word or just read out a string
       speechUtterance.alert = options.stringProperty ? options.stringProperty.value :
-                              NumberPlayConstants.numberToString( options.numberProperty.value, isPrimaryLocaleProperty.value );
+                              NumberPlayConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
+                                options.numberProperty.value, isPrimaryLocaleProperty.value );
 
       numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
       numberPlayUtteranceQueue.addToBack( speechUtterance );
     };
 
     // read numeric numbers aloud if the current number changes (or the second number, on the 'Compare' screen)
-    if ( NumberPlayQueryParameters.readAloud ) {
-      Multilink.lazyMultilink( [ options.numberProperty, options.secondNumberProperty ], ( firstNumber, secondNumber ) => {
+    Multilink.lazyMultilink( [ options.numberProperty, options.secondNumberProperty ], () => {
+      if ( numberPlayPreferences.readAloudProperty.value ) {
         listener();
-      } );
-    }
+      }
+    } );
 
     super( {
       content: new Path( bullhornSolidShape, {

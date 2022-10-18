@@ -18,6 +18,8 @@ import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 // types
 type SelfOptions = {
@@ -30,9 +32,12 @@ export type WordAccordionBoxOptions = SelfOptions &
 // constants
 const TEXT_MARGIN = 5;
 
+// how much to change the height by when the localeSwitch is shown or hidden
+const HEIGHT_ADJUSTMENT = 24;
+
 class WordAccordionBox extends NumberPlayAccordionBox {
 
-  public constructor( currentNumberProperty: TReadOnlyProperty<number>, showLocaleSwitch: boolean, isPrimaryLocaleProperty: BooleanProperty,
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: BooleanProperty,
                       height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( NumberPlayStrings.word, {
@@ -42,24 +47,27 @@ class WordAccordionBox extends NumberPlayAccordionBox {
 
     // if the locale switch is included, specify the current language in the title of the accordion box so that users
     // can see the content is changing when the accordion box is closed
-    if ( showLocaleSwitch ) {
-      // TODO: Duplicated from LocaleSwitch
-      const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
-      const secondLanguageString = phet.numberPlay.secondLocaleStrings[ secondLanguageStringKey ];
+    Multilink.multilink( [ numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
+      ( ( secondLocaleStrings, isPrimaryLocale ) => {
+        // TODO: Duplicated from LocaleSwitch
+        const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
+        const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
 
-      const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguage, {
-        language: NumberPlayStrings.language
-      } );
-      const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguage, {
-        language: secondLanguageString
-      } );
+        const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
+          language: NumberPlayStrings.language
+        } );
+        const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
+          language: secondLanguageString
+        } );
 
-      isPrimaryLocaleProperty.link( isPrimaryLocale => {
         titleNode.text = isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
-      } );
-    }
+      } ) );
 
-    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
+    const heightProperty = new DerivedProperty( [ numberPlayPreferences.showSecondLocaleProperty ], showSecondLocale => {
+      return showSecondLocale ? height - HEIGHT_ADJUSTMENT : height;
+    } );
+
+    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty,
       optionize<WordAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleNode: titleNode,
 
@@ -80,7 +88,8 @@ class WordAccordionBox extends NumberPlayAccordionBox {
     // update the word if the current number or locale changes
     Multilink.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
       ( currentNumber, isPrimaryLocale ) => {
-        wordText.text = NumberPlayConstants.numberToString( currentNumber, isPrimaryLocale );
+        wordText.text = NumberPlayConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
+          currentNumber, isPrimaryLocale );
       } );
   }
 }

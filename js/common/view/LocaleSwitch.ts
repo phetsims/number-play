@@ -14,6 +14,7 @@ import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 // constants
 const AB_SWITCH_OPTIONS = {
@@ -36,12 +37,15 @@ class LocaleSwitch extends ABSwitch<boolean> {
     };
 
     const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
-    const secondLanguageString = phet.numberPlay.secondLocaleStrings ?
-                                 phet.numberPlay.secondLocaleStrings[ secondLanguageStringKey ] : '';
+    const secondLanguageText = new Text( '', switchTextOptions );
+
+    numberPlayPreferences.secondLocaleStringsProperty.link( secondLocaleStrings => {
+      secondLanguageText.setText( secondLocaleStrings[ secondLanguageStringKey ] );
+    } );
 
     super( isPrimaryLocaleProperty,
-      true, new Text( NumberPlayStrings.language, switchTextOptions ),
-      false, new Text( secondLanguageString, switchTextOptions ),
+      true, new Text( NumberPlayStrings.languageStringProperty, switchTextOptions ),
+      false, secondLanguageText,
       AB_SWITCH_OPTIONS
     );
   }

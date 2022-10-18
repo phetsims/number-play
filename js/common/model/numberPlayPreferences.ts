@@ -16,6 +16,7 @@ import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import numberPlay from '../../numberPlay.js';
 
 export class NumberPlayPreferences extends NumberSuiteCommonPreferences {
   public readonly showCountingLevelOneProperty: LinkableProperty<boolean>;
@@ -51,6 +52,5 @@ export class NumberPlayPreferences extends NumberSuiteCommonPreferences {
 }
 
 const numberPlayPreferences = new NumberPlayPreferences();
-// numberPlay.register( 'NumberPlayPreferences', NumberPlayPreferences );
+numberPlay.register( 'numberPlayPreferences', numberPlayPreferences );
 export default numberPlayPreferences;
-// export type { NumberPlayPreferences };

@@ -23,7 +23,9 @@ import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAn
 import Screen from '../../joist/js/Screen.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import NumberPlayModel from './common/model/NumberPlayModel.js';
-import NumberPlayPreferences from './common/model/NumberPlayPreferences.js';
+import numberPlayPreferences from './common/model/numberPlayPreferences.js';
+import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
+import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
@@ -36,28 +38,24 @@ const simOptions: SimOptions = {
     qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
     graphicArts: 'Mariah Hermsmeyer',
     thanks: 'Andrea Barraugh (Math Transformations), Kristin Donley, Bertha Orona'
-  }
+  },
+  preferencesModel: new PreferencesModel( {
+    simulationOptions: {
+      customPreferences: [ {
+        createContent: () => new NumberPlayPreferencesNode()
+      } ]
+    }
+  } )
 };
 
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
 
-  // get our second locale strings
-  if ( QueryStringMachine.containsKey( 'secondLocale' ) && NumberPlayQueryParameters.secondLocale ) {
-    const secondLocaleStrings = phet.chipper.strings[ NumberPlayQueryParameters.secondLocale ];
-
-    if ( secondLocaleStrings ) {
-      phet.numberPlay.secondLocaleStrings = secondLocaleStrings;
-
-      // if a valid second locale was provided, display the second locale on sim startup
-      NumberPlayPreferences.showSecondLocaleProperty.value = true;
-    }
-    else {
+    if ( QueryStringMachine.containsKey( 'secondLocale' ) && !phet.chipper.strings[ NumberPlayQueryParameters.secondLocale! ] ) {
       QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
         `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
     }
-  }
 
   const sim = new Sim( numberPlayTitleStringProperty, [
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
@@ -91,13 +89,11 @@ simLauncher.launch( () => {
   // Update the speech synthesis voice to match the locale toggle value of the new screen. This is needed because each
   // screen has its own control for the speech synthesis locale, so the locale for the browser tab needs to be updated
   // to match whenever the screen changes.
-  if ( NumberPlayQueryParameters.secondLocale ) {
-    sim.selectedScreenProperty.lazyLink( ( screen: Screen ) => {
+  sim.selectedScreenProperty.lazyLink( ( screen: Screen ) => {
 
-      if ( screen.model instanceof NumberPlayModel &&
-           numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
-        numberPlaySpeechSynthesisAnnouncer.updateVoice( screen.model.isPrimaryLocaleProperty.value );
-      }
-    } );
-  }
+    if ( numberPlayPreferences.showSecondLocaleProperty.value && screen.model instanceof NumberPlayModel &&
+         numberPlaySpeechSynthesisAnnouncer.initialized && screen.model.isPrimaryLocaleProperty ) {
+      numberPlaySpeechSynthesisAnnouncer.updateVoice( screen.model.isPrimaryLocaleProperty.value );
+    }
+  } );
 } );

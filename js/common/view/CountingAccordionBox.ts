@@ -44,13 +44,14 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
                       height: number,
                       options: CountingAccordionBoxOptions ) {
 
-    super( width, height, optionize<CountingAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
-      titleString: NumberPlayStrings.objects,
-      titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH,
-      countingObjectTypes: null,
-      linkedPlayArea: null,
-      groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
-    }, options ) );
+    super( width, new Property<number>( height ),
+      optionize<CountingAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
+        titleString: NumberPlayStrings.objects,
+        titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH,
+        countingObjectTypes: null,
+        linkedPlayArea: null,
+        groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
+      }, options ) );
 
     const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty,
       new Property( this.contentBounds ) );

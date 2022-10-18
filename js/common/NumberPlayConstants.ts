@@ -10,6 +10,7 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import { AccordionBoxOptions } from '../../../sun/js/AccordionBox.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 
 // strings
 const zeroString = NumberPlayStrings.zero;
@@ -139,8 +140,8 @@ const NumberPlayConstants = {
   } as NumberToString,
 
   // map number values to their corresponding string
-  numberToString: ( number: number, isPrimaryLocale: boolean ): string => {
-    const numberPlaySecondaryStrings = phet.numberPlay.secondLocaleStrings;
+  // TODO: type string map
+  numberToString: ( numberPlaySecondaryStrings: IntentionalAny, number: number, isPrimaryLocale: boolean ): string => {
     const stringKey = NUMBER_TO_STRING_VALUE[ number ];
 
     // @ts-ignore
@@ -154,6 +155,8 @@ const NumberPlayConstants = {
   COUNTING_OBJECT_SCALE: 1,
 
   // game screen
+
+  NUMBER_OF_LEVELS: 4,
 
   // subitizer game
   SHAPE_DELAY_TIME: 0.5, // amount of time to delay before showing the shape

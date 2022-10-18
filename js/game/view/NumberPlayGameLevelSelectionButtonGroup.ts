@@ -10,12 +10,12 @@ import { HBox, Image, VBox } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
+import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
 
 // constants
 const BUTTON_SPACING = 30;
@@ -36,13 +36,19 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
         assert && assert( levelSelectionButtons.length === 4, 'layout hardcoded for 4 buttons' );
         return new VBox( {
           children: [
-            new HBox( { children: [ levelSelectionButtons[ 0 ], levelSelectionButtons[ 1 ] ], spacing: BUTTON_SPACING } ),
-            new HBox( { children: [ levelSelectionButtons[ 2 ], levelSelectionButtons[ 3 ] ], spacing: BUTTON_SPACING } )
+            new HBox( {
+              children: [ levelSelectionButtons[ 0 ], levelSelectionButtons[ 1 ] ],
+              spacing: BUTTON_SPACING
+            } ),
+            new HBox( {
+              children: [ levelSelectionButtons[ 2 ], levelSelectionButtons[ 3 ] ],
+              spacing: BUTTON_SPACING
+            } )
           ],
           spacing: BUTTON_SPACING
         } );
       },
-      gameLevels: NumberPlayQueryParameters.gameLevels,
+      gameLevelsProperty: numberPlayPreferences.gameLevelsProperty,
       tandem: Tandem.REQUIRED
     };
 

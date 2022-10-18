@@ -33,6 +33,7 @@ import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnou
 import LocaleSwitch from './LocaleSwitch.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 // types
 type SelfOptions = {
@@ -71,16 +72,11 @@ class NumberPlayScreenView extends ScreenView {
     this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
 
-    // whether the locale switch will be visible
-    const showLocaleSwitch = !!phet.numberPlay.secondLocaleStrings;
-    const wordAccordionBoxHeightAdjustment = showLocaleSwitch ? -24 : 0;
-
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
-      showLocaleSwitch,
       model.isPrimaryLocaleProperty,
-      options.upperAccordionBoxHeight + wordAccordionBoxHeightAdjustment,
+      options.upperAccordionBoxHeight,
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) );
@@ -129,8 +125,11 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the LocaleSwitch
     const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, wordAccordionBox.width );
     localeSwitch.centerX = wordAccordionBox.centerX;
-    localeSwitch.visible = showLocaleSwitch;
     this.addChild( localeSwitch );
+
+    numberPlayPreferences.showSecondLocaleProperty.link( showSecondLocale => {
+      localeSwitch.visible = showSecondLocale;
+    } );
 
     // update the position of the localeSwitch
     wordAccordionBox.expandedProperty.link( isExpanded => {

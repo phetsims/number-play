@@ -19,6 +19,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import OnesPlayArea from '../model/OnesPlayArea.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Property from '../../../../axon/js/Property.js';
 
 // types
 type SelfOptions = {
@@ -33,7 +34,7 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
 
   public constructor( playArea: OnesPlayArea, height: number, options: TotalAccordionBoxOptions ) {
 
-    super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, height,
+    super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TotalAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleString: NumberPlayStrings.total,
         titleMaxWidth: 142

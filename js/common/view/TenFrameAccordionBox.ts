@@ -16,6 +16,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import Property from '../../../../axon/js/Property.js';
 
 // types
 type SelfOptions = {
@@ -29,7 +30,7 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, sumRange: Range,
                       height: number, options: TenFrameAccordionBoxOptions ) {
 
-    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, height,
+    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
         titleString: NumberPlayStrings.tenFrame,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH

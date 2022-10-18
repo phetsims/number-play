@@ -38,7 +38,7 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
   // 2: Counting, Level 2
   // 3: Subitize, Level 1
   // 4: Subitize, Level 2
-  gameLevels: getGameLevelsSchema( 4 ),
+  gameLevels: getGameLevelsSchema( NumberPlayConstants.NUMBER_OF_LEVELS ),
 
   // whether the current number on the 'Ten' and 'Twenty' screens or the compare statement on the 'Compare' screen
   // should be read out loud whenever their value changes

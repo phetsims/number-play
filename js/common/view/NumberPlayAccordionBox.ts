@@ -12,6 +12,7 @@ import AccordionBox, { AccordionBoxOptions } from '../../../../sun/js/AccordionB
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   titleString: string;
@@ -25,19 +26,15 @@ const EXPAND_COLLAPSE_BUTTON_SIZE = 20;
 
 class NumberPlayAccordionBox extends AccordionBox {
   protected readonly contentNode: Rectangle;
-  protected readonly contentBounds: Bounds2;
+  protected contentBounds: Bounds2;
 
-  protected constructor( contentWidth: number, contentHeight: number, options: NumberPlayAccordionBoxOptions ) {
+  protected constructor( contentWidth: number, contentHeightProperty: TReadOnlyProperty<number>,
+                         options: NumberPlayAccordionBoxOptions ) {
 
     const contentNode = new Rectangle( {
       rectWidth: contentWidth - EXPAND_COLLAPSE_BUTTON_SIZE - ( PADDING * 2 ),
-      rectHeight: contentHeight
+      rectHeight: contentHeightProperty.value
     } );
-
-    const innerContentBounds = new Bounds2( contentNode.left, contentNode.top, contentNode.right, contentNode.bottom );
-
-    // override the local bounds so they don't change
-    contentNode.localBounds = innerContentBounds;
 
     super( contentNode, optionize<NumberPlayAccordionBoxOptions, SelfOptions, AccordionBoxOptions>()( {
       titleNode: new Text( options.titleString, {
@@ -63,13 +60,26 @@ class NumberPlayAccordionBox extends AccordionBox {
     // expose contentNode so subclasses can add their content to it
     this.contentNode = contentNode;
 
+    let innerContentBounds = new Bounds2( contentNode.left, contentNode.top, contentNode.right, contentNode.bottom );
+
     // expose the full bounds of the visible area inside the accordion box
     this.contentBounds = innerContentBounds.withOffsets( PADDING + EXPAND_COLLAPSE_BUTTON_SIZE, 0, PADDING, 0 );
 
     assert && assert( this.contentBounds.width === contentWidth,
       'available content bounds width should match provided contentWidth' );
-    assert && assert( this.contentBounds.height === contentHeight,
-      'available content bounds height should match provided height' );
+
+    contentHeightProperty.link( height => {
+      contentNode.setRectHeight( height );
+      innerContentBounds = new Bounds2( contentNode.left, contentNode.top, contentNode.right, contentNode.bottom );
+
+      // override the local bounds so they don't change
+      contentNode.localBounds = innerContentBounds;
+
+      // expose the full bounds of the visible area inside the accordion box
+      this.contentBounds = innerContentBounds.withOffsets( PADDING + EXPAND_COLLAPSE_BUTTON_SIZE, 0, PADDING, 0 );
+
+      // assert && assert( this.contentBounds.height === height, 'available content bounds height should match provided height' );
+    } );
   }
 }
 

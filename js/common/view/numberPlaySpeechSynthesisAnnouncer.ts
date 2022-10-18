@@ -13,31 +13,23 @@
 
 import SpeechSynthesisAnnouncer, { SpeechSynthesisInitializeOptions } from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import numberPlay from '../../numberPlay.js';
-import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 type NumberPlaySpeechSynthesisInitializeOptions = SpeechSynthesisInitializeOptions;
 
 class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
 
-  private primaryLocale: string | null;
-  private secondaryLocale: string | null;
   private updateVoiceListener: ( () => void ) | null;
 
   public constructor() {
     super();
 
-    this.primaryLocale = null;
-    this.secondaryLocale = null;
     this.updateVoiceListener = null;
   }
 
   public override initialize( userGestureEmitter: TEmitter, options: NumberPlaySpeechSynthesisInitializeOptions ): void {
     super.initialize( userGestureEmitter, options );
-
-    // get the locale the sim is running in
-    this.primaryLocale = phet.joist.sim.locale!;
-    this.secondaryLocale = NumberPlayQueryParameters.secondLocale;
 
     // Voices may not be available on load or the list of voices may change - update if we get an indication that
     // the list of available voices has changed.
@@ -48,14 +40,14 @@ class NumberPlaySpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
   public updateVoice( isPrimaryLocale = true ): void {
     assert && assert( this.initialized, 'must be initialized before updating voice' );
 
-    const locale = isPrimaryLocale ? this.primaryLocale : this.secondaryLocale;
+    const locale = isPrimaryLocale ? phet.joist.localeProperty.value : numberPlayPreferences.secondLocaleProperty.value;
     assert && assert( locale, `locale does not exist: ${locale}` );
 
     // in case we don't have any voices yet, wait until the voicesChangedEmitter sends an event
     if ( this.voices.length > 0 ) {
 
       const translatedVoices = _.filter( this.getPrioritizedVoices(), voice => {
-        return voice.lang.includes( locale! );
+        return voice.lang.includes( locale );
       } );
       if ( translatedVoices.length ) {
         const translatedVoice = translatedVoices[ 0 ];
