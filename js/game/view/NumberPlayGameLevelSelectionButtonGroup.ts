@@ -48,7 +48,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
           spacing: BUTTON_SPACING
         } );
       },
-      gameLevelsProperty: numberPlayPreferences.gameLevelsProperty,
+      gameLevels: numberPlayPreferences.gameLevelsProperty.value,
       tandem: Tandem.REQUIRED
     };
 
