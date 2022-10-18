@@ -11,7 +11,7 @@ import Carousel from '../../../../sun/js/Carousel.js';
 import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 import { GridBox } from '../../../../scenery/js/imports.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
-import { LanguageSelectionNode } from '../../../../joist/js/preferences/LocalePanel.js';
+import LanguageSelectionNode from '../../../../joist/js/preferences/LanguageSelectionNode.js';
 
 class SecondLocaleSelectorCarousel extends Carousel {
 
