@@ -52,10 +52,10 @@ const simOptions: SimOptions = {
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
 
-    if ( QueryStringMachine.containsKey( 'secondLocale' ) && !phet.chipper.strings[ NumberPlayQueryParameters.secondLocale! ] ) {
-      QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
-        `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
-    }
+  if ( QueryStringMachine.containsKey( 'secondLocale' ) && !phet.chipper.strings[ NumberPlayQueryParameters.secondLocale! ] ) {
+    QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
+      `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
+  }
 
   const sim = new Sim( numberPlayTitleStringProperty, [
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
