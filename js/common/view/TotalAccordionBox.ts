@@ -28,7 +28,7 @@ type SelfOptions = {
 } & PickRequired<TextOptions, 'font'>;
 export type TotalAccordionBoxOptions =
   SelfOptions
-  & StrictOmit<NumberPlayAccordionBoxOptions, 'titleString' | 'titleMaxWidth'>;
+  & StrictOmit<NumberPlayAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
 
 class TotalAccordionBox extends NumberPlayAccordionBox {
 
@@ -36,7 +36,7 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
 
     super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TotalAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
-        titleString: NumberPlayStrings.total,
+        titleStringProperty: NumberPlayStrings.totalStringProperty,
         titleMaxWidth: 142
       }, options ) );
 

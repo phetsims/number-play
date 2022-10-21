@@ -127,6 +127,8 @@ type StringsType = {
   'subitizeLevelTwoStringProperty': LinkableProperty<string>;
   'subitizeTime': string;
   'subitizeTimeStringProperty': LinkableProperty<string>;
+  'subitizeTimeDescription': string;
+  'subitizeTimeDescriptionStringProperty': LinkableProperty<string>;
 };
 
 const NumberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;

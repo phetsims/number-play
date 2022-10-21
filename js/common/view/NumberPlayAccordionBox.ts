@@ -15,7 +15,7 @@ import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
-  titleString: string;
+  titleStringProperty: TReadOnlyProperty<string>;
   titleMaxWidth: number;
 };
 export type NumberPlayAccordionBoxOptions = SelfOptions & AccordionBoxOptions;
@@ -37,7 +37,7 @@ class NumberPlayAccordionBox extends AccordionBox {
     } );
 
     super( contentNode, optionize<NumberPlayAccordionBoxOptions, SelfOptions, AccordionBoxOptions>()( {
-      titleNode: new Text( options.titleString, {
+      titleNode: new Text( options.titleStringProperty, {
         font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
         maxWidth: options.titleMaxWidth
       } ),

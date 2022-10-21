@@ -23,7 +23,7 @@ type SelfOptions = {
   tenFrameOffsetX: number;
 };
 export type TenFrameAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberPlayAccordionBoxOptions, 'titleString' | 'titleMaxWidth'>;
+  StrictOmit<NumberPlayAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
 
 class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
@@ -32,7 +32,7 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
-        titleString: NumberPlayStrings.tenFrame,
+        titleStringProperty: NumberPlayStrings.tenFrameStringProperty,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
 

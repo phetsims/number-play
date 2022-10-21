@@ -26,9 +26,9 @@ import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeObjectType from './SubitizeObjectType.js';
+import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
 
 // types
 type PredeterminedShapes = Record<number, {
@@ -194,13 +194,21 @@ class Subitizer {
     } );
 
     // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
-    // the time that the shape is shown is increased if the user gets the answer wrong multiple times.
-    this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty ],
-      numberOfAnswerButtonPresses => {
+    // the time that the shape is shown is increased if the user gets the answer wrong multiple times, or if a user
+    // changes the value in the Preferences dialog
+    this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty,
+      numberPlayPreferences.subitizeTimeShownProperty ],
+      ( numberOfAnswerButtonPresses, preferencesSubitizeTimeShown ) => {
+      let increaseTimeDueToIncorrectAnswers = 0;
+
+        // TODO-DESIGN: Is increasing this still desirable now that you can control it easily?
         if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
-          return this.timeToShowShapeProperty.value + NumberPlayConstants.SHAPE_VISIBLE_TIME_INCREASE_AMOUNT;
+          increaseTimeDueToIncorrectAnswers =
+            ( numberOfAnswerButtonPresses - NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) *
+            NumberPlayConstants.SHAPE_VISIBLE_TIME_INCREASE_AMOUNT;
         }
-        return NumberPlayQueryParameters.subitizeTimeShown;
+
+        return preferencesSubitizeTimeShown + increaseTimeDueToIncorrectAnswers;
       } );
 
     Subitizer.assertValidPredeterminedShapes();

@@ -169,5 +169,8 @@
   },
   "subitizeTime": {
     "value": "Subitize Time"
+  },
+  "subitizeTimeDescription": {
+    "value": "Set the time that objects are shown in the Subitize game levels."
   }
 }

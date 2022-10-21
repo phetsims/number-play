@@ -34,7 +34,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
                           INFO_BUTTON_MARGIN * 2;
 
     // create and add the title text
-    const titleText = new Text( NumberPlayStrings.chooseYourGame, {
+    const titleText = new Text( NumberPlayStrings.chooseYourGameStringProperty, {
       font: new PhetFont( 40 ),
       maxWidth: titleMaxWidth
     } );

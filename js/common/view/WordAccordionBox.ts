@@ -20,6 +20,7 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 // types
 type SelfOptions = {
@@ -27,7 +28,7 @@ type SelfOptions = {
   font: Font;
 };
 export type WordAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberPlayAccordionBoxOptions, 'titleString' | 'titleMaxWidth'>;
+  StrictOmit<NumberPlayAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
 
 // constants
 const TEXT_MARGIN = 5;
@@ -47,8 +48,8 @@ class WordAccordionBox extends NumberPlayAccordionBox {
 
     // if the locale switch is included, specify the current language in the title of the accordion box so that users
     // can see the content is changing when the accordion box is closed
-    Multilink.multilink( [ numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
-      ( ( secondLocaleStrings, isPrimaryLocale ) => {
+    Multilink.multilink( [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
+      ( ( locale, secondLocaleStrings, isPrimaryLocale ) => {
         // TODO: Duplicated from LocaleSwitch
         const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
         const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
@@ -63,8 +64,10 @@ class WordAccordionBox extends NumberPlayAccordionBox {
         titleNode.text = isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
       } ) );
 
+    // TODO: This is giving weird results...
     const heightProperty = new DerivedProperty( [ numberPlayPreferences.showSecondLocaleProperty ], showSecondLocale => {
-      return showSecondLocale ? height - HEIGHT_ADJUSTMENT : height;
+      const shortHeight = height - HEIGHT_ADJUSTMENT;
+      return showSecondLocale ? shortHeight : height;
     } );
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty,
@@ -73,7 +76,7 @@ class WordAccordionBox extends NumberPlayAccordionBox {
 
         // TODO: The following options are not used because of the titleNode above, but are needed because of an
         // order dependency in NumberPlayAccordionBox, and should be fixed
-        titleString: '',
+        titleStringProperty: new Property( '' ),
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
 

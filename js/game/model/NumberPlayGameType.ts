@@ -8,6 +8,7 @@ import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
 import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
 import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
 import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
+import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
 
 /**
  *  NumberPlayGameType identifies the game type in Number Play.
@@ -16,21 +17,21 @@ import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-type LevelDescriptions = Record<number, string>;
+type LevelDescriptions = Record<number, LinkableProperty<string>>;
 type LevelImages = Record<number, HTMLImageElement>;
 
 class NumberPlayGameType extends EnumerationValue {
   public static COUNTING = new NumberPlayGameType( {
-    1: NumberPlayStrings.countingLevel1Description,
-    2: NumberPlayStrings.countingLevel2Description
+    1: NumberPlayStrings.countingLevel1DescriptionStringProperty,
+    2: NumberPlayStrings.countingLevel2DescriptionStringProperty
   }, {
     1: countingGameIcon1_png,
     2: countingGameIcon2_png
   } );
 
   public static SUBITIZE = new NumberPlayGameType( {
-    1: NumberPlayStrings.subitizingLevel1Description,
-    2: NumberPlayStrings.subitizingLevel2Description
+    1: NumberPlayStrings.subitizingLevel1DescriptionStringProperty,
+    2: NumberPlayStrings.subitizingLevel2DescriptionStringProperty
   }, {
     1: subitizeGameIcon1_png,
     2: subitizeGameIcon2_png

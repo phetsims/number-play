@@ -141,12 +141,12 @@ const NumberPlayConstants = {
 
   // map number values to their corresponding string
   // TODO: type string map
-  numberToString: ( numberPlaySecondaryStrings: IntentionalAny, number: number, isPrimaryLocale: boolean ): string => {
+  numberToString: ( numberPlaySecondaryStrings: IntentionalAny, number: number, isPrimaryLocale: boolean, prefix = NUMBER_PLAY_STRING_KEY_PREFIX ): string => {
     const stringKey = NUMBER_TO_STRING_VALUE[ number ];
 
     // @ts-ignore
     return isPrimaryLocale ? NumberPlayStrings[ stringKey ] :
-           numberPlaySecondaryStrings[ `${NUMBER_PLAY_STRING_KEY_PREFIX}${stringKey}` ];
+           numberPlaySecondaryStrings[ `${prefix}${stringKey}` ];
   },
   NUMBER_PLAY_STRING_KEY_PREFIX: NUMBER_PLAY_STRING_KEY_PREFIX,
 
