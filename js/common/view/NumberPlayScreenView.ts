@@ -10,7 +10,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Image } from '../../../../scenery/js/imports.js';
-import RectangularRadioButtonGroup, { RectangularRadioButtonItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import groupingScene1_png from '../../../images/groupingScene1_png.js';
 import groupingScene2_png from '../../../images/groupingScene2_png.js';
 import groupingScene3_png from '../../../images/groupingScene3_png.js';
@@ -181,7 +181,7 @@ class NumberPlayScreenView extends ScreenView {
     }
 
     // create the icons for the RectangularRadioButtonGroup
-    const groupingLinkingButtons: RectangularRadioButtonItem<GroupAndLinkType>[] = [];
+    const groupingLinkingButtons: RectangularRadioButtonGroupItem<GroupAndLinkType>[] = [];
     const margin = 4.5;
     GroupAndLinkType.enumeration.values.forEach( groupAndLinkType => {
 

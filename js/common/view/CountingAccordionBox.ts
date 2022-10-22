@@ -12,7 +12,7 @@ import CountingCommonConstants from '../../../../counting-common/js/common/Count
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { Color, Image, Node } from '../../../../scenery/js/imports.js';
-import RectangularRadioButtonGroup, { RectangularRadioButtonItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
@@ -62,7 +62,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
     if ( options.countingObjectTypes ) {
 
       // create the icons for the RectangularRadioButtonGroup
-      const buttons: RectangularRadioButtonItem<CountingObjectType>[] = [];
+      const buttons: RectangularRadioButtonGroupItem<CountingObjectType>[] = [];
       options.countingObjectTypes.forEach( countingObjectType => {
         let iconNode: Node | null = null;
         if ( countingObjectType === CountingObjectType.PAPER_NUMBER ) {
