@@ -13,7 +13,7 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import Range from '../../../../dot/js/Range.js';
 import createObservableArray, { ObservableArray } from '../../../../axon/js/createObservableArray.js';
-import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import CountingObject from '../../../../counting-common/js/common/model/CountingObject.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 
@@ -23,7 +23,7 @@ const LINE_WIDTH = 1;
 const NUMBER_OF_SPOTS = 10;
 
 class TenFrame {
-  public readonly countingObjects: ObservableArray<PaperNumber>;
+  public readonly countingObjects: ObservableArray<CountingObject>;
   public readonly spotCenters: Vector2[];
   public readonly positionProperty: Vector2Property;
   public readonly scaleProperty: NumberProperty;
@@ -52,7 +52,7 @@ class TenFrame {
     } );
   }
 
-  public tryToAddCountingObject( countingObject: PaperNumber ): void {
+  public tryToAddCountingObject( countingObject: CountingObject ): void {
     assert && assert( !this.containsCountingObject( countingObject ) );
 
     if ( this.countingObjects.length < NUMBER_OF_SPOTS ) {
@@ -63,7 +63,7 @@ class TenFrame {
   /**
    * Sends the provided countingObject outside the nearest border of this ten frame
    */
-  public pushAwayCountingObject( countingObject: PaperNumber, playAreaBounds: Bounds2 ): void {
+  public pushAwayCountingObject( countingObject: CountingObject, playAreaBounds: Bounds2 ): void {
 
     // bounds of this tenFrame with respect to the center of the provided countingObject
     const globalBounds = this.localBounds.shifted( this.positionProperty.value )
@@ -106,7 +106,7 @@ class TenFrame {
     this.countingObjects.pop();
   }
 
-  public containsCountingObject( countingObject: PaperNumber ): boolean {
+  public containsCountingObject( countingObject: CountingObject ): boolean {
     return this.countingObjects.includes( countingObject );
   }
 
@@ -133,7 +133,7 @@ class TenFrame {
   /**
    * Calculates the position of the given paper number in the ten frame based on its index in the array
    */
-  public getCountingObjectSpot( countingObject: PaperNumber ): Vector2 {
+  public getCountingObjectSpot( countingObject: CountingObject ): Vector2 {
     const countingObjectSpotLocalPosition = this.spotCenters[ this.countingObjects.indexOf( countingObject ) ];
     const countingObjectSpotCenter = this.positionProperty.value.plus( countingObjectSpotLocalPosition );
 

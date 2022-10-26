@@ -12,13 +12,13 @@ import Panel, { PanelOptions } from '../../../../sun/js/Panel.js';
 import numberPlay from '../../numberPlay.js';
 
 type SelfOptions = EmptySelfOptions;
-type NumberPlayCreatorCreatorPanelOptions = SelfOptions & Pick<PanelOptions, 'xMargin'>;
+type NumberPlayCreatorPanelOptions = SelfOptions & Pick<PanelOptions, 'xMargin'>;
 
-class NumberPlayCreatorCreatorPanel extends Panel {
+class NumberPlayCreatorPanel extends Panel {
 
-  public constructor( content: Node, providedOptions?: NumberPlayCreatorCreatorPanelOptions ) {
+  public constructor( content: Node, providedOptions?: NumberPlayCreatorPanelOptions ) {
 
-    const options = optionize<NumberPlayCreatorCreatorPanelOptions, SelfOptions, PanelOptions>()( {
+    const options = optionize<NumberPlayCreatorPanelOptions, SelfOptions, PanelOptions>()( {
       stroke: 'rgb(201,203,203)',
       xMargin: 8,
       yMargin: 8
@@ -28,5 +28,5 @@ class NumberPlayCreatorCreatorPanel extends Panel {
   }
 }
 
-numberPlay.register( 'NumberPlayCreatorCreatorPanel', NumberPlayCreatorCreatorPanel );
-export default NumberPlayCreatorCreatorPanel;
+numberPlay.register( 'NumberPlayCreatorPanel', NumberPlayCreatorPanel );
+export default NumberPlayCreatorPanel;

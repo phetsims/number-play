@@ -7,7 +7,7 @@
  * @author Luisa Vargas
  */
 
-import OnesPlayArea from '../../common/model/OnesPlayArea.js';
+import CountingPlayArea from '../../common/model/CountingPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
@@ -22,7 +22,7 @@ const LEVEL_INPUT_RANGE = 10;
 
 class CountingGameLevel extends NumberPlayGameLevel {
 
-  public readonly objectsPlayArea: OnesPlayArea;
+  public readonly objectsPlayArea: CountingPlayArea;
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly isObjectsRepresentationProperty: BooleanProperty;
   public readonly groupObjectsAllowed: boolean;
@@ -38,7 +38,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     // whether grouping is enabled for a set of objects
     this.groupObjectsEnabledProperty = new BooleanProperty( this.groupObjectsAllowed );
 
-    this.objectsPlayArea = new OnesPlayArea( this.challengeNumberProperty.range!.max, this.groupObjectsEnabledProperty, 'objectsPlayArea' );
+    this.objectsPlayArea = new CountingPlayArea( this.challengeNumberProperty.range!.max, this.groupObjectsEnabledProperty, 'objectsPlayArea' );
 
     // the object type of the current challenge
     this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );

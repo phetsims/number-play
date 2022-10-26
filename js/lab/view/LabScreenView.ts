@@ -12,7 +12,7 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
+import CountingPlayAreaNode from '../../common/view/CountingPlayAreaNode.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from '../model/TenFrame.js';
 import DraggableTenFrameNode from './DraggableTenFrameNode.js';
@@ -23,7 +23,7 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import SymbolCardCreatorPanel from './SymbolCardCreatorPanel.js';
 import TenFrameCreatorPanel from './TenFrameCreatorPanel.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
+import CountingObject from '../../../../counting-common/js/common/model/CountingObject.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
@@ -42,13 +42,13 @@ class LabScreenView extends ScreenView {
   private readonly tenFrameNodes: DraggableTenFrameNode[];
   public readonly symbolCardCreatorPanel: SymbolCardCreatorPanel;
   private readonly tenFrameCreatorPanel: TenFrameCreatorPanel;
-  private readonly paperNumberPlayAreaNode: OnesPlayAreaNode;
-  private readonly dogPlayAreaNode: OnesPlayAreaNode;
-  private readonly applePlayAreaNode: OnesPlayAreaNode;
-  private readonly butterflyPlayAreaNode: OnesPlayAreaNode;
-  private readonly ballPlayAreaNode: OnesPlayAreaNode;
-  private readonly countingObjectTypeToPlayAreaNode: Map<CountingObjectType, OnesPlayAreaNode>;
-  private readonly playAreaNodes: OnesPlayAreaNode[];
+  private readonly countingObjectPlayAreaNode: CountingPlayAreaNode;
+  private readonly dogPlayAreaNode: CountingPlayAreaNode;
+  private readonly applePlayAreaNode: CountingPlayAreaNode;
+  private readonly butterflyPlayAreaNode: CountingPlayAreaNode;
+  private readonly ballPlayAreaNode: CountingPlayAreaNode;
+  private readonly countingObjectTypeToPlayAreaNode: Map<CountingObjectType, CountingPlayAreaNode>;
+  private readonly playAreaNodes: CountingPlayAreaNode[];
   public readonly objectPlayAreaBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly numberCardBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly symbolCardBoundsProperty: TReadOnlyProperty<Bounds2>;
@@ -62,7 +62,7 @@ class LabScreenView extends ScreenView {
 
     this.model = model;
     this.pieceLayer = new Node();
-    const backgroundDragTargetNode = new Rectangle( this.layoutBounds ); // see OnesPlayAreaNode for doc
+    const backgroundDragTargetNode = new Rectangle( this.layoutBounds ); // see CountingPlayAreaNode for doc
 
     // TODO: Refactor with Properties
     let tenFrameCreatorPanelLeft;
@@ -103,11 +103,11 @@ class LabScreenView extends ScreenView {
     this.bottomReturnZoneProperty = new Property( new Bounds2( 0, 0, 0, 0 ) );
 
     // create and add the left ObjectsPlayAreaNode
-    this.dogPlayAreaNode = new OnesPlayAreaNode(
+    this.dogPlayAreaNode = new CountingPlayAreaNode(
       model.dogPlayArea,
       new EnumerationProperty( CountingObjectType.DOG ),
       this.objectPlayAreaBoundsProperty, {
-        paperNumberLayerNode: this.pieceLayer,
+        countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: applesX - creatorNodeSpacing,
         returnZoneProperty: this.bottomReturnZoneProperty
@@ -116,11 +116,11 @@ class LabScreenView extends ScreenView {
     this.addChild( this.dogPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    this.applePlayAreaNode = new OnesPlayAreaNode(
+    this.applePlayAreaNode = new CountingPlayAreaNode(
       model.applePlayArea,
       new EnumerationProperty( CountingObjectType.APPLE ),
       this.objectPlayAreaBoundsProperty, {
-        paperNumberLayerNode: this.pieceLayer,
+        countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: applesX,
         returnZoneProperty: this.bottomReturnZoneProperty
@@ -129,11 +129,11 @@ class LabScreenView extends ScreenView {
     this.addChild( this.applePlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    this.butterflyPlayAreaNode = new OnesPlayAreaNode(
+    this.butterflyPlayAreaNode = new CountingPlayAreaNode(
       model.butterflyPlayArea,
       new EnumerationProperty( CountingObjectType.BUTTERFLY ),
       this.objectPlayAreaBoundsProperty, {
-        paperNumberLayerNode: this.pieceLayer,
+        countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: applesX + creatorNodeSpacing,
         returnZoneProperty: this.bottomReturnZoneProperty
@@ -142,11 +142,11 @@ class LabScreenView extends ScreenView {
     this.addChild( this.butterflyPlayAreaNode );
 
     // create and add the right ObjectsPlayAreaNode
-    this.ballPlayAreaNode = new OnesPlayAreaNode(
+    this.ballPlayAreaNode = new CountingPlayAreaNode(
       model.ballPlayArea,
       new EnumerationProperty( CountingObjectType.BALL ),
       this.objectPlayAreaBoundsProperty, {
-        paperNumberLayerNode: this.pieceLayer,
+        countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: applesX + creatorNodeSpacing * 2,
         returnZoneProperty: this.bottomReturnZoneProperty
@@ -154,33 +154,33 @@ class LabScreenView extends ScreenView {
     );
     this.addChild( this.ballPlayAreaNode );
 
-    // create and add the OnesPlayAreaNode
-    this.paperNumberPlayAreaNode = new OnesPlayAreaNode(
-      model.paperNumberPlayArea,
+    // create and add the CountingPlayAreaNode
+    this.countingObjectPlayAreaNode = new CountingPlayAreaNode(
+      model.countingObjectPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       this.objectPlayAreaBoundsProperty, {
-        paperNumberLayerNode: this.pieceLayer,
+        countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
         creatorPanelX: applesX + creatorNodeSpacing * 3,
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
-    this.addChild( this.paperNumberPlayAreaNode );
-    this.paperNumberPlayAreaNode.visible = NumberPlayQueryParameters.showLabOnes;
+    this.addChild( this.countingObjectPlayAreaNode );
+    this.countingObjectPlayAreaNode.visible = NumberPlayQueryParameters.showLabOnes;
 
     this.countingObjectTypeToPlayAreaNode = new Map();
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.DOG, this.dogPlayAreaNode );
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.APPLE, this.applePlayAreaNode );
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.BUTTERFLY, this.butterflyPlayAreaNode );
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.BALL, this.ballPlayAreaNode );
-    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.PAPER_NUMBER, this.paperNumberPlayAreaNode );
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.PAPER_NUMBER, this.countingObjectPlayAreaNode );
 
     this.playAreaNodes = [
       this.dogPlayAreaNode,
       this.applePlayAreaNode,
       this.butterflyPlayAreaNode,
       this.ballPlayAreaNode,
-      this.paperNumberPlayAreaNode
+      this.countingObjectPlayAreaNode
     ];
 
     this.symbolCardCreatorPanel = new SymbolCardCreatorPanel( model, this, symbolTypes );
@@ -252,17 +252,17 @@ class LabScreenView extends ScreenView {
   }
 
   /**
-   * Returns the counting object type of the PaperNumberNode for the given PaperNumber
+   * Returns the counting object type of the CountingObjectNode for the given CountingObject
    */
-  private getCountingObjectType( countingObject: PaperNumber ): CountingObjectType {
+  private getCountingObjectType( countingObject: CountingObject ): CountingObjectType {
     let countingObjectType = CountingObjectType.DOG;
     let countingObjectTypeFound = false;
 
     for ( let i = 0; i < this.playAreaNodes.length; i++ ) {
       const playAreaNode = this.playAreaNodes[ i ];
 
-      if ( playAreaNode.playArea.paperNumbers.includes( countingObject ) ) {
-        const countingObjectNode = playAreaNode.getPaperNumberNode( countingObject );
+      if ( playAreaNode.playArea.countingObjects.includes( countingObject ) ) {
+        const countingObjectNode = playAreaNode.getCountingObjectNode( countingObject );
         countingObjectType = countingObjectNode.countingObjectTypeProperty.value;
         countingObjectTypeFound = true;
         break;
@@ -311,10 +311,10 @@ class LabScreenView extends ScreenView {
           }
         }, removeCountingObjectListener: countingObject => {
           const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
-          playAreaNode.playArea.sendPaperNumberToCreatorNode( countingObject );
+          playAreaNode.playArea.sendCountingObjectToCreatorNode( countingObject );
         }, getCountingObjectNode: countingObject => {
           const playAreaNode = this.getCorrespondingPlayAreaNode( countingObject );
-          return playAreaNode.getPaperNumberNode( countingObject );
+          return playAreaNode.getCountingObjectNode( countingObject );
         }
       } );
 
@@ -346,7 +346,7 @@ class LabScreenView extends ScreenView {
    * Each type of counting object has its own play area, so when working with a counting object, we need to look up
    * its corresponding play area in order to do an operation on it (like sending the counting object back to its origin).
    */
-  private getCorrespondingPlayAreaNode( countingObject: PaperNumber ): OnesPlayAreaNode {
+  private getCorrespondingPlayAreaNode( countingObject: CountingObject ): CountingPlayAreaNode {
     const countingObjectType = this.getCountingObjectType( countingObject );
     const playAreaNode = this.countingObjectTypeToPlayAreaNode.get( countingObjectType );
     assert && assert( playAreaNode, 'playAreaNode not found for counting object type: ' + countingObjectType.name );

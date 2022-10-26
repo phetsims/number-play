@@ -8,7 +8,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlay from '../../numberPlay.js';
-import OnesPlayArea from './OnesPlayArea.js';
+import CountingPlayArea from './CountingPlayArea.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupAndLinkType from './GroupAndLinkType.js';
@@ -24,8 +24,8 @@ class NumberPlayModel {
   public readonly sumRange: Range;
   public readonly currentNumberProperty: TProperty<number>;
   public readonly isPrimaryLocaleProperty: BooleanProperty;
-  public readonly onesPlayArea: OnesPlayArea;
-  public readonly objectsPlayArea: OnesPlayArea;
+  public readonly onesPlayArea: CountingPlayArea;
+  public readonly objectsPlayArea: CountingPlayArea;
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
   private readonly isResettingProperty: BooleanProperty;
@@ -55,10 +55,10 @@ class NumberPlayModel {
     } );
 
     // the model for managing the play area in the OnesAccordionBox
-    this.onesPlayArea = new OnesPlayArea( highestCount, new BooleanProperty( true ), 'onesPlayArea' );
+    this.onesPlayArea = new CountingPlayArea( highestCount, new BooleanProperty( true ), 'countingPlayArea' );
 
     // the model for managing the play area in the ObjectsAccordionBox
-    this.objectsPlayArea = new OnesPlayArea( highestCount, this.groupingEnabledProperty, 'objectsPlayArea' );
+    this.objectsPlayArea = new CountingPlayArea( highestCount, this.groupingEnabledProperty, 'objectsPlayArea' );
 
     let onesLeading = false;
     let objectsLeading = false;
@@ -72,7 +72,7 @@ class NumberPlayModel {
         onesLeading = true;
 
         this.currentNumberProperty.value = sum;
-        // console.log( 'onesPlayArea set to ' + sum + ', matching objectsPlayArea' );
+        // console.log( 'countingPlayArea set to ' + sum + ', matching objectsPlayArea' );
         this.matchPlayAreaToNewValue( sum, oldSum, this.objectsPlayArea );
 
         onesLeading = false;
@@ -85,7 +85,7 @@ class NumberPlayModel {
         objectsLeading = true;
 
         this.currentNumberProperty.value = sum;
-        // console.log( 'objectsPlayArea set to ' + sum + ', matching onesPlayArea' );
+        // console.log( 'objectsPlayArea set to ' + sum + ', matching countingPlayArea' );
         this.matchPlayAreaToNewValue( sum, oldSum, this.onesPlayArea );
 
         objectsLeading = false;
@@ -93,20 +93,20 @@ class NumberPlayModel {
     } );
   }
 
-  private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: OnesPlayArea ): void {
+  private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: CountingPlayArea ): void {
     const difference = newValue - oldValue;
     // console.log( `matching ${playArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
     if ( difference > 0 ) {
       assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
                                           'at a time to match the opposite play area: ' + difference );
-      playArea.createPaperNumberFromBucket( {
+      playArea.createCountingObjectFromBucket( {
         shouldAnimate: true,
         value: 1
       } );
     }
     else {
       _.times( Math.abs( difference ), () => {
-        playArea.returnPaperNumberToBucket();
+        playArea.returnCountingObjectToBucket();
       } );
     }
   }

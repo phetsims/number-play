@@ -13,17 +13,17 @@ import Vector2 from '../../../../dot/js/Vector2.js';
 import { HBox, Rectangle, VBox } from '../../../../scenery/js/imports.js';
 import ArrowButton, { ArrowButtonOptions } from '../../../../sun/js/buttons/ArrowButton.js';
 import numberPlay from '../../numberPlay.js';
-import OnesPlayArea from '../model/OnesPlayArea.js';
-import OnesPlayAreaNode from './OnesPlayAreaNode.js';
+import CountingPlayArea from '../model/CountingPlayArea.js';
+import CountingPlayAreaNode from './CountingPlayAreaNode.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import NumberPlayCreatorPanel from './NumberPlayCreatorPanel.js';
 
-class OnesCreatorPanel extends NumberPlayCreatorPanel {
+class CountingObjectCreatorPanel extends NumberPlayCreatorPanel {
   public countingCreatorNode: CountingCreatorNode;
 
-  public constructor( playArea: OnesPlayArea, screenView: OnesPlayAreaNode ) {
+  public constructor( playArea: CountingPlayArea, screenView: CountingPlayAreaNode ) {
 
     // create the arrow buttons, which change the value of currentNumberProperty by -1 or +1
     const arrowButtonOptions = {
@@ -32,14 +32,14 @@ class OnesCreatorPanel extends NumberPlayCreatorPanel {
     };
     const upArrowButton = new ArrowButton( 'up', () => {
       // console.log( `about to add 1 with up arrow in in ${playArea.name}` );
-      playArea.createPaperNumberFromBucket( {
+      playArea.createCountingObjectFromBucket( {
         shouldAnimate: true,
         value: 1
       } );
     }, optionize<ArrowButtonOptions, EmptySelfOptions>()( { touchAreaYShift: -3 }, arrowButtonOptions ) );
     const downArrowButton = new ArrowButton( 'down', () => {
       // console.log( `about to remove 1 with up arrow in in ${playArea.name}` );
-      playArea.returnPaperNumberToBucket();
+      playArea.returnCountingObjectToBucket();
     }, optionize<ArrowButtonOptions, EmptySelfOptions>()( { touchAreaYShift: 3 }, arrowButtonOptions ) );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],
@@ -51,7 +51,7 @@ class OnesCreatorPanel extends NumberPlayCreatorPanel {
       CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
     );
 
-    // @ts-ignore TODO-TS: Remove if/when OnesPlayAreaNode extends CountingCommonView
+    // @ts-ignore TODO-TS: Remove if/when CountingPlayAreaNode extends CountingCommonView
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, playArea.resetEmitter, {
       updateCurrentNumber: true,
       countingObjectTypeProperty: screenView.countingObjectTypeProperty,
@@ -88,5 +88,5 @@ class OnesCreatorPanel extends NumberPlayCreatorPanel {
   }
 }
 
-numberPlay.register( 'OnesCreatorPanel', OnesCreatorPanel );
-export default OnesCreatorPanel;
+numberPlay.register( 'CountingObjectCreatorPanel', CountingObjectCreatorPanel );
+export default CountingObjectCreatorPanel;

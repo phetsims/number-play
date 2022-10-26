@@ -16,8 +16,8 @@ import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '..
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import OnesPlayAreaNode from './OnesPlayAreaNode.js';
-import OnesPlayArea from '../model/OnesPlayArea.js';
+import CountingPlayAreaNode from './CountingPlayAreaNode.js';
+import CountingPlayArea from '../model/CountingPlayArea.js';
 import BaseNumberNode from '../../../../counting-common/js/common/view/BaseNumberNode.js';
 import BaseNumber from '../../../../counting-common/js/common/model/BaseNumber.js';
 import GroupAndLinkType from '../model/GroupAndLinkType.js';
@@ -28,7 +28,7 @@ import Property from '../../../../axon/js/Property.js';
 // types
 type SelfOptions = {
   countingObjectTypes?: CountingObjectType[] | null;
-  linkedPlayArea?: OnesPlayArea | null;
+  linkedPlayArea?: CountingPlayArea | null;
   groupAndLinkTypeProperty?: EnumerationProperty<GroupAndLinkType>;
 };
 export type CountingAccordionBoxOptions = SelfOptions & NumberPlayAccordionBoxOptions;
@@ -38,7 +38,7 @@ const RADIO_BUTTON_SIZE = new Dimension2( 28, 28 ); // in screen coordinates
 
 class CountingAccordionBox extends NumberPlayAccordionBox {
 
-  public constructor( playArea: OnesPlayArea,
+  public constructor( playArea: CountingPlayArea,
                       countingObjectTypeProperty: EnumerationProperty<CountingObjectType>,
                       width: number,
                       height: number,
@@ -53,7 +53,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
         groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
       }, options ) );
 
-    const objectsPlayAreaNode = new OnesPlayAreaNode( playArea, countingObjectTypeProperty,
+    const objectsPlayAreaNode = new CountingPlayAreaNode( playArea, countingObjectTypeProperty,
       new Property( this.contentBounds ) );
     this.contentNode.addChild( objectsPlayAreaNode );
 
@@ -97,7 +97,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
 
     // add the linked play area
     if ( options.linkedPlayArea && options.groupAndLinkTypeProperty ) {
-      const linkedObjectsPlayAreaNode = new OnesPlayAreaNode(
+      const linkedObjectsPlayAreaNode = new CountingPlayAreaNode(
         options.linkedPlayArea,
         countingObjectTypeProperty,
         new Property( this.contentBounds ), {

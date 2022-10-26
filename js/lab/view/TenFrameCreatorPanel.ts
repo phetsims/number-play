@@ -37,7 +37,7 @@ class TenFrameCreatorPanel extends NumberPlayCreatorPanel {
 
     const creatorNodeBackground = new Rectangle( 0, 0,
       iconNode.width,
-      // TODO: Factor out with OnesCreatorPanel
+      // TODO: Factor out with CountingObjectCreatorPanel
       CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
     );
     iconNode.center = creatorNodeBackground.center;

@@ -12,7 +12,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import OnesPlayAreaNode from '../../common/view/OnesPlayAreaNode.js';
+import CountingPlayAreaNode from '../../common/view/CountingPlayAreaNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import TenFrameNode from '../../common/view/TenFrameNode.js';
@@ -71,11 +71,11 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     playAreaNode.localBounds = objectsPlayAreaViewBounds;
 
     // create and add the objectsPlayAreaNode
-    const objectsPlayAreaNode = new OnesPlayAreaNode(
+    const objectsPlayAreaNode = new CountingPlayAreaNode(
       level.objectsPlayArea,
       level.countingObjectTypeProperty,
       new Property( objectsPlayAreaViewBounds ), {
-        includeOnesCreatorPanel: false
+        includeCountingObjectCreatorPanel: false
       }
     );
     playAreaNode.addChild( objectsPlayAreaNode );

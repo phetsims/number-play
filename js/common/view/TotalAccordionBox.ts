@@ -16,7 +16,7 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 import Range from '../../../../dot/js/Range.js';
 import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import OnesPlayArea from '../model/OnesPlayArea.js';
+import CountingPlayArea from '../model/CountingPlayArea.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import Property from '../../../../axon/js/Property.js';
@@ -32,7 +32,7 @@ export type TotalAccordionBoxOptions =
 
 class TotalAccordionBox extends NumberPlayAccordionBox {
 
-  public constructor( playArea: OnesPlayArea, height: number, options: TotalAccordionBoxOptions ) {
+  public constructor( playArea: CountingPlayArea, height: number, options: TotalAccordionBoxOptions ) {
 
     super( NumberPlayConstants.TOTAL_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TotalAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
@@ -53,17 +53,17 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
       backgroundStroke: null
     } );
 
-    // create the arrow buttons, which add or remove paper numbers
+    // create the arrow buttons, which add or remove counting Objects
     const upArrowButton = new ArrowButton( 'up', () => {
       // console.log( 'about to add 1 with up arrow in in total accordion box' );
-      playArea.createPaperNumberFromBucket( {
+      playArea.createCountingObjectFromBucket( {
         shouldAnimate: true,
         value: 1
       } );
     }, options.arrowButtonOptions );
     const downArrowButton = new ArrowButton( 'down', () => {
       // console.log( 'about to remove 1 with up arrow in in total accordion box' );
-      playArea.returnPaperNumberToBucket();
+      playArea.returnCountingObjectToBucket();
     }, options.arrowButtonOptions );
     const arrowButtons = new VBox( {
       children: [ upArrowButton, downArrowButton ],

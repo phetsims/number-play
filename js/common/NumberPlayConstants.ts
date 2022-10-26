@@ -88,7 +88,7 @@ const NumberPlayConstants = {
   TEN: 10,
   TWENTY: 20,
 
-  PAPER_NUMBER_INITIAL_VALUE: 1, // the initial value of every created paperNumber
+  PAPER_NUMBER_INITIAL_VALUE: 1, // the initial value of every created countingObject
 
   // accordion box sizing for the 'Ten', 'Twenty', and 'Compare' screens
 

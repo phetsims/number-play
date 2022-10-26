@@ -9,8 +9,8 @@
 import Multilink from '../../../../axon/js/Multilink.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import PaperNumber from '../../../../counting-common/js/common/model/PaperNumber.js';
-import PaperNumberNode from '../../../../counting-common/js/common/view/PaperNumberNode.js';
+import CountingObject from '../../../../counting-common/js/common/model/CountingObject.js';
+import CountingObjectNode from '../../../../counting-common/js/common/view/CountingObjectNode.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ReturnButton from '../../../../scenery-phet/js/buttons/ReturnButton.js';
 import { DragListener, Node, PressListenerEvent } from '../../../../scenery/js/imports.js';
@@ -20,8 +20,8 @@ import TenFrame from '../model/TenFrame.js';
 
 type SelfOptions = {
   dropListener: () => void;
-  removeCountingObjectListener: ( countingObject: PaperNumber ) => void;
-  getCountingObjectNode: ( countingObject: PaperNumber ) => PaperNumberNode;
+  removeCountingObjectListener: ( countingObject: CountingObject ) => void;
+  getCountingObjectNode: ( countingObject: CountingObject ) => CountingObjectNode;
 };
 type DraggableTenFrameNodeOptions = SelfOptions;
 

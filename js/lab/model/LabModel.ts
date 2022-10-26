@@ -11,7 +11,7 @@ import createObservableArray, { ObservableArray } from '../../../../axon/js/crea
 import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import OnesPlayArea from '../../common/model/OnesPlayArea.js';
+import CountingPlayArea from '../../common/model/CountingPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import TenFrame from './TenFrame.js';
 
@@ -20,11 +20,11 @@ const HIGHEST_COUNT = 20;
 
 class LabModel {
   public readonly tenFrames: ObservableArray<TenFrame>;
-  public readonly paperNumberPlayArea: OnesPlayArea;
-  public readonly dogPlayArea: OnesPlayArea;
-  public readonly applePlayArea: OnesPlayArea;
-  public readonly butterflyPlayArea: OnesPlayArea;
-  public readonly ballPlayArea: OnesPlayArea;
+  public readonly countingObjectPlayArea: CountingPlayArea;
+  public readonly dogPlayArea: CountingPlayArea;
+  public readonly applePlayArea: CountingPlayArea;
+  public readonly butterflyPlayArea: CountingPlayArea;
+  public readonly ballPlayArea: CountingPlayArea;
   public readonly selectedTenFrameProperty: TProperty<TenFrame | null>;
 
   public constructor( tandem: Tandem ) {
@@ -33,31 +33,31 @@ class LabModel {
     this.selectedTenFrameProperty = new Property<TenFrame | null>( null );
 
     // create five different kinds of play areas
-    this.paperNumberPlayArea = new OnesPlayArea(
+    this.countingObjectPlayArea = new CountingPlayArea(
       HIGHEST_COUNT,
       new BooleanProperty( true ),
-      'paperNumberPlayArea', {
+      'countingObjectPlayArea', {
         tenFrames: this.tenFrames
       } );
-    this.dogPlayArea = new OnesPlayArea(
+    this.dogPlayArea = new CountingPlayArea(
       HIGHEST_COUNT,
       new BooleanProperty( false ),
       'dogPlayArea', {
         tenFrames: this.tenFrames
       } );
-    this.applePlayArea = new OnesPlayArea(
+    this.applePlayArea = new CountingPlayArea(
       HIGHEST_COUNT,
       new BooleanProperty( false ),
       'applePlayArea', {
         tenFrames: this.tenFrames
       } );
-    this.butterflyPlayArea = new OnesPlayArea(
+    this.butterflyPlayArea = new CountingPlayArea(
       HIGHEST_COUNT,
       new BooleanProperty( false ),
       'butterflyPlayArea', {
         tenFrames: this.tenFrames
       } );
-    this.ballPlayArea = new OnesPlayArea(
+    this.ballPlayArea = new CountingPlayArea(
       HIGHEST_COUNT,
       new BooleanProperty( false ),
       'ballPlayArea', {
@@ -76,7 +76,7 @@ class LabModel {
    * Resets the model.
    */
   public reset(): void {
-    this.paperNumberPlayArea.reset();
+    this.countingObjectPlayArea.reset();
     this.dogPlayArea.reset();
     this.applePlayArea.reset();
     this.butterflyPlayArea.reset();
