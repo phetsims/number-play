@@ -369,8 +369,7 @@ class CountingPlayAreaNode extends Node {
 
     // find all other counting Object nodes that are overlapping the dropped node
     const unorderedAttachableTenFrameNodes = tenFrameNodeCandidates.filter( tenFrameNode => {
-      return tenFrameNode.localToParentBounds( tenFrameNode.localBounds )
-        .containsPoint( countingObjectNode.localToParentPoint( countingObjectNode.localBounds.center ) );
+      return tenFrameNode.tenFrame.isCountingObjectOnTopOf( countingObjectNode.countingObject );
     } );
 
     return _.sortBy( unorderedAttachableTenFrameNodes, attachableTenFrameNode => {

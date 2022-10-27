@@ -70,7 +70,7 @@ class TenFrame {
       .shiftedXY( -countingObject.localBounds.center.x, -countingObject.localBounds.center.y );
     const countingObjectPosition = countingObject.positionProperty.value;
 
-    assert && assert( globalBounds.containsPoint( countingObjectPosition ),
+    assert && assert( this.isCountingObjectOnTopOf( countingObject ),
       'attempted to push away countingObject that was not over ten frame' );
 
     // find the distance to the potential destination spot for every side of the tenFrame
@@ -108,6 +108,19 @@ class TenFrame {
 
   public containsCountingObject( countingObject: CountingObject ): boolean {
     return this.countingObjects.includes( countingObject );
+  }
+
+  /**
+   * Is the center of the provided countingObject over this tenFrame.
+   */
+  public isCountingObjectOnTopOf( countingObject: CountingObject ): boolean {
+
+    // bounds of this tenFrame with respect to the center of the provided countingObject
+    const globalBounds = this.localBounds.shifted( this.positionProperty.value )
+      .shiftedXY( -countingObject.localBounds.center.x, -countingObject.localBounds.center.y );
+    const countingObjectPosition = countingObject.positionProperty.value;
+
+    return globalBounds.containsPoint( countingObjectPosition );
   }
 
   /**
