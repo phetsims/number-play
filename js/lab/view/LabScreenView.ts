@@ -81,13 +81,17 @@ class LabScreenView extends ScreenView {
     this.numberCardCreatorCarousel.centerX = this.layoutBounds.centerX;
     this.addChild( this.numberCardCreatorCarousel );
 
+    // create the symbolCardCreatorPanel, position later after we create the boundsProperty
+    this.symbolCardCreatorPanel = new SymbolCardCreatorPanel( model, this, symbolTypes );
+
     this.tenFrameCreatorPanel = new TenFrameCreatorPanel( model, this );
     this.tenFrameCreatorPanel.left = tenFrameCreatorPanelLeft;
     this.addChild( this.tenFrameCreatorPanel );
 
     this.numberCardBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
       return visibleBounds.withMaxY( visibleBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y -
-                                     this.tenFrameCreatorPanel.height );
+                                     this.tenFrameCreatorPanel.height )
+        .withMaxX( visibleBounds.maxX - this.symbolCardCreatorPanel.width - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN );
     } );
     this.symbolCardBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
       return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y +
@@ -96,7 +100,8 @@ class LabScreenView extends ScreenView {
     } );
     this.objectPlayAreaBoundsProperty = new DerivedProperty( [ this.visibleBoundsProperty ], visibleBounds => {
       return visibleBounds.withMinY( visibleBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y +
-                                     this.numberCardCreatorCarousel.height );
+                                     this.numberCardCreatorCarousel.height )
+        .withMaxX( visibleBounds.maxX - this.symbolCardCreatorPanel.width - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN );
     } );
 
     // return zone where any pieces from the bottom row will return to their home if they intersect when dropped
@@ -183,7 +188,7 @@ class LabScreenView extends ScreenView {
       this.countingObjectPlayAreaNode
     ];
 
-    this.symbolCardCreatorPanel = new SymbolCardCreatorPanel( model, this, symbolTypes );
+    // position and add the symbolCardCreatorPanel later so we have access to its bounds Property
     this.symbolCardCreatorPanel.centerY = this.symbolCardBoundsProperty.value.centerY;
     this.addChild( this.symbolCardCreatorPanel );
 
