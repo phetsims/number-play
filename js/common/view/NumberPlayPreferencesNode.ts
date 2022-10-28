@@ -90,7 +90,6 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
       const isGameScreen = screens.includes( 3 );
       const isLabScreen = screens.includes( 4 );
 
-      this.readAloudToggleSwitch.enabled = isSecondLocaleScreen;
       this.showSecondLocaleControl.enabled = isSecondLocaleScreen;
       gameLevelsHeader.enabled = isGameScreen;
       gameScreenControls.enabled = isGameScreen;

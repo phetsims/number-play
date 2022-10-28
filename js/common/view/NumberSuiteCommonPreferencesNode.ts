@@ -39,7 +39,6 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
   public static readonly CONTROL_DESCRIPTION_SPACING = CONTROL_DESCRIPTION_SPACING;
   public static readonly V_BOX_SPACING = V_BOX_SPACING;
   public static readonly V_BOX_OPTIONS = V_BOX_OPTIONS;
-  protected readonly readAloudToggleSwitch: Node;
   protected readonly showSecondLocaleControl: Node;
   protected readonly showLabOnesToggleSwitch: Node;
 
@@ -50,11 +49,6 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
       align: 'top'
     } );
 
-    this.readAloudToggleSwitch = new PreferencesToggleSwitch( preferences.readAloudProperty, false, true, {
-      labelNode: new Text( NumberPlayStrings.readAloudStringProperty, CONTROL_TEXT_BOLD_OPTIONS ),
-      descriptionNode: new Text( NumberPlayStrings.readAloudDescriptionStringProperty, CONTROL_TEXT_OPTIONS ),
-      descriptionSpacing: CONTROL_DESCRIPTION_SPACING
-    } );
     const showSecondLocaleToggleSwitch = new PreferencesToggleSwitch( preferences.showSecondLocaleProperty, false, true, {
       labelNode: new Text( NumberPlayStrings.secondLanguageStringProperty, CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.secondLanguageDescriptionStringProperty, CONTROL_TEXT_OPTIONS ),
@@ -73,9 +67,6 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
       spacing: CONTROL_DESCRIPTION_SPACING,
       align: 'left'
     } );
-    const generalControls = new VBox( combineOptions<VBoxOptions>( {
-      children: [ this.readAloudToggleSwitch, this.showSecondLocaleControl ]
-    }, V_BOX_OPTIONS ) );
 
     // disable the second locale toggle and show the all_html link if there's only one locale available
     if ( Object.keys( phet.chipper.strings ).length < 2 ) {
@@ -89,7 +80,7 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
     } );
 
     const leftControls = new VBox( {
-      children: [ generalControls, secondLocaleSelectorNode ],
+      children: [ this.showSecondLocaleControl, secondLocaleSelectorNode ],
       excludeInvisibleChildrenFromBounds: false,
       align: 'center',
       spacing: V_BOX_SPACING
