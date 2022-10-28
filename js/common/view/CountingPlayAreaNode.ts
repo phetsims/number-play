@@ -1,4 +1,4 @@
-// Copyright 2019-2022, University of Colorado Boulder
+// Copyright 2022, University of Colorado Boulder
 
 /**
  * Play area node for counting objects. This file was copied from counting-common/common/view/CountingCommonView.js and
