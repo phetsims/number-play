@@ -15,7 +15,7 @@ import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAn
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
-import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
+import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 
 // constants
 const BUTTON_SPACING = 30;
@@ -48,7 +48,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
           spacing: BUTTON_SPACING
         } );
       },
-      gameLevels: numberPlayPreferences.gameLevelsProperty.value,
+      gameLevels: NumberPlayQueryParameters.gameLevels,
       tandem: Tandem.REQUIRED
     };
 

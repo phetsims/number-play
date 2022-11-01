@@ -149,24 +149,6 @@
   "showOnesDescription": {
     "value": "Include the paper numbers on the Lab screen."
   },
-  "gameLevels": {
-    "value": "Game Levels"
-  },
-  "gameLevelsDescription": {
-    "value": "Choose which levels appear on the Game screen."
-  },
-  "countingLevelOne": {
-    "value": "Counting: Level One"
-  },
-  "countingLevelTwo": {
-    "value": "Counting: Level Two"
-  },
-  "subitizeLevelOne": {
-    "value": "Subitize: Level One"
-  },
-  "subitizeLevelTwo": {
-    "value": "Subitize: Level Two"
-  },
   "subitizeTime": {
     "value": "Subitize Time"
   },

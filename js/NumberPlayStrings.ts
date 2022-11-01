@@ -113,18 +113,6 @@ type StringsType = {
   'showOnesStringProperty': LinkableProperty<string>;
   'showOnesDescription': string;
   'showOnesDescriptionStringProperty': LinkableProperty<string>;
-  'gameLevels': string;
-  'gameLevelsStringProperty': LinkableProperty<string>;
-  'gameLevelsDescription': string;
-  'gameLevelsDescriptionStringProperty': LinkableProperty<string>;
-  'countingLevelOne': string;
-  'countingLevelOneStringProperty': LinkableProperty<string>;
-  'countingLevelTwo': string;
-  'countingLevelTwoStringProperty': LinkableProperty<string>;
-  'subitizeLevelOne': string;
-  'subitizeLevelOneStringProperty': LinkableProperty<string>;
-  'subitizeLevelTwo': string;
-  'subitizeLevelTwoStringProperty': LinkableProperty<string>;
   'subitizeTime': string;
   'subitizeTimeStringProperty': LinkableProperty<string>;
   'subitizeTimeDescription': string;
