@@ -54,7 +54,7 @@ class CountingPlayAreaNode extends Node {
   private readonly viewHasIndependentModel: boolean;
   private readonly closestDragListener: ClosestDragListener;
   private readonly countingObjectLayerNode: Node | null;
-  private readonly CountingObjectCreatorPanel: CountingObjectCreatorPanel;
+  public readonly countingObjectCreatorPanel: CountingObjectCreatorPanel;
   private readonly includeCountingObjectCreatorPanel: boolean;
   private readonly getCountingObjectOrigin: () => Vector2 = () => Vector2.ZERO;
   private readonly returnZoneProperty: TReadOnlyProperty<Bounds2> | null;
@@ -132,31 +132,31 @@ class CountingPlayAreaNode extends Node {
     } );
 
     // create the CountingObjectCreatorPanel
-    this.CountingObjectCreatorPanel = new CountingObjectCreatorPanel( playArea, this );
+    this.countingObjectCreatorPanel = new CountingObjectCreatorPanel( playArea, this );
     if ( options.creatorPanelX ) {
-      this.CountingObjectCreatorPanel.centerX = options.creatorPanelX;
+      this.countingObjectCreatorPanel.centerX = options.creatorPanelX;
     }
     else {
-      this.CountingObjectCreatorPanel.left = playAreaBoundsProperty.value.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      this.countingObjectCreatorPanel.left = playAreaBoundsProperty.value.minX + CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     }
 
     // set the y position of the CountingObjectCreatorPanel. NOTE: It is assumed below during initialization that the
     // CountingObjectCreatorPanel is positioned along the bottom of the playArea bounds
     const updateCountingObjectCreatorPanelPosition = () => {
-      this.CountingObjectCreatorPanel.bottom = playAreaBoundsProperty.value.bottom -
+      this.countingObjectCreatorPanel.bottom = playAreaBoundsProperty.value.bottom -
                                      CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
     };
     playAreaBoundsProperty.link( updateCountingObjectCreatorPanelPosition );
     this.transformEmitter.addListener( updateCountingObjectCreatorPanelPosition );
 
     if ( options.includeCountingObjectCreatorPanel ) {
-      this.addChild( this.CountingObjectCreatorPanel );
-      this.getCountingObjectOrigin = () => this.CountingObjectCreatorPanel.countingCreatorNode.getOriginPosition();
+      this.addChild( this.countingObjectCreatorPanel );
+      this.getCountingObjectOrigin = () => this.countingObjectCreatorPanel.countingCreatorNode.getOriginPosition();
     }
 
     // initialize the model with positioning information
     if ( this.viewHasIndependentModel ) {
-      const countingObjectCreatorNodeHeight = options.includeCountingObjectCreatorPanel ? this.CountingObjectCreatorPanel.height : 0;
+      const countingObjectCreatorNodeHeight = options.includeCountingObjectCreatorPanel ? this.countingObjectCreatorPanel.height : 0;
       this.playArea.initialize( this.getCountingObjectOrigin, countingObjectCreatorNodeHeight, playAreaBoundsProperty );
     }
 
@@ -393,7 +393,7 @@ class CountingPlayAreaNode extends Node {
     const parentBounds = this.getCountingObjectNode( countingObject ).bounds;
 
     // And the bounds of our panel
-    const panelBounds = this.returnZoneProperty ? this.returnZoneProperty.value : this.CountingObjectCreatorPanel.bounds;
+    const panelBounds = this.returnZoneProperty ? this.returnZoneProperty.value : this.countingObjectCreatorPanel.bounds;
 
     return panelBounds.intersectsBounds( parentBounds );
   }
@@ -430,14 +430,14 @@ class CountingPlayAreaNode extends Node {
         this.playArea.removeCountingObject( countingObject );
 
         // see if the creator node should show any hidden targets since a counting object was just returned
-        this.CountingObjectCreatorPanel.countingCreatorNode.checkTargetVisibility( countingObjectValue );
+        this.countingObjectCreatorPanel.countingCreatorNode.checkTargetVisibility( countingObjectValue );
       }
     }
       // if this view is running off of a shared model, then if a counting Object has already been removed from the model,
     // check if creator node should be updated
     else if ( !this.viewHasIndependentModel ) {
       const countingObjectValue = countingObject.numberValueProperty.value;
-      this.CountingObjectCreatorPanel.countingCreatorNode.checkTargetVisibility( countingObjectValue );
+      this.countingObjectCreatorPanel.countingCreatorNode.checkTargetVisibility( countingObjectValue );
     }
   }
 
@@ -458,7 +458,7 @@ class CountingPlayAreaNode extends Node {
       this.playArea.calculateTotal();
 
       // Set its destination to the proper target (with the offset so that it will disappear once centered).
-      let targetPosition = this.CountingObjectCreatorPanel.countingCreatorNode.getOriginPosition();
+      let targetPosition = this.countingObjectCreatorPanel.countingCreatorNode.getOriginPosition();
       targetPosition = targetPosition.minus( countingObject.returnAnimationBounds.center );
       const targetScale = countingObject.groupingEnabledProperty.value ? NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE :
                           NumberPlayConstants.UNGROUPED_STORED_COUNTING_OBJECT_SCALE;
