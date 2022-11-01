@@ -10,16 +10,16 @@ import numberPlay from '../../numberPlay.js';
 import Carousel from '../../../../sun/js/Carousel.js';
 import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 import { GridBox } from '../../../../scenery/js/imports.js';
-import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import LanguageSelectionNode from '../../../../joist/js/preferences/LanguageSelectionNode.js';
+import NumberSuiteCommonPreferences from '../model/NumberSuiteCommonPreferences.js';
 
-class SecondLocaleSelectorCarousel extends Carousel {
+class SecondLocaleSelectorCarousel<T extends NumberSuiteCommonPreferences> extends Carousel {
 
-  public constructor() {
+  public constructor( preferences: T ) {
 
     const createInteractiveLocales = () => {
       return localeProperty.validValues!.map( locale => {
-        return new LanguageSelectionNode( numberPlayPreferences.secondLocaleProperty, locale );
+        return new LanguageSelectionNode( preferences.secondLocaleProperty, locale );
       } );
     };
 
@@ -42,6 +42,10 @@ class SecondLocaleSelectorCarousel extends Carousel {
       spacing: 0,
       margin: 0,
       orientation: 'vertical'
+    } );
+
+    preferences.showSecondLocaleProperty.link( showSecondLocale => {
+      this.visible = showSecondLocale;
     } );
   }
 }

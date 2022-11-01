@@ -74,10 +74,7 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
       loadAllHtmlText.visible = true;
     }
 
-    const secondLocaleSelectorNode = new SecondLocaleSelectorCarousel();
-    preferences.showSecondLocaleProperty.link( showSecondLocale => {
-      secondLocaleSelectorNode.visible = showSecondLocale;
-    } );
+    const secondLocaleSelectorNode = new SecondLocaleSelectorCarousel( preferences );
 
     const leftControls = new VBox( {
       children: [ this.showSecondLocaleControl, secondLocaleSelectorNode ],

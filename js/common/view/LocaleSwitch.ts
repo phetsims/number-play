@@ -14,7 +14,8 @@ import ABSwitch from '../../../../sun/js/ABSwitch.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import numberPlayPreferences from '../model/numberPlayPreferences.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 // constants
 const AB_SWITCH_OPTIONS = {
@@ -27,7 +28,8 @@ const AB_SWITCH_OPTIONS = {
 
 class LocaleSwitch extends ABSwitch<boolean> {
 
-  public constructor( isPrimaryLocaleProperty: BooleanProperty, maxWidth: number ) {
+  public constructor( isPrimaryLocaleProperty: BooleanProperty,
+                      secondLocaleStringsProperty: TReadOnlyProperty<IntentionalAny>, maxWidth: number ) {
 
     // options for the switch text. calculate the maxWidth for each string as half of the available horizontal space
     // without the ToggleSwitch or spacing.
@@ -39,7 +41,7 @@ class LocaleSwitch extends ABSwitch<boolean> {
     const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
     const secondLanguageText = new Text( '', switchTextOptions );
 
-    numberPlayPreferences.secondLocaleStringsProperty.link( secondLocaleStrings => {
+    secondLocaleStringsProperty.link( secondLocaleStrings => {
       secondLanguageText.setText( secondLocaleStrings[ secondLanguageStringKey ] );
     } );
 
