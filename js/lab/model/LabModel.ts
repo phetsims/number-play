@@ -20,7 +20,7 @@ const HIGHEST_COUNT = 20;
 
 class LabModel {
   public readonly tenFrames: ObservableArray<TenFrame>;
-  public readonly countingObjectPlayArea: CountingPlayArea;
+  public readonly onesPlayArea: CountingPlayArea;
   public readonly dogPlayArea: CountingPlayArea;
   public readonly applePlayArea: CountingPlayArea;
   public readonly butterflyPlayArea: CountingPlayArea;
@@ -33,12 +33,6 @@ class LabModel {
     this.selectedTenFrameProperty = new Property<TenFrame | null>( null );
 
     // create five different kinds of play areas
-    this.countingObjectPlayArea = new CountingPlayArea(
-      HIGHEST_COUNT,
-      new BooleanProperty( true ),
-      'countingObjectPlayArea', {
-        tenFrames: this.tenFrames
-      } );
     this.dogPlayArea = new CountingPlayArea(
       HIGHEST_COUNT,
       new BooleanProperty( false ),
@@ -63,6 +57,12 @@ class LabModel {
       'ballPlayArea', {
         tenFrames: this.tenFrames
       } );
+    this.onesPlayArea = new CountingPlayArea(
+      HIGHEST_COUNT,
+      new BooleanProperty( true ),
+      'onesPlayArea', {
+        tenFrames: this.tenFrames
+      } );
   }
 
   /**
@@ -76,11 +76,11 @@ class LabModel {
    * Resets the model.
    */
   public reset(): void {
-    this.countingObjectPlayArea.reset();
     this.dogPlayArea.reset();
     this.applePlayArea.reset();
     this.butterflyPlayArea.reset();
     this.ballPlayArea.reset();
+    this.onesPlayArea.reset();
     this.tenFrames.clear();
   }
 }

@@ -10,7 +10,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
+import { ManualConstraint, Node, PressListenerEvent, Rectangle } from '../../../../scenery/js/imports.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import CountingPlayAreaNode from '../../common/view/CountingPlayAreaNode.js';
 import numberPlay from '../../numberPlay.js';
@@ -31,7 +31,8 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import { SymbolType } from './SymbolCardNode.js';
-import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
+import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 class LabScreenView extends ScreenView {
   private readonly model: LabModel;
@@ -42,7 +43,7 @@ class LabScreenView extends ScreenView {
   private readonly tenFrameNodes: DraggableTenFrameNode[];
   public readonly symbolCardCreatorPanel: SymbolCardCreatorPanel;
   private readonly tenFrameCreatorPanel: TenFrameCreatorPanel;
-  private readonly countingObjectPlayAreaNode: CountingPlayAreaNode;
+  private readonly onesPlayAreaNode: CountingPlayAreaNode;
   private readonly dogPlayAreaNode: CountingPlayAreaNode;
   private readonly applePlayAreaNode: CountingPlayAreaNode;
   private readonly butterflyPlayAreaNode: CountingPlayAreaNode;
@@ -64,18 +65,9 @@ class LabScreenView extends ScreenView {
     this.pieceLayer = new Node();
     const backgroundDragTargetNode = new Rectangle( this.layoutBounds ); // see CountingPlayAreaNode for doc
 
-    // TODO: Refactor with Properties
-    let tenFrameCreatorPanelLeft;
-    let applesX;
-    const creatorNodeSpacing = 120;
-    if ( NumberPlayQueryParameters.showLabOnes ) {
-      tenFrameCreatorPanelLeft = 143;
-      applesX = this.layoutBounds.centerX - 60;
-    }
-    else {
-      tenFrameCreatorPanelLeft = 203;
-      applesX = this.layoutBounds.centerX;
-    }
+    // TODO: make file constants?
+    const tenFrameCreatorPanelLeft = 143;
+    const creatorNodeSpacing = 18;
 
     this.numberCardCreatorCarousel = new NumberCardCreatorCarousel( this );
     this.numberCardCreatorCarousel.centerX = this.layoutBounds.centerX;
@@ -114,7 +106,6 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: applesX - creatorNodeSpacing,
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -127,7 +118,6 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: applesX,
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -140,7 +130,6 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: applesX + creatorNodeSpacing,
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
@@ -153,39 +142,61 @@ class LabScreenView extends ScreenView {
       this.objectPlayAreaBoundsProperty, {
         countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: applesX + creatorNodeSpacing * 2,
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
     this.addChild( this.ballPlayAreaNode );
 
     // create and add the CountingPlayAreaNode
-    this.countingObjectPlayAreaNode = new CountingPlayAreaNode(
-      model.countingObjectPlayArea,
+    this.onesPlayAreaNode = new CountingPlayAreaNode(
+      model.onesPlayArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       this.objectPlayAreaBoundsProperty, {
         countingObjectLayerNode: this.pieceLayer,
         backgroundDragTargetNode: backgroundDragTargetNode,
-        creatorPanelX: applesX + creatorNodeSpacing * 3,
         returnZoneProperty: this.bottomReturnZoneProperty
       }
     );
-    this.addChild( this.countingObjectPlayAreaNode );
-    this.countingObjectPlayAreaNode.visible = NumberPlayQueryParameters.showLabOnes;
+    this.addChild( this.onesPlayAreaNode );
+
+    const hideOnesPlayAreaNodeAdjustment = this.onesPlayAreaNode.countingObjectCreatorPanel.width / 2;
+
+    numberPlayPreferences.showLabOnesProperty.link( showLabOnes => {
+      if ( showLabOnes ) {
+        this.tenFrameCreatorPanel.left = tenFrameCreatorPanelLeft;
+      }
+      else {
+        this.model.onesPlayArea.reset();
+        this.tenFrameCreatorPanel.left = tenFrameCreatorPanelLeft + hideOnesPlayAreaNodeAdjustment;
+      }
+      this.onesPlayAreaNode.visible = showLabOnes;
+    } );
+
+    ManualConstraint.create( this, [ this.tenFrameCreatorPanel, this.dogPlayAreaNode.countingObjectCreatorPanel,
+        this.applePlayAreaNode.countingObjectCreatorPanel, this.butterflyPlayAreaNode.countingObjectCreatorPanel,
+        this.ballPlayAreaNode.countingObjectCreatorPanel, this.onesPlayAreaNode.countingObjectCreatorPanel ],
+      ( tenFrameCreatorNodeProxy, dogCreatorNodeProxy, appleCreatorNodeProxy, butterflyCreatorNodeProxy,
+        ballsCreatorNodeProxy, onesCreatorNodeProxy ) => {
+        dogCreatorNodeProxy.left = tenFrameCreatorNodeProxy.right + creatorNodeSpacing;
+        appleCreatorNodeProxy.left = dogCreatorNodeProxy.right + creatorNodeSpacing;
+        butterflyCreatorNodeProxy.left = appleCreatorNodeProxy.right + creatorNodeSpacing;
+        ballsCreatorNodeProxy.left = butterflyCreatorNodeProxy.right + creatorNodeSpacing;
+        onesCreatorNodeProxy.left = ballsCreatorNodeProxy.right + creatorNodeSpacing;
+      } );
 
     this.countingObjectTypeToPlayAreaNode = new Map();
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.DOG, this.dogPlayAreaNode );
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.APPLE, this.applePlayAreaNode );
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.BUTTERFLY, this.butterflyPlayAreaNode );
     this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.BALL, this.ballPlayAreaNode );
-    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.PAPER_NUMBER, this.countingObjectPlayAreaNode );
+    this.countingObjectTypeToPlayAreaNode.set( CountingObjectType.PAPER_NUMBER, this.onesPlayAreaNode );
 
     this.playAreaNodes = [
       this.dogPlayAreaNode,
       this.applePlayAreaNode,
       this.butterflyPlayAreaNode,
       this.ballPlayAreaNode,
-      this.countingObjectPlayAreaNode
+      this.onesPlayAreaNode
     ];
 
     // position and add the symbolCardCreatorPanel later so we have access to its bounds Property
@@ -233,18 +244,21 @@ class LabScreenView extends ScreenView {
     this.addChild( resetAllButton );
 
     // update the y-position of panels when the visible bounds change so everything floats to the top or bottom
-    this.visibleBoundsProperty.link( visibleBounds => {
-      this.numberCardCreatorCarousel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    Multilink.multilink( [ this.visibleBoundsProperty, numberPlayPreferences.showLabOnesProperty ],
+      ( visibleBounds, showLabOnes ) => {
+        this.numberCardCreatorCarousel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
 
-      this.symbolCardCreatorPanel.right = visibleBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      resetAllButton.right = visibleBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      const bottomY = visibleBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      this.tenFrameCreatorPanel.bottom = bottomY;
-      resetAllButton.bottom = bottomY;
+        this.symbolCardCreatorPanel.right = visibleBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+        resetAllButton.right = visibleBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+        const bottomY = visibleBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+        this.tenFrameCreatorPanel.bottom = bottomY;
+        resetAllButton.bottom = bottomY;
 
-      this.bottomReturnZoneProperty.value = new Bounds2( this.tenFrameCreatorPanel.left, this.tenFrameCreatorPanel.top,
-        this.ballPlayAreaNode.right, bottomY );
-    } );
+        const returnZoneRightBoundary = showLabOnes ? this.onesPlayAreaNode.right : this.ballPlayAreaNode.right;
+
+        this.bottomReturnZoneProperty.value = new Bounds2( this.tenFrameCreatorPanel.left, this.tenFrameCreatorPanel.top,
+          returnZoneRightBoundary, bottomY );
+      } );
 
     this.objectPlayAreaBoundsProperty.link( objectPlayAreaBounds => {
       model.tenFrames.forEach( tenFrame => {
