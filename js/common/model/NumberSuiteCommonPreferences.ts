@@ -16,14 +16,14 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
-abstract class NumberSuiteCommonPreferences {
+class NumberSuiteCommonPreferences {
   public readonly readAloudProperty: Property<boolean>;
   public readonly showSecondLocaleProperty: Property<boolean>;
   public readonly secondLocaleProperty: StringProperty;
   public readonly showLabOnesProperty: Property<boolean>;
   public readonly secondLocaleStringsProperty: TReadOnlyProperty<IntentionalAny>;
 
-  protected constructor() {
+  public constructor() {
     this.readAloudProperty = new BooleanProperty( NumberPlayQueryParameters.readAloud );
     this.secondLocaleProperty = new StringProperty( NumberPlayQueryParameters.secondLocale! );
 
