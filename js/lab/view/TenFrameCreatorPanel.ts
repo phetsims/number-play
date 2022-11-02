@@ -18,6 +18,7 @@ import LabScreenView from './LabScreenView.js';
 import NumberPlayCreatorPanel from '../../common/view/NumberPlayCreatorPanel.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
+import NumberSuiteCommonPreferences from '../../common/model/NumberSuiteCommonPreferences.js';
 
 const ICON_SIE_LENGTH = 20;
 
@@ -27,7 +28,7 @@ class TenFrameCreatorPanel extends NumberPlayCreatorPanel {
   // the scale of the icon relative to the standard ten frame size, which is the size of the ten frames in the play area
   public static readonly ICON_SCALE = ICON_SIE_LENGTH / TenFrame.SQUARE_SIDE_LENGTH;
 
-  public constructor( model: LabModel, screenView: LabScreenView ) {
+  public constructor( model: LabModel, screenView: LabScreenView<NumberSuiteCommonPreferences> ) {
 
     // create the ten frame icon and the plus icon
     const iconNode = TenFrameNode.getTenFramePath( {

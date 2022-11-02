@@ -15,6 +15,7 @@ import SymbolCardNode, { SymbolType } from './SymbolCardNode.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CardCreatorNode from './CardCreatorNode.js';
 import Property from '../../../../axon/js/Property.js';
+import NumberSuiteCommonPreferences from '../../common/model/NumberSuiteCommonPreferences.js';
 
 // constants
 const MAX_SYMBOL_PIECE_COUNT = 10;
@@ -23,9 +24,9 @@ const SPACING = 10;
 class SymbolCardCreatorPanel extends NumberPlayCreatorPanel {
   private readonly symbolTypeToCountPropertyMap: Map<SymbolType, Property<number>>;
   private readonly clearSymbolNodes: () => void;
-  private readonly screenView: LabScreenView;
+  private readonly screenView: LabScreenView<NumberSuiteCommonPreferences>;
 
-  public constructor( model: LabModel, screenView: LabScreenView, symbolTypes: SymbolType[] ) {
+  public constructor( model: LabModel, screenView: LabScreenView<NumberSuiteCommonPreferences>, symbolTypes: SymbolType[] ) {
 
     const cardsHeight = ( SymbolCardNode.WIDTH + SPACING ) * symbolTypes.length;
     const yMargin = symbolTypes.length > 3 ? SPACING * 2 : SPACING;

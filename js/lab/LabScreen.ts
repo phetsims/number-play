@@ -16,8 +16,10 @@ import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
+import numberPlayPreferences from '../common/model/numberPlayPreferences.js';
+import NumberSuiteCommonPreferences from '../common/model/NumberSuiteCommonPreferences.js';
 
-class LabScreen extends Screen<LabModel, LabScreenView> {
+class LabScreen extends Screen<LabModel, LabScreenView<NumberSuiteCommonPreferences>> {
 
   public constructor( tandem: Tandem ) {
 
@@ -32,9 +34,9 @@ class LabScreen extends Screen<LabModel, LabScreenView> {
     };
 
     super(
-      () => new LabModel(
-        tandem.createTandem( 'model' ) ),
-      ( model: LabModel ) => new LabScreenView( model, [ '=', '+', '-' ], tandem.createTandem( 'view' ) ),
+      () => new LabModel( tandem.createTandem( 'model' ) ),
+      ( model: LabModel ) => new LabScreenView( model, [ '=', '+', '-' ], numberPlayPreferences,
+        tandem.createTandem( 'view' ) ),
       options
     );
   }

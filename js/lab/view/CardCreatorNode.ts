@@ -15,6 +15,7 @@ import Animation from '../../../../twixt/js/Animation.js';
 import CardNode from './CardNode.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import NumberCardNode from './NumberCardNode.js';
+import NumberSuiteCommonPreferences from '../../common/model/NumberSuiteCommonPreferences.js';
 
 type SelfOptions = {
   symbolType?: SymbolType | null;
@@ -25,7 +26,7 @@ export type CardNodeOptions = SelfOptions;
 // TODO: add comments
 class CardCreatorNode extends Node {
 
-  public constructor( screenView: LabScreenView, contentToCountPropertyMap: Map<SymbolType | number, TProperty<number>>,
+  public constructor( screenView: LabScreenView<NumberSuiteCommonPreferences>, contentToCountPropertyMap: Map<SymbolType | number, TProperty<number>>,
                       options: CardNodeOptions ) {
     super();
 

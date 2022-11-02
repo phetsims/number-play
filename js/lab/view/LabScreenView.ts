@@ -31,10 +31,10 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import { SymbolType } from './SymbolCardNode.js';
-import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import NumberSuiteCommonPreferences from '../../common/model/NumberSuiteCommonPreferences.js';
 
-class LabScreenView extends ScreenView {
+class LabScreenView<T extends NumberSuiteCommonPreferences> extends ScreenView {
   private readonly model: LabModel;
 
   // node for all pieces to share
@@ -55,7 +55,7 @@ class LabScreenView extends ScreenView {
   public readonly symbolCardBoundsProperty: TReadOnlyProperty<Bounds2>;
   public readonly bottomReturnZoneProperty: TProperty<Bounds2>;
 
-  public constructor( model: LabModel, symbolTypes: SymbolType[], tandem: Tandem ) {
+  public constructor( model: LabModel, symbolTypes: SymbolType[], preferences: T, tandem: Tandem ) {
 
     super( {
       tandem: tandem
@@ -161,7 +161,7 @@ class LabScreenView extends ScreenView {
 
     const hideOnesPlayAreaNodeAdjustment = this.onesPlayAreaNode.countingObjectCreatorPanel.width / 2;
 
-    numberPlayPreferences.showLabOnesProperty.link( showLabOnes => {
+    preferences.showLabOnesProperty.link( showLabOnes => {
       if ( showLabOnes ) {
         this.tenFrameCreatorPanel.left = tenFrameCreatorPanelLeft;
       }
@@ -244,7 +244,7 @@ class LabScreenView extends ScreenView {
     this.addChild( resetAllButton );
 
     // update the y-position of panels when the visible bounds change so everything floats to the top or bottom
-    Multilink.multilink( [ this.visibleBoundsProperty, numberPlayPreferences.showLabOnesProperty ],
+    Multilink.multilink( [ this.visibleBoundsProperty, preferences.showLabOnesProperty ],
       ( visibleBounds, showLabOnes ) => {
         this.numberCardCreatorCarousel.top = visibleBounds.top + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
 

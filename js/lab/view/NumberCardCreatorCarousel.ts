@@ -14,16 +14,17 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import CardCreatorNode from './CardCreatorNode.js';
 import NumberCardNode from './NumberCardNode.js';
 import Property from '../../../../axon/js/Property.js';
+import NumberSuiteCommonPreferences from '../../common/model/NumberSuiteCommonPreferences.js';
 
 // constants
 const MAX_NUMBER_PIECE_COUNT = 20;
 
 class NumberCardCreatorCarousel extends Carousel {
-  private readonly screenView: LabScreenView;
+  private readonly screenView: LabScreenView<NumberSuiteCommonPreferences>;
   private readonly clearNumberCardsNodes: () => void;
   private readonly numberToCountPropertyMap: Map<number, Property<number>>;
 
-  public constructor( screenView: LabScreenView ) {
+  public constructor( screenView: LabScreenView<NumberSuiteCommonPreferences> ) {
 
     // create a map from SymbolType to countProperty
     const numberToCountPropertyMap = new Map<number, Property<number>>();
