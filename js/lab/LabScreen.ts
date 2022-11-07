@@ -1,7 +1,7 @@
 // Copyright 2019-2022, University of Colorado Boulder
 
 /**
- * The 'Lab' screen.
+ * The 'Lab' screen. Used in both 'Number Compare' and 'Number Play' simulations.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -16,12 +16,12 @@ import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import LabModel from './model/LabModel.js';
 import LabScreenView from './view/LabScreenView.js';
-import numberPlayPreferences from '../common/model/numberPlayPreferences.js';
 import NumberSuiteCommonPreferences from '../common/model/NumberSuiteCommonPreferences.js';
+import { SymbolType } from './view/SymbolCardNode.js';
 
-class LabScreen extends Screen<LabModel, LabScreenView<NumberSuiteCommonPreferences>> {
+class LabScreen<T extends NumberSuiteCommonPreferences> extends Screen<LabModel, LabScreenView<NumberSuiteCommonPreferences>> {
 
-  public constructor( tandem: Tandem ) {
+  public constructor( symbolTypes: SymbolType[], preferences: T, tandem: Tandem ) {
 
     const options = {
       name: NumberPlayStrings.screen.labStringProperty,
@@ -35,8 +35,7 @@ class LabScreen extends Screen<LabModel, LabScreenView<NumberSuiteCommonPreferen
 
     super(
       () => new LabModel( tandem.createTandem( 'model' ) ),
-      ( model: LabModel ) => new LabScreenView( model, [ '=', '+', '-' ], numberPlayPreferences,
-        tandem.createTandem( 'view' ) ),
+      ( model: LabModel ) => new LabScreenView( model, symbolTypes, preferences, tandem.createTandem( 'view' ) ),
       options
     );
   }

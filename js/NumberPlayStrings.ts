@@ -18,8 +18,6 @@ type StringsType = {
     'tenStringProperty': LinkableProperty<string>;
     'twenty': string;
     'twentyStringProperty': LinkableProperty<string>;
-    'compare': string;
-    'compareStringProperty': LinkableProperty<string>;
     'game': string;
     'gameStringProperty': LinkableProperty<string>;
     'lab': string;
@@ -67,12 +65,6 @@ type StringsType = {
   'nineteenStringProperty': LinkableProperty<string>;
   'twenty': string;
   'twentyStringProperty': LinkableProperty<string>;
-  'isLessThan': string;
-  'isLessThanStringProperty': LinkableProperty<string>;
-  'isMoreThan': string;
-  'isMoreThanStringProperty': LinkableProperty<string>;
-  'isEqualTo': string;
-  'isEqualToStringProperty': LinkableProperty<string>;
   'word': string;
   'wordStringProperty': LinkableProperty<string>;
   'wordLanguage': string;

@@ -67,7 +67,7 @@ simLauncher.launch( () => {
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
     new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) ),
-    new LabScreen( Tandem.ROOT.createTandem( 'numberPlayLabScreen' ) )
+    new LabScreen( [ '=', '+', '-' ], numberPlayPreferences, Tandem.ROOT.createTandem( 'numberPlayLabScreen' ) )
   ], simOptions );
   sim.start();
 
