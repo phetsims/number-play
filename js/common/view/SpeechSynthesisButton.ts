@@ -22,7 +22,7 @@ import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnou
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
-import numberPlayPreferences from '../model/numberPlayPreferences.js';
+import NumberSuiteCommonPreferences from '../model/NumberSuiteCommonPreferences.js';
 
 type SelfOptions = {
   stringProperty?: TReadOnlyProperty<string> | null;
@@ -38,9 +38,9 @@ type SpeechSynthesisButtonOptions = SelfOptions;
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
 
-class SpeechSynthesisButton extends RectangularPushButton {
+class SpeechSynthesisButton<T extends NumberSuiteCommonPreferences> extends RectangularPushButton {
 
-  public constructor( isPrimaryLocaleProperty: BooleanProperty, providedOptions?: SpeechSynthesisButtonOptions ) {
+  public constructor( isPrimaryLocaleProperty: BooleanProperty, preferences: T, providedOptions?: SpeechSynthesisButtonOptions ) {
 
     const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>()( {
       stringProperty: null,
@@ -58,7 +58,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
       // read out a number by integer => word or just read out a string
       speechUtterance.alert = options.stringProperty ? options.stringProperty.value :
-                              NumberPlayConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
+                              NumberPlayConstants.numberToString( preferences.secondLocaleStringsProperty.value,
                                 options.numberProperty.value, isPrimaryLocaleProperty.value );
 
       numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
@@ -67,7 +67,7 @@ class SpeechSynthesisButton extends RectangularPushButton {
 
     // read numeric numbers aloud if the current number changes (or the second number, on the 'Compare' screen)
     Multilink.lazyMultilink( [ options.numberProperty, options.secondNumberProperty ], () => {
-      if ( numberPlayPreferences.readAloudProperty.value ) {
+      if ( preferences.readAloudProperty.value ) {
         listener();
       }
     } );
