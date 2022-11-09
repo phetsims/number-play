@@ -53,8 +53,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
         groupAndLinkTypeProperty: new EnumerationProperty( GroupAndLinkType.GROUPED )
       }, options ) );
 
-    const objectsPlayAreaNode = new CountingPlayAreaNode( playArea, countingObjectTypeProperty,
-      new Property( this.contentBounds ) );
+    const objectsPlayAreaNode = new CountingPlayAreaNode( playArea, countingObjectTypeProperty, this.contentBoundsProperty );
     this.contentNode.addChild( objectsPlayAreaNode );
 
     // TODO-TS: use specific RadioButtonGroup type
@@ -90,8 +89,8 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
           baseColor: Color.WHITE
         }
       } );
-      radioButtonGroup.right = this.contentBounds.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
-      radioButtonGroup.bottom = this.contentBounds.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      radioButtonGroup.right = this.contentBoundsProperty.value.right - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
+      radioButtonGroup.bottom = this.contentBoundsProperty.value.bottom - CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
       this.contentNode.addChild( radioButtonGroup );
     }
 
@@ -100,7 +99,7 @@ class CountingAccordionBox extends NumberPlayAccordionBox {
       const linkedObjectsPlayAreaNode = new CountingPlayAreaNode(
         options.linkedPlayArea,
         countingObjectTypeProperty,
-        new Property( this.contentBounds ), {
+        this.contentBoundsProperty, {
           viewHasIndependentModel: false
         }
       );

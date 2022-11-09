@@ -39,8 +39,8 @@ class TenFrameAccordionBox extends NumberPlayAccordionBox {
     // create, scale, and add the TenFrameNode
     const tenFrameNode = new TenFrameNode( currentNumberProperty, sumRange );
     tenFrameNode.scale( height / tenFrameNode.height / 2 );
-    tenFrameNode.centerX = this.contentBounds.centerX + options.tenFrameOffsetX;
-    tenFrameNode.centerY = this.contentBounds.centerY;
+    tenFrameNode.centerX = this.contentBoundsProperty.value.centerX + options.tenFrameOffsetX;
+    tenFrameNode.centerY = this.contentBoundsProperty.value.centerY;
     this.contentNode.addChild( tenFrameNode );
   }
 }

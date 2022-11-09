@@ -34,6 +34,7 @@ import LocaleSwitch from './LocaleSwitch.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // types
 type SelfOptions = {
@@ -129,7 +130,8 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( localeSwitch );
 
     // update the position of the localeSwitch
-    wordAccordionBox.expandedProperty.link( isExpanded => {
+    Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.showSecondLocaleProperty ],
+      isExpanded => {
       // @ts-ignore // TODO-TS: Okay to make these public readonly?
       const topReferenceY = isExpanded ? wordAccordionBox.expandedBox.bottom : wordAccordionBox.collapsedBox.bottom;
       localeSwitch.top = topReferenceY + 27.5;

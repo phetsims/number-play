@@ -80,7 +80,7 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
 
     // arrange and add the number display and arrow buttons
     const numberControl = new HBox( { children: [ numberDisplay, arrowButtons ] } );
-    numberControl.center = this.contentBounds.center;
+    numberControl.center = this.contentBoundsProperty.value.center;
     this.contentNode.addChild( numberControl );
   }
 }

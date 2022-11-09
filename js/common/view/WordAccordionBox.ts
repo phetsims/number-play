@@ -82,11 +82,14 @@ class WordAccordionBox extends NumberPlayAccordionBox {
 
     const wordText = new Text( NumberPlayConstants.NUMBER_TO_STRING[ currentNumberProperty.value ], {
       font: options.font,
-      maxWidth: this.contentBounds.width - options.textOffsetX - TEXT_MARGIN
+      maxWidth: this.contentBoundsProperty.value.width - options.textOffsetX - TEXT_MARGIN
     } );
-    wordText.left = this.contentBounds.left + options.textOffsetX;
-    wordText.centerY = this.contentBounds.centerY;
     this.contentNode.addChild( wordText );
+
+    this.contentBoundsProperty.link( contentBounds => {
+      wordText.left = contentBounds.left + options.textOffsetX;
+      wordText.centerY = contentBounds.centerY;
+    } );
 
     // update the word if the current number or locale changes
     Multilink.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
