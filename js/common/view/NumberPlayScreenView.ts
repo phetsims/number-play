@@ -123,14 +123,10 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( onesAccordionBox );
 
     // create and add the LocaleSwitch
-    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty,
+    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, numberPlayPreferences.showSecondLocaleProperty,
       numberPlayPreferences.secondLocaleStringsProperty, wordAccordionBox.width );
     localeSwitch.centerX = wordAccordionBox.centerX;
     this.addChild( localeSwitch );
-
-    numberPlayPreferences.showSecondLocaleProperty.link( showSecondLocale => {
-      localeSwitch.visible = showSecondLocale;
-    } );
 
     // update the position of the localeSwitch
     wordAccordionBox.expandedProperty.link( isExpanded => {

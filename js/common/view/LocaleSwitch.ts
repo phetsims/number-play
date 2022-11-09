@@ -28,7 +28,7 @@ const AB_SWITCH_OPTIONS = {
 
 class LocaleSwitch extends ABSwitch<boolean> {
 
-  public constructor( isPrimaryLocaleProperty: BooleanProperty,
+  public constructor( isPrimaryLocaleProperty: BooleanProperty, showSecondLocaleProperty: TReadOnlyProperty<boolean>,
                       secondLocaleStringsProperty: TReadOnlyProperty<IntentionalAny>, maxWidth: number ) {
 
     // options for the switch text. calculate the maxWidth for each string as half of the available horizontal space
@@ -50,6 +50,13 @@ class LocaleSwitch extends ABSwitch<boolean> {
       false, secondLanguageText,
       AB_SWITCH_OPTIONS
     );
+
+    showSecondLocaleProperty.link( showSecondLocale => {
+      this.visible = showSecondLocale;
+      if ( !showSecondLocale ) {
+        isPrimaryLocaleProperty.value = true;
+      }
+    } );
   }
 }
 
