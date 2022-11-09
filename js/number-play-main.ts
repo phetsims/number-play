@@ -14,7 +14,6 @@ import LabScreen from './lab/LabScreen.js';
 import NumberPlayStrings from './NumberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
-import NumberPlayQueryParameters from './common/NumberPlayQueryParameters.js';
 import numberPlaySpeechSynthesisAnnouncer from './common/view/numberPlaySpeechSynthesisAnnouncer.js';
 import { Display } from '../../scenery/js/imports.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
@@ -57,11 +56,6 @@ const simOptions: SimOptions = {
 // launch the sim - beware that scenery Image nodes created outside of simLauncher.launch() will have zero bounds
 // until the images are fully loaded, see https://github.com/phetsims/coulombs-law/issues/70
 simLauncher.launch( () => {
-
-  if ( QueryStringMachine.containsKey( 'secondLocale' ) && !phet.chipper.strings[ NumberPlayQueryParameters.secondLocale! ] ) {
-    QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
-      `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
-  }
 
   const sim = new Sim( numberPlayTitleStringProperty, [
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),

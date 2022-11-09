@@ -25,11 +25,19 @@ class NumberSuiteCommonPreferences {
 
   public constructor() {
     this.readAloudProperty = new BooleanProperty( NumberPlayQueryParameters.readAloud );
+
+    const secondLocaleProvided = QueryStringMachine.containsKey( 'secondLocale' );
+    const isSecondLocaleValid = secondLocaleProvided && !!phet.chipper.strings[ NumberPlayQueryParameters.secondLocale! ];
+    if ( !isSecondLocaleValid ) {
+      QueryStringMachine.addWarning( 'secondLocale', NumberPlayQueryParameters.secondLocale,
+        `Second locale doesn't exist: ${NumberPlayQueryParameters.secondLocale}` );
+      NumberPlayQueryParameters.secondLocale = phet.chipper.locale;
+    }
+
     this.secondLocaleProperty = new StringProperty( NumberPlayQueryParameters.secondLocale! );
 
     // if a valid second locale was provided, display the second locale on sim startup
-    this.showSecondLocaleProperty = new BooleanProperty( QueryStringMachine.containsKey( 'secondLocale' ) &&
-                                                         !!phet.chipper.strings[ NumberPlayQueryParameters.secondLocale! ] );
+    this.showSecondLocaleProperty = new BooleanProperty( isSecondLocaleValid );
 
     this.secondLocaleStringsProperty = new DerivedProperty( [ this.secondLocaleProperty ], secondLocale => {
       return phet.chipper.strings[ secondLocale ];
