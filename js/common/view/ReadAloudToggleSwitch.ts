@@ -14,13 +14,14 @@ import NumberSuiteCommonPreferences from '../model/NumberSuiteCommonPreferences.
 import PreferencesToggleSwitch from '../../../../joist/js/preferences/PreferencesToggleSwitch.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberSuiteCommonPreferencesNode from './NumberSuiteCommonPreferencesNode.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 export default class ReadAloudToggleSwitch<T extends NumberSuiteCommonPreferences> extends PreferencesToggleSwitch<boolean> {
 
-  public constructor( preferences: T, screens: number[] ) {
+  public constructor( preferences: T, screens: number[], labelProperty: TReadOnlyProperty<string> ) {
 
     super( preferences.readAloudProperty, false, true, {
-      labelNode: new Text( NumberPlayStrings.readAloudStringProperty, NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS ),
+      labelNode: new Text( labelProperty, NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.readAloudDescriptionStringProperty,
         NumberSuiteCommonPreferencesNode.CONTROL_TEXT_OPTIONS ),
       descriptionSpacing: NumberSuiteCommonPreferencesNode.CONTROL_DESCRIPTION_SPACING
