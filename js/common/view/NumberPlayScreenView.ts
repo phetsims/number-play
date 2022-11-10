@@ -35,6 +35,7 @@ import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.
 import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
+import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 
 // types
 type SelfOptions = {
@@ -171,7 +172,8 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the SpeechSynthesisButton if the announcer is initialized
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
-      const speechSynthesisButton = new SpeechSynthesisButton( model.isPrimaryLocaleProperty, numberPlayPreferences, {
+      const speechSynthesisButton = new SpeechSynthesisButton( model.isPrimaryLocaleProperty, numberPlayPreferences,
+        numberPlaySpeechSynthesisAnnouncer, numberPlayUtteranceQueue, {
         numberProperty: model.currentNumberProperty
       } );
       speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;

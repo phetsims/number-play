@@ -17,12 +17,12 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
-import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import NumberSuiteCommonPreferences from '../model/NumberSuiteCommonPreferences.js';
+import NumberSuiteCommonSpeechSynthesisAnnouncer from './NumberSuiteCommonSpeechSynthesisAnnouncer.js';
+import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
 
 type SelfOptions = {
   stringProperty?: TReadOnlyProperty<string> | null;
@@ -38,20 +38,24 @@ type SpeechSynthesisButtonOptions = SelfOptions;
 // constants
 const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the size of the ResetAllButton, in screen coords
 
-class SpeechSynthesisButton<T extends NumberSuiteCommonPreferences> extends RectangularPushButton {
+class SpeechSynthesisButton<P extends NumberSuiteCommonPreferences,
+  A extends NumberSuiteCommonSpeechSynthesisAnnouncer,
+  U extends UtteranceQueue
+  > extends RectangularPushButton {
 
-  public constructor( isPrimaryLocaleProperty: BooleanProperty, preferences: T, providedOptions?: SpeechSynthesisButtonOptions ) {
+  public constructor( isPrimaryLocaleProperty: BooleanProperty, preferences: P, speechSynthesisAnnouncer: A,
+                      utteranceQueue: U, providedOptions?: SpeechSynthesisButtonOptions ) {
 
     const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>()( {
       stringProperty: null,
       secondNumberProperty: new NumberProperty( 0 )
     }, providedOptions );
 
-    // However, some browsers DO give the voices eagerly and will never emit an event that the list changed so try to
-    // set the voice eagerly. Also set up a link so that the voice is changed when the locale changes.
-    isPrimaryLocaleProperty.link( isPrimaryLocale => {
-      numberPlaySpeechSynthesisAnnouncer.updateVoice( isPrimaryLocale );
-    } );
+    // update the voice is when the primary locale, secondary locale, or which of the two we are choosing changes.
+    Multilink.multilink( [ isPrimaryLocaleProperty, phet.joist.localeProperty, preferences.secondLocaleProperty ],
+      isPrimaryLocale => {
+        speechSynthesisAnnouncer.updateVoice( isPrimaryLocale );
+      } );
 
     const speechUtterance = new Utterance();
     const listener = () => {
@@ -61,8 +65,8 @@ class SpeechSynthesisButton<T extends NumberSuiteCommonPreferences> extends Rect
                               NumberPlayConstants.numberToString( preferences.secondLocaleStringsProperty.value,
                                 options.numberProperty.value, isPrimaryLocaleProperty.value );
 
-      numberPlaySpeechSynthesisAnnouncer.cancelUtterance( speechUtterance );
-      numberPlayUtteranceQueue.addToBack( speechUtterance );
+      speechSynthesisAnnouncer.cancelUtterance( speechUtterance );
+      utteranceQueue.addToBack( speechUtterance );
     };
 
     // read numeric numbers aloud if the current number changes (or the second number, on the 'Compare' screen)
