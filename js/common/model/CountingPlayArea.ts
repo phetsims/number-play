@@ -230,8 +230,22 @@ class CountingPlayArea extends CountingCommonModel {
       return !countingObject.includeInSumProperty.value;
     } );
 
-    const countingObjectToReturn = sortedCountingObjects.shift();
+    let countingObjectToReturn = sortedCountingObjects.shift();
     if ( countingObjectToReturn ) {
+
+      // if the chosen paperNumber has a value greater than 1, break it up by creating a new paperNumber with a value of
+      // 1 to return instead
+      if ( countingObjectToReturn.numberValueProperty.value > NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE ) {
+        const amountRemaining = countingObjectToReturn.numberValueProperty.value - NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE;
+        countingObjectToReturn.changeNumber( amountRemaining );
+
+        countingObjectToReturn = new CountingObject(
+          NumberPlayConstants.PAPER_NUMBER_INITIAL_VALUE,
+          countingObjectToReturn.positionProperty.value, {
+            groupingEnabledProperty: this.groupingEnabledProperty
+          } );
+        this.addCountingObject( countingObjectToReturn );
+      }
 
       if ( this.countingObjectContainedByTenFrame( countingObjectToReturn ) ) {
         const tenFrame = this.getContainingTenFrame( countingObjectToReturn );
