@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.1.0-dev.7 Thu Nov 10 2022 13:46:25 GMT-0700 (Mountain Standard Time)",
+  "comment": "# number-play 1.1.0-dev.8 Fri Nov 11 2022 16:57:23 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "master"
@@ -33,7 +33,7 @@
     "branch": "master"
   },
   "number-play": {
-    "sha": "c2ba0f676f71906f3e507bece3aaf3f3dac5c36a",
+    "sha": "78aa614516a4c727d5074babd5de3aeb674460e4",
     "branch": "master"
   },
   "perennial-alias": {
