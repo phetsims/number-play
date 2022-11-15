@@ -453,7 +453,6 @@ class CountingPlayAreaNode extends Node {
     // Return it to the panel if it's been dropped in the panel.
     if ( this.isNumberInReturnZone( countingObject ) ) {
       // console.log( `about to drop ${countingObject.numberValueProperty.value} in ${this.playArea.name} return zone` );
-      assert && assert( countingObject.includeInSumProperty.value, 'countingObject already removed from sum' );
       countingObject.includeInSumProperty.value = false;
       this.playArea.calculateTotal();
 
