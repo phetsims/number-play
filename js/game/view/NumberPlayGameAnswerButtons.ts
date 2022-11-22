@@ -44,7 +44,7 @@ class NumberPlayGameAnswerButtons extends Node {
   private readonly buttonObjects: ButtonObject[];
   private readonly hBox: HBox;
   private readonly buttonListener: ( index: number ) => void;
-  public static BUTTON_DIMENSION: Dimension2;
+  public static readonly BUTTON_DIMENSION = BUTTON_DIMENSION;
 
   public constructor( level: NumberPlayGameLevel,
                pointAwardedNodeVisibleProperty: BooleanProperty,
@@ -165,8 +165,6 @@ class NumberPlayGameAnswerButtons extends Node {
     this.hBox.children = this.buttonObjects.map( buttonObject => buttonObject.button );
   }
 }
-
-NumberPlayGameAnswerButtons.BUTTON_DIMENSION = BUTTON_DIMENSION;
 
 numberPlay.register( 'NumberPlayGameAnswerButtons', NumberPlayGameAnswerButtons );
 export default NumberPlayGameAnswerButtons;

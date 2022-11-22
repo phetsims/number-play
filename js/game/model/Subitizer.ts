@@ -141,7 +141,7 @@ class Subitizer {
   private isDelayStarted: boolean;
   private timeSinceDelayStarted: number;
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
-  public static SUBITIZER_BOUNDS: Bounds2;
+  public static readonly SUBITIZER_BOUNDS = SUBITIZER_BOUNDS;
   public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
   public constructor( challengeNumberProperty: NumberProperty,
@@ -503,8 +503,6 @@ class Subitizer {
     return new Vector2( Utils.toFixedNumber( point.x, DECIMALS ), Utils.toFixedNumber( point.y, DECIMALS ) );
   }
 }
-
-Subitizer.SUBITIZER_BOUNDS = SUBITIZER_BOUNDS;
 
 numberPlay.register( 'Subitizer', Subitizer );
 export default Subitizer;
