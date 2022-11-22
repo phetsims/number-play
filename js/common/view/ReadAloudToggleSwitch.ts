@@ -15,6 +15,8 @@ import PreferencesToggleSwitch from '../../../../joist/js/preferences/Preference
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberSuiteCommonPreferencesNode from './NumberSuiteCommonPreferencesNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
+import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
 
 export default class ReadAloudToggleSwitch<T extends NumberSuiteCommonPreferences> extends Node {
 
@@ -22,24 +24,26 @@ export default class ReadAloudToggleSwitch<T extends NumberSuiteCommonPreference
 
     super();
 
-    const toggleSwitch = new PreferencesToggleSwitch( preferences.readAloudProperty, false, true, {
+    const toggleSwitch = new ToggleSwitch( preferences.readAloudProperty, false, true, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
+    const control = new PreferencesToggleSwitch( {
       labelNode: new Text( labelProperty, NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.readAloudDescriptionStringProperty,
         NumberSuiteCommonPreferencesNode.CONTROL_TEXT_OPTIONS ),
-      descriptionSpacing: NumberSuiteCommonPreferencesNode.CONTROL_DESCRIPTION_SPACING
+      descriptionSpacing: NumberSuiteCommonPreferencesNode.CONTROL_DESCRIPTION_SPACING,
+      controlNode: toggleSwitch
     } );
-    this.addChild( toggleSwitch );
+    this.addChild( control );
 
     // TODO: Remove this space and convert this class back to a PreferencesToggleSwitch once spacing in the audio tab
     // is supported or the sounds
     const spacerSize = 40;
     const spacer = new Rectangle( 0, 0, spacerSize, spacerSize );
-    spacer.left = toggleSwitch.right;
+    spacer.left = control.right;
     this.addChild( spacer );
 
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
       const includedScreens = phet.chipper.queryParameters.screens;
-      toggleSwitch.enabled = _.some( includedScreens, includedScreen => screens.includes( includedScreen ) );
+      control.enabled = _.some( includedScreens, includedScreen => screens.includes( includedScreen ) );
     }
   }
 }

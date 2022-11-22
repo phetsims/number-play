@@ -15,6 +15,8 @@ import PreferencesToggleSwitch from '../../../../joist/js/preferences/Preference
 import SecondLocaleSelectorCarousel from './SecondLocaleSelectorCarousel.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import ToggleSwitch from '../../../../sun/js/ToggleSwitch.js';
+import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 
 // constants
 const FONT_SIZE = 16;
@@ -40,7 +42,7 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
   public static readonly V_BOX_SPACING = V_BOX_SPACING;
   public static readonly V_BOX_OPTIONS = V_BOX_OPTIONS;
   protected readonly showSecondLocaleControl: Node;
-  protected readonly showLabOnesToggleSwitch: Node;
+  protected readonly showLabOnesControl: Node;
 
   protected constructor( preferences: T, additionalControls: Node[] ) {
 
@@ -49,10 +51,13 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
       align: 'top'
     } );
 
-    const showSecondLocaleToggleSwitch = new PreferencesToggleSwitch( preferences.showSecondLocaleProperty, false, true, {
+    const showSecondLocaleToggleSwitch = new ToggleSwitch( preferences.showSecondLocaleProperty, false, true,
+      PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
+    const showSecondLocaleControl = new PreferencesToggleSwitch( {
       labelNode: new Text( NumberPlayStrings.secondLanguageStringProperty, CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.secondLanguageDescriptionStringProperty, CONTROL_TEXT_OPTIONS ),
-      descriptionSpacing: CONTROL_DESCRIPTION_SPACING
+      descriptionSpacing: CONTROL_DESCRIPTION_SPACING,
+      controlNode: showSecondLocaleToggleSwitch
     } );
 
     // TODO: factor out this string if we like this
@@ -63,7 +68,7 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
         visible: false
       } );
     this.showSecondLocaleControl = new VBox( {
-      children: [ showSecondLocaleToggleSwitch, loadAllHtmlText ],
+      children: [ showSecondLocaleControl, loadAllHtmlText ],
       spacing: CONTROL_DESCRIPTION_SPACING,
       align: 'left'
     } );
@@ -83,13 +88,17 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
       spacing: V_BOX_SPACING
     } );
 
-    this.showLabOnesToggleSwitch = new PreferencesToggleSwitch( preferences.showLabOnesProperty, false, true, {
+    const showLabOnesToggleSwitch = new ToggleSwitch( preferences.showLabOnesProperty, false, true,
+      PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
+
+    this.showLabOnesControl = new PreferencesToggleSwitch( {
       labelNode: new Text( NumberPlayStrings.showOnesStringProperty, CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.showOnesDescriptionStringProperty, CONTROL_TEXT_OPTIONS ),
-      descriptionSpacing: CONTROL_DESCRIPTION_SPACING
+      descriptionSpacing: CONTROL_DESCRIPTION_SPACING,
+      controlNode: showLabOnesToggleSwitch
     } );
     const rightControls = new VBox( combineOptions<VBoxOptions>( {
-      children: [ ...additionalControls, this.showLabOnesToggleSwitch ]
+      children: [ ...additionalControls, this.showLabOnesControl ]
     }, V_BOX_OPTIONS ) );
 
     this.children = [ leftControls, rightControls ];

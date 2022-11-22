@@ -63,7 +63,7 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
 
       this.showSecondLocaleControl.enabled = isSecondLocaleScreen;
       subitizeTimeControl.enabled = isGameScreen;
-      this.showLabOnesToggleSwitch.enabled = isLabScreen;
+      this.showLabOnesControl.enabled = isLabScreen;
     }
   }
 }
