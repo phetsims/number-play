@@ -11,7 +11,7 @@
 import { Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberSuiteCommonPreferences from '../model/NumberSuiteCommonPreferences.js';
-import PreferencesToggleSwitch from '../../../../joist/js/preferences/PreferencesToggleSwitch.js';
+import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberSuiteCommonPreferencesNode from './NumberSuiteCommonPreferencesNode.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
@@ -25,7 +25,7 @@ export default class ReadAloudToggleSwitch<T extends NumberSuiteCommonPreference
     super();
 
     const toggleSwitch = new ToggleSwitch( preferences.readAloudProperty, false, true, PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
-    const control = new PreferencesToggleSwitch( {
+    const control = new PreferencesControl( {
       labelNode: new Text( labelProperty, NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.readAloudDescriptionStringProperty,
         NumberSuiteCommonPreferencesNode.CONTROL_TEXT_OPTIONS ),

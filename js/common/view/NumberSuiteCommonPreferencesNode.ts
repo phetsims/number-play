@@ -11,7 +11,7 @@ import { HBox, Node, RichText, Text, VBox, VBoxOptions } from '../../../../scene
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import numberPlay from '../../numberPlay.js';
 import NumberSuiteCommonPreferences from '../model/NumberSuiteCommonPreferences.js';
-import PreferencesToggleSwitch from '../../../../joist/js/preferences/PreferencesToggleSwitch.js';
+import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
 import SecondLocaleSelectorCarousel from './SecondLocaleSelectorCarousel.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
@@ -53,7 +53,7 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
 
     const showSecondLocaleToggleSwitch = new ToggleSwitch( preferences.showSecondLocaleProperty, false, true,
       PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
-    const showSecondLocaleControl = new PreferencesToggleSwitch( {
+    const showSecondLocaleControl = new PreferencesControl( {
       labelNode: new Text( NumberPlayStrings.secondLanguageStringProperty, CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.secondLanguageDescriptionStringProperty, CONTROL_TEXT_OPTIONS ),
       descriptionSpacing: CONTROL_DESCRIPTION_SPACING,
@@ -91,7 +91,7 @@ export default abstract class NumberSuiteCommonPreferencesNode<T extends NumberS
     const showLabOnesToggleSwitch = new ToggleSwitch( preferences.showLabOnesProperty, false, true,
       PreferencesDialogConstants.TOGGLE_SWITCH_OPTIONS );
 
-    this.showLabOnesControl = new PreferencesToggleSwitch( {
+    this.showLabOnesControl = new PreferencesControl( {
       labelNode: new Text( NumberPlayStrings.showOnesStringProperty, CONTROL_TEXT_BOLD_OPTIONS ),
       descriptionNode: new Text( NumberPlayStrings.showOnesDescriptionStringProperty, CONTROL_TEXT_OPTIONS ),
       descriptionSpacing: CONTROL_DESCRIPTION_SPACING,
