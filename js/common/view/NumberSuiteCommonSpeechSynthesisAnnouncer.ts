@@ -11,42 +11,45 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import SpeechSynthesisAnnouncer, { SpeechSynthesisInitializeOptions } from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
 import numberPlay from '../../numberPlay.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-
-type NumberSuiteCommonSpeechSynthesisInitializeOptions = SpeechSynthesisInitializeOptions;
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 
 class NumberSuiteCommonSpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
 
-  private updateVoiceListener: ( () => void ) | null;
+  private readonly updateVoiceListener: ( () => void ) | null;
   private readonly secondLocaleProperty: TReadOnlyProperty<string>;
+  public readonly primaryLocaleVoiceEnabledProperty: TReadOnlyProperty<boolean>;
+  public readonly secondaryLocaleVoiceEnabledProperty: TReadOnlyProperty<boolean>;
 
   public constructor( secondLocaleProperty: TReadOnlyProperty<string> ) {
     super();
 
-    this.updateVoiceListener = null;
+    this.updateVoiceListener = () => this.updateVoice();
     this.secondLocaleProperty = secondLocaleProperty;
-  }
 
-  public override initialize( userGestureEmitter: TEmitter, options: NumberSuiteCommonSpeechSynthesisInitializeOptions ): void {
-    super.initialize( userGestureEmitter, options );
+    this.primaryLocaleVoiceEnabledProperty = new DerivedProperty( [ phet.joist.localeProperty, this.voiceProperty ],
+      ( locale: string ) => this.testVoiceForLocale( locale ) );
+
+    this.secondaryLocaleVoiceEnabledProperty = new DerivedProperty( [ secondLocaleProperty, this.voiceProperty ],
+      locale => this.testVoiceForLocale( locale ) );
 
     // Voices may not be available on load or the list of voices may change - update if we get an indication that
     // the list of available voices has changed.
-    this.updateVoiceListener = this.updateVoice.bind( this );
-    this.voicesChangedEmitter.addListener( this.updateVoiceListener );
+    this.voicesProperty.lazyLink( this.updateVoiceListener );
   }
 
+  /**
+   * Given if we should use the primary or secondary locale, set the voice of that locale.
+   */
   public updateVoice( isPrimaryLocale = true ): void {
-    assert && assert( this.initialized, 'must be initialized before updating voice' );
 
     const locale = isPrimaryLocale ? phet.joist.localeProperty.value : this.secondLocaleProperty.value;
     assert && assert( locale, `locale does not exist: ${locale}` );
 
-    // in case we don't have any voices yet, wait until the voicesChangedEmitter sends an event
-    if ( this.voices.length > 0 ) {
+    // in case we don't have any voices yet, wait until the voicesProperty is populated
+    if ( this.voicesProperty.value.length > 0 ) {
 
       const translatedVoices = _.filter( this.getPrioritizedVoices(), voice => {
         return voice.lang.includes( locale );
@@ -58,11 +61,26 @@ class NumberSuiteCommonSpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer
       else {
         // console.log( `No voices found for locale: ${locale}` );
       }
+    }
+  }
 
-      if ( this.voicesChangedEmitter.hasListener( this.updateVoiceListener! ) ) {
-        this.voicesChangedEmitter.removeListener( this.updateVoiceListener! );
+  /**
+   * Given a locale, see if a voice is available for speech synthesis in the same locale.
+   */
+  public testVoiceForLocale( locale: string ): boolean {
+    let isVoiceFound = false;
+
+    if ( this.voicesProperty.value.length > 0 ) {
+
+      const translatedVoices = _.filter( this.getPrioritizedVoices(), voice => {
+        return voice.lang.includes( locale );
+      } );
+      if ( translatedVoices.length ) {
+        isVoiceFound = true;
       }
     }
+
+    return isVoiceFound;
   }
 }
 
