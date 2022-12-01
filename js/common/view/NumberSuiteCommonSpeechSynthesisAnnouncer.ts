@@ -58,9 +58,6 @@ class NumberSuiteCommonSpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer
         const translatedVoice = translatedVoices[ 0 ];
         this.voiceProperty.set( translatedVoice );
       }
-      else {
-        // console.log( `No voices found for locale: ${locale}` );
-      }
     }
   }
 

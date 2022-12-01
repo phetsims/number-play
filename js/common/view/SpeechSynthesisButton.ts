@@ -16,7 +16,6 @@ import Utterance from '../../../../utterance-queue/js/Utterance.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -40,10 +39,9 @@ const SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2; // match the
 
 class SpeechSynthesisButton<P extends NumberSuiteCommonPreferences,
   A extends NumberSuiteCommonSpeechSynthesisAnnouncer,
-  U extends UtteranceQueue
-  > extends RectangularPushButton {
+  U extends UtteranceQueue> extends RectangularPushButton {
 
-  public constructor( isPrimaryLocaleProperty: BooleanProperty, preferences: P, speechSynthesisAnnouncer: A,
+  public constructor( isPrimaryLocaleProperty: TReadOnlyProperty<boolean>, preferences: P, speechSynthesisAnnouncer: A,
                       utteranceQueue: U, providedOptions?: SpeechSynthesisButtonOptions ) {
 
     const options = optionize<SpeechSynthesisButtonOptions, SelfOptions>()( {
@@ -84,6 +82,12 @@ class SpeechSynthesisButton<P extends NumberSuiteCommonPreferences,
       baseColor: Color.YELLOW,
       listener: listener
     } );
+
+    Multilink.multilink( [ speechSynthesisAnnouncer.primaryLocaleVoiceEnabledProperty,
+        speechSynthesisAnnouncer.secondaryLocaleVoiceEnabledProperty, isPrimaryLocaleProperty ],
+      ( primaryLocaleVoiceEnabled, secondaryLocaleVoiceEnabled, isPrimaryLocale ) => {
+        this.enabled = isPrimaryLocale ? primaryLocaleVoiceEnabled : secondaryLocaleVoiceEnabled;
+      } );
   }
 }
 
