@@ -17,10 +17,14 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 
 class NumberSuiteCommonPreferences {
-  public readonly readAloudProperty: Property<boolean>;
+
+  // preference Properties directly controlled by UI
   public readonly showSecondLocaleProperty: Property<boolean>;
   public readonly secondLocaleProperty: StringProperty;
   public readonly showLabOnesProperty: Property<boolean>;
+  public readonly readAloudProperty: Property<boolean>;
+
+  // helper Properties derived from preference Properties
   public readonly secondLocaleStringsProperty: TReadOnlyProperty<IntentionalAny>;
 
   public constructor() {
@@ -36,15 +40,16 @@ class NumberSuiteCommonPreferences {
       NumberPlayQueryParameters.secondLocale = phet.chipper.locale;
     }
 
+    // if a valid second locale was provided via a query parameter, display the second locale on sim startup
+    this.showSecondLocaleProperty = new BooleanProperty( isSecondLocaleProvided && isSecondLocaleValid );
+
     this.secondLocaleProperty = new StringProperty( NumberPlayQueryParameters.secondLocale! );
 
-    // if a valid second locale was provided, display the second locale on sim startup
-    this.showSecondLocaleProperty = new BooleanProperty( isSecondLocaleProvided && isSecondLocaleValid );
+    this.showLabOnesProperty = new BooleanProperty( NumberPlayQueryParameters.showLabOnes );
 
     this.secondLocaleStringsProperty = new DerivedProperty( [ this.secondLocaleProperty ], secondLocale => {
       return phet.chipper.strings[ secondLocale ];
     } );
-    this.showLabOnesProperty = new BooleanProperty( NumberPlayQueryParameters.showLabOnes );
   }
 }
 
