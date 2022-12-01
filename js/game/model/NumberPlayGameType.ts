@@ -21,7 +21,7 @@ type LevelDescriptions = Record<number, LinkableProperty<string>>;
 type LevelImages = Record<number, HTMLImageElement>;
 
 class NumberPlayGameType extends EnumerationValue {
-  public static COUNTING = new NumberPlayGameType( {
+  public static readonly COUNTING = new NumberPlayGameType( {
     1: NumberPlayStrings.countingLevel1DescriptionStringProperty,
     2: NumberPlayStrings.countingLevel2DescriptionStringProperty
   }, {
@@ -29,7 +29,7 @@ class NumberPlayGameType extends EnumerationValue {
     2: countingGameIcon2_png
   } );
 
-  public static SUBITIZE = new NumberPlayGameType( {
+  public static readonly SUBITIZE = new NumberPlayGameType( {
     1: NumberPlayStrings.subitizingLevel1DescriptionStringProperty,
     2: NumberPlayStrings.subitizingLevel2DescriptionStringProperty
   }, {
@@ -37,7 +37,7 @@ class NumberPlayGameType extends EnumerationValue {
     2: subitizeGameIcon2_png
   } );
 
-  public static enumeration = new Enumeration( NumberPlayGameType );
+  public static readonly enumeration = new Enumeration( NumberPlayGameType );
 
   public readonly levelDescriptions: LevelDescriptions;
   public readonly levelImages: LevelImages;
