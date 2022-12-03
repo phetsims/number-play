@@ -73,8 +73,8 @@ class TotalAccordionBox extends NumberPlayAccordionBox {
     // disable the arrow buttons when the currentNumberProperty value is at its min or max range
     const currentNumberPropertyObserver = ( currentNumber: number ) => {
       assert && assert( playArea.sumProperty.range, 'Range is required for sumProperty in play areas' );
-      upArrowButton.enabled = currentNumber !== playArea.sumProperty.range!.max;
-      downArrowButton.enabled = currentNumber !== playArea.sumProperty.range!.min;
+      upArrowButton.enabled = currentNumber !== playArea.sumProperty.range.max;
+      downArrowButton.enabled = currentNumber !== playArea.sumProperty.range.min;
     };
     playArea.sumProperty.link( currentNumberPropertyObserver );
 

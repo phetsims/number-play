@@ -153,7 +153,7 @@ class NumberPlayGameAnswerButtons extends Node {
    * Fires the button listener on the correct answer button.
    */
   public showAnswer( challengeNumberProperty: NumberProperty ): void {
-    const buttonObjectIndex = challengeNumberProperty.value - challengeNumberProperty.range!.min;
+    const buttonObjectIndex = challengeNumberProperty.value - challengeNumberProperty.range.min;
     this.buttonListener( buttonObjectIndex );
   }
 

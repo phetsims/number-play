@@ -23,7 +23,7 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
     // TODO: Make into its own type if we like this - make general number spinner control if we keep the compare max control
     const subitizeTimeText = new Text( NumberPlayStrings.subitizeTimeStringProperty,
       NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS );
-    const subitizeTimeRange = numberPlayPreferences.subitizeTimeShownProperty.rangeProperty.value!;
+    const subitizeTimeRange = numberPlayPreferences.subitizeTimeShownProperty.rangeProperty.value;
     const subitizeTimeSpinner = new NumberSpinner( numberPlayPreferences.subitizeTimeShownProperty,
       new Property<Range>( subitizeTimeRange ), {
         arrowsPosition: 'leftRight',
