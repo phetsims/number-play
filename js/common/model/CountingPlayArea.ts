@@ -385,7 +385,8 @@ class CountingPlayArea extends CountingCommonModel {
 
     // TODO: cleanup and doc
 
-    const objectsToBreakDown = [ ...this.countingObjects ];
+    const objectsToBreakDown = [ ...this.countingObjects.filter( countingObject => countingObject.includeInSumProperty.value ) ];
+    const startingCount = _.sum( objectsToBreakDown.map( x => x.numberValueProperty.value ) );
 
     objectsToBreakDown.forEach( countingObject => {
       if ( countingObject.numberValueProperty.value > 1 ) {
@@ -420,6 +421,13 @@ class CountingPlayArea extends CountingCommonModel {
         }
       }
     } );
+
+    // total the value of all counting objects after they have been broken up and re-created
+    const newCount = _.sum( this.countingObjects.filter( countingObject => countingObject.includeInSumProperty.value )
+      .map( x => x.numberValueProperty.value ) );
+
+    assert && assert( startingCount === newCount,
+      'The value of all counting objects does not match their original value after breaking them apart' );
   }
 }
 
