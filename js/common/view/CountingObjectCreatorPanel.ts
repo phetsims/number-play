@@ -81,8 +81,8 @@ class CountingObjectCreatorPanel extends NumberPlayCreatorPanel {
 
     // disable the arrow buttons when the currentNumberProperty value is at its min or max range
     const currentNumberPropertyObserver = ( currentNumber: number ) => {
-      upArrowButton.enabled = currentNumber !== playArea.sumProperty.range!.max;
-      downArrowButton.enabled = currentNumber !== playArea.sumProperty.range!.min;
+      upArrowButton.enabled = currentNumber !== playArea.sumProperty.range.max;
+      downArrowButton.enabled = currentNumber !== playArea.sumProperty.range.min;
     };
     playArea.sumProperty.link( currentNumberPropertyObserver );
   }

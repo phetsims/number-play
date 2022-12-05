@@ -11,11 +11,11 @@ import numberPlay from '../../numberPlay.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
 
 class GroupAndLinkType extends EnumerationValue {
-  public static UNGROUPED = new GroupAndLinkType();
-  public static GROUPED = new GroupAndLinkType();
-  public static GROUPED_AND_LINKED = new GroupAndLinkType();
+  public static readonly UNGROUPED = new GroupAndLinkType();
+  public static readonly GROUPED = new GroupAndLinkType();
+  public static readonly GROUPED_AND_LINKED = new GroupAndLinkType();
 
-  public static enumeration = new Enumeration( GroupAndLinkType );
+  public static readonly enumeration = new Enumeration( GroupAndLinkType );
 }
 
 numberPlay.register( 'GroupAndLinkType', GroupAndLinkType );

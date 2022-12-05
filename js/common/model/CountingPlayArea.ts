@@ -330,7 +330,7 @@ class CountingPlayArea extends CountingCommonModel {
     const objectMargin = 3;
 
     const numberOfColumns = 5; // rows
-    const numberOfRows = this.sumProperty.range!.max / numberOfColumns;
+    const numberOfRows = this.sumProperty.range.max / numberOfColumns;
 
     const xMargin = 88; // empirically determined to center group TODO: figure out why math isn't working for this
     const yMargin = CountingCommonConstants.COUNTING_PLAY_AREA_MARGIN;
