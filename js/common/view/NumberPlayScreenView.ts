@@ -36,6 +36,7 @@ import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
+import MissingVoiceWarningButton from './MissingVoiceWarningButton.js';
 
 // types
 type SelfOptions = {
@@ -133,10 +134,10 @@ class NumberPlayScreenView extends ScreenView {
     // update the position of the localeSwitch
     Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.showSecondLocaleProperty ],
       isExpanded => {
-      // @ts-ignore // TODO-TS: Okay to make these public readonly?
-      const topReferenceY = isExpanded ? wordAccordionBox.expandedBox.bottom : wordAccordionBox.collapsedBox.bottom;
-      localeSwitch.top = topReferenceY + 27.5;
-    } );
+        // @ts-ignore // TODO-TS: Okay to make these public readonly?
+        const topReferenceY = isExpanded ? wordAccordionBox.expandedBox.bottom : wordAccordionBox.collapsedBox.bottom;
+        localeSwitch.top = topReferenceY + 27.5;
+      } );
 
     // create and add the CountingAccordionBox for play objects
     this.objectsAccordionBox = new CountingAccordionBox(
@@ -174,11 +175,20 @@ class NumberPlayScreenView extends ScreenView {
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
       const speechSynthesisButton = new SpeechSynthesisButton( model.isPrimaryLocaleProperty, numberPlayPreferences,
         numberPlaySpeechSynthesisAnnouncer, numberPlayUtteranceQueue, {
-        numberProperty: model.currentNumberProperty
-      } );
+          numberProperty: model.currentNumberProperty
+        } );
       speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = tenFrameAccordionBox.top;
       this.addChild( speechSynthesisButton );
+
+      const missingVoiceWarningButton = new MissingVoiceWarningButton(
+        model.isPrimaryLocaleProperty,
+        numberPlaySpeechSynthesisAnnouncer.primaryLocaleVoiceEnabledProperty,
+        numberPlaySpeechSynthesisAnnouncer.secondaryLocaleVoiceEnabledProperty
+      );
+      missingVoiceWarningButton.centerX = speechSynthesisButton.centerX;
+      missingVoiceWarningButton.top = speechSynthesisButton.bottom + 12;
+      this.addChild( missingVoiceWarningButton );
     }
 
     // create the icons for the RectangularRadioButtonGroup

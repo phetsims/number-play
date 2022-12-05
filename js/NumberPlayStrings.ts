@@ -109,6 +109,10 @@ type StringsType = {
   'subitizeTimeStringProperty': LinkableProperty<string>;
   'subitizeTimeDescription': string;
   'subitizeTimeDescriptionStringProperty': LinkableProperty<string>;
+  'noDeviceFoundDescription': string;
+  'noDeviceFoundDescriptionStringProperty': LinkableProperty<string>;
+  'yourDeviceMaySupportDescription': string;
+  'yourDeviceMaySupportDescriptionStringProperty': LinkableProperty<string>;
 };
 
 const NumberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;
