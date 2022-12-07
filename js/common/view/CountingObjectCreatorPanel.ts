@@ -51,7 +51,7 @@ class CountingObjectCreatorPanel extends NumberPlayCreatorPanel {
       CountingCommonConstants.SINGLE_COUNTING_OBJECT_BOUNDS.height * NumberPlayConstants.GROUPED_STORED_COUNTING_OBJECT_SCALE + 5
     );
 
-    // @ts-ignore TODO-TS: Remove if/when CountingPlayAreaNode extends CountingCommonView
+    // @ts-expect-error TODO-TS: Remove if/when CountingPlayAreaNode extends CountingCommonView
     const countingCreatorNode = new CountingCreatorNode( 0, screenView, playArea.sumProperty, playArea.resetEmitter, {
       updateCurrentNumber: true,
       countingObjectTypeProperty: screenView.countingObjectTypeProperty,

@@ -144,7 +144,7 @@ const NumberPlayConstants = {
   numberToString: ( numberPlaySecondaryStrings: IntentionalAny, number: number, isPrimaryLocale: boolean, prefix = NUMBER_PLAY_STRING_KEY_PREFIX ): string => {
     const stringKey = NUMBER_TO_STRING_VALUE[ number ];
 
-    // @ts-ignore
+    // @ts-expect-error
     return isPrimaryLocale ? NumberPlayStrings[ stringKey ] :
            numberPlaySecondaryStrings[ `${prefix}${stringKey}` ];
   },
