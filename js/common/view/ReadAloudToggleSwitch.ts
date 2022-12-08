@@ -34,7 +34,7 @@ export default class ReadAloudToggleSwitch<T extends NumberSuiteCommonPreference
     } );
     this.addChild( control );
 
-    // TODO: Remove this space and convert this class back to a PreferencesToggleSwitch once spacing in the audio tab
+    // TODO: Remove this space and convert this class back to a PreferencesControl once spacing in the audio tab
     // is supported or the sounds
     const spacerSize = 40;
     const spacer = new Rectangle( 0, 0, spacerSize, spacerSize );
