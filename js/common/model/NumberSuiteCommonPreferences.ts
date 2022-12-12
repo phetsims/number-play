@@ -10,17 +10,17 @@
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
-import StringProperty from '../../../../axon/js/StringProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
+import { Locale } from '../../../../joist/js/i18n/localeProperty.js';
 
 class NumberSuiteCommonPreferences {
 
   // preference Properties directly controlled by UI
   public readonly showSecondLocaleProperty: Property<boolean>;
-  public readonly secondLocaleProperty: StringProperty;
+  public readonly secondLocaleProperty: Property<Locale>;
   public readonly showLabOnesProperty: Property<boolean>;
   public readonly readAloudProperty: Property<boolean>;
 
@@ -43,7 +43,7 @@ class NumberSuiteCommonPreferences {
     // if a valid second locale was provided via a query parameter, display the second locale on sim startup
     this.showSecondLocaleProperty = new BooleanProperty( isSecondLocaleProvided && isSecondLocaleValid );
 
-    this.secondLocaleProperty = new StringProperty( NumberPlayQueryParameters.secondLocale! );
+    this.secondLocaleProperty = new Property<Locale>( NumberPlayQueryParameters.secondLocale! as Locale );
 
     this.showLabOnesProperty = new BooleanProperty( NumberPlayQueryParameters.showLabOnes );
 

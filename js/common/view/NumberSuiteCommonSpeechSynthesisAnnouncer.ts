@@ -15,6 +15,7 @@ import SpeechSynthesisAnnouncer from '../../../../utterance-queue/js/SpeechSynth
 import numberPlay from '../../numberPlay.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import { Locale } from '../../../../joist/js/i18n/localeProperty.js';
 
 class NumberSuiteCommonSpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer {
 
@@ -23,14 +24,14 @@ class NumberSuiteCommonSpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer
   public readonly primaryLocaleVoiceEnabledProperty: TReadOnlyProperty<boolean>;
   public readonly secondaryLocaleVoiceEnabledProperty: TReadOnlyProperty<boolean>;
 
-  public constructor( secondLocaleProperty: TReadOnlyProperty<string> ) {
+  public constructor( secondLocaleProperty: TReadOnlyProperty<Locale> ) {
     super();
 
     this.updateVoiceListener = () => this.updateVoice();
     this.secondLocaleProperty = secondLocaleProperty;
 
     this.primaryLocaleVoiceEnabledProperty = new DerivedProperty( [ phet.joist.localeProperty, this.voiceProperty ],
-      ( locale: string ) => this.testVoiceForLocale( locale ) );
+      ( locale: Locale ) => this.testVoiceForLocale( locale ) );
 
     this.secondaryLocaleVoiceEnabledProperty = new DerivedProperty( [ secondLocaleProperty, this.voiceProperty ],
       locale => this.testVoiceForLocale( locale ) );
@@ -64,7 +65,7 @@ class NumberSuiteCommonSpeechSynthesisAnnouncer extends SpeechSynthesisAnnouncer
   /**
    * Given a locale, see if a voice is available for speech synthesis in the same locale.
    */
-  public testVoiceForLocale( locale: string ): boolean {
+  public testVoiceForLocale( locale: Locale ): boolean {
     let isVoiceFound = false;
 
     if ( this.voicesProperty.value.length > 0 ) {
