@@ -33,7 +33,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
 
       // always put the counting levels on the top row, subitize levels always on the bottoms row
       createLayoutNode: ( levelSelectionButtons: LevelSelectionButton[] ) => {
-        assert && assert( levelSelectionButtons.length === 4, 'layout hardcoded for 4 buttons' );
+        assert && assert( levelSelectionButtons.length === 4, 'this layout is hardcoded for 4 buttons' );
         return new VBox( {
           children: [
             new HBox( {
