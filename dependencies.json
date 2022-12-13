@@ -37,11 +37,11 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "b00c94a075b80c462b634599efc56b2a0562c17a",
+    "sha": "a150bb872583617154ba5642e3bf09894bb35ba6",
     "branch": "1.0"
   },
   "perennial-alias": {
-    "sha": "4fc15876e82201173c601e37ee7759c02b5afbe9",
+    "sha": "fad33fbccdbfb196f1fe733ea836efb599918999",
     "branch": "HEAD"
   },
   "phet-core": {
