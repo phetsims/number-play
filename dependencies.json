@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "fa378d8aec781d1ea8485a81382bcdf4c056300b",
+    "sha": "8f34e6d44de3f9bc307910609944f43e330b3c19",
     "branch": "1.0"
   },
   "perennial-alias": {
@@ -73,7 +73,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "7f28b1db2ef94da6ef551f278e99a54e5b0555a2",
+    "sha": "7f510fadff4d31fcb53df449f42e5a8f11b71a10",
     "branch": "HEAD"
   },
   "scenery-phet": {
