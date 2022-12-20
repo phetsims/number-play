@@ -8,7 +8,7 @@
  */
 
 import numberPlay from '../../numberPlay.js';
-import NumberSuiteCommonSpeechSynthesisAnnouncer from './NumberSuiteCommonSpeechSynthesisAnnouncer.js';
+import NumberSuiteCommonSpeechSynthesisAnnouncer from '../../../../number-suite-common/js/common/view/NumberSuiteCommonSpeechSynthesisAnnouncer.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 const numberPlaySpeechSynthesisAnnouncer =

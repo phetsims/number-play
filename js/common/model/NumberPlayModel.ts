@@ -8,10 +8,10 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlay from '../../numberPlay.js';
-import CountingPlayArea from './CountingPlayArea.js';
+import CountingPlayArea from '../../../../number-suite-common/js/common/model/CountingPlayArea.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import GroupAndLinkType from './GroupAndLinkType.js';
+import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';

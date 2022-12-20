@@ -10,7 +10,7 @@ import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
-import LabScreen from './lab/LabScreen.js';
+import LabScreen from '../../number-suite-common/js/lab/LabScreen.js';
 import NumberPlayStrings from './NumberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
@@ -25,7 +25,7 @@ import NumberPlayModel from './common/model/NumberPlayModel.js';
 import numberPlayPreferences from './common/model/numberPlayPreferences.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
-import ReadAloudPreferenceControl from './common/view/ReadAloudPreferenceControl.js';
+import ReadAloudPreferenceControl from '../../number-suite-common/js/common/view/ReadAloudPreferenceControl.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 

@@ -17,26 +17,26 @@ import groupingScene3_png from '../../../images/groupingScene3_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import CountingAccordionBox from './CountingAccordionBox.js';
-import SpeechSynthesisButton from './SpeechSynthesisButton.js';
+import CountingAccordionBox from '../../../../number-suite-common/js/common/view/CountingAccordionBox.js';
+import SpeechSynthesisButton from '../../../../number-suite-common/js/common/view/SpeechSynthesisButton.js';
 import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
-import TotalAccordionBox, { TotalAccordionBoxOptions } from './TotalAccordionBox.js';
+import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/TotalAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
-import OrganizeButton from './OrganizeButton.js';
-import GroupAndLinkType from '../model/GroupAndLinkType.js';
+import OrganizeButton from '../../../../number-suite-common/js/common/view/OrganizeButton.js';
+import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
-import LocaleSwitch from './LocaleSwitch.js';
+import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import { NumberPlayAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberPlayAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
-import MissingVoiceWarningButton from './MissingVoiceWarningButton.js';
+import MissingVoiceWarningButton from '../../../../number-suite-common/js/common/view/MissingVoiceWarningButton.js';
 
 // types
 type SelfOptions = {

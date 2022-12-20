@@ -9,7 +9,7 @@
 
 import { Font, HBox, Text, VBox } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import NumberSuiteCommonPreferencesNode from './NumberSuiteCommonPreferencesNode.js';
+import NumberSuiteCommonPreferencesNode from '../../../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import numberPlayPreferences, { NumberPlayPreferences } from '../model/numberPlayPreferences.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';

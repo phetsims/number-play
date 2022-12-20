@@ -10,8 +10,8 @@
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import TenFrameNode from './TenFrameNode.js';
-import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from './NumberPlayAccordionBox.js';
+import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
+import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberPlayAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';

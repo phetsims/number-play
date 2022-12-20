@@ -7,7 +7,7 @@
  * @author Luisa Vargas
  */
 
-import CountingPlayArea from '../../common/model/CountingPlayArea.js';
+import CountingPlayArea from '../../../../number-suite-common/js/common/model/CountingPlayArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';

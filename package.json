@@ -13,6 +13,7 @@
     "requirejsNamespace": "NUMBER_PLAY",
     "phetLibs": [
       "counting-common",
+      "number-suite-common",
       "twixt",
       "vegas"
     ],
