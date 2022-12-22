@@ -8,6 +8,7 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
+import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -19,14 +20,13 @@ import NumberPlayScreenView, { NumberPlayScreenViewOptions } from '../common/vie
 import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 
-
 class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
   public constructor( tandem: Tandem ) {
 
     const screenOptions = {
       name: NumberPlayStrings.screen.twentyStringProperty,
-      backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
+      backgroundColorProperty: NumberSuiteCommonColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( twentyScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
@@ -41,7 +41,7 @@ class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
         textOffsetX: 40
       },
       totalAccordionBoxOptions: {
-        fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
+        fill: NumberSuiteCommonColors.lightPurpleBackgroundColorProperty,
         font: new PhetFont( 80 ),
         arrowButtonOptions: {
           arrowWidth: 16, // empirically determined

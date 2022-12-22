@@ -18,6 +18,7 @@ import NumberPlayScreenView, { NumberPlayScreenViewOptions } from '../common/vie
 import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 
 class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
@@ -25,7 +26,7 @@ class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
 
     const screenOptions = {
       name: NumberPlayStrings.screen.tenStringProperty,
-      backgroundColorProperty: NumberPlayColors.lightPurpleBackgroundColorProperty,
+      backgroundColorProperty: NumberSuiteCommonColors.lightPurpleBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( tenScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
@@ -40,7 +41,7 @@ class TenScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
         textOffsetX: 30
       },
       totalAccordionBoxOptions: {
-        fill: NumberPlayColors.lightOrangeBackgroundColorProperty,
+        fill: NumberSuiteCommonColors.lightOrangeBackgroundColorProperty,
         font: new PhetFont( 98 ),
         arrowButtonOptions: {
           arrowWidth: 20, // empirically determined

@@ -16,32 +16,14 @@ const NumberPlayColors = {
   purpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'purpleBackgroundColor', {
     default: new Color( 214, 209, 255 )
   } ),
-  purpleHighlightColorProperty: new ProfileColorProperty( numberPlay, 'purpleHighlightColor', {
-    default: new Color( 200, 194, 255 )
-  } ),
-  mediumPurpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'mediumPurpleBackgroundColor', {
-    default: new Color( 238, 238, 255 )
-  } ),
-  lightPurpleBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightPurpleBackground', {
-    default: new Color( 248, 248, 255 )
-  } ),
   orangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'orangeBackgroundColor', {
     default: new Color( 249, 210, 172 )
-  } ),
-  orangeHighlightColorProperty: new ProfileColorProperty( numberPlay, 'orangeHighlightColor', {
-    default: new Color( 247, 209, 159 )
-  } ),
-  lightOrangeBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'lightOrangeBackgroundColor', {
-    default: new Color( 255, 247, 235 )
   } ),
   pinkBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'pinkBackgroundColor', {
     default: new Color( 252, 220, 255 )
   } ),
   blueBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'blueBackgroundColor', {
     default: new Color( 204, 239, 255 )
-  } ),
-  whiteBackgroundColorProperty: new ProfileColorProperty( numberPlay, 'whiteBackgroundColor', {
-    default: new Color( 255, 255, 255 )
   } ),
 
   // game screen level colors

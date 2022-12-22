@@ -19,6 +19,7 @@ import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFram
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -94,7 +95,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFrameBackgroundNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH - TEN_FRAME_MARGIN * 2,
       rectHeight: RECTANGLE_HEIGHT - TEN_FRAME_MARGIN * 2,
-      fill: NumberPlayColors.lightPurpleBackgroundColorProperty
+      fill: NumberSuiteCommonColors.lightPurpleBackgroundColorProperty
     } );
 
     // create and add the tenFrameNode
@@ -107,7 +108,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     const tenFramePanel = new Panel( tenFrameBackgroundNode, {
       xMargin: TEN_FRAME_MARGIN,
       yMargin: TEN_FRAME_MARGIN,
-      fill: NumberPlayColors.lightPurpleBackgroundColorProperty,
+      fill: NumberSuiteCommonColors.lightPurpleBackgroundColorProperty,
       lineWidth: PANEL_LINE_WIDTH
     } );
     tenFramePanel.centerX = layoutBounds.centerX;

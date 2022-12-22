@@ -9,10 +9,10 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
+import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import gameScreenIcon_png from '../../images/gameScreenIcon_png.js';
-import NumberPlayColors from '../common/NumberPlayColors.js';
 import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import NumberPlayGameModel from './model/NumberPlayGameModel.js';
@@ -24,7 +24,7 @@ class NumberPlayGameScreen extends Screen<NumberPlayGameModel, NumberPlayGameScr
 
     const options = {
       name: NumberPlayStrings.screen.gameStringProperty,
-      backgroundColorProperty: NumberPlayColors.lightOrangeBackgroundColorProperty,
+      backgroundColorProperty: NumberSuiteCommonColors.lightOrangeBackgroundColorProperty,
       homeScreenIcon: new ScreenIcon( new Image( gameScreenIcon_png ), {
         maxIconWidthProportion: 1,
         maxIconHeightProportion: 1
