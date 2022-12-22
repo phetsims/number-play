@@ -21,6 +21,7 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 // types
 type SelfOptions = {
@@ -42,7 +43,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
                       height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( NumberPlayStrings.word, {
-      font: NumberPlayConstants.ACCORDION_BOX_TITLE_FONT,
+      font: NumberSuiteCommonConstants.ACCORDION_BOX_TITLE_FONT,
       maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
     } );
 
@@ -51,7 +52,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
     Multilink.multilink( [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
       ( ( locale, secondLocaleStrings, isPrimaryLocale ) => {
         // TODO: Duplicated from LocaleSwitch
-        const secondLanguageStringKey = `${NumberPlayConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
+        const secondLanguageStringKey = `${NumberSuiteCommonConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
         const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
 
         const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
@@ -80,7 +81,8 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
 
-    const wordText = new Text( NumberPlayConstants.NUMBER_TO_STRING[ currentNumberProperty.value ], {
+    // initialize as blank, updated in link below
+    const wordText = new Text( '', {
       font: options.font,
       maxWidth: this.contentBoundsProperty.value.width - options.textOffsetX - TEXT_MARGIN
     } );
@@ -94,7 +96,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
     // update the word if the current number or locale changes
     Multilink.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
       ( currentNumber, isPrimaryLocale ) => {
-        wordText.text = NumberPlayConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
+        wordText.text = NumberSuiteCommonConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
           currentNumber, isPrimaryLocale );
       } );
   }

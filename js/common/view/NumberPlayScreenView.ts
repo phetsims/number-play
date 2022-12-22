@@ -37,6 +37,7 @@ import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import MissingVoiceWarningButton from '../../../../number-suite-common/js/common/view/MissingVoiceWarningButton.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 // types
 type SelfOptions = {
@@ -83,8 +84,8 @@ class NumberPlayScreenView extends ScreenView {
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) );
-    wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
-    wordAccordionBox.top = this.layoutBounds.minY + NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    wordAccordionBox.left = this.layoutBounds.minX + NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
+    wordAccordionBox.top = this.layoutBounds.minY + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( wordAccordionBox );
 
     // create and add the TotalAccordionBox
@@ -106,7 +107,7 @@ class NumberPlayScreenView extends ScreenView {
       optionize<TenFrameAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
       }, options.tenFrameAccordionBoxOptions ) );
-    tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
+    tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
 
@@ -119,10 +120,10 @@ class NumberPlayScreenView extends ScreenView {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleStringProperty: NumberPlayStrings.onesStringProperty,
         fill: NumberPlayColors.pinkBackgroundColorProperty,
-        titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
+        titleMaxWidth: NumberSuiteCommonConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
       } );
-    onesAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
-    onesAccordionBox.bottom = this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y;
+    onesAccordionBox.left = this.layoutBounds.minX + NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
+    onesAccordionBox.bottom = this.layoutBounds.maxY - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( onesAccordionBox );
 
     // create and add the LocaleSwitch
@@ -152,9 +153,9 @@ class NumberPlayScreenView extends ScreenView {
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty,
         titleStringProperty: NumberPlayStrings.objectsStringProperty, // TODO-TS: this should use the default in CountingAccordionBox
-        titleMaxWidth: NumberPlayConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
+        titleMaxWidth: NumberSuiteCommonConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
       } );
-    this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
+    this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     this.objectsAccordionBox.bottom = onesAccordionBox.bottom;
     this.addChild( this.objectsAccordionBox );
 
@@ -165,8 +166,8 @@ class NumberPlayScreenView extends ScreenView {
         model.reset();
         this.reset();
       },
-      right: this.layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
-      bottom: this.layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y,
+      right: this.layoutBounds.maxX - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X,
+      bottom: this.layoutBounds.maxY - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y,
       tandem: options.tandem.createTandem( 'resetAllButton' )
     } );
     this.addChild( resetAllButton );
@@ -177,7 +178,7 @@ class NumberPlayScreenView extends ScreenView {
         numberPlaySpeechSynthesisAnnouncer, numberPlayUtteranceQueue, {
           numberProperty: model.currentNumberProperty
         } );
-      speechSynthesisButton.left = this.layoutBounds.minX + NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+      speechSynthesisButton.left = this.layoutBounds.minX + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X;
       speechSynthesisButton.top = tenFrameAccordionBox.top;
       this.addChild( speechSynthesisButton );
 
@@ -222,7 +223,7 @@ class NumberPlayScreenView extends ScreenView {
     const organizeOnesButton = new OrganizeButton( NumberPlayColors.pinkBackgroundColorProperty, () => {
       model.onesPlayArea.organizeObjects();
     } );
-    organizeOnesButton.left = NumberPlayConstants.SCREEN_VIEW_PADDING_X;
+    organizeOnesButton.left = NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X;
     organizeOnesButton.top = onesAccordionBox.top;
     this.addChild( organizeOnesButton );
 

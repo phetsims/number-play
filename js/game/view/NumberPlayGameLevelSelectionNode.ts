@@ -11,7 +11,6 @@
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Node, Text } from '../../../../scenery/js/imports.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
@@ -19,6 +18,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import NumberPlayGameInfoDialog from './NumberPlayGameInfoDialog.js';
 import NumberPlayGameLevelSelectionButtonGroup from './NumberPlayGameLevelSelectionButtonGroup.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 // constants
 const INFO_BUTTON_SIZE = 35;
@@ -30,7 +30,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     super();
 
     // leave room for the info button
-    const titleMaxWidth = layoutBounds.width - NumberPlayConstants.SCREEN_VIEW_PADDING_X * 2 - INFO_BUTTON_SIZE * 2 -
+    const titleMaxWidth = layoutBounds.width - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X * 2 - INFO_BUTTON_SIZE * 2 -
                           INFO_BUTTON_MARGIN * 2;
 
     // create and add the title text
@@ -65,8 +65,8 @@ class NumberPlayGameLevelSelectionNode extends Node {
         this.interruptSubtreeInput(); // cancel interactions that may be in progress
         resetCallback();
       },
-      right: layoutBounds.maxX - NumberPlayConstants.SCREEN_VIEW_PADDING_X,
-      bottom: layoutBounds.maxY - NumberPlayConstants.SCREEN_VIEW_PADDING_Y
+      right: layoutBounds.maxX - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X,
+      bottom: layoutBounds.maxY - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y
     } );
     this.addChild( resetAllButton );
   }

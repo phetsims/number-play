@@ -9,6 +9,7 @@
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import NumberSuiteCommonConstants from '../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Image } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -54,7 +55,7 @@ class TwentyScreen extends Screen<NumberPlayModel, NumberPlayScreenView> {
         tenFrameOffsetX: 13
       },
       upperAccordionBoxHeight: NumberPlayConstants.TWENTY_UPPER_ACCORDION_BOX_HEIGHT,
-      lowerAccordionBoxHeight: NumberPlayConstants.TWENTY_LOWER_ACCORDION_BOX_HEIGHT,
+      lowerAccordionBoxHeight: NumberSuiteCommonConstants.TALL_LOWER_ACCORDION_BOX_HEIGHT,
       tandem: tandem.createTandem( 'view' )
     };
 
