@@ -32,7 +32,7 @@ import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { NumberPlayAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberPlayAccordionBox.js';
+import { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
@@ -80,7 +80,7 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       model.isPrimaryLocaleProperty,
       options.upperAccordionBoxHeight,
-      optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) );
     wordAccordionBox.left = this.layoutBounds.minX + NumberPlayConstants.ACCORDION_BOX_MARGIN_X;
@@ -91,7 +91,7 @@ class NumberPlayScreenView extends ScreenView {
     const totalAccordionBox = new TotalAccordionBox(
       model.onesPlayArea,
       options.upperAccordionBoxHeight,
-      optionize<TotalAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<TotalAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
       }, options.totalAccordionBoxOptions ) );
     totalAccordionBox.centerX = this.layoutBounds.centerX;
@@ -103,7 +103,7 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       model.sumRange,
       options.upperAccordionBoxHeight,
-      optionize<TenFrameAccordionBoxOptions, EmptySelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<TenFrameAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
       }, options.tenFrameAccordionBoxOptions ) );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberPlayConstants.ACCORDION_BOX_MARGIN_X;

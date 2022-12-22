@@ -11,7 +11,7 @@ import NumberPlayStrings from '../../NumberPlayStrings.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
-import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberPlayAccordionBox.js';
+import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -23,15 +23,15 @@ type SelfOptions = {
   tenFrameOffsetX: number;
 };
 export type TenFrameAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberPlayAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
+  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
 
-class TenFrameAccordionBox extends NumberPlayAccordionBox {
+class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
 
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, sumRange: Range,
                       height: number, options: TenFrameAccordionBoxOptions ) {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ),
-      optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         titleStringProperty: NumberPlayStrings.tenFrameStringProperty,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );

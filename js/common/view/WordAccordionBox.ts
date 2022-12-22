@@ -12,7 +12,7 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import NumberPlayAccordionBox, { NumberPlayAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberPlayAccordionBox.js';
+import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Multilink from '../../../../axon/js/Multilink.js';
@@ -28,7 +28,7 @@ type SelfOptions = {
   font: Font;
 };
 export type WordAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberPlayAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
+  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
 
 // constants
 const TEXT_MARGIN = 5;
@@ -36,7 +36,7 @@ const TEXT_MARGIN = 5;
 // how much to change the height by when the localeSwitch is shown or hidden
 const HEIGHT_ADJUSTMENT = 24;
 
-class WordAccordionBox extends NumberPlayAccordionBox {
+class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: BooleanProperty,
                       height: number, options: WordAccordionBoxOptions ) {
@@ -71,11 +71,11 @@ class WordAccordionBox extends NumberPlayAccordionBox {
     } );
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty,
-      optionize<WordAccordionBoxOptions, SelfOptions, NumberPlayAccordionBoxOptions>()( {
+      optionize<WordAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         titleNode: titleNode,
 
         // TODO: The following options are not used because of the titleNode above, but are needed because of an
-        // order dependency in NumberPlayAccordionBox, and should be fixed
+        // order dependency in NumberSuiteCommonAccordionBox, and should be fixed
         titleStringProperty: new Property( '' ),
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
