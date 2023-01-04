@@ -139,7 +139,7 @@ class NumberPlayScreenView extends ScreenView {
       isExpanded => {
         const wordAccordionBoxHeight = isExpanded ? wordAccordionBox.getExpandedBoxHeight() : wordAccordionBox.getCollapsedBoxHeight();
 
-        // empirically determined to even space between wordAccordionBox and onesAccordionBox when wordAccordionBox is expanded
+        // empirically determined to evenly space between wordAccordionBox and onesAccordionBox when wordAccordionBox is expanded
         localeSwitch.top = wordAccordionBox.top + wordAccordionBoxHeight + 13;
       } );
 
