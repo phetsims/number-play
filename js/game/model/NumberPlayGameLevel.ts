@@ -19,9 +19,9 @@ abstract class NumberPlayGameLevel {
 
   public readonly levelNumber: number;
   public readonly scoreProperty: NumberProperty;
-  public readonly isChallengeSolvedProperty: BooleanProperty;
+  public readonly isChallengeSolvedProperty: BooleanProperty; // TODO-TS: Make all these broader with TProperty or the like.
   public readonly challengeRange: Range;
-  public readonly challengeNumberProperty: NumberProperty; // TODO-TS: This should be TReadOnlyProperty. See https://github.com/phetsims/number-play/issues/81.
+  public readonly challengeNumberProperty: NumberProperty;
   private oldChallengeNumberOne: number;
   private oldChallengeNumberTwo: number;
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;

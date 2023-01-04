@@ -128,7 +128,7 @@ const SUBITIZER_OBJECT_TYPES = [
 
 class Subitizer {
 
-  private readonly challengeNumberProperty: NumberProperty;
+  private readonly challengeNumberProperty: TReadOnlyProperty<number>;
   private readonly isChallengeSolvedProperty: BooleanProperty;
   public readonly isShapeVisibleProperty: BooleanProperty;
   public readonly pointsProperty: Property<Vector2[]>;
@@ -144,7 +144,7 @@ class Subitizer {
   public static readonly SUBITIZER_BOUNDS = SUBITIZER_BOUNDS;
   public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
-  public constructor( challengeNumberProperty: NumberProperty,
+  public constructor( challengeNumberProperty: TReadOnlyProperty<number>,
                       isChallengeSolvedProperty: BooleanProperty,
                       numberOfAnswerButtonPressesProperty: NumberProperty,
                       randomOrPredetermined: boolean
