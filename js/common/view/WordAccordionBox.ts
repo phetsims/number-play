@@ -42,7 +42,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: BooleanProperty,
                       height: number, options: WordAccordionBoxOptions ) {
 
-    const titleNode = new Text( NumberPlayStrings.word, {
+    const titleNode = new Text( NumberPlayStrings.wordStringProperty.value, {
       font: NumberSuiteCommonConstants.ACCORDION_BOX_TITLE_FONT,
       maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
     } );
@@ -56,7 +56,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
 
         const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
-          language: NumberPlayStrings.language
+          language: NumberPlayStrings.languageStringProperty.value
         } );
         const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
           language: secondLanguageString

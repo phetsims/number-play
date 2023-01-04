@@ -25,7 +25,7 @@ class NumberPlayGameInfoDialog extends GameInfoDialog {
 
     const descriptions = levels.map( level => level.gameType.levelDescriptions[ level.levelNumber ] );
 
-    const titleNode = new Text( NumberPlayStrings.games, {
+    const titleNode = new Text( NumberPlayStrings.gamesStringProperty, {
       font: TITLE_FONT
     } );
 
