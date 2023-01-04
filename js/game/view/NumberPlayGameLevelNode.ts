@@ -26,6 +26,7 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 
 // types
 type SelfOptions = {
@@ -116,7 +117,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
       headHeight: 23
     } );
     const newChallengeButton = new RectangularPushButton( {
-      baseColor: Color.YELLOW,
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       xMargin: 27,
       yMargin: 10.9,
       touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,

@@ -20,6 +20,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import SubitizeObjectType from '../model/SubitizeObjectType.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 
 // constants
 const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;
@@ -51,7 +52,7 @@ class SubitizerNode extends Node {
 
     // create and add the playButton
     const playButton = new RectangularPushButton( {
-      baseColor: Color.YELLOW,
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       content: new Path( new PlayIconShape( 36, 45 ), {
         fill: Color.BLACK,
         centerX: 1.4,
