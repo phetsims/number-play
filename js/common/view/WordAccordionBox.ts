@@ -94,7 +94,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
     } );
 
     // update the word if the current number or locale changes
-    Multilink.lazyMultilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
+    Multilink.multilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
       ( currentNumber, isPrimaryLocale ) => {
         wordText.text = NumberSuiteCommonConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
           currentNumber, isPrimaryLocale );
