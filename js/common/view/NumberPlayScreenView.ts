@@ -138,7 +138,9 @@ class NumberPlayScreenView extends ScreenView {
     Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.showSecondLocaleProperty ],
       isExpanded => {
         const wordAccordionBoxHeight = isExpanded ? wordAccordionBox.getExpandedBoxHeight() : wordAccordionBox.getCollapsedBoxHeight();
-        localeSwitch.top = wordAccordionBox.top + wordAccordionBoxHeight + 12.5;
+
+        // empirically determined to even space between wordAccordionBox and onesAccordionBox when wordAccordionBox is expanded
+        localeSwitch.top = wordAccordionBox.top + wordAccordionBoxHeight + 13;
       } );
 
     // create and add the CountingAccordionBox for play objects
