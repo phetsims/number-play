@@ -119,8 +119,7 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleStringProperty: NumberPlayStrings.onesStringProperty,
-        fill: NumberPlayColors.pinkBackgroundColorProperty,
-        titleMaxWidth: NumberSuiteCommonConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
+        fill: NumberPlayColors.pinkBackgroundColorProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     onesAccordionBox.bottom = this.layoutBounds.maxY - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y;
