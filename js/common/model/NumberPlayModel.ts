@@ -18,8 +18,9 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import Range from '../../../../dot/js/Range.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import TModel from '../../../../joist/js/TModel.js';
 
-class NumberPlayModel {
+class NumberPlayModel implements TModel {
 
   public readonly sumRange: Range;
   public readonly currentNumberProperty: TProperty<number>;
@@ -31,7 +32,7 @@ class NumberPlayModel {
   private readonly isResettingProperty: BooleanProperty;
   private readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
-  public constructor( highestCount: number, tandem: Tandem ) {
+  protected constructor( highestCount: number, tandem: Tandem ) {
 
     this.sumRange = new Range( 0, highestCount );
 

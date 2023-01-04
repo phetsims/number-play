@@ -14,8 +14,9 @@ import SubitizeGameLevel from './SubitizeGameLevel.js';
 import CountingGameLevel from './CountingGameLevel.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import TModel from '../../../../joist/js/TModel.js';
 
-class NumberPlayGameModel {
+class NumberPlayGameModel implements TModel {
 
   public readonly subitizeLevels: SubitizeGameLevel[];
   public readonly countingLevels: CountingGameLevel[];

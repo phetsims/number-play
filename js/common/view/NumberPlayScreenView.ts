@@ -1,7 +1,7 @@
 // Copyright 2019-2023, University of Colorado Boulder
 
 /**
- * ScreenView class for Number Play. It is used for both the 'Ten' and 'Twenty' screens.
+ * ScreenView base class for Number Play. It is used for both the 'Ten' and 'Twenty' screens.
  *
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
@@ -65,7 +65,7 @@ class NumberPlayScreenView extends ScreenView {
   private readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
   private readonly objectsAccordionBox: CountingAccordionBox;
 
-  public constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
+  protected constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {
 
     super( options );
 
