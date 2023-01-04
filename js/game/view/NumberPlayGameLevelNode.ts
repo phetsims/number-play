@@ -72,12 +72,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
           levelProperty.value = null; // back to the level-selection UI
         }
       }, options.statusBarOptions ) );
-
-    // color the backButton in the statusBar yellow and increase its touch area
-    const backButton = statusBar.children[ 1 ].children[ 0 ];
-    // @ts-expect-error TODO-TS: Open issue to expose backButton options in InfiniteStatusBar
-    backButton.baseColor = Color.YELLOW;
-    backButton.touchArea = backButton.bounds.dilated( NumberPlayConstants.TOUCH_AREA_DILATION );
     this.addChild( statusBar );
 
     this.level = level;
