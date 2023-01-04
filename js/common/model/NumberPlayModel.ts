@@ -23,48 +23,56 @@ import TModel from '../../../../joist/js/TModel.js';
 class NumberPlayModel implements TModel {
 
   public readonly sumRange: Range;
+
+  // the current "counted to" number, which is the central aspect of this whole sim
   public readonly currentNumberProperty: TProperty<number>;
+
+  // whether the sim is using the locale it was loaded in or a second locale
   public readonly isPrimaryLocaleProperty: BooleanProperty;
+
+  // the model for managing the play area in the OnesAccordionBox
   public readonly onesPlayArea: CountingPlayArea;
+
+  // the model for managing the play area in the ObjectsAccordionBox
   public readonly objectsPlayArea: CountingPlayArea;
+
+  // the type of objects in the objects play area. primarily used in the view.
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
+
+  // whether the objects play area is ungrouped, grouped, or linked. set by the view controls and used to
+  // link/unlink play areas in the view and drive the grouped/ungrouped state in the model
   public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
+
+  // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
+  // way (with animations), but instead with a different reset case (no animations).
   private readonly isResettingProperty: BooleanProperty;
+
+  // whether counting objects should be grouped or ungrouped
   private readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
   protected constructor( highestCount: number, tandem: Tandem ) {
 
     this.sumRange = new Range( 0, highestCount );
 
-    // whether the sim is using the locale it was loaded in or a second locale
     this.isPrimaryLocaleProperty = new BooleanProperty( true );
 
-    // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
-    // way (with animations), but instead with a different reset case (no animations).
     this.isResettingProperty = new BooleanProperty( false );
 
-    // the type of objects in the objects play area. primarily used in the view.
     this.countingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
-    // whether the objects play area is ungrouped, grouped, or linked. set by the view controls and used to
-    // link/unlink play areas in the view and drive the grouped/ungrouped state in the model
     this.groupAndLinkTypeProperty = new EnumerationProperty( GroupAndLinkType.UNGROUPED );
 
-    // whether counting objects should be grouped or ungrouped
     this.groupingEnabledProperty = new DerivedProperty( [ this.groupAndLinkTypeProperty ], groupAndLinkType => {
       return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
     } );
 
-    // the model for managing the play area in the OnesAccordionBox
     this.onesPlayArea = new CountingPlayArea( highestCount, new BooleanProperty( true ), 'countingPlayArea' );
 
-    // the model for managing the play area in the ObjectsAccordionBox
     this.objectsPlayArea = new CountingPlayArea( highestCount, this.groupingEnabledProperty, 'objectsPlayArea' );
 
     let onesLeading = false;
     let objectsLeading = false;
 
-    // the current "counted to" number, which is the central aspect of this whole sim
     this.currentNumberProperty = new NumberProperty( 0 );
 
     this.onesPlayArea.sumProperty.lazyLink( ( sum, oldSum ) => {
@@ -86,6 +94,7 @@ class NumberPlayModel implements TModel {
         objectsLeading = true;
 
         this.currentNumberProperty.value = sum;
+
         // console.log( 'objectsPlayArea set to ' + sum + ', matching countingPlayArea' );
         this.matchPlayAreaToNewValue( sum, oldSum, this.onesPlayArea );
 
@@ -96,6 +105,7 @@ class NumberPlayModel implements TModel {
 
   private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: CountingPlayArea ): void {
     const difference = newValue - oldValue;
+
     // console.log( `matching ${playArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
     if ( difference > 0 ) {
       assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +

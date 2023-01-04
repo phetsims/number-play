@@ -18,12 +18,26 @@ import { TColor } from '../../../../scenery/js/imports.js';
 abstract class NumberPlayGameLevel {
 
   public readonly levelNumber: number;
+
+  // the total number of points that have been awarded for this level
   public readonly scoreProperty: NumberProperty;
-  public readonly isChallengeSolvedProperty: BooleanProperty;
+
+  // whether the current challenge has been solved. A challenge is considered solved when the user has correctly
+  // guessed the answer
+  public readonly isChallengeSolvedProperty: BooleanProperty; // TODO-TS: Make all these broader with TProperty or the like.
+
+  // the range of numbers used for all challenges of this level
   public readonly challengeRange: Range;
-  public readonly challengeNumberProperty: NumberProperty; // TODO-TS: This should be TReadOnlyProperty. See https://github.com/phetsims/number-play/issues/81.
+
+  // the random number generated to create a representation for
+  public readonly challengeNumberProperty: NumberProperty;
+
+  // used to store old challenge number values. this.oldChallengeNumberOne tracks the most recent value of
+  // this.challengeNumberProperty, and this.oldChallengeNumberTwo tracks the value used before that.
   private oldChallengeNumberOne: number;
   private oldChallengeNumberTwo: number;
+
+  // the number of times any wrong answer button in answerButtons was pressed
   public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
   public readonly gameType: NumberPlayGameType;
   public abstract readonly baseColorProperty: TColor;
@@ -39,31 +53,23 @@ abstract class NumberPlayGameLevel {
     this.levelNumber = levelNumber;
     this.gameType = gameType;
 
-    // the range of numbers used for all challenges of this level
     this.challengeRange = NumberPlayGameLevel.getChallengeRange( levelNumber, levelChallengeRange );
 
-    // the total number of points that have been awarded for this level
     this.scoreProperty = new NumberProperty( 0, {
       numberType: 'Integer',
       isValidValue: ( value: number ) => ( value >= 0 )
     } );
 
-    // whether the current challenge has been solved. A challenge is considered solved when the user has correctly
-    // guessed the answer
     this.isChallengeSolvedProperty = new BooleanProperty( false );
 
-    // the random number generated to create a representation for
     this.challengeNumberProperty = new NumberProperty( this.getRandomChallengeNumber(), {
       numberType: 'Integer',
       range: this.challengeRange
     } );
 
-    // used to store old challenge number values. this.oldChallengeNumberOne tracks the most recent value of
-    // this.challengeNumberProperty, and this.oldChallengeNumberTwo tracks the value used before that.
     this.oldChallengeNumberOne = this.challengeNumberProperty.value;
     this.oldChallengeNumberTwo = this.challengeNumberProperty.value;
 
-    // the number of times any wrong answer button in answerButtons was pressed
     this.numberOfAnswerButtonPressesProperty = new NumberProperty( 0, {
       numberType: 'Integer',
       isValidValue: ( value: number ) => ( value >= 0 )

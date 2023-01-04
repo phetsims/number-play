@@ -43,6 +43,11 @@ class NumberPlayGameAnswerButtons extends Node {
 
   private readonly buttonObjects: ButtonObject[];
   private readonly hBox: HBox;
+
+  /**
+   * Listener that is added to every answer button. It disabled selected buttons that are wrong, and turns correct
+   * answer buttons green.
+   */
   private readonly buttonListener: ( index: number ) => void;
   public static readonly BUTTON_DIMENSION = BUTTON_DIMENSION;
 
@@ -63,10 +68,6 @@ class NumberPlayGameAnswerButtons extends Node {
 
     const gameAudioPlayer = new GameAudioPlayer();
 
-    /**
-     * Listener that is added to every answer button. It disabled selected buttons that are wrong, and turns correct
-     * answer buttons green.
-     */
     const buttonListener = ( index: number ) => {
       level.numberOfAnswerButtonPressesProperty.value++;
       const buttonObject = this.buttonObjects[ index ];
