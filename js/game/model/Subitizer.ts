@@ -130,18 +130,46 @@ class Subitizer {
 
   private readonly challengeNumberProperty: TReadOnlyProperty<number>;
   private readonly isChallengeSolvedProperty: BooleanProperty;
+
+  // whether the current shape is visible
   public readonly isShapeVisibleProperty: BooleanProperty;
+
+  // the points of the current shape
   public readonly pointsProperty: Property<Vector2[]>;
+
+  // if true, make random or predetermined shapes. if false, only make arranged shapes.
   private readonly randomOrPredetermined: boolean;
+
+  // the amount of time that the sim clock has run since the shape was made visible, in seconds
   private timeSinceShapeVisible: number;
+
+  // the width and height of every object
   public readonly objectSize: number;
+
+  // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
+  // False when the current challenge is solved. Manipulated only in the view.
   public readonly isInputEnabledProperty: BooleanProperty;
+
+  // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
+  // the time that the shape is shown is increased if the user gets the answer wrong multiple times, or if a user
+  // changes the value in the Preferences dialog
   private timeToShowShapeProperty: TReadOnlyProperty<number>;
+
+  // the object type of the current shape
   public readonly objectTypeProperty: EnumerationProperty<SubitizeObjectType>;
+
+  // whether the delay has been started. a delay happens at the beginning of a new challenge, before revealing the
+  // shape for that challenge.
   private isDelayStarted: boolean;
+
+  // the amount of time that the sim clock has run since the delay was started, in seconds
   private timeSinceDelayStarted: number;
+
+  // whether the loading bar is animating. This can also be used to stop an existing animation.
   public readonly isLoadingBarAnimatingProperty: BooleanProperty;
   public static readonly SUBITIZER_BOUNDS = SUBITIZER_BOUNDS;
+
+  // whether the play button is visible
   public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
   public constructor( challengeNumberProperty: TReadOnlyProperty<number>,
@@ -152,50 +180,34 @@ class Subitizer {
     this.challengeNumberProperty = challengeNumberProperty;
     this.isChallengeSolvedProperty = isChallengeSolvedProperty;
 
-    // whether the play button is visible
     this.isPlayButtonVisibleProperty = new BooleanProperty( true );
 
-    // whether the loading bar is animating. This can also be used to stop an existing animation.
     this.isLoadingBarAnimatingProperty = new BooleanProperty( false );
 
-    // whether the current shape is visible
     this.isShapeVisibleProperty = new BooleanProperty( false );
 
-    // the points of the current shape
     this.pointsProperty = new Property( [ Vector2.ZERO ], {
       valueType: Array,
       isValidValue: value => Array.isArray( value ) && value.every( element => element instanceof Vector2 )
     } );
 
-    // if true, make random or predetermined shapes. if false, only make arranged shapes.
     this.randomOrPredetermined = randomOrPredetermined;
 
-    // whether the delay has been started. a delay happens at the beginning of a new challenge, before revealing the
-    // shape for that challenge.
     this.isDelayStarted = false;
 
-    // the amount of time that the sim clock has run since the delay was started, in seconds
     this.timeSinceDelayStarted = 0;
 
-    // the amount of time that the sim clock has run since the shape was made visible, in seconds
     this.timeSinceShapeVisible = 0;
 
-    // the width and height of every object
     this.objectSize = OBJECT_SIZE;
 
-    // Indicates when input is enabled to answer the current challenge. True when the current challenge is not solved.
-    // False when the current challenge is solved. Manipulated only in the view.
     this.isInputEnabledProperty = new BooleanProperty( false );
 
-    // the object type of the current shape
     this.objectTypeProperty = new EnumerationProperty( SubitizeObjectType.DOG, {
       enumeration: SubitizeObjectType.enumeration,
       validValues: SUBITIZER_OBJECT_TYPES
     } );
 
-    // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
-    // the time that the shape is shown is increased if the user gets the answer wrong multiple times, or if a user
-    // changes the value in the Preferences dialog
     this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty,
       numberPlayPreferences.subitizeTimeShownProperty ],
       ( numberOfAnswerButtonPresses, preferencesSubitizeTimeShown ) => {

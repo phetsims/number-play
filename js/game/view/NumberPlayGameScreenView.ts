@@ -30,6 +30,7 @@ const TRANSITION_OPTIONS = {
 
 class NumberPlayGameScreenView extends ScreenView {
 
+  // store all level nodes in one place for easy iteration
   private readonly levelNodes: Array<NumberPlayGameLevelNode<NumberPlayGameLevel>>;
 
   public constructor( model: NumberPlayGameModel, tandem: Tandem ) {
@@ -52,7 +53,6 @@ class NumberPlayGameScreenView extends ScreenView {
     const subitizeLevelNodes = model.subitizeLevels.map( level =>
       new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
 
-    // store all level nodes in one place for easy iteration
     this.levelNodes = [ ...countingLevelNodes, ...subitizeLevelNodes ];
 
     // create the transitionNode which handles the animated slide transition between levelSelectionNode and a level

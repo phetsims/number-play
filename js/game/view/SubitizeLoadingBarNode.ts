@@ -28,7 +28,11 @@ class SubitizeLoadingBarNode extends Node {
 
   private readonly isLoadingBarAnimatingProperty: BooleanProperty;
   private readonly newChallengeCallback: () => void;
+
+  // used to store the animation, null if no animation is in progress
   private loadingBarAnimation: Animation | null;
+
+  // the width of the loadingBarRectangle during the animation
   private readonly loadingBarWidthProperty: NumberProperty;
 
   public constructor( newChallengeCallback: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
@@ -56,12 +60,10 @@ class SubitizeLoadingBarNode extends Node {
     loadingBarRectangle.centerY = borderRectangle.centerY;
     this.addChild( loadingBarRectangle );
 
-    // the width of the loadingBarRectangle during the animation
     this.loadingBarWidthProperty = new NumberProperty( 0, {
       isValidValue: ( value: number ) => ( value >= 0 ) && ( value <= RECTANGLE_WIDTH - RECTANGLE_LINE_WIDTH )
     } );
 
-    // used to store the animation, null if no animation is in progress
     this.loadingBarAnimation = null;
 
     this.reset();

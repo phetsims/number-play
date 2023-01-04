@@ -23,27 +23,31 @@ const LEVEL_INPUT_RANGE = 10;
 class CountingGameLevel extends NumberPlayGameLevel {
 
   public readonly objectsPlayArea: CountingPlayArea;
+
+  // the object type of the current challenge
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
+
+  // whether the current representation of the challengeNumber are objects or ten frames
   public readonly isObjectsRepresentationProperty: BooleanProperty;
+
+  // whether objects should be able to be grouped
   public readonly groupObjectsAllowed: boolean;
+
+  // whether grouping is enabled for a set of objects
   public readonly groupObjectsEnabledProperty: BooleanProperty;
   public readonly baseColorProperty = NumberPlayColors.countingGameColorProperty;
 
   public constructor( levelNumber: number ) {
     super( levelNumber, NumberPlayGameType.COUNTING, LEVEL_INPUT_RANGE );
 
-    // whether objects should be able to be grouped
     this.groupObjectsAllowed = ( levelNumber === 2 );
 
-    // whether grouping is enabled for a set of objects
     this.groupObjectsEnabledProperty = new BooleanProperty( this.groupObjectsAllowed );
 
     this.objectsPlayArea = new CountingPlayArea( this.challengeNumberProperty.range.max, this.groupObjectsEnabledProperty, 'objectsPlayArea' );
 
-    // the object type of the current challenge
     this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );
 
-    // whether the current representation of the challengeNumber are objects or ten frames
     this.isObjectsRepresentationProperty = new BooleanProperty( true );
   }
 

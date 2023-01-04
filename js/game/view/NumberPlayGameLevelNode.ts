@@ -41,8 +41,12 @@ const PLUS_ONE_STRING = '+1'; // doesn't need to be translatable
 abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends Node {
 
   public readonly level: T;
+
+  // create and add the frownyFaceNode which is visible when an incorrect answer button is pressed
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
+
+  // whether the pointAwardedNode is visible
   protected readonly pointAwardedNodeVisibleProperty: BooleanProperty;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
   public static readonly ANSWER_BUTTONS_BOTTOM_MARGIN_Y = 50;
@@ -77,7 +81,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
     this.level = level;
 
-    // create and add the frownyFaceNode which is visible when an incorrect answer button is pressed
     this.frownyFaceNode = new FaceNode( FACE_DIAMETER, {
       visible: false
     } );
@@ -95,7 +98,6 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
     smileyFaceNode.centerX = this.frownyFaceNode.centerX;
     this.addChild( smileyFaceNode );
 
-    // whether the pointAwardedNode is visible
     this.pointAwardedNodeVisibleProperty = new BooleanProperty( false );
 
     // create and add the pointAwardedNode which is shown when a correct guess is made on the first answer button press
