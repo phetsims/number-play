@@ -73,6 +73,8 @@ type StringsType = {
   'totalStringProperty': LinkableProperty<string>;
   'tenFrame': string;
   'tenFrameStringProperty': LinkableProperty<string>;
+  'tenFrames': string;
+  'tenFramesStringProperty': LinkableProperty<string>;
   'ones': string;
   'onesStringProperty': LinkableProperty<string>;
   'objects': string;

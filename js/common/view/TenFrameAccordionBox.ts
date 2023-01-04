@@ -30,14 +30,20 @@ class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, sumRange: Range,
                       height: number, options: TenFrameAccordionBoxOptions ) {
 
+    const tenFrameNode = new TenFrameNode( currentNumberProperty, sumRange );
+
+    // Singular vs plural title, based on how many 'ten frames' we have.
+    // See https://github.com/phetsims/number-play/issues/192
+    const titleStringProperty = ( tenFrameNode.numberOfTenFrames > 1 ) ?
+                                NumberPlayStrings.tenFramesStringProperty :
+                                NumberPlayStrings.tenFrameStringProperty;
+
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
-        titleStringProperty: NumberPlayStrings.tenFrameStringProperty,
+        titleStringProperty: titleStringProperty,
         titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }, options ) );
 
-    // create, scale, and add the TenFrameNode
-    const tenFrameNode = new TenFrameNode( currentNumberProperty, sumRange );
     tenFrameNode.scale( height / tenFrameNode.height / 2 );
     tenFrameNode.centerX = this.contentBoundsProperty.value.centerX + options.tenFrameOffsetX;
     tenFrameNode.centerY = this.contentBoundsProperty.value.centerY;
