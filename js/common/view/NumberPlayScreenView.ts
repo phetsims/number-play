@@ -153,9 +153,7 @@ class NumberPlayScreenView extends ScreenView {
         groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
-        fill: NumberPlayColors.blueBackgroundColorProperty,
-        titleStringProperty: NumberPlayStrings.objectsStringProperty, // TODO-TS: this should use the default in CountingAccordionBox
-        titleMaxWidth: NumberSuiteCommonConstants.LOWER_ACCORDION_BOX_TITLE_MAX_WIDTH // TODO-TS: this should use the default in CountingAccordionBox
+        fill: NumberPlayColors.blueBackgroundColorProperty
       } );
     this.objectsAccordionBox.right = this.layoutBounds.maxX - NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     this.objectsAccordionBox.bottom = onesAccordionBox.bottom;
