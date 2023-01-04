@@ -135,9 +135,8 @@ class NumberPlayScreenView extends ScreenView {
     // update the position of the localeSwitch
     Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.showSecondLocaleProperty ],
       isExpanded => {
-        // @ts-expect-error // TODO-TS: Okay to make these public readonly?
-        const topReferenceY = isExpanded ? wordAccordionBox.expandedBox.bottom : wordAccordionBox.collapsedBox.bottom;
-        localeSwitch.top = topReferenceY + 27.5;
+        const wordAccordionBoxHeight = isExpanded ? wordAccordionBox.getExpandedBoxHeight() : wordAccordionBox.getCollapsedBoxHeight();
+        localeSwitch.top = wordAccordionBox.top + wordAccordionBoxHeight + 12.5;
       } );
 
     // create and add the CountingAccordionBox for play objects
