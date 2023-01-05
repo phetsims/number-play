@@ -1,4 +1,4 @@
-// Copyright 2021-2022, University of Colorado Boulder
+// Copyright 2021-2023, University of Colorado Boulder
 
 /**
  * Subitizer generates the arranged and random points that make up a shape. It is also responsible for the sequence of
