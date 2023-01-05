@@ -16,6 +16,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;
@@ -28,13 +29,13 @@ class CountingGameLevel extends NumberPlayGameLevel {
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
 
   // whether the current representation of the challengeNumber are objects or ten frames
-  public readonly isObjectsRepresentationProperty: BooleanProperty;
+  public readonly isObjectsRepresentationProperty: Property<boolean>;
 
   // whether objects should be able to be grouped
   public readonly groupObjectsAllowed: boolean;
 
   // whether grouping is enabled for a set of objects
-  public readonly groupObjectsEnabledProperty: BooleanProperty;
+  public readonly groupObjectsEnabledProperty: Property<boolean>;
   public readonly baseColorProperty = NumberPlayColors.countingGameColorProperty;
 
   public constructor( levelNumber: number ) {

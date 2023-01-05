@@ -47,7 +47,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   private frownyFaceAnimation: Animation | null;
 
   // whether the pointAwardedNode is visible
-  protected readonly pointAwardedNodeVisibleProperty: BooleanProperty;
+  protected readonly pointAwardedNodeVisibleProperty: Property<boolean>;
   protected abstract answerButtons: NumberPlayGameAnswerButtons;
   public static readonly ANSWER_BUTTONS_BOTTOM_MARGIN_Y = 50;
   public static readonly GAME_AREA_NODE_BOTTOM_MARGIN_Y = 40; // distance above answer buttons

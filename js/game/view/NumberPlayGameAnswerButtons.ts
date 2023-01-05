@@ -11,7 +11,7 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, TColor, Node, Rectangle, Text } from '../../../../scenery/js/imports.js';
+import { Color, HBox, Node, Rectangle, TColor, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import numberPlay from '../../numberPlay.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
@@ -19,12 +19,14 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import optionize from '../../../../phet-core/js/optionize.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // types
 type SelfOptions = {
   buttonColor?: TColor;
   buttonSpacing?: number;
-  dependencyEnabledProperty?: BooleanProperty;
+  dependencyEnabledProperty?: TReadOnlyProperty<boolean>;
 };
 type NumberPlayGameAnswerButtonsOptions = SelfOptions;
 type ButtonObject = {
@@ -52,10 +54,10 @@ class NumberPlayGameAnswerButtons extends Node {
   public static readonly BUTTON_DIMENSION = BUTTON_DIMENSION;
 
   public constructor( level: NumberPlayGameLevel,
-               pointAwardedNodeVisibleProperty: BooleanProperty,
-               rightAnswerCallback: () => void,
-               wrongAnswerCallback: () => void,
-               providedOptions?: NumberPlayGameAnswerButtonsOptions ) {
+                      pointAwardedNodeVisibleProperty: TProperty<boolean>,
+                      rightAnswerCallback: () => void,
+                      wrongAnswerCallback: () => void,
+                      providedOptions?: NumberPlayGameAnswerButtonsOptions ) {
     super();
 
     const options = optionize<NumberPlayGameAnswerButtonsOptions>()( {

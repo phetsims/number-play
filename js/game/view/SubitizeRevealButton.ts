@@ -9,13 +9,14 @@
 
 import { Color, Path } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 
 // constants
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
@@ -24,8 +25,8 @@ const BUTTON_TOUCH_AREA_DILATION = 10;
 
 class SubitizeRevealButton extends RectangularPushButton {
 
-  public constructor( isChallengeSolvedProperty: BooleanProperty, subitizerIsInputEnabledProperty: BooleanProperty,
-               isShapeVisibleProperty: BooleanProperty ) {
+  public constructor( isChallengeSolvedProperty: TReadOnlyProperty<boolean>, subitizerIsInputEnabledProperty: TReadOnlyProperty<boolean>,
+                      isShapeVisibleProperty: TProperty<boolean> ) {
 
     const eyeNode = new Path( eyeSolidShape, {
       fill: Color.BLACK

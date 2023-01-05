@@ -18,7 +18,6 @@ import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
@@ -129,7 +128,7 @@ const SUBITIZER_OBJECT_TYPES = [
 class Subitizer {
 
   private readonly challengeNumberProperty: TReadOnlyProperty<number>;
-  private readonly isChallengeSolvedProperty: BooleanProperty;
+  private readonly isChallengeSolvedProperty: TReadOnlyProperty<boolean>;
 
   // whether the current shape is visible
   public readonly isShapeVisibleProperty: BooleanProperty;
@@ -173,8 +172,8 @@ class Subitizer {
   public readonly isPlayButtonVisibleProperty: BooleanProperty;
 
   public constructor( challengeNumberProperty: TReadOnlyProperty<number>,
-                      isChallengeSolvedProperty: BooleanProperty,
-                      numberOfAnswerButtonPressesProperty: NumberProperty,
+                      isChallengeSolvedProperty: TReadOnlyProperty<boolean>,
+                      numberOfAnswerButtonPressesProperty: TReadOnlyProperty<number>,
                       randomOrPredetermined: boolean
   ) {
     this.challengeNumberProperty = challengeNumberProperty;
@@ -209,9 +208,9 @@ class Subitizer {
     } );
 
     this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty,
-      numberPlayPreferences.subitizeTimeShownProperty ],
+        numberPlayPreferences.subitizeTimeShownProperty ],
       ( numberOfAnswerButtonPresses, preferencesSubitizeTimeShown ) => {
-      let increaseTimeDueToIncorrectAnswers = 0;
+        let increaseTimeDueToIncorrectAnswers = 0;
 
         // TODO-DESIGN: Is increasing this still desirable now that you can control it easily?
         if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {

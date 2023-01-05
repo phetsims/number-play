@@ -14,17 +14,18 @@ import Range from '../../../../dot/js/Range.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 import { TColor } from '../../../../scenery/js/imports.js';
+import Property from '../../../../axon/js/Property.js';
 
 abstract class NumberPlayGameLevel {
 
   public readonly levelNumber: number;
 
   // the total number of points that have been awarded for this level
-  public readonly scoreProperty: NumberProperty;
+  public readonly scoreProperty: Property<number>;
 
   // whether the current challenge has been solved. A challenge is considered solved when the user has correctly
   // guessed the answer
-  public readonly isChallengeSolvedProperty: BooleanProperty; // TODO-TS: Make all these broader with TProperty or the like.
+  public readonly isChallengeSolvedProperty: Property<boolean>;
 
   // the range of numbers used for all challenges of this level
   public readonly challengeRange: Range;
@@ -38,7 +39,7 @@ abstract class NumberPlayGameLevel {
   private oldChallengeNumberTwo: number;
 
   // the number of times any wrong answer button in answerButtons was pressed
-  public readonly numberOfAnswerButtonPressesProperty: NumberProperty;
+  public readonly numberOfAnswerButtonPressesProperty: Property<number>;
   public readonly gameType: NumberPlayGameType;
   public abstract readonly baseColorProperty: TColor;
 

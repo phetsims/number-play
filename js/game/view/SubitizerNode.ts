@@ -16,11 +16,11 @@ import Subitizer from '../model/Subitizer.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
 import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import SubitizeObjectType from '../model/SubitizeObjectType.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;
@@ -28,7 +28,7 @@ const REVEAL_BUTTON_MARGIN = 12;
 
 class SubitizerNode extends Node {
 
-  public constructor( subitizer: Subitizer, isChallengeSolvedProperty: BooleanProperty, newChallengeCallback: () => void ) {
+  public constructor( subitizer: Subitizer, isChallengeSolvedProperty: TReadOnlyProperty<boolean>, newChallengeCallback: () => void ) {
     super();
 
     // for scaling the objects

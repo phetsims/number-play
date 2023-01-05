@@ -10,12 +10,13 @@
 
 import { Color, Node, Rectangle } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import Property from '../../../../axon/js/Property.js';
 
 // constants
 const RECTANGLE_WIDTH = 280;
@@ -26,16 +27,16 @@ const RECTANGLE_INNER_CORNER_RADIUS = RECTANGLE_OUTER_CORNER_RADIUS - RECTANGLE_
 
 class SubitizeLoadingBarNode extends Node {
 
-  private readonly isLoadingBarAnimatingProperty: BooleanProperty;
+  private readonly isLoadingBarAnimatingProperty: TProperty<boolean>;
   private readonly newChallengeCallback: () => void;
 
   // used to store the animation, null if no animation is in progress
   private loadingBarAnimation: Animation | null;
 
   // the width of the loadingBarRectangle during the animation
-  private readonly loadingBarWidthProperty: NumberProperty;
+  private readonly loadingBarWidthProperty: Property<number>;
 
-  public constructor( newChallengeCallback: () => void, isLoadingBarAnimatingProperty: BooleanProperty ) {
+  public constructor( newChallengeCallback: () => void, isLoadingBarAnimatingProperty: TProperty<boolean> ) {
     super();
 
     this.newChallengeCallback = newChallengeCallback;
