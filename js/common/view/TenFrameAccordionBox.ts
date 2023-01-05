@@ -23,7 +23,7 @@ type SelfOptions = {
   tenFrameOffsetX: number;
 };
 export type TenFrameAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
+  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty'>;
 
 class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
 
@@ -41,7 +41,9 @@ class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ),
       optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         titleStringProperty: titleStringProperty,
-        titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+        titleTextOptions: {
+          maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+        }
       }, options ) );
 
     tenFrameNode.scale( height / tenFrameNode.height / 2 );

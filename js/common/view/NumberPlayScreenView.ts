@@ -118,8 +118,8 @@ class NumberPlayScreenView extends ScreenView {
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       options.lowerAccordionBoxHeight, {
-        expandedProperty: this.onesAccordionBoxExpandedProperty,
         titleStringProperty: NumberPlayStrings.onesStringProperty,
+        expandedProperty: this.onesAccordionBoxExpandedProperty,
         fill: NumberPlayColors.pinkBackgroundColorProperty
       } );
     onesAccordionBox.left = this.layoutBounds.minX + NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;

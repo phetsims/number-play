@@ -29,7 +29,7 @@ type SelfOptions = {
   font: Font;
 };
 export type WordAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty' | 'titleMaxWidth'>;
+  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty'>;
 
 // constants
 const TEXT_MARGIN = 5;
@@ -40,16 +40,10 @@ const HEIGHT_ADJUSTMENT = 24;
 class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: Property<boolean>,
-                      height: number, options: WordAccordionBoxOptions ) {
+                      height: number, providedOptions: WordAccordionBoxOptions ) {
 
-    const titleNode = new Text( NumberPlayStrings.wordStringProperty.value, {
-      font: NumberSuiteCommonConstants.ACCORDION_BOX_TITLE_FONT,
-      maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
-    } );
-
-    // if the locale switch is included, specify the current language in the title of the accordion box so that users
-    // can see the content is changing when the accordion box is closed
-    Multilink.multilink( [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
+    const titleStringProperty = new DerivedProperty(
+      [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
       ( ( locale, secondLocaleStrings, isPrimaryLocale ) => {
         // TODO: Duplicated from LocaleSwitch
         const secondLanguageStringKey = `${NumberSuiteCommonConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
@@ -62,8 +56,15 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
           language: secondLanguageString
         } );
 
-        titleNode.text = isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
+        return isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
       } ) );
+
+    const options = optionize<WordAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
+      titleStringProperty: titleStringProperty,
+      titleTextOptions: {
+        maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+      }
+    }, providedOptions );
 
     // TODO: This is giving weird results...
     const heightProperty = new DerivedProperty( [ numberPlayPreferences.showSecondLocaleProperty ], showSecondLocale => {
@@ -71,15 +72,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       return showSecondLocale ? shortHeight : height;
     } );
 
-    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty,
-      optionize<WordAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
-        titleNode: titleNode,
-
-        // TODO: The following options are not used because of the titleNode above, but are needed because of an
-        // order dependency in NumberSuiteCommonAccordionBox, and should be fixed
-        titleStringProperty: new Property( '' ),
-        titleMaxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
-      }, options ) );
+    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty, options );
 
     // initialize as blank, updated in link below
     const wordText = new Text( '', {
