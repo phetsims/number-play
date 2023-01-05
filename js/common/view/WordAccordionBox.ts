@@ -21,6 +21,7 @@ import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
 
 // types
 type SelfOptions = {
@@ -55,7 +56,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
 
         const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
-          language: NumberPlayStrings.languageStringProperty.value
+          language: NumberSuiteCommonStrings.languageStringProperty.value
         } );
         const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
           language: secondLanguageString
