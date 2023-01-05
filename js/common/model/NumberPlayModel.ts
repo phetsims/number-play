@@ -19,16 +19,17 @@ import Range from '../../../../dot/js/Range.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TModel from '../../../../joist/js/TModel.js';
+import Property from '../../../../axon/js/Property.js';
 
 class NumberPlayModel implements TModel {
 
   public readonly sumRange: Range;
 
   // the current "counted to" number, which is the central aspect of this whole sim
-  public readonly currentNumberProperty: TProperty<number>;
+  public readonly currentNumberProperty: Property<number>;
 
   // whether the sim is using the locale it was loaded in or a second locale
-  public readonly isPrimaryLocaleProperty: BooleanProperty;
+  public readonly isPrimaryLocaleProperty: Property<boolean>;
 
   // the model for managing the play area in the OnesAccordionBox
   public readonly onesPlayArea: CountingPlayArea;
@@ -45,7 +46,7 @@ class NumberPlayModel implements TModel {
 
   // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
   // way (with animations), but instead with a different reset case (no animations).
-  private readonly isResettingProperty: BooleanProperty;
+  private readonly isResettingProperty: TProperty<boolean>;
 
   // whether counting objects should be grouped or ungrouped
   private readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;

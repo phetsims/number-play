@@ -38,6 +38,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import MissingVoiceWarningButton from '../../../../number-suite-common/js/common/view/MissingVoiceWarningButton.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import Property from '../../../../axon/js/Property.js';
 
 // types
 type SelfOptions = {
@@ -58,11 +59,11 @@ GROUPING_LINKING_TYPE_TO_IMAGE.set( GroupAndLinkType.GROUPED_AND_LINKED, groupin
 
 class NumberPlayScreenView extends ScreenView {
 
-  private readonly wordAccordionBoxExpandedProperty: BooleanProperty;
-  private readonly totalAccordionBoxExpandedProperty: BooleanProperty;
-  private readonly tenFrameAccordionBoxExpandedProperty: BooleanProperty;
-  private readonly onesAccordionBoxExpandedProperty: BooleanProperty;
-  private readonly objectsAccordionBoxExpandedProperty: BooleanProperty;
+  private readonly wordAccordionBoxExpandedProperty: Property<boolean>;
+  private readonly totalAccordionBoxExpandedProperty: Property<boolean>;
+  private readonly tenFrameAccordionBoxExpandedProperty: Property<boolean>;
+  private readonly onesAccordionBoxExpandedProperty: Property<boolean>;
+  private readonly objectsAccordionBoxExpandedProperty: Property<boolean>;
   private readonly objectsAccordionBox: CountingAccordionBox;
 
   protected constructor( model: NumberPlayModel, options: NumberPlayScreenViewOptions ) {

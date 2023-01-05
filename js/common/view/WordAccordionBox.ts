@@ -11,7 +11,6 @@ import { Font, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
@@ -39,7 +38,7 @@ const HEIGHT_ADJUSTMENT = 24;
 
 class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
-  public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: BooleanProperty,
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: Property<boolean>,
                       height: number, options: WordAccordionBoxOptions ) {
 
     const titleNode = new Text( NumberPlayStrings.wordStringProperty.value, {
