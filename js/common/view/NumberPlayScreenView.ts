@@ -151,7 +151,7 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
           CountingObjectType.BALL ],
-        groupAndLinkTypeProperty: model.groupAndLinkTypeProperty,
+        objectsGroupAndLinkTypeProperty: model.objectsGroupAndLinkTypeProperty,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
@@ -207,7 +207,7 @@ class NumberPlayScreenView extends ScreenView {
     } );
 
     // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
-    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.groupAndLinkTypeProperty, groupingLinkingButtons, {
+    const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.objectsGroupAndLinkTypeProperty, groupingLinkingButtons, {
       orientation: 'vertical',
       spacing: 10,
       radioButtonOptions: {
@@ -230,7 +230,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add a button to organize the objectsAccordionBox play objects in a grid
     const organizeObjectsButton = new OrganizeButton( NumberPlayColors.blueBackgroundColorProperty, () => {
-      if ( model.groupAndLinkTypeProperty.value === GroupAndLinkType.GROUPED_AND_LINKED ) {
+      if ( model.objectsGroupAndLinkTypeProperty.value === GroupAndLinkType.GROUPED_AND_LINKED ) {
         model.onesPlayArea.organizeObjects();
       }
       else {

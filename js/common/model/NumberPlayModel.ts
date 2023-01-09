@@ -42,7 +42,7 @@ class NumberPlayModel implements TModel {
 
   // whether the objects play area is ungrouped, grouped, or linked. set by the view controls and used to
   // link/unlink play areas in the view and drive the grouped/ungrouped state in the model
-  public readonly groupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
+  public readonly objectsGroupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
 
   // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
   // way (with animations), but instead with a different reset case (no animations).
@@ -61,9 +61,9 @@ class NumberPlayModel implements TModel {
 
     this.countingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
-    this.groupAndLinkTypeProperty = new EnumerationProperty( GroupAndLinkType.UNGROUPED );
+    this.objectsGroupAndLinkTypeProperty = new EnumerationProperty( GroupAndLinkType.UNGROUPED );
 
-    this.groupingEnabledProperty = new DerivedProperty( [ this.groupAndLinkTypeProperty ], groupAndLinkType => {
+    this.groupingEnabledProperty = new DerivedProperty( [ this.objectsGroupAndLinkTypeProperty ], groupAndLinkType => {
       return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
     } );
 
@@ -130,7 +130,7 @@ class NumberPlayModel implements TModel {
     this.isResettingProperty.value = true;
     this.isPrimaryLocaleProperty.reset();
     this.countingObjectTypeProperty.reset();
-    this.groupAndLinkTypeProperty.reset();
+    this.objectsGroupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();
     this.objectsPlayArea.reset();
     this.isResettingProperty.value = false;
