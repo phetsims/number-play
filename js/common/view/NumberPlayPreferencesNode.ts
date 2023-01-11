@@ -7,7 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import { Font, HBox, Text, VBox } from '../../../../scenery/js/imports.js';
+import { Font, RichText, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberSuiteCommonPreferencesNode from '../../../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import numberPlayPreferences, { NumberPlayPreferences } from '../model/numberPlayPreferences.js';
@@ -15,15 +15,18 @@ import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
+import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
+import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 
 export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode<NumberPlayPreferences> {
 
   public constructor() {
 
-    // TODO: Update to use new Preferences API
     const subitizeTimeText = new Text( NumberPlayStrings.subitizeTimeStringProperty,
-      NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS );
+      PreferencesDialogConstants.CONTROL_LABEL_OPTIONS );
     const subitizeTimeRange = numberPlayPreferences.subitizeTimeShownProperty.rangeProperty.value;
+
+    // TODO: are these the options we would like to use as constants for a preferences number spinner? https://github.com/phetsims/joist/issues/842
     const subitizeTimeSpinner = new NumberSpinner( numberPlayPreferences.subitizeTimeShownProperty,
       new Property<Range>( subitizeTimeRange ), {
         arrowsPosition: 'leftRight',
@@ -39,20 +42,17 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
           }
         }
       } );
-    const subitizeTimeHBox = new HBox( {
-      children: [ subitizeTimeText, subitizeTimeSpinner ],
-      spacing: 226
+
+    const subitizeTimeDescriptionText = new RichText( NumberPlayStrings.subitizeTimeDescriptionStringProperty,
+      PreferencesDialogConstants.CONTROL_DESCRIPTION_OPTIONS );
+
+    const subitizeTimePreferencesControl = new PreferencesControl( {
+      labelNode: subitizeTimeText,
+      controlNode: subitizeTimeSpinner,
+      descriptionNode: subitizeTimeDescriptionText
     } );
 
-    const subitizeTimeDescriptionText = new Text( NumberPlayStrings.subitizeTimeDescriptionStringProperty,
-      NumberSuiteCommonPreferencesNode.CONTROL_TEXT_OPTIONS );
-    const subitizeTimeControl = new VBox( {
-      children: [ subitizeTimeHBox, subitizeTimeDescriptionText ],
-      spacing: NumberSuiteCommonPreferencesNode.CONTROL_DESCRIPTION_SPACING,
-      align: 'left'
-    } );
-
-    super( numberPlayPreferences, [ subitizeTimeControl ] );
+    super( numberPlayPreferences, [ subitizeTimePreferencesControl ] );
 
     // disable any controls that are not applicable to the current selection of screens
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
@@ -62,7 +62,7 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
       const isLabScreen = screens.includes( 4 );
 
       this.showSecondLocaleControl.enabled = isSecondLocaleScreen;
-      subitizeTimeControl.enabled = isGameScreen;
+      subitizeTimePreferencesControl.enabled = isGameScreen;
       this.showLabOnesControl.enabled = isLabScreen;
     }
   }
