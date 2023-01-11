@@ -48,6 +48,10 @@ class NumberPlayGameModel implements TModel {
   public step( dt: number ): void {
     this.levels.forEach( level => level.step( dt ) );
   }
+
+  public dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+  }
 }
 
 numberPlay.register( 'NumberPlayGameModel', NumberPlayGameModel );

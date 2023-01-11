@@ -87,6 +87,11 @@ class CountingGameLevel extends NumberPlayGameLevel {
     return dotRandom.sample( [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
       CountingObjectType.BALL ] );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 numberPlay.register( 'CountingGameLevel', CountingGameLevel );

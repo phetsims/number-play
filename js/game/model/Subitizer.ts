@@ -513,6 +513,10 @@ class Subitizer {
   private static fixPoint( point: Vector2 ): Vector2 {
     return new Vector2( Utils.toFixedNumber( point.x, DECIMALS ), Utils.toFixedNumber( point.y, DECIMALS ) );
   }
+
+  public dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+  }
 }
 
 numberPlay.register( 'Subitizer', Subitizer );

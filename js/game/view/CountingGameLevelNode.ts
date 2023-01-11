@@ -121,6 +121,11 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
       tenFramePanel.visible = !isObjects;
     } );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 numberPlay.register( 'CountingGameLevelNode', CountingGameLevelNode );

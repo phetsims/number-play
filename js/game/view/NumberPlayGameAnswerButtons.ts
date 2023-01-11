@@ -167,6 +167,11 @@ class NumberPlayGameAnswerButtons extends Node {
     this.buttonObjects.forEach( buttonObject => buttonObject.enabledProperty.reset() );
     this.hBox.children = this.buttonObjects.map( buttonObject => buttonObject.button );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 numberPlay.register( 'NumberPlayGameAnswerButtons', NumberPlayGameAnswerButtons );

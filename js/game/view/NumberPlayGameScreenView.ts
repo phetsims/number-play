@@ -99,6 +99,11 @@ class NumberPlayGameScreenView extends ScreenView {
   public reset(): void {
     this.levelNodes.forEach( levelNode => levelNode.reset() );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 numberPlay.register( 'NumberPlayGameScreenView', NumberPlayGameScreenView );
