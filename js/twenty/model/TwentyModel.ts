@@ -17,6 +17,11 @@ export default class TwentyModel extends NumberPlayModel {
   public constructor( tandem: Tandem ) {
     super( NumberPlayConstants.TWENTY, tandem );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 numberPlay.register( 'TwentyModel', TwentyModel );

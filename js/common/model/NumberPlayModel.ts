@@ -135,6 +135,10 @@ class NumberPlayModel implements TModel {
     this.objectsPlayArea.reset();
     this.isResettingProperty.value = false;
   }
+
+  public dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+  }
 }
 
 numberPlay.register( 'NumberPlayModel', NumberPlayModel );

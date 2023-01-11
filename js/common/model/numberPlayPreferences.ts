@@ -24,6 +24,11 @@ export class NumberPlayPreferences extends NumberSuiteCommonPreferences {
       range: new Range( NumberPlayConstants.MIN_SHAPE_VISIBLE_TIME, NumberPlayConstants.MAX_SHAPE_VISIBLE_TIME )
     } );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 const numberPlayPreferences = new NumberPlayPreferences();

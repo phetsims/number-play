@@ -20,7 +20,7 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
 
   public constructor() {
 
-    // TODO: Make into its own type if we like this - make general number spinner control if we keep the compare max control
+    // TODO: Update to use new Preferences API
     const subitizeTimeText = new Text( NumberPlayStrings.subitizeTimeStringProperty,
       NumberSuiteCommonPreferencesNode.CONTROL_TEXT_BOLD_OPTIONS );
     const subitizeTimeRange = numberPlayPreferences.subitizeTimeShownProperty.rangeProperty.value;
@@ -65,6 +65,11 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
       subitizeTimeControl.enabled = isGameScreen;
       this.showLabOnesControl.enabled = isLabScreen;
     }
+  }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
   }
 }
 

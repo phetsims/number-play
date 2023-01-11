@@ -51,6 +51,11 @@ class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
     tenFrameNode.centerY = this.contentBoundsProperty.value.centerY;
     this.contentNode.addChild( tenFrameNode );
   }
+
+  public override dispose(): void {
+    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    super.dispose();
+  }
 }
 
 numberPlay.register( 'TenFrameAccordionBox', TenFrameAccordionBox );
