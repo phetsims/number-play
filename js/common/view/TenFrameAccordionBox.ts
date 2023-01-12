@@ -23,12 +23,12 @@ type SelfOptions = {
   tenFrameOffsetX: number;
 };
 export type TenFrameAccordionBoxOptions = SelfOptions &
-  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty'>;
+  StrictOmit<NumberSuiteCommonAccordionBoxOptions, 'titleStringProperty' | 'titleTextOptions'>;
 
 class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
 
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, sumRange: Range,
-                      height: number, options: TenFrameAccordionBoxOptions ) {
+                      height: number, providedOptions: TenFrameAccordionBoxOptions ) {
 
     const tenFrameNode = new TenFrameNode( currentNumberProperty, sumRange );
 
@@ -38,13 +38,14 @@ class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
                                 NumberPlayStrings.tenFramesStringProperty :
                                 NumberPlayStrings.tenFrameStringProperty;
 
-    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ),
-      optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
-        titleStringProperty: titleStringProperty,
-        titleTextOptions: {
-          maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
-        }
-      }, options ) );
+    const options = optionize<TenFrameAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
+      titleStringProperty: titleStringProperty,
+      titleTextOptions: {
+        maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
+      }
+    }, providedOptions );
+
+    super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, new Property<number>( height ), options );
 
     tenFrameNode.scale( height / tenFrameNode.height / 2 );
     tenFrameNode.centerX = this.contentBoundsProperty.value.centerX + options.tenFrameOffsetX;
