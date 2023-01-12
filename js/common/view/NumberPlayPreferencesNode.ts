@@ -17,6 +17,10 @@ import Range from '../../../../dot/js/Range.js';
 import Property from '../../../../axon/js/Property.js';
 import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
+import NumberPlayGameScreen from '../../game/NumberPlayGameScreen.js';
+import TenScreen from '../../ten/TenScreen.js';
+import TwentyScreen from '../../twenty/TwentyScreen.js';
+import LabScreen from '../../../../number-suite-common/js/lab/LabScreen.js';
 
 export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode<NumberPlayPreferences> {
 
@@ -54,16 +58,21 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
 
     super( numberPlayPreferences, [ subitizeTimePreferencesControl ] );
 
-    // disable any controls that are not applicable to the current selection of screens
+    // Disable any controls that are not applicable to the current selection of screens.
     if ( QueryStringMachine.containsKey( 'screens' ) ) {
-      const screens = phet.chipper.queryParameters.screens;
-      const isSecondLocaleScreen = screens.includes( 1 ) || screens.includes( 2 );
-      const isGameScreen = screens.includes( 3 );
-      const isLabScreen = screens.includes( 4 );
 
-      this.showSecondLocaleControl.enabled = isSecondLocaleScreen;
-      subitizeTimePreferencesControl.enabled = isGameScreen;
-      this.showLabOnesControl.enabled = isLabScreen;
+      const screens = phet.joist.sim.screens;
+
+      // Check for the existence of each screen.
+      const hasTenScreen = ( _.find( screens, screen => screen instanceof TenScreen ) !== undefined );
+      const hasTwentyScreen = ( _.find( screens, screen => screen instanceof TwentyScreen ) !== undefined );
+      const hasGameScreen = ( _.find( screens, screen => screen instanceof NumberPlayGameScreen ) !== undefined );
+      const hasLabScreen = ( _.find( screens, screen => screen instanceof LabScreen ) !== undefined );
+
+      // Enable controls if a screen that they pertain to is present.
+      this.showSecondLocaleControl.enabled = hasTenScreen || hasTwentyScreen;
+      subitizeTimePreferencesControl.enabled = hasGameScreen;
+      this.showLabOnesControl.enabled = hasLabScreen;
     }
   }
 
