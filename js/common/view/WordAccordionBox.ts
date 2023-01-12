@@ -14,7 +14,6 @@ import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
@@ -75,8 +74,15 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty, options );
 
+    // The word shown in the accordion box
+    const wordStringProperty = new DerivedProperty(
+      [ currentNumberProperty, isPrimaryLocaleProperty, numberPlayPreferences.secondLocaleStringsProperty ],
+      ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
+        NumberSuiteCommonConstants.numberToString( secondLocaleStrings, currentNumber, isPrimaryLocale )
+    );
+
     // initialize as blank, updated in link below
-    const wordText = new Text( '', {
+    const wordText = new Text( wordStringProperty, {
       font: options.font,
       maxWidth: this.contentBoundsProperty.value.width - options.textOffsetX - TEXT_MARGIN
     } );
@@ -86,13 +92,6 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       wordText.left = contentBounds.left + options.textOffsetX;
       wordText.centerY = contentBounds.centerY;
     } );
-
-    // update the word if the current number or locale changes
-    Multilink.multilink( [ currentNumberProperty, isPrimaryLocaleProperty ],
-      ( currentNumber, isPrimaryLocale ) => {
-        wordText.text = NumberSuiteCommonConstants.numberToString( numberPlayPreferences.secondLocaleStringsProperty.value,
-          currentNumber, isPrimaryLocale );
-      } );
   }
 
   public override dispose(): void {
