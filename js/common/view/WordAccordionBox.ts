@@ -78,7 +78,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
     const wordStringProperty = new DerivedProperty(
       [ currentNumberProperty, isPrimaryLocaleProperty, numberPlayPreferences.secondLocaleStringsProperty ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
-        NumberSuiteCommonConstants.numberToString( secondLocaleStrings, currentNumber, isPrimaryLocale )
+        NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale )
     );
 
     // initialize as blank, updated in link below
