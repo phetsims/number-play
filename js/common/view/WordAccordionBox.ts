@@ -43,16 +43,17 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
                       height: number, providedOptions: WordAccordionBoxOptions ) {
 
     const titleStringProperty = new DerivedProperty(
-      [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty ],
-      ( ( locale, secondLocaleStrings, isPrimaryLocale ) => {
+      [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty,
+        NumberPlayStrings.wordStringProperty, NumberPlayStrings.wordLanguageStringProperty ],
+      ( ( locale, secondLocaleStrings, isPrimaryLocale, wordString, wordLanguageString ) => {
         // TODO: Duplicated from LocaleSwitch
         const secondLanguageStringKey = `${NumberSuiteCommonConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
         const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
 
-        const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
+        const primaryLocaleTitleString = StringUtils.fillIn( wordString, {
           language: NumberSuiteCommonStrings.languageStringProperty.value
         } );
-        const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
+        const secondaryLocaleTitleString = StringUtils.fillIn( wordLanguageString, {
           language: secondLanguageString
         } );
 
