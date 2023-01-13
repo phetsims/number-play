@@ -81,6 +81,7 @@ class NumberPlayScreenView extends ScreenView {
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       model.isPrimaryLocaleProperty,
+      numberPlayPreferences.secondLocaleProperty,
       options.upperAccordionBoxHeight,
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
@@ -128,7 +129,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the LocaleSwitch
     const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, numberPlayPreferences.showSecondLocaleProperty,
-      numberPlayPreferences.secondLocaleStringsProperty, wordAccordionBox.width );
+      numberPlayPreferences.secondLocaleProperty, wordAccordionBox.width );
     this.addChild( localeSwitch );
     localeSwitch.boundsProperty.link( () => {
       localeSwitch.centerX = wordAccordionBox.centerX;
@@ -200,7 +201,7 @@ class NumberPlayScreenView extends ScreenView {
 
       groupingLinkingButtons.push( {
         value: groupAndLinkType,
-        createNode: tandem => new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
+        createNode: () => new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
           maxWidth: resetAllButton.width - 2 * margin
         } )
       } );

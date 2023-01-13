@@ -9,6 +9,7 @@
 
 import { Font, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
+import localeProperty, { Locale } from '../../../../joist/js/i18n/localeProperty.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
@@ -20,7 +21,7 @@ import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
-import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
+import localeInfoModule from '../../../../chipper/js/data/localeInfoModule.js';
 
 // types
 type SelfOptions = {
@@ -39,25 +40,21 @@ const HEIGHT_ADJUSTMENT = 24;
 class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: Property<boolean>,
-                      height: number, providedOptions: WordAccordionBoxOptions ) {
+                      secondLocaleProperty: TReadOnlyProperty<Locale>, height: number, providedOptions: WordAccordionBoxOptions ) {
 
     const titleStringProperty = new DerivedProperty(
-      [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty,
+      [ localeProperty, secondLocaleProperty, isPrimaryLocaleProperty,
         NumberPlayStrings.wordStringProperty, NumberPlayStrings.wordLanguageStringProperty ],
-      ( ( locale, secondLocaleStrings, isPrimaryLocale, wordString, wordLanguageString ) => {
-        // TODO: Duplicated from LocaleSwitch
-        const secondLanguageStringKey = `${NumberSuiteCommonConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
-        const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
-
-        const primaryLocaleTitleString = StringUtils.fillIn( wordString, {
-          language: NumberSuiteCommonStrings.languageStringProperty.value
+      ( primaryLocale: Locale, secondLocale: Locale, isPrimaryLocale ) => {
+        const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
+          language: localeInfoModule[ primaryLocale ].localizedName
         } );
-        const secondaryLocaleTitleString = StringUtils.fillIn( wordLanguageString, {
-          language: secondLanguageString
+        const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
+          language: localeInfoModule[ secondLocale ].localizedName
         } );
 
         return isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
-      } ) );
+      } );
 
     const options = optionize<WordAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
       titleStringProperty: titleStringProperty,
@@ -66,7 +63,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       }
     }, providedOptions );
 
-    // TODO: This is giving weird results...
+    // TODO: This is giving weird results... https://github.com/phetsims/number-play/issues/200
     const heightProperty = new DerivedProperty( [ numberPlayPreferences.showSecondLocaleProperty ], showSecondLocale => {
       const shortHeight = height - HEIGHT_ADJUSTMENT;
       return showSecondLocale ? shortHeight : height;
