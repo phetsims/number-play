@@ -201,7 +201,7 @@ class NumberPlayScreenView extends ScreenView {
 
       groupingLinkingButtons.push( {
         value: groupAndLinkType,
-        createNode: tandem => new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
+        createNode: () => new Image( GROUPING_LINKING_TYPE_TO_IMAGE.get( groupAndLinkType ), {
           maxWidth: resetAllButton.width - 2 * margin
         } )
       } );
