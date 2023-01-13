@@ -19,8 +19,6 @@ import TModel from '../../../../joist/js/TModel.js';
 class NumberPlayGameModel implements TModel {
 
   public readonly subitizeLevels: SubitizeGameLevel[];
-
-  // create the levels for each game
   public readonly countingLevels: CountingGameLevel[];
   public readonly levels: Array<NumberPlayGameLevel>;
 
@@ -29,6 +27,7 @@ class NumberPlayGameModel implements TModel {
 
   public constructor( tandem: Tandem ) {
 
+    // create the levels for each game
     this.countingLevels = [ new CountingGameLevel( 1 ), new CountingGameLevel( 2 ) ];
     this.subitizeLevels = [ new SubitizeGameLevel( 1 ), new SubitizeGameLevel( 2 ) ];
     this.levels = [ ...this.countingLevels, ...this.subitizeLevels ];

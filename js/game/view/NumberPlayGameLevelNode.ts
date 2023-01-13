@@ -42,7 +42,7 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
 
   public readonly level: T;
 
-  // create and add the frownyFaceNode which is visible when an incorrect answer button is pressed
+  // visible when an incorrect answer button is pressed
   private readonly frownyFaceNode: FaceNode;
   private frownyFaceAnimation: Animation | null;
 
