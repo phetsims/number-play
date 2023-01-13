@@ -20,7 +20,8 @@ import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
-import NumberSuiteCommonStrings from '../../../../number-suite-common/js/NumberSuiteCommonStrings.js';
+import localeInfoModule from '../../../../chipper/js/data/localeInfoModule.js';
+import { Locale } from '../../../../joist/js/i18n/localeProperty.js';
 
 // types
 type SelfOptions = {
@@ -39,25 +40,21 @@ const HEIGHT_ADJUSTMENT = 24;
 class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
   public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: Property<boolean>,
-                      height: number, providedOptions: WordAccordionBoxOptions ) {
+                      secondLocaleProperty: TReadOnlyProperty<Locale>, height: number, providedOptions: WordAccordionBoxOptions ) {
 
     const titleStringProperty = new DerivedProperty(
-      [ phet.joist.localeProperty, numberPlayPreferences.secondLocaleStringsProperty, isPrimaryLocaleProperty,
+      [ phet.joist.localeProperty, secondLocaleProperty, isPrimaryLocaleProperty,
         NumberPlayStrings.wordStringProperty, NumberPlayStrings.wordLanguageStringProperty ],
-      ( ( locale, secondLocaleStrings, isPrimaryLocale, wordString, wordLanguageString ) => {
-        // TODO: Duplicated from LocaleSwitch
-        const secondLanguageStringKey = `${NumberSuiteCommonConstants.NUMBER_PLAY_STRING_KEY_PREFIX}language`;
-        const secondLanguageString = secondLocaleStrings[ secondLanguageStringKey ];
-
-        const primaryLocaleTitleString = StringUtils.fillIn( wordString, {
-          language: NumberSuiteCommonStrings.languageStringProperty.value
+      ( primaryLocale: Locale, secondLocale: Locale, isPrimaryLocale ) => {
+        const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
+          language: localeInfoModule[ primaryLocale ].localizedName
         } );
-        const secondaryLocaleTitleString = StringUtils.fillIn( wordLanguageString, {
-          language: secondLanguageString
+        const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
+          language: localeInfoModule[ secondLocale ].localizedName
         } );
 
         return isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
-      } ) );
+      } );
 
     const options = optionize<WordAccordionBoxOptions, SelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
       titleStringProperty: titleStringProperty,

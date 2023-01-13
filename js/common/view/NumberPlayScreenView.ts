@@ -81,6 +81,7 @@ class NumberPlayScreenView extends ScreenView {
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
       model.isPrimaryLocaleProperty,
+      numberPlayPreferences.secondLocaleProperty,
       options.upperAccordionBoxHeight,
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
@@ -128,7 +129,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the LocaleSwitch
     const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, numberPlayPreferences.showSecondLocaleProperty,
-      numberPlayPreferences.secondLocaleStringsProperty, wordAccordionBox.width );
+      numberPlayPreferences.secondLocaleProperty, wordAccordionBox.width );
     this.addChild( localeSwitch );
     localeSwitch.boundsProperty.link( () => {
       localeSwitch.centerX = wordAccordionBox.centerX;
