@@ -9,6 +9,7 @@
 
 import { Font, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
+import localeProperty, { Locale } from '../../../../joist/js/i18n/localeProperty.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
@@ -21,7 +22,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import localeInfoModule from '../../../../chipper/js/data/localeInfoModule.js';
-import { Locale } from '../../../../joist/js/i18n/localeProperty.js';
 
 // types
 type SelfOptions = {
@@ -43,7 +43,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
                       secondLocaleProperty: TReadOnlyProperty<Locale>, height: number, providedOptions: WordAccordionBoxOptions ) {
 
     const titleStringProperty = new DerivedProperty(
-      [ phet.joist.localeProperty, secondLocaleProperty, isPrimaryLocaleProperty,
+      [ localeProperty, secondLocaleProperty, isPrimaryLocaleProperty,
         NumberPlayStrings.wordStringProperty, NumberPlayStrings.wordLanguageStringProperty ],
       ( primaryLocale: Locale, secondLocale: Locale, isPrimaryLocale ) => {
         const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
