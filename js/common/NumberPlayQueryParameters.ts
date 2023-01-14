@@ -47,14 +47,6 @@ const NumberPlayQueryParameters = QueryStringMachine.getAll( {
     type: 'flag'
   },
 
-  // specifies a second locale to make available on the 'Ten', 'Twenty', and 'Compare' screens. Values are specified
-  // with a locale code, e.g. 'en'.
-  secondLocale: {
-    public: true,
-    type: 'string',
-    defaultValue: phet.chipper.locale
-  },
-
   // whether the paper ones are visible on the 'Lab' screen
   showLabOnes: {
     public: true,
