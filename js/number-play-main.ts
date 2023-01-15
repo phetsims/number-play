@@ -31,7 +31,7 @@ const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleSt
 
 const simOptions: SimOptions = {
   credits: {
-    //TODO fill in credits, all of these fields are optional, see joist.CreditsNode
+    //TODO https://github.com/phetsims/number-play/issues/201 finalize credits
     leadDesign: 'Amanda McGarry',
     softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
     team: 'Sylvia Celedón-Pattichis, Ariel Paul, Kathy Perkins, Ian Whitacre',
