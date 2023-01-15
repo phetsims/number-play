@@ -63,7 +63,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       }
     }, providedOptions );
 
-    // TODO: This is giving weird results... https://github.com/phetsims/number-play/issues/200
+    //TODO https://github.com/phetsims/number-suite-common/issues/29 This is giving weird results...
     const heightProperty = new DerivedProperty( [ numberPlayPreferences.showSecondLocaleProperty ], showSecondLocale => {
       const shortHeight = height - HEIGHT_ADJUSTMENT;
       return showSecondLocale ? shortHeight : height;
