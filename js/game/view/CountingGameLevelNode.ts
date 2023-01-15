@@ -53,8 +53,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
-    // TODO: The parts of this file that are used for the play area node need to be refactored once the play area is updated.
-    // See https://github.com/phetsims/number-play/issues/82
+    //TODO https://github.com/phetsims/number-play/issues/82 The parts of this file that are used for the play area node need to be refactored once the play area is updated.
     const playAreaNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH,
       rectHeight: RECTANGLE_HEIGHT
