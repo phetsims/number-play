@@ -14,15 +14,12 @@ import numberPlayPreferences, { NumberPlayPreferences } from '../model/numberPla
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
 import Range from '../../../../dot/js/Range.js';
-import IntentionalAny from '../../../../phet-core/js/types/IntentionalAny.js';
 import Property from '../../../../axon/js/Property.js';
-import Screen from '../../../../joist/js/Screen.js';
 import PreferencesControl from '../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
 import NumberPlayGameScreen from '../../game/NumberPlayGameScreen.js';
 import TenScreen from '../../ten/TenScreen.js';
 import TwentyScreen from '../../twenty/TwentyScreen.js';
-import LabScreen from '../../../../number-suite-common/js/lab/LabScreen.js';
 
 export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode<NumberPlayPreferences> {
 
@@ -61,22 +58,15 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
     super( numberPlayPreferences, [ subitizeTimePreferencesControl ] );
 
     // Disable any controls that are not applicable to the current selection of screens.
-    this.showSecondLocaleControl.enabled = hasScreenType( TenScreen ) || hasScreenType( TwentyScreen );
-    subitizeTimePreferencesControl.enabled = hasScreenType( NumberPlayGameScreen );
-    this.showLabOnesControl.enabled = hasScreenType( LabScreen );
+    this.showSecondLocaleControl.enabled = NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) ||
+                                           NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen );
+    subitizeTimePreferencesControl.enabled = NumberSuiteCommonPreferencesNode.hasScreenType( NumberPlayGameScreen );
   }
 
   public override dispose(): void {
     assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
     super.dispose();
   }
-}
-
-/**
- * Determines whether the sim is running with a screen of the specified type.
- */
-function hasScreenType( constructor: new ( ...args: IntentionalAny[] ) => Screen ): boolean {
-  return ( _.find( phet.joist.sim.screens, screen => screen instanceof constructor ) !== undefined );
 }
 
 numberPlay.register( 'NumberPlayPreferencesNode', NumberPlayPreferencesNode );
