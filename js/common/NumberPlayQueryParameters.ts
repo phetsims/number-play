@@ -13,14 +13,6 @@ import NumberPlayConstants from './NumberPlayConstants.js';
 
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
-  // the highest number that the 'Compare' screen can count to. Must be an integer between 1 and 20.
-  compareMax: {
-    public: true,
-    type: 'number',
-    defaultValue: NumberPlayConstants.TWENTY,
-    isValidValue: ( number: number ) => Number.isInteger( number ) && number > 0 && number <= NumberPlayConstants.TWENTY
-  },
-
   // time that the objects are shown when they “flash” in the ‘Subitize’ game, in seconds. If the user gets the answer
   // incorrect 3 times on a single challenge, the time is increased for that challenge until it's answered correctly.
   subitizeTimeShown: {
