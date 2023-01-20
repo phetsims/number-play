@@ -241,6 +241,13 @@ class NumberPlayScreenView extends ScreenView {
     organizeObjectsButton.centerX = resetAllButton.centerX;
     organizeObjectsButton.top = this.objectsAccordionBox.top;
     this.addChild( organizeObjectsButton );
+
+    // If the GroupAndLinkType changes, interrupt interaction with objects in these accordion boxes.
+    // See https://github.com/phetsims/number-play/issues/173
+    model.objectsGroupAndLinkTypeProperty.link( () => {
+      onesAccordionBox.interruptSubtreeInput();
+      this.objectsAccordionBox.interruptSubtreeInput();
+    } );
   }
 
   /**
