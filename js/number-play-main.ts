@@ -26,12 +26,19 @@ import numberPlayPreferences from './common/model/numberPlayPreferences.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
 import ReadAloudPreferenceControl from '../../number-suite-common/js/common/view/ReadAloudPreferenceControl.js';
-import NumberSuiteCommonConstants from '../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
 const simOptions: SimOptions = {
-  credits: NumberSuiteCommonConstants.CREDITS,
+  credits: {
+    //TODO https://github.com/phetsims/number-play/issues/201 finalize credits
+    leadDesign: 'Amanda McGarry',
+    softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
+    team: 'Sylvia Celedón-Pattichis, Ariel Paul, Kathy Perkins, Ian Whitacre',
+    qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
+    graphicArts: 'Mariah Hermsmeyer',
+    thanks: 'Andrea Barraugh (Math Transformations), Kristin Donley, Bertha Orona'
+  },
   preferencesModel: new PreferencesModel( {
     simulationOptions: {
       customPreferences: [ {
