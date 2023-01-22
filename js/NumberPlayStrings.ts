@@ -22,14 +22,13 @@ type StringsType = {
   'tenFrameStringProperty': LinkableProperty<string>;
   'tenFramesStringProperty': LinkableProperty<string>;
   'onesStringProperty': LinkableProperty<string>;
-  'gameNameLevelNumberPatternStringProperty': LinkableProperty<string>;
   'chooseYourGameStringProperty': LinkableProperty<string>;
   'countingLevel1DescriptionStringProperty': LinkableProperty<string>;
   'countingLevel2DescriptionStringProperty': LinkableProperty<string>;
   'subitizingLevel1DescriptionStringProperty': LinkableProperty<string>;
   'subitizingLevel2DescriptionStringProperty': LinkableProperty<string>;
   'gamesStringProperty': LinkableProperty<string>;
-  'readAloudStringProperty': LinkableProperty<string>;
+  'hearTotalStringProperty': LinkableProperty<string>;
   'subitizeTimeStringProperty': LinkableProperty<string>;
   'subitizeTimeDescriptionStringProperty': LinkableProperty<string>;
 };
