@@ -42,7 +42,7 @@ const simOptions: SimOptions = {
   preferencesModel: new PreferencesModel( {
     simulationOptions: {
       customPreferences: [ {
-        createContent: () => new NumberPlayPreferencesNode()
+        createContent: () => new NumberPlayPreferencesNode( numberPlayPreferences )
       } ]
     },
     audioOptions: {
