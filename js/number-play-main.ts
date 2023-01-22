@@ -25,7 +25,7 @@ import NumberPlayModel from './common/model/NumberPlayModel.js';
 import numberPlayPreferences from './common/model/numberPlayPreferences.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
-import ReadAloudPreferenceControl from '../../number-suite-common/js/common/view/ReadAloudPreferenceControl.js';
+import ReadAloudControl from '../../number-suite-common/js/common/view/ReadAloudControl.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
@@ -47,7 +47,7 @@ const simOptions: SimOptions = {
     },
     audioOptions: {
       customPreferences: [ {
-        createContent: () => new ReadAloudPreferenceControl( numberPlayPreferences, numberPlaySpeechSynthesisAnnouncer,
+        createContent: () => new ReadAloudControl( numberPlayPreferences, numberPlaySpeechSynthesisAnnouncer,
           [ 1, 2 ], NumberPlayStrings.hearTotalStringProperty, NumberPlayStrings.hearTotalDescriptionStringProperty )
       } ]
     }
