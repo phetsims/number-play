@@ -29,6 +29,7 @@ type StringsType = {
   'subitizingLevel2DescriptionStringProperty': LinkableProperty<string>;
   'gamesStringProperty': LinkableProperty<string>;
   'hearTotalStringProperty': LinkableProperty<string>;
+  'hearTotalDescriptionStringProperty': LinkableProperty<string>;
   'subitizeTimeStringProperty': LinkableProperty<string>;
   'subitizeTimeDescriptionStringProperty': LinkableProperty<string>;
 };

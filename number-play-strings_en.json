@@ -47,6 +47,9 @@
   "hearTotal": {
     "value": "Hear Total"
   },
+  "hearTotalDescription": {
+    "value": "Hear the updated total as you interact."
+  },
   "subitizeTime": {
     "value": "Subitize Time"
   },
