@@ -34,7 +34,7 @@ const simOptions: SimOptions = {
     //TODO https://github.com/phetsims/number-play/issues/201 finalize credits
     leadDesign: 'Amanda McGarry',
     softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
-    team: 'Sylvia Celedón-Pattichis, Ariel Paul, Kathy Perkins, Ian Whitacre',
+    team: 'Catherine Carter, Sylvia Celedón-Pattichis, Chris Malley (PixelZoom, Inc.), Ariel Paul, Kathy Perkins, Marla Schulz, Ian Whitacre',
     qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
     graphicArts: 'Mariah Hermsmeyer',
     thanks: 'Andrea Barraugh (Math Transformations), Kristin Donley, Bertha Orona'
