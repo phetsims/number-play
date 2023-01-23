@@ -20,6 +20,8 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TModel from '../../../../joist/js/TModel.js';
 import Property from '../../../../axon/js/Property.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
+import Emitter from '../../../../axon/js/Emitter.js';
 
 class NumberPlayModel implements TModel {
 
@@ -40,9 +42,12 @@ class NumberPlayModel implements TModel {
   // the type of objects in the objects play area. primarily used in the view.
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
 
-  // whether the objects play area is ungrouped, grouped, or linked. set by the view controls and used to
-  // link/unlink play areas in the view and drive the grouped/ungrouped state in the model
+  // whether the objectsPlayArea is ungrouped, grouped, or linked. set by the view controls and used to link/unlink
+  // onesPlayArea and objectsPlayArea, and grouped/ungroup objects in the objectsPlayArea
   public readonly objectsGroupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
+
+  // emits when the objectsPlayArea becomes linked or unlinked to the onesPlayArea
+  public readonly objectsLinkedEmitter: TEmitter<[ boolean ]>;
 
   // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
   // way (with animations), but instead with a different reset case (no animations).
@@ -62,6 +67,8 @@ class NumberPlayModel implements TModel {
     this.countingObjectTypeProperty = new EnumerationProperty( CountingObjectType.DOG );
 
     this.objectsGroupAndLinkTypeProperty = new EnumerationProperty( GroupAndLinkType.UNGROUPED );
+
+    this.objectsLinkedEmitter = new Emitter( { parameters: [ { valueType: 'boolean' } ] } );
 
     this.groupingEnabledProperty = new DerivedProperty( [ this.objectsGroupAndLinkTypeProperty ], groupAndLinkType => {
       return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
@@ -100,6 +107,20 @@ class NumberPlayModel implements TModel {
         this.matchPlayAreaToNewValue( sum, oldSum, this.onesPlayArea );
 
         objectsLeading = false;
+      }
+    } );
+
+    this.objectsGroupAndLinkTypeProperty.lazyLink( ( groupAndLinkType, previousGroupAndLinkType ) => {
+      const objectsLinkedToOnes = groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
+      const objectsLinkedToOnesPreviously = previousGroupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
+
+      if ( objectsLinkedToOnes !== objectsLinkedToOnesPreviously ) {
+
+        this.objectsPlayArea.matchCountingObjectsToLinkedPlayArea(
+          this.onesPlayArea.getSerializedCountingObjectsIncludedInSum(),
+          this.objectsLinkedEmitter,
+          objectsLinkedToOnes
+        );
       }
     } );
   }

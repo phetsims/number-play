@@ -152,7 +152,7 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
           CountingObjectType.BALL ],
-        objectsGroupAndLinkTypeProperty: model.objectsGroupAndLinkTypeProperty,
+        objectsLinkedEmitter: model.objectsLinkedEmitter,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
