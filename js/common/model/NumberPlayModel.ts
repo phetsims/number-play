@@ -119,7 +119,8 @@ class NumberPlayModel implements TModel {
         this.objectsPlayArea.matchCountingObjectsToLinkedPlayArea(
           this.onesPlayArea.getSerializedCountingObjectsIncludedInSum(),
           this.objectsLinkedEmitter,
-          objectsLinkedToOnes
+          objectsLinkedToOnes,
+          groupAndLinkType
         );
       }
     } );
