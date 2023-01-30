@@ -18,7 +18,7 @@ export class NumberPlayPreferences extends NumberSuiteCommonPreferences {
   public readonly subitizeTimeShownProperty: NumberProperty;
 
   public constructor() {
-    super();
+    super( 'https://phet.colorado.edu/sims/html/number-play/latest/number-play_all.html' );
 
     this.subitizeTimeShownProperty = new NumberProperty( NumberPlayQueryParameters.subitizeTimeShown, {
       range: new Range( NumberPlayConstants.MIN_SHAPE_VISIBLE_TIME, NumberPlayConstants.MAX_SHAPE_VISIBLE_TIME )
