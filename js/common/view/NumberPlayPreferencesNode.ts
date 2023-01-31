@@ -20,7 +20,7 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
   public constructor( preferences: NumberPlayPreferences ) {
 
     const subitizeTimeControl = new SubitizeTimeControl( preferences.subitizeTimeShownProperty, {
-      enabled: NumberSuiteCommonPreferencesNode.hasScreenType( NumberPlayGameScreen )
+      visible: NumberSuiteCommonPreferencesNode.hasScreenType( NumberPlayGameScreen )
     } );
 
     super( preferences, [ subitizeTimeControl ], {
