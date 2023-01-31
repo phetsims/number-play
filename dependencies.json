@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "9a4f49cccd069280096f564b530b54ef7e3aeb5a",
+    "sha": "c9acd8b34c83cf976805641745be56194715a46e",
     "branch": "1.0"
   },
   "perennial-alias": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "927fb4b999c281b577606837522e6efb1d5d749d",
+    "sha": "b98262139383ea89dfeb069a04c45184852f94e3",
     "branch": "HEAD"
   },
   "phetmarks": {
