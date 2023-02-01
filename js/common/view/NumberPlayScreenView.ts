@@ -18,7 +18,7 @@ import numberPlay from '../../numberPlay.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 import CountingAccordionBox from '../../../../number-suite-common/js/common/view/CountingAccordionBox.js';
-import SpeechSynthesisButton from '../../../../number-suite-common/js/common/view/SpeechSynthesisButton.js';
+import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
 import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/TotalAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
@@ -36,7 +36,6 @@ import { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-c
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
-import MissingVoiceWarningButton from '../../../../number-suite-common/js/common/view/MissingVoiceWarningButton.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import Property from '../../../../axon/js/Property.js';
 
@@ -174,24 +173,17 @@ class NumberPlayScreenView extends ScreenView {
     } );
     this.addChild( resetAllButton );
 
-    // create and add the SpeechSynthesisButton if the announcer is initialized
+    // Add the SpeechSynthesisControl, if the announcer is initialized.
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
-      const speechSynthesisButton = new SpeechSynthesisButton( model.isPrimaryLocaleProperty, numberPlayPreferences,
+      const speechSynthesisControl = new SpeechSynthesisControl( model.isPrimaryLocaleProperty, numberPlayPreferences,
         numberPlaySpeechSynthesisAnnouncer, numberPlayUtteranceQueue, {
-          numberProperty: model.currentNumberProperty
+          speechSynthesisButtonOptions: {
+            numberProperty: model.currentNumberProperty
+          },
+          left: this.layoutBounds.minX + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X,
+          top: tenFrameAccordionBox.top
         } );
-      speechSynthesisButton.left = this.layoutBounds.minX + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X;
-      speechSynthesisButton.top = tenFrameAccordionBox.top;
-      this.addChild( speechSynthesisButton );
-
-      const missingVoiceWarningButton = new MissingVoiceWarningButton(
-        model.isPrimaryLocaleProperty,
-        numberPlaySpeechSynthesisAnnouncer.primaryLocaleVoiceEnabledProperty,
-        numberPlaySpeechSynthesisAnnouncer.secondaryLocaleVoiceEnabledProperty
-      );
-      missingVoiceWarningButton.centerX = speechSynthesisButton.centerX;
-      missingVoiceWarningButton.top = speechSynthesisButton.bottom + 12;
-      this.addChild( missingVoiceWarningButton );
+      this.addChild( speechSynthesisControl );
     }
 
     // create the icons for the RectangularRadioButtonGroup
