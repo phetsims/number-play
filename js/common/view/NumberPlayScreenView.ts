@@ -131,7 +131,7 @@ class NumberPlayScreenView extends ScreenView {
       numberPlayPreferences.secondLocaleProperty, wordAccordionBox.width );
     this.addChild( localeSwitch );
     localeSwitch.boundsProperty.link( () => {
-      localeSwitch.centerX = wordAccordionBox.centerX;
+      localeSwitch.left = wordAccordionBox.left + 10;
     } );
 
     // update the position of the localeSwitch
