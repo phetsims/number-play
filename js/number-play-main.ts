@@ -47,6 +47,7 @@ const simOptions: SimOptions = {
       } ]
     },
     audioOptions: {
+      includeSoundsToggleSwitch: true,
       customPreferences: [ {
         createContent: () => new ReadAloudControl( numberPlayPreferences, numberPlaySpeechSynthesisAnnouncer,
           NumberPlayStrings.hearTotalStringProperty, NumberPlayStrings.hearTotalDescriptionStringProperty,
