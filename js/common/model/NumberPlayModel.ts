@@ -22,6 +22,7 @@ import TModel from '../../../../joist/js/TModel.js';
 import Property from '../../../../axon/js/Property.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import Emitter from '../../../../axon/js/Emitter.js';
+import numberPlayPreferences from './numberPlayPreferences.js';
 
 class NumberPlayModel implements TModel {
 
@@ -29,9 +30,6 @@ class NumberPlayModel implements TModel {
 
   // the current "counted to" number, which is the central aspect of this whole sim
   public readonly currentNumberProperty: Property<number>;
-
-  // whether the sim is using the locale it was loaded in or a second locale
-  public readonly isPrimaryLocaleProperty: Property<boolean>;
 
   // the model for managing the play area in the OnesAccordionBox
   public readonly onesPlayArea: CountingPlayArea;
@@ -59,8 +57,6 @@ class NumberPlayModel implements TModel {
   protected constructor( highestCount: number, tandem: Tandem ) {
 
     this.sumRange = new Range( 0, highestCount );
-
-    this.isPrimaryLocaleProperty = new BooleanProperty( true );
 
     this.isResettingProperty = new BooleanProperty( false );
 
@@ -150,7 +146,7 @@ class NumberPlayModel implements TModel {
    */
   public reset(): void {
     this.isResettingProperty.value = true;
-    this.isPrimaryLocaleProperty.reset();
+    numberPlayPreferences.isPrimaryLocaleProperty.reset();
     this.countingObjectTypeProperty.reset();
     this.objectsGroupAndLinkTypeProperty.reset();
     this.onesPlayArea.reset();

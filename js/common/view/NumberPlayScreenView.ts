@@ -79,8 +79,6 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
-      model.isPrimaryLocaleProperty,
-      numberPlayPreferences.secondLocaleProperty,
       options.upperAccordionBoxHeight,
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
@@ -127,8 +125,7 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( onesAccordionBox );
 
     // create and add the LocaleSwitch
-    const localeSwitch = new LocaleSwitch( model.isPrimaryLocaleProperty, numberPlayPreferences.showSecondLocaleProperty,
-      numberPlayPreferences.secondLocaleProperty, wordAccordionBox.width );
+    const localeSwitch = new LocaleSwitch( numberPlayPreferences, wordAccordionBox.width );
     this.addChild( localeSwitch );
     localeSwitch.boundsProperty.link( () => {
       localeSwitch.left = wordAccordionBox.left + 10;
@@ -175,8 +172,10 @@ class NumberPlayScreenView extends ScreenView {
 
     // Add the SpeechSynthesisControl, if the announcer is initialized.
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
-      const speechSynthesisControl = new SpeechSynthesisControl( model.isPrimaryLocaleProperty, numberPlayPreferences,
-        numberPlaySpeechSynthesisAnnouncer, numberPlayUtteranceQueue, {
+      const speechSynthesisControl = new SpeechSynthesisControl(
+        numberPlayPreferences,
+        numberPlaySpeechSynthesisAnnouncer,
+        numberPlayUtteranceQueue, {
           speechSynthesisButtonOptions: {
             numberProperty: model.currentNumberProperty
           },

@@ -19,7 +19,6 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import Property from '../../../../axon/js/Property.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import localeInfoModule from '../../../../chipper/js/data/localeInfoModule.js';
 
@@ -39,11 +38,10 @@ const HEIGHT_ADJUSTMENT = 24;
 
 class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
-  public constructor( currentNumberProperty: TReadOnlyProperty<number>, isPrimaryLocaleProperty: Property<boolean>,
-                      secondLocaleProperty: TReadOnlyProperty<Locale>, height: number, providedOptions: WordAccordionBoxOptions ) {
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, height: number, providedOptions: WordAccordionBoxOptions ) {
 
     const titleStringProperty = new DerivedProperty(
-      [ localeProperty, secondLocaleProperty, isPrimaryLocaleProperty,
+      [ localeProperty, numberPlayPreferences.secondLocaleProperty, numberPlayPreferences.isPrimaryLocaleProperty,
         NumberPlayStrings.wordStringProperty, NumberPlayStrings.wordLanguageStringProperty ],
       ( primaryLocale: Locale, secondLocale: Locale, isPrimaryLocale ) => {
         const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
@@ -73,7 +71,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
     // The word shown in the accordion box
     const wordStringProperty = new DerivedProperty(
-      [ currentNumberProperty, isPrimaryLocaleProperty, numberPlayPreferences.secondLocaleStringsProperty ],
+      [ currentNumberProperty, numberPlayPreferences.isPrimaryLocaleProperty, numberPlayPreferences.secondLocaleStringsProperty ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
         NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale )
     );
