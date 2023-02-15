@@ -54,7 +54,7 @@ class NumberPlayModel implements TModel {
   // whether counting objects should be grouped or ungrouped
   private readonly groupingEnabledProperty: TReadOnlyProperty<boolean>;
 
-  protected constructor( highestCount: number, tandem: Tandem ) {
+  protected constructor( highestCount: number, speechDataProperty: TProperty<string>, tandem: Tandem ) {
 
     this.sumRange = new Range( 0, highestCount );
 
@@ -78,6 +78,11 @@ class NumberPlayModel implements TModel {
     let objectsLeading = false;
 
     this.currentNumberProperty = new NumberProperty( 0 );
+
+    // update the speechDataProperty when the current number changes
+    this.currentNumberProperty.link( currentNumber => {
+      speechDataProperty.value = `${currentNumber}`;
+    } );
 
     this.onesPlayArea.sumProperty.lazyLink( ( sum, oldSum ) => {
       if ( !objectsLeading ) {

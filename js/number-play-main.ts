@@ -26,6 +26,7 @@ import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.j
 import ReadAloudControl from '../../number-suite-common/js/common/view/ReadAloudControl.js';
 import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
+import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
@@ -93,4 +94,6 @@ simLauncher.launch( () => {
 
     numberPlaySpeechSynthesisAnnouncer.enabledProperty.value = true;
   }
+
+  numberPlayUtteranceQueue.initialize( sim.selectedScreenProperty );
 } );

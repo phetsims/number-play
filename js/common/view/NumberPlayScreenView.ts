@@ -173,12 +173,8 @@ class NumberPlayScreenView extends ScreenView {
     // Add the SpeechSynthesisControl, if the announcer is initialized.
     if ( numberPlaySpeechSynthesisAnnouncer.initialized ) {
       const speechSynthesisControl = new SpeechSynthesisControl(
-        numberPlayPreferences,
         numberPlaySpeechSynthesisAnnouncer,
         numberPlayUtteranceQueue, {
-          speechSynthesisButtonOptions: {
-            numberProperty: model.currentNumberProperty
-          },
           left: this.layoutBounds.minX + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X,
           top: tenFrameAccordionBox.top
         } );

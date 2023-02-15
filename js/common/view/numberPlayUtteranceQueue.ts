@@ -8,11 +8,52 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import UtteranceQueue from '../../../../utterance-queue/js/UtteranceQueue.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
+import NumberSuiteCommonUtteranceQueue from '../../../../number-suite-common/js/common/view/NumberSuiteCommonUtteranceQueue.js';
+import TenScreen from '../../ten/TenScreen.js';
+import TwentyScreen from '../../twenty/TwentyScreen.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Screen from '../../../../joist/js/Screen.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import StringProperty from '../../../../axon/js/StringProperty.js';
 
-const numberPlayUtteranceQueue = new UtteranceQueue( numberPlaySpeechSynthesisAnnouncer );
+class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
+
+  public readonly tenScreenSpeechDataProperty: TProperty<string>;
+  public readonly twentyScreenSpeechDataProperty: TProperty<string>;
+
+  public constructor() {
+    super( numberPlaySpeechSynthesisAnnouncer, numberPlayPreferences.readAloudProperty );
+
+    this.tenScreenSpeechDataProperty = new StringProperty( '' );
+    this.twentyScreenSpeechDataProperty = new StringProperty( '' );
+  }
+
+  /**
+   * Starts the initialization process by using the provided selectedScreenProperty to determine which speechData
+   * to use for a given screen that the user is viewing. This is needed because selectedScreenProperty doesn't exist
+   * yet during the creation of this singleton.
+   */
+  public initialize( selectedScreenProperty: TReadOnlyProperty<Screen> ): void {
+
+    const speechDataProperty = new DerivedProperty(
+      [ this.tenScreenSpeechDataProperty, this.twentyScreenSpeechDataProperty, selectedScreenProperty ],
+      ( tenScreenSpeechData, twentyScreenSpeechData, selectedScreen ) => {
+
+        // We want the speech data to reflect the selected screen. Returns null for screens that do not support speech
+        // synthesis.
+        return selectedScreen instanceof TenScreen ? tenScreenSpeechData :
+               selectedScreen instanceof TwentyScreen ? twentyScreenSpeechData : null;
+      } );
+
+    this.initializeNumberSuiteCommonUtteranceQueue( speechDataProperty );
+  }
+}
+
+const numberPlayUtteranceQueue = new NumberPlayUtteranceQueue();
 
 numberPlay.register( 'numberPlayUtteranceQueue', numberPlayUtteranceQueue );
 export default numberPlayUtteranceQueue;
