@@ -9,21 +9,22 @@
 
 import numberPlay from '../../numberPlay.js';
 import NumberSuiteCommonPreferencesNode from '../../../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
-import { NumberPlayPreferences } from '../model/numberPlayPreferences.js';
 import NumberPlayGameScreen from '../../game/NumberPlayGameScreen.js';
 import TenScreen from '../../ten/TenScreen.js';
 import TwentyScreen from '../../twenty/TwentyScreen.js';
 import SubitizeTimeControl from './SubitizeTimeControl.js';
+import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
-export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode<NumberPlayPreferences> {
+export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode {
 
-  public constructor( preferences: NumberPlayPreferences ) {
+  public constructor() {
 
-    const subitizeTimeControl = new SubitizeTimeControl( preferences.subitizeTimeShownProperty, {
+    const subitizeTimeControl = new SubitizeTimeControl( numberPlayPreferences.subitizeTimeShownProperty, {
       visible: NumberSuiteCommonPreferencesNode.hasScreenType( NumberPlayGameScreen )
     } );
 
-    super( preferences, [ subitizeTimeControl ], {
+    super( numberPlayPreferences, numberPlaySpeechSynthesisAnnouncer, [ subitizeTimeControl ], {
       secondLanguageControlEnabled: NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) ||
                                     NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen )
     } );

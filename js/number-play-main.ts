@@ -15,7 +15,7 @@ import NumberPlayStrings from './NumberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
 import numberPlaySpeechSynthesisAnnouncer from './common/view/numberPlaySpeechSynthesisAnnouncer.js';
-import { Display, Text } from '../../scenery/js/imports.js';
+import { Display } from '../../scenery/js/imports.js';
 import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import audioManager from '../../joist/js/audioManager.js';
 import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
@@ -25,8 +25,9 @@ import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
 import ReadAloudControl from '../../number-suite-common/js/common/view/ReadAloudControl.js';
 import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
-import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
+import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
+import localeProperty from '../../joist/js/i18n/localeProperty.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
@@ -43,20 +44,27 @@ const simOptions: SimOptions = {
   preferencesModel: new PreferencesModel( {
     simulationOptions: {
       customPreferences: [ {
-        createContent: () => new NumberPlayPreferencesNode( numberPlayPreferences )
+        createContent: () => new NumberPlayPreferencesNode()
       } ]
     },
     audioOptions: {
       customPreferences: [ {
-        createContent: () => new ReadAloudControl( numberPlayPreferences, numberPlaySpeechSynthesisAnnouncer,
-          NumberPlayStrings.hearTotalStringProperty, NumberPlayStrings.hearTotalDescriptionStringProperty,
+        createContent: () => new ReadAloudControl(
+          numberPlayPreferences,
+          numberPlaySpeechSynthesisAnnouncer,
+          NumberPlayStrings.hearTotalStringProperty,
+          NumberPlayStrings.hearTotalDescriptionStringProperty,
           NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) || NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen ) )
       } ]
     },
     localizationOptions: {
-      includeLocalePanel: false, // We will be substituting our own control for selecting locale.
+      includeLocalePanel: false,
       customPreferences: [ {
-        createContent: () => new Text( 'Under Construction', { font: new PhetFont( 16 ) } )
+        createContent: () => new LanguageAndVoiceControl(
+          localeProperty,
+          numberPlayPreferences.primaryVoiceProperty,
+          numberPlaySpeechSynthesisAnnouncer
+        )
       } ]
     }
   } )

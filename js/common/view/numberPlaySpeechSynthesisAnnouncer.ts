@@ -13,7 +13,9 @@ import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 const numberPlaySpeechSynthesisAnnouncer = new NumberSuiteCommonSpeechSynthesisAnnouncer(
   numberPlayPreferences.isPrimaryLocaleProperty,
-  numberPlayPreferences.secondLocaleProperty
+  numberPlayPreferences.secondLocaleProperty,
+  numberPlayPreferences.primaryVoiceProperty,
+  numberPlayPreferences.secondVoiceProperty
 );
 
 numberPlay.register( 'numberPlaySpeechSynthesisAnnouncer', numberPlaySpeechSynthesisAnnouncer );
