@@ -20,7 +20,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
-import localeInfoModule from '../../../../chipper/js/data/localeInfoModule.js';
 
 // types
 type SelfOptions = {
@@ -45,10 +44,10 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         NumberPlayStrings.wordStringProperty, NumberPlayStrings.wordLanguageStringProperty ],
       ( primaryLocale: Locale, secondLocale: Locale, isPrimaryLocale ) => {
         const primaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordStringProperty.value, {
-          language: localeInfoModule[ primaryLocale ].localizedName
+          language: StringUtils.localeToLocalizedName( primaryLocale )
         } );
         const secondaryLocaleTitleString = StringUtils.fillIn( NumberPlayStrings.wordLanguageStringProperty.value, {
-          language: localeInfoModule[ secondLocale ].localizedName
+          language: StringUtils.localeToLocalizedName( secondLocale )
         } );
 
         return isPrimaryLocale ? primaryLocaleTitleString : secondaryLocaleTitleString;
