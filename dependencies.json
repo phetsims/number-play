@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.0.10 Thu Feb 02 2023 13:57:19 GMT-0700 (Mountain Standard Time)",
+  "comment": "# number-play 1.0.11-rc.1 Thu Feb 23 2023 19:39:06 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "767b2f345518ceca5144a152ecf40cd4f9206136",
     "branch": "HEAD"
@@ -37,7 +37,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "6bcc97d8fb9a5aedc9660a044cbbb1f8a5a3c898",
+    "sha": "cc5bd284c57563ccb9856d2a287fec647218afad",
     "branch": "1.0"
   },
   "perennial-alias": {
