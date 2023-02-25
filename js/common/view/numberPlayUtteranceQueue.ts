@@ -22,7 +22,10 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 
 class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
 
+  // Data from the 'Ten' screen that can be spoken to the user. Should be updated in the screen's model.
   public readonly tenScreenSpeechDataProperty: TProperty<string>;
+
+  // Data from the 'Twenty' screen that can be spoken to the user. Should be updated in the screen's model.
   public readonly twentyScreenSpeechDataProperty: TProperty<string>;
 
   public constructor() {
