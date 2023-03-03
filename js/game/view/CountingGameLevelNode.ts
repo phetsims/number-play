@@ -20,6 +20,7 @@ import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
 // constants
 const RECTANGLE_WIDTH = 550;
@@ -33,6 +34,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
   public constructor( level: CountingGameLevel,
                       levelProperty: TProperty<NumberPlayGameLevel | null>,
+                      rewardDialog: NumberPlayGameRewardDialog,
                       layoutBounds: Bounds2,
                       visibleBoundsProperty: Property<Bounds2> ) {
 
@@ -43,7 +45,10 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     } );
 
     // create and add the answerButtons
-    this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointAwardedNodeVisibleProperty,
+    this.answerButtons = new NumberPlayGameAnswerButtons(
+      level,
+      this.pointAwardedNodeVisibleProperty,
+      rewardDialog,
       () => this.setFrownyFaceVisibility( false ),
       () => this.setFrownyFaceVisibility( true ), {
         buttonColor: NumberPlayColors.countingGameLightColorProperty

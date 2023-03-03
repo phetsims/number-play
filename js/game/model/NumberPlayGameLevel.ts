@@ -19,6 +19,7 @@ import Property from '../../../../axon/js/Property.js';
 abstract class NumberPlayGameLevel {
 
   public readonly levelNumber: number;
+  public static readonly REWARD_SCORE = 10;
 
   // the total number of points that have been awarded for this level
   public readonly scoreProperty: Property<number>;

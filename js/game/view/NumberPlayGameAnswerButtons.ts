@@ -21,6 +21,7 @@ import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
 // types
 type SelfOptions = {
@@ -55,6 +56,7 @@ class NumberPlayGameAnswerButtons extends Node {
 
   public constructor( level: NumberPlayGameLevel,
                       pointAwardedNodeVisibleProperty: TProperty<boolean>,
+                      rewardDialog: NumberPlayGameRewardDialog,
                       rightAnswerCallback: () => void,
                       wrongAnswerCallback: () => void,
                       providedOptions?: NumberPlayGameAnswerButtonsOptions ) {
@@ -88,7 +90,15 @@ class NumberPlayGameAnswerButtons extends Node {
         // if this is the first guess, increase the score
         if ( level.numberOfAnswerButtonPressesProperty.value === 1 ) {
           level.scoreProperty.value++;
-          pointAwardedNodeVisibleProperty.value = true;
+
+          // If we've reached the reward score, show the reward dialog.
+          if ( level.scoreProperty.value === NumberPlayGameLevel.REWARD_SCORE ) {
+            gameAudioPlayer.gameOverPerfectScore();
+            rewardDialog.show();
+          }
+          else {
+            pointAwardedNodeVisibleProperty.value = true;
+          }
         }
       }
       else {

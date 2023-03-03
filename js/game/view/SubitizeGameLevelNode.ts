@@ -17,15 +17,18 @@ import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 
   protected readonly answerButtons: NumberPlayGameAnswerButtons;
 
-  public constructor( level: SubitizeGameLevel,
-               levelProperty: TProperty<NumberPlayGameLevel | null>,
-               layoutBounds: Bounds2,
-               visibleBoundsProperty: Property<Bounds2> ) {
+  public constructor(
+    level: SubitizeGameLevel,
+    levelProperty: TProperty<NumberPlayGameLevel | null>,
+    rewardDialog: NumberPlayGameRewardDialog,
+    layoutBounds: Bounds2,
+    visibleBoundsProperty: Property<Bounds2> ) {
 
     super( level, levelProperty, layoutBounds, visibleBoundsProperty, {
       statusBarOptions: {
@@ -34,15 +37,18 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
     } );
 
     // create and add the answerButtons
-    this.answerButtons = new NumberPlayGameAnswerButtons( level, this.pointAwardedNodeVisibleProperty, () => {
-      this.setFrownyFaceVisibility( false );
-      level.subitizer.isInputEnabledProperty.value = false;
-      level.subitizer.isShapeVisibleProperty.value = true;
-    }, () => this.setFrownyFaceVisibility( true ), {
-      buttonColor: NumberPlayColors.subitizeGameLightColorProperty,
-      buttonSpacing: 40,
-      dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
-    } );
+    this.answerButtons = new NumberPlayGameAnswerButtons(
+      level,
+      this.pointAwardedNodeVisibleProperty,
+      rewardDialog, () => {
+        this.setFrownyFaceVisibility( false );
+        level.subitizer.isInputEnabledProperty.value = false;
+        level.subitizer.isShapeVisibleProperty.value = true;
+      }, () => this.setFrownyFaceVisibility( true ), {
+        buttonColor: NumberPlayColors.subitizeGameLightColorProperty,
+        buttonSpacing: 40,
+        dependencyEnabledProperty: level.subitizer.isInputEnabledProperty
+      } );
     this.answerButtons.centerX = layoutBounds.centerX;
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );

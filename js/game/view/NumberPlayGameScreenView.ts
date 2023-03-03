@@ -19,6 +19,8 @@ import CountingGameLevelNode from './CountingGameLevelNode.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
+import NumberPlayGameRewardNode from './NumberPlayGameRewardNode.js';
+import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
 // constants
 const TRANSITION_OPTIONS = {
@@ -33,6 +35,8 @@ class NumberPlayGameScreenView extends ScreenView {
   // store all level nodes in one place for easy iteration
   private readonly levelNodes: Array<NumberPlayGameLevelNode<NumberPlayGameLevel>>;
 
+  private readonly rewardNode: NumberPlayGameRewardNode;
+
   public constructor( model: NumberPlayGameModel, tandem: Tandem ) {
 
     super( {
@@ -45,13 +49,18 @@ class NumberPlayGameScreenView extends ScreenView {
       this.reset();
     } );
 
+    this.rewardNode = new NumberPlayGameRewardNode();
+
+    // Dialog that is displayed when the score reaches the reward value.
+    const rewardDialog = new NumberPlayGameRewardDialog( model.levelProperty, this.rewardNode, NumberPlayGameLevel.REWARD_SCORE );
+
     // create the level nodes for the 'Counting' game
     const countingLevelNodes = model.countingLevels.map( level =>
-      new CountingGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+      new CountingGameLevelNode( level, model.levelProperty, rewardDialog, this.layoutBounds, this.visibleBoundsProperty ) );
 
     // create the level nodes for the 'Subitize' game
     const subitizeLevelNodes = model.subitizeLevels.map( level =>
-      new SubitizeGameLevelNode( level, model.levelProperty, this.layoutBounds, this.visibleBoundsProperty ) );
+      new SubitizeGameLevelNode( level, model.levelProperty, rewardDialog, this.layoutBounds, this.visibleBoundsProperty ) );
 
     this.levelNodes = [ ...countingLevelNodes, ...subitizeLevelNodes ];
 
@@ -94,6 +103,11 @@ class NumberPlayGameScreenView extends ScreenView {
     } );
 
     this.addChild( transitionNode );
+    this.addChild( this.rewardNode );
+  }
+
+  public override step( dt: number ): void {
+    this.rewardNode.visible && this.rewardNode.step( dt );
   }
 
   public reset(): void {
