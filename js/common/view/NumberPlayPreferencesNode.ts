@@ -13,8 +13,8 @@ import NumberPlayGameScreen from '../../game/NumberPlayGameScreen.js';
 import TenScreen from '../../ten/TenScreen.js';
 import TwentyScreen from '../../twenty/TwentyScreen.js';
 import SubitizeTimeControl from './SubitizeTimeControl.js';
-import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
+import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 
 export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode {
 
@@ -24,7 +24,7 @@ export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferen
       visible: NumberSuiteCommonPreferencesNode.hasScreenType( NumberPlayGameScreen )
     } );
 
-    super( numberPlayPreferences, numberPlaySpeechSynthesisAnnouncer, [ subitizeTimeControl ], {
+    super( numberPlayPreferences, numberPlayUtteranceQueue, [ subitizeTimeControl ], {
       secondLanguageControlEnabled: NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) ||
                                     NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen )
     } );

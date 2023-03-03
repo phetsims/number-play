@@ -64,7 +64,7 @@ const simOptions: SimOptions = {
         createContent: () => new LanguageAndVoiceControl(
           localeProperty,
           numberPlayPreferences.primaryVoiceProperty,
-          numberPlaySpeechSynthesisAnnouncer
+          numberPlayUtteranceQueue
         )
       } ]
     }
