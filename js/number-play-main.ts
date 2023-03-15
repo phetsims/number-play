@@ -28,7 +28,6 @@ import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/commo
 import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
 import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
 import localeProperty from '../../joist/js/i18n/localeProperty.js';
-import preferencesSpeechSynthesisAnnouncer from '../../number-suite-common/js/common/view/preferencesSpeechSynthesisAnnouncer.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 
@@ -87,7 +86,7 @@ simLauncher.launch( () => {
 
   // initialize the SpeechSynthesisAnnouncers that will use speech synthesis for general sim use and setting preferences
   if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
-    const announcerOptions = {
+    numberPlaySpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, {
 
       // specify the Properties that control whether output is allowed with speech synthesis
       speechAllowedProperty: new DerivedProperty( [
@@ -99,12 +98,8 @@ simLauncher.launch( () => {
       ], ( simConstructionComplete, simVisible, simActive, simSettingPhetioState, audioEnabled ) => {
         return simConstructionComplete && simVisible && simActive && !simSettingPhetioState && audioEnabled;
       } )
-    };
-    numberPlaySpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, announcerOptions );
-    preferencesSpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, announcerOptions );
-
+    } );
     numberPlaySpeechSynthesisAnnouncer.enabledProperty.value = true;
-    preferencesSpeechSynthesisAnnouncer.enabledProperty.value = true;
   }
 
   numberPlayUtteranceQueue.initialize( sim.selectedScreenProperty );
