@@ -134,10 +134,7 @@ class NumberPlayModel implements TModel {
     if ( difference > 0 ) {
       assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
                                           'at a time to match the opposite play area: ' + difference );
-      playArea.createCountingObjectFromBucket( {
-        shouldAnimate: true,
-        value: 1
-      } );
+      playArea.createCountingObjectFromCreatorNode();
     }
     else {
       playArea.returnCountingObjectToCreatorNode( Math.abs( difference ) );
