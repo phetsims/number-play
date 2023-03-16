@@ -140,7 +140,7 @@ class NumberPlayModel implements TModel {
       } );
     }
     else {
-      playArea.returnCountingObjectToBucket( Math.abs( difference ) );
+      playArea.returnCountingObjectToCreatorNode( Math.abs( difference ) );
     }
   }
 
