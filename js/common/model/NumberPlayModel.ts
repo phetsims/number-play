@@ -110,21 +110,6 @@ class NumberPlayModel implements TModel {
         objectsLeading = false;
       }
     } );
-
-    this.objectsGroupAndLinkTypeProperty.lazyLink( ( groupAndLinkType, previousGroupAndLinkType ) => {
-      const objectsLinkedToOnes = groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
-      const objectsLinkedToOnesPreviously = previousGroupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
-
-      if ( objectsLinkedToOnes !== objectsLinkedToOnesPreviously ) {
-
-        this.objectsPlayArea.matchCountingObjectsToLinkedPlayArea(
-          this.onesPlayArea.getSerializedCountingObjectsIncludedInSum(),
-          this.objectsLinkedEmitter,
-          objectsLinkedToOnes,
-          groupAndLinkType
-        );
-      }
-    } );
   }
 
   private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: CountingPlayArea ): void {

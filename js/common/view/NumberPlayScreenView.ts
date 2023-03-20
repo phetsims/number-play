@@ -229,11 +229,25 @@ class NumberPlayScreenView extends ScreenView {
     organizeObjectsButton.top = this.objectsAccordionBox.top;
     this.addChild( organizeObjectsButton );
 
-    // If the GroupAndLinkType changes, interrupt interaction with objects in these accordion boxes.
-    // See https://github.com/phetsims/number-play/issues/173
-    model.objectsGroupAndLinkTypeProperty.link( () => {
+    model.objectsGroupAndLinkTypeProperty.lazyLink( ( groupAndLinkType, previousGroupAndLinkType ) => {
+
+      // If the GroupAndLinkType changes, interrupt interaction with objects in these accordion boxes.
+      // See https://github.com/phetsims/number-play/issues/173
       onesAccordionBox.interruptSubtreeInput();
       this.objectsAccordionBox.interruptSubtreeInput();
+
+      const objectsLinkedToOnes = groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
+      const objectsLinkedToOnesPreviously = previousGroupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
+
+      // If switching between linked and unlinked, set the objectsPlayArea to the appropriate state.
+      if ( objectsLinkedToOnes !== objectsLinkedToOnesPreviously ) {
+        model.objectsPlayArea.matchCountingObjectsToLinkedPlayArea(
+          onesAccordionBox.countingPlayAreaNode.getSerializedCountingObjectsIncludedInSum(),
+          model.objectsLinkedEmitter,
+          objectsLinkedToOnes,
+          groupAndLinkType
+        );
+      }
     } );
   }
 
