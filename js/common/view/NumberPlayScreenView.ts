@@ -125,7 +125,7 @@ class NumberPlayScreenView extends ScreenView {
     this.addChild( onesAccordionBox );
 
     // create and add the LocaleSwitch
-    const localeSwitch = new LocaleSwitch( numberPlayPreferences, wordAccordionBox.width );
+    const localeSwitch = new LocaleSwitch( numberPlayPreferences, numberPlayUtteranceQueue, wordAccordionBox.width );
     this.addChild( localeSwitch );
     localeSwitch.boundsProperty.link( () => {
       localeSwitch.left = wordAccordionBox.left + 10;
