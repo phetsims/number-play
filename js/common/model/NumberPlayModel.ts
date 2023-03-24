@@ -45,7 +45,7 @@ class NumberPlayModel implements TModel {
   public readonly objectsGroupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
 
   // emits when the objectsPlayArea becomes linked or unlinked to the onesPlayArea
-  public readonly objectsLinkedEmitter: TEmitter<[ boolean ]>;
+  public readonly linkStatusChangedEmitter: TEmitter<[ boolean ]>;
 
   // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
   // way (with animations), but instead with a different reset case (no animations).
@@ -64,7 +64,7 @@ class NumberPlayModel implements TModel {
 
     this.objectsGroupAndLinkTypeProperty = new EnumerationProperty( GroupAndLinkType.UNGROUPED );
 
-    this.objectsLinkedEmitter = new Emitter( { parameters: [ { valueType: 'boolean' } ] } );
+    this.linkStatusChangedEmitter = new Emitter( { parameters: [ { valueType: 'boolean' } ] } );
 
     this.groupingEnabledProperty = new DerivedProperty( [ this.objectsGroupAndLinkTypeProperty ], groupAndLinkType => {
       return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );

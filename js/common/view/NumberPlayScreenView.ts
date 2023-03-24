@@ -148,7 +148,7 @@ class NumberPlayScreenView extends ScreenView {
       options.lowerAccordionBoxHeight, {
         countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
           CountingObjectType.BALL ],
-        objectsLinkedEmitter: model.objectsLinkedEmitter,
+        linkStatusChangedEmitter: model.linkStatusChangedEmitter,
         linkedPlayArea: model.onesPlayArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
@@ -243,7 +243,7 @@ class NumberPlayScreenView extends ScreenView {
       if ( objectsLinkedToOnes !== objectsLinkedToOnesPreviously ) {
         model.objectsPlayArea.matchCountingObjectsToLinkedPlayArea(
           onesAccordionBox.countingPlayAreaNode.getSerializedCountingObjectsIncludedInSum(),
-          model.objectsLinkedEmitter,
+          model.linkStatusChangedEmitter,
           objectsLinkedToOnes,
           groupAndLinkType
         );
