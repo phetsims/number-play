@@ -29,7 +29,13 @@ class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
   public readonly twentyScreenSpeechDataProperty: TProperty<string>;
 
   public constructor() {
-    super( numberPlaySpeechSynthesisAnnouncer, numberPlayPreferences.readAloudProperty );
+    super(
+      numberPlaySpeechSynthesisAnnouncer,
+      numberPlayPreferences.isPrimaryLocaleProperty,
+      numberPlayPreferences.primaryVoiceProperty,
+      numberPlayPreferences.secondVoiceProperty,
+      numberPlayPreferences.readAloudProperty
+    );
 
     this.tenScreenSpeechDataProperty = new StringProperty( '' );
     this.twentyScreenSpeechDataProperty = new StringProperty( '' );
