@@ -70,7 +70,11 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
     // The word shown in the accordion box
     const wordStringProperty = new DerivedProperty(
-      [ currentNumberProperty, numberPlayPreferences.isPrimaryLocaleProperty, numberPlayPreferences.secondLocaleStringsProperty ],
+      [ currentNumberProperty,
+        numberPlayPreferences.isPrimaryLocaleProperty,
+        numberPlayPreferences.secondLocaleStringsProperty,
+        localeProperty
+      ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
         NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale )
     );
