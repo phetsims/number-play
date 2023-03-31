@@ -47,7 +47,7 @@ class NumberPlayModel implements TModel {
   // emits when the objectsPlayArea becomes linked or unlinked to the onesPlayArea
   public readonly linkStatusChangedEmitter: TEmitter<[ boolean ]>;
 
-  // true when the sim is being reset. this is used so that playAreas don't return things to their buckets the normal
+  // true when the sim is being reset. this is used so that playAreas don't return things to their creatorNodes the normal
   // way (with animations), but instead with a different reset case (no animations).
   private readonly isResettingProperty: TProperty<boolean>;
 
