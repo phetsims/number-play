@@ -30,7 +30,6 @@ import OrganizeButton from '../../../../number-suite-common/js/common/view/Organ
 import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
-import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
@@ -38,6 +37,7 @@ import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import Property from '../../../../axon/js/Property.js';
+import LocaleSwitch from './LocaleSwitch.js';
 
 // types
 type SelfOptions = {
