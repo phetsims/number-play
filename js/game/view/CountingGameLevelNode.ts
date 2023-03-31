@@ -12,7 +12,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import CountingPlayAreaNode from '../../../../number-suite-common/js/common/view/CountingPlayAreaNode.js';
+import CountingAreaNode from '../../../../number-suite-common/js/common/view/CountingAreaNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
@@ -58,43 +58,43 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
-    //TODO https://github.com/phetsims/number-play/issues/82 The parts of this file that are used for the play area node need to be refactored once the play area is updated.
-    const playAreaNode = new Rectangle( {
+    //TODO https://github.com/phetsims/number-play/issues/82 The parts of this file that are used for the countingArea node need to be refactored once the countingArea is updated.
+    const countingAreaNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH,
       rectHeight: RECTANGLE_HEIGHT
     } );
 
-    // create view bounds for the objectsPlayAreaNode
-    const objectsPlayAreaViewBounds = new Bounds2(
-      playAreaNode.left,
-      playAreaNode.top,
-      playAreaNode.right,
-      playAreaNode.bottom
+    // create view bounds for the objectsCountingAreaNode
+    const objectsCountingAreaViewBounds = new Bounds2(
+      countingAreaNode.left,
+      countingAreaNode.top,
+      countingAreaNode.right,
+      countingAreaNode.bottom
     );
 
     // set the local bounds so they don't change
-    playAreaNode.localBounds = objectsPlayAreaViewBounds;
+    countingAreaNode.localBounds = objectsCountingAreaViewBounds;
 
-    // create and add the objectsPlayAreaNode
-    const objectsPlayAreaNode = new CountingPlayAreaNode(
-      level.objectsPlayArea,
+    // create and add the objectsCountingAreaNode
+    const objectsCountingAreaNode = new CountingAreaNode(
+      level.objectsCountingArea,
       level.countingObjectTypeProperty,
-      new Property( objectsPlayAreaViewBounds ), {
+      new Property( objectsCountingAreaViewBounds ), {
         includeCountingObjectCreatorPanel: false
       }
     );
-    playAreaNode.addChild( objectsPlayAreaNode );
+    countingAreaNode.addChild( objectsCountingAreaNode );
 
-    // create and add the playAreaPanel, a panel for the play area
-    const playAreaPanel = new Panel( playAreaNode, {
+    // create and add the countingAreaPanel, a panel for the countingArea
+    const countingAreaPanel = new Panel( countingAreaNode, {
       xMargin: 0,
       yMargin: 0,
       fill: NumberPlayColors.blueBackgroundColorProperty,
       lineWidth: PANEL_LINE_WIDTH
     } );
-    playAreaPanel.centerX = layoutBounds.centerX;
-    playAreaPanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
-    this.addChild( playAreaPanel );
+    countingAreaPanel.centerX = layoutBounds.centerX;
+    countingAreaPanel.bottom = this.answerButtons.top - NumberPlayGameLevelNode.GAME_AREA_NODE_BOTTOM_MARGIN_Y;
+    this.addChild( countingAreaPanel );
 
     const tenFrameBackgroundNode = new Rectangle( {
       rectWidth: RECTANGLE_WIDTH - TEN_FRAME_MARGIN * 2,
@@ -121,7 +121,7 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
 
     // update the visibility of the panels when the representation types change
     level.isObjectsRepresentationProperty.link( isObjects => {
-      playAreaPanel.visible = isObjects;
+      countingAreaPanel.visible = isObjects;
       tenFramePanel.visible = !isObjects;
     } );
   }

@@ -22,12 +22,12 @@ the number that matches the number of objects. When the correct answer button is
 ### Counting
 
 The 'Counting' game builds on the **Ten**, **Twenty**, and **Compare** screens by using a simpler version of the
-"play areas" from those screens. Just like on those screens, the play areas display the objects in a variety of 
+"counting areas" from those screens. Just like on those screens, the counting areas display the objects in a variety of 
 representations, and allow the user to move the objects around. The game also uses the 'Ten Frame' representation from
 the **Ten** and **Twenty** screens. Both levels show a representation of a number by alternating between objects in a 
-play area and a ten frame.
+counting area and a ten frame.
 
-In Level 1, objects in the play area are shown in the "ungrouped" state, where they do not
+In Level 1, objects in the counting area are shown in the "ungrouped" state, where they do not
 have card backgrounds and cannot be combined with other objects. 
 
 In Level 2, the objects are shown in the "grouped" state. The size of each group is randomly chosen from the divisors

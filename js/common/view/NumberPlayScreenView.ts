@@ -89,7 +89,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the TotalAccordionBox
     const totalAccordionBox = new TotalAccordionBox(
-      model.onesPlayArea,
+      model.onesCountingArea,
       options.upperAccordionBoxHeight,
       optionize<TotalAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
@@ -112,7 +112,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the CountingAccordionBox for paper ones
     const onesAccordionBox = new CountingAccordionBox(
-      model.onesPlayArea,
+      model.onesCountingArea,
       new EnumerationProperty( CountingObjectType.PAPER_NUMBER ),
       NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       options.lowerAccordionBoxHeight, {
@@ -142,14 +142,14 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add the CountingAccordionBox for countingObjects
     this.objectsAccordionBox = new CountingAccordionBox(
-      model.objectsPlayArea,
+      model.objectsCountingArea,
       model.countingObjectTypeProperty,
       NumberPlayConstants.LOWER_ACCORDION_BOX_CONTENT_WIDTH,
       options.lowerAccordionBoxHeight, {
         countingObjectTypes: [ CountingObjectType.DOG, CountingObjectType.APPLE, CountingObjectType.BUTTERFLY,
           CountingObjectType.BALL ],
         linkStatusChangedEmitter: model.linkStatusChangedEmitter,
-        linkedPlayArea: model.onesPlayArea,
+        linkedCountingArea: model.onesCountingArea,
         expandedProperty: this.objectsAccordionBoxExpandedProperty,
         fill: NumberPlayColors.blueBackgroundColorProperty
       } );
@@ -210,7 +210,7 @@ class NumberPlayScreenView extends ScreenView {
 
     // create and add a button to organize the onesAccordionBox paper ones in a grid
     const organizeOnesButton = new OrganizeButton( NumberPlayColors.pinkBackgroundColorProperty, () => {
-      model.onesPlayArea.organizeObjects();
+      model.onesCountingArea.organizeObjects();
     } );
     organizeOnesButton.left = NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X;
     organizeOnesButton.top = onesAccordionBox.top;
@@ -219,10 +219,10 @@ class NumberPlayScreenView extends ScreenView {
     // create and add a button to organize the objectsAccordionBox countingObjects in a grid
     const organizeObjectsButton = new OrganizeButton( NumberPlayColors.blueBackgroundColorProperty, () => {
       if ( model.objectsGroupAndLinkTypeProperty.value === GroupAndLinkType.GROUPED_AND_LINKED ) {
-        model.onesPlayArea.organizeObjects();
+        model.onesCountingArea.organizeObjects();
       }
       else {
-        model.objectsPlayArea.organizeObjects();
+        model.objectsCountingArea.organizeObjects();
       }
     } );
     organizeObjectsButton.centerX = resetAllButton.centerX;
@@ -239,10 +239,10 @@ class NumberPlayScreenView extends ScreenView {
       const objectsLinkedToOnes = groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
       const objectsLinkedToOnesPreviously = previousGroupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED;
 
-      // If switching between linked and unlinked, set the objectsPlayArea to the appropriate state.
+      // If switching between linked and unlinked, set the objectsCountingArea to the appropriate state.
       if ( objectsLinkedToOnes !== objectsLinkedToOnesPreviously ) {
-        model.objectsPlayArea.matchCountingObjectsToLinkedPlayArea(
-          onesAccordionBox.countingPlayAreaNode.getSerializedCountingObjectsIncludedInSum(),
+        model.objectsCountingArea.matchCountingObjectsToLinkedCountingArea(
+          onesAccordionBox.countingAreaNode.getSerializedCountingObjectsIncludedInSum(),
           model.linkStatusChangedEmitter,
           objectsLinkedToOnes,
           groupAndLinkType

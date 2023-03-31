@@ -8,7 +8,7 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlay from '../../numberPlay.js';
-import CountingPlayArea from '../../../../number-suite-common/js/common/model/CountingPlayArea.js';
+import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
@@ -31,23 +31,23 @@ class NumberPlayModel implements TModel {
   // the current "counted to" number, which is the central aspect of this whole sim
   public readonly currentNumberProperty: Property<number>;
 
-  // the model for managing the play area in the OnesAccordionBox
-  public readonly onesPlayArea: CountingPlayArea;
+  // the model for managing the countingArea in the OnesAccordionBox
+  public readonly onesCountingArea: CountingArea;
 
-  // the model for managing the play area in the ObjectsAccordionBox
-  public readonly objectsPlayArea: CountingPlayArea;
+  // the model for managing the countingArea in the ObjectsAccordionBox
+  public readonly objectsCountingArea: CountingArea;
 
-  // the type of objects in the objects play area. primarily used in the view.
+  // the type of objects in the objectsCountingArea. primarily used in the view.
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
 
-  // whether the objectsPlayArea is ungrouped, grouped, or linked. set by the view controls and used to link/unlink
-  // onesPlayArea and objectsPlayArea, and grouped/ungroup objects in the objectsPlayArea
+  // whether the objectsCountingArea is ungrouped, grouped, or linked. set by the view controls and used to link/unlink
+  // onesCountingArea and objectsCountingArea, and grouped/ungroup objects in the objectsCountingArea
   public readonly objectsGroupAndLinkTypeProperty: EnumerationProperty<GroupAndLinkType>;
 
-  // emits when the objectsPlayArea becomes linked or unlinked to the onesPlayArea
+  // emits when the objectsCountingArea becomes linked or unlinked to the onesCountingArea
   public readonly linkStatusChangedEmitter: TEmitter<[ boolean ]>;
 
-  // true when the sim is being reset. this is used so that playAreas don't return things to their creatorNodes the normal
+  // true when the sim is being reset. this is used so that countingAreas don't return things to their creatorNodes the normal
   // way (with animations), but instead with a different reset case (no animations).
   private readonly isResettingProperty: TProperty<boolean>;
 
@@ -70,9 +70,9 @@ class NumberPlayModel implements TModel {
       return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
     } );
 
-    this.onesPlayArea = new CountingPlayArea( highestCount, new BooleanProperty( true ), 'countingPlayArea' );
+    this.onesCountingArea = new CountingArea( highestCount, new BooleanProperty( true ), 'countingArea' );
 
-    this.objectsPlayArea = new CountingPlayArea( highestCount, this.groupingEnabledProperty, 'objectsPlayArea' );
+    this.objectsCountingArea = new CountingArea( highestCount, this.groupingEnabledProperty, 'objectsCountingArea' );
 
     let onesLeading = false;
     let objectsLeading = false;
@@ -84,45 +84,45 @@ class NumberPlayModel implements TModel {
       speechDataProperty.value = `${currentNumber}`;
     } );
 
-    this.onesPlayArea.sumProperty.lazyLink( ( sum, oldSum ) => {
+    this.onesCountingArea.sumProperty.lazyLink( ( sum, oldSum ) => {
       if ( !objectsLeading ) {
         assert && assert( !onesLeading, 'onesLeading already true, reentrant detected' );
         onesLeading = true;
 
         this.currentNumberProperty.value = sum;
-        // console.log( 'countingPlayArea set to ' + sum + ', matching objectsPlayArea' );
-        this.matchPlayAreaToNewValue( sum, oldSum, this.objectsPlayArea );
+        // console.log( 'countingArea set to ' + sum + ', matching objectsCountingArea' );
+        this.matchCountingAreaToNewValue( sum, oldSum, this.objectsCountingArea );
 
         onesLeading = false;
       }
     } );
 
-    this.objectsPlayArea.sumProperty.lazyLink( ( sum, oldSum ) => {
+    this.objectsCountingArea.sumProperty.lazyLink( ( sum, oldSum ) => {
       if ( !onesLeading ) {
         assert && assert( !objectsLeading, 'objectsLeading already true, reentrant detected' );
         objectsLeading = true;
 
         this.currentNumberProperty.value = sum;
 
-        // console.log( 'objectsPlayArea set to ' + sum + ', matching countingPlayArea' );
-        this.matchPlayAreaToNewValue( sum, oldSum, this.onesPlayArea );
+        // console.log( 'objectsCountingArea set to ' + sum + ', matching countingArea' );
+        this.matchCountingAreaToNewValue( sum, oldSum, this.onesCountingArea );
 
         objectsLeading = false;
       }
     } );
   }
 
-  private matchPlayAreaToNewValue( newValue: number, oldValue: number, playArea: CountingPlayArea ): void {
+  private matchCountingAreaToNewValue( newValue: number, oldValue: number, countingArea: CountingArea ): void {
     const difference = newValue - oldValue;
 
-    // console.log( `matching ${playArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
+    // console.log( `matching ${countingArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
     if ( difference > 0 ) {
-      assert && assert( difference === 1, 'A play area should not need to create more than one counting object' +
-                                          'at a time to match the opposite play area: ' + difference );
-      playArea.createCountingObjectFromCreatorNode();
+      assert && assert( difference === 1, 'A countingArea should not need to create more than one counting object' +
+                                          'at a time to match the opposite countingArea: ' + difference );
+      countingArea.createCountingObjectFromCreatorNode();
     }
     else {
-      playArea.returnCountingObjectToCreatorNode( Math.abs( difference ) );
+      countingArea.returnCountingObjectToCreatorNode( Math.abs( difference ) );
     }
   }
 
@@ -134,8 +134,8 @@ class NumberPlayModel implements TModel {
     numberPlayPreferences.isPrimaryLocaleProperty.reset();
     this.countingObjectTypeProperty.reset();
     this.objectsGroupAndLinkTypeProperty.reset();
-    this.onesPlayArea.reset();
-    this.objectsPlayArea.reset();
+    this.onesCountingArea.reset();
+    this.objectsCountingArea.reset();
     this.isResettingProperty.value = false;
   }
 

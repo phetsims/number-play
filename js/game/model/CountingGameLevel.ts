@@ -7,7 +7,7 @@
  * @author Luisa Vargas
  */
 
-import CountingPlayArea from '../../../../number-suite-common/js/common/model/CountingPlayArea.js';
+import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
@@ -23,7 +23,7 @@ const LEVEL_INPUT_RANGE = 10;
 
 class CountingGameLevel extends NumberPlayGameLevel {
 
-  public readonly objectsPlayArea: CountingPlayArea;
+  public readonly objectsCountingArea: CountingArea;
 
   // the object type of the current challenge
   public readonly countingObjectTypeProperty: EnumerationProperty<CountingObjectType>;
@@ -45,7 +45,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
     this.groupObjectsEnabledProperty = new BooleanProperty( this.groupObjectsAllowed );
 
-    this.objectsPlayArea = new CountingPlayArea( this.challengeNumberProperty.range.max, this.groupObjectsEnabledProperty, 'objectsPlayArea' );
+    this.objectsCountingArea = new CountingArea( this.challengeNumberProperty.range.max, this.groupObjectsEnabledProperty, 'objectsCountingArea' );
 
     this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );
 
@@ -77,7 +77,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
     }
 
     this.countingObjectTypeProperty.value = CountingGameLevel.getRandomCountingObjectType();
-    this.objectsPlayArea.createAllObjects( this.challengeNumberProperty.value, this.groupObjectsEnabledProperty.value );
+    this.objectsCountingArea.createAllObjects( this.challengeNumberProperty.value, this.groupObjectsEnabledProperty.value );
   }
 
   /**
