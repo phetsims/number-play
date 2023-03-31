@@ -265,7 +265,7 @@ class Subitizer {
     this.isInputEnabledProperty.value = false;
     this.resetShapeVisible();
 
-    // set play object type and shape
+    // set countingObject type and shape
     this.setRandomCountingObjectType();
     this.setNewPoints();
 

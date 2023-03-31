@@ -140,7 +140,7 @@ class NumberPlayScreenView extends ScreenView {
         localeSwitch.top = wordAccordionBox.top + wordAccordionBoxHeight + 13;
       } );
 
-    // create and add the CountingAccordionBox for play objects
+    // create and add the CountingAccordionBox for countingObjects
     this.objectsAccordionBox = new CountingAccordionBox(
       model.objectsPlayArea,
       model.countingObjectTypeProperty,
@@ -216,7 +216,7 @@ class NumberPlayScreenView extends ScreenView {
     organizeOnesButton.top = onesAccordionBox.top;
     this.addChild( organizeOnesButton );
 
-    // create and add a button to organize the objectsAccordionBox play objects in a grid
+    // create and add a button to organize the objectsAccordionBox countingObjects in a grid
     const organizeObjectsButton = new OrganizeButton( NumberPlayColors.blueBackgroundColorProperty, () => {
       if ( model.objectsGroupAndLinkTypeProperty.value === GroupAndLinkType.GROUPED_AND_LINKED ) {
         model.onesPlayArea.organizeObjects();
