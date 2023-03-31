@@ -194,7 +194,7 @@ class NumberPlayScreenView extends ScreenView {
       } );
     } );
 
-    // create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the playObjects
+    // Create and add the RectangularRadioButtonGroup, which is a control for changing the CountingObjectType of the countingObjects
     const groupingLinkingRadioButtonGroup = new RectangularRadioButtonGroup( model.objectsGroupAndLinkTypeProperty, groupingLinkingButtons, {
       orientation: 'vertical',
       spacing: 10,
