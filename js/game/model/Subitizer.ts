@@ -212,7 +212,6 @@ class Subitizer {
       ( numberOfAnswerButtonPresses, preferencesSubitizeTimeShown ) => {
         let increaseTimeDueToIncorrectAnswers = 0;
 
-        //TODO https://github.com/phetsims/number-suite-common/issues/29 TODO-DESIGN: Is increasing this still desirable now that you can control it easily?
         if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
           increaseTimeDueToIncorrectAnswers =
             ( numberOfAnswerButtonPresses - NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) *
