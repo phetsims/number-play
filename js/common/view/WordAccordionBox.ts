@@ -32,12 +32,9 @@ export type WordAccordionBoxOptions = SelfOptions &
 // constants
 const TEXT_MARGIN = 5;
 
-// how much to change the height by when the localeSwitch is shown or hidden
-const HEIGHT_ADJUSTMENT = 24;
-
 class WordAccordionBox extends NumberSuiteCommonAccordionBox {
 
-  public constructor( currentNumberProperty: TReadOnlyProperty<number>, height: number, providedOptions: WordAccordionBoxOptions ) {
+  public constructor( currentNumberProperty: TReadOnlyProperty<number>, heightProperty: TReadOnlyProperty<number>, providedOptions: WordAccordionBoxOptions ) {
 
     const titleStringProperty = new DerivedProperty(
       [ localeProperty, numberPlayPreferences.secondLocaleProperty, numberPlayPreferences.isPrimaryLocaleProperty,
@@ -59,12 +56,6 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         maxWidth: NumberPlayConstants.UPPER_OUTER_AB_TITLE_MAX_WIDTH
       }
     }, providedOptions );
-
-    //TODO https://github.com/phetsims/number-suite-common/issues/29 This is giving weird results... 1. Investigate 2. Likely no issues 3. When is it firing? Is it too much?
-    const heightProperty = new DerivedProperty( [ numberPlayPreferences.showSecondLocaleProperty ], showSecondLocale => {
-      const shortHeight = height - HEIGHT_ADJUSTMENT;
-      return showSecondLocale ? shortHeight : height;
-    } );
 
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty, options );
 

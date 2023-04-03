@@ -38,6 +38,7 @@ import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import Property from '../../../../axon/js/Property.js';
 import LocaleSwitch from './LocaleSwitch.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 
 // types
 type SelfOptions = {
@@ -76,10 +77,12 @@ class NumberPlayScreenView extends ScreenView {
     this.onesAccordionBoxExpandedProperty = new BooleanProperty( true );
     this.objectsAccordionBoxExpandedProperty = new BooleanProperty( true );
 
+    const wordAccordionBoxHeightProperty = new NumberProperty( options.upperAccordionBoxHeight );
+
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
-      options.upperAccordionBoxHeight,
+      wordAccordionBoxHeightProperty,
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) );
@@ -133,11 +136,18 @@ class NumberPlayScreenView extends ScreenView {
 
     // update the position of the localeSwitch
     Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.showSecondLocaleProperty ],
-      isExpanded => {
-        const wordAccordionBoxHeight = isExpanded ? wordAccordionBox.getExpandedBoxHeight() : wordAccordionBox.getCollapsedBoxHeight();
+      ( isExpanded, showSecondLocale ) => {
 
-        // empirically determined to evenly space between wordAccordionBox and onesAccordionBox when wordAccordionBox is expanded
-        localeSwitch.top = wordAccordionBox.top + wordAccordionBoxHeight + 13;
+        wordAccordionBoxHeightProperty.value = showSecondLocale ? options.upperAccordionBoxHeight - localeSwitch.height - 3 :
+                                               options.upperAccordionBoxHeight;
+
+        const currentWordAccordionBoxHeight = isExpanded ? wordAccordionBox.getExpandedBoxHeight() :
+                                              wordAccordionBox.getCollapsedBoxHeight();
+
+        // Use .bottom so the margin is identical to what would center the localeSwitch when the wordAccordionBox is expanded.
+        const margin = ( onesAccordionBox.top - wordAccordionBox.bottom ) / 2;
+
+        localeSwitch.centerY = wordAccordionBox.top + currentWordAccordionBoxHeight + margin;
       } );
 
     // create and add the CountingAccordionBox for countingObjects
