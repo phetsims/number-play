@@ -130,6 +130,8 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the LocaleSwitch
     const localeSwitch = new LocaleSwitch( numberPlayPreferences, numberPlayUtteranceQueue, wordAccordionBox.width );
     this.addChild( localeSwitch );
+
+    // Changes in locale will change the text in this control, so realign it
     localeSwitch.boundsProperty.link( () => {
       localeSwitch.left = wordAccordionBox.left + 10;
     } );
