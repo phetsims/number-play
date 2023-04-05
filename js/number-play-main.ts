@@ -33,7 +33,6 @@ const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleSt
 
 const simOptions: SimOptions = {
   credits: {
-    //TODO https://github.com/phetsims/number-play/issues/201 finalize credits
     leadDesign: 'Amanda McGarry',
     softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
     team: 'Catherine Carter, Sylvia Celedón-Pattichis, Chris Malley (PixelZoom, Inc.), Ariel Paul, Kathy Perkins, Marla Schulz, Ian Whitacre',
