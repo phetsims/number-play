@@ -9,14 +9,14 @@
 
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayModel from '../../common/model/NumberPlayModel.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayUtteranceQueue from '../../common/view/numberPlayUtteranceQueue.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 export default class TwentyModel extends NumberPlayModel {
 
   public constructor( tandem: Tandem ) {
-    super( NumberPlayConstants.TWENTY, numberPlayUtteranceQueue.twentyScreenSpeechDataProperty, tandem );
+    super( NumberPlayConstants.MAX_SUM, numberPlayUtteranceQueue.twentyScreenSpeechDataProperty, tandem );
   }
 
   public override dispose(): void {

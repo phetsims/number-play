@@ -7,12 +7,13 @@
  */
 
 import numberPlay from '../numberPlay.js';
+import CountingCommonConstants from '../../../counting-common/js/common/CountingCommonConstants.js';
 
 const NumberPlayConstants = {
 
   // the two defining numbers of the 'Ten' and 'Twenty' screens
   TEN: 10,
-  TWENTY: 20,
+  MAX_SUM: CountingCommonConstants.MAX_IMAGES_PER_COUNTING_OBJECT,
 
   // accordion box sizing for the 'Ten', 'Twenty', and 'Compare' screens
 
