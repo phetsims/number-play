@@ -149,11 +149,6 @@ class Subitizer {
   // False when the current challenge is solved. Manipulated only in the view.
   public readonly isInputEnabledProperty: BooleanProperty;
 
-  // how long the shape is visible when shown, in seconds. This is a derived Property instead of a constant because
-  // the time that the shape is shown is increased if the user gets the answer wrong multiple times, or if a user
-  // changes the value in the Preferences dialog
-  private timeToShowShapeProperty: TReadOnlyProperty<number>;
-
   // the object type of the current shape
   public readonly objectTypeProperty: EnumerationProperty<SubitizeObjectType>;
 
@@ -207,20 +202,6 @@ class Subitizer {
       validValues: SUBITIZER_OBJECT_TYPES
     } );
 
-    this.timeToShowShapeProperty = new DerivedProperty( [ numberOfAnswerButtonPressesProperty,
-        numberPlayPreferences.subitizeTimeShownProperty ],
-      ( numberOfAnswerButtonPresses, preferencesSubitizeTimeShown ) => {
-        let increaseTimeDueToIncorrectAnswers = 0;
-
-        if ( numberOfAnswerButtonPresses > NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) {
-          increaseTimeDueToIncorrectAnswers =
-            ( numberOfAnswerButtonPresses - NumberPlayConstants.NUMBER_OF_SUBITIZER_GUESSES_AT_NORMAL_TIME ) *
-            NumberPlayConstants.SHAPE_VISIBLE_TIME_INCREASE_AMOUNT;
-        }
-
-        return preferencesSubitizeTimeShown + increaseTimeDueToIncorrectAnswers;
-      } );
-
     Subitizer.assertValidPredeterminedShapes();
 
     // initialize first set of points
@@ -251,7 +232,7 @@ class Subitizer {
     if ( this.isShapeVisibleProperty.value && this.isInputEnabledProperty.value ) {
       this.timeSinceShapeVisible += dt;
 
-      if ( this.timeSinceShapeVisible > this.timeToShowShapeProperty.value ) {
+      if ( this.timeSinceShapeVisible > numberPlayPreferences.subitizeTimeShownProperty.value ) {
         this.resetShapeVisible();
       }
     }
