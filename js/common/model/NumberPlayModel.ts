@@ -70,41 +70,40 @@ class NumberPlayModel implements TModel {
       return ( groupAndLinkType === GroupAndLinkType.GROUPED || groupAndLinkType === GroupAndLinkType.GROUPED_AND_LINKED );
     } );
 
-    this.onesCountingArea = new CountingArea( highestCount, new BooleanProperty( true ), 'countingArea' );
+    this.onesCountingArea = new CountingArea( highestCount, new BooleanProperty( true ) );
 
-    this.objectsCountingArea = new CountingArea( highestCount, this.groupingEnabledProperty, 'objectsCountingArea' );
+    this.objectsCountingArea = new CountingArea( highestCount, this.groupingEnabledProperty );
 
     let onesLeading = false;
     let objectsLeading = false;
 
     this.currentNumberProperty = new NumberProperty( 0 );
 
-    // update the speechDataProperty when the current number changes
+    // Update the speechDataProperty when the current number changes.
     this.currentNumberProperty.link( currentNumber => {
       speechDataProperty.value = `${currentNumber}`;
     } );
 
+    // Update the currentNumberProperty and objectsCountingArea when the onesCountingArea sum changes.
     this.onesCountingArea.sumProperty.lazyLink( ( sum, oldSum ) => {
       if ( !objectsLeading ) {
         assert && assert( !onesLeading, 'onesLeading already true, reentrant detected' );
         onesLeading = true;
 
         this.currentNumberProperty.value = sum;
-        // console.log( 'countingArea set to ' + sum + ', matching objectsCountingArea' );
         this.matchCountingAreaToNewValue( sum, oldSum, this.objectsCountingArea );
 
         onesLeading = false;
       }
     } );
 
+    // Update the currentNumberProperty and onesCountingArea when the objectsCountingArea sum changes.
     this.objectsCountingArea.sumProperty.lazyLink( ( sum, oldSum ) => {
       if ( !onesLeading ) {
         assert && assert( !objectsLeading, 'objectsLeading already true, reentrant detected' );
         objectsLeading = true;
 
         this.currentNumberProperty.value = sum;
-
-        // console.log( 'objectsCountingArea set to ' + sum + ', matching countingArea' );
         this.matchCountingAreaToNewValue( sum, oldSum, this.onesCountingArea );
 
         objectsLeading = false;
@@ -115,7 +114,6 @@ class NumberPlayModel implements TModel {
   private matchCountingAreaToNewValue( newValue: number, oldValue: number, countingArea: CountingArea ): void {
     const difference = newValue - oldValue;
 
-    // console.log( `matching ${countingArea.name}: oldValue: ${oldValue}, newValue: ${newValue}` );
     if ( difference > 0 ) {
       assert && assert( difference === 1, 'A countingArea should not need to create more than one counting object' +
                                           'at a time to match the opposite countingArea: ' + difference );

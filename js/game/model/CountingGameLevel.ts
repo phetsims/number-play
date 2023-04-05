@@ -45,7 +45,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
 
     this.groupObjectsEnabledProperty = new BooleanProperty( this.groupObjectsAllowed );
 
-    this.objectsCountingArea = new CountingArea( this.challengeNumberProperty.range.max, this.groupObjectsEnabledProperty, 'objectsCountingArea' );
+    this.objectsCountingArea = new CountingArea( this.challengeNumberProperty.range.max, this.groupObjectsEnabledProperty );
 
     this.countingObjectTypeProperty = new EnumerationProperty( CountingGameLevel.getRandomCountingObjectType() );
 
