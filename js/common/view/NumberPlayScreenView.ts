@@ -272,6 +272,7 @@ class NumberPlayScreenView extends ScreenView {
     this.tenFrameAccordionBoxExpandedProperty.reset();
     this.onesAccordionBoxExpandedProperty.reset();
     this.objectsAccordionBoxExpandedProperty.reset();
+    numberPlayPreferences.readAloudProperty.value && numberPlayUtteranceQueue.speakSpeechData();
   }
 
   public override dispose(): void {
