@@ -19,7 +19,8 @@ import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import NumberSuiteCommonConstants, { NUMBER_STRING_PROPERTIES } from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import Multilink from '../../../../axon/js/Multilink.js';
 
 // types
 type SelfOptions = {
@@ -69,6 +70,12 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
         NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale )
     );
+
+    // Instead of needing to use DerivedProperty.deriveAny which doesn't allow callback parameters, just recompute with
+    // these Property changes.
+    Multilink.multilinkAny( NUMBER_STRING_PROPERTIES, () => {
+      wordStringProperty.recomputeDerivation();
+    } );
 
     // initialize as blank, updated in link below
     const wordText = new Text( wordStringProperty, {

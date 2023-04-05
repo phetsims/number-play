@@ -10,7 +10,7 @@
 
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Node, Text } from '../../../../scenery/js/imports.js';
+import { HBox, ManualConstraint, Node, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
@@ -38,9 +38,6 @@ class NumberPlayGameLevelSelectionNode extends Node {
       font: new PhetFont( 40 ),
       maxWidth: titleMaxWidth
     } );
-    titleText.centerX = layoutBounds.centerX;
-    titleText.top = layoutBounds.top + 42;
-    this.addChild( titleText );
 
     // create the info dialog, which displays info about each game
     const numberPlayGameInfoDialog = new NumberPlayGameInfoDialog( model.levels );
@@ -51,9 +48,18 @@ class NumberPlayGameLevelSelectionNode extends Node {
       maxHeight: INFO_BUTTON_SIZE,
       listener: () => numberPlayGameInfoDialog.show()
     } );
-    infoButton.left = titleText.right + INFO_BUTTON_MARGIN;
-    infoButton.centerY = titleText.centerY;
-    this.addChild( infoButton );
+
+    const hBox = new HBox( {
+      children: [ titleText, infoButton ],
+      spacing: INFO_BUTTON_MARGIN,
+      align: 'center'
+    } );
+    this.addChild( hBox );
+    hBox.top = layoutBounds.top + 42;
+
+    ManualConstraint.create( this, [ hBox ], hBox => {
+      hBox.centerX = layoutBounds.centerX;
+    } );
 
     const levelSelectionButtonGroup = new NumberPlayGameLevelSelectionButtonGroup( model.levelProperty, model.levels );
     levelSelectionButtonGroup.center = layoutBounds.center;
