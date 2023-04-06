@@ -23,6 +23,7 @@ import Property from '../../../../axon/js/Property.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import numberPlayPreferences from './numberPlayPreferences.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 class NumberPlayModel implements TModel {
 
@@ -81,7 +82,10 @@ class NumberPlayModel implements TModel {
 
     // Update the speechDataProperty when the current number changes.
     this.currentNumberProperty.link( currentNumber => {
-      speechDataProperty.value = `${currentNumber}`;
+      speechDataProperty.value = NumberSuiteCommonConstants.numberToWord(
+        numberPlayPreferences.secondLocaleStringsProperty.value,
+        currentNumber,
+        numberPlayPreferences.isPrimaryLocaleProperty.value );
     } );
 
     // Update the currentNumberProperty and objectsCountingArea when the onesCountingArea sum changes.
