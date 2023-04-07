@@ -51,8 +51,8 @@ const simOptions: SimOptions = {
         createContent: () => new ReadAloudControl(
           numberPlayPreferences,
           numberPlaySpeechSynthesisAnnouncer,
-          NumberPlayStrings.hearTotalStringProperty,
-          NumberPlayStrings.hearTotalDescriptionStringProperty,
+          NumberPlayStrings.automaticallyHearTotalStringProperty,
+          NumberPlayStrings.automaticallyHearTotalDescriptionStringProperty,
           NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) || NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen ) )
       } ]
     },
