@@ -23,8 +23,8 @@ import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/N
 import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
 // constants
-const RECTANGLE_WIDTH = 550;
-const RECTANGLE_HEIGHT = 325;
+const BACKGROUND_WIDTH = 550;
+const BACKGROUND_HEIGHT = 325;
 const PANEL_LINE_WIDTH = 2;
 const TEN_FRAME_MARGIN = 10;
 
@@ -58,35 +58,20 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     this.answerButtons.bottom = layoutBounds.maxY - NumberPlayGameLevelNode.ANSWER_BUTTONS_BOTTOM_MARGIN_Y;
     this.addChild( this.answerButtons );
 
-    //TODO https://github.com/phetsims/number-play/issues/82 The parts of this file that are used for the countingArea node need to be refactored once the countingArea is updated.
-    const countingAreaNode = new Rectangle( {
-      rectWidth: RECTANGLE_WIDTH,
-      rectHeight: RECTANGLE_HEIGHT
-    } );
-
-    // create view bounds for the objectsCountingAreaNode
-    const objectsCountingAreaViewBounds = new Bounds2(
-      countingAreaNode.left,
-      countingAreaNode.top,
-      countingAreaNode.right,
-      countingAreaNode.bottom
-    );
-
-    // set the local bounds so they don't change
-    countingAreaNode.localBounds = objectsCountingAreaViewBounds;
-
     // create and add the objectsCountingAreaNode
     const objectsCountingAreaNode = new CountingAreaNode(
       level.objectsCountingArea,
       level.countingObjectTypeProperty,
-      new Property( objectsCountingAreaViewBounds ), {
+      new Property( new Bounds2( 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT ) ), {
         includeCountingObjectCreatorPanel: false
       }
     );
-    countingAreaNode.addChild( objectsCountingAreaNode );
+
+    // Override the localBounds so they don't change.
+    objectsCountingAreaNode.localBounds = objectsCountingAreaNode.localBounds.copy();
 
     // create and add the countingAreaPanel, a panel for the countingArea
-    const countingAreaPanel = new Panel( countingAreaNode, {
+    const countingAreaPanel = new Panel( objectsCountingAreaNode, {
       xMargin: 0,
       yMargin: 0,
       fill: NumberPlayColors.blueBackgroundColorProperty,
@@ -97,14 +82,14 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
     this.addChild( countingAreaPanel );
 
     const tenFrameBackgroundNode = new Rectangle( {
-      rectWidth: RECTANGLE_WIDTH - TEN_FRAME_MARGIN * 2,
-      rectHeight: RECTANGLE_HEIGHT - TEN_FRAME_MARGIN * 2,
+      rectWidth: BACKGROUND_WIDTH - TEN_FRAME_MARGIN * 2,
+      rectHeight: BACKGROUND_HEIGHT - TEN_FRAME_MARGIN * 2,
       fill: NumberSuiteCommonColors.lightPurpleBackgroundColorProperty
     } );
 
     // create and add the tenFrameNode
     const tenFrameNode = new TenFrameNode( level.challengeNumberProperty, level.challengeRange );
-    tenFrameNode.scale( RECTANGLE_HEIGHT / tenFrameNode.height / 3.5 );
+    tenFrameNode.scale( BACKGROUND_HEIGHT / tenFrameNode.height / 3.5 );
     tenFrameNode.center = tenFrameBackgroundNode.center;
     tenFrameBackgroundNode.addChild( tenFrameNode );
 
