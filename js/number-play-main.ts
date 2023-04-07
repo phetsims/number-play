@@ -23,7 +23,7 @@ import soundManager from '../../tambo/js/soundManager.js';
 import numberPlayPreferences from './common/model/numberPlayPreferences.js';
 import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
-import ReadAloudControl from '../../number-suite-common/js/common/view/ReadAloudControl.js';
+import AutoHearControl from '../../number-suite-common/js/common/view/AutoHearControl.js';
 import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
 import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
@@ -48,7 +48,7 @@ const simOptions: SimOptions = {
     },
     audioOptions: {
       customPreferences: [ {
-        createContent: () => new ReadAloudControl(
+        createContent: () => new AutoHearControl(
           numberPlayPreferences,
           numberPlaySpeechSynthesisAnnouncer,
           NumberPlayStrings.automaticallyHearTotalStringProperty,
