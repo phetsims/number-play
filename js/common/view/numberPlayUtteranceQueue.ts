@@ -34,7 +34,7 @@ class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
       numberPlayPreferences.isPrimaryLocaleProperty,
       numberPlayPreferences.primaryVoiceProperty,
       numberPlayPreferences.secondVoiceProperty,
-      numberPlayPreferences.readAloudProperty
+      numberPlayPreferences.autoHearEnabledProperty
     );
 
     this.tenScreenSpeechDataProperty = new StringProperty( '' );
@@ -58,7 +58,7 @@ class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
                selectedScreen instanceof TwentyScreen ? twentyScreenSpeechData : null;
       } );
 
-    // Notify listeners on speechDataProperty so if readAloud is turned on, the data is spoken whenever the selected
+    // Notify listeners on speechDataProperty so if autoHear is turned on, the data is spoken whenever the selected
     // screen changes. The DerivedProperty above covers most, but not all, cases when changing screens. See https://github.com/phetsims/number-play/issues/217.
     selectedScreenProperty.lazyLink( () => {
       speechDataProperty.value && speechDataProperty.notifyListenersStatic();

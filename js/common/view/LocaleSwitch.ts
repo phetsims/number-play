@@ -51,8 +51,8 @@ export default class LocaleSwitch extends ABSwitch<boolean> {
       }
     );
 
-    // Speak speechData if readAloud is turned on.
-    this.onInputEmitter.addListener( () => preferences.readAloudProperty.value && utteranceQueue.speakSpeechData() );
+    // Speak speechData if autoHear is turned on.
+    this.onInputEmitter.addListener( () => preferences.autoHearEnabledProperty.value && utteranceQueue.speakSpeechData() );
 
     const availableTextSpace = maxWidth - TOGGLE_SWITCH_SIZE.width - SPACING * 2;
     let isAdjusting = false; // to prevent recursion that will exceed maximum call stack size
