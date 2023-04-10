@@ -28,8 +28,10 @@ import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/commo
 import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
 import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
 import localeProperty from '../../joist/js/i18n/localeProperty.js';
+import MathSymbols from '../../scenery-phet/js/MathSymbols.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
+const LAB_SCREEN_SYMBOLS = [ MathSymbols.EQUAL_TO, MathSymbols.PLUS, MathSymbols.MINUS ];
 
 const simOptions: SimOptions = {
   credits: {
@@ -77,7 +79,7 @@ simLauncher.launch( () => {
     new TenScreen( Tandem.ROOT.createTandem( 'tenScreen' ) ),
     new TwentyScreen( Tandem.ROOT.createTandem( 'twentyScreen' ) ),
     new NumberPlayGameScreen( Tandem.ROOT.createTandem( 'numberPlayGameScreen' ) ),
-    new LabScreen( [ '=', '+', '-' ], numberPlayPreferences, Tandem.ROOT.createTandem( 'numberPlayLabScreen' ) )
+    new LabScreen( LAB_SCREEN_SYMBOLS, numberPlayPreferences, Tandem.ROOT.createTandem( 'numberPlayLabScreen' ) )
   ], simOptions );
   sim.start();
 
