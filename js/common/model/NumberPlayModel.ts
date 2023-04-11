@@ -24,6 +24,8 @@ import TEmitter from '../../../../axon/js/TEmitter.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import numberPlayPreferences from './numberPlayPreferences.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 
 class NumberPlayModel implements TModel {
 
@@ -80,12 +82,16 @@ class NumberPlayModel implements TModel {
 
     this.currentNumberProperty = new NumberProperty( 0 );
 
-    // Update the speechDataProperty when the current number changes.
-    this.currentNumberProperty.link( currentNumber => {
-      speechDataProperty.value = NumberSuiteCommonConstants.numberToWord(
-        numberPlayPreferences.secondLocaleStringsProperty.value,
-        currentNumber,
-        numberPlayPreferences.isPrimaryLocaleProperty.value );
+    // Update the speechDataProperty when the currentNumber, isPrimaryLocale, primaryLocale, secondaryLocale changes.
+    // Link to localeProperty is needed here but not passed through to numberToWord because numberToWord uses built-in
+    // StringProperty's to get the primaryLocale string values.
+    Multilink.multilink( [
+      this.currentNumberProperty,
+      numberPlayPreferences.isPrimaryLocaleProperty,
+      numberPlayPreferences.secondLocaleStringsProperty,
+      localeProperty
+    ], ( currentNumber, isPrimaryLocale, secondLocaleStrings ) => {
+      speechDataProperty.value = NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale );
     } );
 
     // Update the currentNumberProperty and objectsCountingArea when the onesCountingArea sum changes.
