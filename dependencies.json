@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "c3733b6818032a324a941a78bed0aa9075fd39db",
+    "sha": "77b53aa6c0c751d987441247a7c3ae0398405322",
     "branch": "1.1"
   },
   "number-suite-common": {
@@ -105,7 +105,7 @@
     "branch": "HEAD"
   },
   "utterance-queue": {
-    "sha": "2a9a3b38a8274b09ebb7441baf3e60e7e860d753",
+    "sha": "2ea2df2278dae1f03b5c2468777d712fe8f1314d",
     "branch": "HEAD"
   },
   "vegas": {
