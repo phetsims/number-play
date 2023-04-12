@@ -37,8 +37,8 @@ const simOptions: SimOptions = {
   credits: {
     leadDesign: 'Amanda McGarry',
     softwareDevelopment: 'Chris Klusendorf, Luisa Vargas',
-    team: 'Catherine Carter, Sylvia Celedón-Pattichis, Chris Malley (PixelZoom, Inc.), Ariel Paul, Kathy Perkins, Marla Schulz, Ian Whitacre',
-    qualityAssurance: 'Clifford Hardin, Emily Miller, Nancy Salpepi, Kathryn Woessner',
+    team: 'Catherine Carter, Sylvia Celedón-Pattichis, Michael Kauzmann, Chris Malley (PixelZoom, Inc.), Ariel Paul, Kathy Perkins, Marla Schulz, Ian Whitacre',
+    qualityAssurance: 'Jaron Droder, Clifford Hardin, Emily Miller, Nancy Salpepi, Martin Veillette, Kathryn Woessner',
     graphicArts: 'Mariah Hermsmeyer',
     thanks: 'Andrea Barraugh (Math Transformations), Kristin Donley, Bertha Orona'
   },
