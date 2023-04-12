@@ -33,11 +33,11 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "7112d6c2c06e72da798c96a3293e48f8d38b0e47",
+    "sha": "70a5661150d935eb00458d0d2989962a8c1355ec",
     "branch": "1.1"
   },
   "number-suite-common": {
-    "sha": "4ff258e319455152753ab152fe9036c1fdb1b45e",
+    "sha": "42c820cea6cd814f89615c1cce81800cd3d75b03",
     "branch": "HEAD"
   },
   "perennial-alias": {
