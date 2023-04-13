@@ -33,11 +33,11 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "10792a0e992c839eb72792d96d45de2c89bc304f",
+    "sha": "6f0dd2a5d6071b79db2172f6de9803f6846f57c4",
     "branch": "1.1"
   },
   "number-suite-common": {
-    "sha": "067cfeb861d788152e0f821684b0a2de0db8b25a",
+    "sha": "857d3ebf98c48cd1d27cc951ddd15039d950a566",
     "branch": "HEAD"
   },
   "perennial-alias": {
@@ -105,7 +105,7 @@
     "branch": "HEAD"
   },
   "utterance-queue": {
-    "sha": "2ea2df2278dae1f03b5c2468777d712fe8f1314d",
+    "sha": "c9149d0a2c1c3faa230d2ddb3d8660fad44486d1",
     "branch": "HEAD"
   },
   "vegas": {
