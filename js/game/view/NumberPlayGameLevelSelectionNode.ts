@@ -29,24 +29,24 @@ class NumberPlayGameLevelSelectionNode extends Node {
   public constructor( model: NumberPlayGameModel, layoutBounds: Bounds2, resetCallback: () => void ) {
     super();
 
+    // create the info dialog, which displays info about each game
+    const numberPlayGameInfoDialog = new NumberPlayGameInfoDialog( model.levels );
+
+    // Info button, to right of 'Choose Your Game!', opens the Info dialog.
+    const infoButton = new InfoButton( {
+      iconFill: 'rgb( 41, 106, 163 )',
+      maxHeight: INFO_BUTTON_SIZE,
+      listener: () => numberPlayGameInfoDialog.show()
+    } );
+
     // leave room for the info button
-    const titleMaxWidth = layoutBounds.width - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X * 2 - INFO_BUTTON_SIZE * 2 -
+    const titleMaxWidth = layoutBounds.width - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X * 2 - infoButton.width * 2 -
                           INFO_BUTTON_MARGIN * 2;
 
     // create and add the title text
     const titleText = new Text( NumberPlayStrings.chooseYourGameStringProperty, {
       font: new PhetFont( 40 ),
       maxWidth: titleMaxWidth
-    } );
-
-    // create the info dialog, which displays info about each game
-    const numberPlayGameInfoDialog = new NumberPlayGameInfoDialog( model.levels );
-
-    // Info button, to right of 'Choose Your Game!', opens the Info dialog. 
-    const infoButton = new InfoButton( {
-      iconFill: 'rgb( 41, 106, 163 )',
-      maxHeight: INFO_BUTTON_SIZE,
-      listener: () => numberPlayGameInfoDialog.show()
     } );
 
     const hBox = new HBox( {
@@ -58,7 +58,7 @@ class NumberPlayGameLevelSelectionNode extends Node {
     hBox.top = layoutBounds.top + 42;
 
     ManualConstraint.create( this, [ hBox ], hBox => {
-      hBox.centerX = layoutBounds.centerX;
+      hBox.centerX = layoutBounds.centerX + ( INFO_BUTTON_MARGIN + infoButton.width ) / 2;
     } );
 
     const levelSelectionButtonGroup = new NumberPlayGameLevelSelectionButtonGroup( model.levelProperty, model.levels );
