@@ -84,7 +84,9 @@ class NumberPlayModel implements TModel {
 
     // Update the speechDataProperty when the currentNumber, isPrimaryLocale, primaryLocale, secondaryLocale changes.
     // Link to localeProperty is needed here but not passed through to numberToWord because numberToWord uses built-in
-    // StringProperty's to get the primaryLocale string values.
+    // StringProperty's to get the primaryLocale string values. Note: it is assumed that the StringProperty's have the
+    // correct value for a given locale when the localeProperty causes this Multilink to fire. This assumption is based
+    // on an order dependency that those StringProperty's will update before this multilink fires.
     Multilink.multilink( [
       this.currentNumberProperty,
       numberPlayPreferences.isPrimaryLocaleProperty,
