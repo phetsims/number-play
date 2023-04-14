@@ -13,8 +13,7 @@ import NumberPlayConstants from './NumberPlayConstants.js';
 
 const NumberPlayQueryParameters = QueryStringMachine.getAll( {
 
-  // time that the objects are shown when they “flash” in the ‘Subitize’ game, in seconds. If the user gets the answer
-  // incorrect 3 times on a single challenge, the time is increased for that challenge until it's answered correctly.
+  // Time that the objects are shown when they “flash” in the ‘Subitize’ game, in seconds.
   subitizeTimeShown: {
     public: true,
     type: 'number',
