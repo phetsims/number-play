@@ -84,7 +84,7 @@ class NumberPlayScreenView extends ScreenView {
       model.currentNumberProperty,
       wordAccordionBoxHeightProperty,
 
-      // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
+      // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
       optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.wordAccordionBoxExpandedProperty
       }, options.wordAccordionBoxOptions ) );
@@ -97,7 +97,7 @@ class NumberPlayScreenView extends ScreenView {
       model.onesCountingArea,
       options.upperAccordionBoxHeight,
 
-      // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
+      // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
       optionize<TotalAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.totalAccordionBoxExpandedProperty
       }, options.totalAccordionBoxOptions ) );
@@ -111,7 +111,7 @@ class NumberPlayScreenView extends ScreenView {
       model.sumRange,
       options.upperAccordionBoxHeight,
 
-      // @ts-expect-error - chip away for https://github.com/phetsims/center-and-variability/issues/142
+      // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
       optionize<TenFrameAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
         expandedProperty: this.tenFrameAccordionBoxExpandedProperty
       }, options.tenFrameAccordionBoxOptions ) );
