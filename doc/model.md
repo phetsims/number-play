@@ -4,9 +4,27 @@ This document is a high-level description of the model used in PhET's _Number Pl
 
 ## Ten Screen
 
+The _Ten_ screen displays five representations of the same number that can all be individually hidden. They are the "Word", "Total", "Ten Frame", "Ones", and "Objects". Interactive representations are Total, Ones, and Objects, and non-interactive representations are Word and Ten Frame. Changing the current number with any of the interactive representations updates all of the other representations to match.
+
+In the upper left corner, the Word accordion box represents the current number as a written word. If a second language is added using the Second Language option in the Preferences dialog, a toggle switch appears that can be used to switch the word representation to the second language.
+
+To the left of the Word accordion box is the speech synthesis button, which reads aloud the current number on the screen in the selected language and voice. The primary and secondary language and voice can be set in the Preferences dialog. The Preferences dialog also has a setting to automatically hear the total as it updates.
+
+In the top center of the screen is the Total accordion box, which displays the current number in numerical form. The arrow buttons can be used to increase or decrease the current number.
+
+In the upper right corner, the Ten Frame accordion box represents the current number as a ten frame.
+
+On the lower left side of the screen is the Ones accordion box, which represents the current number in “Paper Ones.” Ones can be combined (or added together) by overlapping them, and split apart (or subtracted by one) by grabbing the handle at the top of the paper. The user can change the current number using Ones by adding more (either by dragging them out of the creator panel or pressing the up arrow button) or removing them (either by returning them to the creator panel or pressing the down arrow button).
+
+On the lower right side of the screen is the Objects accordion box, which represents the current number as a display of objects.The user can choose between dogs, apples, butterflies, and beach balls. The Objects can be combined, split apart, increased, or decreased using the same interactions as the paper ones. The Objects’ types can be changed using the radio buttons in the lower right corner of the accordion box.
+
+To the upper left of the Ones accordion box and to the upper right of the Objects accordion box are grid buttons that correspond to each accordion box. When the button is pressed, the Ones or Objects are split apart and organized into a grid of singles.
+
+To the right of the Objects accordion box are a group of 3 buttons that determine how Objects can be manipulated. The first mode keeps all Objects as singles, unable to be combined with other Objects. The second mode allows the Objects to be combined with other Objects, similar to the behavior of Ones. The third mode keeps the Ones and Objects linked together, such that corresponding Objects and Ones have matching positions and number values.
+
 ## Twenty Screen
 
-## Compare Screen
+The _Twenty_ screen is nearly identical to the _Ten_ screen, while having a maximum total of 20.
 
 ## Game Screen
 
@@ -60,3 +78,13 @@ Since the challenges in both levels of each game are randomly generated, all lev
 One star is awarded per challenge that is successfully completed on the first try. On the 'Subitize' game,
 pressing the 'Reveal' button does not disqualify the user from getting a first-try star.
 
+## Lab Screen
+
+The Lab screen is designed to be a flexible space for telling a mathematical story, without any feedback from the simulation. The representations included are: 
+Number cards, from 1-20
+Symbolic cards (+, –, =) 
+Ten frames (up to 10 at a time)
+Objects (dogs, apples, butterflies, beach balls) 
+Ones (these can be omitted using the “Show Ones” setting in the Preferences dialog) 
+
+Ten frames can contain any of the objects, but only one type of object is allowed per ten frame. 
