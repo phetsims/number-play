@@ -30,8 +30,6 @@ import OrganizeButton from '../../../../number-suite-common/js/common/view/Organ
 import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import Multilink from '../../../../axon/js/Multilink.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
@@ -82,12 +80,10 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
-      wordAccordionBoxHeightProperty,
-
-      // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
-      optionize<WordAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
-        expandedProperty: this.wordAccordionBoxExpandedProperty
-      }, options.wordAccordionBoxOptions ) );
+      wordAccordionBoxHeightProperty, {
+        expandedProperty: this.wordAccordionBoxExpandedProperty,
+        ...options.wordAccordionBoxOptions
+      } );
     wordAccordionBox.left = this.layoutBounds.minX + NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     wordAccordionBox.top = this.layoutBounds.minY + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( wordAccordionBox );
@@ -95,12 +91,10 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the TotalAccordionBox
     const totalAccordionBox = new TotalAccordionBox(
       model.onesCountingArea,
-      options.upperAccordionBoxHeight,
-
-      // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
-      optionize<TotalAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
-        expandedProperty: this.totalAccordionBoxExpandedProperty
-      }, options.totalAccordionBoxOptions ) );
+      options.upperAccordionBoxHeight, {
+        expandedProperty: this.totalAccordionBoxExpandedProperty,
+        ...options.totalAccordionBoxOptions
+      } );
     totalAccordionBox.centerX = this.layoutBounds.centerX;
     totalAccordionBox.top = wordAccordionBox.top;
     this.addChild( totalAccordionBox );
@@ -109,12 +103,10 @@ class NumberPlayScreenView extends ScreenView {
     const tenFrameAccordionBox = new TenFrameAccordionBox(
       model.currentNumberProperty,
       model.sumRange,
-      options.upperAccordionBoxHeight,
-
-      // @ts-expect-error - chip away for https://github.com/phetsims/phet-core/issues/130
-      optionize<TenFrameAccordionBoxOptions, EmptySelfOptions, NumberSuiteCommonAccordionBoxOptions>()( {
-        expandedProperty: this.tenFrameAccordionBoxExpandedProperty
-      }, options.tenFrameAccordionBoxOptions ) );
+      options.upperAccordionBoxHeight, {
+        expandedProperty: this.tenFrameAccordionBoxExpandedProperty,
+        ...options.tenFrameAccordionBoxOptions
+      } );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
