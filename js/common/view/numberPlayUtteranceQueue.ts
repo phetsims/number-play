@@ -16,7 +16,6 @@ import TwentyScreen from '../../twenty/TwentyScreen.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import { AnyScreen } from '../../../../joist/js/Screen.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StringProperty from '../../../../axon/js/StringProperty.js';
 
@@ -46,7 +45,7 @@ class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
    * to use for a given screen that the user is viewing. This is needed because selectedScreenProperty doesn't exist
    * yet during the creation of this singleton.
    */
-  public initialize( selectedScreenProperty: TReadOnlyProperty<AnyScreen> ): void {
+  public initialize( selectedScreenProperty: TReadOnlyProperty<unknown> ): void {
 
     const speechDataProperty = new DerivedProperty(
       [ this.tenScreenSpeechDataProperty, this.twentyScreenSpeechDataProperty, selectedScreenProperty ],
