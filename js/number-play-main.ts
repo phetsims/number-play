@@ -29,6 +29,7 @@ import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js'
 import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
 import localeProperty from '../../joist/js/i18n/localeProperty.js';
 import MathSymbols from '../../scenery-phet/js/MathSymbols.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 const LAB_SCREEN_SYMBOLS = [ MathSymbols.EQUAL_TO, MathSymbols.PLUS, MathSymbols.MINUS ];
@@ -94,7 +95,7 @@ simLauncher.launch( () => {
         sim.isConstructionCompleteProperty,
         sim.browserTabVisibleProperty,
         sim.activeProperty,
-        sim.isSettingPhetioStateProperty,
+        isSettingPhetioStateProperty,
         audioManager.audioEnabledProperty
       ], ( simConstructionComplete, simVisible, simActive, simSettingPhetioState, audioEnabled ) => {
         return simConstructionComplete && simVisible && simActive && !simSettingPhetioState && audioEnabled;
