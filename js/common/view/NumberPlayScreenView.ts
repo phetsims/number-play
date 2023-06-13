@@ -37,6 +37,7 @@ import NumberSuiteCommonConstants from '../../../../number-suite-common/js/commo
 import Property from '../../../../axon/js/Property.js';
 import LocaleSwitch from './LocaleSwitch.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
 
 // types
 type SelfOptions = {
@@ -80,10 +81,9 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the WordAccordionBox
     const wordAccordionBox = new WordAccordionBox(
       model.currentNumberProperty,
-      wordAccordionBoxHeightProperty, {
-        expandedProperty: this.wordAccordionBoxExpandedProperty,
-        ...options.wordAccordionBoxOptions
-      } );
+      wordAccordionBoxHeightProperty, combineOptions<WordAccordionBoxOptions>( {
+        expandedProperty: this.wordAccordionBoxExpandedProperty
+      }, options.wordAccordionBoxOptions ) );
     wordAccordionBox.left = this.layoutBounds.minX + NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     wordAccordionBox.top = this.layoutBounds.minY + NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_Y;
     this.addChild( wordAccordionBox );
@@ -91,10 +91,9 @@ class NumberPlayScreenView extends ScreenView {
     // create and add the TotalAccordionBox
     const totalAccordionBox = new TotalAccordionBox(
       model.onesCountingArea,
-      options.upperAccordionBoxHeight, {
-        expandedProperty: this.totalAccordionBoxExpandedProperty,
-        ...options.totalAccordionBoxOptions
-      } );
+      options.upperAccordionBoxHeight, combineOptions<TotalAccordionBoxOptions>( {
+        expandedProperty: this.totalAccordionBoxExpandedProperty
+      }, options.totalAccordionBoxOptions ) );
     totalAccordionBox.centerX = this.layoutBounds.centerX;
     totalAccordionBox.top = wordAccordionBox.top;
     this.addChild( totalAccordionBox );
@@ -103,10 +102,9 @@ class NumberPlayScreenView extends ScreenView {
     const tenFrameAccordionBox = new TenFrameAccordionBox(
       model.currentNumberProperty,
       model.sumRange,
-      options.upperAccordionBoxHeight, {
-        expandedProperty: this.tenFrameAccordionBoxExpandedProperty,
-        ...options.tenFrameAccordionBoxOptions
-      } );
+      options.upperAccordionBoxHeight, combineOptions<TenFrameAccordionBoxOptions>( {
+        expandedProperty: this.tenFrameAccordionBoxExpandedProperty
+      }, options.tenFrameAccordionBoxOptions ) );
     tenFrameAccordionBox.right = this.layoutBounds.maxX - NumberSuiteCommonConstants.ACCORDION_BOX_MARGIN_X;
     tenFrameAccordionBox.top = wordAccordionBox.top;
     this.addChild( tenFrameAccordionBox );
