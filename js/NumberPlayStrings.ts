@@ -5,33 +5,33 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import LinkableProperty from '../../axon/js/LinkableProperty.js';
+import type LocalizedStringProperty from '../../chipper/js/LocalizedStringProperty.js';
 import numberPlay from './numberPlay.js';
 
 type StringsType = {
   'number-play': {
-    'titleStringProperty': LinkableProperty<string>;
+    'titleStringProperty': LocalizedStringProperty;
   };
   'screen': {
-    'tenStringProperty': LinkableProperty<string>;
-    'twentyStringProperty': LinkableProperty<string>;
-    'gameStringProperty': LinkableProperty<string>;
+    'tenStringProperty': LocalizedStringProperty;
+    'twentyStringProperty': LocalizedStringProperty;
+    'gameStringProperty': LocalizedStringProperty;
   };
-  'wordStringProperty': LinkableProperty<string>;
-  'wordLanguageStringProperty': LinkableProperty<string>;
-  'tenFrameStringProperty': LinkableProperty<string>;
-  'tenFramesStringProperty': LinkableProperty<string>;
-  'onesStringProperty': LinkableProperty<string>;
-  'chooseYourGameStringProperty': LinkableProperty<string>;
-  'countingLevel1DescriptionStringProperty': LinkableProperty<string>;
-  'countingLevel2DescriptionStringProperty': LinkableProperty<string>;
-  'subitizingLevel1DescriptionStringProperty': LinkableProperty<string>;
-  'subitizingLevel2DescriptionStringProperty': LinkableProperty<string>;
-  'gamesStringProperty': LinkableProperty<string>;
-  'automaticallyHearTotalStringProperty': LinkableProperty<string>;
-  'automaticallyHearTotalDescriptionStringProperty': LinkableProperty<string>;
-  'subitizeTimeStringProperty': LinkableProperty<string>;
-  'subitizeTimeDescriptionStringProperty': LinkableProperty<string>;
+  'wordStringProperty': LocalizedStringProperty;
+  'wordLanguageStringProperty': LocalizedStringProperty;
+  'tenFrameStringProperty': LocalizedStringProperty;
+  'tenFramesStringProperty': LocalizedStringProperty;
+  'onesStringProperty': LocalizedStringProperty;
+  'chooseYourGameStringProperty': LocalizedStringProperty;
+  'countingLevel1DescriptionStringProperty': LocalizedStringProperty;
+  'countingLevel2DescriptionStringProperty': LocalizedStringProperty;
+  'subitizingLevel1DescriptionStringProperty': LocalizedStringProperty;
+  'subitizingLevel2DescriptionStringProperty': LocalizedStringProperty;
+  'gamesStringProperty': LocalizedStringProperty;
+  'automaticallyHearTotalStringProperty': LocalizedStringProperty;
+  'automaticallyHearTotalDescriptionStringProperty': LocalizedStringProperty;
+  'subitizeTimeStringProperty': LocalizedStringProperty;
+  'subitizeTimeDescriptionStringProperty': LocalizedStringProperty;
 };
 
 const NumberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;

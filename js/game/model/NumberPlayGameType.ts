@@ -8,7 +8,7 @@ import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
 import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
 import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
 import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
-import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 /**
  *  NumberPlayGameType identifies the game type in Number Play.
@@ -17,7 +17,7 @@ import LinkableProperty from '../../../../axon/js/LinkableProperty.js';
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-type LevelDescriptions = Record<number, LinkableProperty<string>>;
+type LevelDescriptions = Record<number, PhetioProperty<string>>;
 type LevelImages = Record<number, HTMLImageElement>;
 
 class NumberPlayGameType extends EnumerationValue {
