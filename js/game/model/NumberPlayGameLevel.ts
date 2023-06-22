@@ -7,6 +7,7 @@
  * @author Luisa Vargas
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import numberPlay from '../../numberPlay.js';
@@ -148,7 +149,7 @@ abstract class NumberPlayGameLevel {
   }
 
   public dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 

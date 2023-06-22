@@ -7,6 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
@@ -26,7 +27,7 @@ export class NumberPlayPreferences extends NumberSuiteCommonPreferences {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
     super.dispose();
   }
 }

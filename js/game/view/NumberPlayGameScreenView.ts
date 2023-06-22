@@ -7,6 +7,7 @@
  * @author Luisa Vargas
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Easing from '../../../../twixt/js/Easing.js';
@@ -115,7 +116,7 @@ class NumberPlayGameScreenView extends ScreenView {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
     super.dispose();
   }
 }

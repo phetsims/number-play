@@ -6,6 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import numberPlay from '../../numberPlay.js';
 import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
@@ -150,7 +151,7 @@ class NumberPlayModel implements TModel {
   }
 
   public dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 

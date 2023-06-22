@@ -6,6 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import { HBox, Image, VBox } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import TProperty from '../../../../axon/js/TProperty.js';
@@ -70,7 +71,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
     super.dispose();
   }
 }

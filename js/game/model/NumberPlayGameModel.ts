@@ -7,6 +7,7 @@
  * @author Luisa Vargas
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import Property from '../../../../axon/js/Property.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPlay from '../../numberPlay.js';
@@ -49,7 +50,7 @@ class NumberPlayGameModel implements TModel {
   }
 
   public dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
   }
 }
 

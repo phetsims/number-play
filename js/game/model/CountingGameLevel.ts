@@ -7,6 +7,7 @@
  * @author Luisa Vargas
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
@@ -89,7 +90,7 @@ class CountingGameLevel extends NumberPlayGameLevel {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
     super.dispose();
   }
 }

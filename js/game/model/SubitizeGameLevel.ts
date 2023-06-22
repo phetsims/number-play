@@ -7,6 +7,7 @@
  * @author Luisa Vargas
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import Subitizer from './Subitizer.js';
@@ -49,7 +50,7 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
     super.dispose();
   }
 }

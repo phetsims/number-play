@@ -7,6 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import Disposable from '../../../../axon/js/Disposable.js';
 import { Font, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import localeProperty, { Locale } from '../../../../joist/js/i18n/localeProperty.js';
@@ -91,7 +92,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
   }
 
   public override dispose(): void {
-    assert && assert( false, 'dispose is not supported, exists for the lifetime of the sim' );
+    Disposable.assertNotDisposable();
     super.dispose();
   }
 }
