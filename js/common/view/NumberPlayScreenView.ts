@@ -24,7 +24,6 @@ import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAcc
 import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/TotalAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import OrganizeButton from '../../../../number-suite-common/js/common/view/OrganizeButton.js';
@@ -39,6 +38,8 @@ import Property from '../../../../axon/js/Property.js';
 import LocaleSwitch from './LocaleSwitch.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 
 // types
 type SelfOptions = {
@@ -47,8 +48,7 @@ type SelfOptions = {
   tenFrameAccordionBoxOptions: TenFrameAccordionBoxOptions;
   upperAccordionBoxHeight: number;
   lowerAccordionBoxHeight: number;
-  tandem: Tandem;
-};
+} & PickRequired<PhetioObjectOptions, 'tandem'>;
 export type NumberPlayScreenViewOptions = SelfOptions;
 
 // constants
