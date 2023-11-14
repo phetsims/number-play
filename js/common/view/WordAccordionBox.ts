@@ -69,7 +69,9 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         localeProperty
       ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
-        NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale )
+        NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale ), {
+        accessNonDependencies: true
+      }
     );
 
     // Instead of needing to use DerivedProperty.deriveAny which doesn't allow callback parameters, just recompute with
