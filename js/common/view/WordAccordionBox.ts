@@ -70,7 +70,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
         NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale ), {
-        accessNonDependencies: true
+        strictAxonDependencies: false
       }
     );
 
