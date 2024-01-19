@@ -70,7 +70,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
       ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
         NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale ), {
-        strictAxonDependencies: false
+        strictAxonDependencies: false //TODO https://github.com/phetsims/number-play/issues/238
       }
     );
 
