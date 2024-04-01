@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "a484a38d8140fc497b9971d402af0e8cf813bd63",
+    "sha": "298c4196c20a4b1a7de58c46d26c6b69cdbc54d6",
     "branch": "1.1"
   },
   "number-suite-common": {
@@ -61,7 +61,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "127bf5ce1958767807d14564232b7d903f2ea4b5",
+    "sha": "c2c1284a4113091303a11dfcda281f7a674cd579",
     "branch": "HEAD"
   },
   "phetmarks": {
