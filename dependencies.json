@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "3233d086e616ac3e0ad91b737b85541cc8ca3a93",
+    "sha": "cbf82bcc6feac9fcd46749899e0a245334f729f1",
     "branch": "1.1"
   },
   "number-suite-common": {
@@ -53,7 +53,7 @@
     "branch": "HEAD"
   },
   "phet-io-sim-specific": {
-    "sha": "4d80483f15480d3b35564159ac09dff2f99de8d5",
+    "sha": "22f3a899135b64059d2fdd4843918cfa805f3648",
     "branch": "HEAD"
   },
   "phet-io-wrappers": {
