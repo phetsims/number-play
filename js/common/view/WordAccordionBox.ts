@@ -69,10 +69,7 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
         localeProperty
       ],
       ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
-        NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale ), {
-        strictAxonDependencies: false //TODO https://github.com/phetsims/number-play/issues/238
-      }
-    );
+        NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale ) );
 
     // Instead of needing to use DerivedProperty.deriveAny which doesn't allow callback parameters, just recompute with
     // these Property changes.
