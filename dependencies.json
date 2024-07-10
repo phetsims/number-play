@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "230105160024b2eab26c4d88360ca93b7c94d84c",
+    "sha": "5e4ac7f0a794c665fba319d453ef451f035d2215",
     "branch": "1.1"
   },
   "number-suite-common": {
@@ -73,7 +73,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "71bec0295674759f2527137378d36f9c4c2936fd",
+    "sha": "145a173f573de5a493b039a29510c8cc0ae66122",
     "branch": "HEAD"
   },
   "scenery-phet": {
