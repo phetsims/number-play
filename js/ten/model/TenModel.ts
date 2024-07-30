@@ -12,6 +12,8 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayModel from '../../common/model/NumberPlayModel.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
+
+// eslint-disable-next-line no-view-imported-from-model
 import numberPlayUtteranceQueue from '../../common/view/numberPlayUtteranceQueue.js';
 
 export default class TenModel extends NumberPlayModel {
