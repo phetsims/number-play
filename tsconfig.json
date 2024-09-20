@@ -5,5 +5,22 @@
     "images/**/*",
     "mipmaps/**/*",
     "sounds/**/*"
+  ],
+  "references": [
+    {
+      "path": "../counting-common/tsconfig.json"
+    },
+    {
+      "path": "../number-suite-common/tsconfig.json"
+    },
+    {
+      "path": "../twixt/tsconfig.json"
+    },
+    {
+      "path": "../vegas/tsconfig.json"
+    },
+    {
+      "path": "../chipper/tsconfig/buildjson"
+    }
   ]
 }
