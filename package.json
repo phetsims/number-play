@@ -45,7 +45,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../number-play/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
