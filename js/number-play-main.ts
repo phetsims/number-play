@@ -6,30 +6,30 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
+import audioManager from '../../joist/js/audioManager.js';
+import localeProperty from '../../joist/js/i18n/localeProperty.js';
+import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import Sim, { SimOptions } from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
-import Tandem from '../../tandem/js/Tandem.js';
-import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
+import AutoHearControl from '../../number-suite-common/js/common/view/AutoHearControl.js';
+import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
+import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import LabScreen from '../../number-suite-common/js/lab/LabScreen.js';
+import MathSymbols from '../../scenery-phet/js/MathSymbols.js';
+import { Display } from '../../scenery/js/imports.js';
+import soundManager from '../../tambo/js/soundManager.js';
+import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
+import numberPlayPreferences from './common/model/numberPlayPreferences.js';
+import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
+import numberPlaySpeechSynthesisAnnouncer from './common/view/numberPlaySpeechSynthesisAnnouncer.js';
+import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
+import NumberPlayGameScreen from './game/NumberPlayGameScreen.js';
 import NumberPlayStrings from './NumberPlayStrings.js';
 import TenScreen from './ten/TenScreen.js';
 import TwentyScreen from './twenty/TwentyScreen.js';
-import numberPlaySpeechSynthesisAnnouncer from './common/view/numberPlaySpeechSynthesisAnnouncer.js';
-import { Display } from '../../scenery/js/imports.js';
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import audioManager from '../../joist/js/audioManager.js';
-import SpeechSynthesisAnnouncer from '../../utterance-queue/js/SpeechSynthesisAnnouncer.js';
-import soundManager from '../../tambo/js/soundManager.js';
-import numberPlayPreferences from './common/model/numberPlayPreferences.js';
-import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
-import NumberPlayPreferencesNode from './common/view/NumberPlayPreferencesNode.js';
-import AutoHearControl from '../../number-suite-common/js/common/view/AutoHearControl.js';
-import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
-import numberPlayUtteranceQueue from './common/view/numberPlayUtteranceQueue.js';
-import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/LanguageAndVoiceControl.js';
-import localeProperty from '../../joist/js/i18n/localeProperty.js';
-import MathSymbols from '../../scenery-phet/js/MathSymbols.js';
-import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 
 const numberPlayTitleStringProperty = NumberPlayStrings[ 'number-play' ].titleStringProperty;
 const LAB_SCREEN_SYMBOLS = [ MathSymbols.EQUAL_TO, MathSymbols.PLUS, MathSymbols.MINUS ];
