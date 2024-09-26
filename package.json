@@ -35,8 +35,5 @@
       "NUMBER_PLAY/screen.game",
       "NUMBER_SUITE_COMMON/screen.lab"
     ]
-  },
-  "eslintConfig": {
-    "extends": "../chipper/eslint/sim_eslintrc.js"
   }
 }
