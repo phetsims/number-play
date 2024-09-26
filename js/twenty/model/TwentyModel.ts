@@ -12,7 +12,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayModel from '../../common/model/NumberPlayModel.js';
 import numberPlay from '../../numberPlay.js';
 
-// eslint-disable-next-line no-view-imported-from-model
+// eslint-disable-next-line phet/no-view-imported-from-model
 import numberPlayUtteranceQueue from '../../common/view/numberPlayUtteranceQueue.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
