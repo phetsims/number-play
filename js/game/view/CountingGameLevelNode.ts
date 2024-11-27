@@ -7,20 +7,20 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import CountingGameLevel from '../model/CountingGameLevel.js';
-import numberPlay from '../../numberPlay.js';
-import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 import CountingAreaNode from '../../../../number-suite-common/js/common/view/CountingAreaNode.js';
+import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
 import { Rectangle } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
-import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
+import numberPlay from '../../numberPlay.js';
+import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
 // constants

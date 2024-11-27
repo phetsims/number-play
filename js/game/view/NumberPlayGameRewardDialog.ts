@@ -8,8 +8,8 @@
 
 import TProperty from '../../../../axon/js/TProperty.js';
 import RewardDialog from '../../../../vegas/js/RewardDialog.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import numberPlay from '../../numberPlay.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameRewardNode from './NumberPlayGameRewardNode.js';
 
 export default class NumberPlayGameRewardDialog extends RewardDialog {

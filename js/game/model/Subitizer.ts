@@ -14,20 +14,20 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../../axon/js/Disposable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Matrix3 from '../../../../dot/js/Matrix3.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
+import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import numberPlay from '../../numberPlay.js';
 import SubitizeObjectType from './SubitizeObjectType.js';
-import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
 
 // types
 type PredeterminedShapes = Record<number, {

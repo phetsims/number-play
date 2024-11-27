@@ -6,40 +6,40 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../../axon/js/Disposable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import ScreenView from '../../../../joist/js/ScreenView.js';
+import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import CountingAccordionBox from '../../../../number-suite-common/js/common/view/CountingAccordionBox.js';
+import OrganizeButton from '../../../../number-suite-common/js/common/view/OrganizeButton.js';
+import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
+import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/TotalAccordionBox.js';
+import { combineOptions } from '../../../../phet-core/js/optionize.js';
+import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
 import { Image } from '../../../../scenery/js/imports.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
+import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import groupingScene1_png from '../../../images/groupingScene1_png.js';
 import groupingScene2_png from '../../../images/groupingScene2_png.js';
 import groupingScene3_png from '../../../images/groupingScene3_png.js';
 import numberPlay from '../../numberPlay.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
+import NumberPlayModel from '../model/NumberPlayModel.js';
+import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import CountingAccordionBox from '../../../../number-suite-common/js/common/view/CountingAccordionBox.js';
-import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
-import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
-import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/TotalAccordionBox.js';
-import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
-import NumberPlayModel from '../model/NumberPlayModel.js';
-import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
-import NumberPlayStrings from '../../NumberPlayStrings.js';
-import OrganizeButton from '../../../../number-suite-common/js/common/view/OrganizeButton.js';
-import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
-import numberPlayPreferences from '../model/numberPlayPreferences.js';
-import Multilink from '../../../../axon/js/Multilink.js';
-import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
-import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
-import Property from '../../../../axon/js/Property.js';
 import LocaleSwitch from './LocaleSwitch.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import { combineOptions } from '../../../../phet-core/js/optionize.js';
-import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
-import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
+import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
+import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
+import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
+import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
 
 // types
 type SelfOptions = {

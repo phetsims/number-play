@@ -7,21 +7,21 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
-import { Font, Text } from '../../../../scenery/js/imports.js';
-import numberPlay from '../../numberPlay.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import localeProperty, { Locale } from '../../../../joist/js/i18n/localeProperty.js';
-import NumberPlayStrings from '../../NumberPlayStrings.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberSuiteCommonConstants, { NUMBER_STRING_PROPERTIES } from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
+import { Font, Text } from '../../../../scenery/js/imports.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import NumberSuiteCommonConstants, { NUMBER_STRING_PROPERTIES } from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type SelfOptions = {

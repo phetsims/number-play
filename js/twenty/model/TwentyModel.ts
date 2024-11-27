@@ -10,11 +10,11 @@
 import Disposable from '../../../../axon/js/Disposable.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayModel from '../../common/model/NumberPlayModel.js';
-import numberPlay from '../../numberPlay.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import numberPlayUtteranceQueue from '../../common/view/numberPlayUtteranceQueue.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import numberPlay from '../../numberPlay.js';
 
 export default class TwentyModel extends NumberPlayModel {
 

@@ -8,20 +8,20 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import ModelViewTransform2 from '../../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, Color, Image, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
-import numberPlay from '../../numberPlay.js';
-import Subitizer from '../model/Subitizer.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PlayIconShape from '../../../../scenery-phet/js/PlayIconShape.js';
+import { Circle, Color, Image, Node, Path, Rectangle } from '../../../../scenery/js/imports.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import numberPlay from '../../numberPlay.js';
+import SubitizeObjectType from '../model/SubitizeObjectType.js';
+import Subitizer from '../model/Subitizer.js';
 import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
 import SubitizeRevealButton from './SubitizeRevealButton.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import SubitizeObjectType from '../model/SubitizeObjectType.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 
 // constants
 const BACKGROUND_RECTANGLE_CORNER_RADIUS = 10;

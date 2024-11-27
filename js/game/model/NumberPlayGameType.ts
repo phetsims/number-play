@@ -1,14 +1,14 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
-import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
+import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
+import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
+import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
+import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
+import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
-import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
-import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
-import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
-import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
-import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 
 /**
  *  NumberPlayGameType identifies the game type in Number Play.

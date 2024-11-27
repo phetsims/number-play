@@ -7,8 +7,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import numberPlay from '../../numberPlay.js';
 import NumberSuiteCommonSpeechSynthesisAnnouncer from '../../../../number-suite-common/js/common/view/NumberSuiteCommonSpeechSynthesisAnnouncer.js';
+import numberPlay from '../../numberPlay.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 
 const numberPlaySpeechSynthesisAnnouncer = new NumberSuiteCommonSpeechSynthesisAnnouncer(

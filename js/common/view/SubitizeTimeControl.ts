@@ -8,18 +8,18 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import { Font, RichText, Text } from '../../../../scenery/js/imports.js';
-import numberPlay from '../../numberPlay.js';
-import NumberPlayStrings from '../../NumberPlayStrings.js';
-import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
-import Range from '../../../../dot/js/Range.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
+import Range from '../../../../dot/js/Range.js';
 import PreferencesControl, { PreferencesControlOptions } from '../../../../joist/js/preferences/PreferencesControl.js';
 import PreferencesDialogConstants from '../../../../joist/js/preferences/PreferencesDialogConstants.js';
-import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import optionize, { EmptySelfOptions } from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
+import { Font, RichText, Text } from '../../../../scenery/js/imports.js';
+import NumberSpinner from '../../../../sun/js/NumberSpinner.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 

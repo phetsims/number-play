@@ -7,17 +7,17 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../../axon/js/Disposable.js';
-import { Color, Path } from '../../../../scenery/js/imports.js';
-import numberPlay from '../../numberPlay.js';
-import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
-import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
-import Dimension2 from '../../../../dot/js/Dimension2.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
-import NumberPlayColors from '../../common/NumberPlayColors.js';
-import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import SceneryPhetConstants from '../../../../scenery-phet/js/SceneryPhetConstants.js';
+import { Color, Path } from '../../../../scenery/js/imports.js';
+import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
+import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
+import numberPlay from '../../numberPlay.js';
 
 // constants
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;

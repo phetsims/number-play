@@ -8,12 +8,12 @@
 
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
+import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 import { Image } from '../../../scenery/js/imports.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import tenScreenIcon_png from '../../images/tenScreenIcon_png.js';
 import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 import TenModel from './model/TenModel.js';
 import TenScreenView from './view/TenScreenView.js';
 

@@ -7,17 +7,17 @@
  * @author Luisa Vargas
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
-import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
-import numberPlay from '../../numberPlay.js';
-import NumberPlayGameLevel from './NumberPlayGameLevel.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Property from '../../../../axon/js/Property.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import NumberPlayGameType from './NumberPlayGameType.js';
+import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import Property from '../../../../axon/js/Property.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayGameLevel from './NumberPlayGameLevel.js';
+import NumberPlayGameType from './NumberPlayGameType.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 10;

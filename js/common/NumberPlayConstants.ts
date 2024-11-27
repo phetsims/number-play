@@ -6,8 +6,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import numberPlay from '../numberPlay.js';
 import CountingCommonConstants from '../../../counting-common/js/common/CountingCommonConstants.js';
+import numberPlay from '../numberPlay.js';
 
 const NumberPlayConstants = {
 

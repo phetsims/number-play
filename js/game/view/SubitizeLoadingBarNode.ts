@@ -9,15 +9,15 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
+import Vector2 from '../../../../dot/js/Vector2.js';
 import { Color, Node, Rectangle } from '../../../../scenery/js/imports.js';
-import numberPlay from '../../numberPlay.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import Vector2 from '../../../../dot/js/Vector2.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import Property from '../../../../axon/js/Property.js';
+import numberPlay from '../../numberPlay.js';
 
 // constants
 const RECTANGLE_WIDTH = 280;

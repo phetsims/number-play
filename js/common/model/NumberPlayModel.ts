@@ -6,27 +6,27 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import Disposable from '../../../../axon/js/Disposable.js';
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import numberPlay from '../../numberPlay.js';
-import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
-import Tandem from '../../../../tandem/js/Tandem.js';
-import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
+import Disposable from '../../../../axon/js/Disposable.js';
+import Emitter from '../../../../axon/js/Emitter.js';
+import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
+import Multilink from '../../../../axon/js/Multilink.js';
+import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import TEmitter from '../../../../axon/js/TEmitter.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Range from '../../../../dot/js/Range.js';
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import TModel from '../../../../joist/js/TModel.js';
-import Property from '../../../../axon/js/Property.js';
-import TEmitter from '../../../../axon/js/TEmitter.js';
-import Emitter from '../../../../axon/js/Emitter.js';
-import numberPlayPreferences from './numberPlayPreferences.js';
-import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
+import TModel from '../../../../joist/js/TModel.js';
+import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
+import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import numberPlay from '../../numberPlay.js';
+import numberPlayPreferences from './numberPlayPreferences.js';
 
 class NumberPlayModel implements TModel {
 

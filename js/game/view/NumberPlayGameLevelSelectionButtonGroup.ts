@@ -7,16 +7,16 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import { HBox, Image, VBox } from '../../../../scenery/js/imports.js';
-import numberPlay from '../../numberPlay.js';
 import TProperty from '../../../../axon/js/TProperty.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
-import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
+import { HBox, Image, VBox } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
+import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
+import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // constants
 const BUTTON_SPACING = 30;

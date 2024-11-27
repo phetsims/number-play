@@ -9,16 +9,16 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import Property from '../../../../axon/js/Property.js';
-import Bounds2 from '../../../../dot/js/Bounds2.js';
-import numberPlay from '../../numberPlay.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
-import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
-import SubitizerNode from './SubitizerNode.js';
-import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import NumberPlayColors from '../../common/NumberPlayColors.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import TProperty from '../../../../axon/js/TProperty.js';
+import Bounds2 from '../../../../dot/js/Bounds2.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
+import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
+import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
 import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
+import SubitizerNode from './SubitizerNode.js';
 
 class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
 

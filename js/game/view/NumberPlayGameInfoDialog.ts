@@ -10,12 +10,12 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import numberPlay from '../../numberPlay.js';
 import { Text } from '../../../../scenery/js/imports.js';
-import NumberPlayStrings from '../../NumberPlayStrings.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import GameInfoDialog from '../../../../vegas/js/GameInfoDialog.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // constants
 const TITLE_FONT = new PhetFont( 32 );

@@ -6,15 +6,15 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Dimension2 from '../../../../dot/js/Dimension2.js';
+import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
+import NumberSuiteCommonPreferences from '../../../../number-suite-common/js/common/model/NumberSuiteCommonPreferences.js';
+import NumberSuiteCommonUtteranceQueue from '../../../../number-suite-common/js/common/view/NumberSuiteCommonUtteranceQueue.js';
+import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { Text } from '../../../../scenery/js/imports.js';
 import ABSwitch from '../../../../sun/js/ABSwitch.js';
-import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
-import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
-import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
-import NumberSuiteCommonPreferences from '../../../../number-suite-common/js/common/model/NumberSuiteCommonPreferences.js';
-import NumberSuiteCommonUtteranceQueue from '../../../../number-suite-common/js/common/view/NumberSuiteCommonUtteranceQueue.js';
 import numberPlay from '../../numberPlay.js';
 
 // constants

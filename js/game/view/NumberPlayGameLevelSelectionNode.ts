@@ -10,16 +10,16 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { HBox, ManualConstraint, Node, Text } from '../../../../scenery/js/imports.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import InfoButton from '../../../../scenery-phet/js/buttons/InfoButton.js';
 import NumberPlayGameInfoDialog from './NumberPlayGameInfoDialog.js';
 import NumberPlayGameLevelSelectionButtonGroup from './NumberPlayGameLevelSelectionButtonGroup.js';
-import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 // constants
 const INFO_BUTTON_SIZE = 35;

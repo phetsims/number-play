@@ -13,15 +13,15 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import TransitionNode from '../../../../twixt/js/TransitionNode.js';
 import numberPlay from '../../numberPlay.js';
+import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
-import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
-import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
+import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import CountingGameLevelNode from './CountingGameLevelNode.js';
 import NumberPlayGameLevelNode from './NumberPlayGameLevelNode.js';
-import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
-import NumberPlayGameRewardNode from './NumberPlayGameRewardNode.js';
+import NumberPlayGameLevelSelectionNode from './NumberPlayGameLevelSelectionNode.js';
 import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
+import NumberPlayGameRewardNode from './NumberPlayGameRewardNode.js';
+import SubitizeGameLevelNode from './SubitizeGameLevelNode.js';
 
 // constants
 const TRANSITION_OPTIONS = {

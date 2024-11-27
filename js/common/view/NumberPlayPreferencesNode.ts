@@ -8,14 +8,14 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import numberPlay from '../../numberPlay.js';
 import NumberSuiteCommonPreferencesNode from '../../../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import NumberPlayGameScreen from '../../game/NumberPlayGameScreen.js';
+import numberPlay from '../../numberPlay.js';
 import TenScreen from '../../ten/TenScreen.js';
 import TwentyScreen from '../../twenty/TwentyScreen.js';
-import SubitizeTimeControl from './SubitizeTimeControl.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
+import SubitizeTimeControl from './SubitizeTimeControl.js';
 
 export default class NumberPlayPreferencesNode extends NumberSuiteCommonPreferencesNode {
 

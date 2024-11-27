@@ -7,27 +7,27 @@
  * @author Luisa Vargas
  */
 
+import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
 import Property from '../../../../axon/js/Property.js';
+import TProperty from '../../../../axon/js/TProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Color, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
-import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
-import numberPlay from '../../numberPlay.js';
-import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
-import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import StarNode from '../../../../scenery-phet/js/StarNode.js';
+import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
+import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import ArrowShape from '../../../../scenery-phet/js/ArrowShape.js';
+import FaceNode from '../../../../scenery-phet/js/FaceNode.js';
+import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
+import StarNode from '../../../../scenery-phet/js/StarNode.js';
+import { Color, HBox, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
+import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
+import NumberPlayConstants from '../../common/NumberPlayConstants.js';
+import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
-import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import optionize, { combineOptions } from '../../../../phet-core/js/optionize.js';
-import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import TProperty from '../../../../axon/js/TProperty.js';
-import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 
 // types
 type SelfOptions = {

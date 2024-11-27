@@ -11,10 +11,10 @@ import Disposable from '../../../../axon/js/Disposable.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayModel from '../../common/model/NumberPlayModel.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import numberPlay from '../../numberPlay.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import numberPlayUtteranceQueue from '../../common/view/numberPlayUtteranceQueue.js';
+import numberPlay from '../../numberPlay.js';
 
 export default class TenModel extends NumberPlayModel {
 

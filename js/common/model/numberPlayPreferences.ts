@@ -8,12 +8,12 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Range from '../../../../dot/js/Range.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
 import NumberSuiteCommonPreferences from '../../../../number-suite-common/js/common/model/NumberSuiteCommonPreferences.js';
 import numberPlay from '../../numberPlay.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
+import NumberPlayQueryParameters from '../NumberPlayQueryParameters.js';
 
 export class NumberPlayPreferences extends NumberSuiteCommonPreferences {
   public readonly subitizeTimeShownProperty: NumberProperty;

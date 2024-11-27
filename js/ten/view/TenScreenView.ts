@@ -8,13 +8,13 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import numberPlay from '../../numberPlay.js';
-import NumberPlayScreenView from '../../common/view/NumberPlayScreenView.js';
+import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import NumberPlayScreenView from '../../common/view/NumberPlayScreenView.js';
+import numberPlay from '../../numberPlay.js';
 import TenModel from '../model/TenModel.js';
 
 export default class TenScreenView extends NumberPlayScreenView {

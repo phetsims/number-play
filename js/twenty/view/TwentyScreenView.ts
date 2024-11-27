@@ -8,15 +8,15 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import numberPlay from '../../numberPlay.js';
-import NumberPlayScreenView from '../../common/view/NumberPlayScreenView.js';
+import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
+import NumberPlayScreenView from '../../common/view/NumberPlayScreenView.js';
+import numberPlay from '../../numberPlay.js';
 import TwentyModel from '../model/TwentyModel.js';
-import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 
 export default class TwentyScreenView extends NumberPlayScreenView {
 

@@ -8,16 +8,16 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
-import NumberPlayStrings from '../../NumberPlayStrings.js';
-import numberPlay from '../../numberPlay.js';
-import NumberPlayConstants from '../NumberPlayConstants.js';
-import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
-import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
-import optionize from '../../../../phet-core/js/optionize.js';
+import Property from '../../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import Range from '../../../../dot/js/Range.js';
+import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
+import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
+import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import Property from '../../../../axon/js/Property.js';
+import numberPlay from '../../numberPlay.js';
+import NumberPlayStrings from '../../NumberPlayStrings.js';
+import NumberPlayConstants from '../NumberPlayConstants.js';
 
 // types
 type SelfOptions = {

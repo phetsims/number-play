@@ -8,11 +8,11 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
+import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
-import Subitizer from './Subitizer.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
-import NumberPlayColors from '../../common/NumberPlayColors.js';
+import Subitizer from './Subitizer.js';
 
 // constants
 const LEVEL_INPUT_RANGE = 5;
