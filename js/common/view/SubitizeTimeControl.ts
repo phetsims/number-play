@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * SubitizeTimeControl is the 'Subitize Time' control in the Preferences dialog.

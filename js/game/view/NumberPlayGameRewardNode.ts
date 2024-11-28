@@ -1,4 +1,4 @@
-// Copyright 2023, University of Colorado Boulder
+// Copyright 2023-2024, University of Colorado Boulder
 
 /**
  * NumberPlayGameRewardNode is the various objects that are falling behind the RewardDialog when the user reaches the

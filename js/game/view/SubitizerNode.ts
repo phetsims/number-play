@@ -1,4 +1,4 @@
-// Copyright 2021-2023, University of Colorado Boulder
+// Copyright 2021-2024, University of Colorado Boulder
 
 /**
  * SubitizerNode displays the subitized objects in the view and the start sequence for the subitize game.

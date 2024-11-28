@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * An Announcer for speech synthesis that can be used with an UtteranceQueue. Used in Number Play, see
