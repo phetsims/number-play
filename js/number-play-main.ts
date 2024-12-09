@@ -53,7 +53,7 @@ const simOptions: SimOptions = {
       customPreferences: [ {
         createContent: () => new AutoHearControl(
           numberPlayPreferences.autoHearEnabledProperty,
-          numberPlaySpeechSynthesisAnnouncer,
+          numberPlaySpeechSynthesisAnnouncer.hasVoiceProperty,
           NumberPlayStrings.automaticallyHearTotalStringProperty,
           NumberPlayStrings.automaticallyHearTotalDescriptionStringProperty,
           NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) || NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen ) )
