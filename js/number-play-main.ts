@@ -52,7 +52,7 @@ const simOptions: SimOptions = {
     audioOptions: {
       customPreferences: [ {
         createContent: () => new AutoHearControl(
-          numberPlayPreferences,
+          numberPlayPreferences.autoHearEnabledProperty,
           numberPlaySpeechSynthesisAnnouncer,
           NumberPlayStrings.automaticallyHearTotalStringProperty,
           NumberPlayStrings.automaticallyHearTotalDescriptionStringProperty,
