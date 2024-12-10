@@ -56,7 +56,9 @@ const simOptions: SimOptions = {
           numberPlaySpeechSynthesisAnnouncer.hasVoiceProperty,
           NumberPlayStrings.automaticallyHearTotalStringProperty,
           NumberPlayStrings.automaticallyHearTotalDescriptionStringProperty,
-          NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) || NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen ) )
+          {
+            visible: NumberSuiteCommonPreferencesNode.hasScreenType( TenScreen ) || NumberSuiteCommonPreferencesNode.hasScreenType( TwentyScreen )
+          } )
       } ]
     },
     localizationOptions: {
