@@ -35,11 +35,11 @@ import NumberPlayModel from '../model/NumberPlayModel.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import NumberPlayColors from '../NumberPlayColors.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
-import LocaleSwitch from './LocaleSwitch.js';
 import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnouncer.js';
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
+import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 
 // types
 type SelfOptions = {
