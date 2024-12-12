@@ -134,7 +134,7 @@ class NumberPlayScreenView extends ScreenView {
     } );
 
     // update the position of the localeSwitch
-    Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.showSecondLocaleProperty ],
+    Multilink.multilink( [ wordAccordionBox.expandedProperty, numberPlayPreferences.secondLocaleEnabledProperty ],
       ( isExpanded, showSecondLocale ) => {
 
         wordAccordionBoxHeightProperty.value = showSecondLocale ? options.upperAccordionBoxHeight - localeSwitch.height - 3 :
