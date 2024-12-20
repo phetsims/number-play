@@ -35,7 +35,6 @@ class NumberPlayGameLevelSelectionNode extends Node {
 
     // Info button, to right of 'Choose Your Game!', opens the Info dialog.
     const infoButton = new InfoButton( {
-      iconFill: 'rgb( 41, 106, 163 )',
       maxHeight: INFO_BUTTON_SIZE,
       listener: () => numberPlayGameInfoDialog.show()
     } );
