@@ -17,7 +17,7 @@ import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/La
 import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import LabScreen from '../../number-suite-common/js/lab/LabScreen.js';
 import MathSymbols from '../../scenery-phet/js/MathSymbols.js';
-import { Display } from '../../scenery/js/imports.js';
+import { DisplayGlobals } from '../../scenery/js/imports.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';
@@ -90,7 +90,7 @@ simLauncher.launch( () => {
 
   // initialize the SpeechSynthesisAnnouncers that will use speech synthesis for general sim use and setting preferences
   if ( SpeechSynthesisAnnouncer.isSpeechSynthesisSupported() ) {
-    numberPlaySpeechSynthesisAnnouncer.initialize( Display.userGestureEmitter, {
+    numberPlaySpeechSynthesisAnnouncer.initialize( DisplayGlobals.userGestureEmitter, {
 
       // specify the Properties that control whether output is allowed with speech synthesis
       speechAllowedProperty: new DerivedProperty( [
