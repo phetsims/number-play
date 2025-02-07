@@ -9,7 +9,7 @@
 import Screen from '../../../joist/js/Screen.js';
 import ScreenIcon from '../../../joist/js/ScreenIcon.js';
 import NumberSuiteCommonColors from '../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
-import { Image } from '../../../scenery/js/imports.js';
+import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import twentyScreenIcon_png from '../../images/twentyScreenIcon_png.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';

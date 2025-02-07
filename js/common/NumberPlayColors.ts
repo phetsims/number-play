@@ -6,7 +6,8 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
-import { Color, ProfileColorProperty } from '../../../scenery/js/imports.js';
+import Color from '../../../scenery/js/util/Color.js';
+import ProfileColorProperty from '../../../scenery/js/util/ProfileColorProperty.js';
 import numberPlay from '../numberPlay.js';
 
 const NumberPlayColors = {

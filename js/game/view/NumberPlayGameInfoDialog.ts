@@ -10,7 +10,7 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import Text from '../../../../scenery/js/nodes/Text.js';
 import GameInfoDialog from '../../../../vegas/js/GameInfoDialog.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';

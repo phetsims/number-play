@@ -13,7 +13,7 @@ import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
-import { TColor } from '../../../../scenery/js/imports.js';
+import TColor from '../../../../scenery/js/util/TColor.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 

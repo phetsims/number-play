@@ -13,7 +13,7 @@ import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberSuiteCommonColors from '../../../../number-suite-common/js/common/NumberSuiteCommonColors.js';
 import CountingAreaNode from '../../../../number-suite-common/js/common/view/CountingAreaNode.js';
 import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
-import { Rectangle } from '../../../../scenery/js/imports.js';
+import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Panel from '../../../../sun/js/Panel.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import numberPlay from '../../numberPlay.js';

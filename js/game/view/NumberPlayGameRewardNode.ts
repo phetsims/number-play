@@ -10,7 +10,7 @@
 import CountingCommonConstants from '../../../../counting-common/js/common/CountingCommonConstants.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
-import { Image, ImageOptions } from '../../../../scenery/js/imports.js';
+import Image, { ImageOptions } from '../../../../scenery/js/nodes/Image.js';
 import RewardNode from '../../../../vegas/js/RewardNode.js';
 import numberPlay from '../../numberPlay.js';
 

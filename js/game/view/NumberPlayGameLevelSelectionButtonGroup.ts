@@ -8,7 +8,9 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import TProperty from '../../../../axon/js/TProperty.js';
-import { HBox, Image, VBox } from '../../../../scenery/js/imports.js';
+import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
 import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';

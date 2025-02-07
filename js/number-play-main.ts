@@ -17,7 +17,7 @@ import LanguageAndVoiceControl from '../../number-suite-common/js/common/view/La
 import NumberSuiteCommonPreferencesNode from '../../number-suite-common/js/common/view/NumberSuiteCommonPreferencesNode.js';
 import LabScreen from '../../number-suite-common/js/lab/LabScreen.js';
 import MathSymbols from '../../scenery-phet/js/MathSymbols.js';
-import { DisplayGlobals } from '../../scenery/js/imports.js';
+import DisplayGlobals from '../../scenery/js/display/DisplayGlobals.js';
 import soundManager from '../../tambo/js/soundManager.js';
 import isSettingPhetioStateProperty from '../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../tandem/js/Tandem.js';

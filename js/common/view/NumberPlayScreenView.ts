@@ -17,13 +17,14 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import CountingAccordionBox from '../../../../number-suite-common/js/common/view/CountingAccordionBox.js';
+import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 import OrganizeButton from '../../../../number-suite-common/js/common/view/OrganizeButton.js';
 import SpeechSynthesisControl from '../../../../number-suite-common/js/common/view/SpeechSynthesisControl.js';
 import TotalAccordionBox, { TotalAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/TotalAccordionBox.js';
 import { combineOptions } from '../../../../phet-core/js/optionize.js';
 import PickRequired from '../../../../phet-core/js/types/PickRequired.js';
 import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.js';
-import { Image } from '../../../../scenery/js/imports.js';
+import Image from '../../../../scenery/js/nodes/Image.js';
 import RectangularRadioButtonGroup, { RectangularRadioButtonGroupItem } from '../../../../sun/js/buttons/RectangularRadioButtonGroup.js';
 import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import groupingScene1_png from '../../../images/groupingScene1_png.js';
@@ -39,7 +40,6 @@ import numberPlaySpeechSynthesisAnnouncer from './numberPlaySpeechSynthesisAnnou
 import numberPlayUtteranceQueue from './numberPlayUtteranceQueue.js';
 import TenFrameAccordionBox, { TenFrameAccordionBoxOptions } from './TenFrameAccordionBox.js';
 import WordAccordionBox, { WordAccordionBoxOptions } from './WordAccordionBox.js';
-import LocaleSwitch from '../../../../number-suite-common/js/common/view/LocaleSwitch.js';
 
 // types
 type SelfOptions = {
