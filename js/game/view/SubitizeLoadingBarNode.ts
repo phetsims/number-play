@@ -1,4 +1,4 @@
-// Copyright 2021-2024, University of Colorado Boulder
+// Copyright 2021-2025, University of Colorado Boulder
 
 /**
  * SubitizeLoadingBarNode contains the loading bar animation that happens after the user presses play when they enter
