@@ -7,6 +7,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import { QueryStringMachine } from '../../../query-string-machine/js/QueryStringMachineModule.js';
 import getGameLevelsSchema from '../../../vegas/js/getGameLevelsSchema.js';
 import numberPlay from '../numberPlay.js';
 import NumberPlayConstants from './NumberPlayConstants.js';
