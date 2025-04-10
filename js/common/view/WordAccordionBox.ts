@@ -9,10 +9,10 @@
 
 import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
-import Multilink from '../../../../axon/js/Multilink.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import localeProperty, { Locale } from '../../../../joist/js/i18n/localeProperty.js';
-import NumberSuiteCommonConstants, { NUMBER_STRING_PROPERTIES } from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
+import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } from '../../../../number-suite-common/js/common/view/NumberSuiteCommonAccordionBox.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
@@ -63,20 +63,14 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
     super( NumberPlayConstants.UPPER_OUTER_ACCORDION_BOX_WIDTH, heightProperty, options );
 
     // The word shown in the accordion box
-    const wordStringProperty = new DerivedProperty(
+    const wordStringProperty: TReadOnlyProperty<string> = new DynamicProperty( new DerivedProperty(
       [ currentNumberProperty,
         numberPlayPreferences.isPrimaryLocaleProperty,
-        numberPlayPreferences.secondLocaleStringsProperty,
+        numberPlayPreferences.secondLocaleProperty,
         localeProperty
       ],
-      ( currentNumber, isPrimaryLocale, secondLocaleStrings ) =>
-        NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale ) );
-
-    // Instead of needing to use DerivedProperty.deriveAny which doesn't allow callback parameters, just recompute with
-    // these Property changes.
-    Multilink.multilinkAny( NUMBER_STRING_PROPERTIES, () => {
-      wordStringProperty.recomputeDerivation();
-    } );
+      ( currentNumber, isPrimaryLocale, secondLocale ) =>
+        NumberSuiteCommonConstants.numberToWordProperty( secondLocale, currentNumber, isPrimaryLocale ) ) );
 
     // initialize as blank, updated in link below
     const wordText = new Text( wordStringProperty, {

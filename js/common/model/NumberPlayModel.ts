@@ -11,7 +11,6 @@ import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import Disposable from '../../../../axon/js/Disposable.js';
 import Emitter from '../../../../axon/js/Emitter.js';
 import EnumerationProperty from '../../../../axon/js/EnumerationProperty.js';
-import Multilink from '../../../../axon/js/Multilink.js';
 import NumberProperty from '../../../../axon/js/NumberProperty.js';
 import Property from '../../../../axon/js/Property.js';
 import TEmitter from '../../../../axon/js/TEmitter.js';
@@ -19,7 +18,6 @@ import TProperty from '../../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../../axon/js/TReadOnlyProperty.js';
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Range from '../../../../dot/js/Range.js';
-import localeProperty from '../../../../joist/js/i18n/localeProperty.js';
 import TModel from '../../../../joist/js/TModel.js';
 import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
 import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
@@ -27,6 +25,7 @@ import NumberSuiteCommonConstants from '../../../../number-suite-common/js/commo
 import Tandem from '../../../../tandem/js/Tandem.js';
 import numberPlay from '../../numberPlay.js';
 import numberPlayPreferences from './numberPlayPreferences.js';
+import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
 class NumberPlayModel implements TModel {
 
@@ -84,17 +83,16 @@ class NumberPlayModel implements TModel {
     this.currentNumberProperty = new NumberProperty( 0 );
 
     // Update the speechDataProperty when the currentNumber, isPrimaryLocale, primaryLocale, secondaryLocale changes.
-    // Link to localeProperty is needed here but not passed through to numberToWord because numberToWord uses built-in
-    // StringProperty's to get the primaryLocale string values. Note: it is assumed that the StringProperty's have the
-    // correct value for a given locale when the localeProperty causes this Multilink to fire. This assumption is based
-    // on an order dependency that those StringProperty's will update before this multilink fires.
-    Multilink.multilink( [
+    const internalSpeechDataProperty: TReadOnlyProperty<string> = new DynamicProperty( new DerivedProperty( [
       this.currentNumberProperty,
       numberPlayPreferences.isPrimaryLocaleProperty,
-      numberPlayPreferences.secondLocaleStringsProperty,
-      localeProperty
-    ], ( currentNumber, isPrimaryLocale, secondLocaleStrings ) => {
-      speechDataProperty.value = NumberSuiteCommonConstants.numberToWord( secondLocaleStrings, currentNumber, isPrimaryLocale );
+      numberPlayPreferences.secondLocaleProperty
+    ], ( currentNumber, isPrimaryLocale, secondLocale ) => {
+      return NumberSuiteCommonConstants.numberToWordProperty( secondLocale, currentNumber, isPrimaryLocale );
+    } ) );
+
+    internalSpeechDataProperty.link( speechData => {
+      speechDataProperty.value = speechData;
     } );
 
     // Update the currentNumberProperty and objectsCountingArea when the onesCountingArea sum changes.
