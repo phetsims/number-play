@@ -1,5 +1,12 @@
 // Copyright 2021-2024, University of Colorado Boulder
 
+/**
+ *  NumberPlayGameType identifies the game type in Number Play.
+ *
+ * @author Luisa Vargas
+ * @author Chris Klusendorf (PhET Interactive Simulations)
+ */
+
 import PhetioProperty from '../../../../axon/js/PhetioProperty.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
 import EnumerationValue from '../../../../phet-core/js/EnumerationValue.js';
@@ -9,13 +16,6 @@ import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
 import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
-
-/**
- *  NumberPlayGameType identifies the game type in Number Play.
- *
- * @author Luisa Vargas
- * @author Chris Klusendorf (PhET Interactive Simulations)
- */
 
 type LevelDescriptions = Record<number, PhetioProperty<string>>;
 type LevelImages = Record<number, HTMLImageElement>;
