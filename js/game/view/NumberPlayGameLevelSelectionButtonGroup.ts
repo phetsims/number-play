@@ -19,6 +19,7 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 // constants
 const BUTTON_SPACING = 30;
@@ -60,7 +61,7 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
         icon: new Image( level.gameType.levelImages[ level.levelNumber ] ),
         scoreProperty: level.scoreProperty,
         options: {
-          createScoreDisplay: ( scoreProperty: TProperty<number> ) => new ScoreDisplayNumberAndStar( scoreProperty ),
+          createScoreDisplay: ( scoreProperty: ReadOnlyProperty<number> ) => new ScoreDisplayNumberAndStar( scoreProperty ),
           listener: () => {
             levelProperty.value = level;
           },
