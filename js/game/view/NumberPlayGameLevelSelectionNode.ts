@@ -71,7 +71,6 @@ class NumberPlayGameLevelSelectionNode extends Node {
     // create and add reset all button
     const resetAllButton = new ResetAllButton( {
       listener: () => {
-        this.interruptSubtreeInput(); // cancel interactions that may be in progress
         resetCallback();
       },
       right: layoutBounds.maxX - NumberSuiteCommonConstants.SCREEN_VIEW_PADDING_X,
