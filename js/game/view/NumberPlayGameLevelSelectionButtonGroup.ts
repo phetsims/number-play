@@ -7,19 +7,19 @@
  */
 
 import Disposable from '../../../../axon/js/Disposable.js';
+import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../../scenery/js/layout/nodes/VBox.js';
 import Image from '../../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import LevelSelectionButton from '../../../../vegas/js/LevelSelectionButton.js';
-import LevelSelectionButtonGroup, { LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
+import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem, LevelSelectionButtonGroupOptions } from '../../../../vegas/js/LevelSelectionButtonGroup.js';
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
 import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
-import ReadOnlyProperty from '../../../../axon/js/ReadOnlyProperty.js';
 
 // constants
 const BUTTON_SPACING = 30;
@@ -56,15 +56,15 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
       tandem: Tandem.REQUIRED
     };
 
-    const items = levels.map( level => {
+    const items: LevelSelectionButtonGroupItem[] = levels.map( level => {
       return {
         icon: new Image( level.gameType.levelImages[ level.levelNumber ] ),
         scoreProperty: level.scoreProperty,
+        buttonListener: () => {
+          levelProperty.value = level;
+        },
         options: {
           createScoreDisplay: ( scoreProperty: ReadOnlyProperty<number> ) => new ScoreDisplayNumberAndStar( scoreProperty ),
-          listener: () => {
-            levelProperty.value = level;
-          },
           baseColor: level.baseColorProperty
         }
       };
