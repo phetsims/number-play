@@ -6,6 +6,7 @@
  * @author Chris Klusendorf (PhET Interactive Simulations)
  */
 
+import DerivedProperty from '../../../../axon/js/DerivedProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import RewardDialog from '../../../../vegas/js/RewardDialog.js';
 import numberPlay from '../../numberPlay.js';
@@ -20,7 +21,12 @@ export default class NumberPlayGameRewardDialog extends RewardDialog {
     rewardScore: number
   ) {
 
-    super( rewardScore, {
+    // A 1-indexed level number for the reward dialog to display the current level. If there isn't one, just use zero.
+    const levelNumberProperty = new DerivedProperty( [ levelProperty ], level => {
+      return level ? level.levelNumber : 0;
+    } );
+
+    super( levelNumberProperty, rewardScore, {
 
       // 'Keep Going' hides the dialog, but doesn't change the current challenge.
       keepGoingButtonListener: () => this.hide(),
@@ -42,6 +48,8 @@ export default class NumberPlayGameRewardDialog extends RewardDialog {
         rewardNode.visible = false;
       }
     } );
+
+    this.addDisposable( levelNumberProperty );
   }
 }
 
