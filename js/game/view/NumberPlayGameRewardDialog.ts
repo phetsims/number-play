@@ -29,7 +29,7 @@ export default class NumberPlayGameRewardDialog extends RewardDialog {
     super( levelNumberProperty, rewardScore, {
 
       // 'Keep Going' hides the dialog, but doesn't change the current challenge.
-      keepGoingButtonListener: () => this.hide(),
+      dismissListener: () => this.hide(),
 
       // 'New Level' takes us back to the level-selection interface, and keeps the solved challenge loaded if we return
       // to this level to be consistent with the back button.
