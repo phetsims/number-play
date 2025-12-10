@@ -30,7 +30,9 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
 
     const options: LevelSelectionButtonGroupOptions = {
       levelSelectionButtonOptions: {
-        iconToScoreDisplayYSpace: 0,
+        contentVBoxOptions: {
+          spacing: 0
+        },
         touchAreaXDilation: NumberPlayConstants.TOUCH_AREA_DILATION,
         touchAreaYDilation: NumberPlayConstants.TOUCH_AREA_DILATION
       },
