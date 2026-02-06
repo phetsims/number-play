@@ -1,5 +1,5 @@
 {
-  "comment": "# number-play 1.1.11-rc.1 Tue Feb 03 2026 09:48:35 GMT-0500 (Eastern Standard Time)",
+  "comment": "# number-play 1.1.11 Fri Feb 06 2026 17:41:07 GMT-0500 (Eastern Standard Time)",
   "assert": {
     "sha": "c13a8c7741d95fbd8e37619c66ebcca8686dffe7",
     "branch": "HEAD"
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "bcaf82eb7b7373c9324eb5efe3344dd1de92921f",
+    "sha": "3db5c36e68c1c3281e8a8b3bf946e73883d89022",
     "branch": "1.1"
   },
   "number-suite-common": {
