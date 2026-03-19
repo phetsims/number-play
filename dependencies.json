@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "a24fdcb9781969d380d0bd9aafcd43c2b05c3251",
+    "sha": "ba2cd95b412fd5cfc34e52d9ed6d1c6f9de2ba7d",
     "branch": "HEAD"
   },
   "kite": {
@@ -33,7 +33,7 @@
     "branch": "HEAD"
   },
   "number-play": {
-    "sha": "f6e86c8587e07247fd7ec7c32aad9a5d2d96eba3",
+    "sha": "6b78ab51058752d6f594d5200aba6a038076f132",
     "branch": "1.1"
   },
   "number-suite-common": {
