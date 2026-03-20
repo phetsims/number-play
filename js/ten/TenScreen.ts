@@ -12,7 +12,6 @@ import NumberSuiteCommonColors from '../../../number-suite-common/js/common/Numb
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import tenScreenIcon_png from '../../images/tenScreenIcon_png.js';
-import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import TenModel from './model/TenModel.js';
 import TenScreenView from './view/TenScreenView.js';
@@ -39,5 +38,4 @@ class TenScreen extends Screen<TenModel, TenScreenView> {
   }
 }
 
-numberPlay.register( 'TenScreen', TenScreen );
 export default TenScreen;

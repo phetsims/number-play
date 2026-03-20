@@ -7,7 +7,6 @@
  */
 
 import CountingCommonConstants from '../../../counting-common/js/common/CountingCommonConstants.js';
-import numberPlay from '../numberPlay.js';
 
 const NumberPlayConstants = {
 
@@ -44,5 +43,4 @@ const NumberPlayConstants = {
   TOUCH_AREA_DILATION: 9
 };
 
-numberPlay.register( 'NumberPlayConstants', NumberPlayConstants );
 export default NumberPlayConstants;

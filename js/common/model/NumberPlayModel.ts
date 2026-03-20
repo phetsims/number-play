@@ -23,7 +23,6 @@ import CountingArea from '../../../../number-suite-common/js/common/model/Counti
 import GroupAndLinkType from '../../../../number-suite-common/js/common/model/GroupAndLinkType.js';
 import NumberSuiteCommonConstants from '../../../../number-suite-common/js/common/NumberSuiteCommonConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPlay from '../../numberPlay.js';
 import numberPlayPreferences from './numberPlayPreferences.js';
 import DynamicProperty from '../../../../axon/js/DynamicProperty.js';
 
@@ -153,5 +152,4 @@ class NumberPlayModel implements TModel {
   }
 }
 
-numberPlay.register( 'NumberPlayModel', NumberPlayModel );
 export default NumberPlayModel;

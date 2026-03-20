@@ -9,7 +9,6 @@
 
 import Disposable from '../../../../axon/js/Disposable.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 import Subitizer from './Subitizer.js';
@@ -55,5 +54,4 @@ class SubitizeGameLevel extends NumberPlayGameLevel {
   }
 }
 
-numberPlay.register( 'SubitizeGameLevel', SubitizeGameLevel );
 export default SubitizeGameLevel;

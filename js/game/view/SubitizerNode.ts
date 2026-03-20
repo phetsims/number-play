@@ -22,7 +22,6 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Color from '../../../../scenery/js/util/Color.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import numberPlay from '../../numberPlay.js';
 import SubitizeObjectType from '../model/SubitizeObjectType.js';
 import Subitizer from '../model/Subitizer.js';
 import SubitizeLoadingBarNode from './SubitizeLoadingBarNode.js';
@@ -123,5 +122,4 @@ class SubitizerNode extends Node {
   }
 }
 
-numberPlay.register( 'SubitizerNode', SubitizerNode );
 export default SubitizerNode;

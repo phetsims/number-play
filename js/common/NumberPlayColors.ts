@@ -42,5 +42,4 @@ const NumberPlayColors = {
   } )
 };
 
-numberPlay.register( 'NumberPlayColors', NumberPlayColors );
 export default NumberPlayColors;

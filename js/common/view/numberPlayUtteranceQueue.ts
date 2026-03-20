@@ -13,7 +13,6 @@ import StringProperty from '../../../../axon/js/StringProperty.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import NumberSuiteCommonUtteranceQueue from '../../../../number-suite-common/js/common/view/NumberSuiteCommonUtteranceQueue.js';
-import numberPlay from '../../numberPlay.js';
 import TenScreen from '../../ten/TenScreen.js';
 import TwentyScreen from '../../twenty/TwentyScreen.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
@@ -69,5 +68,4 @@ class NumberPlayUtteranceQueue extends NumberSuiteCommonUtteranceQueue {
 
 const numberPlayUtteranceQueue = new NumberPlayUtteranceQueue();
 
-numberPlay.register( 'numberPlayUtteranceQueue', numberPlayUtteranceQueue );
 export default numberPlayUtteranceQueue;

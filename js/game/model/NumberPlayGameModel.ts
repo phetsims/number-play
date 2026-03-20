@@ -12,7 +12,6 @@ import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import TModel from '../../../../joist/js/TModel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import numberPlay from '../../numberPlay.js';
 import CountingGameLevel from './CountingGameLevel.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import SubitizeGameLevel from './SubitizeGameLevel.js';
@@ -54,5 +53,4 @@ class NumberPlayGameModel implements TModel {
   }
 }
 
-numberPlay.register( 'NumberPlayGameModel', NumberPlayGameModel );
 export default NumberPlayGameModel;

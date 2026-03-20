@@ -12,7 +12,6 @@ import ScreenView from '../../../../joist/js/ScreenView.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import TransitionNode from '../../../../twixt/js/TransitionNode.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
@@ -121,5 +120,4 @@ class NumberPlayGameScreenView extends ScreenView {
   }
 }
 
-numberPlay.register( 'NumberPlayGameScreenView', NumberPlayGameScreenView );
 export default NumberPlayGameScreenView;

@@ -12,7 +12,6 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import StarNode from '../../../../scenery-phet/js/StarNode.js';
 import Image, { ImageOptions } from '../../../../scenery/js/nodes/Image.js';
 import RewardNode from '../../../../vegas/js/RewardNode.js';
-import numberPlay from '../../numberPlay.js';
 
 // constants
 const NUMBER_OF_NODES = 100;
@@ -37,5 +36,3 @@ export default class NumberPlayGameRewardNode extends RewardNode {
     } );
   }
 }
-
-numberPlay.register( 'NumberPlayGameRewardNode', NumberPlayGameRewardNode );

@@ -16,7 +16,6 @@ import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFram
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import Panel from '../../../../sun/js/Panel.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import numberPlay from '../../numberPlay.js';
 import CountingGameLevel from '../model/CountingGameLevel.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
@@ -118,5 +117,4 @@ class CountingGameLevelNode extends NumberPlayGameLevelNode<CountingGameLevel> {
   }
 }
 
-numberPlay.register( 'CountingGameLevelNode', CountingGameLevelNode );
 export default CountingGameLevelNode;

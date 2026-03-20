@@ -18,7 +18,6 @@ import LevelSelectionButtonGroup, { LevelSelectionButtonGroupItem, LevelSelectio
 import ScoreDisplayNumberAndStar from '../../../../vegas/js/ScoreDisplayNumberAndStar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayQueryParameters from '../../common/NumberPlayQueryParameters.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 
 // constants
@@ -81,5 +80,4 @@ class NumberPlayGameLevelSelectionButtonGroup extends LevelSelectionButtonGroup 
   }
 }
 
-numberPlay.register( 'NumberPlayGameLevelSelectionButtonGroup', NumberPlayGameLevelSelectionButtonGroup );
 export default NumberPlayGameLevelSelectionButtonGroup;

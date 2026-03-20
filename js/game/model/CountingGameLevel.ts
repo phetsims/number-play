@@ -15,7 +15,6 @@ import CountingObjectType from '../../../../counting-common/js/common/model/Coun
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import CountingArea from '../../../../number-suite-common/js/common/model/CountingArea.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from './NumberPlayGameLevel.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 
@@ -95,5 +94,4 @@ class CountingGameLevel extends NumberPlayGameLevel {
   }
 }
 
-numberPlay.register( 'CountingGameLevel', CountingGameLevel );
 export default CountingGameLevel;

@@ -14,7 +14,6 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 import NumberPlayScreenView from '../../common/view/NumberPlayScreenView.js';
-import numberPlay from '../../numberPlay.js';
 import TenModel from '../model/TenModel.js';
 
 export default class TenScreenView extends NumberPlayScreenView {
@@ -51,5 +50,3 @@ export default class TenScreenView extends NumberPlayScreenView {
     super.dispose();
   }
 }
-
-numberPlay.register( 'TenScreenView', TenScreenView );

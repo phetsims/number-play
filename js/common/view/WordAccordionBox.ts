@@ -19,7 +19,6 @@ import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
 import StringUtils from '../../../../phetcommon/js/util/StringUtils.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Font from '../../../../scenery/js/util/Font.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
@@ -91,5 +90,4 @@ class WordAccordionBox extends NumberSuiteCommonAccordionBox {
   }
 }
 
-numberPlay.register( 'WordAccordionBox', WordAccordionBox );
 export default WordAccordionBox;

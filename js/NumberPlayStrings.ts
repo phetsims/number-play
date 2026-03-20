@@ -39,6 +39,4 @@ type StringsType = {
 
 const NumberPlayStrings = getStringModule( 'NUMBER_PLAY' ) as StringsType;
 
-numberPlay.register( 'NumberPlayStrings', NumberPlayStrings );
-
 export default NumberPlayStrings;

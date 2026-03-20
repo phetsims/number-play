@@ -25,7 +25,6 @@ import TColor from '../../../../scenery/js/util/TColor.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import GameAudioPlayer from '../../../../vegas/js/GameAudioPlayer.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameRewardDialog from './NumberPlayGameRewardDialog.js';
 
@@ -190,5 +189,4 @@ class NumberPlayGameAnswerButtons extends Node {
   }
 }
 
-numberPlay.register( 'NumberPlayGameAnswerButtons', NumberPlayGameAnswerButtons );
 export default NumberPlayGameAnswerButtons;

@@ -12,7 +12,6 @@ import Property from '../../../../axon/js/Property.js';
 import TProperty from '../../../../axon/js/TProperty.js';
 import Bounds2 from '../../../../dot/js/Bounds2.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import SubitizeGameLevel from '../model/SubitizeGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
@@ -71,5 +70,4 @@ class SubitizeGameLevelNode extends NumberPlayGameLevelNode<SubitizeGameLevel> {
   }
 }
 
-numberPlay.register( 'SubitizeGameLevelNode', SubitizeGameLevelNode );
 export default SubitizeGameLevelNode;

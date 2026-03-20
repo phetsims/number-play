@@ -14,7 +14,6 @@ import NumberPlayConstants from '../../common/NumberPlayConstants.js';
 
 // eslint-disable-next-line phet/no-view-imported-from-model
 import numberPlayUtteranceQueue from '../../common/view/numberPlayUtteranceQueue.js';
-import numberPlay from '../../numberPlay.js';
 
 export default class TwentyModel extends NumberPlayModel {
 
@@ -27,5 +26,3 @@ export default class TwentyModel extends NumberPlayModel {
     super.dispose();
   }
 }
-
-numberPlay.register( 'TwentyModel', TwentyModel );

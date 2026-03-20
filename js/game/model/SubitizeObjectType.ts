@@ -9,7 +9,6 @@
 
 import CountingObjectType from '../../../../counting-common/js/common/model/CountingObjectType.js';
 import Enumeration from '../../../../phet-core/js/Enumeration.js';
-import numberPlay from '../../numberPlay.js';
 
 class SubitizeObjectType extends CountingObjectType {
   public static readonly CIRCLE = new SubitizeObjectType();
@@ -19,5 +18,4 @@ class SubitizeObjectType extends CountingObjectType {
   } );
 }
 
-numberPlay.register( 'SubitizeObjectType', SubitizeObjectType );
 export default SubitizeObjectType;

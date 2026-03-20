@@ -14,7 +14,6 @@ import Property from '../../../../axon/js/Property.js';
 import dotRandom from '../../../../dot/js/dotRandom.js';
 import Range from '../../../../dot/js/Range.js';
 import TColor from '../../../../scenery/js/util/TColor.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameType from './NumberPlayGameType.js';
 
 abstract class NumberPlayGameLevel {
@@ -153,5 +152,4 @@ abstract class NumberPlayGameLevel {
   }
 }
 
-numberPlay.register( 'NumberPlayGameLevel', NumberPlayGameLevel );
 export default NumberPlayGameLevel;

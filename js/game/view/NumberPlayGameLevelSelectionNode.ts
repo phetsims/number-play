@@ -18,7 +18,6 @@ import ManualConstraint from '../../../../scenery/js/layout/constraints/ManualCo
 import HBox from '../../../../scenery/js/layout/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayGameModel from '../model/NumberPlayGameModel.js';
 import NumberPlayGameInfoDialog from './NumberPlayGameInfoDialog.js';
@@ -85,5 +84,4 @@ class NumberPlayGameLevelSelectionNode extends Node {
   }
 }
 
-numberPlay.register( 'NumberPlayGameLevelSelectionNode', NumberPlayGameLevelSelectionNode );
 export default NumberPlayGameLevelSelectionNode;

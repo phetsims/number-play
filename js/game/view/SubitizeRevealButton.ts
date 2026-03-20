@@ -18,7 +18,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import eyeSolidShape from '../../../../sherpa/js/fontawesome-5/eyeSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import numberPlay from '../../numberPlay.js';
 
 // constants
 const BUTTON_SIDE_LENGTH = SceneryPhetConstants.DEFAULT_BUTTON_RADIUS * 2;
@@ -63,5 +62,4 @@ class SubitizeRevealButton extends RectangularPushButton {
   }
 }
 
-numberPlay.register( 'SubitizeRevealButton', SubitizeRevealButton );
 export default SubitizeRevealButton;

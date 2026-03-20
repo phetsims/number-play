@@ -26,7 +26,6 @@ import Utils from '../../../../dot/js/Utils.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import numberPlayPreferences from '../../common/model/numberPlayPreferences.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import numberPlay from '../../numberPlay.js';
 import SubitizeObjectType from './SubitizeObjectType.js';
 
 // types
@@ -499,5 +498,4 @@ class Subitizer {
   }
 }
 
-numberPlay.register( 'Subitizer', Subitizer );
 export default Subitizer;

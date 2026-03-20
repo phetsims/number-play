@@ -13,7 +13,6 @@ import NumberSuiteCommonColors from '../../../number-suite-common/js/common/Numb
 import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import gameScreenIcon_png from '../../images/gameScreenIcon_png.js';
-import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import NumberPlayGameModel from './model/NumberPlayGameModel.js';
 import NumberPlayGameScreenView from './view/NumberPlayGameScreenView.js';
@@ -40,5 +39,4 @@ class NumberPlayGameScreen extends Screen<NumberPlayGameModel, NumberPlayGameScr
   }
 }
 
-numberPlay.register( 'NumberPlayGameScreen', NumberPlayGameScreen );
 export default NumberPlayGameScreen;

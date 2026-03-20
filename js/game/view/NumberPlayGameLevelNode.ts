@@ -30,7 +30,6 @@ import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import InfiniteStatusBar, { InfiniteStatusBarOptions } from '../../../../vegas/js/InfiniteStatusBar.js';
 import NumberPlayConstants from '../../common/NumberPlayConstants.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayGameLevel from '../model/NumberPlayGameLevel.js';
 import NumberPlayGameAnswerButtons from './NumberPlayGameAnswerButtons.js';
 
@@ -199,5 +198,4 @@ abstract class NumberPlayGameLevelNode<T extends NumberPlayGameLevel> extends No
   }
 }
 
-numberPlay.register( 'NumberPlayGameLevelNode', NumberPlayGameLevelNode );
 export default NumberPlayGameLevelNode;

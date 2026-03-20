@@ -15,7 +15,6 @@ import NumberSuiteCommonAccordionBox, { NumberSuiteCommonAccordionBoxOptions } f
 import TenFrameNode from '../../../../number-suite-common/js/common/view/TenFrameNode.js';
 import optionize from '../../../../phet-core/js/optionize.js';
 import StrictOmit from '../../../../phet-core/js/types/StrictOmit.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayConstants from '../NumberPlayConstants.js';
 
@@ -60,5 +59,4 @@ class TenFrameAccordionBox extends NumberSuiteCommonAccordionBox {
   }
 }
 
-numberPlay.register( 'TenFrameAccordionBox', TenFrameAccordionBox );
 export default TenFrameAccordionBox;

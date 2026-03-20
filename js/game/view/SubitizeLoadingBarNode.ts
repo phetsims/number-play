@@ -19,7 +19,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import Animation from '../../../../twixt/js/Animation.js';
 import Easing from '../../../../twixt/js/Easing.js';
 import NumberPlayColors from '../../common/NumberPlayColors.js';
-import numberPlay from '../../numberPlay.js';
 
 // constants
 const RECTANGLE_WIDTH = 280;
@@ -127,5 +126,4 @@ class SubitizeLoadingBarNode extends Node {
   }
 }
 
-numberPlay.register( 'SubitizeLoadingBarNode', SubitizeLoadingBarNode );
 export default SubitizeLoadingBarNode;

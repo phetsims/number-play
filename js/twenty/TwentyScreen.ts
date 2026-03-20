@@ -13,7 +13,6 @@ import Image from '../../../scenery/js/nodes/Image.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import twentyScreenIcon_png from '../../images/twentyScreenIcon_png.js';
 import NumberPlayScreenView from '../common/view/NumberPlayScreenView.js';
-import numberPlay from '../numberPlay.js';
 import NumberPlayStrings from '../NumberPlayStrings.js';
 import TwentyModel from './model/TwentyModel.js';
 import TwentyScreenView from './view/TwentyScreenView.js';
@@ -40,5 +39,4 @@ class TwentyScreen extends Screen<TwentyModel, NumberPlayScreenView> {
   }
 }
 
-numberPlay.register( 'TwentyScreen', TwentyScreen );
 export default TwentyScreen;

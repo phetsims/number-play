@@ -14,7 +14,6 @@ import countingGameIcon1_png from '../../../images/countingGameIcon1_png.js';
 import countingGameIcon2_png from '../../../images/countingGameIcon2_png.js';
 import subitizeGameIcon1_png from '../../../images/subitizeGameIcon1_png.js';
 import subitizeGameIcon2_png from '../../../images/subitizeGameIcon2_png.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 
 type LevelDescriptions = Record<number, PhetioProperty<string>>;
@@ -50,5 +49,4 @@ class NumberPlayGameType extends EnumerationValue {
   }
 }
 
-numberPlay.register( 'NumberPlayGameType', NumberPlayGameType );
 export default NumberPlayGameType;

@@ -30,7 +30,6 @@ import { PhetioObjectOptions } from '../../../../tandem/js/PhetioObject.js';
 import groupingScene1_png from '../../../images/groupingScene1_png.js';
 import groupingScene2_png from '../../../images/groupingScene2_png.js';
 import groupingScene3_png from '../../../images/groupingScene3_png.js';
-import numberPlay from '../../numberPlay.js';
 import NumberPlayStrings from '../../NumberPlayStrings.js';
 import NumberPlayModel from '../model/NumberPlayModel.js';
 import numberPlayPreferences from '../model/numberPlayPreferences.js';
@@ -277,5 +276,4 @@ class NumberPlayScreenView extends ScreenView {
   }
 }
 
-numberPlay.register( 'NumberPlayScreenView', NumberPlayScreenView );
 export default NumberPlayScreenView;
